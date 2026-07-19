@@ -1,0 +1,40 @@
+# The Publicist, DRAFT-ONLY (owner directive 2026-07-14): never posts to LinkedIn.
+# Tuesday and Thursday 13:30 UTC (9:30am Eastern) it drafts the lead story's post, runs
+# the same deterministic gates, and commits the survivor into linkedin-queue/ as one
+# markdown file. Jack adds his own framing and posts manually: a 90-second task, twice a
+# week. Dedupe via linkedin-posted.json (records queued drafts); PAUSE-LINKEDIN silences.
+# The direct-posting code path is dormant behind --post; LinkedIn secrets are unused.
+name: Publicist (LinkedIn)
+
+on:
+  schedule:
+    - cron: "30 13 * * 2,4"   # Tue + Thu, 13:30 UTC = 9:30am Eastern (brand cadence, not firehose)
+  workflow_dispatch: {}
+
+concurrency:
+  group: publicist
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Draft, gate, and QUEUE today's lead story (never posts)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 publicist.py
+
+      - name: Persist posted state
+        if: always()
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add linkedin-posted.json linkedin-queue/
+          git diff --cached --quiet || { git commit -m "publicist: draft queued $(date -u +%Y-%m-%d)"; git push; }

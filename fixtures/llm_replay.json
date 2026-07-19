@@ -1,0 +1,223 @@
+{
+ "_note": "Recorded stage responses for CRYPTO_LLM_MODE=replay. OFFLINE, NON-PRODUCTION: exercises the editor/verifier/writer wiring, shape validation, and fail-closed gates over the sample_feed fixture clusters (c000..c004) with NO API key and NO spend. A replay run is stamped mode=replay everywhere; the human gate and publish refuse replay output. This is a test artifact, not editorial judgment.",
+ "editor": {
+  "ranked": [
+   {
+    "id": "c000",
+    "headline": "SEC charges crypto firm Acme Labs over unregistered securities offering",
+    "why_it_matters": "A federal securities enforcement action against a crypto firm; regulatory precedent and direct market impact.",
+    "category": "regulatory",
+    "source_urls": [
+     "https://example.test/sec-acme-1",
+     "https://example.test/outlet-b-acme"
+    ],
+    "confidence": "high"
+   },
+   {
+    "id": "c001",
+    "headline": "Major DeFi protocol Zephyr exploited for $40M in flash loan attack",
+    "why_it_matters": "A large exploit with direct user-fund losses; high ecosystem significance.",
+    "category": "hack",
+    "source_urls": [
+     "https://example.test/zephyr-hack"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "id": "c004",
+    "headline": "Ethereum core developers set date for next network upgrade",
+    "why_it_matters": "A scheduled protocol upgrade affecting the largest smart-contract network.",
+    "category": "protocol",
+    "source_urls": [
+     "https://example.test/eth-upgrade"
+    ],
+    "confidence": "medium"
+   }
+  ],
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "PEPECOIN to $10 imminent, get in early before it is too late",
+    "shill_flag_reasons": [
+     "price-prediction hype",
+     "moon/urgency vocabulary",
+     "sponsored presale bait"
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Top 7 altcoins to buy for 2026 that could explode",
+    "shill_flag_reasons": [
+     "affiliate listicle / buy-bait",
+     "sponsored marker"
+    ]
+   }
+  ],
+  "notes": "Two clear shill items cut; three real stories ranked by significance."
+ },
+ "verifier": {
+  "verdicts": [
+   {
+    "id": "c000",
+    "verdict": "VERIFIED",
+    "reasons": [
+     "Two independent outlets carry the same SEC action; claim is consistent and specific."
+    ],
+    "source_supported": true,
+    "shill_missed_by_editor": false
+   },
+   {
+    "id": "c001",
+    "verdict": "NEEDS-HUMAN-REVIEW",
+    "reasons": [
+     "Single source in the cluster and source text was not confirmable in this run; exploit figures need a human check."
+    ],
+    "source_supported": false,
+    "shill_missed_by_editor": false
+   },
+   {
+    "id": "c004",
+    "verdict": "REJECT",
+    "reasons": [
+     "No concrete date or primary confirmation present; reads as an unconfirmed placeholder."
+    ],
+    "source_supported": false,
+    "shill_missed_by_editor": false
+   }
+  ],
+  "notes": "Editor and verifier diverge on c004; one story routed to human review."
+ },
+ "writer": {
+  "drafts": [
+   {
+    "id": "c000",
+    "script_skeleton": {
+     "headline": "SEC charges crypto firm Acme Labs over unregistered securities offering",
+     "summary": "The Securities and Exchange Commission announced charges against Acme Labs, alleging it ran an unregistered securities offering. Regulators are seeking penalties.",
+     "key_fact": "The SEC alleges an unregistered securities offering by Acme Labs.",
+     "angle_prompt": "Here is the angle: your read on what this signals for how the SEC is treating crypto issuers goes here.",
+     "human_take": "",
+     "sources": [
+      "https://example.test/sec-acme-1",
+      "https://example.test/outlet-b-acme"
+     ]
+    },
+    "article_draft": {
+     "title": "SEC charges Acme Labs over an alleged unregistered securities offering",
+     "body": "The Securities and Exchange Commission has charged crypto firm Acme Labs, alleging the company conducted an unregistered securities offering. According to the announcement, regulators are seeking penalties. Two outlets are reporting the same enforcement action.",
+     "human_take": "",
+     "sources": [
+      "https://example.test/sec-acme-1",
+      "https://example.test/outlet-b-acme"
+     ],
+     "status": "DRAFT",
+     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+    }
+   },
+   {
+    "id": "c001",
+    "script_skeleton": {
+     "headline": "DeFi protocol Zephyr reports a $40M flash-loan exploit",
+     "summary": "The Zephyr protocol reported an estimated $40 million loss in a flash-loan exploit. On-chain data is cited as the basis for the figure. This item is pending human review.",
+     "key_fact": "An estimated $40 million was drained from Zephyr in a flash-loan exploit.",
+     "angle_prompt": "Here is the angle: your read on what this says about flash-loan risk goes here, once the figure is confirmed.",
+     "human_take": "",
+     "sources": [
+      "https://example.test/zephyr-hack"
+     ]
+    },
+    "article_draft": {
+     "title": "Zephyr protocol reports an estimated $40M flash-loan exploit (pending review)",
+     "body": "The Zephyr protocol reported an estimated $40 million loss attributed to a flash-loan exploit, based on on-chain data. The figure and mechanism are pending independent confirmation before publication.",
+     "human_take": "",
+     "sources": [
+      "https://example.test/zephyr-hack"
+     ],
+     "status": "DRAFT",
+     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+    }
+   }
+  ]
+ },
+ "chartmaster": {
+  "headline": "A frightened crowd, a patient tape",
+  "paragraphs": [
+   "The gauge says fear, and the majors sit below their 200-day lines, so the regime is a downtrend that has not been reclaimed. This paragraph is replay fixture text: it exists so the offline wiring test can prove the chartmaster stage parses, validates, and refuses to touch site data in replay mode.",
+   "Momentum is quieter than the mood. RSI readings in the input hold mid-range while MACD sits above its signal on several majors, which is a market catching its breath rather than one in freefall.",
+   "Positioning is light: funding near flat and open interest unremarkable, so the boat is neither crowded nor expensive. Flows lean toward accumulation in the window provided.",
+   "What to watch, per the input: whether funding stays flat while the flow direction holds. A change in either is the tape changing its mind."
+  ]
+ },
+ "researcher": {
+  "briefs": [
+   {
+    "id": "c000",
+    "core_claim": "The SEC charged Acme Labs over an alleged unregistered securities offering.",
+    "angle": "A primary regulator moving against a crypto issuer signals how the SEC is treating token sales.",
+    "data_points": [
+     {
+      "claim": "The SEC announced charges against Acme Labs alleging an unregistered securities offering.",
+      "source_url": "https://example.test/sec-acme-1",
+      "source_name": "SEC Press Releases",
+      "timestamp": "2026-07-08T14:00:00Z",
+      "confidence": "reported"
+     }
+    ],
+    "bear_case": [],
+    "open_questions": [
+     "source pages could not be fetched; only the feed summary is available"
+    ],
+    "thin": true
+   },
+   {
+    "id": "c001",
+    "core_claim": "DeFi protocol Zephyr was reportedly exploited.",
+    "angle": "Another exploit tests how much unaudited DeFi risk readers are carrying.",
+    "data_points": [
+     {
+      "claim": "Zephyr was reportedly exploited for a large sum, per aggregator reporting.",
+      "source_url": "https://example.test/zephyr-hack",
+      "source_name": "CryptoPanic",
+      "timestamp": "2026-07-08T15:00:00Z",
+      "confidence": "unconfirmed"
+     }
+    ],
+    "bear_case": [
+     "The report is single-source and unconfirmed."
+    ],
+    "open_questions": [
+     "No primary source has confirmed the exploit."
+    ],
+    "thin": true
+   }
+  ]
+ },
+ "approver": {
+  "approvals": [
+   {
+    "id": "c000",
+    "decision": "APPROVE",
+    "reasons": []
+   },
+   {
+    "id": "c001",
+    "decision": "REJECT",
+    "category": "balance",
+    "reasons": [
+     "single-source exploit claim framed as settled fact in the draft"
+    ]
+   }
+  ]
+ },
+ "wrap": {
+  "hook_title": "Regulation set the tempo while the tape stayed quiet",
+  "dek": "A day defined by Washington: charges landed and an exploit report stayed unconfirmed, while the desk's boards showed no stress.",
+  "key_takeaway": "Enforcement, not price action, drove today's crypto news.",
+  "body": "The thread tying today together is enforcement. The SEC's charges against Acme Labs over an alleged unregistered securities offering set the tone, as the desk reported.\n\nElsewhere, a reported exploit of the DeFi protocol Zephyr remains unconfirmed by any primary source, and the desk is treating it accordingly.\n\nWhy it is happening, as far as the reporting says: regulators are moving on token sales. The reporting does not say more than that, so neither will the desk.\n\nWhat to watch in the coming days: whether Zephyr's team confirms or refutes the exploit, and any follow-on SEC filings naming further issuers.\n\nThe tape, for its part, stayed quiet. The desk's boards showed no unusual exchange flows and no stress in positioning, which is worth stating plainly on a day when the news ran hot: the data did not follow the headlines. When the desk's own boards disagree with the day's narrative, the honest read is that the market has not yet decided the news matters, and that gap itself is the thing to keep an eye on into the next session.",
+  "bottom_line": "Watch for a primary-source confirmation on Zephyr and follow-on SEC filings. A confirmed exploit or a second enforcement action would sharpen today's picture."
+ },
+ "wrapcheck": {
+  "decision": "APPROVE",
+  "reasons": []
+ }
+}

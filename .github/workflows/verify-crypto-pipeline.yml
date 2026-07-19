@@ -1,0 +1,62 @@
+# Self-verification for the Crypto Cronkite pipeline.
+#
+# Two jobs, two layers:
+#   canary  - Layer 1, OFFLINE, HARD GATE. No network, no API key. Fails the workflow
+#             (blocks promotion) if the pipeline is mis-wired, the shill/dedupe belts drift,
+#             the offline replay end-to-end breaks, or any fail-closed gate stops holding.
+#   sources - Layer 2, LIVE fetch, NOTIFY-ONLY. Fetches each configured RSS feed and checks
+#             HTTP 200 + feed shape. A broken feed (exit 3) fails THIS job (red check + opens
+#             an issue) but never blocks anything. A network error is a soft warning.
+name: Verify crypto pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "23 6 * * 1"   # weekly, Monday 06:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  canary:
+    name: Layer 1 canary (offline hard gate)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Run offline canary (blocks on failure)
+        run: python3 verify_pipeline.py canary
+
+  sources:
+    name: Layer 2 source check (notify, non-blocking)
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Check RSS feeds resolve (live)
+        run: python3 verify_pipeline.py sources
+      - name: Open an issue on a broken feed
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Crypto Cronkite source feed check failed";
+            const body = [
+              "Layer 2 source verification found a configured RSS feed that did not resolve 200",
+              "or no longer looks like an RSS/Atom feed (see `config.json`).",
+              "",
+              "See the failed run log for the exact feed:",
+              `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              "",
+              "This did NOT block anything. Update or replace the feed URL in config.json."
+            ].join("\n");
+            const { owner, repo } = context.repo;
+            const existing = await github.rest.issues.listForRepo({
+              owner, repo, state: "open", labels: "crypto-pipeline" });
+            if (existing.data.some(i => i.title === title)) return;
+            await github.rest.issues.create({ owner, repo, title, body, labels: ["crypto-pipeline"] });

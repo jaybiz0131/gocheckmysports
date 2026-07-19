@@ -1,0 +1,17 @@
+{
+  "_note": "Illustrative Whale Alert-shaped transactions for testing whale_flows.py offline. NOT real transfers. owner_type 'exchange' vs 'unknown'/'wallet' drives the inflow/outflow classification.",
+  "transactions": [
+    {"blockchain":"bitcoin","symbol":"btc","transaction_type":"transfer","hash":"a1","amount":1400,"amount_usd":91000000,"timestamp":1752100000,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"binance","owner_type":"exchange"}},
+    {"blockchain":"bitcoin","symbol":"btc","transaction_type":"transfer","hash":"a2","amount":900,"amount_usd":58500000,"timestamp":1752101000,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"coinbase","owner_type":"exchange"}},
+    {"blockchain":"bitcoin","symbol":"btc","transaction_type":"transfer","hash":"a3","amount":600,"amount_usd":39000000,"timestamp":1752102000,"from":{"owner":"kraken","owner_type":"exchange"},"to":{"owner":"","owner_type":"unknown"}},
+    {"blockchain":"ethereum","symbol":"eth","transaction_type":"transfer","hash":"b1","amount":22000,"amount_usd":74000000,"timestamp":1752103000,"from":{"owner":"okx","owner_type":"exchange"},"to":{"owner":"","owner_type":"unknown"}},
+    {"blockchain":"ethereum","symbol":"eth","transaction_type":"transfer","hash":"b2","amount":15000,"amount_usd":50500000,"timestamp":1752104000,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"binance","owner_type":"exchange"}},
+    {"blockchain":"ethereum","symbol":"eth","transaction_type":"transfer","hash":"b3","amount":31000,"amount_usd":104000000,"timestamp":1752104500,"from":{"owner":"bitfinex","owner_type":"exchange"},"to":{"owner":"","owner_type":"unknown"}},
+    {"blockchain":"ethereum","symbol":"usdt","transaction_type":"transfer","hash":"c1","amount":120000000,"amount_usd":120000000,"timestamp":1752105000,"from":{"owner":"tether treasury","owner_type":"other"},"to":{"owner":"binance","owner_type":"exchange"}},
+    {"blockchain":"tron","symbol":"usdt","transaction_type":"transfer","hash":"c2","amount":80000000,"amount_usd":80000000,"timestamp":1752105500,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"htx","owner_type":"exchange"}},
+    {"blockchain":"solana","symbol":"sol","transaction_type":"transfer","hash":"d1","amount":260000,"amount_usd":39000000,"timestamp":1752106000,"from":{"owner":"coinbase","owner_type":"exchange"},"to":{"owner":"","owner_type":"unknown"}},
+    {"blockchain":"solana","symbol":"sol","transaction_type":"transfer","hash":"d2","amount":140000,"amount_usd":21000000,"timestamp":1752106500,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"binance","owner_type":"exchange"}},
+    {"blockchain":"bitcoin","symbol":"btc","transaction_type":"transfer","hash":"e1","amount":300,"amount_usd":19500000,"timestamp":1752107000,"from":{"owner":"","owner_type":"unknown"},"to":{"owner":"","owner_type":"unknown"}},
+    {"blockchain":"ethereum","symbol":"eth","transaction_type":"transfer","hash":"e2","amount":9000,"amount_usd":30300000,"timestamp":1752107500,"from":{"owner":"binance","owner_type":"exchange"},"to":{"owner":"okx","owner_type":"exchange"}}
+  ]
+}

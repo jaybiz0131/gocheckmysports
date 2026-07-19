@@ -1,0 +1,208 @@
+# Crypto Cronkite news brief: the scheduled ingest -> AI processing -> review queue job.
+#
+# Runs aggregate -> editor -> verifier -> writer -> digest twice a day (morning and US
+# afternoon) and uploads the review queue as a workflow artifact for the human
+# editor-in-chief to approve.
+#
+# FAIL-CLOSED and it NEVER PUBLISHES. It runs run.py (Stages 1-5) only; publish.py (Stage 6)
+# is a separate, deliberate, human-approved step and is intentionally not invoked here. If any
+# stage errors, run.py exits non-zero and this job goes red (flagging a human); nothing is
+# pushed anywhere.
+#
+# The pipeline needs ANTHROPIC_API_KEY (repo secret) for the editor/verifier/writer calls, and
+# optionally CRYPTOPANIC_TOKEN / WHALE_ALERT_API_KEY / X_BEARER_TOKEN to widen sourcing. If the
+# key is not configured yet, the job runs the offline canary as a wiring smoke test and stops
+# (green) instead of failing daily.
+name: Crypto Cronkite daily brief
+
+on:
+  schedule:
+    # THREE-SLOT DAY (owner directive 2026-07-14, Eastern audience clock): the flagship
+    # cadence. Later slots prefer updating/extending the day over repeating it (editor
+    # prompt + deterministic dedup guard). Crons drift 1h later on Jack's clock when DST
+    # ends Nov 1.
+    # Odd minutes on purpose: GitHub's scheduler drifts worst on :00/:30 (observed slots
+    # firing 3-7 hours late). The watcher's slot-recovery re-fires any slot that still
+    # misses its deadline.
+    - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
+    - cron: "8 17 * * *"    # Midday Update slot, 17:08 UTC = 1:08pm Eastern
+    - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
+  workflow_dispatch: {}
+  # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
+  workflow_call:
+    inputs:
+      breaking:
+        type: boolean
+        default: false
+
+# PUBLISH LOCK (directive item 9): one publish at a time per repo. The group is shared
+# with the watcher's breaking runs, so a breaking run QUEUES behind an in-flight scheduled
+# run instead of racing its push (the Pet-divergence class, prevented structurally).
+concurrency:
+  group: crypto-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # autopilot commits auto-approved VERIFIED stories into site/content
+  issues: write     # deploy_check opens a flag issue if a push never deploys
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Offline canary (hard gate, blocks a mis-wired pipeline)
+        run: python3 verify_pipeline.py canary
+
+      - name: Detect whether the API key is configured
+        id: key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            echo "have_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have_key=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY not set; ran the offline canary only. Add the secret to enable the live daily brief."
+          fi
+
+      - name: Run the daily brief (live; Stages 1-5 only, never publishes)
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CRYPTOPANIC_TOKEN: ${{ secrets.CRYPTOPANIC_TOKEN }}
+          WHALE_ALERT_API_KEY: ${{ secrets.WHALE_ALERT_API_KEY }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python3 run.py --mode live
+
+      # FULL AUTO RELEASE (Jack's standing instruction, 2026-07-11): the adversarial verifier
+      # is the gate. VERIFIED stories auto-publish; NEEDS-HUMAN-REVIEW stays queued for a
+      # human take; REJECT never ships. The push below auto-deploys via Netlify.
+      - name: Autopilot publish of VERIFIED stories
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          # breaking runs enforce the additive two-source gate (single-source holds unless
+          # headline-labeled unconfirmed); scheduled runs pass '0'
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+        run: python3 autopilot.py
+
+      # The Chart Master reads the same boards the deploy will publish: refresh the two
+      # data desks first (fail-open, like the Netlify build does), then generate the read.
+      # The read is committed (Netlify does not regenerate it at build time); flows/pulse
+      # are NOT committed here because every Netlify build refreshes them itself.
+      - name: Refresh the boards and generate the Chart Master's read
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 whale_flows.py || true
+          python3 market_pulse.py || true
+          python3 chartmaster.py
+
+      # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): The Morning Brief /
+      # The Closing Wrap, the guaranteed twice-daily synthesis over the desk's own
+      # published stories + boards (runs after the board refresh above so The Tape section
+      # reads fresh data). Runs even when no new story cleared the gates (the whole point:
+      # never a zero-content slot). Fail-open for the brief: an edition failure warns
+      # loudly but never blocks story publishing.
+      - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # a breaking run REGENERATES the current slot's edition so The Bottom Line
+          # includes the story that just broke (owner directive 2026-07-15)
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+        run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
+
+      - name: Commit and push published content (deploys the site)
+        id: publish
+        if: steps.key.outputs.have_key == 'true'
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add site/content site/data/chartmaster.json editorial-log.json
+          if git diff --cached --quiet; then
+            echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "brief: VERIFIED stories + Chart Master read $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The Publicist moved to its own workflow (publicist.yml, 14:30 UTC) so posts land
+      # in LinkedIn's US morning instead of the middle of the night.
+
+      # Deploy-status verification (directive item 10): a pushed commit that never
+      # deployed is a story nobody sees. Probes the live CDN for every page this run
+      # published; failure opens a flag issue and turns the run red.
+      - name: Verify the deploy actually served
+        if: steps.publish.outputs.pushed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 deploy_check.py
+
+      # A dead slot must PING, not sit quiet (2026-07-15: two contract failures went
+      # unnoticed until the owner asked where the stories were). One open issue per
+      # failure title; the watcher's slot recovery independently retries the slot.
+      - name: Flag the failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          title = "Desk run failed: pipeline error (see run log)"
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
+          if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
+              print("flag issue already open; not duplicating"); raise SystemExit
+          body = (f"A scheduled/breaking desk run failed: {os.environ['RUN_URL']}\n\n"
+                  "The watcher's slot recovery will retry the slot automatically; this flag "
+                  "exists so a repeating failure gets human eyes. Close after the next green run.")
+          req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues",
+              data=json.dumps({"title": title, "body": body, "labels": ["pipeline"]}).encode(),
+              headers=hdrs, method="POST")
+          urllib.request.urlopen(req); print("failure flag opened")
+          PYEOF
+
+      - name: Upload the review queue for human approval
+        if: steps.key.outputs.have_key == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: crypto-review-queue
+          path: |
+            out/review_queue/
+            out/approval_template.json
+            out/run_report.json
+          if-no-files-found: warn
+
+      # The Whale Watch board refreshes at Netlify BUILD time (see netlify.toml), so a
+      # rebuild keeps it current without committing data. Runs even if the brief failed:
+      # board freshness is independent of the news pipeline. SKIPPED when the brief just
+      # pushed stories -- that push already triggered a build, and a second one would only
+      # burn Netlify build minutes (the free tier pools ~300/month across all sites).
+      # No hook secret -> documented skip.
+      - name: Refresh the website (Netlify build hook -> data desk update)
+        if: always()
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          PUSHED: ${{ steps.publish.outputs.pushed }}
+        run: |
+          if [ "$PUSHED" = "true" ]; then
+            echo "::notice::Stories were pushed; that deploy already refreshes the data desks. Skipping the hook ping."
+          elif [ -n "$HOOK" ]; then
+            curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
+              && echo "::notice::Triggered a Netlify rebuild (data desk refresh)." \
+              || echo "::warning::Netlify build hook ping failed; the desks will refresh on the next deploy."
+          else
+            echo "::notice::NETLIFY_BUILD_HOOK not set; the board refreshes only on pushes. Add the secret to enable the daily refresh."
+          fi

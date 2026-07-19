@@ -1,0 +1,37 @@
+{
+  "_note": "Deterministic shill-tell rules and source reputation. This is the fail-closed BELT: a rule-based first net that runs offline and is unit-tested by the canary. The editor AI is the SUSPENDERS (Stage 2) and the verifier AI is a second, independent net (Stage 3). Tune this list over time; it is a living file (same VERIFY-and-refine loop as the recall shill/segment guards).",
+
+  "tells": [
+    { "id": "price_hype",        "weight": 3, "pattern": "\\b(to|hits?|hitting|reach(?:es|ing)?)\\s*\\$?\\s*\\d[\\d,\\.]*\\s*(k|m|b|million|billion|trillion)?\\b.*\\b(soon|imminent|incoming|next|this week|by (?:eom|end of))\\b", "reason": "price-prediction hype with a target and urgency" },
+    { "id": "moon_vocab",        "weight": 3, "pattern": "\\b(moon|mooning|to the moon|pump|pumping|100x|1000x|ape in|aping|lambo|send it|parabolic)\\b", "reason": "moon/pump vocabulary" },
+    { "id": "urgency",           "weight": 3, "pattern": "\\b(don'?t miss|last chance|get in early|before it'?s too late|act now|hurry|limited time|fomo)\\b", "reason": "manufactured urgency" },
+    { "id": "rocket_emoji",      "weight": 2, "pattern": "\\uD83D\\uDE80|\\uD83C\\uDF19|\\uD83D\\uDCC8{2,}", "reason": "rocket/moon emoji hype markers" },
+    { "id": "sponsored",         "weight": 5, "pattern": "\\b(sponsored|in partnership with|presented by|paid post|paid partnership|promoted|advertorial|press release distribution|prnewswire|globe ?newswire|via businesswire)\\b", "reason": "sponsored / paid-placement marker" },
+    { "id": "buy_listicle",      "weight": 3, "pattern": "\\b(top|best)\\s*\\d+\\s+(coins?|tokens?|altcoins?|memecoins?|gems?|projects?)\\s+(to (buy|watch|hold|explode)|for \\d{4})\\b", "reason": "affiliate listicle / buy-bait" },
+    { "id": "presale_bait",     "weight": 4, "pattern": "\\b(presale|pre-sale|ico|token sale|whitelist|early investors?|next big|hidden gem|undervalued gem)\\b", "reason": "presale / gem-shill bait" },
+    { "id": "superlative",       "weight": 1, "pattern": "\\b(revolutionary|game-?changer|unstoppable|explosive|massive|insane|guaranteed|surefire)\\b", "reason": "hype superlatives" },
+    { "id": "unattributed_partner", "weight": 2, "pattern": "\\b(announces? a? ?partnership|integration with|teams? up with|joins forces)\\b", "reason": "partnership/integration claim (verify it is not a self-issued press release)" }
+  ],
+
+  "source_reputation": {
+    "_note": "Multiplier on a source's baseline trust. > 1 raises weight (primary/official), < 1 lowers it (known pay-for-coverage reputations). Editor and verifier both receive these so a single low-rep source cannot carry a top story alone.",
+    "primary": 1.5,
+    "major": 1.0,
+    "onchain": 1.1,
+    "aggregator": 0.9,
+    "mixed": 0.8,
+    "breaking": 0.7,
+    "unknown": 0.6,
+    "known_low_rep_domains": {
+      "_note": "Domains with pay-for-coverage or heavy sponsored-post reputations. Not a blocklist; a heavy weight penalty. Extend over time.",
+      "domains": [],
+      "penalty": 0.4
+    }
+  },
+
+  "thresholds": {
+    "reject_score": 5,
+    "flag_score": 3,
+    "_note": "shill_score >= reject_score => the pre-pass marks the item shill_rejected=true (editor still sees it, with the reason, so it can override up if the tells are a false positive on real news). >= flag_score => flagged for the editor's attention."
+  }
+}

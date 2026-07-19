@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Session-local tool config
+.claude/
+
+# Python bytecode (CI and local runs; never commit)
+__pycache__/
+*.pyc
+
+# Pipeline runtime outputs (regenerated each run: review queue, drafts, approvals,
+# published payloads). The pipeline CODE, prompts, config, and fixtures ARE committed.
+out/
+
+# The site deploy folder is a build artifact, fully reproducible from
+# `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.
+site/publish/

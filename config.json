@@ -1,0 +1,271 @@
+{
+  "brand": "GoCheckMySports",
+  "tagline": "The score is a fact. The story gets checked.",
+  "cadence": "daily-brief",
+  "lookback_hours": 30,
+  "top_n": 8,
+  "budget": {
+    "max_tokens_per_run": 220000,
+    "max_usd_per_run": 1.5,
+    "note": "Hard fail-closed cap sized to the Haiku economy; a typical full run lands ~$0.15-0.30. Family standard inherited from the Crypto Cronkite desk."
+  },
+  "models": {
+    "editor": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000
+    },
+    "verifier": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 6000
+    },
+    "researcher": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
+      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job; thinking bills as output tokens, hence the cap."
+    },
+    "writer": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
+      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
+    },
+    "approver": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 5000,
+      "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
+    },
+    "note": "PRE-REVENUE AGENT ECONOMY (family directive, inherited 2026-07-19 from the crypto desk): claude-haiku-4-5 on every desk stage; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source rule for anything sourced below primary) are the quality floor, not the model. Same reversal triggers as crypto: sustained audience growth or ~5k monthly pageviews -> writer model review.",
+    "publicist": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 1500
+    },
+    "wrap": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 5000,
+      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. Writer-family model for the prose."
+    },
+    "wrapcheck": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 3000,
+      "note": "Independent trace check on the edition: every specific fact must come from the provided inputs; no betting advice or predictions; calm register. Separate call from the writer."
+    },
+    "aging": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 4000,
+      "note": "Monthly post-publication review (aging.py, report-only): has any published story's premise been invalidated? Conservative flagging; a human decides on corrections."
+    },
+    "wraprescue": {
+      "model": "claude-sonnet-5",
+      "max_tokens": 5000,
+      "note": "The Daily Edition's second-chance generator: when the Haiku edition fails its trace check, the corrective rewrite runs here."
+    }
+  },
+  "sources": {
+    "note": "source_tier drives editorial weight. primary = official league/institutional sources (trust most: box scores, transactions, discipline rulings straight from the league). major = established outlets with editorial standards. mixed = aggregated or rumor-adjacent feeds (never publish alone; two-source rule applies). All feeds below are free and keyless, verified live 2026-07-19. The reliability layer is the pipeline (tiering, two-source corroboration, adversarial verifier, primary-source linking), not any single API.",
+    "rss": [
+      {
+        "name": "ESPN Top Lines",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/news"
+      },
+      {
+        "name": "ESPN NFL",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/nfl/news"
+      },
+      {
+        "name": "ESPN NBA",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/nba/news"
+      },
+      {
+        "name": "ESPN MLB",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/mlb/news"
+      },
+      {
+        "name": "ESPN NHL",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/nhl/news"
+      },
+      {
+        "name": "BBC Sport",
+        "tier": "major",
+        "url": "https://feeds.bbci.co.uk/sport/rss.xml"
+      },
+      {
+        "name": "CBS Sports",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/"
+      },
+      {
+        "name": "Guardian Sport",
+        "tier": "major",
+        "url": "https://www.theguardian.com/uk/sport/rss"
+      },
+      {
+        "name": "Yahoo Sports",
+        "tier": "mixed",
+        "url": "https://sports.yahoo.com/rss/",
+        "keywords": [
+          "trade",
+          "signs",
+          "contract",
+          "injury",
+          "suspended",
+          "fired",
+          "hired",
+          "record",
+          "playoff",
+          "championship",
+          "final",
+          "deadline",
+          "waived",
+          "extension",
+          "retire"
+        ]
+      }
+    ],
+    "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
+    "league_apis": {
+      "note": "Official and quasi-official structured data endpoints, all keyless and verified live 2026-07-19. These are the desk's PRIMARY factual sources: the researcher and verifier treat league-published schedules, scores, and transactions as ground truth that outranks any outlet's retelling. balldontlie was dropped (now key-gated, 401). Upgrade path if the desk ever needs deeper stats: API-Sports (~$10/mo) or SportsDataIO, deliberately excluded from v1 under the free-only constraint.",
+      "endpoints": [
+        {
+          "name": "MLB StatsAPI",
+          "tier": "primary",
+          "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1",
+          "note": "MLB's own stats API. Official."
+        },
+        {
+          "name": "NHL API",
+          "tier": "primary",
+          "url": "https://api-web.nhle.com/v1/schedule/now",
+          "note": "NHL's own API (follow redirects). Official."
+        },
+        {
+          "name": "ESPN Scoreboard NFL",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+          "note": "Unofficial-but-stable ESPN JSON. Reliable data, no SLA; a fetch failure is a documented skip, never a pipeline failure."
+        },
+        {
+          "name": "ESPN Scoreboard NBA",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
+        },
+        {
+          "name": "ESPN Scoreboard MLB",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+        },
+        {
+          "name": "ESPN Scoreboard NHL",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard"
+        },
+        {
+          "name": "TheSportsDB",
+          "tier": "mixed",
+          "url": "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php",
+          "note": "Community-maintained, free test key. Lookup/reference only, never a sole source."
+        }
+      ]
+    },
+    "max_items_per_feed": 40
+  },
+  "narratives": {
+    "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
+    "watchlist": [
+      {
+        "name": "MLB trade deadline",
+        "keywords": [
+          "trade deadline",
+          "deadline deal",
+          "deadline trade"
+        ]
+      },
+      {
+        "name": "NFL training camp",
+        "keywords": [
+          "training camp",
+          "holdout",
+          "camp battle"
+        ]
+      },
+      {
+        "name": "NBA free agency",
+        "keywords": [
+          "free agency",
+          "free agent",
+          "max contract",
+          "sign-and-trade"
+        ]
+      },
+      {
+        "name": "World Cup aftermath",
+        "keywords": [
+          "world cup",
+          "fifa"
+        ]
+      },
+      {
+        "name": "Sports betting integrity",
+        "keywords": [
+          "betting scandal",
+          "gambling investigation",
+          "prop bet",
+          "integrity fee",
+          "wagering violation"
+        ]
+      },
+      {
+        "name": "NIL and college pay",
+        "keywords": [
+          "nil",
+          "revenue sharing",
+          "house settlement",
+          "collective"
+        ]
+      }
+    ]
+  },
+  "dedupe": {
+    "jaccard_threshold": 0.6,
+    "min_significant_tokens": 3,
+    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration."
+  },
+  "publish": {
+    "require_human_approval": true,
+    "require_verifier_verdict": [
+      "VERIFIED"
+    ],
+    "allow_with_human_override": [
+      "NEEDS-HUMAN-REVIEW"
+    ],
+    "never_publish_verdict": [
+      "REJECT"
+    ],
+    "not_financial_advice": "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice.",
+    "targets": {
+      "newsletter": {
+        "enabled": false,
+        "adapter": "newsletter",
+        "note": "Owned audience, highest value, build first. Set endpoint + key to enable."
+      },
+      "site": {
+        "enabled": false,
+        "adapter": "site",
+        "note": "SEO + archive article publish."
+      },
+      "social": {
+        "enabled": false,
+        "adapter": "social",
+        "note": "Social scheduling."
+      },
+      "video": {
+        "enabled": false,
+        "adapter": "video",
+        "note": "Newscast script handoff to the recording workflow."
+      }
+    }
+  }
+}
