@@ -18,7 +18,7 @@ error fails the run.
 
 USAGE
   python3 approver.py
-  CRYPTO_LLM_MODE=replay python3 approver.py
+  DESK_LLM_MODE=replay python3 approver.py
 """
 
 import json

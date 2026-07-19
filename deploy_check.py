@@ -24,7 +24,7 @@ import time
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ORIGIN = "https://gocheckmycrypto.com"
+ORIGIN = "https://gocheckmysports.com"
 TIMEOUT_MIN = 8
 POLL_SECONDS = 30
 
@@ -52,7 +52,7 @@ def just_published_urls():
 def probe(url):
     try:
         req = urllib.request.Request(url, method="HEAD",
-                                     headers={"User-Agent": "CryptoCronkite-deploycheck/1.0"})
+                                     headers={"User-Agent": "GoCheckMySports-deploycheck/1.0"})
         with urllib.request.urlopen(req, timeout=20) as r:
             return r.getcode() == 200
     except Exception:

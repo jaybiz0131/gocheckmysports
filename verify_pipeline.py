@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-verify_pipeline.py: self-verify the Crypto Cronkite pipeline. Same two-layer discipline as
+verify_pipeline.py: self-verify the GoCheckMySports pipeline. Same two-layer discipline as
 the Pet recall verifier (_pipeline/verify_curated.py): an offline hard gate that blocks, and
 a live notify-only check that never blocks a run.
 
@@ -9,10 +9,10 @@ a live notify-only check that never blocks a run.
      - config.json, shill_rules.json well-formed; models carry no temperature/top_p/top_k
        (those 400 on the current model family).
      - prompts exist and carry their load-bearing guardrail tokens (editor: shill/rank;
-       verifier: the three verdicts + adversarial; writer: DRAFT + not financial advice +
+       verifier: the three verdicts + adversarial; writer: DRAFT + not betting advice +
        human take).
-     - shill canary: the deterministic belt scores a known shill headline as rejected and a
-       primary-source real story as clean.
+     - shill canary: the deterministic belt scores a known tout headline as rejected, a
+       sportsbook promo item as flagged, and a primary-source real story as clean.
      - dedupe canary: two near-identical headlines collapse into one cluster.
      - full offline replay end-to-end (aggregate->editor->verifier->writer->digest) over the
        fixture: exact cluster count, exact editor split, all three verdicts present, only
@@ -85,7 +85,7 @@ def layer1_canary():
         "editor.md": ["shill", "rank", "JSON"],
         "verifier.md": ["VERIFIED", "NEEDS-HUMAN-REVIEW", "REJECT", "adversarial"],
         "researcher.md": ["brief", "confidence", "bear_case", "unconfirmed", "thin"],
-        "writer.md": ["DRAFT", "financial advice", "human take", "human_take", "brief",
+        "writer.md": ["DRAFT", "betting advice", "human take", "human_take", "brief",
                       "never pad", "what to watch"],
         "approver.md": ["APPROVE", "REJECT", "accuracy", "balance", "clarity", "compliance",
                         "smuggled"],
@@ -102,32 +102,36 @@ def layer1_canary():
         for tk in toks:
             _check(tk.lower() in low, fails, f"prompt {name}: missing guardrail token '{tk}'")
 
-    # shill belt canary: a moon post is rejected; a primary-source item is clean
-    moon = {"headline": "PEPECOIN to $10 imminent, get in early", "snippet": "sponsored presale, 100x moon",
+    # shill belt canary: a tout post is rejected; a sportsbook promo item is flagged
+    # (but not auto-rejected); a primary-source item is clean
+    tout = {"headline": "Lock of the day: guaranteed winner tonight, don't miss",
+            "snippet": "promo code bonus bets, risk-free bet before the line moves",
             "source": "x", "source_tier": "unknown", "url": "http://x"}
-    real = {"headline": "SEC charges Acme Labs over unregistered securities offering", "snippet": "",
-            "source": "SEC", "source_tier": "primary", "url": "http://sec"}
-    shill_mod.annotate([moon, real], rules)
-    _check(moon["shill_rejected"] is True, fails,
-           f"shill canary: moon post not rejected (score={moon['shill_score']})")
+    promo = {"headline": "New sportsbook offers promo code bonus bets for the playoffs",
+             "snippet": "", "source": "dealsite", "source_tier": "aggregator", "url": "http://d"}
+    real = {"headline": "NFL suspends Acme Falcons cornerback six games for wagering policy violation",
+            "snippet": "", "source": "NFL", "source_tier": "primary", "url": "http://nfl"}
+    shill_mod.annotate([tout, promo, real], rules)
+    _check(tout["shill_rejected"] is True
+           and tout["shill_score"] >= rules["thresholds"]["reject_score"], fails,
+           f"shill canary: tout post not rejected (score={tout['shill_score']})")
+    _check(promo["shill_score"] >= rules["thresholds"]["flag_score"], fails,
+           f"shill canary: sportsbook promo item not flagged (score={promo['shill_score']})")
     _check(real["shill_rejected"] is False and real["shill_score"] == 0, fails,
            f"shill canary: primary-source item wrongly flagged (score={real['shill_score']})")
 
     # dedupe canary: two near-identical headlines collapse
     import aggregate
     dup = [
-        {"headline": "SEC charges Acme Labs over unregistered securities offering",
+        {"headline": "NBA suspends Acme Rockets guard ten games over wagering violation",
          "source": "A", "source_tier": "primary", "url": "u1", "timestamp": "", "snippet": ""},
-        {"headline": "SEC charges Acme Labs over unregistered securities offering, seeks penalties",
+        {"headline": "NBA suspends Acme Rockets guard ten games over wagering violation, team plans appeal",
          "source": "B", "source_tier": "major", "url": "u2", "timestamp": "", "snippet": ""},
-        {"headline": "Ethereum core developers set date for next network upgrade",
+        {"headline": "Yankees ace throws first no-hitter of the season",
          "source": "C", "source_tier": "major", "url": "u3", "timestamp": "", "snippet": ""},
     ]
     clusters = aggregate.dedupe(dup, cfg)
     _check(len(clusters) == 2, fails, f"dedupe canary: expected 2 clusters, got {len(clusters)}")
-
-    # whale-flow classification canary (offline, deterministic over the sample transactions)
-    fails.extend(_whale_flow_canary())
 
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
@@ -149,33 +153,10 @@ def layer1_canary():
     return 0
 
 
-def _whale_flow_canary():
-    """Lock the follow-the-money classification: stablecoins are scored separately from the
-    volatile sell-pressure/accumulation signal, and direction follows net sign."""
-    fails = []
-    import whale_flows
-    whale_sample = os.path.join(HERE, "fixtures", "whale_sample.json")
-    txns = json.load(open(whale_sample, encoding="utf-8")).get("transactions", [])
-    r = whale_flows.analyze(txns, 24)
-    # exchange->exchange and wallet->wallet are excluded; 10 of the 12 sample txns count
-    _check(r["txn_count"] == 10, fails, f"whale canary: expected 10 exchange-relevant txns, got {r['txn_count']}")
-    _check(r["volatile"]["net_usd"] == 35000000, fails,
-           f"whale canary: volatile net expected 35000000, got {r['volatile']['net_usd']}")
-    _check(r["volatile"]["direction"] == "off exchanges", fails,
-           f"whale canary: direction expected 'off exchanges', got {r['volatile']['direction']}")
-    _check(r["stablecoins"]["net_buying_power_usd"] == 200000000, fails,
-           f"whale canary: stablecoin buying power expected 200000000, got {r['stablecoins']['net_buying_power_usd']}")
-    btc = next((a for a in r["by_asset"] if a["symbol"] == "BTC"), None)
-    _check(btc and btc["net_usd"] < 0, fails, "whale canary: BTC should be net onto exchanges (negative)")
-    _check(all(a["symbol"] not in whale_flows.STABLES for a in r["by_asset"]), fails,
-           "whale canary: a stablecoin leaked into the volatile by_asset chart")
-    return fails
-
-
 def _replay_e2e():
     """Run the whole pipeline in replay mode over the fixture and assert the invariants."""
     fails = []
-    os.environ["CRYPTO_LLM_MODE"] = "replay"
+    os.environ["DESK_LLM_MODE"] = "replay"
     cfg = common.load_config()
     client = llmlib.Client(cfg, mode="replay")
     import aggregate, editor, verifier, researcher, writer, approver, digest
@@ -214,8 +195,9 @@ def _replay_e2e():
             art = d["article_draft"]
             _check(art["status"] == "DRAFT", fails, f"replay: draft {d['id']} not DRAFT-tagged")
             _check(art["human_take"] == "", fails, f"replay: draft {d['id']} human_take not empty")
-            _check("financial advice" in art["not_financial_advice"].lower(), fails,
-                   f"replay: draft {d['id']} missing not-financial-advice disclaimer")
+            _check("betting" in art["not_financial_advice"].lower()
+                   and "advice" in art["not_financial_advice"].lower(), fails,
+                   f"replay: draft {d['id']} missing not-betting-advice disclaimer")
 
         # Approver: one categorized decision per draft; an unjudged draft would REJECT
         # (fail-closed coverage is exercised by the validate path itself).
@@ -241,32 +223,38 @@ def _replay_e2e():
         # story HOLDS unless its headline carries the unconfirmed label; two independent
         # sources publish; duplicate source names do not count as independence.
         _check(autopilot.breaking_two_source_holds(
-                   "Exchange X halts withdrawals", ["CoinDesk"]) is True, fails,
+                   "Star quarterback traded to Acme Falcons", ["ESPN"]) is True, fails,
                "breaking gate: single-source story published as fact was NOT held")
         _check(autopilot.breaking_two_source_holds(
-                   "Exchange X halts withdrawals", ["CoinDesk", "The Block"]) is False, fails,
+                   "Star quarterback traded to Acme Falcons", ["ESPN", "The Athletic"]) is False, fails,
                "breaking gate: two-source story was wrongly held")
         _check(autopilot.breaking_two_source_holds(
-                   "Unconfirmed: Exchange X may have halted withdrawals", ["CoinDesk"]) is False,
+                   "Unconfirmed: star quarterback may be traded to Acme Falcons", ["ESPN"]) is False,
                fails, "breaking gate: labeled-unconfirmed single-source was wrongly held")
         _check(autopilot.breaking_two_source_holds(
-                   "Exchange X halts withdrawals", ["CoinDesk", "coindesk", ""]) is True, fails,
+                   "Star quarterback traded to Acme Falcons", ["ESPN", "espn", ""]) is True, fails,
                "breaking gate: duplicate source names wrongly counted as independent")
 
         # Daily edition (wrap): replay dry-run must produce a belts-clean edition item
         # that leads the page (negative rank) and carries the desk's stories as sources.
+        # A desk with ZERO published stories honestly declines the edition (no preview
+        # exists to assert against); the full check runs whenever content exists.
         import subprocess
-        env = dict(os.environ, CRYPTO_LLM_MODE="replay")
+        import wrap as wrapmod
+        env = dict(os.environ, DESK_LLM_MODE="replay")
         r = subprocess.run([sys.executable, os.path.join(HERE, "wrap.py"),
                             "--dry-run", "--edition", "morning"],
                            capture_output=True, text=True, env=env)
         _check(r.returncode == 0, fails, f"wrap dry-run failed: {(r.stdout + r.stderr)[-200:]}")
-        if r.returncode == 0:
+        if r.returncode == 0 and wrapmod.gather_stories():
             wp = common.read_out("wrap-preview.json")
             _check(wp.get("rank", 0) < 0, fails, "wrap: edition rank must be negative (leads the page)")
             _check(wp.get("human_take") == "", fails, "wrap: human_take must be empty")
             _check("—" not in json.dumps(wp), fails, "wrap: em dash leaked into the edition")
             _check(wp.get("sources"), fails, "wrap: edition must cite the desk's own stories")
+        elif r.returncode == 0:
+            print("canary: wrap dry-run had no published stories to synthesize "
+                  "(fresh desk); preview assertions run once content exists")
 
         digest.run(date="canary")
         qmd = os.path.join(common.OUT_DIR, "review_queue", "canary.md")
@@ -361,16 +349,16 @@ def _contract_ladder_canary(cfg):
     # THE BOTTOM LINE lane gate (owner directive 2026-07-15): the signature element's
     # own guardrail must block directional/predictive language and pass clean synthesis.
     import wrap as wrapmod
-    clean = ("The day's theme was regulation outpacing the market: two agencies moved and "
-             "the tape barely noticed. The honest read is that positioning stayed calm "
-             "while the headlines ran hot. The coming checkpoints are Thursday's committee "
-             "vote and the exchange's incident report.")
+    clean = ("The day's theme was the trade deadline outpacing the contenders: two front "
+             "offices dealt and the standings barely budged. The honest read is that the "
+             "sellers stayed patient while the headlines ran hot. The coming checkpoints "
+             "are Thursday's arbitration hearing and the league's next injury report.")
     _check(wrapmod.bottom_line_lint(clean) == [], fails,
            f"Bottom Line lane: clean synthesis wrongly flagged: {wrapmod.bottom_line_lint(clean)}")
-    dirty = "Today's flush sets up for a move higher into the CPI print."
+    dirty = "Tonight's sweep sets up for a move higher in the seeding race."
     _check(len(wrapmod.bottom_line_lint(dirty)) >= 1, fails,
            "Bottom Line lane: 'sets up for a move higher' was NOT blocked")
-    _check(len(wrapmod.bottom_line_lint("Bitcoin looks poised to rally, brace for volatility.")) >= 2,
+    _check(len(wrapmod.bottom_line_lint("The Rockets look poised to rally, brace for a wild deadline week.")) >= 2,
            fails, "Bottom Line lane: poised-to/brace-for was NOT blocked")
     return fails
 

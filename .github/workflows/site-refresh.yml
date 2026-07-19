@@ -1,16 +1,14 @@
-# Site refresh: keeps the data desks current between daily briefs.
+# Site refresh: keeps the site current between daily briefs.
 #
-# The Whale Watch board and every Market Pulse dashboard are regenerated at Netlify BUILD
-# time (see netlify.toml), so refreshing the site is just pinging the build hook. The two
-# daily briefs already deploy (~07:55 and ~16:55 UTC, via their story push or hook ping);
-# this one extra midday ping keeps the dashboards to roughly 4-5 hour freshness. Roughly
-# 3 builds/day at ~3 minutes each is ~270 Netlify build minutes/month -- the free tier
-# pools ~300 across ALL the team's sites, so the cadence is deliberately lean (owner's
-# call, 2026-07-12). Add or remove cron lines to tune.
+# Refreshing the site is just pinging the Netlify build hook (the build regenerates the
+# pages from committed content). The brief slots already deploy via their story push or
+# hook ping; this one extra midday ping covers the gap between them. The free-tier build
+# minutes pool (~300/month) is shared across ALL the team's sites, so the cadence is
+# deliberately lean (owner's call, 2026-07-12). Add or remove cron lines to tune.
 #
 # No secrets beyond NETLIFY_BUILD_HOOK, no code runs here, and a missing hook is a
 # documented skip, never a failure.
-name: Site refresh (data desks)
+name: Site refresh
 
 on:
   schedule:
@@ -29,8 +27,8 @@ jobs:
         run: |
           if [ -n "$HOOK" ]; then
             curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
-              && echo "::notice::Triggered a Netlify rebuild (Whale Watch + Market Pulse refresh)." \
-              || echo "::warning::Build hook ping failed; the desks will refresh on the next scheduled build."
+              && echo "::notice::Triggered a Netlify rebuild." \
+              || echo "::warning::Build hook ping failed; the site will refresh on the next scheduled build."
           else
             echo "::notice::NETLIFY_BUILD_HOOK not set; skipping (the daily brief and pushes still refresh the site)."
           fi

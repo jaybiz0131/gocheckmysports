@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-aging.py: the SLOW feedback loop (monthly, REPORT-ONLY). Crypto content rots fast; a
+aging.py: the SLOW feedback loop (monthly, REPORT-ONLY). Sports content rots fast; a
 correction policy protects credibility more than perfection does.
 
 For every published story in site/content/ it (1) re-fetches the story's recorded source
@@ -58,12 +58,13 @@ def recheck_sources(stories):
     return stories
 
 
-PROMPT = """You are the AGING REVIEWER for Crypto Cronkite, running the desk's monthly
+PROMPT = """You are the AGING REVIEWER for GoCheckMySports, running the desk's monthly
 post-publication review. For each published story you get its title, an excerpt of its
 body, and the CURRENT text fetched from its original sources. Judge only one thing per
 story: has the story's premise been invalidated or materially superseded by what the
-sources say now (a bill died, a figure was corrected, a deal collapsed, an "expected"
-event did not happen)? Unreachable sources are already flagged separately; do not treat
+sources say now (a suspension was overturned, a trade fell through, a figure was
+corrected, an "expected" event did not happen)? Unreachable sources are already flagged
+separately; do not treat
 a fetch failure as invalidation. Be conservative: flag only clear cases, with the
 specific reason. Respond with ONLY JSON:
 {"flags": [{"file": "<file>", "reason": "<what changed and why it invalidates the story>"}]}

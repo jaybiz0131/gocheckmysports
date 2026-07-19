@@ -1,9 +1,9 @@
 # The slow feedback loop: monthly post-publication aging review. REPORT-ONLY - this job
 # never edits or deploys the site. It re-fetches every published story's sources, flags
 # dead links and invalidated premises, and uploads the report as an artifact for the human
-# editor-in-chief. Crypto content rots fast; a correction policy protects credibility more
+# editor-in-chief. Sports news rots fast; a correction policy protects credibility more
 # than perfection does.
-name: Crypto Cronkite aging review
+name: GoCheckMySports aging review
 
 on:
   schedule:

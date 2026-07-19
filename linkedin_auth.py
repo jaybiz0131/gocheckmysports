@@ -91,7 +91,7 @@ def main():
         me = json.loads(r.read())
     urn = f"urn:li:person:{me['sub']}"
 
-    print("\n=== store these as gocheckmycrypto repo secrets ===")
+    print("\n=== store these as gocheckmysports repo secrets ===")
     print("LINKEDIN_ACCESS_TOKEN =", access)
     print("LINKEDIN_PERSON_URN   =", urn)
     print(f"(token lives ~{days} days; re-run this script to renew)")

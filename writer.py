@@ -3,13 +3,13 @@
 writer.py: Stage 4, the writer AI (drafts).
 
 Drafts the stories that SURVIVED verification (VERIFIED, plus NEEDS-HUMAN-REVIEW which the
-human may promote) into a script skeleton and an article draft, in the Crypto Cronkite voice:
-factual, sourced, neutral on price, with a not-financial-advice disclaimer and an explicit,
+human may promote) into a script skeleton and an article draft, in the GoCheckMySports voice:
+factual, sourced, neutral on betting, with a not-betting-advice disclaimer and an explicit,
 empty human-take slot. REJECT stories are never drafted. Everything is tagged DRAFT. Fail-closed.
 
 USAGE
   python3 writer.py
-  CRYPTO_LLM_MODE=replay python3 writer.py
+  DESK_LLM_MODE=replay python3 writer.py
 """
 
 import json
@@ -19,7 +19,7 @@ import common
 import llm as llmlib
 
 DRAFTABLE = {"VERIFIED", "NEEDS-HUMAN-REVIEW"}
-NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+NFA = "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice."
 
 
 def select(editor, verifier):
@@ -117,20 +117,7 @@ def run(client=None):
         print("writer: 0 draftable stories (nothing survived verification) -> out/drafts.json")
         return obj
 
-    # The desk's own boards, for cross-desk citations ("the desk's Whale Watch board
-    # showed..."). Reuses the Chart Master's digest; fail-open, because the news pipeline
-    # must never depend on market data being reachable.
-    boards = None
-    try:
-        import chartmaster
-        boards = chartmaster.digest()
-    except Exception as e:
-        common.gh("warning", f"writer: desk boards unavailable ({e}); drafting without them")
-
     system = common.load_prompt("writer.md")
-    boards_blurb = (f"desk_boards (the desk's OWN published market data, for cross-desk "
-                    f"citations per the rules):\n{json.dumps(boards, indent=1)}\n\n"
-                    if boards else "")
     # Full-length stories run 350-650 words each: batching 3 stories per call keeps every
     # response comfortably inside max_tokens (a single 8-story call would truncate mid-JSON
     # and fail the stage). Replay mode stays a single call (one fixture response).
@@ -139,7 +126,7 @@ def run(client=None):
     for i in range(0, len(stories), chunk_size):
         chunk = stories[i:i + chunk_size]
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
-                "left empty.\n\n" + boards_blurb
+                "left empty.\n\n"
                 + "Stories:\n" + json.dumps(chunk, indent=2))
         part = client.call_json("writer", system, user,
                                 validate=lambda o: validate(o, chunk))

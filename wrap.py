@@ -5,9 +5,9 @@ wrap.py: the DAILY EDITION (The Morning Brief / The Closing Wrap), 2026-07-14.
 Jack's product call: the desk is a full media outlet, and a media outlet never posts a
 zero-content morning. This stage produces the flagship twice-daily synthesis: what is
 really going on, why, and what to watch in the coming days: the voice of reason for a
-market in constant panic. It runs AFTER autopilot in the brief workflow and can ALWAYS
-publish, because its raw material is already gated: the desk's own published, verified
-stories plus the desk's own boards. No new facts enter here.
+sport-news cycle in constant shout. It runs AFTER autopilot in the brief workflow and can
+ALWAYS publish, because its raw material is already gated: the desk's own published,
+verified stories plus the desk's own boards when available. No new facts enter here.
 
 Gates (fail-closed for the edition, fail-open for the brief: a wrap failure never blocks
 story publishing):
@@ -39,7 +39,7 @@ import llm as llmlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
-NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+NFA = "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice."
 
 EDITIONS = {
     "morning": {"name": "The Morning Brief", "slug": "morning-brief", "rank": -1,
@@ -168,7 +168,7 @@ def build_item(edition, obj, stories, date, published_utc):
         "date": date, "published_utc": published_utc,
         "category": "daily edition",
         "rank": ed["rank"],
-        "author": "Crypto Cronkite",
+        "author": "GoCheckMySports",
         "key_fact": destyle(obj.get("key_takeaway", "")),
         "bottom_line": destyle(obj.get("bottom_line", "")),
         "human_take": "",
@@ -193,8 +193,8 @@ def main():
     breaking = os.environ.get("BREAKING") == "1"
     # rerun-safe: one edition per slot per day, EXCEPT a breaking run REGENERATES the
     # current slot's edition in place (owner directive 2026-07-15: a Bottom Line that
-    # does not know about the hack from an hour ago reads as asleep). Same file, same
-    # URL, refreshed read.
+    # does not know about the blockbuster trade from an hour ago reads as asleep). Same
+    # file, same URL, refreshed read.
     final_path = os.path.join(CONTENT, f"{date}-{EDITIONS[edition]['slug']}.json")
     refreshing = os.path.exists(final_path)
     if not dry and refreshing and not breaking:
@@ -205,12 +205,9 @@ def main():
         print("wrap: no published stories in the window; a quiet-day edition needs at "
               "least the boards, but with zero stories the desk stays silent (honest).")
         return 0
+    # Desk boards were retired with the market modules; the edition synthesizes the desk's
+    # own published stories, and the prompt treats absent boards as simply not citable.
     boards = None
-    try:
-        import chartmaster
-        boards = chartmaster.digest()
-    except Exception as e:
-        common.gh("warning", f"wrap: desk boards unavailable ({e}); edition from stories only")
 
     # within-day continuity: later editions UPDATE and EXTEND the day's coverage rather
     # than repeating it; give the model what already ran today so it can move forward

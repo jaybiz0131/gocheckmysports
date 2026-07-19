@@ -31,7 +31,7 @@ import digest
 
 
 def run(mode="live", fixture=None):
-    os.environ["CRYPTO_LLM_MODE"] = mode
+    os.environ["DESK_LLM_MODE"] = mode
     cfg = common.load_config()
     client = llmlib.Client(cfg, mode=mode)  # one client => one shared budget across stages
     report = {"mode": mode, "stages": [], "status": "running"}

@@ -10,7 +10,7 @@ rewrites apply; the update preserves slug/date/id (the URL never changes), appen
 visible correction note field, and the workflow commit deploys it. Dead-link-only flags
 are left to the human report (a dead source is a citation problem, not a premise change).
 
-Fail-closed per story: no approval, no change. Runs in crypto-aging.yml after aging.py.
+Fail-closed per story: no approval, no change. Runs in the aging workflow after aging.py.
 
 USAGE  python3 corrections.py            (needs ANTHROPIC_API_KEY)
 """

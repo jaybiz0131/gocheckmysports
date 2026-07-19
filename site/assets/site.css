@@ -1,5 +1,5 @@
 /* ============================================================================
-   Crypto Cronkite - site design system.
+   GoCheckMySports - site design system.
    Trusted-newsroom editorial identity: newsprint paper, a masthead rule, a serif
    for headlines, restrained accent, and the pipeline's verdict vocabulary shown as
    badges so readers see the honesty machinery. Light + dark. No em dashes anywhere.
@@ -9,7 +9,7 @@
 :root{
   --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#17181C;
   --muted:#5C616B;      --faint:#6B707A;      --line:#E6E2D8;
-  --rule:#B42318;       /* masthead red rule + kicker */
+  --rule:#1F5E3F;       /* masthead varsity field green rule + kicker */
   --link:#123A5E;       --link-hover:#0B2740;
   --verified-fg:#12603B; --verified-bg:#DCEFE2;
   --review-fg:#7A5200;   --review-bg:#F7EACB;
@@ -23,7 +23,7 @@
 @media (prefers-color-scheme:dark){
   :root{
     --paper:#131419; --card:#1A1C22; --ink:#EBE9E3; --muted:#A6ABB4; --faint:#868B95;
-    --line:#2A2D35; --rule:#E5533F; --link:#8FB6DC; --link-hover:#B7D2ED;
+    --line:#2A2D35; --rule:#57C08A; --link:#8FB6DC; --link-hover:#B7D2ED;
     --verified-fg:#8BE0AE; --verified-bg:#12331F; --review-fg:#F0C674; --review-bg:#3A2E10;
     --tag-bg:#24262E; --tag-fg:#B7BCC5;
     --up:#3DDC84; --down:#F4564A;
@@ -147,7 +147,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .news input[type=email]{flex:1;min-width:220px;padding:13px 15px;border-radius:6px;border:1px solid rgba(255,255,255,.25);
   background:rgba(255,255,255,.07);color:#FBFAF6;font-family:var(--sans);font-size:15px}
 .news input[type=email]::placeholder{color:rgba(255,255,255,.5)}
-.news button{padding:13px 22px;border-radius:6px;border:none;background:#B42318;color:#fff;
+.news button{padding:13px 22px;border-radius:6px;border:none;background:#1F5E3F;color:#fff;
   font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;transition:filter .15s}
 .news button:hover{filter:brightness(1.08)}
 .news .fine{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:14px}
@@ -215,7 +215,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .page ul,.page ol{padding-left:22px}
 .callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0}
 
-/* ---- whale watch DARK sub-brand theme (matches the GoCheckMyCrypto Whale Watch logo) ---- */
+/* ---- legacy dark sub-brand theme (kept from the chassis; no page uses ww-dark now) ---- */
 body.ww-dark{
   --paper:#091625; --card:#0f2437; --ink:#eaf6ff; --muted:#a6c4d8; --faint:#7C97AC;
   --line:#1d374d; --rule:#f4a52a; --link:#5fcbef; --link-hover:#9fe0fb;
@@ -232,7 +232,7 @@ body.ww-dark .chartcard{box-shadow:inset 0 0 0 1px rgba(63,200,242,.06),0 0 40px
 body.ww-dark .stat .big.up{text-shadow:0 0 22px rgba(51,224,127,.35)}
 body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(255,93,82,.3)}
 
-/* ---- whale watch / flows --------------------------------------------------- */
+/* ---- stat cards (from the chassis's data boards; kept for reuse) ------------ */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:8px 0 6px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
 .stat .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
@@ -241,7 +241,7 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(255,93,82,.3)}
 .stat .big.down{color:var(--down)}
 .stat .sub{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .chartcard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 16px}
-/* ---- market pulse ------------------------------------------------------------ */
+/* ---- data cards / chips / dash grid (shared: pc-note, chip, home lede) ------- */
 .pulse-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin:8px 0 6px}
 .pulse-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:8px 0 6px}
 .pulse-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
@@ -603,20 +603,6 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   .motion-video{display:none}
   .mjs .reveal{opacity:1;transform:none;transition:none}
   .badge-anim:hover img{transform:none}}
-/* ---- Whale Watch section panel: contained whale loop, identity over the scrim ---- */
-.ww-panel{position:relative;overflow:hidden;border-radius:12px;max-width:880px;height:150px;
-  margin:0 auto;background:#091625 url(/assets/whale/whale-poster.jpg) center 42%/cover no-repeat;
-  box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7);text-align:left}
-.ww-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:center 42%;z-index:0}
-.ww-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,
-  rgba(5,10,17,.78) 0%,rgba(5,10,17,.42) 45%,rgba(5,10,17,.12) 100%)}
-.ww-panel-fg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:14px 18px}
-.ww-panel-fg .ww-title{font-family:var(--serif);font-size:26px;font-weight:700;color:#f4f1ea;
-  line-height:1.1;margin-top:2px}
-@media (max-width:600px){.ww-panel{height:126px}.ww-panel-fg .ww-title{font-size:21px}}
-
 /* sliding underline on prose and footer links */
 .prose a,.pc-note a,.fnote a,.flinks a,.bl-links a{text-decoration:none;position:relative}
 .prose a::after,.pc-note a::after,.fnote a::after,.flinks a::after,.bl-links a::after{
@@ -626,9 +612,6 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 .bl-links a:hover::after{transform:scaleX(1)}
 @media (prefers-reduced-motion:reduce){.prose a::after,.pc-note a::after,.fnote a::after,
   .flinks a::after,.bl-links a::after{transition:none}}
-
-.mp-hero .ww-panel{background-image:url(/assets/pulse/pulse-poster.jpg);background-position:center 38%}
-.mp-hero .ww-vid{object-position:center 38%}
 
 /* ---- accessibility: skip-to-main-content link (off-screen until focused) ----------- */
 a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:var(--rule);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}

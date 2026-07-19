@@ -9,7 +9,7 @@ it and publishes nothing.
 
 USAGE
   python3 editor.py                 # live (needs ANTHROPIC_API_KEY)
-  CRYPTO_LLM_MODE=replay python3 editor.py   # offline replay (tests only)
+  DESK_LLM_MODE=replay python3 editor.py   # offline replay (tests only)
 """
 
 import sys

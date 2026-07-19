@@ -1,20 +1,20 @@
 {
-  "_note": "Deterministic shill-tell rules and source reputation. This is the fail-closed BELT: a rule-based first net that runs offline and is unit-tested by the canary. The editor AI is the SUSPENDERS (Stage 2) and the verifier AI is a second, independent net (Stage 3). Tune this list over time; it is a living file (same VERIFY-and-refine loop as the recall shill/segment guards).",
+  "_note": "Deterministic hype-tell rules and source reputation for the sports desk. This is the fail-closed BELT: a rule-based first net that runs offline and is unit-tested by the canary. The editor AI is the SUSPENDERS (Stage 2) and the verifier AI is a second, independent net (Stage 3). Sports translation of the crypto shill belt: tout/betting bait, unsourced rumor churn, and engagement-bait hot takes instead of coin shilling. Tune over time; living file.",
 
   "tells": [
-    { "id": "price_hype",        "weight": 3, "pattern": "\\b(to|hits?|hitting|reach(?:es|ing)?)\\s*\\$?\\s*\\d[\\d,\\.]*\\s*(k|m|b|million|billion|trillion)?\\b.*\\b(soon|imminent|incoming|next|this week|by (?:eom|end of))\\b", "reason": "price-prediction hype with a target and urgency" },
-    { "id": "moon_vocab",        "weight": 3, "pattern": "\\b(moon|mooning|to the moon|pump|pumping|100x|1000x|ape in|aping|lambo|send it|parabolic)\\b", "reason": "moon/pump vocabulary" },
-    { "id": "urgency",           "weight": 3, "pattern": "\\b(don'?t miss|last chance|get in early|before it'?s too late|act now|hurry|limited time|fomo)\\b", "reason": "manufactured urgency" },
-    { "id": "rocket_emoji",      "weight": 2, "pattern": "\\uD83D\\uDE80|\\uD83C\\uDF19|\\uD83D\\uDCC8{2,}", "reason": "rocket/moon emoji hype markers" },
+    { "id": "tout_bait",         "weight": 5, "pattern": "\\b(lock of the (day|week|year)|guaranteed (win|winner|pick)|can'?t[- ]miss (pick|parlay|bet)|sure thing|free picks?|best bets? (today|tonight)|expert picks? (win|cash))\\b", "reason": "betting tout / picks-selling bait" },
+    { "id": "parlay_hype",       "weight": 3, "pattern": "\\b(parlay|same[- ]game parlay|sgp)\\b.*\\b(smash|hammer|pound|max bet|slam)\\b", "reason": "parlay-slang betting hype" },
+    { "id": "urgency",           "weight": 3, "pattern": "\\b(don'?t miss|last chance|act now|hurry|limited time|before (the )?line moves)\\b", "reason": "manufactured urgency" },
+    { "id": "unsourced_rumor",   "weight": 3, "pattern": "\\b(sources? say|hearing that|rumor(?:s|ed)? (?:has it|swirling)|reportedly)\\b.*\\b(blockbuster|monster|shocking|stunning)\\b", "reason": "unsourced rumor dressed in hype language" },
+    { "id": "clickbait_frame",   "weight": 2, "pattern": "\\b(you won'?t believe|shocking truth|the real reason|what (he|she|they) said next|goes viral|breaks the internet)\\b", "reason": "engagement-bait framing" },
     { "id": "sponsored",         "weight": 5, "pattern": "\\b(sponsored|in partnership with|presented by|paid post|paid partnership|promoted|advertorial|press release distribution|prnewswire|globe ?newswire|via businesswire)\\b", "reason": "sponsored / paid-placement marker" },
-    { "id": "buy_listicle",      "weight": 3, "pattern": "\\b(top|best)\\s*\\d+\\s+(coins?|tokens?|altcoins?|memecoins?|gems?|projects?)\\s+(to (buy|watch|hold|explode)|for \\d{4})\\b", "reason": "affiliate listicle / buy-bait" },
-    { "id": "presale_bait",     "weight": 4, "pattern": "\\b(presale|pre-sale|ico|token sale|whitelist|early investors?|next big|hidden gem|undervalued gem)\\b", "reason": "presale / gem-shill bait" },
-    { "id": "superlative",       "weight": 1, "pattern": "\\b(revolutionary|game-?changer|unstoppable|explosive|massive|insane|guaranteed|surefire)\\b", "reason": "hype superlatives" },
-    { "id": "unattributed_partner", "weight": 2, "pattern": "\\b(announces? a? ?partnership|integration with|teams? up with|joins forces)\\b", "reason": "partnership/integration claim (verify it is not a self-issued press release)" }
+    { "id": "promo_code_bait",   "weight": 4, "pattern": "\\b(promo code|bonus bets?|risk[- ]free bet|deposit match|new user offer|sign[- ]up bonus)\\b", "reason": "sportsbook affiliate promo bait" },
+    { "id": "hot_take",          "weight": 1, "pattern": "\\b(all[- ]time great|greatest ever|goat debate|washed|fraud|exposed|era is over|dynasty is dead|guaranteed|surefire)\\b", "reason": "hot-take superlatives" },
+    { "id": "fake_quote_frame",  "weight": 2, "pattern": "\\b(allegedly said|is said to have told|per an unnamed|according to a source close to)\\b", "reason": "quote attributed to no one checkable (verify against a primary source)" }
   ],
 
   "source_reputation": {
-    "_note": "Multiplier on a source's baseline trust. > 1 raises weight (primary/official), < 1 lowers it (known pay-for-coverage reputations). Editor and verifier both receive these so a single low-rep source cannot carry a top story alone.",
+    "_note": "Multiplier on a source's baseline trust. > 1 raises weight (official league sources), < 1 lowers it. Editor and verifier both receive these so a single low-rep source cannot carry a top story alone.",
     "primary": 1.5,
     "major": 1.0,
     "onchain": 1.1,
@@ -23,7 +23,7 @@
     "breaking": 0.7,
     "unknown": 0.6,
     "known_low_rep_domains": {
-      "_note": "Domains with pay-for-coverage or heavy sponsored-post reputations. Not a blocklist; a heavy weight penalty. Extend over time.",
+      "_note": "Domains with pay-for-coverage, tout-network, or aggregation-mill reputations. Not a blocklist; a heavy weight penalty. Extend over time.",
       "domains": [],
       "penalty": 0.4
     }

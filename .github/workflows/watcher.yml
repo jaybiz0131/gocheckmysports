@@ -1,11 +1,11 @@
 # The breaking-news watcher (directive item 2, 2026-07-14): every 30 minutes, NO model
-# calls, ~$0. Plain thresholds: >5% hourly move on a major (CoinGecko keyless) or a fresh
-# story carried by 4+ independent sources (the desk's own RSS aggregation). On trigger it
-# calls the full brief workflow with breaking=true, which adds the two-source publish gate.
+# calls, ~$0. Plain threshold: a fresh story carried by 4+ independent sources (the desk's
+# own RSS aggregation) IS the sports definition of breaking news. On trigger it calls the
+# full brief workflow with breaking=true, which adds the two-source publish gate.
 # Thresholds are configurable without code changes via repo Variables:
-#   WATCH_MOVE_PCT (default 5.0), WATCH_MIN_SOURCES (4), WATCH_FRESH_MIN (90),
+#   WATCH_MIN_SOURCES (4), WATCH_FRESH_MIN (90),
 #   WATCH_COOLDOWN_MIN (120: quiet while coverage is already fresh).
-# The called workflow shares the crypto-publish concurrency group, so a breaking run
+# The called workflow shares the sports-publish concurrency group, so a breaking run
 # QUEUES behind any in-flight scheduled publish: never races it (directive item 9).
 name: Breaking-news watcher
 
@@ -33,18 +33,17 @@ jobs:
       - name: Threshold check (no model, no spend)
         id: w
         env:
-          WATCH_MOVE_PCT: ${{ vars.WATCH_MOVE_PCT }}
           WATCH_MIN_SOURCES: ${{ vars.WATCH_MIN_SOURCES }}
           WATCH_FRESH_MIN: ${{ vars.WATCH_FRESH_MIN }}
           WATCH_COOLDOWN_MIN: ${{ vars.WATCH_COOLDOWN_MIN }}
         run: python3 watcher.py
 
-  # market triggers run with the additive breaking gate; SLOT RECOVERY runs as a normal
+  # news triggers run with the additive breaking gate; SLOT RECOVERY runs as a normal
   # scheduled-equivalent pipeline (breaking=false)
   fire:
     needs: watch
     if: needs.watch.outputs.trigger == 'true'
-    uses: ./.github/workflows/crypto-news-brief.yml
+    uses: ./.github/workflows/sports-news-brief.yml
     with:
       breaking: ${{ needs.watch.outputs.breaking == 'true' }}
     secrets: inherit

@@ -1,13 +1,10 @@
-# Netlify config for the Crypto Cronkite site (gocheckmycrypto.com).
+# Netlify config for the GoCheckMySports site (gocheckmysports.com).
 # This repo IS the project, so the config lives at the root and importing the repo into
 # Netlify needs no extra settings: this file supplies the build command, publish directory,
 # Python version, and headers. The generator (site_build.py) is standard-library only and
 # builds site/publish/ deterministically from committed content.
 [build]
-  # Refresh the two data desks first (both keyless: Whale Watch from Whale Alert's public
-  # archive, Market Pulse from alternative.me/CoinGecko/DefiLlama/mempool.space; any fetch
-  # error falls back to the committed snapshot instead of failing the deploy), then build.
-  command = "python3 whale_flows.py || true; python3 market_pulse.py || true; python3 site_build.py"
+  command = "python3 site_build.py"
   publish = "site/publish"
 
 [build.environment]

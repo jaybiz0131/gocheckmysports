@@ -2,15 +2,16 @@
 """
 aggregate.py: Stage 1, the intake.
 
-Pull crypto news from many sources on a schedule, normalize to one shape, dedupe
+Pull sports news from many sources on a schedule, normalize to one shape, dedupe
 near-identical stories across outlets into clusters, and run the deterministic shill
 pre-pass. Same pattern as the Storm ingest and the recall cross-reference: fetch, normalize,
 write JSON; never runs in a browser.
 
 SOURCES (config.json): keyless RSS feeds (official/primary + major outlets) always; the
-CryptoPanic aggregator and X/Twitter only when their env token is set (absence is documented,
-never a failure). Official/primary sources (SEC, CFTC, protocol blogs) carry the highest
-source_tier and the editor weights them most.
+legacy aggregator and X/Twitter gatherers only when their env token is set (absence is
+documented, never a failure; both are dormant with no config keys). Official/primary
+sources (league offices, official league data feeds) carry the highest source_tier and the
+editor weights them most.
 
 OUTPUT  out/items.json
   {
@@ -50,7 +51,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, "config.json")
 OUT_DIR = os.path.join(HERE, "out")
 DEFAULT_OUT = os.path.join(OUT_DIR, "items.json")
-UA = "CryptoCronkite-Aggregator/1.0 (+news pipeline)"
+UA = "GoCheckMySports-Aggregator/1.0 (+news pipeline)"
 
 STOPWORDS = set(("the a an and or of to in on for with at by from as is are be into over "
                  "after amid its it new news says say will has have how why what when who "
@@ -90,7 +91,7 @@ def narrative_watchlist(cfg):
 
 
 def apply_keyword_gate(items, feed, watchlist):
-    """Per-feed relevance gate for broad official/markets feeds (all of DOJ, all top business
+    """Per-feed relevance gate for broad high-volume feeds (a whole-wire aggregator, all top
     stories): keep only items matching the feed's keywords in headline+snippet. A watchlist
     (narratives) match ALWAYS passes -- an ongoing desk storyline outranks the gate."""
     if not feed.get("keywords"):
@@ -192,8 +193,8 @@ def gather_rss(cfg, fixture=None):
             xml = fetch(f["url"])
             got = parse_feed(xml, f["name"], f["tier"])
             got, gated = apply_keyword_gate(got, f, watchlist)
-            # Per-feed cap: one prolific outlet must not flood the editor (The Defiant's
-            # feed returns 100 items). Feeds are newest-first, so the cap keeps the newest.
+            # Per-feed cap: one prolific outlet must not flood the editor (some feeds
+            # return 100 items). Feeds are newest-first, so the cap keeps the newest.
             cap = cfg["sources"].get("max_items_per_feed", 40)
             trimmed = f" (capped from {len(got)})" if len(got) > cap else ""
             gate_note = f", {gated} gated off-topic" if gated else ""
@@ -269,46 +270,6 @@ def gather_x(cfg):
             "_ts": ts, "snippet": "",
         })
     print(f"  X / Twitter          [breaking  ] -> {len(out)} item(s)")
-    return out
-
-
-def gather_whale_alert(cfg):
-    """Large on-chain moves (transfers, mints, burns) from Whale Alert's FREE public alert
-    archive (keyless; their old keyed REST API was retired -- see DEVIATIONS D7). Capped so
-    on-chain data cannot flood the brief. A fetch failure is a documented skip, never a
-    pipeline failure."""
-    wa = cfg["sources"].get("whale_alert", {})
-    try:
-        txns = common.whale_archive_transactions(
-            cfg["lookback_hours"], archive_url=wa.get("archive_url", common.WHALE_ARCHIVE_URL))
-    except Exception as e:
-        gh("warning", f"aggregate: Whale Alert archive fetch failed: {e} -- skipped")
-        return []
-    txns = sorted(txns, key=lambda t: t.get("amount_usd", 0), reverse=True)
-    out = []
-    verbs = {"transfer": "moved", "mint": "minted", "burn": "burned",
-             "freeze": "frozen", "unfreeze": "unfrozen", "lock": "locked", "unlock": "unlocked"}
-    for t in txns[: wa.get("max_items", 8)]:
-        sym = (t.get("symbol") or "").upper()
-        amt = t.get("amount", 0)
-        usd = t.get("amount_usd", 0)
-        frm = (t.get("from", {}) or {}).get("owner") or "unknown wallet"
-        to = (t.get("to", {}) or {}).get("owner") or "unknown wallet"
-        kind = t.get("transaction_type", "transfer")
-        ts = None
-        try:
-            ts = datetime.fromtimestamp(int(t.get("timestamp", 0)), timezone.utc)
-        except Exception:
-            pass
-        out.append({
-            "headline": f"{amt:,.0f} {sym} (${usd:,.0f}) {verbs.get(kind, 'moved')} from {frm} to {to}",
-            "source": "Whale Alert",
-            "source_tier": wa.get("tier", "onchain"),
-            "url": f"https://whale-alert.io/transaction/{t.get('blockchain','')}/{t.get('hash','')}",
-            "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
-            "_ts": ts, "snippet": f"On-chain {kind} flagged by Whale Alert.",
-        })
-    print(f"  Whale Alert          [onchain   ] -> {len(out)} item(s)")
     return out
 
 
@@ -388,7 +349,6 @@ def run(fixture=None, out_path=DEFAULT_OUT):
     if not fixture:
         raw += gather_cryptopanic(cfg)
         raw += gather_x(cfg)
-        raw += gather_whale_alert(cfg)
 
     if ok == 0 and not raw:
         gh("error", "aggregate: ZERO sources resolved -> failing hard (exit 2); nothing downstream runs on an empty intake.")

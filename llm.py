@@ -16,7 +16,7 @@ the standard library). Adding the `anthropic` SDK would break that posture, so w
 https://api.anthropic.com/v1/messages directly with urllib and the documented headers. The
 request shape follows the current model family: no temperature/top_p/top_k (those return
 HTTP 400 on claude-opus-4-8 / sonnet-5), register and determinism are steered by the prompt.
-See DEVIATIONS D-CRYPTO-1.
+See DEVIATIONS.
 
 MODES
   live   (default)  real API call; requires ANTHROPIC_API_KEY.
@@ -25,7 +25,7 @@ MODES
                     stamped mode=replay everywhere downstream so it can never be mistaken for
                     a real editorial run (the human gate and publish refuse replay output).
 
-Set the mode with the CRYPTO_LLM_MODE env var or the `mode` argument.
+Set the mode with the DESK_LLM_MODE env var or the `mode` argument.
 """
 
 import json
@@ -104,7 +104,7 @@ class Budget:
 class Client:
     def __init__(self, cfg, mode=None, budget=None):
         self.cfg = cfg
-        self.mode = mode or os.environ.get("CRYPTO_LLM_MODE", "live")
+        self.mode = mode or os.environ.get("DESK_LLM_MODE", "live")
         b = cfg.get("budget", {})
         self.budget = budget or Budget(b.get("max_tokens_per_run", 200000),
                                        b.get("max_usd_per_run", 3.0))
@@ -183,8 +183,8 @@ class Client:
             "anthropic-version": API_VERSION,
             "content-type": "application/json",
         }
-        # claude-fable-5 runs cybersecurity safety classifiers, and hack/exploit coverage is
-        # core news for this desk, so benign stories can occasionally be declined. The
+        # claude-fable-5 runs cybersecurity safety classifiers, and hacking/integrity-breach
+        # coverage occasionally crosses this desk, so benign stories can be declined. The
         # server-side fallback re-runs a declined request on claude-opus-4-8 inside the same
         # call (a decline before output is not billed; the rescue bills at Opus rates). If the
         # whole chain still refuses, the stop_reason check below fails the stage closed.

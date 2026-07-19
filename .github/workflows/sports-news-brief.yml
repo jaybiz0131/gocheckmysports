@@ -1,19 +1,17 @@
-# Crypto Cronkite news brief: the scheduled ingest -> AI processing -> review queue job.
+# GoCheckMySports news brief: the scheduled ingest -> AI processing -> review queue job.
 #
-# Runs aggregate -> editor -> verifier -> writer -> digest twice a day (morning and US
-# afternoon) and uploads the review queue as a workflow artifact for the human
-# editor-in-chief to approve.
+# Runs aggregate -> editor -> verifier -> writer -> digest on the slot schedule and uploads
+# the review queue as a workflow artifact for the human editor-in-chief to approve.
 #
 # FAIL-CLOSED and it NEVER PUBLISHES. It runs run.py (Stages 1-5) only; publish.py (Stage 6)
 # is a separate, deliberate, human-approved step and is intentionally not invoked here. If any
 # stage errors, run.py exits non-zero and this job goes red (flagging a human); nothing is
 # pushed anywhere.
 #
-# The pipeline needs ANTHROPIC_API_KEY (repo secret) for the editor/verifier/writer calls, and
-# optionally CRYPTOPANIC_TOKEN / WHALE_ALERT_API_KEY / X_BEARER_TOKEN to widen sourcing. If the
-# key is not configured yet, the job runs the offline canary as a wiring smoke test and stops
-# (green) instead of failing daily.
-name: Crypto Cronkite daily brief
+# The pipeline needs ANTHROPIC_API_KEY (repo secret) for the editor/verifier/writer calls.
+# If the key is not configured yet, the job runs the offline canary as a wiring smoke test
+# and stops (green) instead of failing daily.
+name: GoCheckMySports daily brief
 
 on:
   schedule:
@@ -39,7 +37,7 @@ on:
 # with the watcher's breaking runs, so a breaking run QUEUES behind an in-flight scheduled
 # run instead of racing its push (the Pet-divergence class, prevented structurally).
 concurrency:
-  group: crypto-publish
+  group: sports-publish
   cancel-in-progress: false
 
 permissions:
@@ -73,9 +71,6 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CRYPTOPANIC_TOKEN: ${{ secrets.CRYPTOPANIC_TOKEN }}
-          WHALE_ALERT_API_KEY: ${{ secrets.WHALE_ALERT_API_KEY }}
-          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
         run: python3 run.py --mode live
 
       # FULL AUTO RELEASE (Jack's standing instruction, 2026-07-11): the adversarial verifier
@@ -89,25 +84,10 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 autopilot.py
 
-      # The Chart Master reads the same boards the deploy will publish: refresh the two
-      # data desks first (fail-open, like the Netlify build does), then generate the read.
-      # The read is committed (Netlify does not regenerate it at build time); flows/pulse
-      # are NOT committed here because every Netlify build refreshes them itself.
-      - name: Refresh the boards and generate the Chart Master's read
-        if: steps.key.outputs.have_key == 'true'
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python3 whale_flows.py || true
-          python3 market_pulse.py || true
-          python3 chartmaster.py
-
-      # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): The Morning Brief /
-      # The Closing Wrap, the guaranteed twice-daily synthesis over the desk's own
-      # published stories + boards (runs after the board refresh above so The Tape section
-      # reads fresh data). Runs even when no new story cleared the gates (the whole point:
-      # never a zero-content slot). Fail-open for the brief: an edition failure warns
-      # loudly but never blocks story publishing.
+      # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): the guaranteed
+      # per-slot synthesis over the desk's own published stories. Runs even when no new
+      # story cleared the gates (the whole point: never a zero-content slot). Fail-open
+      # for the brief: an edition failure warns loudly but never blocks story publishing.
       - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
         if: steps.key.outputs.have_key == 'true'
         env:
@@ -123,12 +103,12 @@ jobs:
         run: |
           git config user.name "Jack Berno"
           git config user.email "297991518+jaybiz0131@users.noreply.github.com"
-          git add site/content site/data/chartmaster.json editorial-log.json
+          git add site/content editorial-log.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "brief: VERIFIED stories + Chart Master read $(date -u +%Y-%m-%dT%H:%MZ)"
+            git commit -m "brief: VERIFIED stories $(date -u +%Y-%m-%dT%H:%MZ)"
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
@@ -178,31 +158,30 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: crypto-review-queue
+          name: sports-review-queue
           path: |
             out/review_queue/
             out/approval_template.json
             out/run_report.json
           if-no-files-found: warn
 
-      # The Whale Watch board refreshes at Netlify BUILD time (see netlify.toml), so a
-      # rebuild keeps it current without committing data. Runs even if the brief failed:
-      # board freshness is independent of the news pipeline. SKIPPED when the brief just
-      # pushed stories -- that push already triggered a build, and a second one would only
-      # burn Netlify build minutes (the free tier pools ~300/month across all sites).
-      # No hook secret -> documented skip.
-      - name: Refresh the website (Netlify build hook -> data desk update)
+      # A Netlify rebuild keeps the site fresh (datelines, feed) without committing data.
+      # Runs even if the brief failed. SKIPPED when the brief just pushed stories -- that
+      # push already triggered a build, and a second one would only burn Netlify build
+      # minutes (the free tier pools ~300/month across all sites). No hook secret ->
+      # documented skip.
+      - name: Refresh the website (Netlify build hook)
         if: always()
         env:
           HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
           PUSHED: ${{ steps.publish.outputs.pushed }}
         run: |
           if [ "$PUSHED" = "true" ]; then
-            echo "::notice::Stories were pushed; that deploy already refreshes the data desks. Skipping the hook ping."
+            echo "::notice::Stories were pushed; that deploy already rebuilt the site. Skipping the hook ping."
           elif [ -n "$HOOK" ]; then
             curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
-              && echo "::notice::Triggered a Netlify rebuild (data desk refresh)." \
-              || echo "::warning::Netlify build hook ping failed; the desks will refresh on the next deploy."
+              && echo "::notice::Triggered a Netlify rebuild." \
+              || echo "::warning::Netlify build hook ping failed; the site will refresh on the next deploy."
           else
-            echo "::notice::NETLIFY_BUILD_HOOK not set; the board refreshes only on pushes. Add the secret to enable the daily refresh."
+            echo "::notice::NETLIFY_BUILD_HOOK not set; the site rebuilds only on pushes. Add the secret to enable the daily refresh."
           fi

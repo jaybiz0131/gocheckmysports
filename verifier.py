@@ -14,7 +14,7 @@ correct fail-closed direction for a test run.
 
 USAGE
   python3 verifier.py
-  CRYPTO_LLM_MODE=replay python3 verifier.py
+  DESK_LLM_MODE=replay python3 verifier.py
 """
 
 import json

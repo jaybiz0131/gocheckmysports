@@ -73,7 +73,7 @@ def assemble(date):
 def render_md(a):
     L = []
     banner = "" if a["mode"] == "live" else f"\n> WARNING: mode={a['mode']} (NON-PRODUCTION test run; do not approve or publish this).\n"
-    L.append(f"# Crypto Cronkite - review queue - {a['date']}\n{banner}")
+    L.append(f"# GoCheckMySports - review queue - {a['date']}\n{banner}")
     L.append(f"_The AI did the reading, triage, fact-check, and drafting. You do the judgment "
              f"and the voice. Nothing publishes without your sign-off._\n")
     m = a["items"]["_meta"]
@@ -129,7 +129,7 @@ def render_html(a):
            "blockquote{border-left:3px solid #ccc;margin:.5rem 0;padding:.2rem .8rem;color:#333}"
            ".take{background:#f3f0ff;border:1px dashed #8a7fd6;padding:.5rem;border-radius:6px}"
            ".src{font-size:.85rem;color:#555}hr{border:none;border-top:1px solid #eee;margin:1.5rem 0}.nfa{color:#666;font-size:.85rem}")
-    P = [f"<style>{css}</style>", f"<h1>Crypto Cronkite - review queue</h1><p class=src>{e(a['date'])}</p>"]
+    P = [f"<style>{css}</style>", f"<h1>GoCheckMySports - review queue</h1><p class=src>{e(a['date'])}</p>"]
     if a["mode"] != "live":
         P.append(f"<p class=warn>WARNING: mode={e(a['mode'])} - NON-PRODUCTION test run. Do not approve or publish.</p>")
     P.append("<p><em>The AI did the reading, triage, fact-check, and drafting. You do the judgment and the voice. Nothing publishes without your sign-off.</em></p>")

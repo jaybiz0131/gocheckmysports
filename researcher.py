@@ -22,7 +22,7 @@ honest, shorter story downstream. Fail-closed at the stage level: model/parse er
 
 USAGE
   python3 researcher.py
-  CRYPTO_LLM_MODE=replay python3 researcher.py
+  DESK_LLM_MODE=replay python3 researcher.py
 """
 
 import json

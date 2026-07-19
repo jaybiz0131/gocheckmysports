@@ -35,7 +35,7 @@ import llm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(HERE, "linkedin-posted.json")
-ORIGIN = "https://gocheckmycrypto.com"
+ORIGIN = "https://gocheckmysports.com"
 API_VERSION = "202506"
 
 BANNED = [
@@ -44,7 +44,7 @@ BANNED = [
     r"\b(you|time to|should) (buy|sell)\b", r"\bexcited to\b", r"\bproud to\b",
     r"\bthoughts\?", r"price target", r"[\U0001F300-\U0001FAFF☀-➿]",
 ]
-ALLOWED_TAGS = {"#crypto", "#bitcoin", "#ethereum", "#stablecoins", "#fintech", "#regulation"}
+ALLOWED_TAGS = {"#sports", "#nfl", "#nba", "#mlb", "#nhl", "#sportsbusiness"}
 
 
 def todays_lead():
@@ -79,9 +79,8 @@ def run_gates(post, url):
     check(url in post, "article link present")
     for pat in BANNED:
         check(not re.search(pat, post, re.I), f"banned pattern absent [{pat[:24]}]")
-    check("not financial advice" in post.lower(), "NFA line present")
-    check("gocheckmycrypto" in post.lower() or "crypto cronkite" in post.lower(),
-          "site or desk attribution present")
+    check("not betting advice" in post.lower(), "not-betting-advice line present")
+    check("gocheckmysports" in post.lower(), "site or desk attribution present")
     tags = re.findall(r"#\w+", post)
     check(len(tags) <= 2, "max 2 hashtags", str(tags))
     check(all(t.lower() in ALLOWED_TAGS for t in tags), "hashtags from allowed set", str(tags))
