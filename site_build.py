@@ -350,11 +350,15 @@ MOTION_JS = (
     'else if(!v.paused)v.pause()})},{threshold:.12});'
     '[].slice.call(document.querySelectorAll(".hero-pause")).forEach(function(b){'
     'var v=b.parentNode.querySelector(".motion-video");if(!v)return;b.hidden=false;'
-    'b.addEventListener("click",function(){if(v.paused){delete v.dataset.userPaused;'
-    'v.play().catch(function(){});b.setAttribute("aria-pressed","false");'
+    'var setP=function(p){if(p){v.dataset.userPaused="1";v.pause();'
+    'b.setAttribute("aria-pressed","true");'
+    'b.setAttribute("aria-label","Play background animation");b.innerHTML="&#9654;"}'
+    'else{delete v.dataset.userPaused;v.play().catch(function(){});'
+    'b.setAttribute("aria-pressed","false");'
     'b.setAttribute("aria-label","Pause background animation");b.innerHTML="&#10074;&#10074;"}'
-    'else{v.dataset.userPaused="1";v.pause();b.setAttribute("aria-pressed","true");'
-    'b.setAttribute("aria-label","Play background animation");b.innerHTML="&#9654;"}})});'
+    'try{sessionStorage.setItem("heroPaused",p?"1":"0")}catch(e){}};'
+    'try{if(sessionStorage.getItem("heroPaused")==="1")setP(true)}catch(e){}'
+    'b.addEventListener("click",function(){setP(!v.paused)})});'
     'vids.forEach(function(v){if(!v.classList.contains("motion-lazy"))vo.observe(v)});'
     'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
     'if(lz.length){var arm=function(){lz.forEach(function(v){vo.observe(v)});'
@@ -374,7 +378,12 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
     url = ORIGIN + path
     site_name = NAME
+    # Home only: the hero band's poster is the LCP element (the video is preload="none"
+    # by design), so hint the browser to fetch it first.
+    lcp = ('<link rel="preload" as="image" href="/assets/hero/hero-poster.webp" '
+           'fetchpriority="high">\n' if path == "/" else "")
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
+    robots = lcp + robots
     beacon = ""
     if CF_ANALYTICS_TOKEN:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
