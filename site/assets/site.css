@@ -304,6 +304,14 @@ a.mh-family:hover{text-decoration:underline}
 .hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,
   rgba(7,12,18,.72) 0%,rgba(7,12,18,.42) 60%,rgba(7,12,18,.22) 100%)}
 .hero-band-inner{position:relative;z-index:2;padding:18px}
+/* WCAG 2.2.2: auto-playing motion gets a visible pause control. Constant-dark styling
+   to match the band; unhidden by the motion script only when a video is present. */
+.hero-pause{position:absolute;right:12px;bottom:12px;z-index:3;width:34px;height:34px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(8,13,20,.72);
+  color:#f4f1ea;font-size:12px;line-height:1;cursor:pointer;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.hero-pause:hover{border-color:#f4f1ea}
+.hero-pause:focus-visible{outline:2px solid #f4f1ea;outline-offset:2px}
 .hero-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;align-items:start}
 .hero-lead{display:block;text-decoration:none;color:inherit;border-radius:10px;
   padding:18px 20px 16px;background:rgba(8,13,20,.82);
