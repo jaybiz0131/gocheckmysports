@@ -2,7 +2,8 @@
 """
 shill.py: deterministic shill-tell scoring (the fail-closed BELT for Stage 2a).
 
-Crypto "news" is full of paid promotion disguised as news, and it has tells. This module
+Sports "news" is full of tout bait, rumor churn, and paid promotion disguised as
+reporting, and it has tells. This module
 scores each aggregated item against rule-based tells (shill_rules.json) and its source
 reputation, entirely OFFLINE and deterministically, so the canary can unit-test it. The
 editor AI (Stage 2) is the suspenders and the verifier AI (Stage 3) is a second net; this
