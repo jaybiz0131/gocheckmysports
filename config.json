@@ -19,29 +19,29 @@
       "max_tokens": 6000
     },
     "researcher": {
-      "model": "claude-haiku-4-5",
+      "model": "claude-sonnet-5",
       "max_tokens": 8000,
-      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job; thinking bills as output tokens, hence the cap."
+      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. QUALITY LAUNCH (2026-07-19): Sonnet, because everything the writer says flows from this brief."
     },
     "writer": {
-      "model": "claude-haiku-4-5",
+      "model": "claude-sonnet-5",
       "max_tokens": 8000,
-      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
+      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. QUALITY LAUNCH (2026-07-19): Sonnet on the reader-facing prose."
     },
     "approver": {
       "model": "claude-haiku-4-5",
       "max_tokens": 5000,
       "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
     },
-    "note": "PRE-REVENUE AGENT ECONOMY (family directive, inherited 2026-07-19 from the crypto desk): claude-haiku-4-5 on every desk stage; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source rule for anything sourced below primary) are the quality floor, not the model. Same reversal triggers as crypto: sustained audience growth or ~5k monthly pageviews -> writer model review.",
+    "note": "QUALITY-LAUNCH A/B (owner directive 2026-07-19, supersedes the inherited pre-revenue economy note): this desk launches with Sonnet on the three word-producing stages (researcher, writer, wrap) at a two-slot daily cadence, spending the same monthly budget on better stories instead of more of them. The crypto desk stays all-Haiku at three slots as the control; compare engagement and newsletter signups across the desks before changing either side. Judgment stages (editor, verifier, approver) stay Haiku: the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source rule for anything below primary) remain the accuracy floor regardless of model.",
     "publicist": {
       "model": "claude-haiku-4-5",
       "max_tokens": 1500
     },
     "wrap": {
-      "model": "claude-haiku-4-5",
+      "model": "claude-sonnet-5",
       "max_tokens": 5000,
-      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. Writer-family model for the prose."
+      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. QUALITY LAUNCH (2026-07-19): Sonnet; this is the desk's flagship voice."
     },
     "wrapcheck": {
       "model": "claude-haiku-4-5",
