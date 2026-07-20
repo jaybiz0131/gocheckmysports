@@ -5,9 +5,9 @@
   "lookback_hours": 30,
   "top_n": 8,
   "budget": {
-    "max_tokens_per_run": 220000,
-    "max_usd_per_run": 1.5,
-    "note": "Hard fail-closed cap sized to the Haiku economy; a typical full run lands ~$0.15-0.30. Family standard inherited from the Crypto Cronkite desk."
+    "max_tokens_per_run": 350000,
+    "max_usd_per_run": 4.0,
+    "note": "Hard fail-closed cap resized 2026-07-20 for the QUALITY-LAUNCH matrix: the inherited $1.50/220k cap was sized to the all-Haiku economy and cannot fit Sonnet on researcher/writer/wrap against a busy intake (the news sibling's first live run aborted fail-closed on it; this desk passed only on a one-story day). A typical quality-arm run should land ~$0.60-1.20; this cap is the runaway bound, not a target. The crypto control desk keeps its original Haiku-sized cap."
   },
   "models": {
     "editor": {
