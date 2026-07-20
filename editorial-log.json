@@ -1,0 +1,26 @@
+[
+ {
+  "date": "2026-07-20",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Spain Beat Argentina 1-0 to Win 2026 World Cup Final",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A linked BBC match report, titled 'World Cup 2026 final - Spain 1-0 Argentina,' confirms the scoreline' but the brief's open_questions note explicitly states 'No details from the linked 'MATCH REPORT' article body were fetched, so broader match context (statistics, other chances, extra-time details) is unavailable in the sourced material.' The draft claims confirmation of something the brief flags as unfetched and unconfirmed.",
+     "The draft references venue as 'New York New Jersey Stadium' but the brief identifies a naming discrepancy: the why_it_matters reference calls it 'MetLife Stadium' while the sourced material says 'New York New Jersey Stadium.' The draft does not acknowledge this unresolved discrepancy despite the brief identifying it as open."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Chelsea Sign Morgan Rogers From Aston Villa in \u00a3117m Deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The signing falls under manager Xabi Alonso, who oversees the deal per BBC Sport's reporting' but the brief data_point only confirms 'Xabi Alonso is the Chelsea manager overseeing the deal' \u2014 the phrasing 'falls under' and 'oversees the deal' are writer's interpretation beyond what the brief confirms. More critically, the brief's bear_case notes 'The fetched article text is largely site navigation/menu boilerplate and does not contain substantive analysis' \u2014 this suggests the source material is severely compromised and the writer cannot verify these claims actually appear in the BBC article text. The writer should have flagged this sourcing problem rather than presenting the facts as confirmed.",
+     "The draft claims 'It is one of three transfers this summer window valued at \u00a3100m or more, according to the same source, though the other two deals referenced are not named in the available reporting.' The brief open_questions explicitly notes 'The other two \u00a3100m-plus transfers referenced are not named in the available text,' indicating the source text does not actually list these other two deals \u2014 the writer is asserting the existence and count of transfers that are not in the brief's confirmed data and not detailed in the source material provided."
+    ]
+   }
+  ]
+ }
+]
