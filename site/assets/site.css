@@ -90,6 +90,13 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
   letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px}
 .badge.verified{background:var(--verified-bg);color:var(--verified-fg)}
 .badge.review{background:var(--review-bg);color:var(--review-fg)}
+/* Breaking (light: #C22619 on a #F8E3E1 tint, ~5.3:1; dark pair clears 4.5:1) and the
+   scores strip's in-progress marker. Applied by the build or, for .live, after a
+   successful client fetch only, so baked HTML never claims Live stale. */
+.badge.breaking{background:#F8E3E1;color:var(--down)}
+@media (prefers-color-scheme:dark){.badge.breaking{background:#3A1512}}
+.badge.live{background:var(--verified-bg);color:var(--verified-fg)}
+.scores .tick.live .chg{color:var(--up)}
 .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.9}
 
 /* ---- anchor desk strip (home only) ----------------------------------------- */

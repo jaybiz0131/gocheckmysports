@@ -20,6 +20,7 @@ USAGE
   python3 site_build.py [--ingest]
 """
 
+import datetime
 import json
 import os
 import re
@@ -628,16 +629,159 @@ def _is_wrap(item):
     return str(item.get("id", "")).startswith("wrap-")
 
 
+# ---- daypart stacking (owner directive 2026-07-20) --------------------------------
+# The front page re-stacks like a broadcast rundown. The build clock decides stacking
+# and badge decay ONLY; datelines stay content-derived (the house rule is untouched).
+# SITE_BUILD_NOW pins the clock for deterministic replays and the canary.
+
+BREAKING_HOURS = 3
+_DAYPART_WRAP = {"morning": "wrap-am-", "midday": "wrap-md-", "evening": "wrap-pm-"}
+_NOW_CACHE = None
+
+
+def _build_now():
+    global _NOW_CACHE
+    if _NOW_CACHE is None:
+        env = os.environ.get("SITE_BUILD_NOW", "")
+        try:
+            _NOW_CACHE = datetime.datetime.fromisoformat(env.replace("Z", "+00:00"))
+        except ValueError:
+            _NOW_CACHE = datetime.datetime.now(datetime.timezone.utc)
+    return _NOW_CACHE
+
+
+def _daypart(now):
+    return "morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"
+
+
+def _fresh_hours(item, now):
+    try:
+        ts = (item.get("published_utc") or "").replace("Z", "+00:00")
+        return (now - datetime.datetime.fromisoformat(ts)).total_seconds() / 3600.0
+    except (ValueError, TypeError):
+        return 1e9
+
+
+def home_stack(items, now=None):
+    """One deterministic rule for the hero lead and The Bottom Line anchor, shared by
+    render_home and bottom_line_card so the front page and /news never disagree.
+      1. A story under BREAKING_HOURS old takes the lead with the Breaking badge (a
+         breaking publish triggers its own build; the next slot or refresh build
+         retires the badge).
+      2. The Bottom Line anchors today's edition matching the build daypart.
+      3. Otherwise the editor's rank of the newest date leads (unchanged behavior).
+      4. No matching edition -> the newest edition, exactly as before. Cron drift's
+         worst case is the status quo; nothing ever renders empty."""
+    now = now or _build_now()
+    stories = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
+    breaking = False
+    if stories:
+        freshest = min(stories, key=lambda i: _fresh_hours(i, now))
+        if _fresh_hours(freshest, now) <= BREAKING_HOURS:
+            breaking = True
+            stories = [freshest] + [s for s in stories if s is not freshest]
+    wraps = [i for i in (items or [])
+             if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+    prefix = _DAYPART_WRAP[_daypart(now)]
+    today = now.strftime("%Y-%m-%d")
+    anchor = next((w for w in wraps
+                   if str(w.get("id", "")).startswith(prefix) and w.get("date") == today),
+                  None)
+    if anchor is None:
+        anchor = wraps[0] if wraps else None
+    return stories, breaking, anchor
+
+
+# ---- the live layer (owner directive 2026-07-20) ----------------------------------
+
+SCORES_PATH = os.path.join(HERE, "site", "data", "scores.json")
+_CLIENT_FEEDS = {
+    "MLB": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&hydrate=team,linescore",
+    "NFL": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+    "NBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
+    "NHL": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
+}
+
+SCORES_JS = (
+    '<script>(function(){var s=document.getElementById("scores-strip");'
+    'if(!s||!window.fetch)return;var urls=[];'
+    'try{urls=JSON.parse(s.getAttribute("data-feeds")||"[]")}catch(e){return}'
+    'var last=0;'
+    'function apply(eid,as,hs,det,state){var t=s.querySelector(\'[data-eid="\'+eid+\'"]\');'
+    'if(!t||as==null||hs==null||state==="pre")return;'
+    'var sym=t.querySelector(".sym");if(!sym)return;'
+    'var rest=\'<span class="px">\'+as+"-"+hs+"</span>";'
+    'if(det)rest+=\'<span class="chg\'+(state==="in"?" up":"")+\'">\'+det+"</span>";'
+    't.innerHTML=sym.outerHTML+rest;if(state==="in")t.classList.add("live")}'
+    'function refresh(){var n=Date.now();if(n-last<120000)return;last=n;'
+    'urls.forEach(function(u){fetch(u).then(function(r){return r.json()})'
+    '.then(function(d){if(d&&d.events){d.events.forEach(function(ev){'
+    'var c=(ev.competitions||[{}])[0],sides={};'
+    '(c.competitors||[]).forEach(function(x){sides[x.homeAway]=x});'
+    'var st=(ev.status||{}).type||{};'
+    'apply(String(ev.id),(sides.away||{}).score,(sides.home||{}).score,'
+    'st.state==="post"?"Final":(st.state==="in"?(st.shortDetail||"Live"):null),st.state)})}'
+    'else if(d&&d.dates){d.dates.forEach(function(day){(day.games||[]).forEach(function(g){'
+    'var t=g.teams||{},ls=g.linescore||{},ab=(g.status||{}).abstractGameState,'
+    'state=ab==="Live"?"in":ab==="Final"?"post":"pre",'
+    'det=state==="post"?"Final":state==="in"?((ls.isTopInning?"Top ":"Bot ")+'
+    '(ls.currentInning||"")):null;'
+    'apply(String(g.gamePk),(t.away||{}).score,(t.home||{}).score,det,state)})})}'
+    '}).catch(function(){})})}'
+    'refresh();document.addEventListener("visibilitychange",function(){'
+    'if(document.visibilityState==="visible")refresh()})})()</script>')
+
+
+def scores_strip():
+    """The live layer: today's slate, baked from site/data/scores.json (scores_pulse.py
+    writes it at build; fail-open). League data, not news: it never passes the editorial
+    pipeline and says so. Empty or missing snapshot = no strip, no dead chrome. One
+    client fetch on load (CORS verified on both feeds) updates scores in place; baked
+    values stand on any failure. Nothing self-moves, so WCAG 2.2.2 never triggers."""
+    try:
+        snap = json.load(open(SCORES_PATH, encoding="utf-8"))
+    except Exception:
+        return ""
+    leagues = [l for l in snap.get("leagues", []) if l.get("games")]
+    if not leagues:
+        return ""
+    ticks, feeds = [], []
+    for l in leagues:
+        feed = _CLIENT_FEEDS.get(l.get("league", ""))
+        if feed:
+            feeds.append(feed)
+        for g in l["games"]:
+            aw, hm = esc(g.get("away", "")), esc(g.get("home", ""))
+            a_s, h_s = g.get("away_score"), g.get("home_score")
+            state = g.get("state", "pre")
+            if state == "pre" or a_s is None or h_s is None:
+                mid = f'<span class="px">{esc(str(g.get("detail", "")))}</span>'
+            else:
+                cls = "chg up" if state == "in" else "chg"
+                mid = (f'<span class="px">{a_s}-{h_s}</span>'
+                       f'<span class="{cls}">{esc(str(g.get("detail", "")))}</span>')
+            live_cls = " live" if state == "in" else ""
+            ticks.append(f'<span class="tick{live_cls}" data-eid="{esc(str(g.get("eid", "")))}">'
+                         f'<span class="sym">{aw} @ {hm}</span>{mid}</span>')
+    stamp = esc((snap.get("generated_utc") or "")[11:16])
+    return (f'<section class="markets scores" aria-label="Today\'s scores">'
+            f'<div class="wrap" tabindex="0" role="group" '
+            f'aria-label="Scores, scroll horizontally" id="scores-strip" '
+            f"data-feeds='{json.dumps(feeds)}'>"
+            f'<span class="lab">Scores</span>{"".join(ticks)}'
+            f'<span class="note">League data, not news &middot; as of {stamp} UTC</span>'
+            f'</div></section>') + SCORES_JS
+
+
 def bottom_line_card(items):
     """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, the
     newest edition's 3-5 sentence read, refreshed every slot (and by breaking runs).
     Rendered as the compact card that rides beside the lead story (owner directive
     2026-07-17: lead first, Bottom Line to its right, same arrangement as the front
     page), reusing the home hero's card styling."""
-    wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
-    if not wraps:
+    _, _, ed = home_stack(items)  # daypart anchor; falls back to newest edition
+    if ed is None:
         return ""
-    ed = wraps[0]  # load_content sorts newest-first; wraps outrank stories within a date
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
     return (f'<a class="hero-bl news-bl" href="/articles/{esc(ed["slug"])}.html">'
             f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
@@ -734,7 +878,9 @@ def render_home(items, dateline):
     # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
     # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
     # editions in their own strip below. No carousel: every ranked story is on screen.
-    stories = [i for i in items if not i.get("example") and not _is_wrap(i)]
+    # Daypart re-stack (2026-07-20): home_stack may promote a breaking story to the lead
+    # and picks the edition that anchors The Bottom Line square.
+    stories, breaking, bl_anchor = home_stack(items)
 
     def _hero_tag(item):
         tags = tags_for(item)
@@ -756,17 +902,18 @@ def render_home(items, dateline):
             '<span class="hero-scrim" aria-hidden="true"></span>'
             '<button class="hero-pause" type="button" hidden aria-pressed="false" '
             'aria-label="Pause background animation">&#10074;&#10074;</button>')
+        lead_mark = ('<span class="badge breaking">Breaking</span>' if breaking
+                     else _hero_tag(lead))
         lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
-                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
+                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{lead_mark}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
                      f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
         # The Bottom Line rides shotgun: the day's summary as the hero square beside the
         # lead, replacing the standalone band lower on the page.
         bl_card = ""
-        bl_wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
-        if bl_wraps:
-            ed = bl_wraps[0]
+        if bl_anchor is not None:
+            ed = bl_anchor
             ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
             bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
@@ -848,7 +995,8 @@ def render_home(items, dateline):
 
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
-    body = f"""<main class="wrap"><section class="page">
+    # The live layer rides above the fold, before the editorial page begins.
+    body = scores_strip() + f"""<main class="wrap"><section class="page">
   {desk_html}
   {editions_html}
   {track_html}
@@ -1250,6 +1398,12 @@ def build():
         shutil.rmtree(PUBLISH)
     os.makedirs(os.path.join(PUBLISH, "articles"), exist_ok=True)
     _copytree(ASSETS, os.path.join(PUBLISH, "assets"))
+    # The live layer's snapshot ships too, under the default revalidating headers (it
+    # must NOT live under /assets/*, which Netlify caches for a week).
+    if os.path.exists(SCORES_PATH):
+        os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+        open(os.path.join(PUBLISH, "data", "scores.json"), "wb").write(
+            open(SCORES_PATH, "rb").read())
 
     def w(rel, html):
         path = os.path.join(PUBLISH, rel)

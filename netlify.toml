@@ -4,7 +4,9 @@
 # Python version, and headers. The generator (site_build.py) is standard-library only and
 # builds site/publish/ deterministically from committed content.
 [build]
-  command = "python3 site_build.py"
+  # Refresh the live-scores snapshot first (keyless league APIs; any fetch error falls
+  # back to the committed snapshot instead of failing the deploy), then build.
+  command = "python3 scores_pulse.py || true; python3 site_build.py"
   publish = "site/publish"
 
 [build.environment]
