@@ -63,6 +63,34 @@ def fetch_page(url, timeout=25):
         return None, f"fetch failed: {e}"
 
 
+def fetch_article_text(url, timeout=25):
+    """fetch_page + extract_article_text with a publisher-API fallback. ESPN article
+    pages are client-rendered shells (the HTML carries ~0 extractable prose), but the
+    body is served by ESPN's own public content API, the same call their page makes
+    in the browser. Honest fetch: their published endpoint, our UA, no disguises.
+    Returns (http_status, text); on total failure (None, error string)."""
+    code, page = fetch_page(url, timeout=timeout)
+    text = extract_article_text(page) if code == 200 else ""
+    if len(text) < 400:
+        m = re.search(r"espn\.com/.*?/id/(\d+)", url or "")
+        if m:
+            acode, abody = fetch_page(
+                "https://now.core.api.espn.com/v1/sports/news/" + m.group(1),
+                timeout=timeout)
+            if acode == 200:
+                try:
+                    arts = json.loads(abody).get("headlines") or []
+                    story = (arts[0].get("story") or "") if arts else ""
+                except Exception:
+                    story = ""
+                api_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", story)).strip()
+                if len(api_text) > len(text):
+                    return 200, api_text
+    if code != 200:
+        return code, page if isinstance(page, str) else ""
+    return code, text
+
+
 def extract_article_text(html_body, cap=6000):
     """Readability-lite article extraction, stdlib only. Prefers the <article> block if the
     page has one, else collects <p> contents; strips tags/scripts, unescapes entities, and

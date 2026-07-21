@@ -53,8 +53,8 @@ def fetch_sources(story):
         url = s.get("url") if isinstance(s, dict) else s
         if not url:
             continue
-        code, page = common.fetch_page(url)
-        text = common.extract_article_text(page) if code == 200 else ""
+        code, text = common.fetch_article_text(url)
+        text = text if code == 200 else ""
         texts.append({"url": url, "http_status": code, "source_text": text})
     return texts
 

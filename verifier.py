@@ -37,14 +37,13 @@ def gather_sources(story, mode):
                            "text_excerpt": "(skipped: replay mode is offline)"})
         return checks
     for url in (story.get("source_urls", []) or [])[:3]:
-        code, page = common.fetch_page(url)
+        code, text = common.fetch_article_text(url)
         if code == 200:
-            text = common.extract_article_text(page)
             checks.append({"url": url, "http_status": code, "source_text": text,
                            "text_excerpt": text[:1500]})
         else:
             checks.append({"url": url, "http_status": code, "source_text": "",
-                           "text_excerpt": page})
+                           "text_excerpt": text})
     return checks
 
 
