@@ -191,6 +191,16 @@ class Client:
         if model == "claude-fable-5":
             body["fallbacks"] = [{"model": "claude-opus-4-8"}]
             headers["anthropic-beta"] = "server-side-fallback-2026-06-01"
+        # ROOT CAUSE of the 2026-07-20/21 news-desk run failures: claude-sonnet-5 runs
+        # ADAPTIVE THINKING BY DEFAULT when the thinking param is omitted, and thinking
+        # bills as OUTPUT tokens inside max_tokens. On heavy prompts the model spent most
+        # of the budget thinking and truncated the JSON contract mid-object; the contract
+        # ladder's rescue rung is ALSO Sonnet, hit the same wall, and the stage failed
+        # closed. JSON stages need the whole budget for the payload, so thinking is
+        # explicitly disabled on Sonnet calls (this covers the rescue rung and wraprescue,
+        # the only Sonnet callers after the 2026-07-21 cost lockdown).
+        if model.startswith("claude-sonnet-5"):
+            body["thinking"] = {"type": "disabled"}
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)
