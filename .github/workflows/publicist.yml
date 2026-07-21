@@ -7,8 +7,10 @@
 name: Publicist (LinkedIn)
 
 on:
-  schedule:
-    - cron: "30 13 * * 2,4"   # Tue + Thu, 13:30 UTC = 9:30am Eastern (brand cadence, not firehose)
+    # DISABLED per strategy (2026-07-21): LinkedIn is currently the government-sales
+    # channel; the desk must not post there. Schedule removed; manual dispatch kept
+    # for the day this is re-enabled on explicit direction.
+    # - cron: "30 13 * * 2,4"
   workflow_dispatch: {}
 
 concurrency:

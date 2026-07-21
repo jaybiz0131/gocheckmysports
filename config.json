@@ -1,6 +1,7 @@
 {
   "brand": "GoCheckMySports",
   "tagline": "The score is a fact. The story gets checked.",
+  "MONETIZATION_RULE": "STANDING RULE (strategy desk, 2026-07-21): NO monetization of any kind (ads, AdSense, affiliate links) on any page fed by MLB StatsAPI, NHL api-web, or ESPN endpoints (scoreboards, content API) until a formal terms review of those feeds is completed. Publishing unmonetized content from them continues as-is (acceptable use). Monetizing pages built on these feeds without that review is the quiet terms violation that gets API access cut. Any session wiring ads or affiliates MUST check this rule first. The per-feed terms flags live in sources.league_apis.note.",
   "cadence": "daily-brief",
   "lookback_hours": 30,
   "top_n": 12,
@@ -36,7 +37,8 @@
     "note": "COST LOCKDOWN (owner directive 2026-07-21, supersedes the quality-launch A/B): crypto is the priority bet and this desk must never run a higher cost than the crypto desk. claude-haiku-4-5 on every desk stage, exactly like crypto; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, corroboration rules) are the quality floor, not the model. wraprescue keeps claude-sonnet-5 for the rare edition-failure path only, same as crypto. REVERSAL TRIGGER: real audience traction on this desk -> revisit the writer model.",
     "publicist": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 1500
+      "max_tokens": 1500,
+      "note": "Publicist DISABLED per strategy 2026-07-21: LinkedIn is currently the government-sales channel. Code kept in the repo, schedule removed from publicist.yml. Re-enable only on explicit direction."
     },
     "wrap": {
       "model": "claude-haiku-4-5",
@@ -127,7 +129,7 @@
     ],
     "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
     "league_apis": {
-      "note": "Official and quasi-official structured data endpoints, all keyless and verified live 2026-07-19. These are the desk's PRIMARY factual sources: the researcher and verifier treat league-published schedules, scores, and transactions as ground truth that outranks any outlet's retelling. balldontlie was dropped (now key-gated, 401). Upgrade path if the desk ever needs deeper stats: API-Sports (~$10/mo) or SportsDataIO, deliberately excluded from v1 under the free-only constraint.",
+      "note": "Official and quasi-official structured data endpoints, all keyless and verified live 2026-07-19. These are the desk's PRIMARY factual sources: the researcher and verifier treat league-published schedules, scores, and transactions as ground truth that outranks any outlet's retelling. balldontlie was dropped (now key-gated, 401). Upgrade path if the desk ever needs deeper stats: API-Sports (~$10/mo) or SportsDataIO, deliberately excluded from v1 under the free-only constraint. TERMS FLAGS: MLB StatsAPI is public but historically non-commercial terms; ESPN scoreboard/content endpoints are unofficial with no stated terms (revocable); NHL api-web is undocumented. See MONETIZATION_RULE at the top of this file: no ads or affiliate monetization on pages fed by these until a formal terms review.",
       "endpoints": [
         {
           "name": "MLB StatsAPI",

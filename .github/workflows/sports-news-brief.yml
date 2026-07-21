@@ -22,12 +22,14 @@ on:
     # Odd minutes on purpose: GitHub's scheduler drifts worst on :00/:30 (observed slots
     # firing 3-7 hours late). The watcher's slot-recovery re-fires any slot that still
     # misses its deadline.
-    # Three-slot day restored (owner directive 2026-07-21: consistent content volume
-    # outranks the slot economy; Sonnet stays on the word stages). Keep this list in
-    # sync with SLOT_DEADLINES in watcher.py.
-    - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
-    - cron: "8 17 * * *"    # Midday Update slot, 17:08 UTC = 1:08pm Eastern
-    - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
+    # Morning-first slots (owner directive 2026-07-21): content lands before the
+    # commute, refreshes late morning, wraps in the evening. Keep this list in sync
+    # with SLOT_DEADLINES in watcher.py, and keep each cron inside its edition's UTC
+    # window (wrap.py derives the edition from the hour: morning < 14:00 UTC,
+    # midday 14:00-20:00, evening 20:00-24:00).
+    - cron: "40 9 * * *"    # Morning Brief slot, 09:40 UTC = 5:40am Eastern
+    - cron: "38 15 * * *"   # Midday Update slot, 15:38 UTC = 11:38am Eastern
+    - cron: "38 23 * * *"   # Evening Wrap slot, 23:38 UTC = 7:38pm Eastern
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:
