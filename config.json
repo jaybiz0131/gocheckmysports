@@ -5,9 +5,9 @@
   "lookback_hours": 30,
   "top_n": 12,
   "budget": {
-    "max_tokens_per_run": 350000,
-    "max_usd_per_run": 4.0,
-    "note": "Hard fail-closed cap resized 2026-07-20 for the QUALITY-LAUNCH matrix: the inherited $1.50/220k cap was sized to the all-Haiku economy and cannot fit Sonnet on researcher/writer/wrap against a busy intake (the news sibling's first live run aborted fail-closed on it; this desk passed only on a one-story day). A typical quality-arm run should land ~$0.60-1.20; this cap is the runaway bound, not a target. The crypto control desk keeps its original Haiku-sized cap."
+    "max_tokens_per_run": 220000,
+    "max_usd_per_run": 1.5,
+    "note": "Hard fail-closed cap restored to the Haiku economy sizing (cost lockdown 2026-07-21, crypto parity); a typical full run lands ~$0.15-0.30. The top_n 12 volume setting adds only cents at Haiku prices."
   },
   "models": {
     "editor": {
@@ -19,29 +19,29 @@
       "max_tokens": 6000
     },
     "researcher": {
-      "model": "claude-sonnet-5",
+      "model": "claude-haiku-4-5",
       "max_tokens": 8000,
-      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. QUALITY LAUNCH (2026-07-19): Sonnet, because everything the writer says flows from this brief."
+      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
     },
     "writer": {
-      "model": "claude-sonnet-5",
+      "model": "claude-haiku-4-5",
       "max_tokens": 8000,
-      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. QUALITY LAUNCH (2026-07-19): Sonnet on the reader-facing prose."
+      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
     },
     "approver": {
       "model": "claude-haiku-4-5",
       "max_tokens": 5000,
       "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
     },
-    "note": "QUALITY-LAUNCH A/B (owner directive 2026-07-19, supersedes the inherited pre-revenue economy note): this desk launches with Sonnet on the three word-producing stages (researcher, writer, wrap) at a two-slot daily cadence, spending the same monthly budget on better stories instead of more of them. The crypto desk stays all-Haiku at three slots as the control; compare engagement and newsletter signups across the desks before changing either side. Judgment stages (editor, verifier, approver) stay Haiku: the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source rule for anything below primary) remain the accuracy floor regardless of model.",
+    "note": "COST LOCKDOWN (owner directive 2026-07-21, supersedes the quality-launch A/B): crypto is the priority bet and this desk must never run a higher cost than the crypto desk. claude-haiku-4-5 on every desk stage, exactly like crypto; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, corroboration rules) are the quality floor, not the model. wraprescue keeps claude-sonnet-5 for the rare edition-failure path only, same as crypto. REVERSAL TRIGGER: real audience traction on this desk -> revisit the writer model.",
     "publicist": {
       "model": "claude-haiku-4-5",
       "max_tokens": 1500
     },
     "wrap": {
-      "model": "claude-sonnet-5",
+      "model": "claude-haiku-4-5",
       "max_tokens": 5000,
-      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. QUALITY LAUNCH (2026-07-19): Sonnet; this is the desk's flagship voice."
+      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
     },
     "wrapcheck": {
       "model": "claude-haiku-4-5",
