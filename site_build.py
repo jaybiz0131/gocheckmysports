@@ -1202,8 +1202,10 @@ def render_standards(dateline):
      any kind. Nothing on this site is betting, gambling, financial, or legal advice.</p>
 
   <h2>Corrections</h2>
-  <p>When we get something wrong, we fix it and say so on the story. If you spot an error, tell us and
-     we will check it against the source. A correction is a feature of an honest desk, not a failure.</p>
+  <p>When we get something wrong, we fix it and say so on the story. If you spot an error, email
+     <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a> and we will check it
+     against the source. Corrections are made promptly and noted on the story itself. A correction
+     is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
   <p>Stories on this site are assembled with AI assistance and fact-checked by a separate,
@@ -1249,9 +1251,11 @@ def render_privacy(dateline):
   <p>Every story links its sources. Once you leave this site, the site you land on operates
      under its own privacy policy.</p>
 
-  <h2>Contact</h2>
+  <h2>Contact and data requests</h2>
   <p>Questions about this policy, your data, or the newsletter, including unsubscribe requests:
-     <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>. A human reads it.</p>
+     <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>. A human reads it.
+     If you want to know what we hold about you (for subscribers, that is your email address)
+     or want it deleted, email the same address and we will handle it promptly.</p>
 
   <h2>Changes</h2>
   <p>This policy changes only when the site's behavior changes, and the date below moves when it
@@ -1279,7 +1283,20 @@ def render_terms(dateline):
   <p>Stories and commentary are assembled from public third-party sources (official league
      data, public APIs, news outlets). Data can be delayed, revised, or wrong at the source.
      Scores and schedules can change on official review. Verify anything that matters against
-     primary sources before you act on it.</p>
+     primary sources before you act on it. When we get something wrong, we correct it and note
+     the correction on the story; our <a href="/standards.html">standards and corrections
+     policy</a> explains how to report an error.</p>
+
+  <h2>Links to other sites</h2>
+  <p>Every story links its sources, and those links lead to sites we do not control. We are not
+     responsible for the content, accuracy, availability, or policies of any external site.
+     A link is a citation, not an endorsement.</p>
+
+  <h2>Our content and yours</h2>
+  <p>The original text on this site (our stories, daily editions, and page copy) is
+     &copy; {YEAR} GoCheckMySports. You may quote it with attribution and a link. Headlines,
+     reporting, and data from the outlets and leagues we cite remain the property of their
+     owners; we summarize in our own words and link to the original rather than reproduce it.</p>
 
   <h2>No warranty</h2>
   <p>The site and its data are provided "as is" and "as available," without warranties of any
