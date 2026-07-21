@@ -707,12 +707,17 @@ SCORES_JS = (
     'if(!s||!window.fetch)return;var urls=[];'
     'try{urls=JSON.parse(s.getAttribute("data-feeds")||"[]")}catch(e){return}'
     'var last=0;'
-    'function apply(eid,as,hs,det,state){var t=s.querySelector(\'[data-eid="\'+eid+\'"]\');'
-    'if(!t||as==null||hs==null||state==="pre")return;'
-    'var sym=t.querySelector(".sym");if(!sym)return;'
-    'var rest=\'<span class="px">\'+as+"-"+hs+"</span>";'
-    'if(det)rest+=\'<span class="chg\'+(state==="in"?" up":"")+\'">\'+det+"</span>";'
-    't.innerHTML=sym.outerHTML+rest;if(state==="in")t.classList.add("live")}'
+    'function apply(eid,as,hs,det,state){'
+    'var g=s.querySelector(\'[data-eid="\'+eid+\'"]\');'
+    'if(!g||as==null||hs==null||state==="pre")return;'
+    'var rows=g.querySelectorAll(".sb-row"),st=g.querySelector(".sb-status");'
+    'if(rows.length<2)return;'
+    'rows[0].querySelector(".sb-score").textContent=as;'
+    'rows[1].querySelector(".sb-score").textContent=hs;'
+    'if(det&&st)st.textContent=det;'
+    'g.classList.toggle("live",state==="in");'
+    'if(state==="post"){var a=+as,h=+hs;'
+    'rows[0].classList.toggle("win",a>h);rows[1].classList.toggle("win",h>a)}}'
     'function refresh(){var n=Date.now();if(n-last<120000)return;last=n;'
     'urls.forEach(function(u){fetch(u).then(function(r){return r.json()})'
     '.then(function(d){if(d&&d.events){d.events.forEach(function(ev){'
@@ -733,11 +738,12 @@ SCORES_JS = (
 
 
 def scores_strip():
-    """The live layer: today's slate, baked from site/data/scores.json (scores_pulse.py
-    writes it at build; fail-open). League data, not news: it never passes the editorial
-    pipeline and says so. Empty or missing snapshot = no strip, no dead chrome. One
-    client fetch on load (CORS verified on both feeds) updates scores in place; baked
-    values stand on any failure. Nothing self-moves, so WCAG 2.2.2 never triggers."""
+    """The live layer, scoreboard edition (owner call 2026-07-21: game cards, not a
+    stock-style ticker). Baked from site/data/scores.json (scores_pulse.py; fail-open).
+    League data, not news: it never passes the editorial pipeline and says so. Empty or
+    missing snapshot = no bar, no dead chrome. One client fetch on load (CORS verified
+    on both feeds) updates the cards in place; baked values stand on any failure.
+    Nothing self-moves, so WCAG 2.2.2 never triggers; the rail is keyboard-scrollable."""
     try:
         snap = json.load(open(SCORES_PATH, encoding="utf-8"))
     except Exception:
@@ -745,32 +751,42 @@ def scores_strip():
     leagues = [l for l in snap.get("leagues", []) if l.get("games")]
     if not leagues:
         return ""
-    ticks, feeds = [], []
+    cards, feeds = [], []
+    many = len(leagues) > 1
     for l in leagues:
         feed = _CLIENT_FEEDS.get(l.get("league", ""))
         if feed:
             feeds.append(feed)
+        if many:
+            cards.append(f'<span class="sb-league">{esc(l.get("league", ""))}</span>')
         for g in l["games"]:
             aw, hm = esc(g.get("away", "")), esc(g.get("home", ""))
             a_s, h_s = g.get("away_score"), g.get("home_score")
             state = g.get("state", "pre")
-            if state == "pre" or a_s is None or h_s is None:
-                mid = f'<span class="px">{esc(str(g.get("detail", "")))}</span>'
-            else:
-                cls = "chg up" if state == "in" else "chg"
-                mid = (f'<span class="px">{a_s}-{h_s}</span>'
-                       f'<span class="{cls}">{esc(str(g.get("detail", "")))}</span>')
+            pre = state == "pre" or a_s is None or h_s is None
+            a_txt = "" if pre else str(a_s)
+            h_txt = "" if pre else str(h_s)
+            a_win = h_win = ""
+            if state == "post" and not pre:
+                a_win = " win" if a_s > h_s else ""
+                h_win = " win" if h_s > a_s else ""
             live_cls = " live" if state == "in" else ""
-            ticks.append(f'<span class="tick{live_cls}" data-eid="{esc(str(g.get("eid", "")))}">'
-                         f'<span class="sym">{aw} @ {hm}</span>{mid}</span>')
+            cards.append(
+                f'<span class="sb-game{live_cls}" data-eid="{esc(str(g.get("eid", "")))}">'
+                f'<span class="sb-row{a_win}"><span class="sb-team">{aw}</span>'
+                f'<span class="sb-score">{a_txt}</span></span>'
+                f'<span class="sb-row{h_win}"><span class="sb-team">{hm}</span>'
+                f'<span class="sb-score">{h_txt}</span></span>'
+                f'<span class="sb-status">{esc(str(g.get("detail", "")))}</span></span>')
     stamp = esc((snap.get("generated_utc") or "")[11:16])
-    return (f'<section class="markets scores" aria-label="Today\'s scores">'
-            f'<div class="wrap" tabindex="0" role="group" '
+    return (f'<section class="scorebar" aria-label="Today\'s scores">'
+            f'<div class="wrap"><span class="sb-lab">Scores</span>'
+            f'<div class="sb-rail" tabindex="0" role="group" '
             f'aria-label="Scores, scroll horizontally" id="scores-strip" '
             f"data-feeds='{json.dumps(feeds)}'>"
-            f'<span class="lab">Scores</span>{"".join(ticks)}'
-            f'<span class="note">League data, not news &middot; as of {stamp} UTC</span>'
-            f'</div></section>') + SCORES_JS
+            f'{"".join(cards)}</div>'
+            f'<span class="sb-note">League data, not news &middot; as of {stamp} UTC'
+            f'</span></div></section>') + SCORES_JS
 
 
 def bottom_line_card(items):

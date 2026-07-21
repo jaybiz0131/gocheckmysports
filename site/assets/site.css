@@ -96,8 +96,33 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .badge.breaking{background:#F8E3E1;color:var(--down)}
 @media (prefers-color-scheme:dark){.badge.breaking{background:#3A1512}}
 .badge.live{background:var(--verified-bg);color:var(--verified-fg)}
-.scores .tick.live .chg{color:var(--up)}
 .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.9}
+
+/* ---- scoreboard: the live layer as game cards, not a ticker (2026-07-21) ---------- */
+.scorebar{background:var(--card);border-bottom:1px solid var(--line)}
+.scorebar .wrap{padding-top:10px;padding-bottom:10px;display:flex;align-items:center;gap:14px}
+.sb-lab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);flex:none}
+.sb-rail{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:2px}
+.sb-rail::-webkit-scrollbar{display:none}
+.sb-rail:focus-visible{outline:2px solid var(--rule);outline-offset:2px;border-radius:6px}
+.sb-league{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);align-self:center;flex:none;margin:0 2px}
+.sb-game{flex:none;min-width:96px;padding:7px 10px 6px;border:1px solid var(--line);
+  border-radius:8px;background:var(--paper);display:flex;flex-direction:column;gap:1px}
+.sb-game.live{border-color:var(--up)}
+.sb-row{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
+  font-size:12.5px;line-height:1.4}
+.sb-team{color:var(--muted);font-weight:600}
+.sb-score{color:var(--muted);font-variant-numeric:tabular-nums}
+.sb-row.win .sb-team,.sb-row.win .sb-score{color:var(--ink);font-weight:700}
+.sb-game.live .sb-team,.sb-game.live .sb-score{color:var(--ink)}
+.sb-status{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--faint);margin-top:3px}
+.sb-game.live .sb-status{color:var(--up);font-weight:700}
+.sb-note{font-family:var(--mono);font-size:10px;color:var(--faint);flex:none;
+  max-width:130px;line-height:1.4;text-align:right}
+@media (max-width:640px){.sb-note{display:none}}
 
 /* ---- anchor desk strip (home only) ----------------------------------------- */
 .desk{border-bottom:1px solid var(--line)}

@@ -51,10 +51,12 @@ def emit(trigger, reason="", breaking=True):
 # edition, the one-edition-per-slot skip and dedup guards make it rerun-safe). A slot
 # that RAN but FAILED also leaves no edition, so transient failures self-retry too.
 SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
-    # Two-slot cadence (quality-launch directive 2026-07-19): morning + evening only.
-    # The midday slot was removed from the cron AND from this table together; listing a
-    # slot here that no cron serves would make the recovery logic re-fire it daily.
+    # Three-slot day restored (owner directive 2026-07-21). This table and the brief
+    # workflow's cron list MUST change together: a slot listed here with no cron would
+    # be re-fired daily by the recovery logic, and vice versa a cron slot missing here
+    # never self-heals on drift.
     ("morning-brief", 12 * 60 + 10, 17 * 60),        # cron 10:40; recover 12:10-17:00
+    ("afternoon-brief", 18 * 60 + 40, 23 * 60),      # cron 17:08; recover 18:40-23:00
     ("evening-brief", 23 * 60 + 45, 24 * 60),        # cron 23:08; recover 23:45-24:00
 )
 

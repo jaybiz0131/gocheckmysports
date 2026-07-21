@@ -22,11 +22,11 @@ on:
     # Odd minutes on purpose: GitHub's scheduler drifts worst on :00/:30 (observed slots
     # firing 3-7 hours late). The watcher's slot-recovery re-fires any slot that still
     # misses its deadline.
-    # Two-slot cadence (quality-launch directive 2026-07-19): morning + evening, with
-    # the token budget spent on stronger writing models instead of a midday run. The
-    # watcher still buys a breaking run when a real story clusters. Keep this list in
+    # Three-slot day restored (owner directive 2026-07-21: consistent content volume
+    # outranks the slot economy; Sonnet stays on the word stages). Keep this list in
     # sync with SLOT_DEADLINES in watcher.py.
     - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
+    - cron: "8 17 * * *"    # Midday Update slot, 17:08 UTC = 1:08pm Eastern
     - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
@@ -147,10 +147,32 @@ jobs:
           tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
           title = "Desk run failed: pipeline error (see run log)"
           hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          body = (f"A scheduled/breaking desk run failed: {os.environ['RUN_URL']}\n\n"
+                  "The watcher's slot recovery will retry the slot automatically; this flag "
+                  "exists so a repeating failure gets human eyes. Close after the next green run.")
+          # Self-diagnosing failures: include the run report (error + per-stage status) so
+          # nobody needs log access to see what broke.
+          try:
+              rep = json.load(open("out/run_report.json", encoding="utf-8"))
+              stages = "\n".join(
+                  f"- {s['stage']}: " + ("ok" if s["ok"] else f"FAILED {s.get('detail', '')}")
+                  for s in rep.get("stages", []))
+              body += (f"\n\nRun report\nstatus: {rep.get('status')}\n"
+                       f"error: `{str(rep.get('error', ''))[:600]}`\n{stages}")
+          except Exception as e:
+              body += f"\n\n(run report unavailable: {e})"
           req = urllib.request.Request(
               f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
-          if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
-              print("flag issue already open; not duplicating"); raise SystemExit
+          existing = next((i for i in json.load(urllib.request.urlopen(req))
+                           if i["title"] == title), None)
+          if existing:
+              # Repeat failure: comment the fresh report on the open flag instead of
+              # going silent (a dedupe that hides new evidence helps nobody).
+              req = urllib.request.Request(existing["comments_url"],
+                  data=json.dumps({"body": body}).encode(), headers=hdrs)
+              urllib.request.urlopen(req)
+              print("flag issue already open; posted the fresh run report as a comment")
+              raise SystemExit
           body = (f"A scheduled/breaking desk run failed: {os.environ['RUN_URL']}\n\n"
                   "The watcher's slot recovery will retry the slot automatically; this flag "
                   "exists so a repeating failure gets human eyes. Close after the next green run.")
