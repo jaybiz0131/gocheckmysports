@@ -27,5 +27,37 @@
   "date": "2026-07-21",
   "approved": 8,
   "rejected": []
+ },
+ {
+  "date": "2026-07-21",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c122",
+    "headline": "Kyle Bradish Extension: Source Material Insufficient",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a rejection memo, not a story. It states 'This story cannot proceed to draft without source material containing verified facts.' A draft that declares itself un-draftable should not be submitted as a draft. The brief correctly identifies the source as corrupted (thin: true, no data_points), but the writer's job is to flag this to the desk before submitting prose\u2014not to submit a meta-commentary in the draft slot. This is a process failure, not a story approval decision."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Proposed changes to Protect College Sports Act would allow conference expansion",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Revised language in the Protect College Sports Act would permit Power Four conference expansion' as a settled fact, but the brief data_point only confirms 'Power Four leagues would have a pathway to expand under the revised proposal, per negotiations' \u2014 this is reported language from ongoing negotiations, not finalized policy. The draft presents it with more certainty than the source warrants.",
+     "The draft acknowledges that 'The source reporting does not detail the specific restrictions or conditions' but then proceeds to treat the expansion permission as established fact. The brief's bear_case explicitly flags that 'the source text provided is truncated and does not contain the substantive reporting on the specific restrictions or conditions on Power Four expansion.' The draft should flag this as announced-not-verified or unconfirmed rather than stating it as direct fact."
+    ]
+   },
+   {
+    "id": "c082",
+    "headline": "Paige Bueckers ruled out for Liberty game after collision with Ogwumike, clears concussion protocol",
+    "category": "compliance",
+    "reasons": [
+     "Health/injury claim 'Bueckers tested negative for concussion' and 'cleared of concussion' are presented as definitive medical fact, but the brief data_point states only 'Bueckers avoided concussion in the collision' with confidence 'reported'\u2014a weaker formulation. The draft elevates this to a medical test result not confirmed in the brief's sourced material.",
+     "The draft states 'she was cleared of concussion' as settled fact, implying official medical clearance, but the brief does not confirm the mechanism or authority of that clearance. This exceeds the sourced reporting confidence level for a health/medical claim."
+    ]
+   }
+  ]
  }
 ]
