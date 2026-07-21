@@ -42,7 +42,7 @@
     },
     "wrap": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 5000,
+      "max_tokens": 8000,
       "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
     },
     "wrapcheck": {
@@ -57,7 +57,7 @@
     },
     "wraprescue": {
       "model": "claude-sonnet-5",
-      "max_tokens": 5000,
+      "max_tokens": 8000,
       "note": "The Daily Edition's second-chance generator: when the Haiku edition fails its trace check, the corrective rewrite runs here."
     }
   },
@@ -67,7 +67,8 @@
       {
         "name": "ESPN Top Lines",
         "tier": "major",
-        "url": "https://www.espn.com/espn/rss/news"
+        "url": "https://www.espn.com/espn/rss/news",
+        "fallback_api": "https://now.core.api.espn.com/v1/sports/news?limit=40"
       },
       {
         "name": "ESPN NFL",

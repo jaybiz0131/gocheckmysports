@@ -171,7 +171,9 @@ def espn_api_fallback(f):
     the same stories as JSON. Emits the exact item shape parse_feed does."""
     data = fetch(f["fallback_api"], is_json=True)
     items = []
-    for art in data.get("articles", []):
+    # league endpoints (site.api) key the list "articles"; the general Top Lines
+    # endpoint (now.core) keys it "headlines" with the same item shape
+    for art in (data.get("articles") or data.get("headlines") or []):
         url = ((art.get("links") or {}).get("web") or {}).get("href") or ""
         title = (art.get("headline") or "").strip()
         if not url or not title:

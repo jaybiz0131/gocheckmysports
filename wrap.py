@@ -239,6 +239,14 @@ def main():
         for k in ("hook_title", "dek", "body", "bottom_line"):
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
+        # Dashes are mechanical house style and destyle() strips them at build time
+        # anyway; scrub here so an otherwise-sound edition is not burned on punctuation
+        # (the belt stays as the backstop). Substance belts (advice, lane, length)
+        # still require a real rewrite.
+        from site_build import destyle
+        for k in ("hook_title", "dek", "body", "bottom_line", "key_takeaway"):
+            if str(o.get(k) or "").strip():
+                o[k] = destyle(str(o[k]))
         probs = belts(str(o.get("body", "")), str(o.get("dek", "")),
                       str(o.get("bottom_line", "")))
         if probs:

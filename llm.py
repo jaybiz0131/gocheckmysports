@@ -212,6 +212,12 @@ class Client:
         text = "".join(parts).strip()
         if not text:
             raise LLMError(f"{stage}: empty model response -> failing closed")
+        # A max_tokens stop means the tail of the payload is missing; as a ContractError
+        # it climbs the retry ladder with the cause named instead of surfacing later as
+        # an opaque parse failure.
+        if resp_json.get("stop_reason") == "max_tokens":
+            raise ContractError(f"{stage}: output hit the max_tokens cap and was cut off; "
+                                f"return the same JSON more tersely")
         return text
 
     def _post_with_retry(self, stage, req, attempts=4):
@@ -258,10 +264,15 @@ def extract_json(text):
     in prose or a ```json fence despite instructions; this recovers the object defensively."""
     if not text:
         return None
-    try:
-        return json.loads(text)
-    except Exception:
-        pass
+    # strict=False: edition bodies carry real newlines inside JSON strings (build_item
+    # splits body on \n), and pretty-printing models emit them unescaped; the default
+    # strict parser rejects any control character inside a string and burned complete,
+    # well-formed wraprescue editions (2026-07-21).
+    for strict in (True, False):
+        try:
+            return json.loads(text, strict=strict)
+        except Exception:
+            pass
     start = text.find("{")
     while start != -1:
         depth = 0
@@ -285,7 +296,7 @@ def extract_json(text):
                     depth -= 1
                     if depth == 0:
                         try:
-                            return json.loads(text[start:i + 1])
+                            return json.loads(text[start:i + 1], strict=False)
                         except Exception:
                             break
         start = text.find("{", start + 1)
