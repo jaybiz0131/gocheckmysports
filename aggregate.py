@@ -163,6 +163,32 @@ def parse_feed(xml_bytes, source_name, tier):
     return items
 
 
+def espn_api_fallback(f):
+    """ESPN's RSS host serves HTTP 202 bot challenges to datacenter IPs (every GitHub
+    runner, so every scheduled run), while ESPN's own API tier serves everyone; the
+    scoreboards and the article-text fallback already rely on it. When an ESPN feed
+    fails, its configured fallback_api (the matching league news endpoint) supplies
+    the same stories as JSON. Emits the exact item shape parse_feed does."""
+    data = fetch(f["fallback_api"], is_json=True)
+    items = []
+    for art in data.get("articles", []):
+        url = ((art.get("links") or {}).get("web") or {}).get("href") or ""
+        title = (art.get("headline") or "").strip()
+        if not url or not title:
+            continue
+        ts = parse_ts(art.get("published") or "")
+        items.append({
+            "headline": title,
+            "source": f["name"],
+            "source_tier": f["tier"],
+            "url": url,
+            "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
+            "_ts": ts,
+            "snippet": (art.get("description") or "").strip()[:400],
+        })
+    return items
+
+
 def fetch(url, is_json=False):
     req = urllib.request.Request(url, headers={
         "User-Agent": UA, "Accept": "application/json" if is_json else "application/rss+xml, application/xml, text/xml, */*"})
@@ -203,6 +229,18 @@ def gather_rss(cfg, fixture=None):
             ok_sources += 1
             print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s){trimmed}{gate_note}")
         except Exception as e:
+            if f.get("fallback_api"):
+                try:
+                    got = espn_api_fallback(f)
+                    got, gated = apply_keyword_gate(got, f, watchlist)
+                    cap = cfg["sources"].get("max_items_per_feed", 40)
+                    got = got[:cap]
+                    items += got
+                    ok_sources += 1
+                    print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s) via API fallback (RSS failed: {e})")
+                    continue
+                except Exception as e2:
+                    gh("warning", f"aggregate: source '{f['name']}' API fallback also failed: {e2}")
             gh("warning", f"aggregate: source '{f['name']}' failed ({f['url']}): {e} -- skipped, run continues")
     return items, ok_sources, len(feeds)
 

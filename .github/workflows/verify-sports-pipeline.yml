@@ -30,6 +30,10 @@ jobs:
 
   sources:
     name: Layer 2 source check (notify, non-blocking)
+    # Schedule/manual only (2026-07-21): running this on every push meant every busy
+    # dev day emailed the owner once per push for the same known runner-IP feed blocks.
+    # Pushes keep the Layer 1 hard gate; live-feed health is a weekly signal.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       issues: write

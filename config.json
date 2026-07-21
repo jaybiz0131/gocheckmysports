@@ -72,22 +72,30 @@
       {
         "name": "ESPN NFL",
         "tier": "major",
-        "url": "https://www.espn.com/espn/rss/nfl/news"
+        "url": "https://www.espn.com/espn/rss/nfl/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news",
+        "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
       },
       {
         "name": "ESPN NBA",
         "tier": "major",
-        "url": "https://www.espn.com/espn/rss/nba/news"
+        "url": "https://www.espn.com/espn/rss/nba/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news",
+        "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
       },
       {
         "name": "ESPN MLB",
         "tier": "major",
-        "url": "https://www.espn.com/espn/rss/mlb/news"
+        "url": "https://www.espn.com/espn/rss/mlb/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news",
+        "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
       },
       {
         "name": "ESPN NHL",
         "tier": "major",
-        "url": "https://www.espn.com/espn/rss/nhl/news"
+        "url": "https://www.espn.com/espn/rss/nhl/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/news",
+        "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
       },
       {
         "name": "BBC Sport",
