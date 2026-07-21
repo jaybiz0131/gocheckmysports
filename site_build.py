@@ -44,7 +44,7 @@ FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmyspo
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmysports.com"         # canonical origin for canonical/og:url/sitemap
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
-CF_ANALYTICS_TOKEN = ""  # Cloudflare Web Analytics site token for gocheckmysports.com; empty renders no beacon
+CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analytics site token for gocheckmysports.com; empty renders no beacon
 DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
         "get the stories right and keep the facts honest. Scores are facts; stories get "
         "checked against their sources before they run. Never betting advice.")
