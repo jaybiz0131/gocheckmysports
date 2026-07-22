@@ -339,9 +339,17 @@ def _contract_ladder_canary(cfg):
         open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
         _check(watcher.missed_slot(noon, td) is None, fails,
                "watcher recovery: fired despite the edition existing")
-        early = _dt.datetime(2026, 7, 15, 11, 0, tzinfo=_dt.timezone.utc)
+        early = _dt.datetime(2026, 7, 15, 10, 30, tzinfo=_dt.timezone.utc)
         _check(watcher.missed_slot(early, td) is None, fails,
                "watcher recovery: fired before the deadline")
+        # (f) closed-window audit: a served window stays quiet after it closes; a missed
+        # evening is only checkable the next morning and must be reported then
+        afternoon = _dt.datetime(2026, 7, 15, 15, 0, tzinfo=_dt.timezone.utc)
+        _check("2026-07-15-morning-brief" not in watcher.missed_windows(afternoon, td),
+               fails, "missed-edition audit: flagged a window whose edition exists")
+        next_morning = _dt.datetime(2026, 7, 16, 9, 0, tzinfo=_dt.timezone.utc)
+        _check("2026-07-15-evening-brief" in watcher.missed_windows(next_morning, td),
+               fails, "missed-edition audit: yesterday's missed evening not detected")
         evening = _dt.datetime(2026, 7, 15, 23, 50, tzinfo=_dt.timezone.utc)
         _check(watcher.missed_slot(evening, td) == "evening-brief", fails,
                "watcher recovery: missed evening slot not detected")

@@ -2,6 +2,232 @@
   "brand": "GoCheckMySports",
   "tagline": "The score is a fact. The story gets checked.",
   "MONETIZATION_RULE": "STANDING RULE (strategy desk, 2026-07-21): NO monetization of any kind (ads, AdSense, affiliate links) on any page fed by MLB StatsAPI, NHL api-web, or ESPN endpoints (scoreboards, content API) until a formal terms review of those feeds is completed. Publishing unmonetized content from them continues as-is (acceptable use). Monetizing pages built on these feeds without that review is the quiet terms violation that gets API access cut. Any session wiring ads or affiliates MUST check this rule first. The per-feed terms flags live in sources.league_apis.note.",
+  "EVENT_CALENDAR_NOTE": "Owner directive 2026-07-21: marquee event days are staffed by default. Windows are deliberately approximate (they bias the editor's staffing, never facts); refresh the list each season. Injected into the editor prompt by editor.active_events().",
+  "event_calendar": [
+    {
+      "name": "MLB pennant races (stretch run)",
+      "start": "2026-08-15",
+      "end": "2026-09-27",
+      "keywords": [
+        "pennant",
+        "wild card",
+        "division race",
+        "clinch"
+      ]
+    },
+    {
+      "name": "MLB postseason and World Series",
+      "start": "2026-09-29",
+      "end": "2026-11-01",
+      "keywords": [
+        "postseason",
+        "playoffs",
+        "World Series",
+        "ALCS",
+        "NLCS"
+      ]
+    },
+    {
+      "name": "NFL preseason",
+      "start": "2026-08-06",
+      "end": "2026-09-03",
+      "keywords": [
+        "preseason",
+        "roster cuts",
+        "training camp"
+      ]
+    },
+    {
+      "name": "NFL kickoff week",
+      "start": "2026-09-10",
+      "end": "2026-09-15",
+      "keywords": [
+        "kickoff",
+        "week 1",
+        "season opener"
+      ]
+    },
+    {
+      "name": "College football kickoff",
+      "start": "2026-08-29",
+      "end": "2026-09-08",
+      "keywords": [
+        "college football",
+        "week zero",
+        "week 1"
+      ]
+    },
+    {
+      "name": "US Open tennis",
+      "start": "2026-08-31",
+      "end": "2026-09-13",
+      "keywords": [
+        "US Open",
+        "Flushing Meadows"
+      ]
+    },
+    {
+      "name": "Ryder Cup week",
+      "start": "2026-09-21",
+      "end": "2026-09-27",
+      "keywords": [
+        "Ryder Cup",
+        "Adare Manor"
+      ]
+    },
+    {
+      "name": "NHL opening week",
+      "start": "2026-10-06",
+      "end": "2026-10-13",
+      "keywords": [
+        "opening night",
+        "season opener",
+        "NHL"
+      ]
+    },
+    {
+      "name": "NBA opening week",
+      "start": "2026-10-20",
+      "end": "2026-10-27",
+      "keywords": [
+        "opening night",
+        "season opener",
+        "NBA"
+      ]
+    },
+    {
+      "name": "NFL Thanksgiving games",
+      "start": "2026-11-26",
+      "end": "2026-11-27",
+      "keywords": [
+        "Thanksgiving"
+      ]
+    },
+    {
+      "name": "College Football Playoff",
+      "start": "2026-12-18",
+      "end": "2027-01-20",
+      "keywords": [
+        "CFP",
+        "playoff",
+        "national championship"
+      ]
+    },
+    {
+      "name": "NHL Winter Classic",
+      "start": "2027-01-01",
+      "end": "2027-01-02",
+      "keywords": [
+        "Winter Classic"
+      ]
+    },
+    {
+      "name": "NFL playoffs",
+      "start": "2027-01-09",
+      "end": "2027-02-01",
+      "keywords": [
+        "playoffs",
+        "wild card",
+        "divisional",
+        "conference championship"
+      ]
+    },
+    {
+      "name": "Australian Open",
+      "start": "2027-01-18",
+      "end": "2027-01-31",
+      "keywords": [
+        "Australian Open",
+        "Melbourne"
+      ]
+    },
+    {
+      "name": "Super Bowl week",
+      "start": "2027-02-05",
+      "end": "2027-02-15",
+      "keywords": [
+        "Super Bowl"
+      ]
+    },
+    {
+      "name": "NBA All-Star Weekend",
+      "start": "2027-02-12",
+      "end": "2027-02-15",
+      "keywords": [
+        "All-Star"
+      ]
+    },
+    {
+      "name": "NCAA March Madness",
+      "start": "2027-03-16",
+      "end": "2027-04-06",
+      "keywords": [
+        "March Madness",
+        "NCAA tournament",
+        "Final Four"
+      ]
+    },
+    {
+      "name": "The Masters",
+      "start": "2027-04-08",
+      "end": "2027-04-11",
+      "keywords": [
+        "Masters",
+        "Augusta"
+      ]
+    },
+    {
+      "name": "NBA and NHL playoffs open",
+      "start": "2027-04-17",
+      "end": "2027-05-01",
+      "keywords": [
+        "playoffs",
+        "first round"
+      ]
+    },
+    {
+      "name": "PGA Championship",
+      "start": "2027-05-20",
+      "end": "2027-05-23",
+      "keywords": [
+        "PGA Championship"
+      ]
+    },
+    {
+      "name": "Stanley Cup Final and NBA Finals window",
+      "start": "2027-06-01",
+      "end": "2027-06-22",
+      "keywords": [
+        "Stanley Cup",
+        "NBA Finals"
+      ]
+    },
+    {
+      "name": "US Open golf",
+      "start": "2027-06-17",
+      "end": "2027-06-20",
+      "keywords": [
+        "US Open"
+      ]
+    },
+    {
+      "name": "Wimbledon",
+      "start": "2027-06-28",
+      "end": "2027-07-11",
+      "keywords": [
+        "Wimbledon"
+      ]
+    },
+    {
+      "name": "The Open Championship",
+      "start": "2027-07-15",
+      "end": "2027-07-18",
+      "keywords": [
+        "Open Championship",
+        "claret jug"
+      ]
+    }
+  ],
   "cadence": "daily-brief",
   "lookback_hours": 30,
   "top_n": 12,

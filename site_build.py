@@ -544,6 +544,29 @@ def render_article(item, all_items=None):
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
         rel_html = f'<div class="related"><h2>Related stories</h2><ul>{rel_html}</ul></div>'
+    ver = item.get("verification") or {}
+    verdict = ver.get("verdict") or item.get("verdict")
+    trail = ""
+    if verdict and srcs:
+        n_cited = ver.get("sources_cited") or len(srcs)
+        live = ver.get("sources_live_checked")
+        when = fmt_date((ver.get("checked_utc") or item.get("published_utc")
+                         or item.get("date") or "")[:10])
+        if verdict == "VERIFIED":
+            head = ("Checked and verified by the desk's automated verifier and "
+                    "independent approver")
+        else:
+            head = "Reviewed by the desk and published with a human editor's take"
+        if live:
+            detail = (f"{live} of {n_cited} cited source pages were fetched live and "
+                      f"read against the story's claims")
+        else:
+            detail = (f"the story cites {n_cited} source"
+                      + ("s" if n_cited != 1 else "") + ", linked below")
+        trail = (f'<div class="checktrail"><span class="lab">How this story was checked'
+                 f'</span><p>{head} on {esc(when)}: {detail}. '
+                 f'<a href="/method.html">How our checks work</a> &middot; '
+                 f'<a href="/standards.html">Report an error</a>.</p></div>')
     author = esc(item.get("author", "The GoCheckMySports Desk"))
     body = f"""<main class="wrap narrow">
   <article class="article">
@@ -559,6 +582,7 @@ def render_article(item, all_items=None):
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
+    {trail}
     {src_html}
     {rel_html}
     <p class="nfa">{esc(NFA)}</p>
@@ -1343,6 +1367,58 @@ def render_thanks(dateline):
                  path="/thanks.html", noindex=True)
 
 
+
+# ---- publish-door helpers ----------------------------------------------------
+
+OUTLET_NAMES = {
+    "espn.com": "ESPN",
+    "bbc.co.uk": "BBC Sport", "bbc.com": "BBC Sport",
+    "cbssports.com": "CBS Sports",
+    "theguardian.com": "Guardian Sport",
+    "sports.yahoo.com": "Yahoo Sports", "yahoo.com": "Yahoo Sports",
+    "mlb.com": "MLB.com",
+    "nhl.com": "NHL.com",
+    "thesportsdb.com": "TheSportsDB",
+}
+
+
+def outlet_name(url):
+    """Display name for a cited URL (the writer hands ingest bare URLs; a Sources list
+    of raw URLs is unreadable and hides the outlet). Falls back to the domain."""
+    from urllib.parse import urlparse
+    host = (urlparse(url).netloc or "").lower()
+    host = host[4:] if host.startswith("www.") else host
+    for dom, name in OUTLET_NAMES.items():
+        if host == dom or host.endswith("." + dom):
+            return name
+    return host or url
+
+
+def story_shape_problems(item):
+    """Deterministic publish-door belt: a malformed story is held with a named reason,
+    never silently published. Soft gaps (key_fact, bottom_line) only warn: a thin but
+    sound story still ships."""
+    hold, warn = [], []
+    for k in ("title", "dek"):
+        if not str(item.get(k) or "").strip():
+            hold.append(f"empty {k}")
+    if item.get("title") == "Untitled":
+        hold.append("placeholder title")
+    if not [x for x in (item.get("body") or []) if str(x).strip()]:
+        hold.append("empty body")
+    if not item.get("sources"):
+        hold.append("no sources")
+    import re as _re
+    if not _re.match(r"^\d{4}-\d{2}-\d{2}$", str(item.get("date") or "")):
+        hold.append(f"malformed date {item.get('date')!r}")
+    if not _re.match(r"^[a-z0-9-]{8,}$", str(item.get("slug") or "")):
+        hold.append(f"malformed slug {item.get('slug')!r}")
+    for k in ("key_fact", "bottom_line"):
+        if not str(item.get(k) or "").strip():
+            warn.append(f"empty {k}")
+    return hold, warn
+
+
 # ---- ingest approved payloads -----------------------------------------------
 
 def ingest():
@@ -1366,6 +1442,18 @@ def ingest():
         rank_map = {r["id"]: i + 1 for i, r in enumerate(ranked)}
     except Exception:
         pass
+    # verification inputs for the per-story trail (same run, already on disk)
+    verifier_reasons, source_checks = {}, {}
+    try:
+        verifier_reasons = {v["id"]: v for v in json.load(
+            open(os.path.join(HERE, "out", "verifier.json"), encoding="utf-8"))["verdicts"]}
+    except Exception:
+        pass
+    try:
+        source_checks = json.load(open(os.path.join(HERE, "out", "source_texts.json"),
+                                       encoding="utf-8"))
+    except Exception:
+        pass
     n = 0
     for fn in sorted(os.listdir(PUBLISHED)):
         if not fn.endswith(".json"):
@@ -1377,7 +1465,7 @@ def ingest():
         slug = slugify(title)
         body = art.get("body", "")
         paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()] or [body]
-        srcs = [{"title": u, "url": u} for u in art.get("sources", [])]
+        srcs = [{"title": outlet_name(u), "url": u} for u in art.get("sources", [])]
         title = destyle(title)
         # the writer model sometimes slips a process note about the review status into the
         # copy ("Note: flagged for human review."); the article is the finished story only,
@@ -1399,6 +1487,23 @@ def ingest():
             "bottom_line": scrub(art.get("bottom_line", "")),
             "human_take": destyle(art.get("human_take", "")), "body": paras, "sources": srcs,
         }
+        checks = source_checks.get(rec.get("id")) or []
+        live = sum(1 for c in checks
+                   if c.get("http_status") == 200 and (c.get("source_text") or "").strip())
+        item["verification"] = {
+            "verdict": rec.get("verdict"),
+            "checked_utc": published_utc,
+            "sources_cited": len(srcs),
+            "sources_live_checked": live,
+        }
+        hold, warn = story_shape_problems(item)
+        if hold:
+            print(f"::warning::ingest: story {rec.get('id')} HELD, not published: "
+                  + "; ".join(hold))
+            continue
+        if warn:
+            print(f"::warning::ingest: story {rec.get('id')} shipped with gaps: "
+                  + "; ".join(warn))
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")

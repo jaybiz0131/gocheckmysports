@@ -30,6 +30,14 @@ on:
     - cron: "40 9 * * *"    # Morning Brief slot, 09:40 UTC = 5:40am Eastern
     - cron: "38 15 * * *"   # Midday Update slot, 15:38 UTC = 11:38am Eastern
     - cron: "38 23 * * *"   # Evening Wrap slot, 23:38 UTC = 7:38pm Eastern
+    # RETRY TICKS (2026-07-21: the midday slot drifted 4.7h and the whole afternoon
+    # went dark). Each retry is inside its slot's edition window and COST-NEUTRAL:
+    # the slot guard below stands the run down before any model call when the slot's
+    # edition already exists, so a retry only spends when the primary was skipped or
+    # failed. The evening slot has no retry (its window ends at midnight; the
+    # watcher's 23:48 recovery covers it).
+    - cron: "55 10 * * *"   # Morning retry
+    - cron: "10 17 * * *"   # Midday retry
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:
@@ -72,8 +80,35 @@ jobs:
             echo "::notice::ANTHROPIC_API_KEY not set; ran the offline canary only. Add the secret to enable the live daily brief."
           fi
 
+      # SLOT GUARD: on schedule ticks (primary or retry), if this slot's edition is
+      # already on disk the day is served and the run stands down before any model
+      # call. Manual dispatch always runs; breaking runs always run (they regenerate
+      # the slot edition on purpose); watcher recovery fires only when the edition is
+      # missing, so it always passes.
+      - name: Slot guard (a retry tick stands down when the slot is already served)
+        id: guard
+        env:
+          EVENT: ${{ github.event_name }}
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+        run: |
+          python3 - <<'PYEOF'
+          import datetime, os
+          serve = "true"
+          if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
+              now = datetime.datetime.now(datetime.timezone.utc)
+              slug = ("morning-brief" if now.hour < 14 else
+                      "afternoon-brief" if now.hour < 20 else "evening-brief")
+              if os.path.exists(os.path.join("site", "content",
+                                             f"{now.date().isoformat()}-{slug}.json")):
+                  serve = "false"
+                  print(f"::notice::Slot guard: {slug} is already published today; "
+                        f"standing down before any model call (retry ticks are free "
+                        f"when the primary served the slot).")
+          open(os.environ["GITHUB_OUTPUT"], "a").write(f"serve={serve}\n")
+          PYEOF
+
       - name: Run the daily brief (live; Stages 1-5 only, never publishes)
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 run.py --mode live
@@ -82,7 +117,7 @@ jobs:
       # is the gate. VERIFIED stories auto-publish; NEEDS-HUMAN-REVIEW stays queued for a
       # human take; REJECT never ships. The push below auto-deploys via Netlify.
       - name: Autopilot publish of VERIFIED stories
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           # breaking runs enforce the additive two-source gate (single-source holds unless
           # headline-labeled unconfirmed); scheduled runs pass '0'
@@ -94,7 +129,7 @@ jobs:
       # story cleared the gates (the whole point: never a zero-content slot). Fail-open
       # for the brief: an edition failure warns loudly but never blocks story publishing.
       - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # a breaking run REGENERATES the current slot's edition so The Bottom Line
@@ -104,7 +139,7 @@ jobs:
 
       - name: Commit and push published content (deploys the site)
         id: publish
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: |
           git config user.name "Jack Berno"
           git config user.email "297991518+jaybiz0131@users.noreply.github.com"

@@ -21,6 +21,18 @@ import llm as llmlib
 EDITOR_MAX_CLUSTERS = 120
 
 
+def active_events(today=None):
+    """Marquee windows from config event_calendar active today. The calendar is the
+    staffing default (owner directive 2026-07-21): an event day gets its event covered
+    even when transactions dominate the intake. Windows are approximate on purpose;
+    they bias staffing, never facts."""
+    import datetime as _dt
+    cfg = common.load_config()
+    today = today or _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    return [e for e in cfg.get("event_calendar", [])
+            if e.get("start", "") <= today <= e.get("end", "")]
+
+
 def build_user(items, top_n):
     pool = items["clusters"]
     if len(pool) > EDITOR_MAX_CLUSTERS:
@@ -61,9 +73,16 @@ def build_user(items, top_n):
               "ranks ONLY as a genuine update, and its why_it_matters must say what "
               "changed):\n" + "\n".join(f"- {t}" for t in sorted(recent)[:25]) + "\n\n")
              if recent else "\n\n")
+    events = active_events()
+    cal = ""
+    if events:
+        cal = ("MARQUEE EVENTS ON TODAY'S CALENDAR (staffed by default; if the intake "
+               "carries stories on any of these, at least one ranked slot covers the "
+               "event itself, not just transactions):\n"
+               + "\n".join(f"- {e['name']}" for e in events) + "\n\n")
     return (f"Here are {len(clusters)} deduplicated story clusters from the last "
             f"{items['_meta'].get('lookback_hours', '?')} hours. Rank the top {top_n} real "
-            f"stories and reject the shill." + shelf + json.dumps(clusters, indent=2))
+            f"stories and reject the shill." + shelf + cal + json.dumps(clusters, indent=2))
 
 
 def validate(obj, top_n):

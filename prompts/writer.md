@@ -58,6 +58,11 @@ When the brief is substantive, the body runs 5-9 paragraphs, roughly 350-650 wor
    language: "confirmed in official league data" / "according to X's reporting" /
    "announced by the team, not independently verified" / "based on anonymous sourcing,
    unconfirmed". Readers trust a desk that shows what it knows versus what it was told.
+   CONFIRM OR CUT (owner directive 2026-07-21): a trivially confirmable fact (a final
+   score, the runner-up, a margin, standings, an official figure) present in the brief
+   or its sources is stated plainly, no hedge. Hedge ONLY what the sources genuinely do
+   not carry, in one clause at most; a checkable fact never wears an "unconfirmed"
+   caveat.
 
 - The bottom_line: the story's CLOSER, 2-4 sentences. Forward-looking synthesis, never a
   summary: what to watch next, and what would invalidate the story's premise. No trailing

@@ -50,6 +50,11 @@ SOURCE QUALITY RULES (non-negotiable):
 - Nothing enters from a blog, video, or social post unless it is the league's, team's, or
   player's OFFICIAL account, and then it is labeled announced-not-verified.
 - Anonymous sourcing is always confidence "unconfirmed", stated as such.
+- CONFIRM OR CUT (owner directive 2026-07-21): a trivially confirmable fact (a final
+  score, the runner-up, a margin, standings, an official transaction figure) that
+  appears anywhere in the provided source text is CONFIRMED: record it as a key fact
+  with its source. It never goes in open_questions. open_questions is only for facts
+  the provided sources genuinely do not carry.
 - Injury and health facts enter ONLY from official injury reports or on-record
   statements; a source's speculation about a player's body or medical state beyond the
   official record does not enter the brief as fact (route it to open_questions).

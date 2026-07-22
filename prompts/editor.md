@@ -45,6 +45,12 @@ or league significance, most important first:
 Prefer stories with more corroboration and higher-tier sources. Never invent facts; rank
 only what is present in the input.
 
+MARQUEE EVENTS ARE STAFFED BY DEFAULT (owner directive 2026-07-21): when the user message
+lists active calendar events and the intake carries stories about them, at least one
+ranked slot covers the event itself: the games, the results, the moments. Transactions
+and league business never crowd the day's marquee event off the front page. If the intake
+has no coverage of an active event, say so in your notes rather than inventing any.
+
 SHOW YOUR WORK so the human editor-in-chief can audit every call.
 
 Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:

@@ -18,6 +18,7 @@ on:
 
 permissions:
   contents: read
+  issues: write   # the missed-edition audit opens a flag issue
 
 jobs:
   watch:
@@ -37,6 +38,41 @@ jobs:
           WATCH_FRESH_MIN: ${{ vars.WATCH_FRESH_MIN }}
           WATCH_COOLDOWN_MIN: ${{ vars.WATCH_COOLDOWN_MIN }}
         run: python3 watcher.py
+
+      # A window that closed with no edition is a permanently missed slot the recovery
+      # net failed to save. One open issue per title; quiet if already flagged.
+      - name: Flag permanently missed editions
+        if: steps.w.outputs.missed != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          MISSED: ${{ steps.w.outputs.missed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          title = "Missed edition: a slot window closed without publishing"
+          q = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues?state=open&per_page=100",
+              headers=hdrs)
+          open_titles = {i["title"] for i in json.load(urllib.request.urlopen(q))}
+          if title in open_titles:
+              print("already flagged; staying quiet")
+          else:
+              body = ("These edition windows closed with no edition file on disk (cron "
+                      "drift plus a failed or skipped recovery): " + os.environ["MISSED"]
+                      + f"\n\nDetected by the watcher: {os.environ['RUN_URL']}\n"
+                      "Close once the gap is understood; a slot cannot be recovered "
+                      "after its window ends.")
+              data = json.dumps({"title": title, "body": body,
+                                 "labels": ["pipeline"]}).encode()
+              req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues",
+                                           data=data, headers=hdrs, method="POST")
+              urllib.request.urlopen(req)
+              print("flag issue opened")
+          PYEOF
 
   # news triggers run with the additive breaking gate; SLOT RECOVERY runs as a normal
   # scheduled-equivalent pipeline (breaking=false)

@@ -57,8 +57,12 @@ SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     # self-heals on drift. Each recovery window is CLAMPED to its edition's UTC-hour
     # boundary (wrap.py: morning < 14:00, midday < 20:00): a recovery run past the
     # boundary would write the NEXT edition and re-fire until window end.
-    ("morning-brief", 11 * 60 + 10, 14 * 60),        # cron 09:40; recover 11:10-14:00
-    ("afternoon-brief", 17 * 60 + 8, 20 * 60),       # cron 15:38; recover 17:08-20:00
+    # Deadlines arm ~1h after each slot (2026-07-21: the afternoon deadline of 17:08
+    # missed the day's only 17:01 watcher tick by 7 minutes; GitHub also skips most
+    # 30-minute ticks under load, so the recovery window must open early enough that
+    # the few ticks that DO fire land inside it).
+    ("morning-brief", 10 * 60 + 45, 14 * 60),        # cron 09:40; recover 10:45-14:00
+    ("afternoon-brief", 16 * 60 + 45, 20 * 60),      # cron 15:38; recover 16:45-20:00
     ("evening-brief", 23 * 60 + 48, 24 * 60),        # cron 23:38; recover 23:48-24:00
     # (the run itself takes ~5-8 min; a still-running 23:38 slot at 23:48 just queues a
     # duplicate behind the publish lock and the one-edition-per-day guard skips it)
@@ -76,6 +80,27 @@ def missed_slot(now=None, content_dir=None):
                 os.path.join(content_dir, f"{today}-{slug}.json")):
             return slug
     return None
+
+
+def missed_windows(now=None, content_dir=None):
+    """Editions whose window CLOSED with no file on disk: permanently missed slots the
+    recovery net failed to save. Covers today's closed windows plus yesterday's evening
+    (its window ends at midnight, so it is only checkable the morning after). Pure
+    function for the canary; the workflow turns a non-empty result into a flag issue."""
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    content_dir = content_dir or os.path.join(HERE, "site", "content")
+    minutes = now.hour * 60 + now.minute
+    today = now.date().isoformat()
+    missed = []
+    for slug, _deadline, window_end in SLOT_DEADLINES:
+        if minutes >= window_end and not os.path.exists(
+                os.path.join(content_dir, f"{today}-{slug}.json")):
+            missed.append(f"{today}-{slug}")
+    if minutes < 14 * 60:
+        yday = (now.date() - datetime.timedelta(days=1)).isoformat()
+        if not os.path.exists(os.path.join(content_dir, f"{yday}-evening-brief.json")):
+            missed.append(f"{yday}-evening-brief")
+    return missed
 
 
 def desk_published_recently():
@@ -124,6 +149,14 @@ def main():
     if os.path.exists(os.path.join(HERE, "PAUSE")):
         emit(False, "PAUSE file present")
         return 0
+    # Closed-window audit first: a permanently missed edition is a fact regardless of
+    # what this tick decides to do about the current window.
+    missed = missed_windows()
+    if missed:
+        print("watcher: permanently missed editions: " + ", ".join(missed))
+        out = os.environ.get("GITHUB_OUTPUT")
+        if out:
+            open(out, "a").write("missed=" + ",".join(missed) + "\n")
     # Slot recovery outranks the cooldown: a missed slot must run even if a breaking run
     # published an hour ago (the edition is the guaranteed product).
     slug = missed_slot()
