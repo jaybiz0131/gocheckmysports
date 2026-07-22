@@ -1073,6 +1073,14 @@ def render_home(items, dateline):
             [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""] +
             [p for p in (i.get("body") or []) if isinstance(p, str)]))), None)
         if hit:
+            # follow the update chain: a Tracking chip never lands on a retired version
+            seen = set()
+            while hit.get("superseded_by") and hit["superseded_by"] not in seen:
+                seen.add(hit["superseded_by"])
+                nxt = next((j for j in live if j.get("slug") == hit["superseded_by"]), None)
+                if not nxt:
+                    break
+                hit = nxt
             chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
                          f'{esc(n.get("name", ""))}</a>')
     if chips:
