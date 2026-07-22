@@ -239,25 +239,26 @@
   "models": {
     "editor": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 8000
+      "max_tokens": 12000
     },
     "verifier": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 6000
+      "max_tokens": 10000
     },
     "researcher": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 8000,
-      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
+      "max_tokens": 20000,
+      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity.",
+      "note_capacity": "Output ceilings sized for a full 12-story day (2026-07-22: the researcher hit the 8000 cap on all three ladder rungs once the intake fattened; Haiku 4.5 allows 64k output, and a ceiling only bills when used)."
     },
     "writer": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 8000,
+      "max_tokens": 20000,
       "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
     },
     "approver": {
       "model": "claude-haiku-4-5",
-      "max_tokens": 5000,
+      "max_tokens": 8000,
       "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
     },
     "note": "COST LOCKDOWN (owner directive 2026-07-21, supersedes the quality-launch A/B): crypto is the priority bet and this desk must never run a higher cost than the crypto desk. claude-haiku-4-5 on every desk stage, exactly like crypto; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, corroboration rules) are the quality floor, not the model. wraprescue keeps claude-sonnet-5 for the rare edition-failure path only, same as crypto. REVERSAL TRIGGER: real audience traction on this desk -> revisit the writer model.",
