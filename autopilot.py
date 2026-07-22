@@ -98,6 +98,10 @@ def main():
     approver = {a.get("id"): a for a in _load("approver.json").get("approvals", [])}
     briefs = {b.get("id"): b for b in _load("briefs.json").get("briefs", [])}
     drafts = {d.get("id"): d for d in _load("drafts.json").get("drafts", [])}
+    # stories the editor explicitly declared as updates of published work: the rerun
+    # guard lets these through; ingest converts them into the update chain
+    editor_updates = {r.get("id"): r.get("updates")
+                      for r in _load("editor.json").get("ranked", []) if r.get("updates")}
     clusters = {c.get("id"): c for c in _load("items.json").get("clusters", [])}
     breaking = os.environ.get("BREAKING") == "1"
 
@@ -129,7 +133,7 @@ def main():
             held += 1
             print(f"autopilot: depth gate held '{story.get('headline','')[:60]}' "
                   f"({words} words from {source_chars} chars of source material)")
-        elif already_published(story.get("headline", "")):
+        elif already_published(story.get("headline", "")) and cid not in editor_updates:
             story["decision"] = "hold"
             reruns += 1
             print(f"autopilot: skipping rerun of already-published story: "

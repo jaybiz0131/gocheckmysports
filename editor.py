@@ -71,7 +71,9 @@ def build_user(items, top_n):
             continue
     shelf = (("\n\nAlready published by this desk in the last 48 hours (a repeat of these "
               "ranks ONLY as a genuine update, and its why_it_matters must say what "
-              "changed):\n" + "\n".join(f"- {t}" for t in sorted(recent)[:25]) + "\n\n")
+              "changed). When a story you rank is a new chapter of one of these, add "
+              "\"updates\": \"<that title EXACTLY as listed>\" to its ranked entry; the "
+              "site then retires the old version and stamps the new one as an update:\n" + "\n".join(f"- {t}" for t in sorted(recent)[:25]) + "\n\n")
              if recent else "\n\n")
     events = active_events()
     cal = ""

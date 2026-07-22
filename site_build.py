@@ -172,7 +172,10 @@ def tags_for(item):
     text = " ".join([item.get("title") or "", item.get("dek") or "",
                      item.get("key_fact") or ""] +
                     [p if isinstance(p, str) else "" for p in body])
-    return [tag for tag, rx in _TAG_RES if rx.search(text)][:3]
+    scored = [(len(rx.findall(text)), i, tag)
+              for i, (tag, rx) in enumerate(_TAG_RES) if rx.search(text)]
+    scored.sort(key=lambda t: (-t[0], t[1]))
+    return [t[2] for t in scored[:3]]
 
 
 def related_stories(item, items, n=3):
@@ -256,9 +259,11 @@ def masthead(active, dateline, brand="site"):
   </a>"""
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
+<script>document.addEventListener("DOMContentLoaded",function(){{var e=document.querySelector("[data-live-date]");
+if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
   <div class="mh-top">
     {fam}
-    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
+    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> &middot; Independent &middot; No hype</span>
   </div>
   {brand_row}
 </div></header>
@@ -513,6 +518,13 @@ def render_article(item, all_items=None):
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
                   'format GoCheckMySports publishes in. The content is illustrative only.</div>')
+    if item.get("superseded_by"):
+        newer = next((i for i in (all_items or [])
+                      if i.get("slug") == item["superseded_by"]), None)
+        newer_title = newer.get("title") if newer else "the newest version"
+        ribbon += (f'<div class="callout"><b>This story has been updated.</b> Read the '
+                   f'latest version: <a href="/articles/{esc(item["superseded_by"])}.html">'
+                   f'{esc(newer_title)}</a>.</div>')
     if item.get("update_of"):
         prev = next((i for i in (all_items or []) if i.get("slug") == item["update_of"]), None)
         prev_title = prev.get("title") if prev else "our earlier story"
@@ -570,7 +582,7 @@ def render_article(item, all_items=None):
     author = esc(item.get("author", "The GoCheckMySports Desk"))
     body = f"""<main class="wrap narrow">
   <article class="article">
-    <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
+    <div class="ey">{badge}{'<span class="badge update">Update</span>' if item.get("update_of") else ''}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
     <div class="byline">By {author}</div>
@@ -697,7 +709,8 @@ def home_stack(items, now=None):
       4. No matching edition -> the newest edition, exactly as before. Cron drift's
          worst case is the status quo; nothing ever renders empty."""
     now = now or _build_now()
-    stories = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
+    stories = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)
+               and not i.get("superseded_by")]
     breaking = False
     if stories:
         freshest = min(stories, key=lambda i: _fresh_hours(i, now))
@@ -1419,6 +1432,62 @@ def story_shape_problems(item):
     return hold, warn
 
 
+def _title_words(t):
+    import re as _re
+    return set(_re.findall(r"[a-z]{4,}", (t or "").lower()))
+
+
+def find_superseded(title, declared_title, content_dir, hours=96):
+    """The slug of an existing story this new one supersedes, or None. Two detectors:
+    the editor's explicit declaration (exact title match from its shelf: catches the
+    same event under a rewritten angle), and a deterministic word-overlap backstop
+    (>=70% of meaningful title words: catches near-identical republication that slips
+    past every model). Editions and examples are never superseded."""
+    import datetime as _dt
+    cutoff = (_dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=hours)).isoformat()
+    nw = _title_words(title)
+    best = None
+    for fn in sorted(os.listdir(content_dir)) if os.path.isdir(content_dir) else []:
+        if not fn.endswith(".json") or fn.startswith("_"):
+            continue
+        try:
+            d = json.load(open(os.path.join(content_dir, fn), encoding="utf-8"))
+        except Exception:
+            continue
+        if d.get("example") or "brief" in (d.get("kind") or "") and d.get("id", "").startswith("wrap-"):
+            continue
+        if d.get("id", "").startswith("wrap-") or d.get("category") == "daily edition":
+            continue
+        if (d.get("published_utc") or "") < cutoff or d.get("superseded_by"):
+            continue
+        t = d.get("title") or ""
+        if declared_title and t.strip() == declared_title.strip():
+            return d.get("slug")
+        tw = _title_words(t)
+        if nw and tw and len(nw & tw) / min(len(nw), len(tw)) >= 0.7:
+            best = d.get("slug")
+    return best
+
+
+def mark_superseded(content_dir, old_slug, new_slug):
+    """Rewrite the superseded story's JSON so the homepage retires it and its page
+    points forward. Content files are pipeline-owned; this is the one sanctioned
+    mutation (the update chain)."""
+    for fn in os.listdir(content_dir):
+        if not fn.endswith(".json"):
+            continue
+        path = os.path.join(content_dir, fn)
+        try:
+            d = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        if d.get("slug") == old_slug:
+            d["superseded_by"] = new_slug
+            json.dump(d, open(path, "w", encoding="utf-8"), indent=2)
+            return True
+    return False
+
+
 # ---- ingest approved payloads -----------------------------------------------
 
 def ingest():
@@ -1436,10 +1505,11 @@ def ingest():
         pass
     os.makedirs(CONTENT, exist_ok=True)
     # editor rank (1 = lead) so the day's page keeps the desk's editorial order
-    rank_map = {}
+    rank_map, updates_map = {}, {}
     try:
         ranked = json.load(open(os.path.join(HERE, "out", "editor.json"), encoding="utf-8"))["ranked"]
         rank_map = {r["id"]: i + 1 for i, r in enumerate(ranked)}
+        updates_map = {r["id"]: r["updates"] for r in ranked if r.get("updates")}
     except Exception:
         pass
     # verification inputs for the per-story trail (same run, already on disk)
@@ -1496,6 +1566,9 @@ def ingest():
             "sources_cited": len(srcs),
             "sources_live_checked": live,
         }
+        old_slug = find_superseded(title, updates_map.get(rec.get("id")), CONTENT)
+        if old_slug and old_slug != slug:
+            item["update_of"] = old_slug
         hold, warn = story_shape_problems(item)
         if hold:
             print(f"::warning::ingest: story {rec.get('id')} HELD, not published: "
@@ -1506,7 +1579,12 @@ def ingest():
                   + "; ".join(warn))
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
-        print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")
+        if item.get("update_of"):
+            mark_superseded(CONTENT, item["update_of"], slug)
+            print(f"  ingested {rec.get('id')} as UPDATE of {item['update_of']} "
+                  f"-> {os.path.relpath(out)}")
+        else:
+            print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")
         n += 1
     print(f"ingest: promoted {n} approved item(s) into site content.")
     return n

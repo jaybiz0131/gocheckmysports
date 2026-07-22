@@ -38,6 +38,7 @@ on:
     # watcher's 23:48 recovery covers it).
     - cron: "55 10 * * *"   # Morning retry
     - cron: "10 17 * * *"   # Midday retry
+    - cron: "25 11 * * *"   # Second morning retry: the morning cycle must be live before 12:00 UTC
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:

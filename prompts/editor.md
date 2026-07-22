@@ -86,4 +86,12 @@ Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
 - "why_it_matters" is 1-2 tight lines; no essays.
 - Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.
 
+UPDATES, NOT DUPLICATES (owner directive 2026-07-22, the top editorial rule): the desk
+NEVER republishes yesterday's story as a new one. When a ranked story is a new chapter of
+a title in the already-published shelf (a follow-on development, day N of a running story,
+a decision replaced or reversed, new results on the same event), add an optional field
+"updates": "<the shelf title EXACTLY as listed>" to that ranked entry. The site retires
+the old version from the homepage and stamps the new one as an update. Only shelf titles
+are valid; never invent one. A story with nothing material new does not rank at all.
+
 OUTPUT CONTRACT (hard): top-level keys are exactly "ranked" and "rejected", both lists. Every id comes ONLY from the input clusters; never invent, rename, or suffix an id. JSON only, nothing else.
