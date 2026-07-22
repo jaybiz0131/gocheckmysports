@@ -246,5 +246,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "MLS formally investigates Inter Miami's signing of Casemiro as tampering allegation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'MLS announced a formal review into a tampering allegation filed by the LA Galaxy against Inter Miami' in the opening, but the brief's data_point on this claim carries confidence label 'reported,' not 'announced.' The subsequent sentence 'MLS stated it is gathering all relevant information and will refrain from further comment until the review is complete' correctly labels that statement as 'announced-not-verified' in the brief. The opening conflates MLS's internal announcement with verified fact and obscures the confidence distinction that the brief itself preserved.",
+     "The draft's final paragraph states 'The settlement between the clubs raises questions about whether the allegation itself reflected a genuine breach or a negotiating tactic resolved through compensation' and 'The decision to withhold settlement terms until after the investigation concludes also limits public visibility into what the clubs agreed to and whether Inter Miami's conduct was deemed improper by either party.' These sentences read as editorial commentary (speculating about the quality of the investigation and what confidentiality means) rather than reporting fact from the brief. The brief's bear_case notes the settlement was reached and terms are withheld, but does not contain analysis about what 'public visibility' or 'credibility' mean here. This is smuggled framing."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Jai Opetaia sues IBF over title strip, alleges retaliation for Zuffa signing",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's bottom_line states 'The investigation's conclusions may influence how Congress approaches the Ali Revival Act debate, particularly if the court finds merit in Opetaia's allegations.' This sentence misidentifies the actor: it is a Nevada *federal court* ruling on a civil lawsuit, not an 'investigation.' The brief's open_questions and core_claim both clarify the action is a lawsuit and court case, not an investigation. The word 'investigation' appears in the draft's bottom_line but was not in the brief and conflates the federal court proceeding with regulatory inquiry.",
+     "The draft states in the bear_case paragraph: 'The IBF raised no objections to the Glanton fight in the days before the event, only becoming upset with the title-like promotion surrounding it after the bout\u2014suggesting the IBF's objection may have been to promotional framing rather than contractual or regulatory violation.' This is not in the brief's bear_case. The brief's bear_case notes only that 'The IBF initially sanctioned the Opetaia-Glanton fight' and that the lawsuit centers on title stripping, but does not contain the inference about 'raising no objections in the days before' or 'becoming upset with title-like promotion.' This is a speculative claim smuggled into the bear_case framing that does not trace to the brief."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "Villa agree loan deal for Chelsea winger Garnacho",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Aston Villa agreed to a loan deal for Chelsea winger Alejandro Garnacho' but the brief contains no data point confirming Garnacho plays for Chelsea or is a 'winger.' The brief only states he is being loaned to Aston Villa from an unspecified source club. The 'Chelsea' and 'winger' details are smuggled facts not present in the research brief."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Former Man United, Real Madrid midfielder Casemiro joins Inter Miami",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Brazil's 2026 World Cup campaign...reached the round of 16 before losing 2-1 to Norway.' The brief data point states the same, but this contradicts established fact: Brazil did not reach the 2026 World Cup round of 16 and did not lose to Norway 2-1 in any World Cup. This is a fabricated or severely corrupted fact. The writer should not have passed through a claim this implausible without independent verification, but more critically: the brief itself contains a corrupted data point that the draft faithfully reproduced. Rejection required.",
+     "Draft presents MLS's official statement about the settlement as a direct quote ('While Inter Miami CF and the LA Galaxy have reached a settlement...') when the brief marks this confidence as 'announced-not-verified.' The phrasing in the draft ('MLS stated in an official statement that...') presents an unverified claim as settled fact, creating liability exposure."
+    ]
+   },
+   {
+    "id": "c171",
+    "headline": "Trail Blazers Cut Broadcast Team; Dundon Continues Aggressive Cost-Cutting",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Jamie Hudson was a host 'from 2023 respectively,' but the brief data_point says he was on Blazers broadcasts from 2023, and the draft itself says Neil Everett anchored 'from 2021 to 2025 and 2023 respectively'\u2014the phrasing is contradictory and unclear. More critically, the draft says Everett anchored 'from 2021 to 2025 and 2023 respectively,' which is incoherent; the brief says he was on 'Blazers broadcasts from 2021 to 2025' and Hudson from 2023, but the draft muddies this with 'and 2023 respectively' applied to both names.",
+     "The draft claims 'the Hurricanes made three conference finals in the years following his cost-cutting measures and won the Stanley Cup in June,' but the brief data_point says 'In the years since Dundon bought the Hurricanes and hired Brind'Amour, Carolina made and lost three conference finals before this summer's breakthrough.' The draft's wording\u2014'made three conference finals...and won the Stanley Cup'\u2014could be read as all four events (three finals + Cup) happened post-cost-cutting, when the brief specifies the three finals came *before* the Cup win. This risks misrepresenting the timeline of Dundon's success."
+    ]
+   }
+  ]
  }
 ]
