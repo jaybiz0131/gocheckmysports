@@ -1475,7 +1475,11 @@ def story_shape_problems(item):
 
 def _title_words(t):
     import re as _re
-    return set(_re.findall(r"[a-z]{4,}", (t or "").lower()))
+    # crude singular merge: "strike"/"strikes" and "test"/"tests" must count as the
+    # same word (2026-07-22: a same-day Iran rewrite scored 0.625 against its twin
+    # because plural variants split the overlap)
+    return {w[:-1] if w.endswith("s") and not w.endswith("ss") else w
+            for w in _re.findall(r"[a-z]{4,}", (t or "").lower())}
 
 
 def find_superseded(title, declared_title, content_dir, hours=96):
@@ -1505,8 +1509,15 @@ def find_superseded(title, declared_title, content_dir, hours=96):
         if declared_title and t.strip() == declared_title.strip():
             return d.get("slug")
         tw = _title_words(t)
-        if nw and tw and len(nw & tw) / min(len(nw), len(tw)) >= 0.7:
-            best = d.get("slug")
+        if nw and tw:
+            overlap = len(nw & tw) / min(len(nw), len(tw))
+            # same-day rewording is almost always the same event; a cross-day match
+            # must clear the stricter bar (day N of a running story is a genuinely
+            # different chapter and belongs to the editor's declared-update path)
+            import datetime as _dt
+            same_day = (d.get("published_utc") or "")[:10] ==                 _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+            if overlap >= (0.5 if same_day else 0.7):
+                best = d.get("slug")
     return best
 
 
