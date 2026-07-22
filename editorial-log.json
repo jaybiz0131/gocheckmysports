@@ -114,5 +114,62 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c066",
+    "headline": "Panthers starting right tackle Taylor Moton sidelined by lung blood clot diagnosis",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents a medical diagnosis (blood clot in lung) as a definitive fact without qualification. The brief marks this as 'announced-not-verified,' meaning the diagnosis comes from an announcement but has not been independently verified by medical professionals or an official team statement. The draft should signal this uncertainty ('reportedly diagnosed' or similar language reflecting the confidence level) rather than stating it as settled medical fact. Speculation about or presentation of unverified medical conditions as certain is a compliance liability."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Yankees All-Star Max Fried to start Wednesday doubleheader after elbow injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Max Fried is scheduled to start in a Wednesday doubleheader.' This fact does not appear in the brief's data_points. The brief's open_questions explicitly state 'No information on whether this is confirmed or tentative' and notes 'no official team confirmation of the Wednesday start.' The writer has smuggled a scheduled start that is not confirmed in the research\u2014this violates the hard rule that no fact exists outside the brief. The brief contains only that Fried 'is scheduled to start' as part of the core_claim, but the open_questions reveal this scheduling claim itself is unverified in the source. The draft presents this unconfirmed detail as fact without hedging."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "Jason Robertson re-signs with Dallas Stars on one-year, $12M deal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Robertson 'completed his previous four-year deal worth $7.5 million annually' but brief data_point says 'four-year deal worth $7.75 million annually.' $7.5M vs $7.75M annual salary is a material factual discrepancy that must trace exactly to the brief.",
+     "Draft claims 'Robertson's $12 million salary will make him the 28th player in the NHL earning more than $10 million next season' but the brief data_point states 'With the Robertson signing, the Stars become the 28th player' \u2014 the phrasing is ambiguous in the brief itself (does 'the Stars' mean the franchise or is this a transcription error?), but the draft's wording 'the 28th player' is not clearly supported and reads as if Robertson individually is the 28th, which is imprecise."
+    ]
+   },
+   {
+    "id": "c100",
+    "headline": "Morgan Rogers joins Chelsea for club-record \u00a3117m from Aston Villa",
+    "category": "compliance",
+    "reasons": [
+     "Draft states 'Xabi Alonso was cited as a key factor in Rogers choosing Chelsea over other potential destinations' without confidence qualifier. Brief marks this claim as 'reported' confidence, not verified/announced. The draft should signal this is reported/unconfirmed language per the hard rule on confidence labels.",
+     "Draft states 'Arsenal had been in talks to sign him before the transfer was finalized' without confidence qualifier. Brief marks this as 'reported' confidence. The draft must signal unconfirmed sourced claims appropriately.",
+     "Draft presents Alonso's role speculatively ('Alonso's specific role at Chelsea and his formal appointment as head coach remain unconfirmed') but this speculative language about an individual's position/appointment status beyond the player's sport touches on personnel authority questions that should be handled more carefully. The brief itself lists Alonso's appointment as an open question, not a claim to be mentioned at all in the body."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "French Open becomes first Grand Slam to offer players revenue share",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The offer was made to players' representative Larry Scott during talks held at Wimbledon' attributes the talks to Wimbledon, but the brief data point states the talks were 'at Wimbledon' without clarifying whether Wimbledon (the tournament) was the location or whether this refers to the Wimbledon event/venue. The phrasing is ambiguous and could mislead readers into thinking Wimbledon officials were involved in the French Open negotiation. The brief's wording is itself unclear, but the draft's attribution should match the source reporting exactly rather than risk misrepresenting which tournament's location hosted the talks."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Heat mistakenly post LeBron James introductory presser link, revealing preparation for potential signing",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'James is an unrestricted free agent for the first time since 2018, having completed his contract with the Cleveland Cavaliers.' The brief data point says 'James is an unrestricted free agent for the first time since 2018' but does not specify that he completed a contract with Cleveland. The draft adds unverified information about which team he was with that does not appear in the brief."
+    ]
+   }
+  ]
  }
 ]
