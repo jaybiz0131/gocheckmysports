@@ -296,5 +296,78 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Red Sox tie franchise winning streak record with 15th straight win",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tyler O'Neill added an RBI double for the Giants,' but the brief identifies O'Neill as a Baltimore Orioles player ('Tyler O'Neill had a sun-aided RBI double for Baltimore'). The draft incorrectly attributes him to the Giants.",
+     "The draft states Willson Contreras is a 'catcher' who checked on Bennett, but the brief identifies him as 'first baseman Willson Contreras.' These are different defensive positions and the draft contains the wrong position."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Royals defeat Giants 5-4 as Perez ties franchise home run record",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly flags in open_questions that 'The exact home run number that ties the record (whether it was his 317th as suggested in the headline) is not confirmed in the provided source text.' The draft's title and prose assert a franchise record was tied, but the brief marks this claim as only 'reported' confidence and notes the exact details are unconfirmed. A reported-confidence claim about a record-tying home run presented without qualification or caveat in a headline is a liability risk given the brief's own uncertainty.",
+     "The brief is marked 'thin: true' with 'source_chars: 0', indicating minimal source material. The brief's open_questions identify missing context: which inning Perez hit the homer, who held the previous record, and broader career significance. The draft offers none of this and should either be rejected for insufficient sourcing or rewritten to reflect the thinness of the available information."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "MLS opens tampering investigation into Inter Miami's Casemiro signing",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only a single data_point: 'MLS says it is investigating allegations of tampering by Inter Miami after the club signed Brazil midfielder Casemiro.' The data_point is marked 'reported' confidence, not 'verified.' The draft presents this as settled fact ('Major League Soccer is investigating allegations') without hedging language appropriate to 'reported' confidence. When a brief marks a core claim as 'reported' rather than verified, the draft must reflect that sourcing difference.",
+     "The draft states 'No details on the specific tampering allegations, the timeline of Casemiro's move, or potential penalties have been disclosed'\u2014but this absence of detail should not be asserted as a fact in the prose when the brief itself contains minimal source material (source_chars: 317). This reads as padding rather than reporting."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Royals' Bobby Witt Jr. placed on IL for first time in career",
+    "category": "accuracy",
+    "reasons": [
+     "Final sentence reads: 'The extent of Witt's absence remains unclear, as the brief does not specify an expected timeline for his return from the back tightness.' This is a meta-commentary on the brief itself, not a fact from the reporting. It breaks the fourth wall by directly referencing the brief as a source document rather than synthesizing information for readers. Remove or rephrase as forward-looking context."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "First-place Lynx get Collier back, but on minutes restriction",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Collier 'tearing three ligaments in her left ankle in Game 3 of the WNBA semifinals in September' but the brief claims this happened 'more than 10 months' before Wednesday's debut. If Wednesday is late July 2026, 'more than 10 months' prior would place the injury in late August 2025 or earlier, not September 2025. The timeline is internally contradictory and should be clarified to match the brief's 'more than 10 months' framing rather than naming a specific month without verification."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "SEC Commissioner Sankey: Conference focused on federal NIL legislation, not NCAA breakaway",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'multiple sources confirmed to ESPN that there have been internal conversations about the SEC considering playing entirely conference games in all sports' is marked 'unconfirmed' in the brief but is presented as settled fact in the draft without any hedge or confidence marker. The brief explicitly flags this claim as 'unconfirmed'; the draft must signal that uncertainty to readers."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Former Man United, Real Madrid midfielder Casemiro joins Inter Miami",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Casemiro represented Brazil in the 2026 World Cup, reaching the round of 16 before losing 2-1 to Norway.' The brief data_point says he 'formed part of Brazil's 2026 World Cup roster, reaching the round of 16 before losing 2-1 to Norway.' The draft adds 'represented Brazil' and implies he played; the brief only confirms roster participation. A player can be on a World Cup roster without playing in a specific match. This distinction matters for factual accuracy and must not be smuggled in beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "2026 World Cup generated record betting handle in U.S. sportsbooks",
+    "category": "compliance",
+    "reasons": [
+     "The draft opens with 'U.S. sportsbooks reported record betting handle on the 2026 World Cup, with individual operators recording dramatic year-over-year increases from the 2022 tournament' and follows with specific percentage increases and comparative betting figures. This entire framing reads as a betting/wagering narrative emphasizing 'record' volume and growth\u2014language that could encourage or tout betting activity. While the draft includes the mandatory disclaimer at the bottom, the body repeatedly emphasizes record-breaking betting figures, largest liabilities, most-bet players, and odds without sufficient editorial distance. The phrase 'This World Cup will go down as the biggest betting event in American history, we're talking the equivalent of ten Super Bowls' is a direct quote from a sportsbook executive, but its placement and the surrounding narrative (650% increase, record handle) risks reading as a tout piece for the event's betting appeal rather than a neutral report on market activity. The brief itself notes the data is 'operator-reported' but the draft does not sufficiently establish that this is sportsbook marketing language, not verified market data."
+    ]
+   }
+  ]
  }
 ]
