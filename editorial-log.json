@@ -171,5 +171,80 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "MLS Investigates Tampering Allegation Against Inter Miami in Casemiro Transfer",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case notes that 'sources present no denial or counter-evidence from Inter Miami; the club's position is not recorded in the reporting.' The draft contains no paragraph or sentence representing Inter Miami's response, defense, or side of the story. A tampering investigation inherently involves a respondent; their silence or position should be acknowledged in the draft if it is absent from the source material."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Chiefs Unveil $3 Billion Domed Stadium Renderings, Target 2031 Opening",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case explicitly notes: 'The sources present no criticism, risk assessment, or opposition to the stadium project; no delay concerns, cost overrun precedents, or community objections are reported.' The draft reads as an unqualified endorsement of the project without addressing known risks to mega-projects of this scale. The bottom_line mentions 'cost escalations' as something to 'monitor,' but the body contains no counter-evidence, skepticism, or historical context about stadium overruns. The draft should either include critical perspective from the brief or acknowledge in its framing that the reporting contains no such evidence."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Casemiro Signs with Inter Miami",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Casemiro, a former Manchester United player, joins the MLS club as a free-agent acquisition.' The brief marks the claim 'Casemiro, formerly of Manchester United, has joined Inter Miami' as 'reported' confidence, which is correct. However, the draft adds the modifier 'as a free-agent acquisition' without a data point in the brief supporting that specific characterization. The brief's open_questions include 'No confirmation of whether this is a free transfer or if a fee was involved,' indicating the source material does not verify free-agent status. The writer smuggled a contract detail not present in the brief."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Yankees activate Fried early for doubleheader after rainout reshuffles rotation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'This will be the first time Cole and Fried take the mound in the rotation at the same time,' but the brief data_point says 'The doubleheader marks the first time Cole and Fried are in the rotation at the same time.' The brief's phrasing is ambiguous (could mean first time ever in the organization's history or first time in this season), but the draft's interpretation as a definitive historical statement ('first time...at the same time') goes beyond what the brief supports. The brief does not provide historical context confirming this has never happened before in Yankees history.",
+     "The draft introduces details about the Triple-A rehab outing ('allowing two runs and five hits with three strikeouts and no walks over three innings') that do not appear in the body text of the draft but are included in the brief's data_point. The draft states only '52 pitches, 32 for strikes' but omits the performance details listed in the brief's data_point, which is acceptable; however, there is no inconsistency here\u2014this is actually compliant. Retract this item.",
+     "The draft states Cole 'returned to the Yankees on May 22 following reconstructive elbow surgery' but this fact (data_point confirmed) is presented without any warning label or caveat about ongoing medical status, which is appropriate given the reported nature. This passes accuracy check."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Angels fire scout over alleged unauthorized recording of Rockies coaches",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's second paragraph explicitly states 'The sources provide no details on...' and lists six categories of missing information (how discovery occurred, what rule violated, how long employed, what was recorded, intended use, comments from Prinstein/Angels). This is self-aware reporting of thin sourcing, which is appropriate, but the paragraph reads as editorial commentary on the brief's gaps rather than news reporting. A news article should not talk about what 'the sources provide' or don't provide; it should either report facts or decline to run the story. The instruction to stay in-brief is absolute: if the brief is thin (thin=true), the output should be a tight short story, not a meta-commentary on missing information.",
+     "The draft labels Prinstein as 'known as The Baseball Spy' based on the brief's data_point, but provides no context for why he has this nickname or what it means. The brief also does not explain the origin or meaning of this epithet. The draft should either explain it inline or drop the phrase entirely; presenting an unexplained characterization violates clarity standards for a thin brief."
+    ]
+   },
+   {
+    "id": "c164",
+    "headline": "Rogers Sports seeks minority stake sale in consolidated Toronto sports empire",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Rogers' sports and media division posted a 53% boost in second-quarter revenue to $851 million' and 'Adjusted earnings in that sector soared from $5.7 million to $49 million.' These are attributed to Front Office Sports, but the brief does not contain these specific financial figures as data points. The brief lists them as reported data_points, but they do not appear in the provided source URL content available to verify. The writer has smuggled financial specificity beyond what the brief confirms\u2014particularly the prior-quarter baseline figures ($5.7 million) which are not separately confirmed in the brief's data_points as a comparison baseline.",
+     "The draft refers to John Chayka as 'embattled hockey executive' in the description of his hiring. The brief's data_point simply states 'Maple Leafs recently brought in hockey executive John Chayka as GM' with no characterization. Adding 'embattled' injects editorial judgment and a reputation claim not sourced in the brief, crossing from reporting into framing."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "MLB labor talks proceed as CBA expiration date approaches",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case explicitly notes that the source 'does not provide owner statements defending salary cap proposal or responding to union criticism; no explicit owner position is detailed in the source text.' The draft presents the salary cap and draft changes as 'contested economic terms' and 'proposed changes' but does not include any countervailing statement, rebuttal, or owner perspective. The brief identifies this omission as the bear_case\u2014that owners' rationale or defense is missing\u2014yet the draft does not acknowledge or incorporate this imbalance. A story about labor negotiations without the other side's actual position is incomplete and unbalanced."
+    ]
+   },
+   {
+    "id": "c161",
+    "headline": "LIV Golf settles trademark lawsuit for $1M after Stinger GC rebrand",
+    "category": "balance",
+    "reasons": [
+     "The draft presents Barakat's characterization of LIV's conduct as 'pretty gross' and his assertion that 'they knew long before they set up the Stinger Golf Club team that they were aware of our trademark' as established fact without attribution or qualification. The brief's bear_case explicitly flags that Barakat's statements are 'the plaintiff's counsel's view and represents advocacy rather than an independent assessment,' and that 'the sources do not confirm LIV is in or near bankruptcy, only that the plaintiff's counsel cited this as a settlement rationale.' The draft does not present LIV's response to these allegations or acknowledge the unverified nature of Barakat's claims about LIV's prior knowledge.",
+     "The bottom_line states 'the settlement came amid signs of financial stress at the league' and discusses the September 18 payment deadline as though LIV's solvency is an established concern, but the brief's bear_case clarifies that restructuring advisor hires are characterized as 'business ownership transitions' by the source and that bankruptcy is not confirmed\u2014only cited by the plaintiff's counsel as a negotiating factor. This imbalance overstates the evidence for LIV's financial distress."
+    ]
+   }
+  ]
  }
 ]
