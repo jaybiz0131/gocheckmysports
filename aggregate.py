@@ -129,10 +129,34 @@ def _tag(el):
     return el.tag.split("}", 1)[-1].lower()
 
 
+def _declare_missing_namespaces(xml_bytes):
+    """Some WordPress feeds use a namespace prefix without declaring it (observed on
+    Front Office Sports 2026-07-22: 'unbound prefix'); ElementTree hard-fails where a
+    browser shrugs. Declare any prefix that appears in a tag but never in an xmlns
+    attribute, then let the caller reparse."""
+    import re as _re
+    try:
+        text = xml_bytes.decode("utf-8", "ignore")
+    except Exception:
+        return xml_bytes
+    used = set(_re.findall(r"<\s*([a-zA-Z][\w.-]*):", text)) - {"xml"}
+    declared = set(_re.findall(r"xmlns:([\w.-]+)\s*=", text))
+    missing = used - declared
+    if not missing:
+        return xml_bytes
+    decls = "".join(f' xmlns:{p}="urn:x-undeclared:{p}"' for p in sorted(missing))
+    text = _re.sub(r"<(rss|feed)(\s|>)",
+                   lambda m: "<" + m.group(1) + decls + m.group(2), text, count=1)
+    return text.encode("utf-8")
+
+
 def parse_feed(xml_bytes, source_name, tier):
     """Parse an RSS 2.0 or Atom document into normalized items (best-effort, stdlib only)."""
     items = []
-    root = ET.fromstring(xml_bytes)
+    try:
+        root = ET.fromstring(xml_bytes)
+    except ET.ParseError:
+        root = ET.fromstring(_declare_missing_namespaces(xml_bytes))
     entries = [e for e in root.iter() if _tag(e) in ("item", "entry")]
     for e in entries:
         title = link = summary = pub = ""
