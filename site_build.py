@@ -826,6 +826,34 @@ def scores_strip():
             f'</span></div></section>') + SCORES_JS
 
 
+# STALENESS GUARD (owner directive 2026-07-22: the Bottom Line is a powerful piece or
+# it is not on the page). Build time: an edition from a previous day is labeled
+# honestly. View time: the band carries its timestamp and the reader's browser retires
+# it into an archive pointer past 20 hours, so a stalled pipeline can never showcase
+# an old read as current.
+_BL_GUARD_SCRIPT = (
+    '<script>(function(){var b=document.querySelector("[data-bl-published]");'
+    'if(!b)return;var t=Date.parse(b.getAttribute("data-bl-published"));'
+    'if(isNaN(t)||Date.now()-t<=72e6)return;'
+    'b.setAttribute("href","/bottom-line.html");'
+    'var s=b.querySelector(".hero-bl-src");if(s)s.textContent="The daily reads";'
+    'var r=b.querySelector(".hero-bl-read");if(r)r.textContent='
+    '"The next edition is on the way. Catch up on the archive of the desk\u2019s daily reads.";'
+    'var m=b.querySelector(".hero-bl-more");if(m)m.innerHTML="The Bottom Line archive &rarr;";'
+    '})();</script>')
+
+
+def _bl_fresh_label(ed, name):
+    """Honest label when the band shows a previous day's edition."""
+    ed_date = (ed.get("published_utc") or "")[:10]
+    build_date = _build_now().date().isoformat()
+    if ed_date and ed_date < build_date:
+        import datetime as _dt
+        days = (_dt.date.fromisoformat(build_date) - _dt.date.fromisoformat(ed_date)).days
+        return ("Yesterday's " + name) if days == 1 else (name + " &middot; " + esc(fmt_date(ed_date)))
+    return name
+
+
 def bottom_line_card(items):
     """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, the
     newest edition's 3-5 sentence read, refreshed every slot (and by breaking runs).
@@ -835,12 +863,15 @@ def bottom_line_card(items):
     _, _, ed = home_stack(items)  # daypart anchor; falls back to newest edition
     if ed is None:
         return ""
-    name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-    return (f'<a class="hero-bl news-bl" href="/articles/{esc(ed["slug"])}.html">'
+    name = _bl_fresh_label(ed, esc((ed.get("title") or "").split(":")[0].strip()
+                                   or "The Daily Edition"))
+    return (f'<a class="hero-bl news-bl" data-bl-published="{esc(ed.get("published_utc") or "")}" '
+            f'href="/articles/{esc(ed["slug"])}.html">'
             f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
             f'<span class="hero-bl-src">{name} &middot; {_blink_when(ed)}</span>'
             f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
-            f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
+            f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>'
+            + _BL_GUARD_SCRIPT)
 
 
 def render_bottom_line_history(items, dateline):
@@ -968,11 +999,13 @@ def render_home(items, dateline):
         if bl_anchor is not None:
             ed = bl_anchor
             ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-            bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
+            bl_card = (f'<a class="hero-bl" data-bl-published="{esc(ed.get("published_utc") or "")}" '
+                       f'href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-                       f'<span class="hero-bl-src">{ed_name} &middot; {_blink_when(ed)}</span>'
+                       f'<span class="hero-bl-src">{_bl_fresh_label(ed, ed_name)} &middot; {_blink_when(ed)}</span>'
                        f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
-                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
+                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>'
+                       + _BL_GUARD_SCRIPT)
         more = "".join(
             f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
             f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
