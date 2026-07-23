@@ -369,5 +369,65 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c134",
+    "headline": "Arsenal centre-back Saliba sidelined for extended period with back injury",
+    "category": "compliance",
+    "reasons": [
+     "Manager name error: draft states 'Manager Cheryl Reeve' in reference to Arsenal, but Cheryl Reeve is the Minnesota Lynx coach (confirmed in c098 brief). Arsenal's manager is not identified in the brief and this appears to be a copy-paste error from another draft. This is a factual error that damages credibility.",
+     "The draft extensively catalogs open questions and uncertainties (nature of injury, exact circumstances, rehabilitation protocol, contingency plans) but presents them as gaps rather than acknowledging the brief's thin sourcing. The phrasing 'The open questions surrounding Saliba's status are significant' reads like the writer is hedging rather than reporting what is known."
+    ]
+   },
+   {
+    "id": "c102",
+    "headline": "Red Sox reach 15-game winning streak, tie 80-year franchise record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The streak has proven decisive in the playoff picture. The eight-game wild-card gain during this run leaves Boston in a considerably stronger position than it held before the winning began, according to CBS Sports.' However, the brief data_point states 'Red Sox picked up more than eight games in the wild-card race during this streak'\u2014the draft converts 'more than eight' to a definitive 'eight-game' gain, understating the claim in the source.",
+     "The brief's open_questions note indicates the source text is truncated with no article body content provided, yet the draft contains substantive prose claiming to report from that source. The writer has composed narrative without confirmed sourcing for multiple claims about momentum, consistency, and playoff positioning that go beyond the three data_points verified in the brief."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Cameron Munster opens PNG Chiefs talks after Storm grant permission",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Munster has played 251 games for Melbourne Storm since his NRL debut in 2014' but provides no temporal anchor for when this count was taken. The brief data_point uses the same figure but does not indicate whether this is current as of the reporting date (2026-07-23) or historical. A game count in a player profile should be dated or clearly tied to a specific point in time.",
+     "Draft claims Munster 'winning the 2017 and 2020 premierships with the club' but the brief only confirms he 'won the 2017 and 2020 premierships with the Storm and counts a World Cup win among his 15 caps for Australia.' The draft's framing could imply only two premierships; the brief's phrasing is ambiguous on whether these are his only premierships. This is a minor ambiguity but creates potential for factual misreading."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Villa Secure Loan of Chelsea Winger Garnacho With Obligation to Buy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal is 'until the end of the 2026-27 season' but the brief's data_point timestamp is '2026-07-22', which is in the present/near-future of the reporting date. This creates a temporal inconsistency: if the article is dated July 22, 2026, a loan 'until the end of the 2026-27 season' would be approximately one year forward, not a multi-year commitment. The brief does not clarify the current season or provide context to verify this timeline is accurate.",
+     "The draft states 'Chelsea's decision to loan the player, rather than sell him outright or retain him for the 2026-27 season, raises questions about the club's planning' \u2014 this speculates about Chelsea's motives and reasoning, which is not supported by any data_point in the brief. The brief lists only the loan structure fact, not Chelsea's strategic rationale."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "SEC moves to nine-game conference schedule to strengthen playoff standing",
+    "category": "clarity",
+    "reasons": [
+     "The draft states 'The scheduling change pauses some of the SEC's longest rivalries while awakening others' but the brief identifies this as reported fact, yet the draft then immediately undermines itself by saying 'The specific rivalries affected and the full scope of the new schedule have not been detailed in available reporting.' This creates internal contradiction\u2014either the change pauses/awakens rivalries (as the lede claims) or the specifics are unknown. The opening therefore trades accuracy for vagueness and should be rewritten to acknowledge the source did not detail which rivalries are affected.",
+     "The draft does not explain what 'strength of schedule' means or why nine conference games strengthen it relative to the prior format (eight games? ten games?). Without context on the previous schedule, the rationale for the change is unclear to readers unfamiliar with SEC football scheduling history."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Glasgow Commonwealth Games begin July 24 with Adam Peaty's return a central story",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Peaty won his first major international title 'in the 100m breaststroke at the 2014 Games' without attribution to an outlet. The brief data_point says 'Adam Peaty won his first major international title in the 100m breaststroke at Glasgow 2014, twelve years before this Games.' The draft omits 'Glasgow' from the 2014 location, which is confusing since the story is about Glasgow 2026. More critically, the brief's data_point on this claim is marked 'reported' confidence, meaning it comes from Guardian Sport; the draft presents the fact cleanly but should have attributed it inline or verified it is indeed from the Guardian source listed.",
+     "The draft says Peaty 'has won three Olympic gold medals' as a standalone statement without outlet attribution or date context. The brief lists this as a reported data_point from Guardian Sport, but the draft does not attribute it. Additionally, the brief does not specify *when* or *in which years* Peaty won these medals\u2014only that he won three. The draft's presentation is clean but unattributed."
+    ]
+   }
+  ]
  }
 ]
