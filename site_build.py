@@ -902,7 +902,9 @@ def render_bottom_line_history(items, dateline):
 
 
 def render_news(items, dateline):
-    live = [i for i in items if not i.get("example")]
+    # superseded chapters live on only through their own page's forward pointer; the
+    # news list and archive show one entry per story, exactly like the homepage
+    live = [i for i in items if not i.get("example") and not i.get("superseded_by")]
     bl = bottom_line_card(live)
     live = [i for i in live if not _is_wrap(i)]  # editions speak through the Bottom Line card
     if live:
@@ -1069,9 +1071,11 @@ def render_home(items, dateline):
         if not kws:
             continue
         rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
-        hit = next((i for i in live if rx.search(" ".join(
-            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""] +
-            [p for p in (i.get("body") or []) if isinstance(p, str)]))), None)
+        # match the story's SUBJECT only (headline, dek, key fact); a passing body
+        # mention must not hijack a Tracking chip (2026-07-23: "World Cup" in a stadium
+        # article's body, "supreme court" in a tariffs article, both mislinked the rail)
+        hit = next((i for i in live if not i.get("superseded_by") and rx.search(" ".join(
+            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""]))), None)
         if hit:
             # follow the update chain: a Tracking chip never lands on a retired version
             seen = set()
@@ -1104,7 +1108,7 @@ def render_home(items, dateline):
 
 
 def render_archive(items, dateline):
-    live = [i for i in items if not i.get("example")]
+    live = [i for i in items if not i.get("example") and not i.get("superseded_by")]
     if live:
         # group by day, newest first (items are already sorted): a researcher scans by date
         days = []
