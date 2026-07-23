@@ -429,5 +429,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c055",
+    "headline": "Arsenal signs Greece forward Christos Tzolis from Club Brugge for \u00a334 million",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Tzolis arrives as a direct replacement for Leandro Trossard following the Belgian's switch to Besiktas' but the brief lists this as a reported claim without specifying that Trossard left for Besiktas\u2014the brief's data point says only 'following the Belgian's switch to Besiktas' which is present, but the characterization of Tzolis as a 'direct replacement' is an editorial inference not explicitly supported by the brief's language and may overstate the causal connection.",
+     "Draft mentions 'Hincapi\u00e9 and Meslier are among other Arsenal arrivals this summer' but provides no attribution or source tie for this claim within the brief's data points. While the brief lists this as a data point from The Guardian, the draft does not attribute it inline, creating ambiguity about sourcing."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "USL Super League and players union agree on first collective bargaining agreement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Gainbridge Super League' in Vandervort's quote, but the brief's open_questions flag that the league name is unclear\u2014ESPN calls it both 'USL Super League' and 'Gainbridge Super League'\u2014and the desk does not know if there is a sponsorship component. The writer smuggled a definitive name choice ('Gainbridge Super League' in the quote) without brief support for which name is official.",
+     "The draft includes a data_point about the USL forgoing drafts and predating the NWSL's abolition of drafts, but this claim does not appear anywhere in the draft body. The writer included it in the brief but did not use it; this is not a liability issue but confirms the fact exists only in the brief and was not integrated into the story."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Cardinals tight end Travis Vokolek retires due to neck injury",
+    "category": "compliance",
+    "reasons": [
+     "The draft makes a definitive medical judgment about Vokolek's condition ('a serious neck injury') and frames medical advice as conclusive fact without qualification. The brief's open_questions note that 'the specific nature and severity of the neck injury beyond the medical advice to retire is not detailed in the sources.' The writer presented specialist consultation as settled medical fact rather than reported advice. The attribution to Vokolek's own statement ('After numerous visits with doctors and neurologists over the past couple of months, I have been advised to medically retire from the NFL due to a serious neck injury') is present, but the surrounding prose ('serious neck injury') treats the diagnosis as established fact beyond what the source supports. Health claims must trace to official injury reports or on-record statements; speculation about a player's medical state beyond the official record is a compliance violation."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Blue Jackets sign goaltender Jet Greaves to 3-year, $15M deal",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim states the deal was announced on July 23, 2026, but the draft states 'General manager Don Waddell announced the deal on July 24, 2026.' The brief's data_point says 'The deal was announced Thursday (July 24, 2026)' with timestamp 2026-07-23T14:47:42Z, creating ambiguity, but the draft should match the core_claim date of July 23 or flag the discrepancy. The draft's choice of July 24 contradicts the brief's core claim without explanation."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Norway considers filing FIFA ethics complaint over Trump intervention in Balogun red card case",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains the claim 'Balogun was cleared from a mandatory one-game ban at the World Cup following Trump's intervention,' but the brief data_point states 'Balogun was cleared from a mandatory one-game ban at the World Cup following Trump's intervention' without specifying it was a 'World Cup' ban\u2014the data_point says 'mandatory one-game suspension for the World Cup.' The draft also makes a factual statement about Balogun's nationality/team representation ('which national team Balogun represents') without this being confirmed in the brief's data_points. The brief lists as an open question 'Which country's team does Balogun play for?' This indicates the detail is unknown and should not appear as stated fact in the draft. The phrase 'Balogun was cleared from a mandatory one-game ban at the World Cup' treats unverified details (his team affiliation) as background fact."
+    ]
+   }
+  ]
  }
 ]
