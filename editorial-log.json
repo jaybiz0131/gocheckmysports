@@ -626,5 +626,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c025",
+    "headline": "Raiders sign No. 1 pick Fernando Mendoza to four-year, $57.27M fully guaranteed rookie contract",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'Mendoza is the first quarterback the Raiders have selected first overall since JaMarcus Russell in 2007, confirmed in official team reporting' conflates two different facts: the brief says Mendoza is 'the first player the Raiders drafted first overall since JaMarcus Russell in 2007,' not the first quarterback. The brief data point reads 'Mendoza is the first player the Raiders drafted first overall since JaMarcus Russell in 2007' with 'reported' confidence\u2014the writer added the word 'quarterback' and added 'confirmed in official team reporting,' neither of which appear in the brief or source confidence label."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Barcelona's Frenkie de Jong set for months on sidelines with knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states de Jong is 29 years old, but the brief data_point says 'De Jong is 29 years old' with confidence 'reported'. This creates an immediate factual issue: if the brief says he is 29, the draft cannot present this as current fact without context. More critically, the brief's core_claim and angle reference the injury raising 'questions about whether he prioritized World Cup play over club safety, which De Jong himself addressed in a statement.' The draft includes de Jong's rebuttal ('It's difficult for me to see people questioning my relationship and commitment to the club because of false reports') but buries it in the middle of the treatment discussion rather than surfacing the bear_case early. The bear_case items\u2014that claims about prioritizing country over club exist and that initial medical assessments seemed reassuring\u2014are present but undershadowed by the injury timeline narrative. The draft should foreground the controversy De Jong is responding to, not treat his statement as a supporting detail.",
+     "The draft refers to 'Karim Adeyemi from Borussia Dortmund and Anthony Gordon as summer signings' in a single clause that obscures sourcing and order. The brief data_points clarify that Adeyemi became Barcelona's 'second signing of the summer on Thursday' and Anthony Gordon was their 'first signing of the summer,' implying a sequence. The draft's phrasing ('added attackers Karim Adeyemi from Borussia Dortmund and Anthony Gordon as summer signings') is not false but compresses distinct actions into one sentence without temporal clarity, potentially misleading readers about the sequence and timing of the two signings."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Texas five-star cornerback commit John Meredith III reclassifies to 2026 class",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only 3 data_points and 1,156 source characters. The draft accurately reports those three facts (five-star commitment, reclassification to 2026, fall enrollment, transfer ruling), but then adds the sentence: 'Meredith's reclassification accelerates his arrival on campus, though the specific terms of the transfer ruling and its exact effect on his eligibility remain unclear from available reporting.' This sentence acknowledges opacity, but the phrase 'from available reporting' smuggles an editorial judgment that the source does not explicitly state. The brief's open_questions section itemizes exactly what is missing (the specific ruling, the ranking, who requested the move, Sarkisian's role), which means the writer knew the brief was thin. The sentence reads as the writer patching a gap rather than reporting what the brief contained. A thin brief should produce a short, tight story; adding interpretive sentences about what 'remains unclear' is not a substitute for source material."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Carapaz wins stage 18 as virus spreads through Pogacar's team in Tour de France",
+    "category": "compliance",
+    "reasons": [
+     "Health/illness claim about team members requires official confirmation or on-record statements. The draft states 'Teammates Wellens and Vermeersch struggled during the stage itself, their performance impacted by the outbreak' and 'Team rider McNulty abandoned the race' as direct consequences of illness without clarifying whether these are confirmed medical diagnoses or attributions. Speculation about a player's medical state beyond the official record violates compliance standards. The draft should either attribute these claims directly to The Guardian's reporting with qualification language, or note that the connection between illness and performance is inferred rather than confirmed."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "Mark Cuban's Harbinger Sports Partners Acquires Stake in Vegas Athletics",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Williams said the investment is 'not being made to help get construction costs across the finish line' and emphasizes 'Fisher definitely doesn't need our money. We're not coming to bail anyone out by any means.' However, the brief includes a separate data point: 'Williams: \"All of the money required to build the stadium has already been committed two years ago\"' \u2014 a quote that appears in the brief but is completely absent from the draft. This omission is material because it directly supports the claim about financing and should be included to fully represent what Williams said on the topic.",
+     "The draft omits Williams's statement that the new stadium 'is going to be the best ballpark ever built in the history of Major League Baseball,' which is in the brief as a reported claim and would be relevant context for the investment narrative.",
+     "The draft omits Williams's characterization of the ballpark location as 'in the best location you can build a ballpark,' referencing Las Vegas' 30-40 million annual tourists, which is in the brief and supports the market-opportunity framing."
+    ]
+   }
+  ]
  }
 ]
