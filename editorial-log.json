@@ -549,5 +549,82 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Barcelona's Frenkie de Jong set for months on sidelines with knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'De Jong started all four games at the World Cup' but the brief data_point states 'De Jong started all four games at the World Cup... which crashed out in the round of 32 to Morocco.' The brief clarifies this is a verified fact, but the draft then says he 'played 90 minutes against Japan, 59 minutes against Sweden, and 72 minutes against Tunisia in group play, then 110 minutes in the knockout-stage penalty-shootout defeat to Morocco' \u2014 this contradicts the claim he 'started' all four games if minutes vary this widely. The brief's verified-on-chain data supports the minute totals, not the 'started all four' framing used in the draft."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Elliot Anderson completes move to Manchester City from Nottingham Forest",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Anderson 'represented England at the 2026 World Cup' but this claim does not appear in the brief's data_points. The brief only confirms the transfer details and Anderson's statements; there is no sourced confirmation of World Cup participation in the research brief. This fact is smuggled outside the brief."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Commonwealth Games 2026 opening ceremony in Glasgow",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Glasgow's Hydro venue, a 13,000-capacity arena' but the brief does not include a capacity figure. The 13,000-capacity claim is smuggled and not traceable to the brief.",
+     "The draft describes Glasgow's Hydro as being 'in Scotland's largest city' but the brief does not confirm this geographic detail. This is descriptive material not in the brief."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Pogacar's title bid threatened as UAE Team Emirates virus spreads at Tour de France",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The loss of McNulty reduces the firepower available to Pogacar in the mountains, where positioning and pacing support are essential to defending a lead' but the brief's open_questions explicitly flags that 'How many days remain in the Tour after stage 18?' is unknown. The draft treats it as fact that 'only days left in the Tour' and 'final mountain stages' exist, but this temporal detail is not confirmed in the brief.",
+     "The draft claims 'With only days left in the Tour' as established fact, but the brief does not specify how many stages remain after stage 18. This is narrative assertion unsupported by the brief's data points.",
+     "The draft states Pogacar 'will attempt to manage both his own condition and his depleted support structure' but the brief explicitly lists as an open question 'Is Pogacar himself showing symptoms?' The draft treats uncertain health status as confirmed fact."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "Patrick Kane signs two-year deal with Blackhawks as free agent",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Kane, a Hall of Fame forward and former Hart Trophy winner, rejoins the Blackhawks as a free agent during the 2026 offseason.' The brief does not contain data points confirming Kane is a Hall of Famer or Hart Trophy winner\u2014these are smuggled biographical facts not present in the research brief. Only the contract signing, AAV, and general angle appear in the brief.",
+     "The brief's open_questions explicitly flag that 'critical details such as signing date, specific contract structure, salary breakdown by year, whether Kane's Hart Trophy history or age at signing are mentioned' cannot be verified from the provided source. The draft presents Hart Trophy history as confirmed fact."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Braves edge Padres 6-5 behind Sale's 11-strikeout performance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Chris Sale struck out 11 batters, matching his season high on the mound.' The brief contains a data point confirming Sale struck out 11 batters, but the confidence label on the season-high claim is 'verified-on-chain,' yet the brief's open_questions note 'The provided source text is empty; all facts are drawn from the headline and snippet only.' The source cannot actually verify a 'season high' claim if the full source content is unavailable.",
+     "The draft makes narrative claims about 'both teams evaluating roster moves heading into the deadline' and 'late-July contest carries significance for teams assessing their competitive standing' that do not appear as data points in the brief and cannot be traced to the ESPN recap, which the open_questions confirm is essentially empty of verifiable content."
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Texas lands five-star CB Meredith after reclassification to 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The high school transfer ruling, while creating ineligibility at his former school, paradoxically opened the path for Meredith to advance his college enrollment.' This causal explanation (why the ruling paradoxically enabled reclassification) is not present in the brief's data points. The brief only confirms the transfer ruling rendered him ineligible; it does not explain the mechanism by which this led to reclassification, and the open_questions explicitly ask 'Why does the transfer ruling lead to reclassification rather than sitting out a year at Texas?' This is smuggled analysis.",
+     "The draft states 'Meredith will join Texas's on-campus roster in the coming months' (fall 2026), but the brief only confirms 'will enroll at Texas in fall 2026.' The phrase 'in the coming months' assumes the current date is close enough to fall 2026 that this is accurate\u2014a temporal claim not supported by the research."
+    ]
+   },
+   {
+    "id": "c165",
+    "headline": "Panthers sign OLB Cam Gill after Scourton injury in opening practice",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'While the brief references the injury as an ACL tear, this has not been confirmed by team sources or an official injury report.' This is self-aware meta-commentary about the brief itself, not reporting. The writer is flagging uncertainty about their source material rather than reporting what is known. This violates the hard rule that facts come from the brief, not the writer's judgment of the brief's credibility. The sentence should either be removed or reframed as pure uncertainty without reference to what 'the brief references'.",
+     "The draft characterizes Scourton's injury as 'right knee injury' throughout but never reports what the actual reported severity is according to Yahoo Sports. The brief's angle explicitly states 'ACL damage' with confidence 'reported,' but the draft then undermines this by adding unconfirmed speculation language. Either report the ACL claim from Yahoo or stick to 'right knee injury'\u2014do not create false hedging that suggests the source material is unreliable."
+    ]
+   }
+  ]
  }
 ]
