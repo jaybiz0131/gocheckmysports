@@ -477,5 +477,77 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c031",
+    "headline": "Patrick Kane returns to Blackhawks on two-year contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Kane 'spent 16 seasons with the franchise' but the brief and sources say he was with the Blackhawks for 16 seasons before being traded in 2023. The draft then says 'Kane made the playoffs nine consecutive seasons and reached the conference finals five times' with the Blackhawks\u2014this is accurate to the brief. However, the discrepancy in how the 16-season tenure is characterized creates ambiguity about whether the draft is claiming all 16 seasons were pre-trade. The sentence 'Kane chose Chicago over what ESPN reported as competing interest from the Buffalo Sabres, his native state' is awkwardly phrased and potentially misleading: Buffalo is not Kane's native state (he is from Michigan), though the brief says 'his native state' referring to Buffalo as a homecoming. This attribute error requires rejection.",
+     "The draft attributes the $8M AAV contract details to ESPN in the opening but the brief marks this data point with confidence 'announced-not-verified,' which must be reflected in the prose as uncertain language. The draft reads the contract terms as settled fact ('signed a two-year contract... with... $8 million average annual value') without any hedge or attribution qualifier that signals the unverified status."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Garnacho Joins Aston Villa on Season-Long Loan from Chelsea",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Amadou Onana ruptured his anterior cruciate ligament (ACL) playing for Belgium at the World Cup,' but the brief's data_point says he suffered the injury 'playing for Belgium at the World Cup' without specifying which World Cup or timeframe. The phrasing in the draft treats this as a recent event ('was further tested by injury') in the context of current squad reshaping, but the brief provides no timestamp or clarity on when this occurred. This conflates an undated past injury with present squad depth concerns without sufficient sourcing clarity.",
+     "The draft presents Garnacho's appearance threshold as determinative ('based on the number of appearances he makes') without qualification. The brief acknowledges this is not disclosed ('The specific appearance threshold required to trigger Garnacho's permanent obligation has not been disclosed'). The draft should flag this as an unspecified term, not state it as settled fact."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "Arsenal Sign Greece Forward Christos Tzolis from Club Brugge",
+    "category": "clarity",
+    "reasons": [
+     "The draft is inappropriately thin given the thinness of the brief itself. The brief is marked 'thin: true' with only 325 source characters and explicitly states in open_questions that 'the full details of Tzolis's career record, statistics, and performance at Club Brugge are not provided.' The draft acknowledges this gap in a meta-statement ('The sources confirm the transfer fee, contract length, and Tzolis's status as a Greece international, but do not provide detailed information about his record at Club Brugge...'), which is a liability red flag. A draft that admits its sources are inadequate should not run; the desk should either enrich the brief or kill the story. The draft reads as incomplete reporting, not editorial restraint."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Blue Jackets sign goaltender Jet Greaves to 3-year, $15M contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents contract details (3-year, $15M through 2028-29) and the GM quote as settled fact, but the brief marks all contract-related claims and the quote as 'announced-not-verified'\u2014a confidence level that should be signaled in prose to readers. The sentence 'The Columbus Blue Jackets announced a three-year, $15 million contract with goaltender Jet Greaves through the 2028-29 season, per general manager Don Waddell' reads as confirmed when the brief's confidence label requires hedging language.",
+     "The brief's open_questions flag the AAV breakdown and clause details as unknown; the draft does not acknowledge this uncertainty or signal to readers that only the headline terms were announced."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "TE Travis Vokolek retires due to neck injury suffered last season",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains speculative characterization of Vokolek's medical condition beyond the on-record statement. The passage 'The injury occurred on a kickoff return during a game against the Indianapolis Colts in October. Vokolek was pushed by Colts linebacker Segun Olubi and went down awkwardly' reconstructs the mechanism of injury in narrative detail. The brief supports 'suffered his injury on a kickoff return' and 'pushed by Segun Olubi and went down awkwardly' as reported, but the framing ('went down awkwardly') reads as reconstruction rather than direct attribution and ventures into medical interpretation.",
+     "More critically, the closing paragraph\u2014'The retirement reflects the medical reality that some injuries, even to young players, can end careers suddenly and without warning. Vokolek's case underscores the physical toll that can result from a single play in professional football.'\u2014is thematic commentary and editorial interpretation not present in the brief. It reads as the writer's take, which violates the human_take=empty rule and the hard rule that facts stay in the brief. This is personal voice analysis, not reported fact."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "Norway considers filing Fifa ethics complaint over Trump role in World Cup red card saga",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Trump 'called Fifa president Gianni Infantino to request a review of Balogun's red card' as fact. The brief confidence label is 'reported', not confirmed or verified. The draft should signal this is reported allegation, not settled fact, given the high-sensitivity political/governance claim.",
+     "The draft asserts 'The ban was subsequently cleared' as direct consequence of Trump's call. The brief lists these as separate reported claims without causal confirmation. The draft's sequencing implies causation that the source material does not establish.",
+     "The draft claims 'Folarin Balogun' is an 'England midfielder.' The brief only identifies him as 'England player' without position specification. The draft added a detail not in the brief.",
+     "The draft's final paragraph states 'remain unreported' for specifics of Trump's call and grounds for overturning the ban. This contradicts the paper's purpose: these are open_questions in the brief, not matters the writer should be characterizing as reporter failure. The framing suggests reportorial incompleteness rather than source limitation."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Maldini confirms crisis-hit Italy have held talks with Guardiola and Ancelotti",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Guardiola as 'currently out of work' in the opening paragraph. The brief confidence label is 'reported', not verified. This is a claim about his employment status presented as settled fact without confidence qualifier or source attribution inline.",
+     "The draft states 'Ancelotti, by contrast, remains Brazil's manager' without inline attribution. While this is in the brief as reported, the opening sentence's framing ('Italy's football federation has held talks with Pep Guardiola, who is currently out of work, and Carlo Ancelotti, Brazil's sitting manager') presents both employment statuses as established fact. Given these are reported claims about current roles, attribution must be visible.",
+     "The draft claims 'Italy failed to qualify for the past three World Cups, marking an unprecedented stretch of absence for a nation that won the tournament in 1934 and 1938.' The brief confirms three-World-Cup failure, but the historical context (1934/1938 wins) is not in the brief data_points. This is smuggled historical fact.",
+     "The draft's final paragraph states 'The Guardian's reporting does not specify which candidate is favored...' This uses the brief's open_questions as draft content, which is acceptable framing, but the sentence 'the exact scope of remaining discussions is unclear' adds editorial characterization not grounded in the brief's claims or open_questions."
+    ]
+   }
+  ]
  }
 ]
