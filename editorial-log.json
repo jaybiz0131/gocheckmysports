@@ -824,5 +824,73 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "LeBron James signs with 76ers on 2-year, $8M deal, calls it his final free agency decision",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states '76ers lost to the eventual champion New York Knicks 4-2 in the second round' but brief data_point says they 'lost to the eventual champion New York Knicks 4-0 in the second round.' The draft contains a factual error (4-2 vs 4-0) not present in the brief.",
+     "Draft quotes James saying 'I've played here, for obviously 23 years, a lot more when I was in the Eastern Conference' but brief establishes James is beginning his 24th season (core_claim: '24-season NBA veteran'), making '23 years' accurate only if this quote predates the 2026-27 season announcement. The brief data_point for this quote does not clarify the timing or context of when he said it relative to his announcement, creating ambiguity the draft should have resolved or flagged.",
+     "Draft statement 'The Eastern Conference now includes Donovan Mitchell with the Cavaliers and Giannis Antetokounmpo with the Miami Heat, both of whom heavily pursued James' misrepresents the brief. The brief data_point says both 'heavily pursued James,' but does not state that either are newly with those teams or that this is a recent acquisition relevant to James' decision. The phrasing 'now includes' implies recent roster moves that are not supported by the brief."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Commonwealth Games 2026 opens in Glasgow with day-one medal action",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'England won the first gold medal of the Games on the opening day' but the brief's open_questions explicitly state: 'Which event produced England's first gold medal is not specified in the readable portions of the source.' This fact cannot be traced to readable content in the brief's data_points.",
+     "The brief notes that the source text is 'almost entirely composed of styling and layout CSS; no substantive reporting content beyond the headline and snippet is readable.' The draft presents specific facts (Lauren Mackie's result, day-one sports list) as though they were verified, when the brief marks the source as unreliable beyond its headline. A thin brief with CSS-only source material should not support a confidently factual draft.",
+     "The data_point about 'Ramsay-Peaty competed on day one' is included in the brief but never appears in the draft body. The open_questions note that 'Ramsay-Peaty's specific event, result, and performance details are not available in the fetched text.' The draft does not acknowledge this gap or the thinness of the source."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "IOC refuses to investigate Infantino, citing FIFA autonomy and ethics scope limits",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Times reported that the committee chair, Mohammad Al Kamali, took the decision alone, according to ESPN' but the source attribution is broken. ESPN is cited as the source for this claim in the brief's data_point, yet the draft attributes the fact to 'The Times' via ESPN. This is a misrepresentation of the sourcing chain that obscures where the information originated and creates liability if The Times did not report this detail or ESPN's attribution was imprecise.",
+     "The draft describes UEFA's statement as 'unpreceded, incomprehensible and unjustifiable' but the brief's data_point quotes it as 'unprecedented, incomprehensible and unjustifiable.' The word 'unpreceded' appears in the draft body; this is a factual error (misspelling of 'unprecedented') that changes the word's meaning and must be corrected before publication."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Belgium name Van Bommel to replace Rudi Garcia as manager",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Van Bommel did not previously hold a formal position with Belgium' in the final paragraph, but this claim does not appear in the research brief's data_points. The brief contains no information about whether Van Bommel held any prior formal position with Belgium, making this a smuggled assertion not sourced to the research."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Enzo Maresca: It's a 'privilege' to succeed Pep Guardiola at Man City",
+    "category": "clarity",
+    "reasons": [
+     "The draft states Maresca is '49' years old but the research brief provides no data_point confirming his age. The brief establishes his name, role, and background but does not include his age in any confidence-labeled data_point, meaning this figure is asserted without research foundation.",
+     "The draft claims Rodri 'played a key role in Spain's World Cup success' but does not specify which World Cup year. The brief confirms this claim (data_point 9) but the draft's phrasing is vague about the temporal reference; given the fictional 2026 timeline of the story, clarity on whether this refers to 2026 or an earlier tournament is needed for readers to understand the context."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Pakistan batter Abdullah Fazal ruled out of West Indies, England Tests with lower-back injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Imam-ul-Haq, who missed the Bangladesh Test while Fazal and Azan Awais opened together' but the brief data point says 'Imam-ul-Haq, who missed Pakistan's most recent Test against Bangladesh with Azan Awais and Fazal opening together.' The draft omits the critical fact that Azan Awais and Fazal opened together (it reads as though only Fazal opened), which changes the meaning of the squad composition and the reason Imam-ul-Haq was absent. This is a factual misstatement of the opening pair composition."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Paralympics cycling medalist Schrager banned 2 years for doping",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Schrager is 'a 2024 Paris Paralympics medalist in track pursuit' but does not specify the medal color. The brief data point confirms she is 'a 2024 Paris Paralympics medalist in track pursuit' without specifying the medal type. The headline calls her a 'silver medalist' but the body later clarifies only that she took 'silvers in time trial and road race at the 2024 para-cycling worlds in Zurich'\u2014not Paris. The draft never specifies what medal she won in track pursuit at Paris 2024, creating ambiguity. The bottom_line itself flags this gap ('the sources do not provide detail on...clarify the exact event at Paris 2024 where she won her silver medal'), which indicates the writer recognized the brief was incomplete on this point. Since the draft does not specify the medal type for the Paris track pursuit event, it leaves a factual gap that should have been resolved before approval or the claim should be softened."
+    ]
+   }
+  ]
  }
 ]
