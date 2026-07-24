@@ -5,26 +5,16 @@
   "EVENT_CALENDAR_NOTE": "Owner directive 2026-07-21: marquee event days are staffed by default. Windows are deliberately approximate (they bias the editor's staffing, never facts); refresh the list each season. Injected into the editor prompt by editor.active_events().",
   "event_calendar": [
     {
-      "name": "MLB pennant races (stretch run)",
-      "start": "2026-08-15",
-      "end": "2026-09-27",
+      "name": "WNBA All-Star Weekend (Chicago)",
+      "start": "2026-07-23",
+      "end": "2026-07-26",
       "keywords": [
-        "pennant",
-        "wild card",
-        "division race",
-        "clinch"
-      ]
-    },
-    {
-      "name": "MLB postseason and World Series",
-      "start": "2026-09-29",
-      "end": "2026-11-01",
-      "keywords": [
-        "postseason",
-        "playoffs",
-        "World Series",
-        "ALCS",
-        "NLCS"
+        "wnba",
+        "all-star",
+        "3-point contest",
+        "shooting stars",
+        "clark",
+        "bueckers"
       ]
     },
     {
@@ -38,13 +28,24 @@
       ]
     },
     {
-      "name": "NFL kickoff week",
-      "start": "2026-09-10",
-      "end": "2026-09-15",
+      "name": "MLB pennant races (stretch run)",
+      "start": "2026-08-15",
+      "end": "2026-09-27",
       "keywords": [
-        "kickoff",
-        "week 1",
-        "season opener"
+        "pennant",
+        "wild card",
+        "division race",
+        "clinch"
+      ]
+    },
+    {
+      "name": "WNBA stretch run and playoff race",
+      "start": "2026-08-15",
+      "end": "2026-09-10",
+      "keywords": [
+        "wnba",
+        "playoff race",
+        "standings"
       ]
     },
     {
@@ -67,12 +68,45 @@
       ]
     },
     {
+      "name": "NFL kickoff week",
+      "start": "2026-09-10",
+      "end": "2026-09-15",
+      "keywords": [
+        "kickoff",
+        "week 1",
+        "season opener"
+      ]
+    },
+    {
+      "name": "WNBA playoffs and Finals",
+      "start": "2026-09-11",
+      "end": "2026-10-20",
+      "keywords": [
+        "wnba",
+        "playoffs",
+        "finals",
+        "commissioner's cup"
+      ]
+    },
+    {
       "name": "Ryder Cup week",
       "start": "2026-09-21",
       "end": "2026-09-27",
       "keywords": [
         "Ryder Cup",
         "Adare Manor"
+      ]
+    },
+    {
+      "name": "MLB postseason and World Series",
+      "start": "2026-09-29",
+      "end": "2026-11-01",
+      "keywords": [
+        "postseason",
+        "playoffs",
+        "World Series",
+        "ALCS",
+        "NLCS"
       ]
     },
     {
@@ -154,7 +188,9 @@
       "start": "2027-02-12",
       "end": "2027-02-15",
       "keywords": [
-        "All-Star"
+        "all-star",
+        "3-point contest",
+        "dunk contest"
       ]
     },
     {
@@ -482,6 +518,20 @@
           "rsn",
           "carriage dispute",
           "broadcast deal"
+        ]
+      },
+      {
+        "name": "WNBA and women's basketball",
+        "keywords": [
+          "wnba",
+          "caitlin clark",
+          "paige bueckers",
+          "a'ja wilson",
+          "aces",
+          "liberty",
+          "fever",
+          "lynx",
+          "women's basketball"
         ]
       }
     ]

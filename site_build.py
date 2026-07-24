@@ -990,11 +990,15 @@ def render_home(items, dateline):
             'aria-label="Pause background animation">&#10074;&#10074;</button>')
         lead_mark = ('<span class="badge breaking">Breaking</span>' if breaking
                      else _hero_tag(lead))
+        # freshness at a glance (owner directive 2026-07-24): a lead that is the head of
+        # an update chain shows "Updated <time>" so a running story reads as current, not
+        # as whenever the thread began.
+        when_lbl = (f'Updated {fmt_when(lead)}' if lead.get("update_of") else fmt_when(lead))
         lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
                      f'<span class="hero-kick"><span class="kicker">Lead story</span>{lead_mark}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
-                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
+                     f'<span class="dateline">{when_lbl}</span></span></a>')
         # The Bottom Line rides shotgun: the day's summary as the hero square beside the
         # lead, replacing the standalone band lower on the page.
         bl_card = ""
