@@ -892,5 +892,84 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "Pogacar wins stage 19 on Alpe d'Huez, extends Tour lead past seven minutes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Pogacar 'became only the second rider to win a stage in the yellow jersey on Alpe d'Huez,' but the brief's data_point states 'Pogacar was only the second man to win in yellow on Alpe d'Huez'\u2014a subtle but material difference. 'Second rider' vs. 'second man' changes the historical scope; the brief does not specify gender, and the draft's wording could mislead readers about cycling history.",
+     "The draft references 'fewer than three stages remaining' but the brief provides no data_point specifying how many stages remain after stage 19. This is a new factual claim not sourced to the brief."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Fury stops Wach in round 7 in Thailand, clears path for Joshua bout",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the bout 'was broadcast to no live television audience' (treating 'no live broadcast' as a negative outcome), but the brief's data_point only says 'The bout had no live broadcast.' This is accurate but the draft's phrasing ('broadcast to no audience') suggests broader absence of coverage than 'no live broadcast' implies\u2014potentially introducing a new interpretive claim.",
+     "The draft states 'The outcome of Joshua's bout against Prenga on Saturday and any announcements from either camp's promoters will signal whether the November heavyweight matchup moves closer to confirmation'\u2014but the brief contains no data_point about a 'November' heavyweight matchup. The brief says 'a unification bout expected in November,' which is present, but the draft's framing of outcome-dependent forward momentum is inference beyond the brief's scope."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Paralympics silver medalist Schrager banned 2 years for ligandrol",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Schrager 'will be ineligible for 20 months' in the bottom_line, but earlier in the draft and in the brief data_point, the ban is consistently described as two years. Two years = 24 months, not 20 months. This is a mathematical error introducing a new fact not in the brief."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Michael Kim shoots 59 at 3M Open, 15th sub-60 round in PGA Tour history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Only 14 other players in PGA Tour history have shot 59,' which contradicts the core claim and data_points that Kim's 59 is the '15th sub-60 round in PGA Tour history.' If Kim's round is the 15th, then 14 others came before him, making the sentence accurate in isolation, but the phrasing creates ambiguity. However, the more serious issue: the draft then says 'The most recent sub-60 round came from Jake Knapp during the first round of the 2025 Cognizant Classic, per ESPN's reporting'\u2014but if Kim's 59 on Friday at the 3M Open is the 15th, and Jake Knapp's was earlier in 2025, this creates a chronological problem. The brief does not specify when the 3M Open occurred relative to the Cognizant Classic. This factual sequence cannot be verified against the brief and represents smuggled temporal information."
+    ]
+   },
+   {
+    "id": "c176",
+    "headline": "Mendoza Signs $57M Guaranteed Rookie Deal With Raiders; Pavia Waived by Ravens",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mendoza 'signed a four-year, $57.27 million fully guaranteed contract' but the brief's data_point on the contract value is marked 'announced-not-verified' (confidence label), not 'reported.' The draft presents this as settled fact without qualification, violating the rule that announced-not-verified claims must read that way in prose.",
+     "The draft includes the Mendoza Instagram quote ('I'm so excited to be a part of the family, and I can't wait to get to work') which does not appear anywhere in the body text of the provided draft, only in the sources list. This quote appears in the brief as marked 'announced-not-verified' but is absent from the actual draft body\u2014no smuggling violation here, but confirms the quote's status is unverified and would need flagging if it were used.",
+     "The draft omits several critical data_points from the brief that are marked 'reported' and directly relevant: the Raiders' postseason drought (just once since 2017, no playoff wins since 2002), and the Raiders' overall win-loss record (two winning seasons in 23 years). These omissions create an incomplete picture of the competitive context into which Mendoza is entering."
+    ]
+   },
+   {
+    "id": "c172",
+    "headline": "NFL Sets Super Bowl LXII in Atlanta for February 2028, Confirming 17-Game 2027 Season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Super Bowl LXII is scheduled for February 13, 2028 in Atlanta' but the brief marks this data_point with confidence 'announced-not-verified,' not 'reported.' The draft presents the date as a confirmed fact without any qualification such as 'according to league announcement' or similar hedging that would signal the unverified status.",
+     "The draft claims the specific February 13, 2028 date 'effectively confirms that the 2027 season will operate on a 17-game schedule' as though this is direct inference. While logical, this causal claim is not present in the brief's data_points\u2014it is editorial interpretation presented as fact. The brief states the date-setting 'pushed' the 18-game decision to 'no earlier than 2028,' but the draft's language ('effectively confirms') overstates the causal mechanism.",
+     "The draft references 'Super Bowl LXI at SoFi Stadium in California on February 14, 2027' but this specific pairing of SoFi + February 14, 2027 does not appear in the brief data_points, only references to 'the 2026 NFL season, culminating with Super Bowl LXI at SoFi Stadium in California on February 14, 2027.' The date is correct per the brief, but the draft should verify this against the source before presenting it as established fact."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Maresca acknowledges challenge of following Guardiola at Manchester City",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Maresca, who took over as City manager last month' but the source URL timestamp is 2026-07-24 and the data_point says he took over 'prior to July 24, 2026'\u2014this is vague and the draft should not specify 'last month' as a definite fact without the exact appointment date being confirmed in the brief.",
+     "The draft claims 'Per the Guardian's reporting, Maresca cited how successors to Sir Alex Ferguson at Manchester United and Ars\u00e8ne Wenger at Arsenal faced challenges following their predecessors' tenures' but the brief's open_questions flag 'What were the exact remarks Maresca made about the predecessors to Ferguson and Wenger, and what specific struggles did he cite?' The brief does not confirm the specific content or nature of Maresca's citations\u2014only that he 'acknowledged' awareness of these successors' struggles. The draft over-represents the specificity of his remarks.",
+     "The brief's open_questions explicitly ask 'What specific quote from Maresca describes following Pep Guardiola as a challenge or indicates the difficulty he foresees?' This question signals the brief does not confirm Maresca directly cited Guardiola as a challenge in the press conference. The draft states he 'directly acknowledging the historical difficulty of the role' but the brief only confirms he invoked historical examples\u2014not that he explicitly framed his own role as difficult."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Joe Root emerges as frontrunner for England's interim Test captain in Pakistan series",
+    "category": "accuracy",
+    "reasons": [
+     "The draft names 'Trott, Dawson, Fleming, and Trescothick' as coaching contenders, stating 'The board is managing three shortlists for the coaching position, with contenders including Trott, Dawson, Fleming, and Trescothick.' The brief data_point says 'Trott, Dawson, and Fleming are among contenders' (three people) but then separately states 'Trescothick is in contention for the interim coaching role.' The draft conflates these by listing all four under 'three shortlists' without clarifying that Trescothick is specifically for the interim role while the other three are on the general shortlist. This blurs a distinction the brief preserves.",
+     "The draft states 'Root's emergence as the frontrunner for the interim captaincy reflects the ECB's apparent need for a stabilizing figure' but the brief's open_questions include 'Has Root indicated willingness to take on the interim captaincy?' which signals the brief does not confirm Root has accepted or agreed to the role. Describing him as a stabilizing choice presents a narrative conclusion not confirmed by the source material."
+    ]
+   }
+  ]
  }
 ]
