@@ -675,5 +675,62 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c055",
+    "headline": "Patrick Kane signs two-year, $8M AAV deal to return to Chicago Blackhawks",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims Kane 'spent 16 seasons' with Chicago, but the brief's data_point and GM quote both confirm he spent 16 seasons before being traded in 2023\u2014the phrasing 'spent 16 seasons' in past tense is accurate to the brief and not a new fact. However, the statement 'he ranks fourth among active players with 1,400 points and sixth with 508 goals' appears in the draft but the brief data_point says 'Kane is fourth among active players with 1,400 points and sixth with 508 goals.' The phrasing shift from present-tense 'is' (in brief) to 'ranks' (in draft) is acceptable paraphrase. No accuracy violation on that basis.",
+     "ACTUAL ISSUE: The draft's bottom_line states 'Kane's production last season (16 goals, 41 assists in 67 games) and age represent a structural risk over the two-year term' and 'making how Kane ages during the contract a critical variable to monitor.' This language\u2014'structural risk,' 'critical variable to monitor'\u2014reads as editorial judgment about investment quality and outcome probability. While the bottom_line is not a betting pick per se, the framing that his age and production 'pose a risk' and should be 'monitored' as a critical variable invites the reader to evaluate whether the contract is a smart move, which borders on implicit valuation advice. The brief's open_questions note 'Whether Kane's age (37) and performance (16 goals, 41 assists in 67 games last season) pose a risk of decline during the two-year deal,' but that is framed as an open question, not a settled editorial stance. The draft converts an open question into a stated risk assessment without attributing it to any source or marking it as speculative. This is a judgment call, but the bottom_line's confident assertion of 'structural risk' without source attribution or conditional language crosses into editorial opinion that is not grounded in a reported fact or quote from the brief."
+    ]
+   },
+   {
+    "id": "c097",
+    "headline": "Brissett ends holdout, joins Cardinals for training camp as extension talks continue",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Brissett did not practice during the Cardinals' mandatory minicamp while seeking an extension' as fact, but the brief only confirms he 'did not practice during the mandatory minicamp while seeking an extension'\u2014the draft adds 'the Cardinals'' before 'mandatory minicamp,' which is a minor clarification but the core claim in the brief does not state this was the Cardinals' minicamp specifically. More critically, the draft presents this as established fact when the brief provides only one data point with 'reported' confidence, and does not sufficiently flag the thin evidentiary base. The draft should clarify what exactly is confirmed vs. what remains open."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Anderson becomes Manchester City's record signing after World Cup standout",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Anderson was a key part of England's World Cup squad' but the brief's data_point confidence is only 'reported', not verified. The brief itself flags in open_questions: 'Specific details of Anderson's World Cup performances are not in the source text.' The draft presents this as settled fact without qualification.",
+     "The draft refers to 'a deal that marks him as a centerpiece of the club's midfield plans' with no source attribution or data point in the brief supporting this characterization of his role or position."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Fury and Joshua fight limited opponents this weekend before planned heavyweight clash",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Joshua laboured through five rounds of recent action, the Guardian reported, though the opponent details were incomplete in the available source text.' This presents a confirmed fact ('laboured through five rounds') when the brief's data_point itself marks this as incomplete: 'Joshua laboured through five rounds against an unspecified opponent (text cut off in source).' The draft should flag the incompleteness more clearly rather than stating the fact as settled.",
+     "The draft claims 'The headline references a $100 million purse for their main event, though the source text does not confirm the exact figure.' This is circular reasoning: if the source text does not confirm it, it should not appear in the draft body as fact. The brief's open_question explicitly flags: 'The $100 million purse figure is stated only in the headline, not confirmed in the provided source text.' The draft smuggles an unconfirmed figure into the narrative."
+    ]
+   },
+   {
+    "id": "c175",
+    "headline": "Mark Cuban's Harbinger Sports Partners acquires A's minority stake; first investment for new firm",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Williams said the new stadium 'is going to be the best ballpark ever built in the history of Major League Baseball' but this claim does not appear in the brief's data_points. The brief includes multiple Williams quotes but not this superlative claim about the stadium being 'the best ballpark ever built.' This is a smuggled fact not traceable to the research."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "Chelsea signs Morgan Rogers for record 117M pounds; tactical fit with Alonso questioned",
+    "category": "balance",
+    "reasons": [
+     "The brief explicitly identifies a bear_case item: 'The article's headline and analysis question whether Rogers' playing style aligns with Alonso's tactical preference for slow build-up play, suggesting potential tactical mismatch despite the premium \u00a3117m fee.' However, the draft presents this mismatch as straightforward tactical reality ('raising questions about whether Rogers' playing style aligns') without substantive counter-argument or alternative framing. The brief is thin (true) with only 7 data_points, and the tactical analysis relies on inference ('Xabi Alonso's best teams have built attacks slowly') rather than on-record statements about Rogers-Alonso fit. The draft reads as a speculation-driven take dressed as analysis without the necessary sourced pushback or quotes from Alonso, Chelsea, or tactical experts acknowledging the mismatch concern. A story this thin that leads with unresolved tactical doubt without direct evidence or defense from the club's perspective reads as rumor-laundering."
+    ]
+   }
+  ]
  }
 ]
