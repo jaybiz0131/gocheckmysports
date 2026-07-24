@@ -732,5 +732,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c047",
+    "headline": "Patrick Kane returns to Blackhawks on two-year contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Kane 'spent 16 seasons with the franchise before being traded to the New York Rangers in 2023' but the brief says Kane was 'traded to the New York Rangers in 2023 as Chicago entered a rebuild' without specifying he completed exactly 16 seasons. The draft's precise tenure claim ('16 seasons') is not explicitly confirmed in any data_point; the brief's data_point says 'Kane is 37 years old and was drafted first overall by the Blackhawks in 2007' but does not state the exact number of seasons played before the 2023 trade. This is a smuggled fact\u2014the writer inferred tenure length from age and draft year rather than finding it in the brief's documented sources.",
+     "The draft states 'Kane entered his 20th NHL season' but the brief's data_point says 'Kane is entering his 20th NHL season' with confidence 'reported.' The tense shift from 'entering' (future) to 'entered' (past) changes the temporal claim without explicit source confirmation that the season has already begun as of publication. This conflates announced future status with current fact."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "More than 20 NFL coaches tell ESPN Rooney Rule has become a mockery",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Graham collapsed to his knees crying in his garage after the Jacksonville experience, saying \"It just made me think, like, Damn, I haven't done enough.\"' but this claim does not appear in the body of the draft. The brief contains this data_point marked 'reported', but the draft never includes this detail\u2014a fact in the brief that should have been included if the brief intended it for publication.",
+     "Draft omits the critical bear_case detail that Graham himself said in May 2026 'I wouldn't be here in Pittsburgh without that experience'\u2014the exact sentence the draft does use. However, the draft presents Graham's quote as acknowledgment that 'communication could have been better' without the full context from the brief that he also expressed gratitude for the outcome. The quote in the draft reads 'acknowledged the communication \"could have been better\" but said he was \"glad it worked out for Liam [Coen], and I wouldn't be here in Pittsburgh without that experience.\"' This is accurate to the brief's data_point, so no accuracy violation here."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "WNBA stakeholders tell ESPN Engelbert may not be right person to lead league",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Nine months after Minnesota Lynx guard Napheesa Collier voiced concerns with leadership publicly, sources leaguewide told ESPN that Engelbert has failed to develop sufficient relationship equity' but the brief data_point says 'Nine months after Napheesa Collier's comments voicing concerns with leadership' without specifying that these comments were made publicly. The draft adds the qualifier 'publicly' which is not in the brief and changes the factual claim about the nature of Collier's comments.",
+     "Draft claims multiple team sources 'find it curious Engelbert has not prioritized developing a closer relationship with Indiana Fever guard Caitlin Clark, the league's most high-profile player' but the brief says 'Multiple team sources told ESPN they find it curious Engelbert hasn't prioritized developing a closer relationship with Indiana Fever guard Caitlin Clark.' The draft uses 'has not' (present perfect) whereas brief uses 'hasn't' (contraction of same)\u2014this is acceptable paraphrase, but the factual issue is whether the brief actually says this is 'curious' or merely that sources 'find it curious.' The brief does say 'find it curious,' so this is accurate."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Spain coach de la Fuente condemns Argentina conduct after World Cup final",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Nahuel Molina attacked Rodri' and 'Leandro Paredes attacked Eric Garc\u00eda' as direct facts from the source. The brief marks these as 'reported' confidence but the open_questions note indicates the source text is truncated and the specific nature of these 'attacks' (physical contact vs. verbal confrontation) is unclear. The draft presents allegations of 'attack' as settled fact without qualifying that the nature of the alleged aggression remains unclear from available reporting, which contradicts the draft's own acknowledgment in the penultimate paragraph that 'the specific nature of the attacks...remain unclear.' This is internally inconsistent and under-attributes the uncertainty present in the source."
+    ]
+   }
+  ]
  }
 ]
