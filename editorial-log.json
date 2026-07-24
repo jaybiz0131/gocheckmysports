@@ -971,5 +971,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "Pogacar Wins Alpe d'Huez Stage, Extends Tour Lead Beyond Seven Minutes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Pogacar is the defending champion's triumph on cycling's most iconic climb' and 'his path to a record-equalling fifth Tour title,' but the brief's data_points do not include any claim about Pogacar pursuing a 'fifth Tour title.' The brief confirms he is the 'defending Tour champion' but does not provide the source material to support the specific claim about a 'record-equalling fifth' title\u2014this appears to be writer inference not grounded in the brief.",
+     "The draft claims 'His attack from 12 kilometers out proved decisive' but this specific detail does not appear in any data_point in the brief. The brief does not specify the distance from which Pogacar attacked."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Paralympics cycling medalist Schrager banned 2 years for doping",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'At the 2024 para-cycling worlds in Zurich, she took silver medals in both time trial and road race events on the road.' The brief data_point says 'On the road, Schrager took silvers in time trial and road race at the 2024 para-cycling worlds in Zurich.' The draft's phrasing 'events on the road' is unclear and potentially contradictory\u2014it is unclear whether these were track or road events. The brief does not clarify whether these are track or road world championships medals vs. the Paris 2024 track pursuit silver. This ambiguity creates factual confusion that the draft should resolve, not compound."
+    ]
+   },
+   {
+    "id": "c089",
+    "headline": "Caitlin Clark meets Barack Obama at WNBA All-Star Weekend",
+    "category": "balance",
+    "reasons": [
+     "The brief is explicitly marked 'thin: true' with only two data_points, and the open_questions reveal substantial gaps: what are the specific controversies, what did Clark say in response, which All-Stars attended, what else did Obama say. The draft acknowledges these gaps by stating 'the specific nature of those controversies is not detailed in the available reporting,' but this admission of thinness, combined with the lack of any bear_case material and the speculative bottom_line asking readers to 'watch for further comment,' makes the story read as incomplete reporting dressed as journalism. A thin brief can produce a tight, honest story, but this draft uses vagueness as scaffolding rather than acknowledging the limits of what was actually reported. The story should either be rejected to allow for deeper reporting, or rewritten to make clear that the actual facts are: a meeting happened, Obama said one sentence. The current framing ('signals visibility of recent WNBA turmoil at the highest political levels') overstates what a single meeting and one sentence support."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Liga Femenil Rebrands to BBVA, Restructures Season Format",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the rebrand is to 'Liga Femenil BBVA' but the brief's data_point for this claim is marked 'announced-not-verified' confidence. The draft presents this as settled fact without qualification or language signaling it has not been independently verified. The draft should acknowledge the announced status."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "Commonwealth Games 2026 begins with Scott gold in Glasgow",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Scotland's Duncan Scott won gold in swimming' but the brief does not specify which swimming event(s) Scott won gold in. The open_questions explicitly flag 'Which swimming event(s) Duncan Scott won gold in' as unresolved. The draft presents a complete fact where the brief only confirms a partial one.",
+     "The brief's open_questions note 'Identity of Swan who claimed first gold of Games, as referenced in snippet'\u2014this suggests the source material contains information not fully captured in the data_points. The draft does not acknowledge this ambiguity or flag incomplete reporting, presenting day-one results as settled when the brief itself marks key details as under-reported."
+    ]
+   }
+  ]
  }
 ]
