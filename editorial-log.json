@@ -1019,5 +1019,82 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "LeBron James signs with Philadelphia 76ers on two-year, $8 million deal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states James won titles with Miami '(2012, 2013)' but brief data_point claims 'James won two NBA titles with Miami between 2010 and 2014.' The years 2012, 2013 fall within the range but the brief's phrasing '2010 and 2014' suggests a broader window; more critically, Miami won in 2012 and 2013 specifically, not 2010 or 2014. This is a factual discrepancy between draft and brief that must be resolved before publication.",
+     "Draft says 'Typing All-Star guards Tyrese Maxey led the recruiting effort' but the word 'Typing' appears to be a typo or garbled text not present in the brief. This corrupts the sentence and introduces error."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "CBS NFL analyst Tony Romo arrested on suspicion of OWI in Milwaukee County",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents details about Romo's arrest and legal situation (failed field sobriety tests, booking, court date) but the brief's data_points and open_questions make clear that 'Whether the arrest will result in formal charges and what the specific charge(s) will be' and 'The specific details of the alleged impairment (BAC or other test results)' remain unconfirmed. The draft reads as a factual verdict on an ongoing investigation without sufficient caveating language. Phrases like 'performing poorly on field sobriety tests' and 'was arrested on suspicion' are appropriate, but the overall tone and structure present the investigation as settled rather than ongoing, which violates the compliance rule for ongoing legal matters."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Pogacar wins Alpe d'Huez stage, extends Tour de France lead to more than seven minutes",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'record fifth Tour title' but brief provides no data point confirming this is a record or that five Tour titles is unprecedented. The brief only states he is 'defending champion' and pursuing a 'fifth' title\u2014it does not verify that five titles would be a record.",
+     "Draft asserts specific stage details (stage 19, 21 hairpin turns, 13.8-kilometer climb) that do not appear in the brief's data_points. The brief's open_questions explicitly note 'The source text provided is truncated and does not contain specific details on the stage number (19).' These facts were smuggled in without brief support."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "Tyson Fury defeats Mariusz Wach in Thailand ahead of Joshua bout",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the Fury-Joshua fight is 'confirmed' and 'scheduled for the following weekend,' but the brief's core_claim says it is 'expected' and the data_point says the bout is 'expected,' not confirmed. The brief's open_questions explicitly note 'The status of the Fury vs. Joshua bout is described as expected and potential; no official confirmation date or venue is provided in the sources.' The draft reads as more certain than the evidence supports.",
+     "Draft states Joshua is 'scheduled to face Kristian Prenga on Saturday, likely as a preparation bout before his own heavyweight bout with Fury,' treating the Fury-Joshua pairing as settled fact. The brief data_point only says Joshua 'faces Kristian Prenga on Saturday'; there is no data point confirming Joshua will fight Fury next or when that bout is officially scheduled."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Scotland opens Commonwealth Games with three medals in 45 minutes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Katie Shanahan 'earned silver in the 200m backstroke, upgrading from her bronze medal in Birmingham' but then later states 'Shanahan won two surprise bronze medals at the 2022 Birmingham Games.' These statements contradict each other\u2014the brief data_point says she won 'two bronze medals' in 2022, not one. The draft's claim that she upgraded 'from her bronze medal' (singular) does not align with the brief's claim of two bronzes.",
+     "The draft describes Faye Rogers' performance as 'one of the dominant performances of the opening period,' but the brief data_point quotes BBC Sport as 'one of the most dominant performances of the night'\u2014the draft has softened the language without authority to do so."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Paralympic cyclist Daphne Schrager receives two-year doping ban",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Schrager's two-year ban expires in June 2027' but the brief data_point says 'her ban expires in June next year'\u2014the brief does not specify which year, only 'next year.' The draft has added a specific calendar year (2027) that does not appear in the source material. Additionally, if the ban was imposed 'on Friday' and the brief timestamp is 2026-07-24, 'June next year' would be June 2027, but the draft should not infer future dates beyond what the brief establishes.",
+     "The draft makes a prospective claim about Schrager's eligibility and future competition ('making her eligible to compete at the 2028 Los Angeles Paralympic Games') based on mathematical inference from the ban expiration date. This is editorial extrapolation beyond the brief's data_points and introduces a forward-looking factual claim not in the research."
+    ]
+   },
+   {
+    "id": "c154",
+    "headline": "Newcastle sign Bamba from Monaco; Summerville moves to Al-Hilal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the Summerville transfer to West Ham, but the brief only states 'Summerville departed West Ham for Saudi Arabia's Al-Hilal'\u2014it does not specify that Summerville played FOR West Ham. The draft reads as though Summerville was a West Ham player moving to Al-Hilal, but the brief does not confirm Summerville's club affiliation, only the destination. This is a material factual claim smuggled beyond the brief.",
+     "The draft states Summerville is a 'Dutch winger' but the brief data_point only says 'Summerville is described as a Dutch winger.' The draft presents this as settled fact without the qualifier 'described as,' which is necessary because the brief does not independently verify nationality or position\u2014it only reports what a source describes."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Enzo Maresca takes Manchester City manager role as Guardiola era ends",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Maresca 'sent \"a message and a big hug to Kevin Keegan's family for this moment\"' as a direct quote from his press conference. The brief lists this as a data_point but provides no context explaining why Maresca\u2014taking over from Guardiola\u2014would tribute Kevin Keegan's family at his first press conference. The brief itself flags this as an open_question: 'What is the context for Maresca's tribute to Kevin Keegan's family\u2014is it a gesture to City's managerial history, or something more recent?' The draft presents this unexplained statement as fact without acknowledging its contextual oddity or the ambiguity flagged in the brief. This reads as a fabricated or deeply misleading quote without explanation, violating the accuracy rule.",
+     "The draft claims Maresca 'brings prior experience from his time at Manchester City' but the brief lists as an open_question: 'What is Maresca's specific role or experience during his previous time at Manchester City?' The draft presents this experience as established fact when the brief itself marks it as unresolved. This violates the rule that confidence labels must survive: the claim should reflect uncertainty, not settle it."
+    ]
+   }
+  ]
  }
 ]
