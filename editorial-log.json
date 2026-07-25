@@ -1376,5 +1376,43 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Perez breaks Brett's Kansas City franchise home-run record",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim in brief states Brett's record was 317, but draft states it was 194. The brief's own open_questions flag acknowledges ambiguity about Brett's final franchise total. The draft presents 194 as Brett's franchise record without qualification, but the brief data_point explicitly notes '194 homers (not 317 as stated in core claim revision needed).' This is a critical factual discrepancy that was not resolved before drafting. The title 'breaks Brett's Kansas City franchise home-run record' is undermined by the body stating Perez passed '194 homers'\u2014readers will be confused about what the actual record was."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Alabama NIL director arrested in human trafficking operation",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents allegations and charges as settled fact without adequate qualification of legal status. Suttles is alleged to have paid $100 for sexual activity (reported, not adjudicated), yet the draft states this as though confirmed. The headline 'arrested in human trafficking operation' and the framing throughout treats the allegations as established fact rather than pending legal proceedings. The brief itself flags open_questions about 'specific charges Suttles faces beyond solicitation' and whether he has 'made any statement or plea,' indicating the legal posture is unresolved. A reader could interpret this as reporting guilt before any trial or plea. The bottom_line attempts to hedge with 'pending legal proceedings,' but the body has already crossed that line. This creates liability exposure if charges are dropped or dramatically different facts emerge in court."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Ankalaev dominates Guskov in five-round stoppage, positions for title talk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ankalaev said he would take an \"angry\" approach into the bout after sitting with the disappointment of his loss to Pereira for nine months' in the bear_case data_point, but this claim does not appear in the draft body. More critically, the draft contains the claim 'Ankalaev said through an interpreter: \"I was out for a long time, now I'm back and I'm going to start my hunt for the thing I lost,\"' which is paraphrased as 'Ankalaev said through an interpreter after the win, \"I was out for a long time, now I'm back and I'm going to start my hunt for the thing I lost,\" per ESPN'\u2014this exact quote appears in the brief data_points. However, the draft also includes a separate quote: '\"He wasn\u2019t engaging in the striking. I was trying to find him but he kept getting away. I\u2019ve said this before, when a striker comes out against me in a fight, I have to go hunt and find them,\"' which is in the brief but the draft does not clearly attribute it as Ankalaev's post-fight statement versus pre-fight commentary, creating ambiguity about timing and context that could mislead readers about when this statement was made."
+    ]
+   },
+   {
+    "id": "c97",
+    "headline": "Story cannot be drafted due to insufficient source material",
+    "category": "accuracy",
+    "reasons": [
+     "Draft body states 'the fetched CBS Sports source page does not contain substantive details' but the brief shows data_points is empty ([]). The draft is narrating research failure rather than reporting a story. The core_claim is too thin to support article prose: only that 'CBS Sports published a guide' with no facts, figures, dates, times, venues, or broadcast details extracted. A story cannot be written from a failed research fetch; this should be returned to research before drafting begins, not submitted as a draft."
+    ]
+   }
+  ]
  }
 ]
