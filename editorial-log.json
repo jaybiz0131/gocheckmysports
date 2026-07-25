@@ -1096,5 +1096,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c101",
+    "headline": "Azzi Fudd wins WNBA 3-point shooting contest, challenges Steph Curry",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Fudd challenged Steph Curry to a rematch' but the brief's data_point says she challenged him to a 'rematch' (in quotes), which implies prior context. The brief's open_question explicitly asks 'What prior interaction between Fudd and Curry does the 'rematch' language reference?' This context is missing from both the brief and the draft\u2014the brief itself does not establish whether there was a prior match. The draft presents the challenge as fact without acknowledging this ambiguity, creating a potential accuracy problem: a 'rematch' presupposes a first match that is not confirmed in the research."
+    ]
+   },
+   {
+    "id": "c103",
+    "headline": "Michael Kim shoots 59 at 3M Open, world No. 1 falls off pace",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Kim's 59 is the 15th sub-60 round in PGA Tour history,' but the brief's data_point says only 'Michael Kim's 59 joins a historic club of PGA Tour golfers to achieve a sub-60 round' without specifying the number 15. The brief's open_questions note: 'No confirmation of the exact number of sub-60 rounds in PGA Tour history or details about prior 59-shooters is provided in the provided source text.' The writer has smuggled in the specific ordinal ranking (15th) from outside the brief.",
+     "The draft refers to 'the world No. 1' without naming the player. While the brief data_point confirms the world No. 1 fell out of the top 10, the draft's vagueness ('the world's top-ranked player can mount a comeback') in the bottom_line lacks attribution and clarity about who this refers to, creating potential factual ambiguity."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "Mahomes cleared for full camp participation after ACL, LCL surgery",
+    "category": "accuracy",
+    "reasons": [
+     "Dr. Dan Cooper is described as 'the Dallas Cowboys' head team physician who performed the ACL and LCL repair surgery.' The brief states he 'performed Mahomes' ACL and LCL repair surgery' but does not specify his role or affiliation with Dallas. Attributing a specific title and team affiliation ('Dallas Cowboys' head team physician') that is not in the brief data_points is a smuggled fact; the writer cannot infer professional affiliations beyond what the source reports."
+    ]
+   },
+   {
+    "id": "c162",
+    "headline": "Austin FC academy under police, FBI investigation over sexual abuse allegations",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents allegations of 'sexual abuse within the club's youth system' and states 'Multiple players in Austin FC's youth academy are under investigation' without clarifying the nature of the abuse. The brief's core claim specifies 'youth-on-youth sexual abuse,' a material distinction that must appear in the prose given the sensitivity of child safeguarding allegations. Presenting an unqualified 'sexual abuse' claim risks mischaracterizing the nature of the investigation and misleading readers about institutional accountability vs. peer misconduct."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "Premier League transfer window snapshot: early deals and unfilled needs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Arsenal, the defending champion under Mikel Arteta, has seen Leandro Trossard depart during the window' and 'Norwich City has brought in Christos Tzolis for 24 million pounds.' While these claims appear in the brief's data_points, the brief itself notes the source material is 'primarily navigation markup and template code with no substantive content about Premier League transfer business.' The core_claim explicitly states the source cannot be verified as substantive reporting. Publishing factual claims sourced only to a page that is navigation markup, not reporting, is a serious accuracy violation.",
+     "The brief marks confidence as 'reported' but flags the source as containing no substantive content\u2014a contradiction that indicates the data_points themselves may not derive from actual reporting but rather from metadata or incomplete source capture. A draft should not be published when the research brief itself indicates the underlying source material is compromised."
+    ]
+   }
+  ]
  }
 ]
