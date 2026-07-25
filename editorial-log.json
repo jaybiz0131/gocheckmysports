@@ -1182,5 +1182,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c103",
+    "headline": "WNBA players raise concerns about Commissioner Engelbert at All-Star Weekend",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Players voiced concerns about their relationship with Commissioner Cathy Engelbert during WNBA All-Star Weekend in Chicago, according to CBS Sports' reporting.' However, the brief contains only one data_point: 'Players spoke about their relationship with Commissioner Cathy Engelbert at WNBA All-Star Weekend in Chicago.' The data_point does not attribute this reporting to CBS Sports or specify what 'spoke about' means. The draft presents this as a confirmed report from CBS Sports when the brief's single data_point is thin and does not establish attribution clearly enough to support the phrasing 'according to CBS Sports' reporting.' Additionally, the brief is marked 'thin: true' with only one data_point and no detail on what concerns were actually voiced, making the draft's confident framing a liability\u2014it reads as though a substantive story exists when the brief shows only a rumor or unconfirmed claim."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Former NFL Guard Jordan Devey Dies at 38; Family Confirms Suicide",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents the family's suspicion of CTE as a medical statement without sufficient attribution or clarity that this is unconfirmed speculation. The sentence 'his mother believes he suffered from CTE' crosses into health/medical claim territory about a deceased person's condition; the brief explicitly flags this as an open question ('No statement from medical professionals or officials confirming...') and the draft should have more clearly signaled the speculative nature and family attribution. The phrase 'the family believed he suffered from CTE' in the next sentence helps, but the opener reads too definitive for an unverified medical claim about a sensitive matter."
+    ]
+   },
+   {
+    "id": "c140",
+    "headline": "Waratahs claim third consecutive Super W title with 34-17 win over Drua in Fiji",
+    "category": "accuracy",
+    "reasons": [
+     "The brief includes a data_point claiming 'The Waratahs produced a scintillating performance that defied their detractors' (confidence: reported), but the draft never references this claim or any criticism/doubt the Waratahs faced prior to the grand final. The draft instead uses the softer language 'Waratahs vindicate themselves against doubters' in the angle but does not bring this into the body prose, leaving the reported fact unrepresented.",
+     "The draft states the venue 'offered no competitive advantage to the hosts' and claims Drua 'were unable to leverage their minor-premiership status or home-ground setting,' but the brief contains no data_point supporting this narrative interpretation. The draft is editorializing beyond the reported facts."
+    ]
+   }
+  ]
  }
 ]
