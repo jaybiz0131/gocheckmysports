@@ -1320,5 +1320,61 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c175",
+    "headline": "2026 WNBA All-Star Game held in Chicago",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 2026 WNBA All-Star Game took place on July 25 in Chicago, per Yahoo Sports' reporting' but the brief's open_questions explicitly note that 'The source text fetched is corrupted or incomplete and contains only navigation menu markup; the actual roster and lineup details are not present in the provided source material.' The writer has presented the date and location as confirmed fact when the brief indicates the source was corrupted and unusable. This violates the hard rule that no fact exists outside the brief\u2014the brief itself flags that the source did not deliver verifiable information."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "Kraft confirms record offer to Gonzalez: highest-paid cornerback ever, franchise history",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'On the first play of full-team drills, Maye threw an incompletion to Brown in man coverage against Gonzalez.' The brief data_point says 'Maye threw an incompletion to Gonzalez covering receiver A.J. Brown in man coverage'\u2014meaning Gonzalez was covering Brown, not that Maye threw to Brown. The draft reverses the coverage assignment and misidentifies the receiver."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Spencer Jones agrees to $12M offer sheet with Thunder; Nuggets have match option through Sunday",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jones is ready to move on, the reporting indicates' as a characterization of his intent to leave Denver. The brief lists this as a data_point ('Jones is ready to move on from Denver after two seasons') marked 'reported,' but the phrasing in the draft\u2014'is ready to move on'\u2014suggests internal motivation or player preference rather than what the source actually reports. The brief's open_questions explicitly flag 'The circumstances of why Jones is ready to leave after two seasons are not explained beyond the Nuggets' tax situation,' indicating the source does not establish Jones' own readiness or desire. This claim goes beyond the brief's evidence and reads as an inference about player intent not supported by the reporting cited."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "49ers coach Kyle Shanahan limited in camp after July 14 car crash; breaks nose, ribs, hand; severe concussion",
+    "category": "compliance",
+    "reasons": [
+     "The draft opens with a health/injury claim\u2014'suffered multiple significant injuries in a car crash' and detailed medical information (fractured ribs, broken nose, hand, severe concussion, 40+ stitches)\u2014presented as settled fact. The brief's data_points show the source is ESPN reporting, not an official medical statement or on-record diagnosis from Shanahan, the 49ers, or medical professionals. The draft presents medical determinations ('broke his nose, three ribs, and his hand,' 'severe concussion') as factual verdicts without attribution to medical records or official injury reports. Per compliance rules, health/injury claims must trace to official injury reports or on-record statements; speculation or third-party characterization of a player's medical state beyond the official record violates the standard. The details of Shanahan's injuries should either be attributed inline to the source's reporting (e.g., 'per ESPN's reporting, Shanahan broke...') or flagged as reported-but-unverified if the source itself does not cite medical professionals."
+    ]
+   },
+   {
+    "id": "c139",
+    "headline": "Scotland's Eilish McColgan pulls out in latest blow for Commonwealth Games",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states McColgan 'announced on Saturday' but the brief data_point specifies the Guardian reported on July 25 (Saturday). The draft does not clarify that the withdrawal announcement itself occurred on Saturday vs. the Guardian's reporting date being Saturday. The distinction matters for accuracy: the draft should either specify 'announced Saturday, reported by The Guardian on July 25' or rely only on The Guardian's reporting date.",
+     "The draft claims 'The specific reason for McColgan's withdrawal was not disclosed in the reported announcement' but this is editorializing about absence of information rather than reporting what was disclosed. The brief's open_question identifies this as unknown, not as a fact to state in prose. The sentence reads as the writer filling a gap, not tracing to the brief."
+    ]
+   },
+   {
+    "id": "c168",
+    "headline": "Messi can skip All-Star Game after grueling World Cup, says MLS",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Messi will not be required to play in next week's All-Star Game' and later says 'Messi's exemption' as though a decision has been made. The brief's open_question explicitly flags: 'Will Messi definitely skip the All-Star Game, or is participation still under discussion between his club and the league?' The draft presents a policy exemption as a definitive personal decision about Messi's participation. The correct framing is that an agreement exists; whether Messi will invoke it is still open.",
+     "The draft claims the agreement 'specifies that upon a player's exit from World Cup competition, clubs would have individual conversations about All-Star Game participation rather than enforcing mandatory league play.' This level of specificity about what the agreement 'specifies' is not in the brief's data_point, which says clubs 'would have individual conversations' but does not detail the full scope or structure of the agreement. The draft is overspecifying from a thin source."
+    ]
+   }
+  ]
  }
 ]
