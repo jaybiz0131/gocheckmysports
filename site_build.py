@@ -252,9 +252,15 @@ def masthead(active, dateline, brand="site"):
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
         for label, href in NAV)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
+    # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
+    # in the site color and italic (owner directive 2026-07-24)
+    _base = "GoCheckMy"
+    _site = NAME[len(_base):] if NAME.startswith(_base) else ""
+    _wordmark = (f'<span class="mh-word-base">{esc(_base)}</span>'
+                 f'<span class="mh-word-site">{esc(_site)}</span>') if _site else esc(NAME)
     brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
-    <span class="mh-word">{esc(NAME)}</span>
+    <span class="mh-word">{_wordmark}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
   </a>"""
     return f"""<div class="top-rule"></div>

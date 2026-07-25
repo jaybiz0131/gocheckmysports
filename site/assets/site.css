@@ -57,6 +57,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .mh-mark{width:38px;height:38px;flex:none}
 .mh-word{font-family:var(--serif);font-weight:600;color:var(--ink);line-height:1;
   font-size:clamp(28px,5.2vw,46px);letter-spacing:-.01em}
+.mh-word-site{color:var(--rule);font-style:italic}
 .mh-slogan{font-family:var(--serif);font-style:italic;color:var(--muted);
   font-size:clamp(13px,1.6vw,16px);text-align:right;max-width:230px}
 .mh-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);
