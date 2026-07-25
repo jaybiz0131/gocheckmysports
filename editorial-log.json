@@ -1213,5 +1213,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c029",
+    "headline": "LeBron James Signs With 76ers, Ending Month-Long Free-Agency Drama",
+    "category": "compliance",
+    "reasons": [
+     "The bottom_line contains an off-topic sentence about a Slovenian cyclist's Tour stage that has no connection to the LeBron James story. This appears to be copy-pasted from a different draft (c002) and creates liability through incoherence and potential reader confusion about what story this is.",
+     "The bottom_line also uses the hedge phrase 'only time will tell' ('The 20th stage of the Slovenian cyclist's Tour will tell us...') which violates the instruction that bottom_lines must avoid 'only time will tell' formulations."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "Norris Claims Hungary Pole, First of 2026 Season",
+    "category": "accuracy",
+    "reasons": [
+     "The open_questions in the brief note that 'The exact margin of victory (0.012 seconds cited in headline) does not appear in the provided source texts,' yet the draft's headline claims 'Norris Claims Hungary Pole, First of 2026 Season' without the margin. More critically, the draft states facts ('pole position,' 'Lewis Hamilton finished second,' 'Kimi Antonelli qualified fourth') that cannot be verified against the brief's data_points because the sources were not made available to check them. The brief itself flags that qualifying margins and full grid order 'are not detailed in the available reporting,' meaning the story is built on sources the desk cannot audit.",
+     "The brief is marked 'thin: true' with only 2,349 source characters and four basic data_points. The draft adds interpretive framing ('a break in Mercedes' dominant qualifying streak this year') that expands on the brief's claim about 'Mercedes dominance in qualifying this year' without citing where that dominance is documented in the provided materials."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "Azzi Fudd wins WNBA 3-point shooting contest at All-Star Weekend",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a self-referential sentence ('The brief does not provide Fudd's winning score...') that belongs in a research note, not published copy. This sentence breaks the fourth wall and should be removed before publication.",
+     "More critically, this sentence acknowledges gaps in the reporting that should prompt the writer to either fill them from the source or remove claims that cannot be substantiated. The presence of this meta-commentary suggests the draft is incomplete or the writer is signaling uncertainty about sourcing."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Michael Kim shoots 59 at 3M Open, joins exclusive PGA Tour club",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly flags in open_questions that 'leaderboard position details, Kim's exact score through 36 holes, Scheffler's Round 2 score, and whether Kim had the sole lead or shared it are not provided in the source text.' The draft states 'Kim's performance gave him the lead after 36 holes' with no qualification that this is reported, unconfirmed, or shared. The brief notes source_chars=920 and marked thin=true, indicating minimal source content. The draft should either attribute this claim inline to CBS Sports or omit it entirely, as the brief warns the source text does not provide leaderboard context.",
+     "The brief also notes 'Round 1 scores and full leaderboard context are not available in the provided source.' The draft does not reference these gaps, presenting Kim's lead as fact without caveat despite the brief's warning that these details are absent from the source."
+    ]
+   }
+  ]
  }
 ]
