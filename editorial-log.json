@@ -1255,5 +1255,70 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Alabama NIL content director arrested in human trafficking sting",
+    "category": "compliance",
+    "reasons": [
+     "The title frames the arrest as part of a 'human trafficking sting' when the brief and body clearly state Suttles was arrested for 'solicitation of prostitution'\u2014a distinct charge. The operation targeted human trafficking, but Suttles' specific charge does not equate to human trafficking involvement. This mischaracterization conflates the operation's purpose with the individual's alleged crime and risks legal exposure by implying a connection not established in the brief.",
+     "The body states 'The incident implicates NIL infrastructure...in serious legal and reputational exposure' and 'raises questions about institutional oversight, vetting practices, and safeguards.' These are editorial opinion/analysis statements that exceed the factual record in the brief and read as speculation about institutional failure rather than reporting on what the brief supports."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Norris Takes First 2026 Pole at Hungary as Penalties Reshuffle Grid",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Lewis Hamilton, the defending champion' but the brief's open_questions flag uncertainty: 'Whether Hamilton is the defending champion of the 2025 season or another designation.' This claim is not solidly confirmed in the brief and should not appear as settled fact.",
+     "The draft states 'Kimi Antonelli, the current championship leader' but the brief's open_questions flag uncertainty: 'Antonelli's current points standing and whether he is leading the championship.' This claim is not confirmed in the brief and should not appear as settled fact."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Wildfires Force Tour Final Stage Shortening as Pogacar Closes In on Fifth Title",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Pogacar is 'positioned to claim a record-equalling fifth Tour de France title' but the brief data_points only confirm he is 'a four-time Tour de France victor.' The claim that a fifth would be 'record-equalling' is new information not in the brief and requires verification of the all-time record.",
+     "The draft claims 'Pogacar holds what The Guardian describes as a huge lead after Alpe d'Huez' but this paraphrases a brief data_point that simply states 'Pogacar holds a huge lead after Alpe d'Huez' with no attribution to The Guardian. The in-line attribution is inaccurate to the source structure."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "2026 WNBA All-Star Game in Chicago",
+    "category": "clarity",
+    "reasons": [
+     "The draft itself declares in the bottom_line that it cannot move to publication and is missing critical information (date, time, TV channel, rosters, etc.). A draft that explicitly states it is incomplete should not be submitted for approval. The writer has punted rather than completed the work. The brief is thin (thin=true, only 2 data_points), which means the correct output is a tight, focused story on what exists\u2014not a confession of incompleteness in the bottom_line slot."
+    ]
+   },
+   {
+    "id": "c084",
+    "headline": "McColgan to miss Glasgow Games defence after foot fracture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims McColgan 'will miss the 2026 Commonwealth Games' without qualification, but the brief data does not state this explicitly\u2014it only states she will miss the '10,000m defence.' The draft generalizes her absence to the entire Games, while the brief is narrower (the 10,000m event specifically). Additionally, the brief's core_claim specifies 'insufficient recovery from a foot fracture' but the draft states 'will miss\u2026due to insufficient recovery' without attribution or source confirmation that this reason has been officially stated. The bottom_line acknowledges the timeline and exact diagnosis are unaddressed, yet the draft presents the injury as the decisive cause without that clarity in the source material."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Patriots offer Gonzalez record cornerback contract; negotiations ongoing",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Gonzalez is 'entering his fourth season in the NFL,' but the brief data_point says he was 'selected No. 17 overall in the 2023 NFL draft.' A 2023 draft pick would be entering his fourth season in 2026, which is factually consistent with the brief's timestamp of 2026-07-25. However, the brief also states 'he has two years remaining on his contract,' which contradicts a fourth-season player's typical contract structure. The draft does not reconcile this inconsistency and relies on the brief's internal contradiction. More critically, the draft claims 'Trent McDuffie of the Los Angeles Rams' holds the record, but the brief does not specify McDuffie's team. This fact (Rams) is smuggled into the draft without brief support."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Commonwealth Games day two: McColgan withdraws; Australia leads netball",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces information not present in the brief: it states 'Cameron McEvoy, the reigning Olympic champion at 50 meters, finished second in his heat on day two.' The brief's data_point confirms McEvoy is 'the reigning Olympic champion at 50m' and 'finished second in his heat,' but the draft adds the descriptor 'on day two,' which is not explicitly stated in the brief data_point and constitutes a temporal claim not sourced to the research brief."
+    ]
+   }
+  ]
  }
 ]
