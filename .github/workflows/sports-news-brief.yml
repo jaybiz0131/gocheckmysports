@@ -153,6 +153,10 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "brief: VERIFIED stories $(date -u +%Y-%m-%dT%H:%MZ)"
+            # a sibling run can push while this one works (drifted retries land in
+            # pairs); rebase onto whatever arrived, then push. Story files are
+            # per-slug, so rebases are clean; a real conflict still fails loudly.
+            git pull --rebase origin main
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
