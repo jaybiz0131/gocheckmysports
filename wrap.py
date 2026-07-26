@@ -136,11 +136,22 @@ def belts(article_body, dek, bottom_line):
 
 def check(client, obj, stories, boards):
     """Independent trace check: every specific fact must come from the inputs."""
-    user = ("Verify this daily edition against its ONLY permitted inputs. Rules: every "
-            "specific number, name, date, and event in the edition must appear in the "
-            "inputs; connecting/synthesizing them is allowed and expected; nothing may "
-            "read as a price prediction, trade advice, or 'you should'; register must be "
-            "calm (no hype, no panic language). Respond ONLY with JSON: "
+    # CALIBRATION (2026-07-26): three straight days of good editions died here on false
+    # positives (identical dates in different formats, permitted arithmetic synthesis,
+    # relative weekdays resolved against a story's dateline). The checker's job is
+    # INVENTED OR CONTRADICTED SUBSTANCE, not formatting.
+    user = ("Verify this daily edition against its ONLY permitted inputs. REJECT only when "
+            "the edition asserts a specific fact (number, name, date, event, outcome) that "
+            "is ABSENT from the inputs or CONTRADICTED by them ON SUBSTANCE. These are NOT "
+            "discrepancies and must never cause rejection: (a) the same date or number in a "
+            "different format ('July 15' vs '15 July 2026'; '60,000' vs 'nearly 60,000'); "
+            "(b) sums or combinations of input numbers when the edition labels them as "
+            "combined or in total; (c) a weekday reference consistent with an input "
+            "story's own dateline; (d) paraphrase of an event the inputs carry. "
+            "Connecting and synthesizing the inputs is allowed and expected; when two "
+            "inputs differ because one is newer, the newer figure governs and citing it is "
+            "correct. Also REJECT anything that reads as a price prediction, trade advice, "
+            "or 'you should', and any hype or panic register. Respond ONLY with JSON: "
             '{"decision": "APPROVE"|"REJECT", "reasons": ["<specific claim and why>"]}\n\n'
             "EDITION:\n" + json.dumps(obj, indent=1)
             + "\n\nINPUT STORIES:\n" + json.dumps(stories, indent=1)
@@ -151,7 +162,7 @@ def check(client, obj, stories, boards):
         return o
     v = client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
-                         "Default to REJECT when uncertain.", user, validate=check_shape)
+                         "Reject invented or contradicted substance without mercy; never reject over formatting, arithmetic the edition labels, or paraphrase.", user, validate=check_shape)
     return v.get("decision") == "APPROVE", v.get("reasons", [])
 
 
