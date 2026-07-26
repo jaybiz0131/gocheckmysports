@@ -1705,5 +1705,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c109",
+    "headline": "WNBA to launch replay center in 2027 at NBA facility",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Commissioner Engelbert's quote as a direct statement: '\"This is one of the most significant investments we've ever made in our basketball operations,\" Engelbert stated, per CBS Sports.' However, the brief marks this data point with confidence 'announced-not-verified', meaning it is an announced claim that has not been independently verified. The draft presents it as settled fact without acknowledging the unverified status. The quote must either be attributed as announced but not verified, or removed entirely."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Misiorowski strikes out first 7 Rockies, sets Brewers record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In the second inning, TJ Rumfield, Kyle Karros, and Cole Carrigg all struck out' but the brief's data_point 20 claims 'In the fourth inning, Jake McCarthy, Mickey Moniak, and Hunter Goodman all struck out again.' The draft does not reference this fourth-inning strikeout sequence at all, creating a gap in the narrative of the 11 strikeouts claimed.",
+     "The draft narrative breaks down chronologically. It lists seven strikeouts (McCarthy, Moniak, Goodman, Rumfield, Karros, Carrigg, Castro), then says Troy Johnston ended the streak in the third inning with a flyout, then says Edouard Julien struck out 'one inning later' (fourth inning) for the 11th strikeout. But the brief indicates three more batters (McCarthy, Moniak, Goodman again) struck out in the fourth inning, which would be inconsistent with 'one inning later' and would total 10 strikeouts before Julien, not 11. The math and sequence in the draft does not reconcile with all 19 data_points provided in the brief."
+    ]
+   },
+   {
+    "id": "c029",
+    "headline": "Cavs sign former lottery pick Hezonja to one-year deal",
+    "category": "accuracy",
+    "reasons": [
+     "Final sentence states 'This marks Hezonja's sixth season in the league,' but the brief data_point claims 'Hezonja is entering his sixth season in the league.' The draft presents this as a completed fact (past tense, 'marks') when the brief indicates future tense (entering). If he last played in 2019-20 and is now signing in 2026, this would be his return after a gap, not his sixth season played. The accuracy of whether this is his sixth season total or sixth season of competition is smuggled beyond the brief's claim."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Scotland's Ward claims men's all-around gymnastics gold at Commonwealth Games",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Felix Dolci 'scored 14.5 on the high bar' as part of his silver-medal performance. The brief data_point says Dolci 'claimed silver' and 'recovered from two falls on the pommel to score 14.5 on the high bar.' The 14.5 is Dolci's score on one apparatus (high bar), not a complete justification of his medal position. The draft places this single apparatus score mid-sentence about his overall silver, which reads as though 14.5 was his determining element, when the brief does not provide his total all-around score. This is a partial fact presented without full context from the brief."
+    ]
+   }
+  ]
  }
 ]
