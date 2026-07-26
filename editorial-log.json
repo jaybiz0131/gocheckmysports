@@ -1640,5 +1640,70 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c161",
+    "headline": "LeBron to Sixers, But Contract Unsigned; Team Faces Cap Squeeze",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Sixers acquired Jaylen Brown on July 1' but the brief data_point says 'The Sixers traded for Jaylen Brown on July 1.' The word 'traded' is materially different from 'acquired'\u2014the brief specifies the transactional mechanism (a trade), while the draft obscures it. This is a fact that should trace exactly to the brief.",
+     "The draft introduces 'VJ Edgecombe' as part of the core roster in the bottom_line discussion but VJ Edgecombe does not appear anywhere in the brief's data_points or body. This is smuggled information not present in the research."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Athletics' Star Catcher Langeliers Suffers Torn Meniscus",
+    "category": "compliance",
+    "reasons": [
+     "The draft states Langeliers 'could miss the remainder of the 2026 season if he undergoes surgery' and later 'would mark a season-ending outcome if he proceeds with the procedure.' This is speculative medical projection about a future surgical outcome. The brief confirms the injury and the possibility of surgery, but the draft presents a definitive causal chain (surgery \u2192 missing rest of season) that reads as medical prediction rather than reported fact. The open_questions in the brief ask 'Has Langeliers decided whether to undergo surgery?' and 'What is the specific recovery timeline if he elects surgery?'\u2014indicating these are unknowns. The draft should not assert a season-ending outcome as fact when the decision and timeline remain unconfirmed."
+    ]
+   },
+   {
+    "id": "c100",
+    "headline": "WNBA to launch replay center in 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the facility will 'use the NBA's existing infrastructure,' but the brief data_point says it will use 'the NBA's facility as part of a major officiating overhaul'\u2014a subtle but material difference. The brief's open_question explicitly asks 'Will the replay center use the NBA's existing facility or be a separate operation co-located with the NBA?', indicating this detail is unresolved and should not be stated as fact in the draft.",
+     "The draft characterizes the quote as made 'before the All-Star Game on Saturday,' but the brief data_point says the quote was made 'before Saturday's All-Star Game'\u2014these are consistent, but the draft should verify the timing matches the brief exactly. More critically, the brief marks this quote as 'announced-not-verified,' but the draft presents it as a settled statement without any qualification of uncertainty."
+    ]
+   },
+   {
+    "id": "c093",
+    "headline": "Caitlin Clark calls off-court discourse 'emotionally exhausting'",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Clark's comment coincides with what the Fever organization has publicly emphasized: a team-wide focus on competitive goals' and 'That alignment between the player's personal preference and the organization's stated direction suggests internal unity on redirecting energy toward winning.' None of this Fever organizational statement or emphasis appears in the brief's data_points. The brief's open_questions include 'Did any Fever leadership or teammates comment on the team's desire to focus on winning?'\u2014indicating no such statement was confirmed. The draft smuggled a claim about organizational positioning that was not in the research.",
+     "The draft introduces narrative about 'internal unity' and organizational alignment without any source material in the brief supporting it. This is inference presented as fact."
+    ]
+   },
+   {
+    "id": "c123",
+    "headline": "Jordan Devey dies at 38: Family confirms suicide",
+    "category": "compliance",
+    "reasons": [
+     "The brief is marked 'thin: true' with only four data points and no bear_case. The draft appropriately handles a sensitive suicide reporting topic with care and includes the 988 crisis line in the bottom_line. However, the open_questions reveal critical gaps: 'When exactly did Devey die (the article does not provide a specific date)?' The draft never provides a specific date of death, which is a material fact for news. The brief itself admits the source article lacks this detail, but a responsible draft should either obtain clarification on timing or explicitly note the absence rather than leave it unaddressed."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Scotland's Reuben Ward wins first men's all-around gymnastics gold at Commonwealth Games",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point states Gabriel Langton 'suffered a horror fall during the men's team event,' but the draft softens this to 'Gabriel Langton, also competing for the English team, suffered a fall during the men's team event, per ESPN.' The word 'horror' in the source claim is material to the severity and context; the draft omitted it without justification. More critically, the open_questions note: 'What specific details are known about Gabriel Langton's fall and his current condition after being hospitalized?' This suggests Langton was hospitalized, but the draft contains zero mention of hospitalization or any injury outcome beyond 'a fall.' A fact about hospitalization that appears in open_questions but not in the data_points themselves creates ambiguity, but the draft's silence on Langton's status and any hospitalization is incomplete relative to what the brief signals as relevant context."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Spence Jr to retire after losing comeback fight",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Spence Jr. will retire from boxing following this loss' as a definitive future commitment, but the brief's confidence label on this claim is only 'reported'\u2014meaning it is sourced from BBC but not independently verified or officially confirmed by Spence Jr. himself. The prose should signal uncertainty (e.g., 'Spence Jr. announced he will retire' or 'reports indicate Spence Jr. intends to retire') rather than present it as settled fact. The open_questions note that 'official confirmation of retirement announcement method' is not available in the fetched source, confirming the claim lacks the certainty the draft implies."
+    ]
+   }
+  ]
  }
 ]
