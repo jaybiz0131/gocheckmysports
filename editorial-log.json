@@ -1532,5 +1532,61 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c150",
+    "headline": "The 4 big winners from WNBA All-Star Weekend",
+    "category": "accuracy",
+    "reasons": [
+     "The draft acknowledges in its own bottom_line that 'The headline and two names are insufficient to report on the All-Star Weekend's outcomes' and 'Without those facts, no reader-facing story is possible.' This is a self-aware admission that the story has no reportable content. The draft body does not identify what made Fudd and Malonga 'big winners'\u2014no performances, statistics, or outcomes are cited. The brief's open_questions confirm the source material was corrupted and the article body was never retrieved, making it impossible to trace any editorial claim to actual reporting."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Caldwell-Pope Joins 76ers After Grizzlies Buyout",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Caldwell-Pope is 6 feet 5 inches tall' in the second paragraph, but this fact does not appear in the research brief's data_points. The brief contains 16 data_points about Caldwell-Pope's contract, injury, statistics, and championship history, but does not include his height. This is a smuggled fact outside the brief."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Blue Jackets Sign Sillinger to Three-Year Deal Avoiding Arbitration",
+    "category": "accuracy",
+    "reasons": [
+     "The core_claim data_point in the brief is marked 'announced-not-verified' (confidence label), indicating the contract terms have not been independently verified. The draft presents the three-year, $13.875 million figure as settled fact without any hedging language or confidence qualifier. Per instructions, a brief claim marked 'announced-not-verified' must read that way in the prose. The draft should signal uncertainty about the contract figures."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Tour de France 2026 final stage shortened to 89km; flooding forces route change",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Romero guided Spurs to Europa League success last year' but this fact does not appear in the brief's data_points. The brief contains no data_point about Tottenham's Europa League success or any trophy won. This is a smuggled fact not traceable to the research.",
+     "The draft states 'helped Argentina reach a second straight World Cup final earlier this month' but the brief's corresponding data_point says 'second straight World Cup final earlier this month' without the temporal qualifier that would make 'earlier this month' verifiable. The brief does not confirm the timing claimed in the draft."
+    ]
+   },
+   {
+    "id": "c28",
+    "headline": "Inter Milan enters talks with Tottenham over potential signing of captain Cristian Romero",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Romero guided Spurs to Europa League success last year' but the brief's data_point claims 'Romero guided Tottenham to Europa League success last year.' The draft presents this as established fact matching the brief, but the brief marks this as 'reported' confidence only. More critically, the brief does not provide independent verification of this claim\u2014it is reported by ESPN but the draft's framing ('guided Spurs') reads as settled historical fact rather than reported assertion.",
+     "The draft includes the Ausilo quote with attribution to 'Sky Italy' but the brief sources this through 'ESPN (via Sky Italy),' creating a chain-of-custody issue. The draft presents it as a direct quote from Sky Italy reporting when it is actually ESPN's report of a Sky Italy quote, a meaningful distinction for accuracy."
+    ]
+   },
+   {
+    "id": "c117",
+    "headline": "Former NFL guard Jordan Devey dies at 38; family says he died by suicide",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions note that 'The source text provided is truncated and does not contain the full article content, including the family statement or additional context beyond the headline and snippet.' The draft states 'His family stated he died by suicide' but the brief does not contain the full family statement in its data_points\u2014only that 'The family's statement addressed suicide as the cause of death' without the actual statement text. The writer has asserted a direct quote or claim ('his family stated') that exceeds what the truncated source materials in the brief actually provide. This is smuggled information not fully backed by the research brief."
+    ]
+   }
+  ]
  }
 ]
