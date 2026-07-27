@@ -215,7 +215,12 @@ jobs:
                            if i["title"] == title), None)
           if existing:
               # Repeat failure: comment the fresh report on the open flag instead of
-              # going silent (a dedupe that hides new evidence helps nobody).
+              # going silent (a dedupe that hides new evidence helps nobody). EXCEPT
+              # the API usage-limit error: it repeats identically every slot until the
+              # limit resets, and each comment emails the owner; one open flag says it.
+              if "specified API usage limits" in body:
+                  print("usage-limit failure already flagged; staying quiet until reset")
+                  raise SystemExit
               req = urllib.request.Request(existing["comments_url"],
                   data=json.dumps({"body": body}).encode(), headers=hdrs)
               urllib.request.urlopen(req)

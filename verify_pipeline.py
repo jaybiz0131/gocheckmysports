@@ -425,6 +425,21 @@ def layer2_sources():
             gh("warning", f"sources: '{name}' fetch failed ({url}): {e} -- soft warning only, NOT failing")
             continue
         if code != 200:
+            # A feed with a configured API fallback is healthy when the FALLBACK serves
+            # (the ESPN RSS hosts answer runner IPs with 202 bot challenges by design;
+            # the pipeline never reads those URLs from CI, aggregate.espn_api_fallback
+            # does). Only a feed with no working fallback is a real liveness failure.
+            fb = f.get("fallback_api")
+            if fb:
+                try:
+                    freq = urllib.request.Request(fb, headers={"User-Agent": common.UA})
+                    with urllib.request.urlopen(freq, timeout=30) as fr:
+                        if fr.getcode() == 200:
+                            print(f"LAYER 2 sources: OK '{name}' -> RSS {code} but API "
+                                  f"fallback resolves 200 (the path the pipeline uses).")
+                            continue
+                except Exception:
+                    pass
             gh("error", f"sources: '{name}' did not resolve 200 (got {code}): {url}")
             mismatch = True
             continue
