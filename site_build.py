@@ -720,7 +720,18 @@ def home_stack(items, now=None):
     breaking = False
     if stories:
         freshest = min(stories, key=lambda i: _fresh_hours(i, now))
-        if _fresh_hours(freshest, now) <= BREAKING_HOURS:
+        # BREAKING requires the EVENT to be fresh, not just the publish (owner
+        # directive 2026-07-27: a Friday ruling posted Monday is never Breaking).
+        # event_utc is stamped at ingest from the story's wire timestamp; a story
+        # without one can never carry the label.
+        def _event_fresh(story):
+            try:
+                ev = datetime.datetime.fromisoformat(
+                    (story.get("event_utc") or "").replace("Z", "+00:00"))
+                return (now - ev).total_seconds() <= 12 * 3600
+            except Exception:
+                return False
+        if _fresh_hours(freshest, now) <= BREAKING_HOURS and _event_fresh(freshest):
             breaking = True
             stories = [freshest] + [s for s in stories if s is not freshest]
     wraps = [i for i in (items or [])
@@ -732,6 +743,11 @@ def home_stack(items, now=None):
                   None)
     if anchor is None:
         anchor = wraps[0] if wraps else None
+    # EDITIONS STALENESS (owner directive 2026-07-27): an edition older than 24 hours
+    # is never featured; the module collapses instead of presenting old synthesis as
+    # current. The /bottom-line archive keeps every edition.
+    if anchor is not None and _fresh_hours(anchor, now) > 24:
+        anchor = None
     return stories, breaking, anchor
 
 
@@ -840,7 +856,7 @@ def scores_strip():
 _BL_GUARD_SCRIPT = (
     '<script>(function(){var b=document.querySelector("[data-bl-published]");'
     'if(!b)return;var t=Date.parse(b.getAttribute("data-bl-published"));'
-    'if(isNaN(t)||Date.now()-t<=72e6)return;'
+    'if(isNaN(t)||Date.now()-t<=864e5)return;'
     'b.setAttribute("href","/bottom-line.html");'
     'var s=b.querySelector(".hero-bl-src");if(s)s.textContent="The daily reads";'
     'var r=b.querySelector(".hero-bl-read");if(r)r.textContent='
@@ -1076,25 +1092,29 @@ def render_home(items, dateline):
                                encoding="utf-8")).get("narratives", {}).get("watchlist", [])
     except Exception:
         watch = []
+    def _tracking_match(story, rx):
+        # SUBJECT-level match, not a passing mention (2026-07-27: the Severe weather
+        # chip landed on a Tour de France story whose dek mentioned a wildfire once):
+        # a title hit qualifies alone; otherwise two or more hits across
+        # title+dek+key_fact.
+        title = story.get("title") or ""
+        if rx.search(title):
+            return True
+        text = " ".join([title, story.get("dek") or "", story.get("key_fact") or ""])
+        return len(rx.findall(text)) >= 2
     for n in watch:
         kws = n.get("keywords") or []
         if not kws:
             continue
         rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
-        # match the story's SUBJECT only (headline, dek, key fact); a passing body
-        # mention must not hijack a Tracking chip (2026-07-23: "World Cup" in a stadium
-        # article's body, "supreme court" in a tariffs article, both mislinked the rail)
-        hit = next((i for i in live if not i.get("superseded_by") and rx.search(" ".join(
-            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""]))), None)
+        cands = [i for i in live if not i.get("superseded_by") and _tracking_match(i, rx)]
+        cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+        hit = cands[0] if cands else None
         if hit:
-            # follow the update chain: a Tracking chip never lands on a retired version
-            seen = set()
-            while hit.get("superseded_by") and hit["superseded_by"] not in seen:
-                seen.add(hit["superseded_by"])
-                nxt = next((j for j in live if j.get("slug") == hit["superseded_by"]), None)
-                if not nxt:
-                    break
-                hit = nxt
+            # BUILD GATE (owner directive 2026-07-27): a chip whose target does not
+            # carry its storyline fails the build rather than shipping a mislink.
+            if not _tracking_match(hit, rx) or hit.get("superseded_by"):
+                raise SystemExit(f"tracking chip mismatch: {n.get('name')} -> {hit.get('slug')}")
             chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
                          f'{esc(n.get("name", ""))}</a>')
     if chips:
@@ -1583,6 +1603,14 @@ def ingest():
         updates_map = {r["id"]: r["updates"] for r in ranked if r.get("updates")}
     except Exception:
         pass
+    # the wire timestamp of the story's cluster: the closest thing the desk holds to
+    # WHEN THE EVENT HAPPENED; the Breaking label gate depends on it
+    event_map = {}
+    try:
+        event_map = {c["id"]: c.get("timestamp") or "" for c in json.load(
+            open(os.path.join(HERE, "out", "items.json"), encoding="utf-8"))["clusters"]}
+    except Exception:
+        pass
     # verification inputs for the per-story trail (same run, already on disk)
     verifier_reasons, source_checks = {}, {}
     try:
@@ -1631,6 +1659,8 @@ def ingest():
         checks = source_checks.get(rec.get("id")) or []
         live = sum(1 for c in checks
                    if c.get("http_status") == 200 and (c.get("source_text") or "").strip())
+        if event_map.get(rec.get("id")):
+            item["event_utc"] = event_map[rec.get("id")]
         item["verification"] = {
             "verdict": rec.get("verdict"),
             "checked_utc": published_utc,

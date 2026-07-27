@@ -125,6 +125,12 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 autopilot.py
 
+      # The day's known major events must have coverage; a gap warns the editor the
+      # same day instead of surfacing in a post-mortem audit (fail-open, no spend).
+      - name: Event coverage check
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        run: python3 event_coverage.py || true
+
       # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): the guaranteed
       # per-slot synthesis over the desk's own published stories. Runs even when no new
       # story cleared the gates (the whole point: never a zero-content slot). Fail-open

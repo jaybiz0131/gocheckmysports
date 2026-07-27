@@ -39,6 +39,10 @@ or league significance, most important first:
   news) - high weight.
 - Major roster moves: trades, signings, firings, hirings WITH primary-source confirmation.
 - Significant injuries, reported ONLY from official injury reports or on-record statements.
+  CAMP SEASON (owner directive 2026-07-27): while training camps are open (the calendar
+  lists the window), camp injury and availability disclosures (a torn ACL, a coach
+  announcing a player's limitation, PUP designations) are top sports stories, not minor
+  notes; rank them accordingly. Sourcing rules unchanged.
 - Results with genuine stakes: records broken, playoff clinching, championships decided.
 - League business (media rights, franchise moves, NIL and college pay) with real sourcing.
 - Betting-integrity and legal stories from official or well-corroborated reporting.

@@ -27,10 +27,20 @@ def active_events(today=None):
     even when transactions dominate the intake. Windows are approximate on purpose;
     they bias staffing, never facts."""
     import datetime as _dt
+    import json as _json
+    import os as _os
     cfg = common.load_config()
     today = today or _dt.datetime.now(_dt.timezone.utc).date().isoformat()
-    return [e for e in cfg.get("event_calendar", [])
-            if e.get("start", "") <= today <= e.get("end", "")]
+    cal = list(cfg.get("event_calendar", []))
+    # the weekly hand-updated file carries single-day cards and one-off events the
+    # seasonal calendar cannot know (owner directive 2026-07-27: Joshua fought Saturday
+    # and the desk did not know)
+    try:
+        cal += _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                                             "event-week.json"), encoding="utf-8"))["events"]
+    except Exception:
+        pass
+    return [e for e in cal if e.get("start", "") <= today <= e.get("end", "")]
 
 
 def build_user(items, top_n):
