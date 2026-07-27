@@ -1,159 +1,129 @@
 {
- "generated_utc": "2026-07-27T12:50:47Z",
+ "generated_utc": "2026-07-27T20:53:13Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "CLE",
-     "home": "TB",
+     "away": "SEA",
+     "home": "TEX",
+     "away_score": 2,
+     "home_score": 7,
+     "state": "in",
+     "detail": "Top 9",
+     "start_utc": "2026-07-27T18:35:00Z",
+     "eid": "822868"
+    },
+    {
+     "away": "BAL",
+     "home": "DET",
      "away_score": 0,
-     "home_score": 1,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T16:15:00Z",
-     "eid": "822950"
+     "home_score": 0,
+     "state": "pre",
+     "detail": "6:40 PM ET",
+     "start_utc": "2026-07-27T22:40:00Z",
+     "eid": "824245"
     },
     {
      "away": "AZ",
-     "home": "WSH",
-     "away_score": 7,
-     "home_score": 10,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:35:00Z",
-     "eid": "822706"
+     "home": "PIT",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "6:40 PM ET",
+     "start_utc": "2026-07-27T22:40:00Z",
+     "eid": "823353"
     },
     {
-     "away": "CHC",
-     "home": "PIT",
-     "away_score": 7,
-     "home_score": 8,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:35:00Z",
-     "eid": "823354"
+     "away": "PHI",
+     "home": "MIA",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "6:40 PM ET",
+     "start_utc": "2026-07-27T22:40:00Z",
+     "eid": "823839"
     },
     {
      "away": "TOR",
-     "home": "BOS",
-     "away_score": 1,
-     "home_score": 6,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:35:00Z",
-     "eid": "824730"
+     "home": "WSH",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "6:45 PM ET",
+     "start_utc": "2026-07-27T22:45:00Z",
+     "eid": "822705"
+    },
+    {
+     "away": "CLE",
+     "home": "CIN",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "7:10 PM ET",
+     "start_utc": "2026-07-27T23:10:00Z",
+     "eid": "824490"
     },
     {
      "away": "ATL",
-     "home": "BAL",
-     "away_score": 3,
-     "home_score": 2,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:35:00Z",
-     "eid": "824810"
-    },
-    {
-     "away": "KC",
-     "home": "DET",
-     "away_score": 5,
-     "home_score": 4,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:40:00Z",
-     "eid": "824246"
-    },
-    {
-     "away": "LAD",
      "home": "NYM",
-     "away_score": 3,
-     "home_score": 8,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:40:00Z",
-     "eid": "823599"
-    },
-    {
-     "away": "SD",
-     "home": "MIA",
-     "away_score": 5,
-     "home_score": 3,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T17:40:00Z",
-     "eid": "823840"
-    },
-    {
-     "away": "ATH",
-     "home": "MIN",
-     "away_score": 8,
-     "home_score": 11,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T18:10:00Z",
-     "eid": "823678"
-    },
-    {
-     "away": "HOU",
-     "home": "CWS",
-     "away_score": 3,
-     "home_score": 12,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T18:10:00Z",
-     "eid": "824572"
-    },
-    {
-     "away": "COL",
-     "home": "MIL",
-     "away_score": 2,
-     "home_score": 11,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T18:10:00Z",
-     "eid": "823755"
-    },
-    {
-     "away": "CIN",
-     "home": "STL",
-     "away_score": 5,
-     "home_score": 3,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T18:15:00Z",
-     "eid": "823028"
-    },
-    {
-     "away": "SEA",
-     "home": "TEX",
-     "away_score": 6,
-     "home_score": 4,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T18:35:00Z",
-     "eid": "822870"
-    },
-    {
-     "away": "LAA",
-     "home": "SF",
-     "away_score": 4,
-     "home_score": 3,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T20:05:00Z",
-     "eid": "823194"
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:10 PM ET",
+     "start_utc": "2026-07-27T23:10:00Z",
+     "eid": "823597"
     },
     {
      "away": "NYY",
-     "home": "PHI",
-     "away_score": 4,
-     "home_score": 11,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-07-26T23:20:00Z",
-     "eid": "823433"
+     "home": "CWS",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "7:40 PM ET",
+     "start_utc": "2026-07-27T23:40:00Z",
+     "eid": "824570"
+    },
+    {
+     "away": "CHC",
+     "home": "STL",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:45 PM ET",
+     "start_utc": "2026-07-27T23:45:00Z",
+     "eid": "823025"
+    },
+    {
+     "away": "HOU",
+     "home": "LAA",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "9:38 PM ET",
+     "start_utc": "2026-07-28T01:38:00Z",
+     "eid": "824001"
+    },
+    {
+     "away": "BOS",
+     "home": "ATH",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "9:40 PM ET",
+     "start_utc": "2026-07-28T01:40:00Z",
+     "eid": "824977"
+    },
+    {
+     "away": "MIL",
+     "home": "SF",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "9:45 PM ET",
+     "start_utc": "2026-07-28T01:45:00Z",
+     "eid": "823195"
     }
    ]
   }

@@ -1861,5 +1861,77 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-27",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c095",
+    "headline": "Son of Chiefs OC Eric Bieniemy arrested, charged in shooting",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Elijah Zion Bieniemy of Ashburn faces multiple charges in the incident' but the brief's core_claim and only data point specify he was 'charged in connection with shooting his wife at their Virginia home.' The draft obscures the victim's identity and relationship to the subject, which is a material factual difference from the sourced brief.",
+     "The draft says 'The shooting occurred as the NFL's training camps open' but provides no date or confirmation this timing is accurate; the brief timestamp is 2026-07-27 but the draft does not establish when the shooting occurred relative to camp openings.",
+     "The draft claims 'No statement from Eric Bieniemy or the Chiefs organization has been reported' but this is not in the brief's data_points and amounts to a negative fact (absence of statement) that was not confirmed in research."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "LeBron James signs with 76ers on veteran minimum contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states James is 'the NBA's all-time leading scorer' and later 'James, the NBA's all-time leading scorer,' but the brief's data_point says only 'James is the NBA's career scoring leader.' These are distinct claims\u2014'all-time leading scorer' suggests active play, while the source wording is neutral. The draft's phrasing could mislead readers about his current status.",
+     "The draft claims 'James posted on Instagram Monday morning at 4:12 AM with the caption \"It's that time again. 4:12 AM. Let's get it,\" accompanied by workout videos, per ESPN.' However, the brief's data_point says 'James posted on Instagram Monday morning at 4:12 AM with the caption 'It's that time again. 4:12 AM. Let's get it.' with workout videos' but does not specify the exact caption text matches or confirm ESPN verified the exact wording. The draft presents this as a direct quote when the sourcing is ambiguous.",
+     "The draft says the contract is 'worth $8 million total' but the brief labels this data point 'announced-not-verified,' meaning it is not yet confirmed by independent sources. The draft presents this figure as fact without any hedge or confidence qualifier, violating the rule that unconfirmed claims must read that way in prose."
+    ]
+   },
+   {
+    "id": "c081",
+    "headline": "Pirlo withdraws from Italy coaching job over Russian betting firm ties",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Pirlo is the 47-year-old former midfielder' but the brief data_point says 'Pirlo is age 47'\u2014this is a minor detail, but the draft adds 'former midfielder' which is not in the provided data_points and constitutes smuggled information outside the brief.",
+     "The draft states 'Pirlo is currently head coach of UAE's Dubai United' in the opening paragraph context, but this fact (from brief data_point claiming he is 'currently head coach of UAE's Dubai United') is never explicitly stated in the draft body itself, only implied contextually. More critically, the brief lists this as a reported data_point but the draft never mentions his current coaching role, which is a material omission that changes the narrative frame of a professional administrator being recruited away from an active post.",
+     "The draft references Pirlo's Instagram statement saying his collaboration 'was exclusively commercial and sporting in nature' but the brief's data_point specifies he said this about 'his capacity as coach for United FC in Dubai'\u2014the draft generalizes this statement without that contextual anchor, potentially misrepresenting its scope."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Braves activate Ronald Acuna Jr. from injured list",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Braves have gained 3.5 games on the Philadelphia Phillies since the All-Star break' but does not attribute this figure inline to CBS Sports in the sentence where it appears. Attribution comes only parenthetically at the end ('per CBS Sports'), which violates the standard for inline attribution of specific figures.",
+     "More critically: the bottom_line acknowledges 'The brief does not address the specific injury that led to Acu\u00f1a's IL placement or any restrictions on his return timeline,' which reveals the writer is aware the brief is incomplete on material facts. The draft should not have proceeded without this information; this signals the writer patched a thin brief rather than respecting the research boundary."
+    ]
+   },
+   {
+    "id": "c114",
+    "headline": "Commanders fire tight ends coach Ben Steele following DWI arrest",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents 'Ben Steele was arrested on suspicion of driving while intoxicated in June' as fact in the opening, but the brief's data_point specifies the exact date: 'June 7.' The draft then repeats 'June 7, per CBS Sports' in the second paragraph. This is redundant and suggests the writer initially softened the specificity, then re-hardened it\u2014a sign of uncertain sourcing confidence.",
+     "The bottom_line states 'The full details of the DWI charge's disposition in court are not addressed in available reporting,' which is editorial acknowledgment of a gap in the brief. A compliance issue: the draft discusses an arrest and firing without addressing whether the charge was adjudicated, dismissed, or pending\u2014material to credibility. The open_questions note in the brief ('The source text is substantially truncated') signals the source itself may be incomplete, making this draft dependent on uncertain ground."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Inter Milan in Advanced Talks With England Defender Stones on Free Transfer",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Stones' current club' without naming it. The brief's open_questions explicitly flag: 'Which Premier League club Stones is departing is not stated in the snippet or truncated source text.' The writer invented a reference to Stones' current club that is not in the brief and cannot be verified from the source. This is a smuggled fact.",
+     "Draft claims the talks are 'described as advanced' and 'no timeline for completion has been disclosed'\u2014both facts that must trace to the brief. The brief confirms 'advanced talks' (reported confidence) but the 'no timeline' claim is an inference the writer added, not a data point in the brief."
+    ]
+   },
+   {
+    "id": "c160",
+    "headline": "Jones Addresses Controversial Livestream Comment After Named All-Star MVP",
+    "category": "compliance",
+    "reasons": [
+     "Draft presents 'the controversial comment she had made' and 'the original comment' as established fact, but the brief's open_questions explicitly state: 'What was the specific content of the controversial comment Jones made on Studbudz?' The comment's content is unknown. The draft treats the comment as a settled, known thing when it is not, which crosses into speculation about athlete conduct beyond the official record.",
+     "Draft describes Jones as having 'broke down in tears while delivering her response'\u2014this is a health/emotional state claim about the athlete's body and mental state. While the brief includes the data point that 'Jones broke down in tears while addressing the controversy' from Yahoo Sports, the draft's framing of this moment as 'signaling the emotional toll' and elaborating on her 'emotional reckoning' goes beyond reporting the observed fact into interpretation of her internal state, which is compliance risk on personal material about the athlete."
+    ]
+   }
+  ]
  }
 ]
