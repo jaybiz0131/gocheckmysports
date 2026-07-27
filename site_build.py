@@ -1052,7 +1052,13 @@ def render_home(items, dateline):
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
-    wraps = [i for i in items if _is_wrap(i) and not i.get("example")]
+    # EDITIONS STALENESS (owner directive 2026-07-27, same rule as the featured band):
+    # a card older than 24 hours never renders and the strip collapses entirely when
+    # nothing fresh exists; the live-dot only ever sits on a fresh card. A July 23
+    # brief wearing a live-dot on July 27 slipped through this module.
+    _now = _build_now()
+    wraps = [i for i in items if _is_wrap(i) and not i.get("example")
+             and _fresh_hours(i, _now) <= 24]
     ed_cards, seen_slots = [], set()
     if wraps:
         recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
