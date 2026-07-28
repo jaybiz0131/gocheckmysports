@@ -43,6 +43,55 @@ def active_events(today=None):
     return [e for e in cal if e.get("start", "") <= today <= e.get("end", "")]
 
 
+def running_threads(now=None):
+    """The desk's OWN active storylines with the age of their newest chapter (owner
+    directive 2026-07-28: a tracker that does not track is worse than none). For every
+    narrative on the watchlist, find the newest published story genuinely about it and
+    report how stale that chapter is, so the editor knows which threads a development
+    must UPDATE rather than pass over. Deterministic, no model calls."""
+    import datetime as _dt
+    import glob as _glob
+    import json as _json
+    import os as _os
+    import re as _re
+    import sys as _sys
+    _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+    from site_build import tracking_match
+    cfg = common.load_config()
+    now = now or _dt.datetime.now(_dt.timezone.utc)
+    cutoff = (now - _dt.timedelta(days=5)).isoformat()
+    stories = []
+    for p in _glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                                      "site", "content", "*.json")):
+        try:
+            d = _json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        if (d.get("id", "").startswith("wrap-") or d.get("superseded_by")
+                or (d.get("published_utc") or "") < cutoff):
+            continue
+        stories.append(d)
+    threads = []
+    for n in cfg.get("narratives", {}).get("watchlist", []):
+        kws = n.get("keywords") or []
+        if not kws:
+            continue
+        rx = _re.compile(r"\b(?:" + "|".join(_re.escape(k) for k in kws) + r")\b", _re.I)
+        hits = [d for d in stories if tracking_match(d, rx)]
+        if not hits:
+            continue
+        newest = max(hits, key=lambda d: d.get("published_utc") or "")
+        try:
+            when = _dt.datetime.fromisoformat(
+                (newest.get("published_utc") or "").replace("Z", "+00:00"))
+            age = round((now - when).total_seconds() / 3600)
+        except Exception:
+            age = None
+        threads.append({"thread": n.get("name", ""), "title": newest.get("title", ""),
+                        "hours": age})
+    return threads
+
+
 def build_user(items, top_n):
     pool = items["clusters"]
     if len(pool) > EDITOR_MAX_CLUSTERS:
@@ -92,9 +141,24 @@ def build_user(items, top_n):
                "carries stories on any of these, at least one ranked slot covers the "
                "event itself, not just transactions):\n"
                + "\n".join(f"- {e['name']}" for e in events) + "\n\n")
+    threads = running_threads()
+    run_block = ""
+    if threads:
+        rows = "\n".join(
+            f"- {t['thread']}: last chapter \"{t['title']}\""
+            + (f" ({t['hours']}h ago)" if t["hours"] is not None else "")
+            for t in threads)
+        run_block = ("RUNNING STORIES THE DESK IS TELLING (thread, its newest published "
+                     "chapter, and how old that chapter is). If the intake carries a "
+                     "MATERIAL development on any of these (a new figure, a new decision, "
+                     "a named official acting, a next step taken), rank it and set "
+                     "\"updates\" to that chapter's title EXACTLY as written, so the thread "
+                     "advances instead of going stale. A thread whose chapter is many hours "
+                     "old while the wires carry developments is the desk falling behind:\n"
+                     + rows + "\n\n")
     return (f"Here are {len(clusters)} deduplicated story clusters from the last "
             f"{items['_meta'].get('lookback_hours', '?')} hours. Rank the top {top_n} real "
-            f"stories and reject the shill." + shelf + cal + json.dumps(clusters, indent=2))
+            f"stories and reject the shill." + shelf + cal + run_block + json.dumps(clusters, indent=2))
 
 
 def validate(obj, top_n):

@@ -220,6 +220,18 @@ def render_feed(items):
     return "\n".join(x for x in out if x)
 
 
+def tracking_match(story, rx):
+    """True when a story is genuinely ABOUT a tracked storyline, not merely mentioning
+    it (2026-07-27: the Severe weather chip landed on a Tour de France story whose dek
+    mentioned a wildfire once). A title hit qualifies alone; otherwise two or more hits
+    across title+dek+key_fact. Module level so the canary can pin the regression."""
+    title = story.get("title") or ""
+    if rx.search(title):
+        return True
+    text = " ".join([title, story.get("dek") or "", story.get("key_fact") or ""])
+    return len(rx.findall(text)) >= 2
+
+
 def destyle(text):
     """House style: no em/en dashes in site copy (model drafts sometimes use them)."""
     return (str(text or "").replace(" \u2014 ", ", ").replace("\u2014", ", ")
@@ -761,6 +773,23 @@ _CLIENT_FEEDS = {
     "NHL": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
 }
 
+SCORES_AGE_JS = (
+    # DATA-AGE TRIPWIRE (owner directive 2026-07-28): the strip's "as of" line is a
+    # promise. The client refresh (every 2 minutes) rewrites it to the real refresh
+    # time on success; if the committed snapshot is older than 3 hours AND no refresh
+    # has landed, the widget says so itself rather than asserting a stale time.
+    '<script>(function(){var n=document.getElementById("sb-note");if(!n)return;'
+    'function two(x){return(x<10?"0":"")+x}'
+    'function mark(d,live){var t=two(d.getUTCHours())+":"+two(d.getUTCMinutes());'
+    'n.textContent="League data, not news \u00b7 as of "+t+" UTC"+(live?"":"");}'
+    'var g=Date.parse(n.getAttribute("data-generated")||"");'
+    'function stale(){n.textContent="League data, not news \u00b7 last update may be "+'
+    '"delayed; scores below may not be current";n.classList.add("sb-stale")}'
+    'if(!isNaN(g)&&Date.now()-g>108e5)stale();'
+    'window.addEventListener("gcm:scores-refreshed",function(){mark(new Date(),1)});'
+    '})();</script>')
+
+
 SCORES_JS = (
     '<script>(function(){var s=document.getElementById("scores-strip");'
     'if(!s||!window.fetch)return;var urls=[];'
@@ -778,8 +807,9 @@ SCORES_JS = (
     'if(state==="post"){var a=+as,h=+hs;'
     'rows[0].classList.toggle("win",a>h);rows[1].classList.toggle("win",h>a)}}'
     'function refresh(){var n=Date.now();if(n-last<120000)return;last=n;'
+    'var ok=function(){try{window.dispatchEvent(new Event("gcm:scores-refreshed"))}catch(e){}};'
     'urls.forEach(function(u){fetch(u).then(function(r){return r.json()})'
-    '.then(function(d){if(d&&d.events){d.events.forEach(function(ev){'
+    '.then(function(d){ok();if(d&&d.events){d.events.forEach(function(ev){'
     'var c=(ev.competitions||[{}])[0],sides={};'
     '(c.competitors||[]).forEach(function(x){sides[x.homeAway]=x});'
     'var st=(ev.status||{}).type||{};'
@@ -844,8 +874,10 @@ def scores_strip():
             f'aria-label="Scores, scroll horizontally" id="scores-strip" '
             f"data-feeds='{json.dumps(feeds)}'>"
             f'{"".join(cards)}</div>'
-            f'<span class="sb-note">League data, not news &middot; as of {stamp} UTC'
-            f'</span></div></section>') + SCORES_JS
+            f'<span class="sb-note" id="sb-note" '
+            f'data-generated="{esc(snap.get("generated_utc") or "")}">'
+            f'League data, not news &middot; as of {stamp} UTC'
+            f'</span></div></section>') + SCORES_JS + SCORES_AGE_JS
 
 
 # STALENESS GUARD (owner directive 2026-07-22: the Bottom Line is a powerful piece or
@@ -1098,16 +1130,7 @@ def render_home(items, dateline):
                                encoding="utf-8")).get("narratives", {}).get("watchlist", [])
     except Exception:
         watch = []
-    def _tracking_match(story, rx):
-        # SUBJECT-level match, not a passing mention (2026-07-27: the Severe weather
-        # chip landed on a Tour de France story whose dek mentioned a wildfire once):
-        # a title hit qualifies alone; otherwise two or more hits across
-        # title+dek+key_fact.
-        title = story.get("title") or ""
-        if rx.search(title):
-            return True
-        text = " ".join([title, story.get("dek") or "", story.get("key_fact") or ""])
-        return len(rx.findall(text)) >= 2
+    _tracking_match = tracking_match
     for n in watch:
         kws = n.get("keywords") or []
         if not kws:

@@ -133,6 +133,24 @@ def layer1_canary():
     clusters = aggregate.dedupe(dup, cfg)
     _check(len(clusters) == 2, fails, f"dedupe canary: expected 2 clusters, got {len(clusters)}")
 
+    # TAG-INTEGRITY REGRESSION (owner directive 2026-07-28, proven test case): the
+    # "Severe weather" chip once linked a Tour de France story whose dek mentioned a
+    # wildfire once. That exact mismatch must fail the build forever.
+    import re as _re
+    import site_build as _sb
+    _rx = _re.compile(r"\b(?:hurricane|tropical storm|landfall|wildfire|evacuation order)\b", _re.I)
+    _tdf = {"title": "Tadej Pogacar wins 2026 Tour de France, his fifth title",
+            "dek": "The final stage was shortened due to police reassignment for "
+                   "wildfire emergency response in southwest France.",
+            "key_fact": "Pogacar sealed the win in Paris."}
+    _wx = {"title": "Wildfire advances to nine miles from Bordeaux amid evacuation order",
+           "dek": "Crews battled the blaze overnight.", "key_fact": "42,000 hectares burned."}
+    _check(_sb.tracking_match(_tdf, _rx) is False, fails,
+           "tag integrity: a passing 'wildfire' mention still hijacks the Severe weather "
+           "chip (the exact 2026-07-27 mislink)")
+    _check(_sb.tracking_match(_wx, _rx) is True, fails,
+           "tag integrity: a genuine severe-weather story no longer matches its chip")
+
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
     fails.extend(e2e_fails)
