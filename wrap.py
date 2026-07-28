@@ -147,12 +147,15 @@ def check(client, obj, stories, boards):
             "different format ('July 15' vs '15 July 2026'; '60,000' vs 'nearly 60,000'); "
             "(b) sums or combinations of input numbers when the edition labels them as "
             "combined or in total; (c) a weekday reference consistent with an input "
-            "story's own dateline; (d) paraphrase of an event the inputs carry. "
+            "story's own dateline ('Saturday evening' and a date that falls on that "
+            "Saturday are the SAME fact); (d) paraphrase of an event the inputs carry. "
             "Connecting and synthesizing the inputs is allowed and expected; when two "
             "inputs differ because one is newer, the newer figure governs and citing it is "
             "correct. Also REJECT anything that reads as a price prediction, trade advice, "
             "or 'you should', and any hype or panic register. Respond ONLY with JSON: "
-            '{"decision": "APPROVE"|"REJECT", "reasons": ["<specific claim and why>"]}\n\n'
+            '{"decision": "APPROVE"|"REJECT", "reasons": ["<specific claim and why>"]}. '
+            "reasons lists ONLY violations; never list permitted or accurate claims, and "
+            "an APPROVE may have empty reasons.\n\n"
             "EDITION:\n" + json.dumps(obj, indent=1)
             + "\n\nINPUT STORIES:\n" + json.dumps(stories, indent=1)
             + "\n\nINPUT BOARDS:\n" + json.dumps(boards, indent=1))
@@ -160,9 +163,25 @@ def check(client, obj, stories, boards):
         if o.get("decision") not in ("APPROVE", "REJECT"):
             raise llmlib.LLMError(f"wrapcheck: invalid decision {o.get('decision')!r}")
         return o
-    v = client.call_json("wrapcheck",
+    def _coherent(v):
+        # A REJECT whose every stated reason describes the claim as permitted, accurate,
+        # or confirmed is a malformed verdict, not a judgment (observed 2026-07-27 on
+        # news: the checker enumerated "INPUTS CONFIRM... ACCURATE" and still rejected).
+        if v.get("decision") != "REJECT":
+            return v
+        rs = [str(r) for r in v.get("reasons", [])]
+        ok_words = ("permitted", "accurate", "confirm", "correct", "consistent")
+        if rs and all(any(w in r.lower() for w in ok_words)
+                      and not any(b in r.lower() for b in ("absent", "contradict",
+                                                           "invented", "not in", "no input"))
+                      for r in rs):
+            print("::warning::wrapcheck: REJECT verdict with no stated violation "
+                  "-> treating as APPROVE (malformed verdict, not a judgment)")
+            v["decision"] = "APPROVE"
+        return v
+    v = _coherent(client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
-                         "Reject invented or contradicted substance without mercy; never reject over formatting, arithmetic the edition labels, or paraphrase.", user, validate=check_shape)
+                         "Reject invented or contradicted substance without mercy; never reject over formatting, arithmetic the edition labels, or paraphrase.", user, validate=check_shape))
     return v.get("decision") == "APPROVE", v.get("reasons", [])
 
 

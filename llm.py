@@ -268,11 +268,19 @@ def extract_json(text):
     # splits body on \n), and pretty-printing models emit them unescaped; the default
     # strict parser rejects any control character inside a string and burned complete,
     # well-formed wraprescue editions (2026-07-21).
-    for strict in (True, False):
-        try:
-            return json.loads(text, strict=strict)
-        except Exception:
-            pass
+    # models sometimes wrap the object in a markdown fence despite instructions;
+    # strip it before parsing (the brace scan below is the deeper fallback)
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = stripped.split("\n", 1)[-1]
+        if stripped.rstrip().endswith("```"):
+            stripped = stripped.rstrip()[:-3]
+    for cand in (text, stripped):
+        for strict in (True, False):
+            try:
+                return json.loads(cand, strict=strict)
+            except Exception:
+                pass
     start = text.find("{")
     while start != -1:
         depth = 0
