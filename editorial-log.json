@@ -2087,5 +2087,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "Aaron Rodgers: '2026 will be my last season, zero debate'",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Metcalf said 'He may not even get hit or touched this year and may say, \"Hey, let's go out there and do another one.\"' but the brief's bear_case describes this as Metcalf's public expression of skepticism without the direct quote appearing in the data_points. The draft presents this as a direct quote when the brief only confirms it as reported sentiment. The exact phrasing must come from the source or be paraphrased; presenting it as a quote without confirmation in the data_points violates the sourcing requirement.",
+     "The draft quotes Rodgers as saying 'No. Zero debate. Zero.' in response to Metcalf's skepticism, but the brief data_point (claim 9) only states Rodgers 'explicitly dismissed the idea he might return for another season' without providing the exact quote 'No. Zero debate. Zero.' in that specific context. The draft fabricates the quote-framing or conflates separate statements."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "UEFA formally rejects FIFA's $20 billion World Cup privatization proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Reuters reporting cited by ESPN suggests Infantino has been lined up to run the company as commissioner once his FIFA term expires.' However, the brief data_point attributes this to 'The Times report,' not Reuters. The draft misattributes the source of this claim."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Sources: No real progress in Mayfield, Buccaneers contract talks",
+    "category": "accuracy",
+    "reasons": [
+     "The claim that 'Evans subsequently signed with the San Francisco 49ers in free agency in 2026' appears in the draft as a settled fact, but the brief lists it as 'reported' confidence only. More critically, the draft presents this as straightforward biography when the brief's open_questions and bear_case suggest Evans' departure may have been causally related to contract frustration\u2014a connection the draft makes seem inevitable rather than speculative. The sentence reads as factual narrative of a completed transaction, but without verification from the source that Evans' stalled negotiations caused his departure, this conflates reported fact (he is now a 49er) with unreported causation (that the Bucs' negotiation pattern drove him out). The draft should either attribute the move more carefully or acknowledge uncertainty.",
+     "The draft states 'Sources said that Mayfield is not afraid of playing out the season under his current deal or playing under the franchise tag in 2027' but the brief marks this data point as 'unconfirmed.' The draft presents it as fact sourced to ESPN without flagging the confidence level, violating the hard rule that unconfirmed claims must read as such in prose."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Kyle Shanahan injured in car accident: 49ers coach to begin training camp in limited role",
+    "category": "compliance",
+    "reasons": [
+     "The draft makes definitive medical claims about an ongoing injury situation ('sustained three broken ribs, a broken nose, a broken hand, a concussion') based on a brief marked 'thin=true' with only 6 data points and a truncated source. The brief's open_questions explicitly note that source text is 'truncated and does not include details about expected recovery timeline.' This is speculation about a person's medical state beyond the official record. The writer has moved from 'reported injuries' to presenting a complete clinical inventory as fact without evidence the 49ers or Shanahan made official statement of all these injuries together. A health claim must trace to official injury reports or on-record statements; this reads as assembled medical detail. Category: compliance (health claims beyond official record)."
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Zinedine Zidane appointed France coach on 2030 contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Zidane 'reportedly turned down all other offers to pursue only this role' in the body, but this claim does not appear in the brief's data_points. The brief's angle mentions this, but the open_questions explicitly state 'No verification of Zidane's quote about turning down every other offer.' The writer has smuggled an unverified claim into the draft as fact.",
+     "The draft is severely underbaked for a story of this magnitude. The brief lists only one data_point (contract through 2030) and flags the source as 'truncated' with critical details missing. The brief's open_questions identify missing key information: appointment date, official announcement, Zidane's statement, and prior manager transition details. The draft should not have proceeded without these facts in the brief."
+    ]
+   }
+  ]
  }
 ]
