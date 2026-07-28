@@ -2194,5 +2194,73 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c148",
+    "headline": "Eagles and Jalen Carter agree to $152M extension, largest for defensive tackle",
+    "category": "accuracy",
+    "reasons": [
+     "Title and opening claim 'largest contract ever signed by a defensive tackle in NFL history' presents as definitive fact, but brief data_points show only 'reported' confidence and open_questions explicitly flag uncertainty: 'Whether this is claimed as the largest defensive tackle contract by total value, average annual value, or guarantees.' The draft should hedge this claim (e.g., 'reported to be' or 'agents claim') to match the brief's epistemic standing.",
+     "Draft states deal 'is reported to be the largest contract ever signed by a defensive tackle in NFL history' in paragraph one, then drops the hedge in the title and bottom_line ('locked in what is reported as the richest defensive tackle deal'). The title presents unhedged superlative as fact when source reports only a claim by agent representation."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "Lions place Christian Mahogany on NFI list, release Jay Tufele",
+    "category": "compliance",
+    "reasons": [
+     "Draft states 'The specific nature of Mahogany's non-football injury' and treats the placement on NFI as a confirmed health/injury event, but NFI designation itself is a roster status unrelated to confirming the actual medical facts. The phrase 'non-football injury' describes the designation category, not the injury itself. The draft should not speculate about or frame his absence as an 'injury' when the brief and source only confirm the roster move designation. This crosses into medical/health speculation beyond the official record.",
+     "Opening paragraph reads 'removes a starting offensive lineman from the Lions' camp' which assumes Mahogany was in camp and was removed mid-camp. The brief and source only report the placement on NFI list; the draft infers timing and circumstance not present in the source material."
+    ]
+   },
+   {
+    "id": "c77",
+    "headline": "49ers head coach Kyle Shanahan injured in car accident on July 14",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag states: 'The source text provided is truncated/corrupted (contains only HTML boilerplate and navigation code); the full article content is unavailable.' This indicates the writer cannot have verified the facts claimed in the draft. The brief explicitly notes: 'Unable to confirm: specific details of the accident, timeline of recovery, official team statement on camp operations impact, Shanahan's own statement beyond responsibility acknowledgment, or any medical prognosis.' Yet the draft presents as confirmed fact that Shanahan 'sustained a broken nose, three broken ribs, a broken hand, a concussion, and 40+ stitches' and that 'Shanahan was injured in a car accident on July 14 and said the accident was his fault'\u2014facts that cannot be verified from the corrupted source. The data_points themselves are marked 'reported' but derive from an inaccessible article. No fact exists outside the brief; when the brief's source is compromised, the draft cannot stand."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "FIFA announces plan to sell World Cup commercial rights to private investors for $20 billion",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's bear_case and open_questions explicitly state: 'The source text provided is truncated/corrupted (contains only CSS and HTML boilerplate); the full article body is unavailable, preventing extraction of the specific criticisms, UEFA statement content, the UK Prime Minister's position, European clubs' objections, FIFA's justification, or the mechanism and timeline of the proposed sale.' The draft claims 'UEFA released a strongly worded statement in response and indicated it could pursue legal action, per The Guardian's reporting' and 'The backlash reflects concerns that the sale would shift control of football's most prestigious competition from an international governing body to private capital'\u2014but these claims cannot be verified from a corrupted source text. The writer has no brief support for the specific content of UEFA's statement or the nature of the concerns cited. Facts must trace to verified research; a corrupted source means no facts can be established."
+    ]
+   },
+   {
+    "id": "c80",
+    "headline": "CBS Sports Lands Exclusive English Rights to Concacaf Champions Cup Through 2030",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CBS Sports has secured exclusive English-language broadcast rights to the Concacaf Champions Cup through 2030' and 'The rights cover 137 annual matches.' The brief marks both data points as 'announced-not-verified' confidence, but the draft presents them as settled facts without hedging language. Per instructions, confidence labels must survive: unconfirmed claims must read that way in prose. The draft should signal that this is an announced deal not yet independently verified."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Sebastian Berhalter Transfers to Middlesbrough from Vancouver Whitecaps",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Berhalter 'signed with the Whitecaps in February 2022 from Columbus Crew' but the brief does not contain this information. The brief only confirms he joined Vancouver in February 2022; the source club is not in the data_points.",
+     "The draft claims Berhalter 'made 167 appearances across all competitions, recording 20 goals and 34 assists during his tenure' at Vancouver. This statistic does not appear in the brief's data_points and is therefore smuggled.",
+     "The draft omits a critical data_point from the brief: 'Berhalter is the son of former USMNT coach Gregg.' This is a reported fact in the brief that should have been included for full context.",
+     "The draft paraphrases Berhalter's quote differently than the brief provides it. The brief contains: 'I've been watching the club closely over the last two years because of Aidan, and I kind of fell in love with the club, especially over the last year with the way they play and the way they fight.' The draft reads: 'I had been monitoring Middlesbrough closely over the past two years because of Morris's presence there. I kind of fell in love with the club, especially over the last year with the way they play and the way they fight.' The first part is substantially reworded when the brief provides exact language marked 'announced-not-verified'\u2014direct quotes should be used when available."
+    ]
+   },
+   {
+    "id": "c3",
+    "headline": "2026 NFL Training Camps Underway Across All 32 Teams",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'ESPN has launched notebooks for 14 teams that are in full training camp mode' but this claim does not appear in the brief's data_points. The brief core_claim and data say ESPN is covering camps across all 32 teams; no specific count of 14 notebooks is mentioned.",
+     "The draft reports 'Cincinnati Bengals work from Paycor Stadium' but the brief data_point specifies 'Paycor Stadium, Cincinnati, Ohio'\u2014a minor omission of location clarity, though this may not rise to smuggling. However, the draft's lack of attribution for facility locations (no inline source attribution) and the specificity of dozens of facility claims creates liability: every facility name, city, and location detail should be verifiable against the brief, and many are listed without confirmation of which teams' report dates came from which sources."
+    ]
+   }
+  ]
  }
 ]
