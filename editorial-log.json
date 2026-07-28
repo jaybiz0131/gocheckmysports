@@ -2045,5 +2045,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c027",
+    "headline": "Sources: No real progress in Mayfield, Buccaneers contract talks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mike Evans said his agent would not continue negotiations once the season arrived,' but the brief data point says 'In 2023, former Buccaneers wide receiver Mike Evans said that he and his agent would not continue negotiations once the season arrived.' The draft omits the 2023 timestamp, creating potential confusion about which season is being referenced since Mayfield's situation is current (July 2026). More critically, the subsequent sentence claims 'Evans played out the season, and the two sides reached an agreement on a two-year deal in 2024'\u2014but the brief states this agreement was reached 'in 2024,' not that Evans played out 2023 and signed in 2024. The chronology is muddled and could mislead readers about the timeline of Evans' contract situation.",
+     "The draft claims 'Evans subsequently left for free agency and is now with the San Francisco 49ers,' but the brief data point says 'Mike Evans is now with the San Francisco 49ers, whom he signed with in free agency in 2026.' The draft's phrasing is imprecise: it does not clarify that Evans signed with SF in 2026 (current year), which is the critical detail that proves the Buccaneers' willingness to let star players walk. The omission weakens the precedent argument."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Mancini returns as Italy coach after Pirlo candidacy derailed by Russian betting ties",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mancini resigned 'more than three years after his resignation in August 2023,' which is mathematically impossible and internally contradictory. The brief confirms he resigned in August 2023, making the return approximately 3 years later, not 'more than three years.'",
+     "The draft claims Mancini 'joins the Italian federation during a period of internal turmoil following the withdrawal of preferred candidate Andrea Pirlo due to undisclosed ties to Russian betting firm Fonbet,' but the brief data_point states Pirlo's ties were disclosed (he 'became a global ambassador of Fonbet in October 2025'), not undisclosed. The brief says the ties were not previously disclosed to Malag\u00f2, but they were known facts once discovered\u2014not 'undisclosed ties.' This conflates discovery-timing with the nature of the ties themselves.",
+     "The draft says Mancini was 'dismissed' in 2023, but the brief and data_points consistently state he 'resigned.' These are materially different facts."
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Zidane named France head coach through 2030",
+    "category": "accuracy",
+    "reasons": [
+     "Title misspells 'Zinedine' as 'Zidane'. The brief's core_claim and all data_points refer to 'Zinedine Zidane'; the title contains a factual error that cannot be traced to the brief."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Steelers' Aaron Rodgers reaffirms 2026 as final season: 'Zero doubt'",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Rodgers 'reported to his 22nd NFL training camp on Tuesday' but provides no verification this is actually his 22nd camp. The brief's data_point says 'Aaron Rodgers reported to his 22nd NFL training camp on Tuesday morning' but that claim itself is sourced to ESPN without independent confirmation of the count. This is a factual assertion about a specific number that should either be verified independently or marked with appropriate confidence language if it is announced-not-verified.",
+     "Draft includes the quote 'Since he was 50 years old and I was 10, we were kind of like trying to get used to the dynamic of everything' attributed implicitly to Metcalf discussing Rodgers joining the team, but this quote does not appear in the provided brief data_points and appears to be fabricated or improperly sourced. The brief does not contain this quote."
+    ]
+   }
+  ]
  }
 ]
