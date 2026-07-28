@@ -1972,5 +1972,78 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c020",
+    "headline": "UEFA rejects FIFA proposal to raise USD 10B through World Cup private investment",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains three substantive counter-points: (1) FIFA frames FFE as expanding development funding, not selling World Cup control; (2) FIFA's announcement specifies 'minority, non-controlling interests' suggesting FIFA retains control; (3) FIFA has not responded to The Times' specific claims.",
+     "The draft does acknowledge point (1): 'FIFA frames the FFE proposal as an expansion of development funding to support global football, emphasizing that investors would hold only minority, non-controlling stakes.' This appears in the penultimate paragraph.",
+     "However, the draft's framing heavily emphasizes the threat narrative ('crosses a line,' 'soul and governance of football are not assets to trade,' suggestions of fundamental restructuring) without proportionate weight to FIFA's structural safeguards. The bear_case point about 'minority, non-controlling interests' being a governance protection is mentioned only in passing and is drowned out by expansive language about 'a company outside FIFA' controlling the World Cup.",
+     "The Times reporting (reported confidence, not verified) is given substantial real estate in the draft without adequate labeling of its speculative nature. The draft presents Infantino's alleged post-FIFA commissioner role as a developed scheme when the brief labels this as 'The Times reports' (reported confidence). The draft does note 'FIFA has not responded' but this is buried, not emphasized as a counter-balance to unverified reporting.",
+     "Balance failure: the bear_case is present but severely under-weighted relative to the threat narrative."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Colts DT DeForest Buckner cleared to practice after offseason neck surgery",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Buckner was cleared to practice Wednesday after undergoing neck surgery in the offseason' and 'The Colts' medical staff cleared Buckner on Monday, marking the first time since his injury he has been approved for on-field activity.' However, the brief's data_point states 'Buckner was cleared by the team's medical staff on Monday' and a separate data_point states 'Buckner will take the field when practice begins Wednesday.' The draft conflates these two events: cleared Monday, practices Wednesday. The draft's opening conflates the action by saying he 'was cleared...and...Wednesday' \u2014 this is a temporal compression that is acceptable paraphrasing.",
+     "More critically: the draft states 'suffered a neck injury in November that kept him off the field for the remainder of last season and sidelined him throughout all offseason workouts.' The brief says 'Buckner suffered a neck injury in November' (data_point 2) and 'The neck injury kept Buckner out of the entirety of offseason workouts' (data_point 3). The draft adds 'kept him off the field for the remainder of last season' \u2014 the brief confirms this in data_point 2 which says the injury 'kept him off the field for the remainder of last season.' This traces.",
+     "The draft includes a quote: '\"I'm excited to get back on the field,\" Buckner said. \"Everybody has a plan on me for getting back on the field and I'm just excited to get back out there with the guys.\"' This quote appears in the brief as data_point 8 and matches exactly. No fabrication.",
+     "The draft states 'The timeline from his November injury through an extended recovery period and now a gradual return to practice underscores the seriousness of the neck surgery, which carries inherent risk if progression is mismanaged.' This is editorializing beyond the brief's data\u2014the brief does not state that neck surgery 'carries inherent risk if progression is mismanaged.' This is the writer's inference about risk, not from the brief. This is SMUGGLED analysis.",
+     "Accuracy violation: the sentence about inherent risk from mismanagement is not in the brief and represents speculative medical commentary the writer added."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Mancini reappointed Italy manager after Pirlo withdraws, Maldini resigns",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mancini's return concludes a 16-day search' but the brief does not provide the specific duration of the coaching search. The brief notes the search as part of the narrative arc but does not confirm '16 days' as a fact. This appears to be a number introduced without basis in the brief's data_points."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "Zidane named France manager through 2030 after turning down other offers",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes a direct quote ('I turned down every offer because I only wanted this') attributed to Zidane. The brief marks this as 'announced-not-verified' confidence level, meaning it is an unconfirmed statement. Presenting an unconfirmed quote in quotation marks as established fact, without qualifying it as stated or alleged, violates the rule that unconfirmed claims must be marked as such in prose. The quote should be attributed as 'according to...' or the confidence caveat should appear in the text."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Kyle Shanahan nearly lost eye in car crash, says friend Chris Simms",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Chris Simms's account of Shanahan 'nearly losing his right eye' as medical fact without sufficient qualification. The brief's bear_case explicitly states 'no medical documentation of actual vision risk has been disclosed; Simms's characterization is based on the appearance of the scar.' The headline and opening sentences ('nearly lost his right eye') treat this as established medical reality when it is a friend's visual assessment of scarring, not a medical verdict. This violates the rule that health claims must trace to official injury reports or on-record statements and may not speculate beyond the official record.",
+     "The draft states 'The injury details, while anchored in Simms's firsthand knowledge as a longtime friend, have not been independently confirmed by medical documentation released publicly'\u2014a buried qualifier that cannot carry the weight of the story's framing. The lead sentence and title present near-vision-loss as fact sourced to 'accounts from his college teammate Chris Simms,' which reads as medical confirmation rather than a friend's interpretation of scarring.",
+     "The statement 'Shanahan remained concerned about the well-being of the other driver involved in the accident' conflates two different sources: the brief attributes this directly to Simms ('Simms said Shanahan is \"very concerned about the woman he got in the accident with\"'), but the draft does not attribute this quote to Simms by name in that sentence, creating ambiguity about whether this is Simms's report or independent confirmation."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Mancini appointed Italy coach after federation rejects Pirlo over betting ties",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mancini resigned 'four years after his August 2023 resignation' but August 2023 to July 2026 is approximately three years, not four. The brief correctly identifies this as a 2023 resignation without the 'four years' claim.",
+     "The draft states Maldini and Leonardo 'resigned...on Monday' but the brief data_point says they 'resigned as Italy's technical director and team advisor on Monday'\u2014the draft omits that Leonardo's specific title was 'team advisor,' not matching the parallel structure implied by 'resignations of Maldini and Leonardo.'"
+    ]
+   },
+   {
+    "id": "c172",
+    "headline": "NFL formally opposes prediction markets to CFTC, seeks age 21 minimum and contract bans",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains four substantive counter-arguments (Dodd-Frank framework legitimacy, CFTC's offshore-market argument, other leagues' embraced partnerships, lower comment engagement), but the draft presents only one substantive counter-position in paragraph 5 (the CFTC's 'push offshore' argument) and one partial acknowledgment (other leagues embracing partnerships in paragraph 3). The draft does not substantively represent the bear_case that 'other major U.S. sports leagues have already embraced prediction-market partnerships [which] suggests the industry and some league stakeholders view the model as compatible with sports integrity'\u2014it mentions this fact but frames it as evidence of the NFL's isolation, not as a legitimate counter-argument to the NFL's position. Paragraph 6's Dodd comment actually strengthens the NFL's case rather than providing balance on whether Dodd-Frank legitimizes prediction markets. The bear_case items on the CFTC's legal framework and the viability concern of outright bans are not represented."
+    ]
+   }
+  ]
  }
 ]
