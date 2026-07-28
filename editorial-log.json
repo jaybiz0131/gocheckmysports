@@ -2136,5 +2136,63 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Vikings Lock O'Neill In With Four-Year, $96 Million Extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states O'Neill 'has been the Vikings' full-time starter since his arrival as a second-round draft pick in 2018, appearing in 120 games across his first eight seasons.' The brief confirms 120 games in eight seasons, but the math is inconsistent: if drafted in 2018, eight seasons would end in 2025 (current season), not a complete history. More critically, the draft says he appeared in '120 games across his first eight seasons' without qualifying that these are career games to date; the phrasing suggests a completed eight-year span, which is imprecise given the timeline. The brief states '120 games in eight previous seasons' which is more careful. This is a minor but traceable accuracy slip in how the claim was reworded."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Green Agrees to One-Year, $27.7 Million Deal to Remain With Warriors",
+    "category": "compliance",
+    "reasons": [
+     "The brief contains a confidence label of 'announced-not-verified' on the core claim that Green agreed to a one-year, $27.7 million deal. The draft presents this as settled fact ('Draymond Green agreed to a one-year, $27.7 million contract') without any hedging language ('reported,' 'according to,' or a qualification that the deal is unverified). An 'announced-not-verified' claim must be read with epistemic caution in the prose; presenting it as confirmed fact violates the hard rule that confidence labels must survive into the article."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "CBS Sports lands exclusive English TV rights to Concacaf Champions Cup through 2030",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '137 annual Concacaf Champions Cup matches across three tournaments through the 2030 season' but the brief's confidence label is 'announced-not-verified'. The draft presents this as settled fact without hedging language. Per the check rule: 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.' The draft should signal uncertainty about these figures, not state them as confirmed."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "USMNT Midfielder Berhalter Joins Middlesbrough from Vancouver",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Berhalter played in all five U.S. games at the recent FIFA World Cup' but the brief data_point says he 'played a part in all five U.S. games'\u2014the brief does not confirm he started or appeared in all five, only that he was involved. The draft's phrasing is stronger than the source supports.",
+     "Draft states 'After coming on as a substitute in the U.S. loss to Belgium in the round of 16, Berhalter did not feature for the Whitecaps again.' The brief says 'Berhalter has not featured for the Whitecaps' since that game, but the draft's phrasing 'did not feature for the Whitecaps again' is ambiguous and could be read as 'never played again,' which is not clearly established by the brief. The brief's language is 'has not featured,' indicating ongoing status, not a permanent state.",
+     "Draft mentions Berhalter is 'the son of former USMNT coach Gregg Berhalter' in the brief data_points but this claim does not appear in the draft body. However, this is an omission, not a smuggled fact, so it does not trigger accuracy rejection on its own. The issue is the phrasing above."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "WNBA Players Renew Call for Extended All-Star Break Rest",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'WNBPA Executive Director Terri Carmichael Jackson stated that \"The players raised the issue of scheduling days off following All-Star Weekend during both the 2020 and 2026 collective bargaining negotiations.\"' This claim appears in the brief as a data_point with confidence 'reported', but the timing is problematic: if the brief timestamp is 2026-07-28, the 2026 CBA negotiations would be current/ongoing, not historical. The draft treats this as settled fact rather than flagging the temporal ambiguity. This creates a factual liability: either the 2026 CBA cycle is incomplete (making the claim unconfirmed) or the dates in the source need verification. As written, the sentence smuggles an unverified temporal claim.",
+     "The draft claims 'This year's All-Star Game saw record attendance and demand' but the brief data_point states only 'All-Star Weekend saw record demand and attendance' (confidence: reported). The draft narrows this to 'This year's All-Star Game' specifically, which is a factual specification not present in the brief. The source was not re-checked; the writer added precision not in the research."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Bears GM Poles and Coach Johnson Frustrated by Gordon's Recurring Calf Injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'expressing frustration with Kyler Gordon's latest setback as the nickel cornerback began training camp on the physically unable to perform list with a calf injury' but then immediately states 'has been sidelined since OTAs with the calf injury.' The brief does not explicitly confirm that Gordon was sidelined continuously from OTAs through training camp; it states he was 'sidelined from OTAs and minicamp' (data_point confidence: reported). The draft compounds this by later stating 'Gordon, who signed a three-year, $40 million extension in April 2025 and earned the designation of NFL's highest-paid nickel cornerback at the time' with the confidence label buried as 'announced-not-verified' in the brief, yet the draft presents both the contract amount and the timing as straight fact without hedging language. 'At the time' is attributive but does not signal unconfirmed status in the prose.",
+     "The draft attributes a quote to Poles\u2014'A little bit of a repetitive situation that we've got to get fixed. And then when he gets back, he's going to have to earn that trust back and that dependability, because we've got to put all the guys in a good position to be successful'\u2014which appears in the brief with confidence 'reported'. However, the draft also includes a separate Poles quote: 'All hands on deck to get him back. Coach alluded to it before in terms of his availability or the lack there of. Obviously, he's frustrated. We're frustrated.' This second quote appears in the brief data_points but is NOT included in the draft body. The draft selects one Poles quote over another without explanation, and the omitted quote contains direct evidence of frustration ('Obviously, he's frustrated. We're frustrated') which is central to the story's framing. This is selective quotation that changes the emphasis of Poles's actual statement."
+    ]
+   }
+  ]
  }
 ]
