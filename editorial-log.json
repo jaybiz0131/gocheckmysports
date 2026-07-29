@@ -2336,5 +2336,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Sharks sign Macklin Celebrini to five-year, $94M extension, highest salary in NHL",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Celebrini 'set a Sharks franchise record with 115 points (45 goals, 70 assists) in 152 games' in his second season (2025-26), but the brief's data_point says he set the record 'in his second season' with 115 points without specifying games played in that season alone. The draft conflates career games (152 total) with second-season performance, creating ambiguity about whether 115 points came in 152 games total or in the 2025-26 season specifically. The brief does not clarify this arithmetic.",
+     "The draft claims Celebrini 'has delivered elite production in his first two seasons' but provides no data_point in the brief about first-season performance. Only second-season (2025-26) and career stats are cited in the brief.",
+     "The draft states 'The extension was announced by the team but has not been independently verified against league records' at the end, which appears to contradict the opening claim that the deal was confirmed by ESPN's reporting and GM Grier's announcement. This hedging language after definitive earlier statements creates ambiguity about confidence level and was not signaled in the brief's 'announced-not-verified' label where it should appear early and clearly in prose."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "NCAA suspends Tennessee LB Carter two games over agent-paid flight",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Penix 'required surgery, and opted to return to Tennessee for another year,' but the brief data_point says he 'required surgery, and decided to return to Tennessee for another season.' More critically, the draft does not establish that surgery occurred after he aggravated the foot injury post-draft\u2014it conflates timeline. The brief says 'aggravated it after declaring for the draft, required surgery, and decided to return,' which could mean surgery happened before or after the draft declaration. The draft's phrasing 'played through a foot injury late in the season, aggravated it after declaring for the draft, required surgery, and opted to return' suggests linear causality that is not confirmed in the brief. This is a smuggled inference about injury sequencing.",
+     "The draft describes Spillman as 'a freshman All-American who led the Vols with 81 tackles in 2025,' but Spillman is described as a 'sophomore' in the present context (Carter is returning for another year in 2026), meaning Spillman was a freshman in 2025. The brief data_point states 'Linebacker Edwin Spillman was a freshman All-American and led the Vols with 81 tackles in 2025,' which is correct. However, the draft's phrasing 'sophomore Edwin Spillman, a freshman All-American who led the Vols with 81 tackles in 2025' contains a logical problem: if he led the team in 2025 as a freshman, he is now a sophomore in 2026\u2014this is correct, but it reads awkwardly and could confuse. Actually, re-reading, the draft says 'sophomore Edwin Spillman, a freshman All-American' which is correct. This passes."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Infantino leverages funding deadline to win FIFA approval for $20B privatization plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Joshua Kushner is 'the brother of Jared Kushner,' but the brief data_point says he is 'the brother of Jared Kushner, the son-in-law of U.S. President Donald Trump.' The draft omits the relationship descriptor 'son-in-law of U.S. President Donald Trump.' This omission is material because it removes context about why Thrive Capital's backing might be politically charged\u2014the brief treats it as relevant enough to include. However, this is not a false claim, just incomplete context. More critically: the brief confidence label for the Kushner relationship is 'reported,' yet the draft presents it matter-of-factly. The brief does include the Trump relationship in the data_point itself, so inclusion was expected. The draft's omission is a loss of brief information, not a smuggled fact, so this is a clarity issue, not accuracy. Reconsidering: the draft nowhere states Jared is Trump's son-in-law; it only says Joshua is Jared's brother. The brief explicitly includes the Trump relationship in the data_point. The draft should have included it. This is not adding new fact; it is omitting reported fact from the brief. Accuracy issue: the draft incompletely reports a fact that the brief provides."
+    ]
+   },
+   {
+    "id": "c23",
+    "headline": "Eagles OLB Jonathan Greenard Placed on PUP With Pec Strain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Last season, he had three sacks in 12 games before requiring season-ending shoulder surgery.' The brief's data point says 'Greenard had three sacks in 12 games last season' and separately 'Greenard was slowed by a shoulder injury in 2025 that ultimately required season-ending surgery.' The phrasing 'before requiring' implies the three sacks occurred before the surgery, but the brief shows the shoulder injury occurred in 2025 (last season) and the three sacks were recorded in 12 games during that same season. The causality and sequence are unclear and potentially misrepresent the timing. More critically, the draft later states 'The shoulder injury that required surgery in 2025 marks the second injury to affect Greenard in recent months'\u2014but the brief contains no data point establishing the shoulder surgery occurred in 2025 or confirming a sequence of two injuries. The brief only confirms a pec strain (current, pre-camp) and a shoulder injury (last season, requiring surgery). The claim about a 'second injury' in recent months and the assertion that shoulder surgery was in 2025 are not supported by the brief's data points."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "Pochettino, US Soccer in Final Stages of New Contract Through 2030 World Cup",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only three data points and the open_questions note states 'The provided source text is truncated and does not contain substantive reporting beyond the headline and snippet; the full article content is unavailable.' The draft is very short (143 words), but the critical problem is that the brief itself contains insufficient detail to support the reportage. The draft relies entirely on a single source (Yahoo Sports snippet) that the brief acknowledges is incomplete. The desk's hard rule is 'no fact exists outside the brief.' The brief does not contain any substantive data beyond the three headline-level claims. The bottom_line correctly signals uncertainty ('Verification of the reported final-stages status awaits further reporting'), which is appropriate, but a story this thin from a truncated source with no supporting quotes, timeline, or context should not run. This is not a quality failure; it is an accuracy problem: the source material itself is too thin and unverified to support publication."
+    ]
+   }
+  ]
  }
 ]
