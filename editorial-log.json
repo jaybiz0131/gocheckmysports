@@ -2432,5 +2432,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Celebrini Signs Five-Year, $94M Extension as Highest-Paid NHL Player",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Celebrini had '70 goals, 108 assists' for 115 points, but the math is incorrect: 70 + 108 = 178, not 115. The brief data_point confirms '115 points (70 goals, 108 assists)' which is internally contradictory in the source itself, but the draft repeats this error without flagging it. The draft later correctly states '178 points (70 goals, 108 assists) in 152 games' for his career, creating internal inconsistency about whether last season was 115 or 178 points.",
+     "Draft states Celebrini 'finished with the second-most goals in Sharks history' but provides no number. Brief data_point specifies '45 goals' as second-most in franchise history. The draft's vague phrasing obscures whether this refers to last season or career, and leaves a quantifiable claim unattributed and potentially unverified."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Texans GM confirms 'productive' contract talks with QB Stroud",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In 2024, Stroud had 3,727 passing yards with 20 touchdowns and 12 interceptions in 17 games while being sacked 52 times, the second most in the league.' The brief data point specifies '52 times, the second most in the league during the 2024 campaign'\u2014the draft language implies this was the league-wide second-most across all time or without temporal boundary. This is a minor precision issue but the draft's phrasing is imprecise enough to warrant clarification that it refers specifically to the 2024 season, not historically.",
+     "The draft states 'Last season' three times in succession (referring to the most recent season before the article). However, the brief's core_claim and data_points reference events across multiple seasons (2023 rookie year, 2024, and 'last season'). The temporal framing 'last season' is ambiguous without explicit year reference in the draft\u2014readers cannot immediately determine which season is being referenced without counting backwards from context. While the brief provides specific years (2023, 2024), the draft collapses these into 'last season,' which creates potential confusion about timeline."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "FIFA pursues World Cup equity sales amid governance questions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Infantino was elected FIFA president in February 2016' but the brief data_point specifies 'February 26, 2016.' The draft should include the specific date as provided in the source material.",
+     "The draft contains substantial original editorial framing ('raises questions about whether the organization's financial strategy reflects a departure from that reform commitment') that goes beyond the brief's angle and introduces analysis not supported by the single Guardian source cited. The brief marks this as a thin story with only one data point; the draft should reflect this thinness rather than expand interpretive claims.",
+     "The draft devotes multiple paragraphs to laying out unanswered questions ('The specifics of the equity sale...remain undisclosed,' 'Responses from national federations...have not been detailed,' etc.) but none of these open questions appear in the brief's open_questions list. This suggests the writer is introducing editorial uncertainty not grounded in the source research."
+    ]
+   },
+   {
+    "id": "c163",
+    "headline": "Twins GM Zoll confirms team will be active buyers at Aug. 3 deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Trade deadline is Monday at 5 p.m.' and 'the deadline is set for 5 p.m. on August 3' as fact, but the brief's data_point only confirms '5 p.m.' as the time\u2014it does not specify which day of the week or confirm August 3 is a Monday. The brief source timestamp is '2026-07-29', which would make August 3 a Saturday, not Monday. This is a factual error not supported by the brief."
+    ]
+   }
+  ]
  }
 ]
