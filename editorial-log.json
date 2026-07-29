@@ -2545,5 +2545,74 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Sources: Browns, Grant Delpit agree to 3-year, $48M extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Delpit signed a three-year, $48 million extension with $35 million guaranteed on Wednesday' but the brief shows the core claim as 'signed...on Wednesday' with both the extension amount and guaranteed money marked 'unconfirmed' in confidence labels. The draft presents unconfirmed figures as settled fact without qualification.",
+     "The brief's bear_case is empty and open_questions do not flag missing information about the extension structure, yet the draft presents deal terms with full certainty when the source material itself marks them unconfirmed."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "PGA Tour bans Trey Mullinax 6 months for doping violation",
+    "category": "compliance",
+    "reasons": [
+     "The brief marks Mullinax's statement 'My lack of knowledge is not an excuse...' and 'I have never taken any substance with the intention of gaining a competitive advantage' as 'announced-not-verified' in confidence label, yet the draft presents both as direct quotes without any qualifier or signal that the statement is unverified or player-provided.",
+     "Presenting an announced-but-unverified personal statement from a player under investigation as a direct quote without qualifier violates the rule that confidence labels must survive in prose. This crosses into potential health/disciplinary speculation territory by letting unverified claims stand unchallenged."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Bengals DE Shemar Stewart carted off with left leg injury on first day of camp",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Stewart 'recorded one sack in eight games' but the brief data_point says he 'totaled one sack in eight games' \u2014 minor paraphrase, acceptable. However, the draft includes no mention of Stewart being a 'former Texas A&M player,' which appears in the brief as a reported data_point. More critically: the draft does not trace the assertion that Cincinnati 'finished the 2025 season with a six-win record' to the brief. The brief states the team is 'coming off a six-win season and its third straight year without a playoff appearance' \u2014 the draft correctly cites this, but then adds context about 'its playoff drought to three straight years without an appearance' which extends the brief's claim slightly. The core issue: the draft speculates about 'durability questions' regarding Stewart in the bottom_line ('confirm of a minor injury would settle immediate concerns but leave a pattern of durability questions'), but the brief contains no bear_case or data supporting a pattern of durability concerns beyond one injury in the current camp. This is speculation beyond the brief."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Sharks sign Celebrini to five-year, $94M extension, setting NHL salary ceiling",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Celebrini's 115 points last season ranked third among teenagers in NHL history, behind Wayne Gretzky's 137 in 1979-80 and Sidney Crosby's 120 in 2006-07' but does not attribute this comparison to the source. More critically: the draft introduces facts not in the brief's data_points. The draft states Grier 'acquiring defenseman Darnell Nurse in a trade, signing defenseman Jacob Trouba and forward Mason Marchment, and selecting Swedish left winger Ivar Stenberg at No. 2 overall in the draft, along with defenseman Keaton Verhoeff at No. 9 and defenseman Ryan Lin at No. 21' \u2014 while the brief data mentions 'added three first-round picks this offseason headlined by Swedish left winger Ivar Stenberg at No. 2 overall, along with North Dakota defenseman Keaton Verhoeff at No. 9 and WHL Vancouver defenseman Ryan Lin at No. 21' and 'traded for defenseman Darnell Nurse and signed defenseman Jacob Trouba and forward Mason Marchment,' the draft adds the specific college/league identifiers ('North Dakota,' 'WHL Vancouver') that do not appear in the data_points themselves. This is not paraphrase of what is briefed; it is added detail from outside the brief."
+    ]
+   },
+   {
+    "id": "c098",
+    "headline": "Running Backs Robinson and Gibbs Hold Out From Training Camp Seeking Extensions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Robinson and Gibbs are holding out 'according to CBS Sports reporting' but the brief contains zero data_points\u2014no confirmation of which teams they play for, when hold-outs began, what terms are sought, or any official statements. The brief itself marks the core_claim as true but lists it under open_questions ('Which teams do Robinson and Gibbs play for?'), indicating the basic facts remain unconfirmed.",
+     "The draft presents the hold-out as established fact ('are staging hold-outs') despite the brief explicitly noting 'Neither player has issued a public statement confirming their status, nor have their teams released formal acknowledgment.' This is a smuggled fact: the hard rule requires all facts to come from data_points in the brief. The brief has none for this story.",
+     "The draft cites a CBS Sports URL but the brief shows only ESPN source infrastructure and explicitly lacks data_points. The writer has introduced sourcing and details not in the research brief."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Roberto Mancini Apologizes for Departure as Italy Rehires Euro 2021-Winning Coach",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mancini said the departure was 'completely my fault' due to a lack of communication with Gravina' in the third paragraph, but the data_point in the brief reads only 'Mancini said the departure resulted from a lack of communication with Gravina.' The phrase 'completely my fault' does not appear in the brief's quoted or paraphrased version and represents a new interpretation not in the source research.",
+     "The draft includes information about 'Marco Palestra' as a fullback in the available squad, but the brief lists 'Marco Palestra' with confidence 'reported.' No independent verification of this name or role exists in the output\u2014this requires checking against ESPN's actual reporting. The name is uncommon in Italian football and may be a transcription error in the brief itself, but the draft has committed to it as fact without the research supporting independent verification."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Tarik Skubal Reaches 1,000 Career Strikeouts in Potential Final Tigers Start",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Skubal is a two-time Cy Young Award winner' but no Cy Young Award claim appears in the brief's data_points. This fact is smuggled and cannot be verified against the research.",
+     "The draft references that Skubal 'pitched through the effects of experimental elbow surgery to remove a loose body from his pitching elbow, which he had six weeks prior.' The brief data_point says he 'returned just six weeks after' surgery, but the draft's phrasing ('which he had six weeks prior') is ambiguous and potentially misrepresents the timeline of when the surgery occurred versus when he returned.",
+     "The draft claims 'According to ESPN, he reached the mark in just 153 games, trailing only Hall of Famer Randy Johnson (152 games) among left-handers for the fastest path to 1,000.' The brief data_point states 'The only left-hander to have reached the 1,000 strikeout milestone in fewer games than Skubal was Hall of Famer Randy Johnson, who did so in 152 games, according to ESPN Research.' The draft's phrasing 'trailing only' is accurate to source, but the claim about Cy Young Awards appears nowhere in the brief and is a smuggled fact."
+    ]
+   }
+  ]
  }
 ]
