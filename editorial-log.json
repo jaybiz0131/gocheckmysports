@@ -2385,5 +2385,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Ravens' Madubuike (neck) practices for 1st time in 10 months",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Madubuike's medical status and recovery in a way that could constitute speculation about his body beyond the official record. The brief's bear_case explicitly flags that 'Ravens officials were vague about Madubuike's long-term status during the season, suggesting uncertainty remained despite the surgery,' but the draft does not surface this uncertainty proportionately. The bottom_line states 'the severity of a neck injury create uncertainty about his immediate availability and long-term durability' without clearly attributing this to the gap between optimistic team statements and actual medical unknowns. This reads as the writer's inference about durability rather than a documented position, crossing from reporting into medical speculation."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Texans, Stroud in productive talks but league sources say deal not imminent",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Stroud 'has compiled 28 regular-season wins (seventh most among NFL quarterbacks during that span)' but the brief data_point claims 28 wins is 'seventh most among NFL QBs during that span' without the parenthetical ranking. The phrase '(seventh most)' appears to be writer-added interpretation not present in the source data. More critically, the draft later states Stroud has '10,876 passing yards, 62 touchdowns, and 25 interceptions' but adds no attributions or caveats to these figures despite the brief listing them as separate reported data_points. The draft treats all three statistics as a single integrated claim without inline attribution, creating ambiguity about sourcing.",
+     "The draft attributes the 54.9 QBR as '(20th)' but the brief data_point lists it as 'Stroud has a 54.9 QBR (20th)' \u2014 the ranking parenthetical is present in the brief. However, the draft then integrates this into a sentence about 'three seasons' without clear period delineation, making it unclear whether the 54.9 QBR covers all three years or a subset. The brief does not specify the time period for the QBR figure, creating a gap between brief and draft that violates the traceability rule."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "FIFA sets September 19 deadline for members to approve $20 billion private investment plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Esea expected to call an emergency online meeting' but the brief says 'UEFA was expected to call.' The acronym 'Esea' does not appear in the brief; this is a typographical error that introduces a factual inaccuracy (wrong organization name) and is not a paraphrase of the sourced claim."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Eagles OLB Jonathan Greenard placed on PUP list with pectoral strain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Greenard 'was slowed by a shoulder injury in 2025 that required season-ending surgery,' but the brief data point states 'Greenard was slowed by a shoulder injury in 2025 that ultimately required season-ending surgery.' The draft then says he was 'limiting him to three sacks in 12 games,' but the brief only confirms 'Greenard had three sacks in 12 games' without specifying which season this occurred. The temporal sequence in the draft is unclear: it states he 'recorded 12.5 sacks and earned a Pro Bowl selection' in 2024, then was 'slowed by a shoulder injury in 2025' and 'limited him to three sacks in 12 games'\u2014but the three sacks claim in the brief is separate and its timing is ambiguous relative to the shoulder injury narrative. The draft presents this as a clear sequence without verifying the exact timeline from the brief."
+    ]
+   },
+   {
+    "id": "c157",
+    "headline": "Miami Dolphins open 2026 training camp under new head coach Jeff Hafley",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states the source text is 'truncated and contains only navigation and header elements, not the article body.' The draft claims the session was held on 'Wednesday' but the brief does not confirm the day of the week\u2014only that it was held. The draft states details 'were not available in initial reporting' which is accurate to the brief, but this reveals the source itself is unusable: the writer has written a story from a source that contains no reportable content. The only confirmable fact (Hafley is the new coach) is background information, not news. This draft should not have been written from this source."
+    ]
+   }
+  ]
  }
 ]
