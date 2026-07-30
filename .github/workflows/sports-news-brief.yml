@@ -159,11 +159,37 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "brief: VERIFIED stories $(date -u +%Y-%m-%dT%H:%MZ)"
-            # a sibling run can push while this one works (drifted retries land in
-            # pairs); rebase onto whatever arrived, then push. Story files are
-            # per-slug, so rebases are clean; a real conflict still fails loudly.
-            git pull --rebase origin main
-            git push
+            # RACE-SAFE PUSH, ported from the crypto desk after it lost two runs on
+            # this exact step. A sibling run can push while this one works (drifted
+            # retries land in pairs), the push is rejected, and what happened next used
+            # to lose the run's verified stories two different ways.
+            ok=false
+            for i in 1 2 3; do
+              if git push; then ok=true; break; fi
+              echo "::warning::push rejected (attempt $i): main moved mid-run; rebasing and retrying"
+              # --autostash is load-bearing, not tidiness: plain "git pull --rebase"
+              # refuses to run with ANY unstaged change and exits 128, which kills the
+              # step under bash -e on the very first rejection.
+              #
+              # The rebase then conflicts, which the comment this replaces said it would
+              # not: site/content/ is per-slug and additive, but editorial-log.json and site/data/scores.json are
+              # rewritten by EVERY run, so two overlapping runs always collide there.
+              # merge_state.py resolves exactly those and refuses anything else, so a
+              # real conflict still fails loudly (fail-closed).
+              if ! git pull --rebase --autostash origin main; then
+                if python3 merge_state.py; then
+                  git add editorial-log.json site/data/scores.json
+                  GIT_EDITOR=true git rebase --continue \
+                    || { echo "::error::rebase could not continue after auto-resolve"; \
+                         git rebase --abort || true; exit 1; }
+                else
+                  echo "::error::rebase hit a conflict outside the known generated files"
+                  git rebase --abort || true
+                  exit 1
+                fi
+              fi
+            done
+            [ "$ok" = true ] || { echo "::error::push failed after 3 rebase-and-retry attempts"; exit 1; }
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -233,6 +259,39 @@ jobs:
               data=json.dumps({"title": title, "body": body, "labels": ["pipeline"]}).encode(),
               headers=hdrs, method="POST")
           urllib.request.urlopen(req); print("failure flag opened")
+          PYEOF
+
+      # The other half of the flag. The step above opens one and comments fresh reports on
+      # repeats, but nothing ever CLOSED it, so the flag stayed open forever and the next
+      # real failure arrived as another comment on a stale issue rather than a new alarm. A
+      # green run means the slot recovered, which is the condition the issue body already
+      # asks a human to close on.
+      - name: Clear the failure flag on a green run
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          title = "Desk run failed: pipeline error (see run log)"
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
+          for i in json.load(urllib.request.urlopen(req)):
+              if i["title"] != title:
+                  continue
+              req = urllib.request.Request(i["comments_url"],
+                  data=json.dumps({"body": f"Green run: {os.environ['RUN_URL']}. "
+                                           "Closing; the flag re-opens if it fails again."}).encode(),
+                  headers=hdrs)
+              urllib.request.urlopen(req)
+              req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues/{i['number']}",
+                  data=json.dumps({"state": "closed", "state_reason": "completed"}).encode(),
+                  headers=hdrs, method="PATCH")
+              urllib.request.urlopen(req); print(f"cleared flag #{i['number']}")
           PYEOF
 
       - name: Upload the review queue for human approval
