@@ -2751,5 +2751,71 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "UEFA votes unanimous boycott of all FIFA competitions over private equity plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Over 50 of UEFA's 55 member associations took the floor during the virtual meeting and expressed unified opposition to the proposals, based on anonymous sourcing told to ESPN and not independently verified.' The brief identifies this claim as 'unconfirmed' confidence level. The draft's phrasing ('based on anonymous sourcing told to ESPN and not independently verified') adequately signals the unconfirmed status inline, making this acceptable on closer reading. However, the next sentence shifts to UEFA's official statement without clear demarcation that the prior claim was unconfirmed reporting versus the official statement that follows. This creates ambiguity about which claims are official versus sourced.",
+     "The draft presents UEFA's quoted statements (governance by intimidation, investor expectations, shareholder pressure) as direct quotes without attribution tags. The brief marks these as 'announced-not-verified,' meaning they are official UEFA statements. The draft correctly uses quotation marks but does not clarify these are from UEFA's official statement versus reporting. This is technically traceable but the presentation obscures the source status."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Jake Paul's MVP and PFL announce merger uniting MMA and boxing",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes 'The PFL has historically struggled to build consistent audience interest and has required multiple tournament and season format changes since its inception.' The draft mentions 'The PFL, however, has historically struggled to build consistent audience interest and has required multiple tournament and season format changes since its inception,' which is present. However, this counter-evidence appears only once, deep in the draft (paragraph 5 of 6), and is not substantively developed. The dominant framing celebrates Paul's stated vision ('disrupt a broken model,' 'fair pay,' 'modernized stage') and the merger as consolidation of significant properties without meaningful interrogation of whether Paul's stated vision has materialized elsewhere or faces structural obstacles. A single sentence acknowledging PFL's struggles does not constitute genuine balance against sustained optimistic framing. The draft reads as promotional of the merger's stated ambitions rather than skeptical of execution risk.",
+     "The draft notes 'Key operational details about the merged company, including where events will air after PFL's ESPN contract expires in 2026, remain unaddressed,' but frames this as an unanswered question rather than a material gap undermining the merger's viability. A merger without secured media distribution beyond 2026 is a significant structural vulnerability, not merely an open question for future reporting."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "FA mandates 10-match minimum bans for discrimination offenses",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Players found guilty of discrimination now face at least 10-game bans' but the brief's confidence label for this claim is 'announced-not-verified', not settled fact. The prose must signal this uncertainty to readers, per the accuracy rule that confidence labels must survive into the text. The draft presents an announcement as verified policy."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "WNBA suspends Storm co-owner for confrontation with fans",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes personal and characterological claims about an athlete outside her sport (Keaton) that go beyond the official record of her conduct at the game. Specifically, Cunningham's X post characterizing Keaton as 'Truly embarrassing of the co-owner. Unfortunately shows the type of leader she is' is a judgment about Keaton's fitness or character as a leader, not a factual statement about the confrontation. Including this quote in the draft without caveating it as opinion or speculation implies editorial endorsement of a personal verdict on Keaton. This violates the compliance rule against presenting personal material about an athlete beyond their sport as settled fact."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "WNBA Posted and Deleted Video Showing Apparent Bueckers-Reese Wager",
+    "category": "accuracy",
+    "reasons": [
+     "The draft does not mention the data_point about Bueckers' location privacy incident: 'During WNBA All-Star Weekend, the league deleted a video of Bueckers talking about her weekend plans inside a Chicago hotel that revealed her location via the hotel's visible logo in the background; it was later re-uploaded with a blurred background.' This is a separate documented deletion event in the brief that contextualizes why the league deletes videos, but is entirely absent from the draft.",
+     "The brief marks the CBA Article XIV Section 5(c) quote as 'announced-not-verified' confidence level, but the draft presents it as definitive fact without any hedging language ('states, per the agreement cited by Front Office Sports' reads as settled rather than unconfirmed). The same applies to the claim about the commissioner's power to ban players from 'any further association'\u2014marked 'announced-not-verified' in the brief but presented as established in the draft."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Tony Romo Arrested on DUI Suspicion With Open Alcohol Container",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes personal material about Romo's private life and family beyond the arrest: 'When stopped, Romo told deputies he had been coming from a golf course and was on his way \"to visit grandma and grandpa.\" During the interaction, Romo questioned what a gore area was.' The 'grandma and grandpa' detail and his question about the gore area are extraneous personal/behavioral information unrelated to the sports or legal facts, which exceeds the scope of reporting on official statements and the arrest itself."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "Fulham agree 34 million pound fee for Gonzalo Garcia from Real Madrid as Palacios deal nears",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Gonzalo Garcia' and 'Cesar Palacios' but brief uses accented characters 'Gonzalo Garc\u00eda' and 'C\u00e9sar Palacios'\u2014more critically, the draft says Garcia 'scored four times' at 'last summer's Club World Cup' (implying 2025), but the brief data_point specifies 'Garc \u00eda netted four times at the 2025 Club World Cup.' The draft's phrasing is ambiguous about whether this was summer 2024 or 2025; the brief clarifies it was the 2025 tournament. The phrase 'last summer's Club World Cup' in a July 2026 context is unclear and potentially inaccurate without the year specified.",
+     "Draft states 'His opportunities at the Spanish club have been limited due to the form of Kylian Mbappe, per reporting.' The brief data_point says 'Garc\u00eda's opportunities at Real Madrid have been limited due to the form of Kylian Mbapp\u00e9' with confidence 'reported.' The draft should attribute this claim inline to ESPN rather than use the vague 'per reporting' construction, as per desk standards for attribution."
+    ]
+   }
+  ]
  }
 ]
