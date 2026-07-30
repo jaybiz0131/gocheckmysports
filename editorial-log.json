@@ -2817,5 +2817,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "UEFA's 55 members vote to boycott World Cups if FIFA investment plan proceeds",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'UEFA announced that all 55 member associations have voted' but the brief's corresponding data_point says 'Over 50 UEFA member associations took the floor in a virtual meeting and expressed unanimity.' The draft inflates 'over 50' to 'all 55' without warrant from the source. This is a factual claim that does not match the brief's data.",
+     "Draft attributes 'The World Cup is not for sale' to UEFA per 'BBC Sport's reporting' but the brief cites only BBC Sport as the source with the quote 'the World Cup is not for sale.' The draft invents attribution to BBC Sport that is not in the brief; the brief does not specify who said this statement or which outlet reported it first."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Premier League clubs unanimously back plan to distribute extra 1.5bn pounds to EFL over next decade",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'All Premier League clubs have voted unanimously to support' the proposal, but the brief's data_point says only 'Premier League clubs voted unanimously to support the 'new deal for football' proposal' without specifying 'all' clubs or the total number. The draft's addition of 'all' is not supported by the brief and overstates the scope without explicit verification.",
+     "Draft states the plan will 'distribute an extra 1.5 billion pounds across the English football pyramid over the next decade' but does not trace this figure to the brief's data_point, which says 'distribute an extra \u00a31.5bn across the football pyramid over the next decade.' While the amounts match, the draft's framing as 'across the English football pyramid' differs slightly from the brief's 'across the football pyramid'\u2014a minor variance but the brief does not confirm 'English' explicitly in that phrasing."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "Ahman Green announces Parkinson's disease diagnosis",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Green 'has disclosed that he is managing memory issues related to his condition,' but the brief marks the claim 'Green has experienced memory issues related to his condition' as only 'reported'\u2014not verified as disclosed by Green himself. The draft elevates the confidence of a claim that should remain tentative.",
+     "The brief marks the core diagnosis claim as 'announced-not-verified,' but the draft opens with 'has announced a diagnosis' without any hedging language or attribution that signals this is an announced but unverified claim. The confidence label must survive in the prose.",
+     "The draft adds interpretive material ('conditions that may hold particular resonance for former athletes') that does not appear in the brief and is not attributed to any source in the brief."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Training camp injuries: Scourton, Brazzell out for season; Stewart carted off",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Two players have been ruled out for the 2026 season after suffering knee injuries' but the brief provides no data point confirming that Scourton and Brazzell sustained their injuries 'during the opening days of NFL training camp' or any timeframe. The brief only states injuries were sustained 'during 2026 NFL training camp' without specifying 'opening days.' This is a smuggled detail not in the research.",
+     "The open_questions section in the brief explicitly asks 'Which teams do Scourton, Brazzell II, and Stewart play for?' indicating this critical context is missing from available reporting. The draft fails to identify or acknowledge the absence of team affiliations, making the injuries difficult for readers to contextualize."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Source: WNBA won't punish Bueckers, Reese for apparent wager",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WNBA has decided not to discipline Paige Bueckers and Angel Reese' in the opening, presenting this as a confirmed fact. However, the brief marks this claim as 'announced-not-verified' confidence level, meaning it comes from 'a league source' cited by ESPN, not an official WNBA announcement or confirmed decision. The draft should reflect this sourcing uncertainty in its framing\u2014e.g., 'According to a league source, the WNBA has decided' rather than stating it as settled fact."
+    ]
+   }
+  ]
  }
 ]
