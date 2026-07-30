@@ -1208,37 +1208,36 @@ def render_method(items, dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Method</span>
   <h1>How we work</h1>
-  <p class="lede">What you can hold this desk to, and what it will not do. The standards below
-     are the commitments; the machinery behind them is ours.</p>
+  <p class="lede">The standards this desk holds itself to, and the things it does not do.</p>
 
-  <h2>What every story has to clear</h2>
+  <h2>What we aim for</h2>
   <ul>
-    <li><b>Official data first.</b> League data, official schedules and results, and on-record
-        club statements outrank anyone's account of them. Every story links what it is built
-        on, so you can check us rather than trust us.</li>
-    <li><b>An independent review pass.</b> Nothing publishes on the say-so of whoever
-        assembled it. Each story is checked against its own cited sources by a separate pass
-        whose only job is to find what is wrong, and a story that fails is held or dropped.</li>
-    <li><b>Reports stay reports.</b> An unconfirmed signing, trade or injury runs labelled as
-        a report, attributed to whoever reported it, or it does not run.</li>
-    <li><b>One event, one story.</b> The same news carried by ten outlets is collapsed into
-        one, so a loud story does not look like ten stories.</li>
-    <li><b>A human editor-in-chief above all of it,</b> who can hold or kill anything, and who
-        owns every opinion, every take and every correction on this site.</li>
+    <li><b>Sources you can check.</b> Stories link the material they draw on, and official
+        data such as league results, schedules and on-record club statements carries more
+        weight here than anyone's account of it.</li>
+    <li><b>A second look before publication.</b> Stories are checked against the sources they
+        cite, by a pass separate from the one that assembled them. Work that does not hold up
+        is held back or dropped rather than smoothed over.</li>
+    <li><b>Reports stay reports.</b> An unconfirmed signing, trade or injury is labelled as a
+        report and attributed to whoever reported it.</li>
+    <li><b>One event, one story.</b> The same news carried by many outlets is treated as one
+        story, so a loud story does not look like ten of them.</li>
+    <li><b>Human oversight.</b> A human editor-in-chief oversees the desk, can hold or remove
+        anything, and owns the opinion and analysis published here.</li>
   </ul>
 
   {ex_html}
 
-  <h2>What we will not do</h2>
+  <h2>What we do not do</h2>
   <ul>
-    <li>We will not publish anything unverified. If a stage fails, we publish nothing.</li>
-    <li>We will not advise bets. We report events and explain what they may mean, never what
+    <li>Work that does not hold up is held back rather than published.</li>
+    <li>We do not advise bets. We report events and explain what they may mean, never what
         to wager on.</li>
-    <li>We will not report an injury from anything but an official report or an on-record
+    <li>We do not report an injury from anything but an official report or an on-record
         statement. Speculation about an athlete's body is not news.</li>
-    <li>We will not run paid coverage as news. Sponsored items are the thing we are built to
+    <li>We do not run paid coverage as news. Sponsored items are the thing we are built to
         strip out.</li>
-    <li>We will not let the machine speak in a human voice. Takes, analysis, and corrections
+    <li>We do not let the machine speak in a human voice. Takes, analysis, and corrections
         are human work, always.</li>
   </ul>
   <p class="nfa">{esc(NFA)}</p>
@@ -1305,23 +1304,18 @@ def render_standards(dateline):
   <p class="lede">What you can hold us to.</p>
 
   <h2>Sourcing</h2>
-  <p>Every story links its sources. We weight official league data and primary sources (league
-     APIs, official schedules and results, on-record statements from clubs, leagues, and
-     athletes) most heavily. A claim carried by a single low-credibility source is marked as
-     unverified or is not published. Injuries are reported only from official injury reports or
-     on-record statements, never from speculation.</p>
+  <p>Stories link the sources they draw on. We give more weight to official data such as
+     league results, schedules and on-record club statements than to commentary about them,
+     and a claim resting on a single weak source is labelled as unconfirmed or left out.</p>
 
   <h2>Verification</h2>
-  <p>Before a story is drafted, an independent verification pass checks each claim against its cited
-     source. Stories that cannot be verified are either marked clearly for the reader or held back.
-     We would rather be slow than wrong.</p>
+  <p>Stories are checked against the sources they cite by a pass separate from the one that
+     assembled them. Work that does not hold up is labelled clearly for the reader or held
+     back. We would rather be slow than wrong.</p>
 
-  <h2>The gate</h2>
-  <p>A story publishes only when an independent verification pass confirms it against its
-     sources: VERIFIED runs, flagged-for-review waits for the human editor-in-chief, rejected
-     never runs. The human editor oversees the desk, can overrule any machine call in either
-     direction, and owns every opinion or analysis in the byline. The AI never writes a
-     "take" in a human's voice.</p>
+  <h2>Oversight</h2>
+  <p>A human editor-in-chief oversees the desk, can hold or remove anything, and owns the
+     opinion and analysis published here.</p>
 
   <h2>Never betting advice</h2>
   <p>We report events and explain what they may mean. We never advise bets, picks, or wagers of
@@ -1334,11 +1328,9 @@ def render_standards(dateline):
      is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
-     independent checking pass before publication, under a human editor-in-chief who oversees
-     the desk and can overrule any call. Takes, analysis and corrections are always human.
-     You should know what you are reading, which is why this paragraph exists. The tools and
-     the internals behind it are ours and are not published.</p>
+  <p>Stories on this site are produced with AI assistance and reviewed before publication,
+     under a human editor-in-chief who oversees the desk. Opinion, analysis and corrections
+     are human work. We say so because you should know what you are reading.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "GoCheckMySports standards, verification, and corrections policy.",
@@ -1376,7 +1368,7 @@ def render_privacy(dateline):
      under its own privacy policy.</p>
 
   <h2>Links out</h2>
-  <p>Every story links its sources. Once you leave this site, the site you land on operates
+  <p>Stories link their sources. Once you leave this site, the site you land on operates
      under its own privacy policy.</p>
 
   <h2>Contact and data requests</h2>
@@ -1466,7 +1458,7 @@ def render_thanks(dateline):
   <span class="kicker">Subscribed</span>
   <h1>You are on the list.</h1>
   <p class="lede" style="margin-left:auto;margin-right:auto">Thanks for subscribing to the brief.
-     We will not sell your email, and you can unsubscribe anytime. Back to the
+     We do not sell your email, and you can unsubscribe anytime. Back to the
      <a href="/index.html">front page</a>.</p>
 </section></main>"""
     return shell(f"Subscribed - {NAME}", "Thanks for subscribing.", None, body, dateline,
