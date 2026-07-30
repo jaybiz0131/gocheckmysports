@@ -43,7 +43,9 @@ DESK_LINE = "The daily sports desk that checks the story before it runs."   # se
 FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmysports.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmysports.com"         # canonical origin for canonical/og:url/sitemap
-OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
+SHORT_NAME = "GoCheckMySports"                # home-screen label (manifest)
+THEME_COLOR = "#1F5E3F"                       # browser chrome + manifest
+OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analytics site token for gocheckmysports.com; empty renders no beacon
 DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
         "get the stories right and keep the facts honest. Scores are facts; stories get "
@@ -396,7 +398,7 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          brand="site", og_type="website", schema_extra=""):
+          brand="site", og_type="website", schema_extra="", og_image=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
@@ -433,13 +435,15 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:type" content="{esc(og_type)}">{schema_extra}
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
-<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image" content="{og_image or OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{OG_IMAGE}">
+<meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="{THEME_COLOR}">
 {fonts}
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -616,10 +620,15 @@ def render_article(item, all_items=None):
     title = f'{item.get("title")} - {NAME}'
     desc = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else DESC)
     url = f"{ORIGIN}/articles/{item['slug']}.html"
+    # Per-article share card, written earlier in build() by _render_og_card. Checked on
+    # disk rather than assumed, because that render is fail-open: if it was skipped the
+    # article falls back to the site-wide card instead of pointing at a 404.
+    card_out = os.path.join(PUBLISH, "og", f"{item['slug']}.png")
+    og_image = f"{ORIGIN}/og/{item['slug']}.png" if os.path.exists(card_out) else OG_IMAGE
     schema = json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "NewsArticle", "headline": item.get("title"),
          "description": item.get("dek") or "", "url": url, "mainEntityOfPage": url,
-         "image": OG_IMAGE,
+         "image": og_image,
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
@@ -630,7 +639,7 @@ def render_article(item, all_items=None):
     ]}, ensure_ascii=False)
     return shell(title, desc if isinstance(desc, str) else DESC, "Latest", body, dateline.upper(),
                  path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")),
-                 og_type="article",
+                 og_type="article", og_image=og_image,
                  schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
 
 
@@ -1700,6 +1709,26 @@ def _copytree(src, dst):
             open(os.path.join(target, f), "wb").write(data)
 
 
+def _render_og_card(item):
+    """Render this article's OG card into PUBLISH/og/<slug>.png at build time. FAIL-OPEN:
+    any problem (Pillow missing, font issue, bad headline) is swallowed so the card simply
+    does not exist and the article falls back to the site-wide og-image. A card is a
+    nice-to-have; it must never break the site build."""
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(HERE, "scripts"))
+        import og_render
+        cat = (item.get("category") or "").strip().lower()
+        kicker = ("Sports News" if cat in ("", "news")
+                  else "Daily Edition" if cat == "daily edition" else item["category"].title())
+        og_render.render_card(item.get("title", ""), kicker,
+                              os.path.join(PUBLISH, "og", f"{item['slug']}.png"))
+        return True
+    except Exception as e:
+        print(f"::warning::og card skipped for {item.get('slug','?')}: {e}")
+        return False
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -1734,18 +1763,42 @@ def build():
     w("404.html", render_404(dateline))
     w("thanks.html", render_thanks(dateline))
     for it in items:
+        _render_og_card(it)  # build-time per-article share card (fail-open) -> PUBLISH/og/
         w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
     w("bottom-line.html", render_bottom_line_history(items, dateline))
     w("feed.xml", render_feed(items))
 
-    # the iOS home-screen icon lives at the site root (family convention)
-    ati_src = os.path.join(ASSETS, "apple-touch-icon.png")
-    if os.path.exists(ati_src):
-        open(os.path.join(PUBLISH, "apple-touch-icon.png"), "wb").write(open(ati_src, "rb").read())
-    # the social card lives at the site root (family convention: /og-image.png)
-    og_src = os.path.join(ASSETS, "og-image.png")
-    if os.path.exists(og_src):
-        open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
+    # The site card and the home-screen icon are GENERATED here, not copied from assets.
+    # They used to be copied, and all three desks shipped the same committed file: News and
+    # Sports were serving the Crypto card, so the one surface a stranger sees carried the
+    # wrong brand. Generating removes the class of bug rather than the instance.
+    # Fail-open, and fall back to the committed asset, because a missing og:image is worse
+    # than a stale one.
+    _share_generated = False
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(HERE, "scripts"))
+        import og_render
+        og_render.render_site_card(os.path.join(PUBLISH, "og-image.png"))
+        og_render.render_icon(os.path.join(PUBLISH, "apple-touch-icon.png"), 180)
+        _share_generated = True
+    except Exception as e:
+        print(f"::warning::share surfaces not generated, falling back to committed: {e}")
+    if not _share_generated:
+        for _name in ("apple-touch-icon.png", "og-image.png"):
+            _src = os.path.join(ASSETS, _name)
+            if os.path.exists(_src):
+                open(os.path.join(PUBLISH, _name), "wb").write(open(_src, "rb").read())
+    # A web app manifest, so saving to a home screen picks up the desk's own name and colour
+    # instead of the page title and a browser default.
+    with open(os.path.join(PUBLISH, "site.webmanifest"), "w", encoding="utf-8") as _mf:
+        # FAMILY, not NAME. NAME is the byline persona on this desk (Crypto Cronkite), and
+        # a home-screen label is a brand surface: the wordmark is the hero there too.
+        json.dump({"name": FAMILY, "short_name": SHORT_NAME, "start_url": "/",
+                   "display": "standalone", "background_color": "#FBFAF6",
+                   "theme_color": THEME_COLOR,
+                   "icons": [{"src": "/apple-touch-icon.png", "sizes": "180x180",
+                              "type": "image/png"}]}, _mf, ensure_ascii=False, indent=1)
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
     locs = ["/", "/news.html",

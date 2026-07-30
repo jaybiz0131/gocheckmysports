@@ -6,7 +6,11 @@
 [build]
   # Refresh the live-scores snapshot first (keyless league APIs; any fetch error falls
   # back to the committed snapshot instead of failing the deploy), then build.
-  command = "python3 scores_pulse.py || true; python3 site_build.py"
+  # Pillow first: site_build.py renders the share card, the home-screen icon, and a
+  # per-article Open Graph card at build time. The "|| true" keeps a package-index
+  # hiccup from failing the deploy; without Pillow the card render falls open to the
+  # committed assets, so the site still ships, just without per-article cards.
+  command = "pip install --quiet Pillow || true; python3 scores_pulse.py || true; python3 site_build.py"
   publish = "site/publish"
 
 [build.environment]
