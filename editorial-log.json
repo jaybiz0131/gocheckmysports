@@ -2614,5 +2614,94 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "2026 MLB Trade Deadline Monday; Market Fog Delays Clarity",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Entering July 28, per ESPN's reporting, all but eight teams were within four games of a playoff spot,' but the brief data_point says 'Entering Monday (July 28)' \u2014 the timing language is ambiguous in both sources, but the draft's phrasing 'entering July 28' could mean the start of that day, whereas the brief's 'entering Monday' is clearer. More critically, the draft does not note the confidence level: the brief marks this as 'reported,' not 'verified-on-chain,' and the draft presents it as settled fact without attribution hedging.",
+     "The draft claims 'The Dodgers, meanwhile, have signaled they do not need help, per ESPN's reporting.' But the brief data_point is 'Dodgers are not currently pursuing catching help ahead of the trade deadline' \u2014 these are not the same claim. The draft broadens 'not pursuing catching help' to 'do not need help' (which could mean pitching help too), and the distinction matters because the draft then says 'Blake Snell and Tyler Glasnow are trending toward returning in August' and 'Shohei Ohtani is already throwing bullpen sessions' as justification. The brief lists 'Blake Snell and Tyler Glasnow are trending toward returning to Dodgers rotation in August' separately and 'Ohtani is already throwing bullpen sessions again' separately \u2014 these are facts the writer is correctly using, but the synthesis ('they do not need help') goes beyond the catching-specific claim in the brief.",
+     "The draft states 'Toronto, despite playing to Game 7 of the World Series, has begun a quiet sell.' The brief data_point is 'Blue Jays played to Game 7 of the World Series,' but the draft names the team as 'Toronto' without the word 'Blue Jays,' creating potential reader confusion. More importantly, the brief never explicitly says the team has 'begun a quiet sell' \u2014 the data_points state 'Toronto Blue Jays are prepared to trade veterans Kevin Gausman and Jeff Hoffman' and 'Toronto is not dangling All-Star reliever Louis Varland,' which the draft paraphrases as a 'quiet sell.' This paraphrase is reasonable but not fact-checked against an explicit statement that the team is selling.",
+     "The draft says 'Louis Varland, who had a spectacular season and holds two-plus years of remaining control.' The brief data_point says 'Varland will finish this season with two-plus years of service time, giving acquiring team at least two more years of control.' The draft's phrasing 'holds two-plus years of remaining control' could confuse readers into thinking Varland personally controls those years, when the brief makes clear an acquiring team would get the control. This is a subtle but material accuracy issue."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "UEFA Calls Emergency Meeting on FIFA's World Cup Investment Plan",
+    "category": "clarity",
+    "reasons": [
+     "The brief is marked 'thin': true, with only 2 data_points and 526 source characters. The draft correctly does not fabricate details about FIFA's plan or UEFA's objections. However, the draft's third paragraph ('What is clear is that UEFA believes...') pivots to generic governance reasoning that does not derive from the brief and reads as the writer's own inference rather than reporting. A thin brief warrants a tight story, but this paragraph moves into analysis/commentary territory without being grounded in a data_point.",
+     "The bottom_line states 'The absence of public detail on the investment proposal itself limits what readers can judge about whether it benefits or harms European clubs and leagues.' This is accurate meta-commentary but does not answer the forward-looking question the story sets up. A bottom_line should point readers to what to watch (e.g., 'Watch Thursday afternoon for whether all 55 associations announce a unified position' or 'Watch for FIFA's response to any formal UEFA objection'). Instead, it pivots to explaining why readers are unable to judge \u2014 a valid point but not actionable intelligence for a 'watch' format."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Rahane Retires From International Cricket After 12-Year Career",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'His Test centuries came across Melbourne, Kingston, and Colombo, including twin hundreds in the Delhi Test against South Africa in December 2015, according to ESPN.' This implies four specific venues for 12 centuries, but the brief data_point says 'Rahane scored Test centuries in Melbourne, Kingston, and Colombo, and twin centuries in the Delhi Test against South Africa in December 2015'\u2014which accounts for only 5 of 12 centuries. The draft does not explain where the other 7 centuries came from, creating a factual gap. The brief does not provide a complete list of all 12 Test century venues, so the draft cannot claim to have traced all centuries back to the source.",
+     "The draft states Rahane 'led India in six Tests, winning four and drawing two,' but does not source this to the brief. The brief data_point confirms this claim is reported, so this is acceptable. However, the draft does not acknowledge the implicit absence of losses, which the brief does explicitly state ('won four and drew two')\u2014minor phrasing variance, but the underlying fact is there.",
+     "The draft opens 'Ajinkya Rahane announced his retirement from international cricket and all formats effective immediately on Thursday, per ESPN reporting.' The brief says the announcement was 'on Thursday' (timestamp 2026-07-30) but the draft does not establish what day is being referenced in the article context. This is a minor temporal marker issue but acceptable if the timestamp context is clear to readers."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "PGA Tour Suspends Mullinax Through January 2027 for Anti-Doping Violation",
+    "category": "clarity",
+    "reasons": [
+     "The draft is extremely thin\u2014only two core data_points are available in the brief, and the draft uses both but adds almost no forward-looking context or stakes beyond the suspension date. The bottom_line acknowledges gaps ('lack of disclosed details,' 'full context unresolved') but the entire story consists of a bare suspension announcement with no reporting on what comes next, what the violation entails, or why it matters. A thin brief can yield a short, tight story, but this draft reads as an incomplete stub\u2014it states facts that are in the brief but does not meet the standard of a finished draft. The story would benefit from at least one paragraph on the suspension timeline, Mullinax's status before April, or context about tour anti-doping procedures, none of which appear in the brief. This is a case where the brief itself is thin (true), but the draft's execution is passive rather than purposeful: it should either expand the reporting or acknowledge why the story cannot go further\u2014currently it reads as published prematurely."
+    ]
+   },
+   {
+    "id": "c045",
+    "headline": "NBA probe into Clippers, Kawhi Leonard could extend into 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The investigation, directed by New York law firm Wachtell Lipton, has also expanded to examine other endorsement arrangements and unreimbursed expenses provided by the Clippers to Leonard, per reporting by The Athletic cited in ESPN's story.' However, the brief data_points attribute these expanded-scope findings to The Athletic, not ESPN. The draft presents this as coming from ESPN's reporting when the brief explicitly notes The Athletic as the source. This is a sourcing accuracy problem.",
+     "The draft does not flag the core_claim confidence level. The brief marks 'The NBA investigation into salary cap circumvention regarding Kawhi Leonard could drag into 2027 if parties don't agree on findings or settlement' as 'unconfirmed'\u2014a material confidence qualifier that must survive in prose. The draft opens 'could extend into 2027 if the league and the team cannot reach agreement' without signaling uncertainty; it reads as settled fact, not unconfirmed reporting."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Taysom Hill not returning to Saints for 10th season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Hill 'claimed off waivers from the Green Bay Packers before the 2017 season.' The brief data_point says 'Hill claimed off waivers from the Green Bay Packers before the 2017 season' with confidence 'verified-on-chain'\u2014this fact is in the brief and properly attributed. However, the subsequent sentence 'He began the 2025 season on the physically unable to perform list but returned to play in 13 games' needs scrutiny: the brief says Hill 'began the 2025 season on the physically unable to perform list but returned to play 13 games.' The math stated in the draft\u2014'In those 13 games, he caught 11 passes, threw one touchdown pass and ran the ball 52 times for 114 yards and a touchdown'\u2014all traces to the brief data_point 'In the 2025 season, Hill caught 11 passes, threw one touchdown pass and ran the ball 52 times for 114 yards and a touchdown.' This checks. However, the title states 'Taysom Hill not returning to Saints for 10th season' when the brief core_claim and data_points consistently reference '9 seasons.' Hill claimed in 2017, played through 2025: that is nine seasons (2017\u20132025), not ten. The title is factually wrong and contradicts the body text ('after nine seasons')."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Kurtz leaves game with bruised forearm, MRI pending",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Kurtz 'leads the A's with 77 walks' but the brief data_point says 'Kurtz is third in the majors with 77 walks'\u2014the draft misrepresents the stat as team-leading rather than league-ranking.",
+     "Draft states Kurtz 'was struck on the left forearm by a 95 mph sinker from Boston Red Sox starter Patrick Sandoval in the first inning Wednesday' but does not note the brief specifies 'with a 3-2 count'\u2014omission is acceptable, but the draft also states he plays for Oakland Athletics and the Red Sox are the opponent, which is correct. However, the claim about '21 home runs' in the draft conflicts with the brief data_point that says he 'leads the A's with 21 home runs' (not that 21 is team-leading in home runs). The draft reads '.260 with 21 home runs and a team-leading 77 walks' which incorrectly conflates two different statistical categories and misattributes the 77 walks as team-leading when the brief says third in majors."
+    ]
+   },
+   {
+    "id": "c105",
+    "headline": "Skubal records 1,000th strikeout in likely final Tigers start before deadline",
+    "category": "accuracy",
+    "reasons": [
+     "Draft bottom_line is copied verbatim from c027 (Kurtz/Athletics story) and discusses MRI results and injury toll\u2014this is factually wrong for a Skubal strikeout milestone story and represents a copy-paste error that violates the accuracy contract.",
+     "Brief is marked 'thin: true' with incomplete source text and open_questions flagging missing details (game outcome, opposing team, specific date beyond 'Wednesday', official statements). Draft presents 'widely anticipated to be traded' as settled fact, but the brief data_point only says the start is 'described as a possible last Tigers start as trade deadline looms'\u2014'widely anticipated' overstates the confidence level and smuggles a claim not in the brief."
+    ]
+   },
+   {
+    "id": "c98",
+    "headline": "College sports bill approaches deadline as Big Ten, SEC await final language",
+    "category": "accuracy",
+    "reasons": [
+     "Brief is marked 'thin: true' with incomplete source text and multiple open_questions explicitly noting missing details: 'specific bill language, proposed terms, exact recess date, key negotiators, prior versions of the bill, and any stated positions from Big Ten or SEC leadership are not available.'",
+     "Draft presents specific details ('three core areas: name, image, and likeness (NIL) compensation for athletes, revenue-sharing structures, and transfer portal rules') as fact, but these are not in any data_point\u2014they are smuggled claims not traced to the research brief.",
+     "Draft's tone and specificity (e.g., 'Major conferences have been involved in discussions with Senate lawmakers') reads as fleshed-out reporting when the brief itself notes the source was truncated and critical details are unavailable, violating the hard rule that no fact exists outside the brief."
+    ]
+   }
+  ]
  }
 ]
