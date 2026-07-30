@@ -492,13 +492,20 @@ def sig_block():
   <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
-      <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
+      <!-- Stamp J (owner's pick, 2026-07-30): a solid accent disc fills the ring and the
+           GoCheckMy check is knocked out of it, so the mark IS the seal rather than a small
+           device sitting inside one. The knockout uses --card so it inverts with the theme;
+           a hardcoded white would vanish into the dark-mode disc. This replaces the dashed
+           inner ring, which the disc now occupies. -->
+      <circle cx="60" cy="60" r="45" fill="currentColor"/>
       <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
       <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
         font-family="IBM Plex Mono,monospace" font-weight="600">
         <textPath href="#stamparc" startOffset="2%">SOURCES VERIFIED</textPath>
         <textPath href="#stamparc" startOffset="55%">ON THE RECORD</textPath>
       </text>
+      <path d="M27 62 L49 85 L93 32" fill="none" stroke="var(--card)" stroke-width="11"
+        stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 </div>"""
@@ -578,29 +585,13 @@ def render_article(item, all_items=None):
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
         rel_html = f'<div class="related"><h2>Related stories</h2><ul>{rel_html}</ul></div>'
-    ver = item.get("verification") or {}
-    verdict = ver.get("verdict") or item.get("verdict")
+    # NO PER-STORY CHECK TRAIL. This used to render a "How this story was checked" block on
+    # every article, naming the desk's automated verifier, its independent approver, and how
+    # many cited pages were fetched live. That is the process, published once per story, and
+    # it is removed for the same reason the method-page walkthrough was (owner's call,
+    # 2026-07-30). The corrections path survives in the footer's standards link, which is
+    # what that block's "Report an error" was for.
     trail = ""
-    if verdict and srcs:
-        n_cited = ver.get("sources_cited") or len(srcs)
-        live = ver.get("sources_live_checked")
-        when = fmt_date((ver.get("checked_utc") or item.get("published_utc")
-                         or item.get("date") or "")[:10])
-        if verdict == "VERIFIED":
-            head = ("Checked and verified by the desk's automated verifier and "
-                    "independent approver")
-        else:
-            head = "Reviewed by the desk and published with a human editor's take"
-        if live:
-            detail = (f"{live} of {n_cited} cited source pages were fetched live and "
-                      f"read against the story's claims")
-        else:
-            detail = (f"the story cites {n_cited} source"
-                      + ("s" if n_cited != 1 else "") + ", linked below")
-        trail = (f'<div class="checktrail"><span class="lab">How this story was checked'
-                 f'</span><p>{head} on {esc(when)}: {detail}. '
-                 f'<a href="/method.html">How our checks work</a> &middot; '
-                 f'<a href="/standards.html">Report an error</a>.</p></div>')
     author = esc(item.get("author", "The GoCheckMySports Desk"))
     body = f"""<main class="wrap narrow">
   <article class="article">
