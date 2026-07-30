@@ -2703,5 +2703,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c166",
+    "headline": "WNBA Posts, Deletes Video Showing Apparent Bueckers-Reese Bet on Game",
+    "category": "accuracy",
+    "reasons": [
+     "The claim that the CBA 'allows him to ban players from any further association with the WNBA if they are found to have fixed games' misrepresents the source data_point. The brief states the CBA allows banning for 'wagering (directly or indirectly)' on any WNBA competition\u2014not specifically for 'fixing games.' The draft conflates wagering with game-fixing, which are distinct violations under the CBA. The source quote in the brief does not mention fixing games at all."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Premier League clubs vote to redistribute 1.5bn pounds to English football's lower tiers",
+    "category": "balance",
+    "reasons": [
+     "The brief identifies zero bear_case items, yet the draft opens with 'unprecedented unanimous vote' and 'rare consensus' framing that overstates the significance of the announcement without acknowledging any structural skepticism about whether redistribution will actually occur or be meaningful. The draft should acknowledge open questions (allocation formulas, lifeboat eligibility, implementation timelines) more prominently in the body rather than relegating them to the bottom_line, especially given the brief is marked 'thin=true' and the source is a single outlet. The body reads as announcement-laundering rather than critical reporting on an unverified proposal."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "WNBA suspends Storm co-owner Celeste Keaton from five home games after fan exchange",
+    "category": "balance",
+    "reasons": [
+     "The bear_case items in the brief\u2014particularly Cunningham's own emphasis on inclusivity ('Everyone is welcome at my table! You can disagree and still be kind') and the Fever's and Cunningham's disavowal of knowledge of the demonstration\u2014appear weakly in the draft. Cunningham's statement calling Keaton's actions 'Truly embarrassing' is reported, but the counter-framing that Cunningham herself is emphasizing inclusivity and that she had no connection to the protest organizers gets buried in the body rather than appearing in a dedicated counter-evidence paragraph that balances Keaton's conduct against the possibility her reaction was to external agitation unconnected to Cunningham herself. The draft leans toward Keaton-as-aggressor without sufficiently centering Cunningham's own defense or the disconnect between the protest and Cunningham's stated values."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Packers rushing leader Ahman Green reveals Parkinson's diagnosis at age 49",
+    "category": "compliance",
+    "reasons": [
+     "The phrase 'both verified on-chain' is vague and nonstandard terminology that does not clearly attribute the source of the record verification to ESPN or explain what 'on-chain' means in this context. This creates ambiguity about the source verification trail.",
+     "The draft presents Green's statements about his symptoms and treatment approach ('The food is my medicine,' 'I'm ahead of it right now') as medical facts without sufficient caveat that these are personal health claims from an announced-not-verified source, not medical verdicts. Green's assertion that he is 'ahead of it' could be read as overstating control of a progressive neurological disease and risks being medically misleading.",
+     "The paragraph about doctors' observations ('they would have thought he was in great shape...until they observed his walk, gait, and how his shoulders hang') presents physician observations reported through Green's interview without clarification that this is his account of what doctors said, not independent medical assessment. This risks reading as clinical validation of his condition severity when it is anecdotal."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Former UFC fighter Anthony Smith faces three felony charges in domestic violence case",
+    "category": "compliance",
+    "reasons": [
+     "The draft describes serious allegations of domestic violence and attempted vehicular assault against a named individual. Per compliance guidelines, injury and health claims\u2014and by extension, serious allegations involving a person's body and medical safety\u2014must be confined to official legal documents, arrest records, or on-record statements. The brief provides only that CBS Sports reported the charges; the draft does not make clear that these are allegations in a criminal charging document rather than established fact. The phrasing 'The charges allege that Smith attempted to hit his wife with a car' is legally sound, but the opening sentence ('Anthony Smith, a former UFC title challenger, faces three felony charges, including first-degree domestic assault') reads as definitive fact about allegations that remain unproven and potentially contested. This crosses into territory where the story could expose the publication to defamation risk if the charges are later dismissed or contested. The draft should either (a) attribute the charges more explicitly to the criminal complaint/indictment, or (b) be held pending official court records or Smith's arrest confirmation\u2014neither of which appears in the brief."
+    ]
+   }
+  ]
  }
 ]
