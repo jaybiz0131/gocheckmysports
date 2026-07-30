@@ -475,25 +475,29 @@ def verdict_badge(verdict):
 
 def sig_block():
     """The desk's closing mark: an HONEST machine attestation. No anchor persona, no human
-    editor implied (compliance monitor class 4): the badge states exactly what happened,
-    which is that the story passed the automated editorial review described on the method
-    page."""
+    editor implied: the mark states what was DONE to the story, never how the desk is built.
+    Owner's call, 2026-07-30: the process is competitive advantage, so the caption no longer
+    says "automated newsroom" and the attestation no longer points at a pipeline walkthrough.
+    Signature reads Chuck Wando, the desk's byline.
+
+    Anything added here must describe the story, not the machinery. The AI disclosure lives
+    once on /standards.html, which is what keeps a named byline honest."""
     return """<div class="sigrow">
   <div class="sig">
-    <span class="sig-script">GoCheckMySports</span>
-    <span class="sig-cap">The GoCheckMySports Desk &middot; automated newsroom</span>
-    <span class="sig-attest">Passed our <a href="/method.html">automated editorial review</a>:
-      ranked, source-checked, and verified by the desk's independent review pass.</span>
+    <span class="sig-script">Chuck Wando</span>
+    <span class="sig-cap">The GoCheckMySports Desk</span>
+    <span class="sig-attest">Ranked, source-checked, and verified by the desk's
+      <a href="/method.html">independent review pass</a>.</span>
   </div>
-  <div class="stamp" role="img" aria-label="Automated editorial review stamp">
+  <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
       <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
       <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
       <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
         font-family="IBM Plex Mono,monospace" font-weight="600">
-        <textPath href="#stamparc" startOffset="2%">AUTOMATED REVIEW</textPath>
-        <textPath href="#stamparc" startOffset="55%">SOURCE CHECKED</textPath>
+        <textPath href="#stamparc" startOffset="2%">SOURCES VERIFIED</textPath>
+        <textPath href="#stamparc" startOffset="55%">ON THE RECORD</textPath>
       </text>
     </svg>
   </div>
@@ -1203,45 +1207,25 @@ def render_method(items, dateline):
                    f'<p><a href="/articles/{esc(example["slug"])}.html">Open the example story &rarr;</a></p>')
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Method</span>
-  <h1>How a story gets to you</h1>
-  <p class="lede">Automation removes the grind. It does not remove the judgment. Here is exactly
-     what happens between a raw feed and a published story, and where the human sits.</p>
+  <h1>How we work</h1>
+  <p class="lede">What you can hold this desk to, and what it will not do. The standards below
+     are the commitments; the machinery behind them is ours.</p>
 
-  <h2>1. Aggregate the day</h2>
-  <p>On a schedule, the desk pulls sports news from many sources at once: official league data
-     first (league APIs, official schedules and results, on-record club statements), then
-     established outlets. The same event reported by ten outlets is collapsed into one story so
-     nothing is double-counted, and a deterministic first pass flags the obvious hype and
-     promotion tells before any AI sees it.</p>
-
-  <h2>2. An AI managing editor ranks and strips the hype</h2>
-  <p>An AI editor ranks the real news by genuine sporting significance, and strips the junk:
-     unsourced rumor dressed as reporting, betting-pick content, affiliate listicles, and
-     press releases dressed as news. It shows its work, listing why each story made the cut and
-     why others were cut, so the human can audit the call.</p>
-
-  <h2>3. A separate AI verifies the editor</h2>
-  <p>A second, independent AI, with an adversarial prompt, audits those picks before anything is
-     drafted. It fetches each cited source and checks whether the source actually says what the
-     story claims. It flags anything single-source, unconfirmed, or implausible, and stamps each
-     story VERIFIED, needs-human-review, or rejected. The builder never verifies its own work, so
-     the editor and the verifier are deliberately two different passes. When they disagree, that
-     disagreement is surfaced to the human as a signal.</p>
-
-  <h2>4. The gate: the verifier's verdict, with a human editor-in-chief above it</h2>
-  <p>A story publishes only when the independent verifier stamps it VERIFIED against its
-     sources. Anything the verifier flags for review waits in the queue for the human
-     editor-in-chief, who reads it, overrides the machine where judgment differs, kills
-     stories, and decides what runs. Anything rejected never publishes. The human also owns
-     everything the machine may not touch: the takes and analysis (the AI never writes an
-     opinion in a human's voice), the corrections, and the standing rules every story is
-     held to. The gate is the verification, and the human can overrule it in either
-     direction at any time.</p>
-
-  <div class="callout"><b>Why two AIs, not one.</b> A single model asked to both rank and
-    self-check tends to rubber-stamp its own work. An independent pass, told to find what is wrong,
-    catches what the first pass missed. It is the same discipline a real newsroom uses: the reporter
-    does not fact-check their own copy.</div>
+  <h2>What every story has to clear</h2>
+  <ul>
+    <li><b>Official data first.</b> League data, official schedules and results, and on-record
+        club statements outrank anyone's account of them. Every story links what it is built
+        on, so you can check us rather than trust us.</li>
+    <li><b>An independent review pass.</b> Nothing publishes on the say-so of whoever
+        assembled it. Each story is checked against its own cited sources by a separate pass
+        whose only job is to find what is wrong, and a story that fails is held or dropped.</li>
+    <li><b>Reports stay reports.</b> An unconfirmed signing, trade or injury runs labelled as
+        a report, attributed to whoever reported it, or it does not run.</li>
+    <li><b>One event, one story.</b> The same news carried by ten outlets is collapsed into
+        one, so a loud story does not look like ten stories.</li>
+    <li><b>A human editor-in-chief above all of it,</b> who can hold or kill anything, and who
+        owns every opinion, every take and every correction on this site.</li>
+  </ul>
 
   {ex_html}
 
@@ -1304,8 +1288,8 @@ def render_about(dateline):
   <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>.
      Sponsorship never buys coverage; see <a href="/method.html">how we work</a>.</p>
 
-  <div class="callout"><b>Read next:</b> <a href="/method.html">How a story gets to you</a>, the
-    step-by-step of how we rank, verify, and approve. Or <a href="/standards.html">our standards and
+  <div class="callout"><b>Read next:</b> <a href="/method.html">How we work</a>, the
+    the standards every story has to clear. Or <a href="/standards.html">our standards and
     corrections policy</a>.</div>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
@@ -1350,11 +1334,11 @@ def render_standards(dateline):
      is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are assembled with AI assistance and fact-checked by a separate,
-     independent AI verification pass; only stories that pass publish, under a human
-     editor-in-chief who oversees the desk, reviews anything flagged, and can overrule any
-     call. Takes and corrections are always human. We think transparency about that process
-     is part of being trustworthy, which is why this page exists.</p>
+  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
+     independent checking pass before publication, under a human editor-in-chief who oversees
+     the desk and can overrule any call. Takes, analysis and corrections are always human.
+     You should know what you are reading, which is why this paragraph exists. The tools and
+     the internals behind it are ours and are not published.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "GoCheckMySports standards, verification, and corrections policy.",
