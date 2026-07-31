@@ -3093,5 +3093,58 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c110",
+    "headline": "FIFA Governance Crisis: Adviser Resigns Over World Cup Privatization Plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'senior adviser Cordeiro has resigned' but the brief does not name 'Cordeiro' as the adviser who resigned\u2014it only identifies the person as 'senior adviser' in the core_claim. The draft smuggles a name that does not appear in the brief's data_points.",
+     "The draft attributes the quote 'defying belief and imagination' to Cordeiro, but the brief's data_point credits this quote only to the source and does not explicitly confirm Cordeiro spoke it. The attribution conflates a characterization in the brief with a confirmed direct quote in the draft.",
+     "The draft states 'FIFA's chief operating officer has publicly issued a scathing rebuke' but names no COO and provides no quote. This is a fact asserted as settled when the brief's data_point only says a 'scathing rebuke' was issued; the draft elevates this without detail or attribution specificity."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "CBS Places Tony Romo on Indefinite Leave After OWI Arrest; J.J. Watt to Replace Him",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents medical/legal characterizations of Romo's condition ('failed to take a breathalyzer test', 'failed to take a breathalyzer test', 'performed poorly on standardized field sobriety tests') as settled fact without noting these remain alleged charges. The brief marks these as 'reported' confidence, not verified; the draft reads them as adjudicated.",
+     "The draft states 'CBS sources told the Daily Mail that the arrest is not expected to result in Romo's firing' \u2014 this is an unconfirmed anonymous-sourced claim presented as fact. The brief marks this data_point as 'unconfirmed' confidence; the draft presents it without hedging or confidence attribution, violating the rule that unconfirmed claims must read that way in prose.",
+     "Similarly, 'characterizing it as a \"lapse in judgment\"' and 'noted that Romo reached out to his bosses almost immediately after the arrest happened' are both marked 'unconfirmed' in the brief but appear in the draft as unqualified statements of fact.",
+     "The draft discusses ongoing legal jeopardy (charges, court date) and personal conduct (arrest, sobriety tests) in definitive language without the cautionary framing required for facts still subject to legal process. This crosses into compliance territory: an arrest allegation is not the same as a conviction or even a charged fact, and the draft conflates them."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "Tucker Kraft cleared from PUP list less than nine months after ACL surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Packers plan to ease Kraft back into action with all signs pointing toward his readiness for Week 1' but the brief marks this claim as 'reported' with no bear_case or open_question about the reliability of this assertion. The brief's open_questions explicitly state 'No information on whether Kraft has appeared in any preseason games or practice details that would support 'all signs point to Week 1 readiness.' This signals the source material does not actually contain evidence for the 'all signs' framing\u2014the writer has extrapolated or generalized beyond what the brief provided.",
+     "The draft presents 'all signs pointing toward his readiness for Week 1' as settled fact when the brief identifies this as thin sourcing (thin: true) with only 4 data_points total and missing critical medical/timeline details. The phrasing 'all signs point' overstates the certainty level available in the source material."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Eddie Howe steps down as Newcastle United head coach",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Howe 'stepped down' but the brief's open_questions explicitly note: 'The BBC source does not state whether Howe resigned voluntarily or was forced out by the club.' The word 'stepped down' implies voluntary resignation, but the brief warns that the source does not confirm this. The draft presents as fact what the brief identifies as unconfirmed\u2014whether the departure was a resignation or a dismissal.",
+     "The draft provides no information about why Howe left, yet the bottom_line raises questions about 'what triggered it' without the draft body having addressed any causes or context. This signals the draft may be speculating beyond the brief."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Mudryk eligible to play after doping ban resolved through appeal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the interim president of the UCAA is 'Meryl Rivin, interim president of the UCAA and a Maryland women's basketball player,' but the brief data_point identifies the interim president as 'Oluchi Okananwa' (Maryland women's basketball player). The draft has the wrong name for this key figure."
+    ]
+   }
+  ]
  }
 ]
