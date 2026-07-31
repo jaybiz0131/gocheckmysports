@@ -59,8 +59,69 @@ def _check(cond, fails, msg):
         fails.append(msg)
 
 
+def _undefined_name_canary():
+    """Every pipeline module must not reference a name it never binds.
+
+    THIS EXISTS BECAUSE THE CANARY BELOW IT PASSED WHILE THE DESK WAS DOWN. On 2026-07-31 a
+    scripted port added two call sites to autopilot.main() and left their `def`s behind. The
+    dedupe canary was green, the replay was green, the offline gate was green, and every
+    scheduled run died with `NameError: name '_rehash_of' is not defined` because the replay
+    fixtures are all held by an earlier gate and never reach that branch. Two desks were down
+    for two runs each before anyone read a traceback.
+
+    A canary that exercises functions cannot see a caller that names a function which does
+    not exist. Nothing dynamic is needed to catch it: the name is absent at parse time. This
+    walks the AST of every module the pipeline actually runs and asserts that every loaded
+    name is bound somewhere in that module, imported, or a builtin.
+
+    Deliberately stdlib-only. `ruff check --select F821` finds the same thing and is better at
+    it, but the canary is the hard gate in front of every run and must not depend on a tool
+    the runner may not have installed. Scope-insensitive on purpose: it collects every
+    binding anywhere in the file, so it cannot report a name that is merely out of scope. It
+    catches the absent, which is the failure that took the desks down."""
+    import ast
+    import builtins
+    fails = []
+    mods = ["aggregate", "autopilot", "editor", "verifier", "researcher", "writer",
+            "approver", "publish", "digest", "run", "site_build", "dedupe", "common"]
+    for m in mods:
+        path = os.path.join(HERE, f"{m}.py")
+        if not os.path.exists(path):
+            continue
+        try:
+            tree = ast.parse(open(path, encoding="utf-8").read(), path)
+        except SyntaxError as e:
+            fails.append(f"undefined-name: {m}.py does not parse ({e})")
+            continue
+        bound = set(dir(builtins))
+        for n in ast.walk(tree):
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                bound.add(n.name)
+            elif isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store):
+                bound.add(n.id)
+            elif isinstance(n, ast.arg):
+                bound.add(n.arg)
+            elif isinstance(n, ast.alias):
+                bound.add((n.asname or n.name).split(".")[0])
+            elif isinstance(n, ast.ExceptHandler) and n.name:
+                bound.add(n.name)
+            elif isinstance(n, (ast.Global, ast.Nonlocal)):
+                bound.update(n.names)
+        used = {n.id for n in ast.walk(tree)
+                if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
+        missing = sorted(u for u in used - bound if not u.startswith("__"))
+        _check(not missing, fails,
+               f"undefined-name: {m}.py references {missing} which it never defines or "
+               f"imports. Every scheduled run that reaches those lines dies with a "
+               f"NameError, and no replay fixture has to reach them for that to be true.")
+    return fails
+
+
 def layer1_canary():
     fails = []
+    # FIRST, because it is the cheapest and it catches the class that took two
+    # desks down while every other canary here stayed green.
+    fails.extend(_undefined_name_canary())
     cfg = common.load_config()
 
     # config + models

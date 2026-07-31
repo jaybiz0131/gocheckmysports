@@ -81,6 +81,36 @@ def breaking_two_source_holds(headline, source_names):
 # already_published() was a 70% title-word test. It could not see a reworded headline,
 # which is exactly how the crypto desk published one event three times. Replaced by the
 # chassis guard in dedupe.py, called through _rehash_of below.
+
+
+def _shipped_title(drafts, cid, story):
+    """The title the READER will see, not the editor's ranked headline.
+
+    The gate has to judge the string that ships. The crypto desk's three-in-one-day failure
+    turned partly on this: one duplicate scored 0.444 as the editor had headlined it and
+    0.750 as the writer rewrote it, and only the second number was ever on the page."""
+    draft = (drafts.get(cid, {}) or {}).get("article_draft", {}) or {}
+    return draft.get("title") or story.get("headline", "") or ""
+
+
+def _rehash_of(drafts, cid, story):
+    """True when this draft retells a story the desk has already published.
+
+    The key fact comes from script_skeleton. article_draft has NO key_fact field (see the
+    schema in prompts/writer.md: title/body/bottom_line/human_take/sources/status/
+    not_financial_advice), and dedupe._claim_signature() reads key_fact exclusively, so
+    reading it off the wrong object hands the guard an empty claim and everything looks new.
+    That exact mistake shipped on the crypto desk and published a fourth copy of one
+    sanctions story. The fallbacks are ordered so the richest available claim wins."""
+    d = drafts.get(cid, {}) or {}
+    skel = d.get("script_skeleton") or {}
+    art = d.get("article_draft") or {}
+    kf = skel.get("key_fact") or art.get("key_fact") or (story.get("snippet") or "")
+    verdict, _title, _slug = dedupe.classify_published(
+        _shipped_title(drafts, cid, story), kf)
+    return verdict == "rehash"
+
+
 def main():
     tpl_path = os.path.join(OUT, "approval_template.json")
     report_path = os.path.join(OUT, "run_report.json")
