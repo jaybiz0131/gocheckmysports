@@ -48,6 +48,23 @@ def depth_gate_holds(body_words, source_chars, min_words=120, min_source_chars=2
     return body_words < min_words and source_chars >= min_source_chars
 
 
+def discovery_only_holds(cluster):
+    """AGGREGATOR-DISCOVERY GATE (2026-07-30). Discovery feeds (Google News and friends)
+    ride the 'mixed'/'aggregator' tiers so the desk SEES stories its own feeds missed, but
+    their links are redirects rather than article URLs and they are not themselves
+    reporting. A story whose only sourcing is discovery-tier can never auto-publish: a
+    directly-citable tier (primary, major, breaking) must carry it too. Deterministic,
+    fail-closed, and independent of the BREAKING path (which only runs on breaking runs)."""
+    DISCOVERY = {"mixed", "aggregator", "unknown"}
+    tiers = {(cluster.get("source_tier") or "").strip().lower()}
+    for x in (cluster.get("corroboration") or []):
+        tiers.add((x.get("tier") or "").strip().lower())
+    tiers.discard("")
+    if not tiers:
+        return True   # no tier information at all -> fail closed
+    return tiers.issubset(DISCOVERY)
+
+
 def breaking_two_source_holds(headline, source_names):
     """The BREAKING-path gate (additive, 2026-07-14 directive): a breaking piece publishes
     as fact only with >=2 independent sources; single-source may publish only when the
@@ -117,6 +134,12 @@ def main():
         if story.get("verifier_verdict") != "VERIFIED":
             story["decision"] = "hold"
             held += 1
+        elif discovery_only_holds(c):
+            story["decision"] = "hold"
+            held += 1
+            print(f"autopilot: discovery-only sourcing held "
+                  f"'{story.get('headline','')[:60]}' (aggregator tier alone is never "
+                  f"publishable; a citable outlet must carry it too)")
         elif breaking and breaking_two_source_holds(story.get("headline", ""), src_names):
             story["decision"] = "hold"
             held += 1

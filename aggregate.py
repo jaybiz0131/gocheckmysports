@@ -247,7 +247,10 @@ def gather_rss(cfg, fixture=None):
             got, gated = apply_keyword_gate(got, f, watchlist)
             # Per-feed cap: one prolific outlet must not flood the editor (some feeds
             # return 100 items). Feeds are newest-first, so the cap keeps the newest.
-            cap = cfg["sources"].get("max_items_per_feed", 40)
+            # per-feed override (2026-07-30): discovery feeds are deliberately broad and
+            # very recent, so an uncapped one would crowd primary-tier items out of the
+            # editor's newest-N window. A feed may declare its own smaller max_items.
+            cap = f.get("max_items", cfg["sources"].get("max_items_per_feed", 40))
             trimmed = f" (capped from {len(got)})" if len(got) > cap else ""
             gate_note = f", {gated} gated off-topic" if gated else ""
             got = got[:cap]
