@@ -2868,5 +2868,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c085",
+    "headline": "Saints extend Chris Olave to four-year deal worth up to $132 million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the contract is 'worth up to $132 million' but the brief confidence label is 'announced-not-verified', not 'reported'. The draft must signal this uncertainty in the prose (e.g., 'according to the team's announcement' or similar language that reflects unverified status) rather than presenting it as settled fact."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Cristina Ulbrich, wife of Falcons DC, dies from cancer",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains personal and medical detail about a deceased individual's health status ('died from cancer') presented as established fact, but the brief marks the core claim as 'announced-not-verified' confidence level. This unverified medical claim about a private citizen's cause of death, combined with the sensitive personal nature of the reporting, crosses the compliance line for health claims without official verification. The draft should signal the announced status rather than present the cause as confirmed."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Twins defeat Royals 4-3 on Clemens walk-off grand slam in ninth",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Noah Cameron, who had held the Twins hitless through six innings, exited before the final sequence' but brief data_point says 'Noah Cameron pitched eight shutout innings with no hits allowed until the seventh inning.' The draft contradicts the brief on both the inning count (6 vs 8) and the timing of when the hit was allowed (before vs during his stint).",
+     "Draft omits key information from brief about Twins' draft history that was provided: 'The Twins made nine trades last summer and jettisoned 40% of the major league roster, including four high-leverage relievers' and owner Tom Pohlad's statement about not repeating cost-cutting moves. These facts are in the brief's data_points but absent from the draft without explanation.",
+     "Draft states GM Jeremy Zoll's focus is 'prioritizing adding to the roster, particularly in the bullpen, rather than subtracting' but omits the fuller context from the brief: Zoll said focus on 'improving the bullpen and they will be open to a variety of creative paths.' The draft's framing is incomplete relative to the sourced material."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Senate adjourns without vote on Protect College Sports Act",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Big Ten and SEC administrators held separate meetings Thursday and neither conference ultimately voted on whether to support the latest version of the legislation' without flagging the confidence level. The brief marks this claim as 'unconfirmed,' which must be reflected in the prose per the approval rule on confidence labels.",
+     "Draft presents the claim 'Big Ten and SEC administrators are concerned the current version of the bill does not provide enough legal cover to effectively enforce a salary cap' as settled fact without indicating it is marked 'unconfirmed' in the brief. This is a factual statement presented without the necessary hedging.",
+     "Draft states 'A Senate aide told ESPN there was \"technically still time\" for Senate Majority Leader John Thune to call the bill for a full vote early the following week' without flagging that this claim is marked 'unconfirmed' in the brief."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Red Sox say Curtis Mead has non-displaced wrist fracture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Red Sox are described as baseball's hottest team' but the brief's corresponding data_point says 'The Red Sox, described as baseball's hottest team, sought to add offensive help to their lineup at the trade deadline.' The draft presents this characterization without attribution to the ESPN source, making it appear as the writer's own assessment rather than sourced reporting. Per the hard rule, facts must trace back to the brief with proper sourcing."
+    ]
+   }
+  ]
  }
 ]
