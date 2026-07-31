@@ -2918,5 +2918,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "Twins beat Royals 4-3 on Clemens walk-off grand slam in ninth",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The Royals had held a 3-1 lead at some point in the game before the Twins mounted their comeback.' This detail is not present in the brief. The brief contains only two data_points: the walk-off grand slam fact and the final score (4-3). The draft introduces new information about inning-by-inning scoring that does not trace to the research brief.",
+     "The brief explicitly lists as open_questions: 'What inning did the Royals score their 3 runs?' and 'What were the circumstances that led to bases being loaded with two outs?' The draft answers the second question ('bases loaded and two outs already recorded') without sourcing it to the brief, which means the writer is adding unreported details."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "AFC rejection of Infantino World Cup plan eliminates path to approval",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'AFC's 47 members, combined with Concacaf's 41 and UEFA's 55, oppose the World Cup privatization plan, totaling 143 member associations opposed.' However, the brief's data_point says only 'AFC's 47 members, combined with UEFA's 55 and Concacaf's 41, oppose the World Cup privatization plan, totaling 143 member associations opposed.' The draft introduced the specific number '47' for AFC members, which does not appear in the brief's data_points. The brief says 'bringing total opposition to 143 of FIFA's 211 member associations' in the core_claim but does not break down AFC's individual membership count.",
+     "The draft includes the claim 'Concacaf members, which include 2026 World Cup hosts the United States, Canada and Mexico, are losing confidence in Infantino.' This claim about 'losing confidence' is not in the brief. The brief only documents their rejection of the proposal and procedural concerns, not a broader loss of confidence in Infantino's leadership (which appears in the c031 brief but not in c030's brief)."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Robinson, Gibbs, Vea, and Tuipulotu hold in at NFL training camps",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Vita Vea's hold-in is motivated by a request for a trade' in paragraph 4, but this claim does not appear in the brief's data_points. The brief includes this as a data_point with 'reported' confidence, but the draft presents it as established fact without attribution or hedging, when the source should be cited inline to ESPN per the desk's attribution standard."
+    ]
+   },
+   {
+    "id": "c097",
+    "headline": "Saints sign Olave to four-year extension worth up to $132 million",
+    "category": "clarity",
+    "reasons": [
+     "The brief is marked 'thin: true' with only two data_points, yet the draft's bottom_line promises specificity ('The specific breakdown of guaranteed money, average annual value, and performance incentives remain unpublished') that reads as editorial analysis rather than a forward-looking statement grounded in the brief. The bottom_line should acknowledge the thinness of the story or signal what would validate/invalidate the market benchmark claim, not position unpublished details as a news development. A thin brief demands a tight, honest story; this one overstates the story's depth."
+    ]
+   }
+  ]
  }
 ]
