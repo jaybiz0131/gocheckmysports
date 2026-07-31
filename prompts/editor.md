@@ -90,6 +90,15 @@ Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
 - "why_it_matters" is 1-2 tight lines; no essays.
 - Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.
 
+RUNNING THREADS MUST ADVANCE, NOT ACCUMULATE (owner directive 2026-07-31): when the user
+message lists a RUNNING STORY whose newest chapter is under 48 hours old, and the intake
+carries a development on that same storyline, you MUST rank it with "updates" set to that
+chapter's title EXACTLY as listed. Do NOT file it as a fresh standalone story. A running
+story's wording drifts as it develops (an evacuation count becomes a place name becomes a
+new country), so the deterministic backstop cannot catch these: the declaration is yours to
+make. Six separate live wildfire stories and two live earthquake stories accumulated this
+way, and a reader could not tell which was current.
+
 UPDATES, NOT DUPLICATES (owner directive 2026-07-22, the top editorial rule): the desk
 NEVER republishes yesterday's story as a new one. When a ranked story is a new chapter of
 a title in the already-published shelf (a follow-on development, day N of a running story,

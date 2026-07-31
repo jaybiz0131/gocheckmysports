@@ -569,13 +569,46 @@
           "lynx",
           "women's basketball"
         ]
+      },
+      {
+        "name": "League discipline",
+        "keywords": [
+          "suspended",
+          "suspension",
+          "fined",
+          "fine",
+          "banned",
+          "ejected",
+          "violation",
+          "misconduct",
+          "disciplinary"
+        ],
+        "note": "Owner directive 2026-07-31: discipline stories get heavy spin elsewhere; a straight sourced account is the differentiator."
+      },
+      {
+        "name": "Player health and obituaries",
+        "keywords": [
+          "dies",
+          "died",
+          "death",
+          "obituary",
+          "cte",
+          "dementia",
+          "concussion",
+          "diagnosed",
+          "hospitalized"
+        ],
+        "note": "Owner directive 2026-07-31: CTE deaths and player-health stories are recurring, verifiable, high-trust items squarely in the verified-facts lane."
       }
     ]
   },
   "dedupe": {
     "jaccard_threshold": 0.6,
     "min_significant_tokens": 3,
-    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration."
+    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration. CROSS-OUTLET SIGNAL (2026-07-31, news parity): headline-token Jaccard almost never fires across outlets wording the same event differently. A second conservative signal merges on shared distinctive entities (capitalized words and numbers) within a time window and above a token floor. Measured on news intake: corroboration 4% -> 8% with zero false merges; looser settings were REJECTED because they merged opinion columns with news as if they corroborated each other.",
+    "min_shared_entities": 2,
+    "cross_outlet_jaccard_floor": 0.25,
+    "cross_outlet_window_hours": 24
   },
   "publish": {
     "require_human_approval": true,

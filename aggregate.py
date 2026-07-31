@@ -351,6 +351,53 @@ def within_lookback(items, hours):
     return kept
 
 
+def headline_entities(headline):
+    """Distinctive entities from a headline: capitalized words (places, people, orgs) and
+    numbers, which SURVIVE rewording when outlets cover the same event ("Kuwait",
+    "Jordan", "330,000"). Used as the cross-outlet clustering signal, because full-token
+    Jaccard almost never matches across outlets that word headlines differently
+    (measured 2026-07-31: only 4% of clusters carried any corroboration)."""
+    text = headline or ""
+    ents = set()
+    # numbers, including grouped and decimal forms, normalized without separators
+    for m in re.findall(r"\b\d[\d,.]*\b", text):
+        n = m.rstrip(".,").replace(",", "")
+        if len(n) >= 2:
+            ents.add(n)
+    # capitalized words, skipping the sentence-initial word (headline case makes it
+    # uninformative) and single letters
+    words = re.findall(r"[A-Za-z][A-Za-z'\-]+", text)
+    for i, w in enumerate(words):
+        if i == 0 or len(w) < 3:
+            continue
+        if w[0].isupper() and w.lower() not in STOPWORDS:
+            ents.add(w.lower())
+    return ents
+
+
+def same_event(a, b, cfg):
+    """Cross-outlet same-event test, deliberately conservative: false merges attribute
+    claims to outlets that never made them, which is worse than the single-sourcing this
+    fixes. ALL of: enough shared distinctive entities, published close together in time,
+    and a token-overlap floor so two stories that merely share a country name never
+    merge."""
+    d = cfg["dedupe"]
+    min_ents = d.get("min_shared_entities", 2)
+    floor = d.get("cross_outlet_jaccard_floor", 0.25)
+    hours = d.get("cross_outlet_window_hours", 24)
+    shared = a["_entities"] & b["_entities"]
+    if len(shared) < min_ents:
+        return False
+    ta, tb = a.get("_ts"), b.get("_ts")
+    if ta is None or tb is None:
+        return False
+    if abs((ta - tb).total_seconds()) > hours * 3600:
+        return False
+    inter = len(a["_tokens"] & b["_tokens"])
+    union = len(a["_tokens"] | b["_tokens"]) or 1
+    return (inter / union) >= floor
+
+
 def dedupe(items, cfg):
     """Greedy cluster of near-identical stories. Same URL, or headline-token Jaccard over the
     configured threshold, collapses into one cluster. The highest source_tier becomes the
@@ -361,6 +408,7 @@ def dedupe(items, cfg):
 
     for it in items:
         it["_tokens"] = norm_tokens(it["headline"])
+        it["_entities"] = headline_entities(it["headline"])
     clusters = []  # each: {"members": [...], "urls": set()}
     for it in items:
         placed = False
@@ -372,7 +420,7 @@ def dedupe(items, cfg):
                 inter = len(it["_tokens"] & base)
                 union = len(it["_tokens"] | base) or 1
                 sim = inter / union
-            if same_url or sim >= thr:
+            if same_url or sim >= thr or same_event(it, cl["members"][0], cfg):
                 cl["members"].append(it)
                 if it["url"]:
                     cl["urls"].add(it["url"])
