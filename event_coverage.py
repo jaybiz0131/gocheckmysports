@@ -46,6 +46,20 @@ def main():
             if kws else None
         if rx is None or not rx.search(blob):
             uncovered.append(e["name"])
+    # Write the gap report, not just warnings. A ::warning:: is invisible unless somebody
+    # opens the run log, which is how the crypto desk missed the FOMC decision it had
+    # itself flagged. The workflow reads this file and raises a flag a human will see.
+    # Still fail-open, still never a gate: a coverage gap is a judgment call.
+    today = datetime.datetime.now(datetime.timezone.utc)
+    os.makedirs(os.path.join(HERE, "out"), exist_ok=True)
+    json.dump({"checked_utc": today.strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "uncovered": [{"date": today.strftime("%Y-%m-%d"), "kind": "event",
+                              "title": e["name"],
+                              "match": e.get("keywords") or [],
+                              "source": e.get("source", "today's event calendar")}
+                             for e in events if e["name"] in uncovered]},
+              open(os.path.join(HERE, "out", "event_gaps.json"), "w", encoding="utf-8"),
+              indent=1)
     for name in uncovered:
         print(f"::warning::event coverage: '{name}' is on today's calendar with NO "
               f"published story in 36h; the desk may be missing a marquee event")

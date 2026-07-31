@@ -131,6 +131,86 @@ jobs:
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: python3 event_coverage.py || true
 
+      # ESCALATE THE COVERAGE GAP (owner directive 2026-07-31), ported from the crypto
+      # desk. event_coverage.py already knew when a marquee event on today's calendar had
+      # no story, and said so in a ::warning:: nobody reads. That is how the crypto desk
+      # missed the FOMC decision it had itself flagged, and it is the same shape as this
+      # desk missing Joshua's KO on a night it covered Spence-Tszyu.
+      #
+      # STILL NOT A GATE. A coverage gap is a judgment call, so this never blocks a publish
+      # and never fails the run.
+      #
+      # Anti-noise, because this runs several times a day: ONE issue, tracked by a
+      # fingerprint of the uncovered set; an identical set on a later run says nothing; a
+      # changed set rewrites the body and posts one comment; no gaps closes the issue.
+      - name: Flag an uncovered known event
+        if: steps.key.outputs.have_key == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import hashlib, json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          title = "Calendar: a known event has no coverage"
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+
+          def api(url, data=None, method=None):
+              req = urllib.request.Request(
+                  url, data=json.dumps(data).encode() if data is not None else None,
+                  headers=hdrs, method=method)
+              return json.load(urllib.request.urlopen(req))
+
+          try:
+              gaps = json.load(open("out/event_gaps.json", encoding="utf-8"))["uncovered"]
+          except Exception as e:
+              print(f"no calendar gap report to act on ({e})"); raise SystemExit
+
+          issues = api(f"https://api.github.com/repos/{repo}/issues?state=open&labels=calendar")
+          existing = next((i for i in issues if i["title"] == title), None)
+
+          if not gaps:
+              if existing:
+                  api(existing["comments_url"], {"body": f"Every event now due has coverage. "
+                                                         f"Closing. ({os.environ['RUN_URL']})"})
+                  api(f"https://api.github.com/repos/{repo}/issues/{existing['number']}",
+                      {"state": "closed", "state_reason": "completed"}, method="PATCH")
+                  print(f"gap cleared; closed #{existing['number']}")
+              else:
+                  print("no uncovered events")
+              raise SystemExit
+
+          fp = hashlib.sha1("|".join(sorted(
+              f"{e.get('date')}::{e.get('title')}" for e in gaps)).encode()).hexdigest()[:12]
+          lines = "\n".join(
+              f"- **{e.get('date')}** ({e.get('kind')}) {e.get('title')}\n"
+              f"  - nothing published matching `{e.get('match')}`\n"
+              f"  - source: {e.get('source', 'n/a')}" for e in gaps)
+          body = (f"Today's event calendar lists {len(gaps)} event(s) that are due "
+                  f"and carry no matching story.\n\n{lines}\n\n"
+                  "This is advisory: it does not block publishing, and it is fine to close "
+                  "if the desk decided the event was not worth covering. It reopens if a "
+                  "different event goes uncovered.\n\n"
+                  f"Last checked: {os.environ['RUN_URL']}\n\n<!-- gapfp:" + fp + " -->")
+
+          if not existing:
+              api(f"https://api.github.com/repos/{repo}/issues",
+                  {"title": title, "body": body, "labels": ["calendar"]}, method="POST")
+              print(f"opened a calendar flag for {len(gaps)} event(s)")
+          elif f"<!-- gapfp:{fp} -->" in (existing.get("body") or ""):
+              # Same events as last run. Say nothing: this fires three times a day and a
+              # repeated comment would train everyone to ignore the flag.
+              print(f"same {len(gaps)} event(s) already flagged on #{existing['number']}; quiet")
+          else:
+              api(f"https://api.github.com/repos/{repo}/issues/{existing['number']}",
+                  {"body": body}, method="PATCH")
+              api(existing["comments_url"],
+                  {"body": f"The uncovered set changed:\n\n{lines}\n\n{os.environ['RUN_URL']}"})
+              print(f"updated #{existing['number']}: the uncovered set changed")
+          PYEOF
+
       # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): the guaranteed
       # per-slot synthesis over the desk's own published stories. Runs even when no new
       # story cleared the gates (the whole point: never a zero-content slot). Fail-open
