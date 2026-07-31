@@ -587,10 +587,11 @@ def render_article(item, all_items=None):
         # about THIS story, not process talk: a reader deserves to know a claim rests on one
         # outlet, and stating it is a credibility signal rather than an admission.
         note = ""
-        if len(srcs) == 1:
+        import common as _cmn
+        if _cmn.distinct_publishers([s.get("url", "") for s in srcs]) <= 1:
             note = (f'<p class="single-source"><b>Single-source report.</b> As published, '
                     f'only {esc(source_label(srcs[0]))} had reported this development. '
-                    f'No second outlet had corroborated it.</p>')
+                    f'No independent outlet had corroborated it.</p>')
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol>{note}</div>'
     rel_html = ""
     for rel in related_stories(item, all_items or []):

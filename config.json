@@ -433,6 +433,45 @@
         "url": "https://news.google.com/rss/search?q=ESPN+OR+%22NFL+Network%22+layoffs+OR+%22media+rights%22+when:2d&hl=en-US&gl=US&ceid=US:en",
         "note": "DISCOVERY ONLY (added 2026-07-30). Google News is an aggregator and its item links are google.com redirects, not article URLs, so it rides the 'mixed' tier: it can surface an event the desk's own feeds missed (the Joshua KO and ESPN layoffs classes), but the corroboration rules require a tiered, directly-citable outlet to supply the source before anything publishes.",
         "max_items": 10
+      },
+      {
+        "name": "MLB.com",
+        "tier": "primary",
+        "url": "https://www.mlb.com/feeds/news/rss.xml",
+        "note": "The league's own newsroom (verified live 2026-07-31, 25 items, current). Sports had ZERO primary-tier NEWS feeds: its only primaries were score and transaction data APIs, so official league reporting never reached the intake. Also the deadline-coverage gap."
+      },
+      {
+        "name": "ESPN WNBA",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/wnba/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/news",
+        "note": "Closes the women's-basketball blind spot the 2026-07-24 audit flagged (All-Star weekend missed entirely). Verified 15 articles via the API tier that already serves the other ESPN feeds when the RSS host answers runner IPs with a 202 challenge."
+      },
+      {
+        "name": "ESPN College Football",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/ncf/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news",
+        "note": "A major US sport with no dedicated intake at all; the season opens in August."
+      },
+      {
+        "name": "ESPN Golf",
+        "tier": "major",
+        "url": "https://www.espn.com/espn/rss/golf/news",
+        "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/golf/pga/news",
+        "note": "The Open Championship ran single-source from BBC Sport for days; majors need real intake."
+      },
+      {
+        "name": "Awful Announcing",
+        "tier": "major",
+        "url": "https://awfulannouncing.com/feed",
+        "note": "Sports-media beat, a second outlet alongside Front Office Sports for the class that produced the missed ESPN and NFL Network layoffs (verified live 2026-07-31)."
+      },
+      {
+        "name": "Sporting News",
+        "tier": "major",
+        "url": "https://www.sportingnews.com/us/rss",
+        "note": "General sports desk, added 2026-07-31 for corroboration mass: Sports ran 9 major outlets against News's 17, which is a direct cause of its lower cross-outlet corroboration."
       }
     ],
     "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",

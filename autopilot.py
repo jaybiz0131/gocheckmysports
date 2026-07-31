@@ -72,8 +72,8 @@ def breaking_two_source_holds(headline, source_names):
     as fact only with >=2 independent sources; single-source may publish only when the
     headline itself carries the unconfirmed label; otherwise it HOLDS for the next
     scheduled slot. Deterministic, fail-closed."""
-    distinct = {n.strip().lower() for n in source_names if n and n.strip()}
-    if len(distinct) >= 2:
+    import common as _c
+    if _c.distinct_publishers(source_names) >= 2:
         return False
     return "unconfirmed" not in (headline or "").lower()
 
@@ -118,6 +118,11 @@ def main():
         c = clusters.get(cid) or {}
         src_names = [c.get("source", "")] + [x.get("name", "")
                                              for x in (c.get("corroboration") or [])]
+        # INDEPENDENCE IS BY PUBLISHER, NOT FEED NAME (2026-07-31): ESPN NFL and ESPN Top
+        # Lines are one publisher; counting them as two sources would pass the two-source
+        # gate on a single-publisher story.
+        src_urls = [c.get("url", "")] + [x.get("url", "")
+                                         for x in (c.get("corroboration") or [])]
         if story.get("verifier_verdict") != "VERIFIED":
             story["decision"] = "hold"
             held += 1
@@ -127,7 +132,7 @@ def main():
             print(f"autopilot: discovery-only sourcing held "
                   f"'{story.get('headline','')[:60]}' (aggregator tier alone is never "
                   f"publishable; a citable outlet must carry it too)")
-        elif breaking and breaking_two_source_holds(story.get("headline", ""), src_names):
+        elif breaking and breaking_two_source_holds(story.get("headline", ""), src_urls):
             story["decision"] = "hold"
             held += 1
             print(f"autopilot: BREAKING two-source gate held "

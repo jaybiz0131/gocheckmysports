@@ -405,6 +405,18 @@ def _replay_e2e():
         _check(autopilot.breaking_two_source_holds(
                    "Star quarterback traded to Acme Falcons", ["ESPN", "espn", ""]) is True, fails,
                "breaking gate: duplicate source names wrongly counted as independent")
+        # INDEPENDENCE IS BY PUBLISHER (2026-07-31): this desk carries eight ESPN feeds, so
+        # two ESPN URLs are ONE source, not two. Measured that 64% of apparently
+        # corroborated clusters were a single publisher wearing two feed names; that must
+        # never satisfy the two-source gate.
+        _check(autopilot.breaking_two_source_holds(
+                   "League suspends executive after investigation",
+                   ["https://www.espn.com/nfl/story/a", "https://www.espn.com/mlb/story/b"]) is True,
+               fails, "breaking gate: two feeds from ONE publisher counted as independent")
+        _check(autopilot.breaking_two_source_holds(
+                   "League suspends executive after investigation",
+                   ["https://www.espn.com/nfl/story/a", "https://www.bbc.co.uk/sport/b"]) is False,
+               fails, "breaking gate: two genuinely independent publishers wrongly held")
 
         # Daily edition (wrap): replay dry-run must produce a belts-clean edition item
         # that leads the page (negative rank) and carries the desk's stories as sources.
