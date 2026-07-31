@@ -281,7 +281,8 @@
   ],
   "cadence": "daily-brief",
   "lookback_hours": 44,
-  "top_n": 12,
+  "top_n": 8,
+  "TOP_N_NOTE": "TOP_N RULING 2026-07-31: cut from 12 to 8 per slot. The desks were publishing ~184 articles a week between them while all article pages combined drew ~16 weekly views, so slots 9 to 12 were reaching nobody. Cutting the tail reduces per-run spend (fewer researcher, writer, and verifier calls), raises the average significance of what reaches the front page, and lowers exposure to search-engine scaled-content policies, which target high-volume automated publishing. Revisit when distribution catches up to the inventory; this is a quality-over-volume decision, not a cost-only one.",
   "budget": {
     "max_tokens_per_run": 220000,
     "max_usd_per_run": 1.5,
