@@ -32,6 +32,7 @@ USAGE
   python3 verify_pipeline.py            # both; only Layer 1 affects the exit code
 """
 
+import inspect
 import json
 import os
 import sys
@@ -154,6 +155,7 @@ def layer1_canary():
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
     fails.extend(e2e_fails)
+    fails.extend(_dedupe_guard_canary())
     fails.extend(_merge_state_canary())
 
     # fail-closed canaries
@@ -171,6 +173,120 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _dedupe_guard_canary():
+    """The three-in-one-day failure, pinned as fixtures.
+
+    On 2026-07-30 the desk published one Treasury designation three times. same_event() was
+    never the problem: it matched all three pairs. These cases lock the four things that were
+    wrong downstream, and the one case that must still get through, because a guard that
+    holds everything is just a slower way to publish nothing."""
+    fails = []
+    import autopilot as ap
+    import dedupe
+
+    # CHASSIS SYNC. dedupe.py is one file copied into three repositories, so the only thing
+    # keeping them honest is this hash plus the shared fixtures below. Editing the guard in
+    # one desk and not the others reds every desk that was not updated.
+    _sha = __import__("hashlib").sha256(
+        open(dedupe.__file__, "rb").read()).hexdigest()[:16]
+    _check(_sha == "d4753cc9a2fd90a3", fails,
+           f"dedupe: this desk's dedupe.py is {_sha}, the chassis copy is d4753cc9a2fd90a3. "
+           f"The guard was changed in one repo and not the others; re-sync all three.")
+
+    # (4) Title Case is not evidence. A headline yields capitalised tokens for ordinary
+    # words, so novelty must be read from sentence-cased prose.
+    title_sig = dedupe._signature(
+        "US Sanctions Iranian Marine Insurers Accepting Bitcoin for Strait of Hormuz Passage")
+    _check({"accepting", "insurers", "passage"} <= title_sig, fails,
+           "dedupe: this fixture assumed Title Case pollutes _signature and it no longer "
+           "does; re-check whether _claim_signature still needs to avoid headlines")
+    # The fixture MUST carry a title, or pulling the headline back into the claim signature
+    # changes nothing and this assertion tests nothing.
+    claim = dedupe._claim_signature(
+        {"title": "US Sanctions Iranian Marine Insurers Accepting Bitcoin for Strait of "
+                  "Hormuz Passage",
+         "key_fact": "HormuzSafe, an Iranian state-linked firm, accepts Bitcoin to collect "
+                     "mandatory insurance fees from vessels transiting the Strait of Hormuz."})
+    _check(not ({"accepting", "insurers", "passage"} & claim), fails,
+           "dedupe: _claim_signature is reading the headline again; a reworded headline will "
+           "look like new reporting and the same event will publish twice")
+
+    # (1)(2) A retelling that adds nothing is a rehash, even when the wording differs enough
+    # to beat a word-overlap threshold, and even when an older unrelated story also matched.
+    pub = {"title": "US Treasury Sanctions Iranian Firms Using Bitcoin for Maritime Extortion",
+           "key_fact": "US Treasury sanctioned two Iranian firms accepting Bitcoin to fund "
+                       "IRGC operations via a coercive maritime insurance extortion scheme.",
+           # Verbatim from the story that actually published at 18:40, not a paraphrase.
+           # A shortened body made this fixture pass for the wrong reason on first run:
+           # the retelling looked novel only because the excerpt omitted the Strait.
+           "body": ["HormuzSafe Marine Services Authority and Persian Gulf Marine Insurance "
+                    "Company were designated under Executive Order 13902.",
+                    "HormuzSafe advertises itself as offering digital insurance, traffic "
+                    "control, security and emergency response to vessels transiting the "
+                    "Strait of Hormuz."]}
+    retell = {"key_fact": "HormuzSafe, an Iranian state-linked firm, accepts Bitcoin and "
+                          "digital assets to collect mandatory insurance fees from vessels "
+                          "transiting the Strait of Hormuz, generating revenue for the IRGC."}
+    covered = dedupe._covered_signature(pub)
+    _check(len(dedupe._claim_signature(retell) - covered - dedupe._OUTLETS)
+           < dedupe.NOVELTY_MIN, fails,
+           "dedupe: a retelling that adds no new fact scores as novel; this is the shape "
+           "that published one Treasury designation three times")
+
+    # the case that MUST still pass: a real development adds a new actor and a new amount
+    # Verbatim from the two stories the desk actually published on 2026-07-16. A paraphrase
+    # here failed to trip same_event at all, so the follow-up came back "new" and the
+    # assertion tested nothing.
+    followup = {"key_fact": "The Ostium OLP vault lost approximately $24M USDC via oracle "
+                            "manipulation; the exploiter converted stolen stablecoins to "
+                            "12,086 ETH total and routed 10,540 ETH through Tornado Cash."}
+    origin = {"title": "Ostium Suffers $18 Million Exploit as Oracle Attack Wave Continues "
+                       "to Hit DeFi",
+              "key_fact": "An attacker drained $18 million in USDC from Ostium's vault by "
+                          "submitting oracle reports with future-dated timestamps, exposing "
+                          "a critical gap in price-feed validation.",
+              "body": ["The attack targeted Ostium's price-feed validation."]}
+    _check(len(dedupe._claim_signature(followup) - dedupe._covered_signature(origin)
+               - dedupe._OUTLETS) >= dedupe.NOVELTY_MIN, fails,
+           "dedupe: a genuine follow-up with a new actor and a new amount is being held as a "
+           "rehash; the guard has become a publish-nothing gate")
+
+    # (2) NOVELTY AGAINST ALL PRIOR COVERAGE, exercised end to end against a controlled
+    # corpus rather than inspected in source. An earlier version of this check only grepped
+    # classify_published for "min(matches" and a revert to the oldest-match rule passed it
+    # clean, which is the same weakness that let a canary sit over dead code for two days.
+    stale = {"id": "c001", "slug": "iran-strikes",
+             "title": "Crypto Little Changed as U.S. Launches Fresh Iran Strikes",
+             "date": "2026-07-12",
+             "key_fact": "Markets held steady after a reported Strait of Hormuz closure.",
+             "body": ["Traders shrugged off the escalation."]}
+    first = dict(pub, id="c112", slug="iran-sanctions-first", date="2026-07-30",
+                 published_utc="2026-07-30T15:25:01Z")
+    corpus = [stale, first]
+    verdict, _t, _s = dedupe.classify_published(
+        "US Sanctions Iranian Marine Insurers Accepting Bitcoin for Strait of Hormuz Passage",
+        retell["key_fact"], corpus=corpus)
+    _check(verdict == "rehash", fails,
+           f"dedupe: a same-day retelling classified as {verdict!r} with an unrelated older "
+           f"story in the corpus; that older story is exactly what made all three Iran "
+           f"duplicates look novel on 2026-07-30")
+
+    # and the same corpus must still let a real development through
+    verdict2, _t2, _s2 = dedupe.classify_published(
+        "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
+        followup["key_fact"], corpus=[dict(origin, id="c900", slug="ostium-origin",
+                                           date="2026-07-16",
+                                           published_utc="2026-07-16T07:33:18Z")])
+    _check(verdict2 == "update", fails,
+           f"dedupe: a genuine follow-up classified as {verdict2!r}; the guard has become a "
+           f"publish-nothing gate")
+
+    # (3) the guard must judge the shipped title
+    _check('_shipped_title' in inspect.getsource(ap.main), fails,
+           "dedupe: main() is judging the editor's headline again rather than the writer's "
+           "title; the string checked must be the string shipped")
+    return fails
 
 def _merge_state_canary():
     """Lock the resolution rules for the file(s) two overlapping publishes always collide on.

@@ -27,6 +27,8 @@ import re
 import subprocess
 import sys
 
+import dedupe
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 
@@ -76,24 +78,9 @@ def breaking_two_source_holds(headline, source_names):
     return "unconfirmed" not in (headline or "").lower()
 
 
-def already_published(headline):
-    """The daily lookback window overlaps day to day, so yesterday's big story can rank again
-    under a slightly different headline. Anything sharing >=70% of its meaningful words with
-    an existing published title is a rerun and never auto-publishes."""
-    hw = _words(headline)
-    if not hw:
-        return False
-    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
-        try:
-            t = json.load(open(p, encoding="utf-8")).get("title", "")
-        except Exception:
-            continue
-        tw = _words(t)
-        if tw and len(hw & tw) / min(len(hw), len(tw)) >= 0.7:
-            return True
-    return False
-
-
+# already_published() was a 70% title-word test. It could not see a reworded headline,
+# which is exactly how the crypto desk published one event three times. Replaced by the
+# chassis guard in dedupe.py, called through _rehash_of below.
 def main():
     tpl_path = os.path.join(OUT, "approval_template.json")
     report_path = os.path.join(OUT, "run_report.json")
@@ -156,11 +143,11 @@ def main():
             held += 1
             print(f"autopilot: depth gate held '{story.get('headline','')[:60]}' "
                   f"({words} words from {source_chars} chars of source material)")
-        elif already_published(story.get("headline", "")) and cid not in editor_updates:
+        elif _rehash_of(drafts, cid, story) and cid not in editor_updates:
             story["decision"] = "hold"
             reruns += 1
             print(f"autopilot: skipping rerun of already-published story: "
-                  f"{story.get('headline','')[:70]}")
+                  f"{_shipped_title(drafts, cid, story)[:70]}")
         else:
             story["decision"] = "approve"
             approved += 1
