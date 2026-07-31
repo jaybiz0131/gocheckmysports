@@ -237,8 +237,19 @@ def tracking_match(story, rx):
 
 
 def destyle(text):
-    """House style: no em/en dashes in site copy (model drafts sometimes use them)."""
-    return (str(text or "").replace(" \u2014 ", ", ").replace("\u2014", ", ")
+    """House style: no em/en dashes in site copy (model drafts sometimes use them).
+
+    ENTITIES COUNT. This handled the literal characters only, and the gap was not
+    theoretical: three em dashes shipped on a sister site written as &mdash;, including one
+    in an H2, and a lint that counted literal characters reported zero. A dash a reader sees
+    is a dash whatever it is spelled as in the source, so the numeric and named entity forms
+    are normalised here too, before the literal pass runs on whatever they decode to."""
+    s = str(text or "")
+    for ent in ("&mdash;", "&#8212;", "&#x2014;", "&#X2014;"):
+        s = s.replace(" " + ent + " ", ", ").replace(ent, ", ")
+    for ent in ("&ndash;", "&#8211;", "&#x2013;", "&#X2013;"):
+        s = s.replace(" " + ent + " ", ", ").replace(ent, "-")
+    return (s.replace(" \u2014 ", ", ").replace("\u2014", ", ")
             .replace(" \u2013 ", ", ").replace("\u2013", "-"))
 
 
