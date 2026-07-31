@@ -3031,5 +3031,67 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "FIFA Advances 64-Team World Cup Review on Compressed Timeline Amid Private Equity Backlash",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 2026 men's World Cup, won by Spain earlier this month, was the first 48-team tournament.' This is a critical factual claim that appears nowhere in the brief's data_points. The brief confirms the 48-team format fact but provides no source confirmation that Spain won the 2026 World Cup, no tournament result, and no date verification. This fact is smuggled into the draft outside the research brief.",
+     "The draft claims 'a 64-team expansion had previously been rejected privately by senior FIFA figures' and attributes this to ESPN. The brief's data_point (confidence: 'reported') states only that 'A further expansion of the World Cup to 64 teams had previously been rejected privately by senior FIFA figures.' The characterization in the draft as a prior rejection lends weight to a narrative (that FIFA is reversing a settled decision) that the brief merely flags as reported but not independently verified. The confidence label 'reported' should survive in prose, not be buried."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Cordeiro Resigns as FIFA Adviser, Calling Privatization Plan 'Bad Deal for Football'",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Carlos Cordeiro, a senior adviser to FIFA president Gianni Infantino, resigned with immediate effect in protest of proposals to sell a stake in the World Cup, according to the Guardian.' The brief's sole source is the Guardian URL provided. However, the draft's claim that the resignation was 'in protest' goes beyond what the brief's data_point states: 'resigned with immediate effect in protest at proposals to sell a stake in the World Cup.' The paraphrase is acceptable, but the draft then adds attribution 'according to the Guardian,' which is appropriate.",
+     "The draft states '143 of FIFA's 211 member associations stand opposed to the $20 billion private equity scheme' (confidence: 'reported' in brief). This is presented as fact without a confidence hedge. The open_questions in the brief ask 'Of the 143 FIFA members opposed, how many are affiliated with UEFA, Concacaf, or AFC, and how many are independent member associations?'\u2014signaling uncertainty about the composition and potential inflation of this number. A 'reported' confidence label should appear in the prose.",
+     "The draft claims Cordeiro's resignation 'marks the first reported defection from the FIFA leadership on the privatization question.' This characterization (emphasis on 'first') is not in the brief's data_points. The brief does not confirm or deny whether other senior FIFA figures have resigned or opposed the plan; only Cordeiro is mentioned. This is a framing claim that smuggles interpretive weight beyond the source."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "Four NFL Stars Hold Out Over Contracts as Training Camp Accelerates",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a paragraph on Vita Vea that states: 'Gibbs completed a conditioning test Wednesday during which he experienced a back issue, and it remains unclear whether he will immediately return to full practice once a deal is signed.' This sentence appears in the Gibbs section but refers to Gibbs' back issue from the brief. However, the draft then later states about Vea: 'Coach Todd Bowles attributed Vea's absence to a back tweak sustained during Tuesday's conditioning test.' The brief data_point confirms Bowles' statement. But the draft then says 'Gibbs completed a conditioning test Wednesday during which he experienced a back issue' in the Gibbs paragraph\u2014this is mixing details. Re-reading: the Gibbs paragraph correctly attributes the back issue to Gibbs' Wednesday conditioning test per the brief. The error is not here on re-inspection.",
+     "The draft contains no data_point in the brief to support the claim that 'New Orleans Saints signed Chris Olave to a four-year extension on Thursday afternoon.' This fact appears in the brief's data_points with confidence label 'announced-not-verified' but does NOT appear in the draft at all. Actually, checking the draft again: Chris Olave is not mentioned. This is not an error.",
+     "The draft states about Tuipulotu: 'Thursday, he was dressed in helmet and jersey, went through individual drills, then worked off to the side with a trainer, suggesting possible movement in negotiations.' The brief's data_points say 'Tuipulotu wore a helmet and jersey Thursday and went through individual drills with the team before working off to the side with a trainer.' The draft adds interpretive language 'suggesting possible movement in negotiations' that is not in the brief. This is opinion/analysis smuggled in as fact."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Franco Baresi, AC Milan and Italy defender, dies at 66",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a quote from Gianluigi Buffon ('recalled his debut for Parma competing against Baresi as a 17-year-old in 1995') that appears in the brief's data_points but is completely absent from the draft body. This is not a paraphrase issue\u2014the draft simply does not mention Buffon at all, which is acceptable. However, the draft DOES include substantial material not verified in the brief: the draft attributes specific quotes to Paolo Maldini, Cristian Chivu, and Giorgia Meloni, and names Giovanni Malago as 'head of the Italian football federation (FICG)'\u2014none of which appear in the draft's sourced content or the brief's data_points list. The brief lists these as reported data_points, but the draft's attribution of them is unverifiable against a single BBC Sport URL.",
+     "More critically: the draft states the 1994 World Cup final ended in 'a 0-0 draw, the first World Cup final to be decided by a shootout' and that 'Baresi missed the first penalty in the shootout, with Brazil winning 3-2.' The brief's data_point claims Brazil won '3-2' in the shootout. However, the historical record (which BBC Sport would have reported correctly) shows the 1994 final shootout was 3-2 to Brazil after Baresi's miss was the first Italian miss, not that Baresi's miss was '3-2'\u2014this conflates the final score with the sequence. The draft's phrasing 'Baresi missed the first penalty in the shootout, with Brazil winning 3-2' could mislead readers about the sequence of events and appears to misstate or oversimplify what the brief claims."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Kody Clemens hits walk-off grand slam in ninth as Twins beat Royals 4-3",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Clemens is an 'outfielder,' but the brief does not specify Clemens' position. The brief data_points only confirm he hit a walk-off grand slam and the final score; position is not in the brief and constitutes smuggled information.",
+     "The draft claims this occurred 'during the MLB trade deadline period,' but the brief's angle mentions 'the MLB trade deadline period' as context. The specific date or confirmation that this game occurred during the deadline window is not in any data_point; the timestamp (2026-07-31) is metadata, not a verified fact the writer should assert as 'during the deadline period' without explicit confirmation in the brief."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "UK PM Burnham calls Infantino 'wrong man' to lead FIFA as opposition swells",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'UK Prime Minister Andy Burnham' but the brief does not establish Burnham as the current Prime Minister\u2014it only identifies him as 'UK Prime Minister Andy Burnham' in the core_claim without confirmation of current office. This is a factual claim about political status that should either be verified in the brief or presented with appropriate qualification. The draft presents it as settled fact without attribution nuance.",
+     "The draft references 'Infantino's investment proposal' and 'a proposal that has drawn opposition' but the brief's open_questions explicitly note: 'What specific stakes in competitions Infantino's plan proposes to sell is not detailed in the source text.' The draft frames the proposal as concrete and actionable without acknowledging this unresolved detail, which creates a false impression of clarity on a central claim."
+    ]
+   }
+  ]
  }
 ]
