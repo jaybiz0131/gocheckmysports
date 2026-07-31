@@ -1808,7 +1808,46 @@ def build():
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
-    w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n")
+
+    # GOOGLE NEWS SITEMAP (2026-07-31): a standard sitemap tells crawlers a page exists;
+    # this tells Google News a page is FRESH NEWS worth crawling now, and it is the entry
+    # requirement for News/Discover surfacing. Spec: articles from the last 48 hours only,
+    # nothing static, max 1000 URLs, W3C publication_date. An empty news sitemap is valid
+    # and correct on a quiet day, so this never fabricates freshness.
+    _news_now = _build_now()
+    news_rows = []
+    for it in items:
+        if it.get("example") or it.get("superseded_by"):
+            continue
+        try:
+            when = datetime.datetime.fromisoformat(
+                (it.get("published_utc") or "").replace("Z", "+00:00"))
+        except Exception:
+            continue
+        if (_news_now - when).total_seconds() > 48 * 3600:
+            continue
+        news_rows.append(
+            f"  <url>\n"
+            f"    <loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
+            f"    <news:news>\n"
+            f"      <news:publication>\n"
+            f"        <news:name>{esc(NAME)}</news:name>\n"
+            f"        <news:language>en</news:language>\n"
+            f"      </news:publication>\n"
+            f"      <news:publication_date>{esc(when.strftime('%Y-%m-%dT%H:%M:%SZ'))}"
+            f"</news:publication_date>\n"
+            f"      <news:title>{esc(it.get('title') or '')}</news:title>\n"
+            f"    </news:news>\n"
+            f"  </url>")
+    news_rows = news_rows[:1000]
+    w("news-sitemap.xml",
+      '<?xml version="1.0" encoding="UTF-8"?>\n'
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+      '        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n'
+      + ("\n".join(news_rows) + "\n" if news_rows else "") + "</urlset>\n")
+
+    w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
+                    f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
     w("_redirects", "/*  /404.html  404\n")
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
