@@ -25,6 +25,7 @@ import json
 import os
 import sys
 
+import boundary
 import common
 
 PUBLISHED_DIR = os.path.join(common.OUT_DIR, "published")
@@ -98,6 +99,11 @@ def run(approval_path=None, force_dry=False):
             skipped.append({"id": sid, "why": "REVIEW story approved without a human take (override needs the take)"})
             continue
 
+        why = boundary_block(draft)
+        if why:
+            common.gh("error", f"publish: HOLDING {sid}. {why}")
+            skipped.append({"id": sid, "why": why})
+            continue
         payload = build_payload(draft, take, pub["not_financial_advice"])
         targets_log = {}
         for tname, tcfg in pub.get("targets", {}).items():
@@ -117,6 +123,36 @@ def run(approval_path=None, force_dry=False):
     result = {"published": published, "skipped": skipped}
     common.write_out("publish_report.json", result)
     return result
+
+
+def boundary_block(draft):
+    """Reason to hold a boundary-class story, or "" to let it through. Fail-closed.
+
+    Owner's instruction, 2026-07-31: if the boundary cannot be confirmed from primary
+    sources, do not publish. Silence beats an inverted claim on a security story.
+
+    The gate lives here, at the last fail-closed stage, rather than as a belt further up,
+    because those are different decisions. A belt raises and the model tries again, which is
+    right for an output-shape mistake and wrong here: retrying will not make a vendor
+    advisory fetchable, and a second attempt that succeeds where the first failed is the
+    worst outcome, not the best one. There is nothing to retry. Either the desk has the
+    vendor's own words or it holds the story.
+
+    Reads the DRAFT rather than the brief on purpose. The draft is what publishes, the
+    fields on it were copied there deterministically, and a gate that consults a different
+    artifact than the one it is gating can be right about the wrong object."""
+    art = draft.get("article_draft") or {}
+    if not art.get("boundary_required"):
+        return ""
+    if art.get("boundary_ok") is not True:
+        reasons = art.get("boundary_reasons") or ["the boundary was never checked"]
+        return ("this story turns on a version, date range or threshold, and the "
+                "who-is-affected boundary is not confirmed from a primary source: "
+                + "; ".join(str(r) for r in reasons))
+    if not boundary.is_complete(art.get("boundary")):
+        return ("this story is boundary-class and marked confirmed, but the draft carries "
+                "no complete boundary block to render")
+    return ""
 
 
 def build_payload(draft, human_take, nfa):

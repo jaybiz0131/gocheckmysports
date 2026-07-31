@@ -156,6 +156,7 @@ def layer1_canary():
     e2e_fails = _replay_e2e()
     fails.extend(e2e_fails)
     fails.extend(_dedupe_guard_canary())
+    fails.extend(_boundary_canary())
     fails.extend(_merge_state_canary())
 
     # fail-closed canaries
@@ -172,6 +173,156 @@ def layer1_canary():
     print("LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay "
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
+
+
+def _boundary_canary():
+    """The inverted-advisory failure, pinned as fixtures.
+
+    On 2026-07-30 the desk drafted a hardware-wallet firmware advisory twice and the approver
+    rejected it twice on accuracy, correctly: the second draft implied users on the PATCHED
+    version were the ones at risk. These cases lock the four properties that stop that draft
+    ever existing, plus the one case that must still publish, because a gate that holds every
+    security story is just a slower way to leave readers uninformed."""
+    fails = []
+    import boundary as bnd
+    import publish as pubmod
+    import researcher
+    import writer
+
+    # CHASSIS SYNC, same discipline as dedupe.py: one file, three repositories, one hash.
+    _sha = __import__("hashlib").sha256(open(bnd.__file__, "rb").read()).hexdigest()[:16]
+    _check(_sha == "0cf27e0f447f1031", fails,
+           f"boundary: this desk's boundary.py is {_sha}, the chassis copy is 0cf27e0f447f1031. "
+           f"The module was changed in one repo and not the others; re-sync all three.")
+
+    # (1) CLASSIFICATION. A firmware advisory with a version in it is boundary-class; a
+    # security story with no boundary in it is not, or every story becomes a held story.
+    _check(bnd.is_boundary_story(
+        "Conference bans the bat model, with the rule taking effect from August 1",
+        "The recall notice covers model years 2023 through 2025."), fails,
+        "boundary: a firmware advisory naming a version is not classified boundary-class; "
+        "the fields that stop an inverted range would never be required")
+    # Both negatives fire exactly ONE half of the classifier. That is deliberate: an earlier
+    # pair fired neither, so relaxing the rule from AND to OR left them passing and the
+    # sabotage run went clean. A negative fixture that no plausible break can flip is not a
+    # test, and this is the second time on this desk a canary has passed over nothing.
+    _check(not bnd.is_boundary_story(
+        "Home side wins 4 to 2 before a crowd of more than 60,000",
+        "The result moves them above their rivals in the table."), fails,
+        "boundary: an ordinary market story is classified boundary-class on its numbers "
+        "alone; the gate will hold stories that have no boundary to confirm")
+    _check(not bnd.is_boundary_story(
+        "Equipment maker issues a product recall and names no models yet",
+        "The company said a full notice would follow and gave no further detail."), fails,
+        "boundary: a security story with no version, date or threshold anywhere in it is "
+        "classified boundary-class, so it can never satisfy fields that do not exist for it")
+
+    # (2) VERBATIM, NOT PARAPHRASE. This is the whole point: "4.0.1 and earlier" tidied into
+    # "up to 4.0.1" means the same thing to a reader and means the check has stopped running.
+    advisory = [{"url": "https://blog.coinkite.com/advisory-2026-07",
+                 "source_text": "Affected: Mk4 firmware 4.0.0 and earlier. Fixed in firmware "
+                                "4.0.1. Users should update to 4.0.1 immediately."}]
+    good = {"affected": "Mk4 firmware 4.0.0 and earlier", "fixed": "firmware 4.0.1",
+            "user_action": "update to 4.0.1 immediately",
+            "advisory_url": "https://blog.coinkite.com/advisory-2026-07"}
+    ok, why = bnd.check_against_sources(good, advisory)
+    _check(ok, fails, f"boundary: a block quoted verbatim from the advisory failed the "
+                      f"check ({why}); the gate would hold every advisory story")
+
+    tidied = dict(good, affected="versions up to 4.0.0")
+    ok2, _ = bnd.check_against_sources(tidied, advisory)
+    _check(not ok2, fails,
+           "boundary: a paraphrased affected-versions string passed as verbatim; paraphrase "
+           "is the exact step that inverted the Coldcard draft")
+
+    inverted = dict(good, affected="Mk4 firmware 4.0.1 and later")
+    ok3, _ = bnd.check_against_sources(inverted, advisory)
+    _check(not ok3, fails,
+           "boundary: an INVERTED range passed the advisory check; this is the published "
+           "claim the whole change exists to prevent")
+
+    # (3) SECOND-HAND IS NOT PRIMARY. A field quoted out of a news write-up of the advisory
+    # is where the direction flips, so only text fetched from the advisory URL counts.
+    ok4, why4 = bnd.check_against_sources(
+        good, [{"url": "https://example.test/news-story",
+                "source_text": "Affected: Mk4 firmware 4.0.0 and earlier. Fixed in firmware "
+                               "4.0.1."}])
+    _check(not ok4 and any("primary" in r for r in why4), fails,
+           "boundary: the check accepted a news write-up as the advisory; second-hand "
+           "sourcing is where a version range gets restated and inverted")
+
+    for f in ("affected", "fixed", "user_action", "advisory_url"):
+        ok5, _ = bnd.check_against_sources({k: v for k, v in good.items() if k != f}, advisory)
+        _check(not ok5, fails, f"boundary: a block missing {f!r} passed as complete")
+
+    # (4) THE WRITER GETS NO SAY. writer.py COPIES the block; if it ever starts trusting the
+    # model's rendering of it, a paraphrase is back in the pipeline.
+    art = {"title": "T", "body": "b", "boundary": {"affected": "WHATEVER THE MODEL SAID",
+                                                   "fixed": "x", "user_action": "y",
+                                                   "advisory_url": "z"}}
+    writer._carry_boundary(art, {"brief": {"boundary": good, "boundary_required": True,
+                                           "boundary_ok": True}})
+    _check(art.get("boundary") == good, fails,
+           "boundary: writer._carry_boundary did not overwrite the model's block with the "
+           "brief's; the writer is restating the version range again")
+    _check("_carry_boundary" in inspect.getsource(writer.validate), fails,
+           "boundary: writer.validate no longer calls _carry_boundary, so nothing copies the "
+           "fields and the draft carries whatever the model wrote")
+
+    # (5) THE GATE IS FAIL-CLOSED AND READS THE DRAFT. An unconfirmed boundary holds, with no
+    # retry path: retrying cannot make a vendor advisory fetchable.
+    # Built fresh, NOT from art: _carry_boundary stamped boundary_ok=True onto art above, so
+    # reusing it made the never-checked case inherit that True and pass for the wrong reason.
+    # The absent-key case is the one that matters most here, so it has to be genuinely absent.
+    base = {"title": "T", "body": "b", "boundary": dict(good)}
+    _check(pubmod.boundary_block({"article_draft": dict(base, boundary_required=True,
+                                                        boundary_ok=True)}) == "", fails,
+           "boundary: publish is holding a story whose boundary IS confirmed")
+    for bad in ({"boundary_required": True, "boundary_ok": False},
+                {"boundary_required": True, "boundary_ok": None},
+                {"boundary_required": True}):
+        _check(pubmod.boundary_block({"article_draft": dict(base, **bad)}) != "", fails,
+               f"boundary: publish let a boundary-class story through with {bad}; an "
+               f"unconfirmed who-is-affected claim reached a reader")
+    _check(pubmod.boundary_block({"article_draft": {"boundary_required": True,
+                                                    "boundary_ok": True}}) != "", fails,
+           "boundary: publish let through a story marked confirmed that carries no block to "
+           "render; the panel would be absent and the prose says nothing about it, by design")
+    _check(pubmod.boundary_block({"article_draft": {"title": "ordinary story"}}) == "", fails,
+           "boundary: publish is holding an ordinary story that has no boundary at all")
+    _check("boundary_block(" in inspect.getsource(pubmod.run), fails,
+           "boundary: publish.run no longer calls boundary_block; the gate is unreachable "
+           "and this canary is testing dead code")
+
+    # (6) THE RESEARCHER STAMPS BOTH DIRECTIONS. A missing key and a negative answer look
+    # identical downstream, and only one of them means the check ran.
+    brief = {"id": "c011", "core_claim": "Coinkite patched a firmware flaw in 4.0.1."}
+    researcher._stamp_boundary(brief, {"headline": "Coldcard firmware vulnerability lets an "
+                                                   "attacker extract the seed",
+                                       "source_texts": advisory})
+    _check(brief.get("boundary_required") is True and brief.get("boundary_ok") is False, fails,
+           f"boundary: a boundary-class brief with no block was stamped "
+           f"required={brief.get('boundary_required')!r} ok={brief.get('boundary_ok')!r}; "
+           f"the publish gate reads these and would let it through")
+    plain = {"id": "c020", "core_claim": "Bitcoin traded near flat."}
+    researcher._stamp_boundary(plain, {"headline": "Bitcoin holds steady", "source_texts": []})
+    _check(plain.get("boundary_required") is False, fails,
+           "boundary: an ordinary story was stamped boundary_required; every story would "
+           "need a vendor advisory to publish")
+    _check("_stamp_boundary" in inspect.getsource(researcher.validate), fails,
+           "boundary: researcher.validate no longer calls _stamp_boundary, so no brief is "
+           "ever classified and the gate never fires")
+
+    # (7) RENDERING. Nothing is composed into a sentence, and an incomplete block renders
+    # nothing at all rather than a panel with a blank row where the fix version goes.
+    _check([lab for lab, _ in bnd.rows(good)] == ["Affected", "Fixed in", "What to do",
+                                                  "Advisory"], fails,
+           "boundary: the rendered panel changed shape; a reader scanning for the fix version "
+           "should find it in the same place on every advisory story")
+    _check(bnd.rows({"affected": "x"}) == [], fails,
+           "boundary: an incomplete block still renders; a panel missing the fixed version "
+           "answers the question wrong by omission")
+    return fails
 
 
 def _dedupe_guard_canary():

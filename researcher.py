@@ -28,6 +28,7 @@ USAGE
 import json
 import sys
 
+import boundary
 import common
 import llm as llmlib
 
@@ -109,8 +110,98 @@ def validate(obj, stories):
         # off how much source material actually existed for this story.
         by_id[s["id"]]["source_chars"] = sum(
             len(t.get("source_text", "")) for t in s["source_texts"])
+        _stamp_boundary(by_id[s["id"]], s)
     obj["briefs"] = [by_id[s["id"]] for s in stories]
     return obj
+
+
+def _stamp_boundary(brief, story):
+    """Classify boundary-class stories and check the block against the fetched advisory.
+
+    DETERMINISTIC, and deliberately not a raise. The researcher's discipline is fail-open per
+    story: a brief that cannot carry a confirmed boundary is still a brief, and the desk still
+    has a story it may run without the who-is-affected claim, or hold. What must never happen
+    is the boundary reaching a reader unchecked, so the finding is recorded on the brief and
+    the fail-closed decision is taken later, by the stage that can see the finished draft.
+
+    Both directions are stamped. A story that is NOT boundary-class carries the flag as False
+    rather than as an absent key, because downstream a missing key and a negative answer look
+    identical and only one of them means the check ran."""
+    brief["boundary_required"] = boundary.story_is_boundary_class(story, brief)
+    b = brief.get("boundary")
+    if not brief["boundary_required"]:
+        # A boundary block on a story that is not boundary-class is not an error; the
+        # classifier is deliberately narrow and the researcher may see something it does not.
+        # Confirm it anyway if it is there, and let it stand unconfirmed if not.
+        if not b:
+            brief.pop("boundary", None)
+            brief["boundary_ok"] = None
+            return
+    if not b:
+        brief["boundary_ok"] = False
+        brief["boundary_reasons"] = ["this story turns on a version, date range or threshold "
+                                     "but the brief carries no boundary block"]
+        common.gh("warning", f"researcher: {brief['id']} is boundary-class with no boundary "
+                             f"block; the who-is-affected claim cannot be published")
+        return
+    ok, reasons = boundary.check_against_sources(b, story.get("source_texts") or [])
+    brief["boundary_ok"] = ok
+    brief["boundary_reasons"] = reasons
+    if not ok:
+        common.gh("warning", f"researcher: {brief['id']} boundary unconfirmed: "
+                             f"{'; '.join(reasons)}")
+
+
+def run(client=None):
+    cfg = common.load_config()
+    editor = common.read_out("editor.json")
+    verifier = common.read_out("verifier.json")
+    stories = select(editor, verifier)
+    client = client or llmlib.Client(cfg)
+
+    if not stories:
+        obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
+               "briefed": 0, "note": "no VERIFIED or REVIEW stories to brief",
+               "budget": client.budget.summary()}}
+        common.write_out("briefs.json", obj)
+        print("researcher: 0 briefable stories -> out/briefs.json")
+        return obj
+
+    system = common.load_prompt("researcher.md")
+    # Exhaustive briefs are LONG, and the judgment model's thinking bills against the same
+    # output ceiling: an all-stories single call truncates mid-JSON at 6+ stories (it did,
+    # in CI, 2026-07-14). Batch 2 stories per call; replay stays a single call (one fixture).
+    chunk_size = len(stories) if client.mode == "replay" else 2
+    briefs = []
+    for i in range(0, len(stories), chunk_size):
+        chunk = stories[i:i + chunk_size]
+        user = ("Build a research brief for each story from its fetched source texts.\n\n"
+                "Stories:\n" + json.dumps(chunk, indent=1))
+        part = client.call_json("researcher", system, user,
+                                validate=lambda o: validate(o, chunk))
+        briefs.extend(part["briefs"])
+    obj = {"briefs": briefs}
+
+    thin = sum(1 for b in obj["briefs"] if b.get("thin"))
+    obj["_meta"] = {"stage": "3.5-researcher", "mode": client.mode,
+                    "briefed": len(obj["briefs"]), "thin": thin,
+                    "budget": client.budget.summary()}
+    path = common.write_out("briefs.json", obj)
+    print(f"researcher: briefed {len(obj['briefs'])} stories ({thin} thin) -> {path} "
+          f"[mode={client.mode}]")
+    return obj
+
+
+def main():
+    try:
+        run()
+    except llmlib.LLMError as e:
+        common.gh("error", f"researcher: {e}")
+        sys.exit(2)
+
+
+if __name__ == "__main__":
+    main()
 
 
 def run(client=None):

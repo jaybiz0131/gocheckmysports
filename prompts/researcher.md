@@ -42,6 +42,27 @@ FOR EACH STORY, BUILD THE BRIEF:
 5. open_questions: what the sources leave unanswered or unconfirmed - so the writer can
    say so plainly instead of papering over it.
 
+6. boundary: REQUIRED whenever a version, a date range, or a threshold determines WHO IS
+   AFFECTED. Eligibility rulings and league rule changes are the loudest case; a transfer
+   or waiver window with stated dates, a roster or salary-cap threshold, a suspension
+   running a stated number of games, and a rule applying from a given season all have the
+   same shape.
+   Omit the key entirely for every other story.
+
+   Every value is QUOTED VERBATIM from the league's or governing body's OWN ruling. Do not
+   normalize, tidy, or restate a range. If the ruling says "the first six games of the 2026
+   season", the field says "the first six games of the 2026 season" - not "six games", not
+   "the start of next season". The exact characters are checked against the fetched ruling
+   downstream, and a tidied string fails that check even when it means the same thing.
+   - affected: who or what is covered, in the ruling's words.
+   - fixed: the date, season or threshold that is NOT covered, in the ruling's words.
+   - user_action: what the ruling says the affected party must do. The issuer's wording.
+   - advisory_url: the issuer's OWN page. Never a news write-up of it. This URL must be one
+     of the story's source_urls, because only text the desk actually fetched can be checked.
+   If the source texts do not carry a first-party ruling, do NOT reconstruct the boundary
+   from news coverage. Omit the boundary object and say so in open_questions. A missing
+   boundary holds the story; a wrong one publishes an inverted ruling.
+
 SOURCE QUALITY RULES (non-negotiable):
 - Only facts present in the provided source_texts and snippet enter the brief. You add
   NOTHING from your own knowledge: no career statistics, no historical context, no
@@ -77,6 +98,10 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
       ],
       "bear_case": ["<sourced risk/denial/criticism>", "..."],
       "open_questions": ["<what the sources leave unanswered>", "..."],
+      "boundary": {"affected": "<verbatim from the advisory>",
+                   "fixed": "<verbatim from the advisory>",
+                   "user_action": "<verbatim from the advisory>",
+                   "advisory_url": "<the vendor's or agency's own page>"},
       "thin": <true|false>
     }
   ]
