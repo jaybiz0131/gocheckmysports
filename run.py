@@ -39,6 +39,7 @@ def run(mode="live", fixture=None):
     def record(name, ok, detail=""):
         report["stages"].append({"stage": name, "ok": ok, "detail": detail})
 
+    attempted = "1-aggregate"
     try:
         rc = aggregate.run(fixture=fixture, out_path=os.path.join(common.OUT_DIR, "items.json"))
         if rc != 0:
@@ -46,13 +47,19 @@ def run(mode="live", fixture=None):
             raise RuntimeError("aggregation failed (zero sources or empty intake)")
         record("1-aggregate", True)
 
+        attempted = "2-editor"
         editor.run(client=client);     record("2-editor", True)
+        attempted = "3-verifier"
         verifier.run(client=client);   record("3-verifier", True)
+        attempted = "3.5-researcher"
         researcher.run(client=client); record("3.5-researcher", True)
+        attempted = "4-writer"
         writer.run(client=client);     record("4-writer", True)
+        attempted = "4.5-approver"
         approver.run(client=client);   record("4.5-approver", True)
 
         date = common.read_out("items.json")["_meta"]["generated"][:10]
+        attempted = "5-digest"
         digest.run(date=date);         record("5-digest", True)
 
         report["status"] = "ready-for-human-review"
@@ -70,8 +77,7 @@ def run(mode="live", fixture=None):
             common.write_out("run_report.json", report)
         except Exception:
             pass
-        common.gh("error", f"run: pipeline FAILED at "
-                  f"{report['stages'][-1]['stage'] if report['stages'] else 'start'}: {e} "
+        common.gh("error", f"run: pipeline FAILED at {attempted}: {e} "
                   f"-> FAIL-CLOSED, nothing published.")
         traceback.print_exc()
         return 1
