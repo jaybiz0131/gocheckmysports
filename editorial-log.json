@@ -3319,5 +3319,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-01",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c039",
+    "headline": "UEFA, Concacaf call for review as pressure mounts on Infantino",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'UEFA stated that Infantino \"has not only lost UEFA's confidence but also that of many other members of the football family.\"' The brief's data_point 2 shows the actual quote is 'The current Fifa leadership has not only lost Uefa's confidence...' \u2014 the draft omits 'current' and misattributes the quote to Infantino's actions rather than current FIFA leadership, changing the meaning.",
+     "The draft claims AFC issued a statement criticizing Infantino, but the brief explicitly notes in its bear_case: 'The source text does not carry AFC's statement or involvement in the criticism, despite the headline claiming AFC unity\u2014only UEFA and Concacaf statements are directly quoted.' The draft's opening paragraph states 'UEFA and Concacaf released coordinated public statements' but the body never mentions AFC\u2014however, the title says 'UEFA, Concacaf call for review' which does not claim AFC joined. Re-reading: the draft does NOT claim AFC issued a statement; it correctly reports only UEFA and Concacaf. This is not an accuracy error.",
+     "The draft's final paragraph states 'The brief does not carry a statement from AFC, the Asian confederation, despite reports of coordinated criticism from all three continental bodies.' This is a meta-commentary about the brief itself, not a claim about the story. This violates the hard rule: facts belong in the research brief, not observations about the brief. The draft should not explain what is missing from sources\u2014it should only report what exists. REJECT on accuracy: the draft includes commentary about source gaps rather than restricting itself to facts in the brief."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Chiefs rookies Allen, Worthy sidelined with injuries in week 2 camp",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'Allen made a leaping, outstretched one-handed catch on an intermediate pass from Patrick Mahomes' but the brief's data_point 10 says the pass was 'a perfect intermediate pass from Patrick Mahomes.' The draft paraphrases 'perfect' as merely 'an intermediate pass,' softening the characterization. While paraphrase is acceptable, the word 'perfect' carries material meaning (it indicates exceptional accuracy) and omitting it understates what the source reports.",
+     "The draft states Worthy 'landed on his right shoulder near the end zone' following a catch where he 'fell to the turf.' The brief's data_point 5 states he 'fell to the turf, landing on his right shoulder near the end zone' after making the catch. The sequence is accurate, but the draft then says 'This injury represents a recurrence for Worthy, who sustained a right shoulder injury on the third snap of last season when he collided with tight end Travis Kelce on a crossing route during the loss to the Los Angeles Chargers.' The brief confirms this prior injury required surgery (data_point 6). However, the draft does NOT state it was a recurrence\u2014it explicitly says 'This injury represents a recurrence.' This is an inference the brief supports (shoulder injury + prior shoulder injury in same area + surgery = recurrence likely), but the brief does not use the word 'recurrence' and the draft presents this as fact rather than as pattern inference. Since the brief does not formally state this is a recurrence (only that the prior injury was at the same location), the draft is adding interpretive language not in the brief. REJECT on accuracy: the characterization of 'recurrence' is not explicitly confirmed in the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "49ers place Pearsall on season-ending injured reserve after PCL surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Pearsall is dealing with a posterior cruciate ligament injury in his right knee' and places him on season-ending injured reserve 'Saturday' \u2014 but then asserts the injury 'dates to Week 4 of the 2025 season, when Pearsall hurt the knee on Sept. 28 against Jacksonville.' This creates a timeline contradiction: if the injury occurred in Week 4 of the 2025 season (September 28), Pearsall would have played through most of the 2025 season before this Saturday's placement on IR in 2026 training camp. The brief confirms the PCL 'dates to Week 4 of last season' but the draft narrative makes it sound like an acute injury causing immediate IR placement, when it is actually a chronic/recurring injury from 2025 that worsened in 2026 training camp. The opening paragraph's phrasing ('determining he requires surgery for a posterior cruciate ligament injury') obscures that this is a recurring/chronic issue, not a new injury.",
+     "The draft states Pearsall 'would have been his third season before it began' but the brief data point says 'after just three training camp practices, Pearsall's third season is over.' The draft's phrasing is ambiguous and potentially contradicts itself \u2014 if he is in his third season, he completed two prior seasons, which aligns with being drafted in 2024. However, the statement that the injury 'ends what would have been his third season before it began' conflicts with language later in the draft describing his play in the 2025 season (Week 4 through playoffs). This is chronologically incoherent without explicit clarification that 2026 is his third season.",
+     "The draft cites Lynch's quote about not pursuing surgery in the offseason ('the consensus was that that wasn't the step to take') but attributes this decision to post-season reevaluation, when the brief's bear_case notes the conservative approach 'initially had merit but ultimately failed.' The draft presents Lynch's rationale without sufficient weight to the fact that the 49ers' own prior judgment call (no surgery in offseason) was wrong, which is the core tension of the story."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Brewers acquire catcher Naylor from Guardians in four-player deadline trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'The Cleveland Guardians traded relief pitcher Craig Yoho and outfielder Blake Perkins to the Milwaukee Brewers on Saturday in exchange for catcher Bo Naylor and pitcher Codi Heuer.' However, the brief data_points show: 'Craig Yoho, 26, was traded BY the Brewers TO the Guardians' and 'Blake Perkins, 29, was traded BY the Brewers TO the Guardians,' while 'Bo Naylor, 26, was traded BY the Guardians TO the Brewers' and 'Codi Heuer, 30, was traded BY the Guardians TO the Brewers.' The draft reverses the direction of the Yoho and Perkins trades. Yoho and Perkins were acquired by the Guardians (from Milwaukee), not traded away by Cleveland to Milwaukee.",
+     "The draft's second paragraph begins 'Yoho, 26, split the 2026 season between Milwaukee and Triple-A Nashville after beginning the year on the injured list' \u2014 but if Yoho was just traded FROM Milwaukee TO Cleveland, the phrasing 'with the Brewers, he posted a 2-0 record' implies his stats are being cited as a Brewer, which is correct per the brief, but the context of him having 'split the 2026 season between Milwaukee and Triple-A Nashville' is no longer accurate after the trade to Cleveland. The draft does not clarify the timeline: these are his 2026 stats as a member of Milwaukee before the trade."
+    ]
+   }
+  ]
  }
 ]
