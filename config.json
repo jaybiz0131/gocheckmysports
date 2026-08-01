@@ -284,9 +284,9 @@
   "top_n": 8,
   "TOP_N_NOTE": "TOP_N RULING 2026-07-31: cut from 12 to 8 per slot. The desks were publishing ~184 articles a week between them while all article pages combined drew ~16 weekly views, so slots 9 to 12 were reaching nobody. Cutting the tail reduces per-run spend (fewer researcher, writer, and verifier calls), raises the average significance of what reaches the front page, and lowers exposure to search-engine scaled-content policies, which target high-volume automated publishing. Revisit when distribution catches up to the inventory; this is a quality-over-volume decision, not a cost-only one.",
   "budget": {
-    "max_tokens_per_run": 220000,
+    "max_tokens_per_run": 400000,
     "max_usd_per_run": 1.5,
-    "note": "Hard fail-closed cap restored to the Haiku economy sizing (cost lockdown 2026-07-21, crypto parity); a typical full run lands ~$0.15-0.30. The top_n 12 volume setting adds only cents at Haiku prices."
+    "note": "Fail-closed cap. The token and USD caps must express the SAME limit and they did not: 220k tokens fires at roughly $0.32-0.41 on Haiku while the USD cap allows $1.50, so the token cap was binding at about a quarter of the approved spend and a normal run already sat at 50-100% of it. A News run on 2026-07-31 drafted 8 of 8 stories and then died in the approver at 227,860 tokens, spending everything and publishing nothing. 400k keeps a full run near $0.60, still well under the USD cap, which is now the limit that actually binds. Cutting top_n from 12 to 8 was tried first and did not fix it."
   },
   "models": {
     "editor": {

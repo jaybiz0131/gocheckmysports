@@ -146,72 +146,6 @@ def run(client=None):
         print("writer: 0 draftable stories (nothing survived verification) -> out/drafts.json")
         return obj
 
-    # The desk's own boards, for cross-desk citations ("the desk's Whale Watch board
-    # showed..."). Reuses the Chart Master's digest; fail-open, because the news pipeline
-    # must never depend on market data being reachable.
-    boards = None
-    try:
-        import chartmaster
-        boards = chartmaster.digest()
-    except Exception as e:
-        common.gh("warning", f"writer: desk boards unavailable ({e}); drafting without them")
-
-    system = common.load_prompt("writer.md")
-    boards_blurb = (f"desk_boards (the desk's OWN published market data, for cross-desk "
-                    f"citations per the rules):\n{json.dumps(boards, indent=1)}\n\n"
-                    if boards else "")
-    # Full-length stories run 350-650 words each: batching 3 stories per call keeps every
-    # response comfortably inside max_tokens (a single 8-story call would truncate mid-JSON
-    # and fail the stage). Replay mode stays a single call (one fixture response).
-    chunk_size = len(stories) if client.mode == "replay" else 3
-    drafts = []
-    for i in range(0, len(stories), chunk_size):
-        chunk = stories[i:i + chunk_size]
-        user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
-                "left empty.\n\n" + boards_blurb
-                + "Stories:\n" + json.dumps(chunk, indent=2))
-        part = client.call_json("writer", system, user,
-                                validate=lambda o: validate(o, chunk))
-        drafts.extend(part["drafts"])
-    obj = {"drafts": drafts}
-
-    obj["_meta"] = {"stage": "4-writer", "mode": client.mode,
-                    "draftable": len(stories), "drafted": len(obj["drafts"]),
-                    "budget": client.budget.summary()}
-    path = common.write_out("drafts.json", obj)
-    print(f"writer: drafted {len(obj['drafts'])}/{len(stories)} -> {path} [mode={client.mode}]")
-    return obj
-
-
-def main():
-    try:
-        run()
-    except llmlib.LLMError as e:
-        common.gh("error", f"writer: {e}")
-        sys.exit(2)
-
-
-if __name__ == "__main__":
-    main()
-
-
-def run(client=None):
-    cfg = common.load_config()
-    editor = common.read_out("editor.json")
-    verifier = common.read_out("verifier.json")
-    stories = select(editor, verifier)
-    client = client or llmlib.Client(cfg)
-
-    if not stories:
-        # Nothing survived verification. That is a valid, fail-closed outcome: write an empty
-        # draft set (the digest will show an empty queue) without spending an API call.
-        obj = {"drafts": [], "_meta": {"stage": "4-writer", "mode": client.mode,
-               "draftable": 0, "note": "no VERIFIED or REVIEW stories to draft",
-               "budget": client.budget.summary()}}
-        common.write_out("drafts.json", obj)
-        print("writer: 0 draftable stories (nothing survived verification) -> out/drafts.json")
-        return obj
-
     system = common.load_prompt("writer.md")
     # Full-length stories run 350-650 words each: batching 3 stories per call keeps every
     # response comfortably inside max_tokens (a single 8-story call would truncate mid-JSON
@@ -219,6 +153,16 @@ def run(client=None):
     chunk_size = len(stories) if client.mode == "replay" else 3
     drafts = []
     for i in range(0, len(stories), chunk_size):
+        # STOP DRAFTING BEFORE THE APPROVER IS STARVED. The approver is the fail-closed gate
+        # and the last llm stage, so a run that drafts every story and then cannot afford to
+        # judge them publishes nothing at all: that is what happened on 2026-07-31, 8 of 8
+        # drafted and the whole run discarded. Fewer stories approved beats none.
+        if client.mode != "replay" and client.budget.would_starve_approver():
+            common.gh("warning",
+                      f"writer: stopping after {len(drafts)} draft(s) of {len(stories)}; "
+                      f"continuing would leave the approver unable to run and the whole run "
+                      f"would publish nothing. Remaining stories roll to the next slot.")
+            break
         chunk = stories[i:i + chunk_size]
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
                 "left empty.\n\n"

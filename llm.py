@@ -96,6 +96,23 @@ class Budget:
             raise BudgetError(f"USD cap exceeded: ${self.usd:.2f} > ${self.max_usd:.2f} "
                               f"after {self.calls} call(s) -> failing closed")
 
+    # What the approver needs to judge a full slate. It is the LAST llm stage and it is the
+    # fail-closed gate, so a run that spends its whole budget drafting and then cannot afford
+    # to approve has done all the work and published nothing. Measured from the run that did
+    # exactly that: aggregate through writer left the approver with nothing to spend.
+    APPROVER_RESERVE = 45000
+
+    def remaining(self, reserve=0):
+        return max(0, self.max_tokens - reserve - self.tokens)
+
+    def would_starve_approver(self):
+        """True when continuing to draft would leave the approver unable to run.
+
+        Checked BEFORE the writer rather than discovered inside the approver, because the
+        useful response is to draft fewer stories, and by the time the approver raises there
+        is nothing left to decide."""
+        return self.remaining(self.APPROVER_RESERVE) <= 0
+
     def summary(self):
         return {"calls": self.calls, "tokens": self.tokens, "usd": round(self.usd, 4),
                 "max_tokens": self.max_tokens, "max_usd": self.max_usd}

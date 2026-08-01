@@ -117,11 +117,47 @@ def _undefined_name_canary():
     return fails
 
 
+
+def _one_definition_canary():
+    """No pipeline module may define the same top-level name twice.
+
+    Python takes the last definition and says nothing, so a duplicated function is invisible
+    at import, at runtime, and to the undefined-name gate above, which only asks whether a
+    name is bound at all. A scripted port on 2026-07-31 copied "everything from this function
+    to end of file" out of one desk and pasted it into two others, carrying that desk's run()
+    and main() along with it. Both desks then held two run() definitions, one referencing a
+    module that does not exist on them, and every canary stayed green because the surviving
+    definition happened to be the right one. It was luck, not design."""
+    import ast
+    fails = []
+    mods = ["aggregate", "autopilot", "editor", "verifier", "researcher", "writer",
+            "approver", "publish", "digest", "run", "site_build", "dedupe", "common", "llm"]
+    for m in mods:
+        path = os.path.join(HERE, f"{m}.py")
+        if not os.path.exists(path):
+            continue
+        try:
+            tree = ast.parse(open(path, encoding="utf-8").read(), path)
+        except SyntaxError:
+            continue  # the undefined-name canary already reports this
+        seen, dupes = {}, []
+        for node in tree.body:  # top level only; a nested helper may legitimately repeat
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                if node.name in seen:
+                    dupes.append(f"{node.name} (lines {seen[node.name]} and {node.lineno})")
+                seen[node.name] = node.lineno
+        _check(not dupes, fails,
+               f"one-definition: {m}.py defines {'; '.join(dupes)} more than once at top "
+               f"level. Python silently keeps the last, so half this file is dead code and "
+               f"which half runs is an accident of ordering.")
+    return fails
+
 def layer1_canary():
     fails = []
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
+    fails.extend(_one_definition_canary())
     cfg = common.load_config()
 
     # config + models
