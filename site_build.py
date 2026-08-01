@@ -622,6 +622,12 @@ def render_article(item, all_items=None):
             note = (f'<p class="single-source"><b>Single-source report.</b> As published, '
                     f'only {esc(source_label(srcs[0]))} had reported this development. '
                     f'No independent outlet had corroborated it.</p>')
+        also = item.get("also_reported_by") or []
+        if also:
+            names = ", ".join(esc(a.get("outlet", "")) for a in also[:4] if a.get("outlet"))
+            note += (f'<p class="also-reported"><b>Also reported by</b> {names}. '
+                     f'Independent coverage of the same development, found by search; '
+                     f'not this story\'s sources.</p>')
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol>{note}</div>'
     rel_html = ""
     for rel in related_stories(item, all_items or []):
@@ -1716,6 +1722,18 @@ def ingest():
         old_slug = find_superseded(title, updates_map.get(rec.get("id")), CONTENT)
         if old_slug and old_slug != slug:
             item["update_of"] = old_slug
+        # WHO ELSE REPORTED THIS (owner directive 2026-08-01). Recorded as coverage that
+        # exists, never as this story's sources: Google News links are redirects, so they
+        # never enter the sources list. Fail-soft and bounded to the handful of stories
+        # that actually publish.
+        try:
+            import corroborate
+            also = corroborate.also_reported_by(
+                title, (srcs[0].get("title") if srcs else "") or "")
+            if also:
+                item["also_reported_by"] = [{"outlet": o, "headline": h} for o, h in also]
+        except Exception as e:
+            print(f"::warning::corroboration lookup failed for {rec.get('id')}: {e}")
         hold, warn = story_shape_problems(item)
         if hold:
             print(f"::warning::ingest: story {rec.get('id')} HELD, not published: "
