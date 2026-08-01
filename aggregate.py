@@ -375,19 +375,63 @@ def headline_entities(headline):
     return ents
 
 
+def body_entities(snippet):
+    """Distinctive entities read from SENTENCE-CASED prose (the feed's summary), where a
+    capitalised word is a genuine proper noun.
+
+    This is the signal headlines cannot give. Headlines are Title Case, so harvesting
+    capitalised tokens from them marks every word distinctive ("US Completes Retaliatory
+    Strikes on Iran" yields completes, retaliatory, strikes) and two unrelated stories
+    look like the same event. Snippets are prose: 90% of intake items carry one over 80
+    characters, and in them Iran, Kuwait and 330,000 are actually the entities."""
+    text = (snippet or "").strip()
+    if len(text) < 40:
+        return set()
+    ents = set()
+    for m in re.findall(r"\b\d[\d,.]*\b", text):
+        n = m.rstrip(".,").replace(",", "")
+        if len(n) >= 2:
+            ents.add(n)
+    words = re.findall(r"[A-Za-z][A-Za-z'\-]+", text)
+    for i, w in enumerate(words):
+        if i == 0 or len(w) < 3:
+            continue          # sentence-initial word is capitalised by grammar, not by name
+        if w[0].isupper() and w.lower() not in STOPWORDS:
+            ents.add(w.lower())
+    return ents
+
+
 def same_event(a, b, cfg):
     """Cross-outlet same-event test, deliberately conservative: false merges attribute
     claims to outlets that never made them, which is worse than the single-sourcing this
     fixes. ALL of: enough shared distinctive entities, published close together in time,
     and a token-overlap floor so two stories that merely share a country name never
-    merge."""
+    merge. Entities come from the headline AND the sentence-cased snippet, because
+    outlets reword headlines freely but restate the same names and numbers in the prose
+    (measured 2026-08-01: 20 of 20 sampled single-source stories had other outlets on the
+    same development that headline matching could not see)."""
     d = cfg["dedupe"]
     min_ents = d.get("min_shared_entities", 2)
     floor = d.get("cross_outlet_jaccard_floor", 0.25)
     hours = d.get("cross_outlet_window_hours", 24)
-    shared = a["_entities"] & b["_entities"]
+    a_all = a["_entities"] | a["_body_entities"]
+    b_all = b["_entities"] | b["_body_entities"]
+    shared = a_all & b_all
     if len(shared) < min_ents:
         return False
+    # STRONG BODY EVIDENCE STANDS ALONE. The headline token floor below is what kept the
+    # body signal from paying: outlets reword headlines so completely that "US economy
+    # slowed to 1.5% growth in Q2" and "GDP growth slows in second quarter" share almost
+    # no tokens, which is precisely the pair body matching exists to catch. When the prose
+    # agrees on several distinctive specifics INCLUDING a shared number, that is stronger
+    # evidence than headline wording ever was, so it does not have to clear a headline
+    # test. A shared number is required because names alone repeat across a running story
+    # while figures pin the specific development.
+    strong = d.get("body_strong_entities", 3)
+    if len(shared) >= strong and any(t[0].isdigit() for t in shared):
+        ta, tb = a.get("_ts"), b.get("_ts")
+        if ta and tb and abs((ta - tb).total_seconds()) <= hours * 3600:
+            return True
     ta, tb = a.get("_ts"), b.get("_ts")
     if ta is None or tb is None:
         return False
@@ -409,6 +453,7 @@ def dedupe(items, cfg):
     for it in items:
         it["_tokens"] = norm_tokens(it["headline"])
         it["_entities"] = headline_entities(it["headline"])
+        it["_body_entities"] = body_entities(it.get("snippet"))
     clusters = []  # each: {"members": [...], "urls": set()}
     for it in items:
         placed = False

@@ -644,10 +644,11 @@
   "dedupe": {
     "jaccard_threshold": 0.6,
     "min_significant_tokens": 3,
-    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration. CROSS-OUTLET SIGNAL (2026-07-31, news parity): headline-token Jaccard almost never fires across outlets wording the same event differently. A second conservative signal merges on shared distinctive entities (capitalized words and numbers) within a time window and above a token floor. Measured on news intake: corroboration 4% -> 8% with zero false merges; looser settings were REJECTED because they merged opinion columns with news as if they corroborated each other.",
+    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration. CROSS-OUTLET SIGNAL (2026-07-31, news parity): headline-token Jaccard almost never fires across outlets wording the same event differently. A second conservative signal merges on shared distinctive entities (capitalized words and numbers) within a time window and above a token floor. Measured on news intake: corroboration 4% -> 8% with zero false merges; looser settings were REJECTED because they merged opinion columns with news as if they corroborated each other. BODY-TEXT MATCHING (2026-08-01): headlines are reworded freely across outlets, so headline signals alone found only 4% corroboration while a 20-of-20 hand sample showed every single-source story HAD other outlets on it. Entities are now also read from the feed's sentence-cased snippet (90% of items carry one), where a capitalised word is a real proper noun rather than Title Case. When the prose shares body_strong_entities distinctive specifics INCLUDING a number, that stands alone without the headline-overlap floor, which was gating out exactly the pairs body matching exists to catch.",
     "min_shared_entities": 2,
     "cross_outlet_jaccard_floor": 0.25,
-    "cross_outlet_window_hours": 24
+    "cross_outlet_window_hours": 24,
+    "body_strong_entities": 3
   },
   "publish": {
     "require_human_approval": true,
