@@ -3451,5 +3451,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c148",
+    "headline": "Dodgers acquire two-time Cy Young winner Skubal from Tigers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Skubal is a 'two-time Cy Young Award winner,' but this fact does not appear in the research brief's data_points. The brief explicitly notes the source text is incomplete (contains only CSS font declarations) and substantive details cannot be extracted. The writer has introduced a biographical claim about Skubal's award history that is not verified in the provided source material.",
+     "The draft states the trade was 'completed on August 2, one day before the Monday 6pm ET deadline' but the brief contains no data_point confirming Monday is the deadline date or that August 2 was one day before it. This temporal framing is not sourced to the brief."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "FIFA council members move to force emergency meeting, signaling potential challenge to Infantino",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Council members are demanding a review of the Balogun decision, though the specific nature of that decision and its full context cannot be detailed from available reporting.' This framing acknowledges the source is incomplete, but the writer has still presented the Balogun decision as a known fact that council members are reacting to. The brief flags that the source text is incomplete (HTML and CSS markup only) and that 'key details about the rebellion, the Balogun decision, specific council member complaints' cannot be confirmed from the fetched source. A fact presented as context for the EGM push, even with a hedge about detail, when the source itself is unverified and incomplete, crosses the line from summarizing uncertainty into introducing unconfirmed information.",
+     "The draft references 'the failure of a private equity plan' as established fact, but the brief's open_questions explicitly ask 'What is the private equity plan that failed, and how does it connect to the EGM push?' indicating this plan and its failure are not confirmed in the fetched source material. The writer has stated it as given rather than as something reported but unverified."
+    ]
+   },
+   {
+    "id": "c073",
+    "headline": "Sparks trade All-Star guard Plum to Mercury for picks and prospect",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line references 'groin injury' but the draft and brief consistently report a 'lower left leg injury' from June 21. This is a factual contradiction that introduces a new injury claim not in the brief."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Three-time Pro Bowl guard Andrus Peat retires after 11 NFL seasons",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line states 'Peat exits professional baseball' but the entire draft and brief are about NFL football, not baseball. This is a factual error that contradicts the core substance of the story.",
+     "The brief's angle explicitly mentions 'two Super Bowl championships' as part of Peat's career accomplishment, but this claim does not appear anywhere in the draft body and is not traced to the source. Either the draft must include this reported detail or it constitutes missing information from the brief."
+    ]
+   }
+  ]
  }
 ]
