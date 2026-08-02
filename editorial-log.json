@@ -3492,5 +3492,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c152",
+    "headline": "Dodgers acquire Skubal from Tigers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Los Angeles Dodgers have acquired pitcher Tarik Skubal from the Detroit Tigers, according to MLB.com' as fact, but the brief marks this claim as 'announced-not-verified'. A confidence label of 'announced-not-verified' must be reflected in the prose to signal the unconfirmed status. The draft presents an unverified announcement as settled fact without qualification."
+    ]
+   },
+   {
+    "id": "c076",
+    "headline": "Sparks trade All-Star guard Plum to Mercury on WNBA deadline day",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Los Angeles Sparks have traded All-Star guard Kelsey Plum to the Phoenix Mercury, according to Sporting News' but the brief notes that 'The provided source text is a navigation menu only and does not contain the actual article content.' This indicates the source material does not actually support the claim being made. The writer cannot verify facts from a source that contains only navigation menu text, not article content."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Four NFL stars hold out or hold in as training camp contract disputes persist",
+    "category": "balance",
+    "reasons": [
+     "The draft substantially understates the bear_case provided in the brief. The brief documents three significant complications: (1) Vita Vea's hold-in is 'being complicated by a back injury sustained during conditioning tests, which has sidelined him from practice for medical reasons unrelated to contract leverage'; (2) Jahmyr Gibbs 'has a documented back issue from conditioning tests that may delay his return to practice even after a deal is reached'; (3) Jim Harbaugh 'declined to confirm that Tuipulotu's absence is contract-related, suggesting the hold-in may be health or conditioning-based.' The draft mentions the back injuries in passing but frames them as secondary details within the player narratives rather than as a competing explanation for the hold-ins. The bottom_line states 'back injuries affecting Gibbs and Vea complicate the picture of pure leverage,' but this formulation minimizes the bear_case by treating injury as a complication rather than presenting it as a substantive alternative narrative. A reader could finish this draft believing the primary story is contract leverage with injury as a footnote, when the brief positions injury as a material counter-force that muddies the leverage narrative. The draft should explicitly surface the possibility that these absences may not primarily be leverage plays."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Dodgers acquire Cy Young winner Skubal from Tigers at trade deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tarik Skubal, a two-time reigning AL Cy Young Award winner' but the brief data_point says he is 'a two-time reigning AL Cy Young Award winner' with confidence 'reported'. However, the brief's open_questions and thin=true flag indicate the source text is truncated (source_chars: 156). The writer has no independent verification that Skubal is actually a two-time Cy Young winner\u2014this fact must come from the source, and the source material is incomplete. The draft presents as settled fact what the brief shows as unverified from a truncated source.",
+     "The draft asserts 'The Los Angeles Dodgers acquired pitcher Tarik Skubal... from the Detroit Tigers at the trade deadline' but the brief's thin flag and source truncation mean the source material itself may not fully support all the details presented. The draft should either note source limitations or refrain from stating unconfirmed elements as fact."
+    ]
+   }
+  ]
  }
 ]
