@@ -3634,5 +3634,65 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c129",
+    "headline": "Skubal traded to Dodgers, scheduled to debut Tuesday vs. Cubs",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states: 'The source_texts from both MLB.com and Yahoo Sports consist almost entirely of font declarations, CSS variables, and navigation boilerplate with no readable article content.' The core claim (Skubal traded to Dodgers, debut Tuesday vs. Cubs) and all factual details in the draft cannot be traced to actual source material\u2014they exist only as stated claims in the brief's open_questions, not as verified data_points. The draft presents unverified claims as settled fact.",
+     "The brief contains zero data_points and marks the brief as 'thin: true', indicating source material is degraded and unreadable. The draft should not have been written from this brief; every fact in it lacks evidentiary foundation."
+    ]
+   },
+   {
+    "id": "c147",
+    "headline": "Yankees acquire Garcia from Nationals; offensive surge meets roster complexity",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Jazz Chisholm Jr. 'started 78 games during the 2024 and 2025 seasons combined' at second base, but the corresponding brief data_point says he 'started 78 games at third base for the Yankees during the 2024 and 2025 seasons.' The draft changed the position from third base to second base, contradicting the sourced claim.",
+     "The draft presents the Paul Goldschmidt detail ('Ben Rice, an MVP candidate, and Paul Goldschmidt are splitting time between first base and designated hitter') as fact, but the brief's data_point qualifies this as uncertain: 'Ben Rice, an MVP candidate, is the only active player on the Yankees' roster with better outputs than Garcia in the key categories cited.' The Goldschmidt detail appears in the bear_case context of roster complications but is not confirmed as a data_point. The draft smuggles an unconfirmed roster fact into the narrative as settled reporting."
+    ]
+   },
+   {
+    "id": "c151",
+    "headline": "Blue Jays acquire Taillon from Cubs at deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states: 'The fetched source text contains only CSS styling and font-face declarations with no actual content about the Taillon trade; the material facts (trade partners, date, prospect return, contract details, context) are not present in the provided source text.' The brief is marked 'thin: true' with zero data_points. The core claim (Taillon traded to Blue Jays) cannot be verified from the source material; it exists only as an unconfirmed headline in the brief. The draft should not have been written from a brief with no readable source material."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "Rays acquire RHP Peralta from Mets in four-player trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the identities of the three prospects returned to the Mets are not detailed in the available sources,' but the brief itself confirms this is an open_question and the source text contains 'only CSS styling and font-face declarations with no actual narrative content.' The writer should not have proceeded to draft from a source that fetched no substantive content. The core trade fact ('four-player trade') is reported, but the entire draft is built on an unusable source.",
+     "The draft cites MLB.com as the source but acknowledges throughout that critical details are 'not detailed in the available sources' and 'remain unaddressed.' This signals the source was not adequately retrieved or parsed. A draft should not be filed when its own source material failed to load."
+    ]
+   },
+   {
+    "id": "c093",
+    "headline": "White Sox acquire pitcher Castillo from Mariners in four-player trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft acknowledges 'The four players involved in the transaction and their specific roles are not detailed in the available source material' and 'No information on contract terms, salary obligations, years of control, or the prospects returned to Seattle appears in the retrieved sources.' The brief confirms the same: the fetched MLB.com source 'contains only font and styling markup' with 'no substantive trade details.' A draft cannot proceed when its primary source failed to retrieve narrative content.",
+     "The core claim (Castillo trade) is reported-confidence in the brief, but the entire draft is an extended acknowledgment of source failure. Filing a draft that reads as 'here is what we don't know' rather than reporting what we do know is a misuse of the approval process."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "European confederations plan withdrawal of Infantino re-election support",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Guardian reports that Infantino's reign is in severe peril after the privately backed scheme failed' but the brief's confidence label is 'reported', not verified. More critically, the draft presents this as established fact without attribution to The Guardian in that sentence; the phrase 'Infantino's reign is in severe peril' appears to editorialize beyond what the data_point claims ('Infantino's reign is in severe peril after the collapse of his privately backed scheme').",
+     "The draft claims 'The move follows the collapse of Infantino's private equity scheme designed to monetize portions of the World Cup' but the brief's data_point says 'a privately backed scheme to sell off chunks of the World Cup' \u2014 the draft's phrase 'monetize portions' is a paraphrase that subtly shifts the framing and should be attributed inline or pulled back to the brief's exact language.",
+     "The draft's opening paragraph states Infantino designed the scheme, but the brief only says it was 'his privately backed scheme' \u2014 the word 'designed' adds agency attribution not explicitly in the brief data_point."
+    ]
+   }
+  ]
  }
 ]
