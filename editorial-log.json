@@ -3575,5 +3575,64 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Rays Acquire Two-Time All-Star RHP Peralta From Mets for Trio of Prospects",
+    "category": "accuracy",
+    "reasons": [
+     "The opening paragraph attributes the trade announcement to 'sources who told ESPN's Jeff Passan on Sunday,' but the brief marks this as 'unconfirmed' confidence level. The draft should signal this sourcing uncertainty (e.g., 'according to sources' or 'sources told ESPN' rather than treating it as reported fact). The phrasing 'according to sources who told ESPN's Jeff Passan on Sunday' reads as if the deal is confirmed when the brief itself flags it as unconfirmed.",
+     "The brief's open_questions note that 'final league approval and logistics remain pending before Monday's deadline,' but the draft never acknowledges this pending/unconfirmed status in the body. A reader could infer the trade is done when it is sourced and awaiting approval."
+    ]
+   },
+   {
+    "id": "c082",
+    "headline": "White Sox Acquire Righty Castillo From Mariners in Four-Player Trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft admits in the second paragraph that 'the specific details of the four-player exchange, including the names of the prospects or players the Mariners received in return, the contract terms for Castillo, and the remaining roster implications for both teams, could not be verified from the available source materials.' This is a confession that the core deliverables of the story\u2014the names of all four players and contract details\u2014do not exist in the brief. The brief itself is marked 'thin: true' and contains only one data_point (that the trade happened). The draft should not run; the brief contains insufficient verified information to support publication."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "British PM Burnham calls for Infantino to step down as FIFA leader",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'British Prime Minister Andy Burnham' but the brief and source material do not clarify Burnham's actual role. Andy Burnham is the Mayor of Manchester, not Prime Minister. This is a factual error that does not trace to the brief and constitutes a serious accuracy failure.",
+     "The draft's claim about UEFA weighing in ('European soccer's governing body UEFA also weighed in on the controversy') is labeled 'unconfirmed' in the brief due to source truncation, but the draft presents it as settled fact without the confidence caveat required by the hard rule."
+    ]
+   },
+   {
+    "id": "c093",
+    "headline": "FIFA council members push for emergency meeting that could challenge Infantino",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims council members are 'demanding a review of the Balogun decision,' but the brief's data point reads 'Council members are demanding a review of the Balogun decision' with no further context provided in the source material. The draft presents this as fact when the brief itself flags the source as truncated and details are unavailable. The writer cannot establish what 'the Balogun decision' refers to from the provided source material.",
+     "The draft states this is 'the first time FIFA's own institutional machinery has been mobilized to potentially remove the organization's leader' as a definitive assertion, but the brief does not contain a data point confirming this is unprecedented or the first such attempt. This claim is smuggled beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c191",
+    "headline": "Kyler Murray delivers strongest training camp performance as Vikings evaluate QB competition",
+    "category": "accuracy",
+    "reasons": [
+     "Claim 'Hoskins was born during the 1950 Auckland Games' in body paragraph 3 is not present in the brief's data_points. The brief notes in open_questions that the source text is 'navigation and CSS markup rather than article content' with no verifiable details. This fact is smuggled outside the brief.",
+     "The draft asserts specific quotes from Hoskins ('It is incredible. I'm still pinching myself' and 'I never thought I'd win at my age. Never give up') as facts in paragraph 4, but the brief flags that 'no specific details about Murray's throws, McCarthy's errors, or the Vikings' reaction are present in the provided source text.' The draft is treating unverified source material as confirmed reporting."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Louise Hoskins, 76, becomes oldest Commonwealth Games gold medallist in history",
+    "category": "accuracy",
+    "reasons": [
+     "Claim 'Hoskins was born during the 1950 Auckland Games' in paragraph 3 appears in the brief's data_points as reported, but the brief's open_questions explicitly state: 'The fetched source text is predominantly HTML markup and CSS; no additional narrative details...are present in the provided source.' This signals the source was not actually verified, yet the draft presents it as settled fact from Guardian Sport.",
+     "The draft attributes direct quotes to Hoskins in paragraph 4 ('It is incredible. I'm still pinching myself' and 'I never thought I'd win at my age. Never give up'), which appear in the brief's data_points. However, the brief's open_questions note that 'no additional narrative details...are present in the provided source text,' indicating these quotes could not be verified from the actual fetched content. Presenting unverified quotes as confirmed reporting is a breach of the accuracy rule."
+    ]
+   }
+  ]
  }
 ]
