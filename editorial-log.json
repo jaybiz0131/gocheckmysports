@@ -3531,5 +3531,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c138",
+    "headline": "Dodgers acquire Cy Young winner Skubal from Tigers",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly marks the core claim as 'announced-not-verified' confidence level, but the draft presents the acquisition as settled fact without any hedging language that conveys this uncertainty. The opening sentence 'The Los Angeles Dodgers have acquired pitcher Tarik Skubal from the Detroit Tigers, according to MLB.com' should read with language that signals the unverified status ('The Los Angeles Dodgers have announced the acquisition of...' or similar).",
+     "The draft claims Skubal 'is a Cy Young winner' as fact, but the brief provides no data point confirming this; it only appears in the core_claim as part of the headline. This is a new fact not traced to a data_point.",
+     "The draft states Skubal 'represents an ace-level addition' which is interpretive framing not present in the brief's data_points and goes beyond reporting the announced trade.",
+     "The entire second paragraph acknowledges what is NOT in sources but the first paragraph presents the acquisition as solid fact despite announced-not-verified status. This confidence mismatch violates the requirement that confidence labels must survive in prose."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Four NFL stars hold in over contracts as training camp enters final stretch",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Gibbs...holding in or holding out during the 2026 NFL training camp' and 'Four NFL stars hold in over contracts' in title. The brief consistently labels this a 'hold-in,' not 'holding in' or 'hold in.' This is a stylistic inconsistency with the source material, but more importantly, the opening sentence conflates 'holding in or holding out'\u2014two distinct concepts. The brief data_points specify all four are 'holding in' at their facilities; the draft's use of 'or holding out' introduces ambiguity about their status that the brief does not support.",
+     "Draft paragraph on Vita Vea states 'His absence is complicated by a legitimate back injury sustained during conditioning tests on Tuesday' but the brief data_point says the injury was 'sustained during the team's conditioning test Tuesday.' The shift from 'on Tuesday' to 'during conditioning tests on Tuesday' is minor, but the draft's phrasing is imprecise about timing relative to the narrative flow.",
+     "Draft states Bowles said the team is 'preparing for the season as if Vea will play.' The brief data_point says 'Coach Todd Bowles said they are preparing for the season as if Vea will play'\u2014this is accurate. However, the draft precedes this with 'His absence is complicated by a legitimate back injury,' which could be read as saying Vea is absent due to injury, when the brief's bear_case notes 'Vea's absence is partially explained by a legitimate back injury'\u2014meaning the trade request is the primary driver of the hold-in, and injury is secondary. The draft's structure misleads on causation."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "FIFA council members attempt to force leadership challenge to Infantino",
+    "category": "balance",
+    "reasons": [
+     "Brief is marked 'thin: true' with only three data_points and an empty bear_case array. The draft acknowledges uncertainty extensively ('critical details remain unconfirmed,' 'not detailed in the available sourcing,' 'not named,' 'not specified'), which is appropriate caution. However, the draft then frames this as a substantive story about 'internal fracturing at FIFA' and 'mounting pressure on Infantino's authority' based on a single source (The Guardian) with no confirmation of how many council members are involved, who is leading the effort, or whether the petition meets any procedural threshold. The opening asserts the effort 'carries particular significance' and suggests it 'could develop into a leadership challenge'\u2014language that treats speculation as momentum. Given the thinness of the brief, a story this uncertain in outcome should either anchor harder to what is NOT known, or compress significantly. As written, it reads like rumor-laundering: The Guardian reported a council effort to call an EGM; the draft amplifies it into a 'rare formal challenge' and 'internal fracturing' without the reporting depth to sustain that frame. If the petition fails or is procedurally invalid, this draft would read as credulous."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "76-year-old Australian Louise Hoskins wins Commonwealth Games gold, breaks age record",
+    "category": "accuracy",
+    "reasons": [
+     "The claim 'She was born during the 1950 Auckland Commonwealth Games, meaning she has lived through 76 years of the Games' existence' is unsupported by the brief. The brief reports only that 'Hoskins was born during the 1950 Auckland Games'\u2014it does not validate the interpretive claim that this means she 'has lived through 76 years of the Games' existence.' This is a smuggled inference not present in the source material.",
+     "The entire paragraph beginning with 'The age ceiling for elite competition...' is unsourced speculation. It contains no claim from the brief and reads as the writer's own analysis, not reporting from The Guardian. This violates the hard rule that no fact exists outside the brief."
+    ]
+   }
+  ]
  }
 ]
