@@ -239,6 +239,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 edition_check.py || true
 
+      # KILL-STREAK ALARM (owner ruling 2026-08-03, N=3): three consecutive approver
+      # kills on one development with no publish files one digest issue quoting every
+      # kill verbatim, so a human can judge legitimate-versus-theater. The writer
+      # carries prior objections into the next draft automatically; this is the bell.
+      - name: Kill-streak check (is the desk abandoning a development it owns?)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 kill_streak.py || true
+
       - name: Duplicate audit (cross-day, whole corpus)
         if: always()
         run: python3 dupe_audit.py || true

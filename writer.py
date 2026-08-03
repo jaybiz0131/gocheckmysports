@@ -164,8 +164,29 @@ def run(client=None):
                       f"would publish nothing. Remaining stories roll to the next slot.")
             break
         chunk = stories[i:i + chunk_size]
+        # KILL-STREAK CARRY-FORWARD (owner ruling 2026-08-03, the Coldcard fix): if this
+        # development has been drafted and killed before, attempt N+1 gets every prior
+        # approver objection VERBATIM, instead of a fresh writer smuggling a fresh error
+        # into the same story. The wraprescue pattern, applied at story level.
+        objections = ""
+        try:
+            import kill_streak
+            for s in chunk:
+                hist = kill_streak.kill_history(str(s.get("headline") or ""))
+                if hist:
+                    lines = []
+                    for k in hist[-3:]:
+                        for r in k["reasons"]:
+                            lines.append(f"- ({k['date']}) {r}")
+                    objections += (f"\nPRIOR APPROVER OBJECTIONS on '"
+                                   f"{str(s.get('headline'))[:80]}' (this development "
+                                   f"has been drafted and killed {len(hist)} time(s); "
+                                   f"every objection below must NOT recur):\n"
+                                   + "\n".join(lines) + "\n")
+        except Exception as e:
+            common.gh("warning", f"writer: kill-streak carry-forward unavailable ({e})")
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
-                "left empty.\n\n"
+                "left empty.\n" + objections + "\n"
                 + "Stories:\n" + json.dumps(chunk, indent=2))
         part = client.call_json("writer", system, user,
                                 validate=lambda o: validate(o, chunk))
