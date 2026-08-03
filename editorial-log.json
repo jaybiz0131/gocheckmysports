@@ -3827,5 +3827,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "UEFA raises possibility of legal action against Infantino, sends document preservation letter",
+    "category": "accuracy",
+    "reasons": [
+     "The claim 'UEFA's 55 member nations had agreed on Thursday to boycott the World Cup and all other FIFA competitions' appears in the draft but is not present in any data_point in the brief. The brief does not contain this boycott claim, so it has been smuggled into the draft without research support.",
+     "The opening sentences present 'sources cited by ESPN' and 'according to sources cited by ESPN' but the confidence labels in the brief mark the first two data_points as 'unconfirmed'. The draft prose does not adequately signal uncertainty; it reads as reported fact rather than possibility. The phrase 'according to sources' is too weak a hedge for claims marked 'unconfirmed' in the brief."
+    ]
+   },
+   {
+    "id": "c084",
+    "headline": "Kevin Gausman traded to Cubs from Blue Jays",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points despite claiming the trade was confirmed. The open_questions field explicitly states 'The source text provided is incomplete (contains only font and style markup with no actual article content).' The writer has drafted a story from a source that contains no usable factual content, violating the hard rule that facts must trace to the brief's data_points.",
+     "The brief is marked 'thin': true, but with empty data_points, there is no factual foundation for any claims beyond the bare core_claim. The draft repeats only the core claim and offers no depth or context despite being structured as a full story."
+    ]
+   },
+   {
+    "id": "c166",
+    "headline": "Skubal set for first Dodgers start Tuesday at Wrigley",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Skubal is a 'Cy Young-winning pitcher' but the brief's open_questions explicitly note: 'No confirmation of Skubal's Cy Young award year or season statistics.' This is a factual claim presented as settled when the brief marks it unconfirmed.",
+     "The draft provides specific details ('Tuesday at Wrigley Field') that do not appear in the brief's data_points. The brief's open_questions state: 'The source text provided is incomplete (contains only font and style markup with no actual article content). No game date, location details, or context about the trade are available from the fetched page.' The writer has smuggled information not in the brief.",
+     "The draft does not disclose that the source fetch failed or was incomplete. The brief is explicitly thin with no data_points, yet the draft reads as a full story with specific scheduling details."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Pogacar confirmed for Vuelta a Espana, targeting rare Grand Tour triple",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Pogacar is a five-time Tour de France winner' but the brief's data_point states only 'Pogacar is a five-time Tour winner' without specifying Tour de France. The brief data is sourced from a corrupted/partial Guardian fetch (noted in open_questions), creating uncertainty about the exact claim. The draft adds specificity ('Tour de France') not present in the verified brief data.",
+     "The draft states 'Jonas Vingegaard has completed the feat of winning all three Grand Tours' but the brief's corresponding data_point says only 'Jonas Vingegaard completed a grand slam of all three Grand Tours.' The draft's phrasing ('has completed') implies a single season treble to match Pogacar's attempt, but the brief does not specify whether Vingegaard achieved this in one season or across multiple seasons. This is a material distinction for the story's framing."
+    ]
+   }
+  ]
  }
 ]
