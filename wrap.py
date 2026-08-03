@@ -223,8 +223,20 @@ def main():
     now = datetime.datetime.now(datetime.timezone.utc)
     # three slots (Eastern audience clock): 10:40 UTC morning, 17:00 UTC midday,
     # 23:00 UTC evening; the hour windows resolve whichever slot is running
-    edition = (argv[argv.index("--edition") + 1] if "--edition" in argv
-               else ("morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"))
+    # MIDNIGHT DRIFT (owner-approved fix, 2026-08-03): the evening cron regularly fires
+    # after 00:00 UTC (measured scheduler drift of 1-3 hours), and wall-clock resolution
+    # then reads it as the NEXT day's morning slot with an empty story window. Both this
+    # desk (2026-08-02 evening, fired 00:07) and its sibling (fired 01:09) lost their
+    # evening editions to exactly that. A fire before 05:00 UTC is the previous day's
+    # evening slot, dated to the previous day; no scheduled slot legitimately runs in
+    # that window.
+    if "--edition" in argv:
+        edition = argv[argv.index("--edition") + 1]
+    elif now.hour < 5:
+        edition = "evening"
+        now = now - datetime.timedelta(hours=now.hour + 1)  # anchor date to the slot's day
+    else:
+        edition = "morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"
     if edition not in EDITIONS:
         print(f"wrap: unknown edition '{edition}'"); return 1
     if os.path.exists(os.path.join(HERE, "PAUSE")):
