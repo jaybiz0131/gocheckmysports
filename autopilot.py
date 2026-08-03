@@ -141,6 +141,8 @@ def main():
 
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
+    approved_this_run = []  # same-run dedup ledger (fix 3)
+
     for cid, story in approval.get("stories", {}).items():
         appr = approver.get(cid)
         words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
@@ -183,9 +185,22 @@ def main():
             reruns += 1
             print(f"autopilot: skipping rerun of already-published story: "
                   f"{_shipped_title(drafts, cid, story)[:70]}")
+        elif any(dedupe.same_event(str(story.get("headline") or ""),
+                                   str(story.get("key_fact") or ""), t, k)
+                 for t, k in approved_this_run):
+            # SAME-RUN DUPLICATE HOLD (ported from the crypto chassis, fix 3 2026-08-03).
+            # The rehash guard above compares against the COMMITTED corpus, so two drafts
+            # of one development approved in the same batch never met any guard: that is
+            # how the Ceuta pair published 23 minutes apart on this chassis' sibling.
+            story["decision"] = "hold"
+            reruns += 1
+            print(f"autopilot: HELD same-run duplicate of an event already approved this "
+                  f"run ('{str(story.get('headline') or '')[:60]}')")
         else:
             story["decision"] = "approve"
             approved += 1
+            approved_this_run.append((str(story.get("headline") or ""),
+                                      str(story.get("key_fact") or "")))
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
     if approved == 0:
