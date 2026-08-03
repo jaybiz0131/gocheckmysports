@@ -3870,5 +3870,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "MLB trade deadline tracker: Following every move of the 2026 deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'the window to close at 6 p.m. ET' but the brief contains no data_point specifying a closing time; the brief only confirms the date (Monday, August 3) and that deals are expected to go to the final minutes.",
+     "The brief's open_questions flag explicitly notes that 'the fetched source text is mostly navigation markup and CSS; no specific trades, team names, or deal details appear in the provided source material'\u2014meaning the source itself is unreliable and the writer should not have written a tracker draft from this brief at all. The draft presents itself as a live-tracking vehicle with no actual trades to track, making it a structural mismatch to the brief's actual content."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Mauricio Pochettino agrees deal to stay as US coach through World Cup 2030",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim ('US Soccer and Pochettino agreed to a contract extension through 2030') as 'announced-not-verified' confidence, but the draft presents it as settled fact with no hedge or attribution qualifier that signals the unverified status. The prose reads 'agreed Monday, August 3, to a contract extension' as a confirmed event, not as an announced claim pending verification.",
+     "The brief's open_questions flag notes that 'the fetched source text is mostly Guardian website markup and CSS; the actual article body with contract details, compensation, performance clauses, or further context does not appear in the provided source material.' The writer built a draft from a source the research team flagged as unreliable and mostly unreadable, violating the hard rule that facts derive from the research brief's verified data_points."
+    ]
+   },
+   {
+    "id": "c212",
+    "headline": "Kelsey Mitchell passes Diana Taurasi with historic scoring streak for Fever",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Mitchell 'moved ahead of Diana Taurasi on an exclusive WNBA scoring list' but does not specify which list. Brief's open_questions identify this as unverified in source material: 'The specific scoring list Mitchell passed Taurasi on (career total, single season, consecutive games, or another metric) is not identified in the fetched text.' Draft presents unclear/undefined fact as settled when source material does not contain the category detail. The title compounds this by claiming 'historic scoring streak'\u2014a specific metric not confirmed in the brief's data points."
+    ]
+   }
+  ]
  }
 ]
