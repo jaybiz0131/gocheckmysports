@@ -224,6 +224,25 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
+
+      # THE MONITORING BELT, PROPAGATED (owner ruling 2026-08-03, fix 5: gates built on
+      # the crypto desk over three weeks never reached this one; two of three desks ran
+      # unprotected, the pipeline's signature staged-versus-shipped gap). Both checks are
+      # advisory for the RUN and loud for a HUMAN: the edition gap check files one
+      # deduplicated flag issue when the guaranteed edition has stopped (the wrap step
+      # above is `|| echo`, and a warning inside a green run is a named anti-pattern);
+      # the duplicate audit reports the corpus-wide backlog the publish-time guard
+      # cannot see.
+      - name: Daily edition gap check (is the guaranteed edition actually running?)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 edition_check.py || true
+
+      - name: Duplicate audit (cross-day, whole corpus)
+        if: always()
+        run: python3 dupe_audit.py || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -380,6 +399,7 @@ jobs:
         with:
           name: sports-review-queue
           path: |
+            out/items.json
             out/review_queue/
             out/approval_template.json
             out/run_report.json
