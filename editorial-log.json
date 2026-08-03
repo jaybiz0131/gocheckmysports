@@ -3785,5 +3785,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c077",
+    "headline": "Cubs acquire Gausman from Blue Jays in trade",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The source text provided is corrupted font CSS and does not contain readable reporting about the trade' with no data_points available to verify any facts. The draft claims 'The Chicago Cubs have acquired right-hander Kevin Gausman from the Toronto Blue Jays' and cites an MLB.com source, but the brief contains zero verified data_points to support this claim. The writer has smuggled a fact (the trade itself) that does not appear in the research brief.",
+     "The draft acknowledges unverified details but presents the core trade as 'confirmed,' contradicting the brief's open_questions which state the acquisition, timing, and details 'cannot be verified from the fetched source.' The tone misrepresents the confidence level of available evidence."
+    ]
+   },
+   {
+    "id": "c161",
+    "headline": "Skubal set for Dodgers debut",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The source text provided is corrupted font CSS and does not contain readable reporting about Skubal's assignment or start date' with zero data_points provided. The draft claims 'Tarik Skubal, a Cy Young Award winner, is making his first start for the Los Angeles Dodgers against the Chicago Cubs' and presents this as confirmed fact, but the brief contains no verified data_points to support any element of this story.",
+     "The draft cites an MLB.com source that the brief identifies as unreadable/corrupted. The writer has published claims about a specific matchup, opponent, and event status that exist nowhere in the research brief's verified information."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Marc Skinner departs Manchester United Women by mutual consent",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'their lowest ever league finish' for the fifth-place finish in the 2024 season, but the brief data point says 'their lowest ever' referring to that fifth-place finish. The draft then later states 'fourth-place league finish' for the most recent season. This creates internal contradiction and fails to clearly distinguish between two different seasons' league finishes.",
+     "Draft claims Skinner 'retained his position after Manchester United won the FA Cup in 2024 while finishing fifth in the league that same season,' implying the fifth-place and FA Cup win occurred in the same season. The brief data points separate these events: the FA Cup win is associated with 'the year of the FA Cup win' (2024) and the fifth-place finish is described as 'that season,' but the brief does not explicitly confirm these occurred in the same calendar/competition year. The temporal relationship is ambiguous in the brief and the draft presents it as settled fact."
+    ]
+   },
+   {
+    "id": "c123",
+    "headline": "Thorbjornsen captures first PGA Tour title in final Rocket Classic",
+    "category": "accuracy",
+    "reasons": [
+     "Draft references 'Xander Schauffele' as 'ranked among the tour's most consistent performers' but this characterization does not appear in the brief's data points. The brief only reports his finishes (third top-five, sixth top-10 this season); the qualitative assertion about his ranking or consistency status is smuggled in without source backing.",
+     "Draft states Riley 'recorded three bogeys through six holes' but the brief data point says 'Riley fell out of the lead with four bogeys in the final round.' The draft's phrasing of 'three bogeys through six holes' is a specific claim (three in the first six) that does not appear in the brief and may contradict the 'four bogeys total' claim if taken literally."
+    ]
+   }
+  ]
  }
 ]
