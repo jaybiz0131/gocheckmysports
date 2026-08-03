@@ -61,7 +61,7 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
+NAV = [("Home", "/index.html"), ("The Edition", "/news.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -1916,6 +1916,14 @@ def build():
     w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
                     f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
     w("_redirects", "/*  /404.html  404\n")
+    # THE EDITION (owner spec 2026-08-03, chassis extension per the approved crypto
+    # build): the composed front replaces the Latest tab at its own URL; back issues
+    # under /edition/. Written LAST so the composed front wins the /news.html route.
+    import edition as _edition
+    n_ed = _edition.build(items, w)
+    if n_ed:
+        print(f"site: The Edition composed for {n_ed} day(s) -> news.html + /edition/")
+
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
