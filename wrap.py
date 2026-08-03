@@ -74,9 +74,19 @@ def bottom_line_lint(text):
     low = (text or "").lower()
     return [pat for pat in BOTTOM_LINE_LINT if re.search(pat, low)]
 
-ADVICE_LINT = [r"\byou should\b", r"\bbuy\b", r"\bsell\b", r"\bgood entry\b",
-               r"\bwill (rally|crash|pump|dump|10x|moon)\b", r"\bguaranteed\b",
-               r"\btime to (buy|sell|enter|exit)\b"]
+# SPORTS-REGISTER ALLOWLIST (owner ruling 2026-08-03): this belt was copied from the
+# finance desk, where bare buy/sell/guaranteed are advice words. On this beat they are
+# ordinary reporting vocabulary: guaranteed contracts and guaranteed money are contract
+# facts, and teams buy and sell at the trade deadline. Three consecutive editions died
+# on exactly those words (2026-08-02 afternoon through 2026-08-03 morning, all three
+# quoted in the run logs) while the \|\| echo fail-open kept the jobs green. The intent
+# stands, no betting or financial advice to the reader, so the bans stay but carry
+# deterministic exceptions for player-market and contract contexts.
+ADVICE_LINT = [r"\byou should\b", r"\bgood entry\b",
+               r"\bwill (rally|crash|pump|dump|10x|moon)\b",
+               r"(?<!fully )\bguaranteed\b(?!\s+(?:contract|contracts|money|salary|salaries|deal|deals|year|years|base|rate|roster spot))",
+               r"\b(?:buy|sell)\b(?![-\s]+(?:low|high|out|off|side|window|mode))(?![^.]{0,45}\b(?:deadline|trade|trades|roster|contract|franchise|team|club|stake|ownership)\b)",
+               r"\btime to (buy|sell|enter|exit|bet)\b"]
 
 
 def gather_stories(hours=36):
