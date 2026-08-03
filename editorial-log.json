@@ -3694,5 +3694,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c030",
+    "headline": "Yankees to send 4 pitchers to Nationals for Luis Garcia Jr. in huge trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Yankees have acquired All-Star left-hander Luis Garcia Jr.' and 'Garcia, an All-Star, becomes a centerpiece addition to the Yankees' rotation.' However, the brief's third data_point claims 'This is a costly addition for the Yankees' lineup'\u2014not rotation. The brief does not confirm Garcia is a rotation piece; the draft smuggles this characterization without source support.",
+     "The draft's bottom_line asks readers to 'Watch whether the four pitchers sent to Washington include significant prospects or established depth pieces'\u2014this is speculation not in the brief. The brief does not identify which of the four pitchers are prospects vs. depth; the writer is asking readers to fact-check a detail the research never resolved."
+    ]
+   },
+   {
+    "id": "c125",
+    "headline": "Rays acquire 2-time All-Star RHP Peralta from Mets for trio of prospects",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Peralta as 'a reliever' and states the trade 'represent[s] a mid-season move to add reliever depth.' The brief identifies Peralta as 'right-handed pitcher' with no specification that he is a reliever. The draft has smuggled the reliever classification without source support.",
+     "The draft claims 'Peralta's All-Star credentials mark a notable acquisition' but the brief only provides the core trade fact; the All-Star claim in the brief's open_questions section is noted as unrecoverable from the corrupted source. The draft presents this as confirmed when the brief itself flags it as unverified."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Blue Jays trade Kevin Gausman to Cubs at deadline",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'last season's World Series loss to the Dodgers, which extended to Game 7' but brief data_point says 'The Blue Jays took the Dodgers to extra innings in Game 7 of the World Series'\u2014these are not equivalent. 'Extended to Game 7' implies the series went seven games; 'extra innings in Game 7' means Game 7 went extra innings. The draft misrepresents the specific nature of the loss.",
+     "Brief notes source text is 'corrupted/contains only navigation markup' with 'actual trade details not recoverable.' Draft presents a trade as confirmed fact when the source itself is unverifiable beyond the headline. This is a smuggled fact outside the brief's evidentiary boundaries."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "Supporters and counterprotesters gather outside Fever-Lynx game",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly states 'The provided source text is truncated and does not include the article body\u2014specific details about what sparked the rally, what comments Cunningham made, the size of the crowds, the nature of the tensions, or the specific actions security took are not available in the fetched source.' Draft attributes gathering to 'Sporting News reporting' and writes about 'tensions escalated' and 'security intervened' as if sourced, but the brief confirms these details are not in the fetched text. The draft treats reported information as if it came from a complete, verified source when the brief flags the source as incomplete and unverifiable.",
+     "Draft opens with confidence about supporters and counterprotesters gathering 'according to Sporting News reporting' when the brief's open_questions list shows the 'relationship between Cunningham's alleged comments and the protest is not detailed in the available text.' The draft should flag uncertainty about what prompted the gathering; it does not."
+    ]
+   },
+   {
+    "id": "c104",
+    "headline": "UEFA Members Coordinate Withdrawal of Infantino Re-election Support",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The provided source text is truncated and does not contain the substantive reporting; no specific names of UEFA members, timeline for withdrawal, details of the private equity scheme, or Infantino's response are available from the fetched content.' The draft presents 'UEFA members prepare to withdraw letters of support' and 'the breakdown of Infantino's scheme to sell media rights to private equity partners' as established facts, but these are not confirmed data_points in the brief\u2014the brief contains zero data_points. The draft smuggles reporting that was not available in the source material.",
+     "The draft states 'The coordinated move follows the breakdown of Infantino's scheme' as causation, but the brief provides no substantive reporting to support either the breakdown or the coordination. This is inference presented as fact.",
+     "The brief is marked 'thin': true with source_chars of 166 (truncated), yet the draft constructs a narrative arc (scheme collapse \u2192 political shift \u2192 narrowed re-election path) without data to support it. The draft should have signaled uncertainty or declined to write from this brief."
+    ]
+   }
+  ]
  }
 ]
