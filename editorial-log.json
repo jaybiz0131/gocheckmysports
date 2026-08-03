@@ -3746,5 +3746,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c161",
+    "headline": "Yankees acquire Luis Garc\u00eda Jr. from Nationals",
+    "category": "accuracy",
+    "reasons": [
+     "The draft explicitly states 'primary source confirmation on the identities of the four pitchers involved, Garc\u00eda's age, position, statistics, contract status, and projected role in the Yankees lineup is not available from the verified brief' and 'The MLB.com report does not carry those essential details.' This is a refusal to report, not a story. The brief contains only one data point (the basic transaction), and the writer correctly identified the brief as thin, but then published an article that admits it cannot report the story. A published story that says 'I don't have the information to tell this story' violates the hard rule that facts must come from the brief and serve readers. Either hold the story until the brief fills, or reject the assignment. Publishing a meta-commentary on missing information is not journalism."
+    ]
+   },
+   {
+    "id": "c166",
+    "headline": "Blue Jays trade for starter Taillon from Cubs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The Toronto Blue Jays acquired pitcher Jameson Taillon from the Chicago Cubs, per MLB.com' but the brief contains zero data_points. The core_claim exists but is marked as unverified; the draft presents it as confirmed fact without qualification. The brief's open_questions explicitly state the source material contains only CSS declarations with no readable transaction content\u2014the draft cannot cite a source that yielded no usable information."
+    ]
+   },
+   {
+    "id": "c163",
+    "headline": "Red Sox sweep Dodgers for first time since 2010",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The Boston Red Sox swept the Los Angeles Dodgers in a series for the first time since 2010, according to MLB.com' but the brief contains zero data_points and explicitly states in open_questions that the source material contains only CSS declarations with no readable content about the Red Sox-Dodgers series. The draft cannot cite a source that yielded no usable information; this fact is unsourced and the draft smuggles it as confirmed."
+    ]
+   },
+   {
+    "id": "c086",
+    "headline": "Sparks trade five-time All-Star Kelsey Plum to Phoenix Mercury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Plum is 'averaging career highs of 23.9 points and 6.4 assists in 12 games' but the brief's data_point says 'Plum is averaging 23.9 points and 6.4 assists -- both career highs -- in 12 games.' The draft's phrasing implies these are simultaneous career highs within the same 12-game span, but the brief does not confirm 6.4 assists is a career high\u2014only that both 23.9 points AND 6.4 assists are career highs. The draft's attribution of 'career highs' to both stats in a single sentence requires explicit confirmation in the source.",
+     "The draft presents the unconfirmed data_point about Plum's free agency intentions ('A source told ESPN that Plum still intends on going through the full free agency process in the offseason, though remaining with the Mercury is not off the table') without signaling its unconfirmed status. The brief marks this claim 'unconfirmed' but the draft prose reads it as settled fact: 'A source told ESPN that Plum still intends on going through the full free agency process in the offseason, though remaining with the Mercury is not off the table, based on anonymous sourcing that is unconfirmed.' The parenthetical hedge at the end does not cure the problem\u2014the sentence structure presents the claim itself as fact first, then qualifies it retroactively, violating the rule that unconfirmed claims must read that way from the start."
+    ]
+   }
+  ]
  }
 ]
