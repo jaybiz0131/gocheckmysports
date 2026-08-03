@@ -100,8 +100,19 @@ def main():
         since = sum(1 for p in glob.glob(os.path.join(CONTENT, "*.json"))
                     if _newer_story(p, ed_when))
 
+    # STALE-CHECKOUT GUARD (owner ruling 2026-08-03, note 1): this check reads a local
+    # tree, so its finding carries the tree's HEAD; a reader can see at a glance whether
+    # the alarm is about the desk or about an unpulled checkout (the news desk's phantom
+    # 62-hour gap was exactly that).
+    import subprocess
+    try:
+        head = subprocess.run(["git", "log", "-1", "--format=%h %cd", "--date=format:%Y-%m-%dT%H:%M"],
+                              cwd=HERE, capture_output=True, text=True, timeout=10).stdout.strip()
+    except Exception:
+        head = "unknown"
     msg = (f"newest edition is {hours:.0f}h old ({ed.get('date')}, "
-           f"{(ed.get('title') or '')[:60]}), {since} story/stories published since")
+           f"{(ed.get('title') or '')[:60]}), {since} story/stories published since "
+           f"[tree HEAD: {head}]")
     if hours > limit:
         common.gh("error",
                   f"edition_check: {msg}. The edition is supposed to run three times a day "
