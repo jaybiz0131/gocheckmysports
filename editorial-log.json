@@ -3902,5 +3902,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "MLB trade deadline closes at 6 p.m. ET Monday: 14 major deals completed",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The San Francisco Giants would still owe first baseman Rafael Devers 211 million dollars over the next seven years' but the brief data_point clarifies this is about the Giants' future obligation to Devers, not a Padres acquisition. The sentence is misleading in context\u2014it appears at the end of a paragraph about Padres checking in on Devers, making it sound like the Padres would inherit this obligation. The brief's data_point says 'After this season, the San Francisco Giants would still owe Rafael Devers 29 years old $211 million over the next seven years'\u2014Giants owe it, not Padres. The draft's placement and wording obscure this critical distinction.",
+     "Draft title says 'closes at 6 p.m. ET Monday' but the brief confirms deadline is August 3, 2026. The phrase 'closes...Monday' is vague and no Monday date is given in the draft; this is imprecise attribution given ESPN's explicit reporting."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Guardians acquire outfielder Jo Adell from Angels for catching prospect",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes specific detail: 'a ball bounced off his head into the outfield for a home run' as an example of Adell's defensive lapses in 2026. The draft mentions 'volatile track record' and 'defensively flawed' but does not include this concrete, vivid evidence of 2026 defensive struggles. The bear_case was substantially weakened in drafting by omitting the most memorable/damaging specific incident.",
+     "The bottom_line says 'betting on a player with a proven power ceiling and a recent rebound year (2025)' but the brief's bear_case emphasizes that his 2026 regression after 2025 is the salient point. The bottom_line tilts toward his positive (2025) without adequately foregrounding the severity of his current-year collapse, which dominates the bear_case."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Phillies acquire Arraez and Kilian from Giants, Raley from Mets",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims the Phillies 'traded...to the Mets for Raley' but does not specify what the Phillies sent to the Giants for Arraez and Kilian. The brief's open_questions explicitly flag this: 'What specific prospect assets did the Phillies send to the Giants for Arraez and Kilian? The MLB.com source text is truncated and does not contain this detail.' A major deal (All-Star + pitcher) is described without naming the assets the Phillies surrendered. This is an incomplete trade summary and the writer should have either flagged the missing information or refused to name a trade without full consideration.",
+     "Draft states 'Luis Arraez' in title and first sentence but the brief's open_questions note 'What is Luis Arraez's specific performance record or designation as a \"batting champion\"?' The draft calls him 'All-Star second baseman' but the brief describes him as a 'batting champion.' These are different honors\u2014the draft weakened Arraez's pedigree by calling him an All-Star rather than using the brief's 'batting champion' descriptor, which the brief's open_questions indicate is central to who he is."
+    ]
+   },
+   {
+    "id": "c138",
+    "headline": "Third confederation withdraws support for Infantino as opposition grows",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A third national confederation has publicly withdrawn support' but the brief's core_claim and data_point say only that 'A third confederation has publicly withdrawn support'\u2014without specifying it is 'national.' More critically, the brief does not provide the identities, timing, or reasons for withdrawal, and the draft accurately flags this as 'not specified in available reporting.' However, the opening sentence presents the withdrawal as fact when the confidence label is only 'reported,' not 'announced-not-verified,' making the assertion of institutional opposition stronger than the evidence warrants. The phrase 'mounting institutional opposition' overstates a thin evidentiary base (one third withdrawal, no others named).",
+     "The draft states Infantino 'has denied meeting with Donald Trump or the U.S. government,' but the brief's confidence label is only 'reported'\u2014meaning the denial itself is reported secondhand, not an on-record statement. The draft should flag this as 'according to Yahoo Sports reporting' to preserve the chain of attribution and confidence level.",
+     "The sentence 'That clarification contradicts earlier speculation' injects a causal claim (that the denial was made in response to earlier speculation) that does not appear in the brief. The brief notes only that speculation existed and that a denial was issued, not that one prompted the other. This is SMUGGLED interpretation."
+    ]
+   }
+  ]
  }
 ]
