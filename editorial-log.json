@@ -4026,5 +4026,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c079",
+    "headline": "Red Sox acquire All-Star catcher Rutschman from Orioles",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states: 'The source text is corrupted\u2014it contains only font-face CSS declarations and no readable article content. The trade details, prospects involved, timing, and terms cannot be extracted from the fetched page.' The brief contains zero data_points because the source is unreadable. The draft presents the core_claim as fact, but the brief marks the sourcing as broken. No facts can be verified from a corrupted source.",
+     "The brief's only data_point is the core_claim itself with no supporting detail. The draft should reflect this thinness and lack of verification, not present the trade as established fact."
+    ]
+   },
+   {
+    "id": "c176",
+    "headline": "Padres acquire pitcher Robbie Ray from Giants",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only one data_point: 'Robbie Ray was traded to the Padres from the Giants' with confidence label 'announced-not-verified'. The draft presents this as settled fact ('acquired pitcher Robbie Ray from the San Francisco Giants') without signaling the unverified status. A claim marked 'announced-not-verified' in the brief must read as announced/unconfirmed in the prose.",
+     "The draft states Ray is 'a former Cy Young Award winner' \u2014 this biographical fact does not appear in the brief's single data_point and is smuggled information sourced from outside the brief."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "England FA joins Wales and Serbia in withdrawing support for Infantino re-election",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'England, Wales, Serbia join Finland in defection' in the bottom_line, but the brief's data_points only confirm Wales, Serbia, and Finland as defectors. The claim that England withdrew support is presented as fact in the draft body ('England's Football Association has withdrawn its backing') but the brief's core_claim and data_points describe England as 'the highest-profile of several Uefa member associations to drop its support'\u2014a description of prominence, not confirmation of actual withdrawal. The distinction between England being described as high-profile and England actually defecting is material and unresolved in the brief.",
+     "The draft opens with 'England's Football Association has withdrawn its backing for FIFA President Gianni Infantino's re-election, according to reporting by The Guardian' but presents this as settled fact when the brief marks the core_claim as only 'reported' confidence, not verified. The Guardian reporting language (as paraphrased in the brief's data_points) uses the phrase 'highest-profile of several' which suggests description rather than confirmation of withdrawal."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Cubs acquire Holmes and Taylor from Mets for infielder Rojas",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states in the bottom_line that the Cubs 'add All-Star reliever Clay Holmes,' but no data_point in the brief confirms Holmes is or was an All-Star. The brief describes his pre-injury 2.39 ERA and career 3.26 ERA across 40 starts, but makes no claim of All-Star status. This is a factual addition not present in the brief.",
+     "The draft body claims 'limited strikeout production' as a characteristic of Holmes, but no strikeout data or statistics appear in the brief's data_points. The brief notes 'Holmes is not a big strikeout pitcher' in the bear_case, but the draft presents this as an established fact in the main prose ('his injury status and limited strikeout production create uncertainty') without attribution or qualification."
+    ]
+   },
+   {
+    "id": "c173",
+    "headline": "Astros trade for Gold Glove outfielder Varsho in deal with Blue Jays",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks all three core data points as 'announced-not-verified' confidence level, but the draft presents them as settled fact without hedge language. The sentence 'The Houston Astros acquired outfielder Daulton Varsho from the Toronto Blue Jays in exchange for pitcher Spencer Arrighetti, according to MLB.com' reads as confirmed rather than announced-pending-verification. Per the hard rule, confidence labels must survive in prose: an 'announced-not-verified' claim requires conditional language ('according to reports', 'the deal was announced', or similar signal that verification is pending)."
+    ]
+   }
+  ]
  }
 ]
