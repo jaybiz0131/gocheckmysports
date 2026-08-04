@@ -4142,5 +4142,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Zay Flowers, Ravens agree to four-year, $140M extension",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core deal figures ($140M, $108M guaranteed, $35M AAV) as 'announced-not-verified' confidence level, but the draft presents them as settled fact with no hedging language ('agreed to a four-year, $140 million extension'). Per hard rules, confidence labels must survive in prose; unconfirmed announced figures must read as such.",
+     "The draft states 'Jaxon Smith-Njigba of Seattle leads the position at $42.15 million per year' but the brief data_point says only 'Jaxon Smith-Njigba is the NFL's highest-paid receiver at $42.15 million per year'\u2014no location (Seattle) is in the brief. This is smuggled information not traceable to the research."
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "Bijan Robinson signs three-year, $75M extension with Falcons",
+    "category": "accuracy",
+    "reasons": [
+     "The brief itself notes the source text is a navigation menu and does not contain article body; the brief's open_questions state 'the exact structure of the contract (guaranteed money vs. max value, signing bonus, per-year average, vesting schedule) is unknown' and 'no breakdown of the contract terms... is available in the provided source text.' The draft presents only four data_points, all of which are either extremely thin or beyond what the source supports. The brief is marked 'thin: true' with only 4 data_points and a source_chars of 1896 (a navigation menu). A story this short with this thin a brief cannot be approved\u2014the writer has no substantive facts to work with, and the draft reads as a stub written from a headline rather than reporting. The bottom_line acknowledges the reporting gap ('specifics of Robinson's contract structure, guaranteed money, and per-year breakdown remain unclear') but that admission belongs in the body or signals the story should not run until those details are confirmed."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Panthers' Xavier Legette suffers stinger, avoids concussion",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_point states Taylor Moton is 'unavailable to start the regular season due to blood clot/lung' (vague phrasing in brief itself), but the draft writes 'due to a blood clot issue' without specificity. More critically, the brief does not clarify what 'blood clot/lung' means, and the draft should not have paraphrased this into a vaguer formulation without confirmation of what the underlying condition actually is. The draft introduced ambiguity where the brief had a specific (if oddly phrased) claim."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "Manchester United in talks with Eva Olid for head coach role",
+    "category": "balance",
+    "reasons": [
+     "The brief is marked 'thin: true' with only 5 data_points and 230 source_chars. The draft is extremely short (158 words in body), which is proportionate to brief thinness. However, the brief's bear_case is empty, and the draft contains no counterweight, hedge, or caveat language to reflect uncertainty inherent in 'advanced talks' and '36 hours' timelines\u2014reporting that is inherently speculative and subject to collapse. The phrase 'could be appointed within 36 hours' is the only hedge in the entire draft body. A story this thin, built entirely on a single source's reported timeline with zero counter-evidence or skeptical framing, risks reading as rumor-laundering if the deal falls through. The draft should either be thicker (other candidates, Skinner departure context, Olid's record detail) or should open with explicit uncertainty language ('sources say,' 'according to reporting,' etc.) to inoculate against embarrassment if the deal stalls."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "NWSL set for earliest-ever start next season to accommodate World Cup",
+    "category": "accuracy",
+    "reasons": [
+     "Super Bowl numbering error: Draft states 'Super Bowl XLVI plays at SoFi Stadium in Inglewood on Feb. 14' but the brief data_point says 'Super Bowl XLI will be played on Sunday, Feb. 14.' These are different Roman numerals (46 vs 41). The draft contains a factual claim about which Super Bowl game is occurring that contradicts the sourced brief; this must be corrected before publication."
+    ]
+   }
+  ]
  }
 ]
