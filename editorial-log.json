@@ -4076,5 +4076,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "MLB trade deadline closes with contenders adding All-Star talent",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'After this season, the San Francisco Giants would still owe Rafael Devers, age 29, 211 million dollars over the next seven years' but the brief's data point says 'the San Francisco Giants would still owe Rafael Devers'\u2014this is a factual contradiction. Devers plays for the Boston Red Sox, not the Giants. The brief contains an error that the draft uncritically reproduced, but the writer's obligation is to catch brief errors, not amplify them.",
+     "The draft introduces the claim that the Padres' interest in Devers 'likely does not amount to anything' in the main body, but this is presented as ESPN reporting when the brief clearly labels it as part of the bear_case (i.e., the other side of the story, not settled fact). The prose should signal uncertainty more clearly ('ESPN reported that the extent of the Padres' interest...likely does not amount to anything' does this adequately on re-read, but the phrasing 'However, ESPN reported' could be stronger to distinguish reported skepticism from confirmed fact).",
+     "The draft states Andrew Friedman 'called another addition to the major league roster unlikely' but the brief's data point says he 'called another addition to the major league roster unlikely'\u2014this traces correctly. However, the brief's bear_case notes that 'another addition to the major league roster is unlikely despite multiple conversations,' which contextualizes Friedman's comment as a constraint, not merely a statement of preference. The draft does not surface this constraint adequately."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "UFC flyweight Allan Nascimento dies at 34",
+    "category": "compliance",
+    "reasons": [
+     "Health/medical claim: The draft states Nascimento 'died after being found unresponsive in an apparent heart attack' as a factual summary. The brief explicitly notes the cause is 'described as apparent, not yet verified by medical determination or official channels.' The draft presents this unconfirmed medical determination without hedging language ('apparent' appears only in the sourced phrase but is immediately presented as settled fact in context). Per compliance rules, speculation about a player's medical state beyond the official record is prohibited. The draft should attribute the 'apparent' characterization explicitly to the source and avoid presenting it as verified fact."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "England Set to Withdraw Support for Infantino as European Federations Defect",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Infantino abandoned a proposal to commercialize World Cup stakes through outside investment' but the brief data_point says 'FIFA announced the idea to commercialize its business by taking money from outside investors.' The draft mischaracterizes the scope as specific to World Cup stakes alone; the brief indicates a broader commercialization proposal.",
+     "The draft includes the claim 'Infantino is Swiss, and also has Italian and Lebanese citizenship' as a data_point in the brief (data_point 21), but this information does not appear anywhere in the draft body. This represents a factual omission, though minor\u2014the draft's omission of available data is acceptable; however, the inverse (adding facts not in brief) would violate the hard rule.",
+     "The draft states Germany's federation 'stated it was not among early supporters and therefore has no support to withdraw' but the brief data_point 10 provides a fuller quote: 'The DFB was among the few associations that did not support Gianni Infantino's re-election at an early stage. Therefore, there is no basis for us to withdraw our support at this time, given that there was no support to begin with.' The draft's paraphrase is accurate and does not add new information."
+    ]
+   }
+  ]
  }
 ]
