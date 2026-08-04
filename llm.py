@@ -183,7 +183,7 @@ class Client:
 
     # ---- live ----------------------------------------------------------------
 
-    def _live_raw(self, stage, model_cfg, system, user):
+    def _live_raw(self, stage, model_cfg, system, user, retried_empty=False):
         key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
         if not key:
             raise LLMError(f"{stage}: ANTHROPIC_API_KEY is not set -> failing closed "
@@ -228,7 +228,20 @@ class Client:
         parts = [b.get("text", "") for b in resp_json.get("content", []) if b.get("type") == "text"]
         text = "".join(parts).strip()
         if not text:
-            raise LLMError(f"{stage}: empty model response -> failing closed")
+            blocks = [b.get("type") for b in resp_json.get("content", [])]
+            u = resp_json.get("usage", {}) or {}
+            detail = (f"[model={model} stop_reason={resp_json.get('stop_reason')} "
+                      f"blocks={blocks or 'none'} max_tokens={body.get('max_tokens')} "
+                      f"out_tokens={u.get('output_tokens')}]")
+            # RETRY ONCE ON EMPTY (owner ruling 2026-08-04). Fail-closed is correct for
+            # BAD content; it is the wrong answer to NO content, which is a transient
+            # hiccup a second call usually resolves. Four empties in a week, every one
+            # on the same model, cost this desk two evening editions. One retry, then
+            # the original fail-closed with the diagnostics intact.
+            if not retried_empty:
+                print(f"::warning::{stage}: empty model response {detail}; retrying once")
+                return self._live_raw(stage, model_cfg, system, user, retried_empty=True)
+            raise LLMError(f"{stage}: empty model response twice -> failing closed {detail}")
         # A max_tokens stop means the tail of the payload is missing; as a ContractError
         # it climbs the retry ladder with the cause named instead of surfacing later as
         # an opaque parse failure.
