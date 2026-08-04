@@ -147,14 +147,29 @@ def _flag_digest(groups):
                for i in json.load(urllib.request.urlopen(req))):
             print("kill-streak digest already open; not duplicating")
             return
-        sections = []
+        # GitHub rejects an issue body over 65536 chars, and on 2026-08-04 the crypto
+        # desk's 24 streaks quoted out to 75182: the digest silently failed to file
+        # while its siblings' shorter ones went through. The alarm must never be the
+        # thing that breaks. Sections are added while they fit, and the tail is named
+        # rather than dropped in silence.
+        LIMIT = 60000
+        sections, used, dropped = [], 0, 0
         for g in sorted(groups, key=lambda g: -len(g)):
-            sections.append(f"\n### {len(g)}x: {g[-1]['headline'][:90]} "
-                            f"({g[0]['date']}..{g[-1]['date']})")
+            block = [f"\n### {len(g)}x: {g[-1]['headline'][:90]} "
+                     f"({g[0]['date']}..{g[-1]['date']})"]
             for k in g:
-                sections.append(f"- **{k['date']}** [{k['category']}] {k['headline'][:90]}")
+                block.append(f"- **{k['date']}** [{k['category']}] {k['headline'][:90]}")
                 for r in k["reasons"][:2]:
-                    sections.append(f"  - {r[:300]}")
+                    block.append(f"  - {r[:300]}")
+            size = sum(len(x) + 1 for x in block)
+            if used + size > LIMIT:
+                dropped += 1
+                continue
+            sections.extend(block)
+            used += size
+        if dropped:
+            sections.append(f"\n_{dropped} further streak(s) omitted to fit GitHub's "
+                            f"issue-body limit; the run log lists every one._")
         body = (
             "Developments with three or more consecutive approver kills and no publish "
             "breaking the streak (the Coldcard pattern: 13 kills over three days while "
@@ -174,7 +189,12 @@ def _flag_digest(groups):
         urllib.request.urlopen(req)
         print(f"kill-streak digest opened: {title}")
     except Exception as e:
-        print(f"kill_streak: could not file digest ({e.__class__.__name__})")
+        detail = ""
+        try:
+            detail = f" {e.code}: {e.read().decode('utf-8', 'replace')[:200]}"
+        except Exception:
+            pass
+        print(f"kill_streak: could not file digest ({e.__class__.__name__}{detail})")
 
 
 def main():
