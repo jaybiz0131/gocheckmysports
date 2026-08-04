@@ -4289,5 +4289,35 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c128",
+    "headline": "STORY BLOCKED: Mitch Keller injury details not available from source",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a meta-commentary acknowledging source failure, not a story built from the brief. The brief contains zero data_points (empty array) and explicitly notes 'source_chars: 0', making it impossible to trace any factual claim from the draft to the research. A story cannot be approved when the hard rule\u2014'no fact exists outside the brief'\u2014cannot be satisfied because the brief contains no facts. This should have been rejected at research intake, not submitted as a draft."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Cleveland's WNBA expansion franchise officially named the Sirens, set for 2028 debut",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Rock Entertainment Group, which has owned the Cavaliers since 2005' but the brief attributes this claim to ESPN with 'reported' confidence. The draft does not attribute this fact inline to ESPN. More critically, the data_point in the brief says 'Dan Gilbert's Rock Entertainment Group' but the draft omits 'Dan Gilbert' by name, creating an inaccuracy: it is Dan Gilbert (or his entity bearing his name) who owns Rock Entertainment Group, not an anonymous 'Rock Entertainment Group' that happens to own the Cavaliers. This is a material attribution and ownership fact that must be traced correctly."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "Reusser wins stage four time trial, takes yellow jersey at Tour de France Femmes",
+    "category": "accuracy",
+    "reasons": [
+     "Headline claims 'record time trial performance' but the brief's open_questions flag explicitly states: 'ESPN reports only that she won with the fastest time, not explicitly whether it set a course or Tour record.' The draft presents as settled fact what the brief identifies as unconfirmed. The body text does not repeat this claim, but the headline\u2014the first thing readers see\u2014overstates the evidence."
+    ]
+   }
+  ]
  }
 ]
