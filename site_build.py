@@ -1920,7 +1920,7 @@ def build():
     # build): the composed front replaces the Latest tab at its own URL; back issues
     # under /edition/. Written LAST so the composed front wins the /news.html route.
     import edition as _edition
-    n_ed = _edition.build(items, w)
+    n_ed = _edition.build(items, w, shell=shell)
     if n_ed:
         print(f"site: The Edition composed for {n_ed} day(s) -> news.html + /edition/")
 

@@ -222,6 +222,7 @@ jobs:
           # a breaking run REGENERATES the current slot's edition so The Bottom Line
           # includes the story that just broke (owner directive 2026-07-15)
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+          SLOT_CRON: ${{ github.event.schedule }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
 
