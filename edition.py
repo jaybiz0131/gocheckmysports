@@ -123,24 +123,24 @@ def _clip(text, n):
 # Demo tokens verbatim; inference only where the demo is silent (print page-break
 # tuning, phone collapse of topbar/dateline, the skip link the site standard requires).
 CSS = """
-:root{
+.ed-sheet{
   --paper:#F7F5F0; --ink:#1A1A1A; --ink-soft:#444444; --ink-faint:#6B6B6B;
   --rule:#C9C4B8; --rule-heavy:#1A1A1A; --accent:#9C4A21; --link:#184454;
   --measure:38rem;
   --serif:'Newsreader', Georgia, 'Times New Roman', serif;
   --sans:Inter,system-ui,sans-serif;
 }
-[data-theme="dark"]{
+[data-theme="dark"] .ed-sheet{
   --paper:#141414; --ink:#E8E4DC; --ink-soft:#B8B4AC; --ink-faint:#8A8680;
   --rule:#3A3833; --rule-heavy:#E8E4DC; --accent:#C89A4A; --link:#79B8BE;
 }
-[data-theme="eink"]{
+[data-theme="eink"] .ed-sheet{
   --paper:#FFFFFF; --ink:#000000; --ink-soft:#000000; --ink-faint:#333333;
   --rule:#999999; --rule-heavy:#000000; --accent:#000000; --link:#000000;
 }
-[data-theme="eink"] *{transition:none !important; animation:none !important;
+[data-theme="eink"] .ed-sheet *{transition:none !important; animation:none !important;
   text-shadow:none !important;}
-[data-theme="eink"] body{font-family:Georgia,'Times New Roman',serif;}
+[data-theme="eink"] .ed-sheet{font-family:Georgia,'Times New Roman',serif;}
 *{box-sizing:border-box; margin:0;}
 html{scroll-behavior:smooth;}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
@@ -269,14 +269,14 @@ JS = """
   try{var s=localStorage.getItem(KEY); if(s in MAP)cur=s;}catch(e){}
   function apply(){
     document.documentElement.setAttribute('data-theme',MAP[cur]);
-    var bs=document.querySelectorAll('.modes button[data-mode]');
+    var bs=document.querySelectorAll('.ed-modes button[data-mode]');
     for(var i=0;i<bs.length;i++)bs[i].setAttribute('aria-pressed',
       String(bs[i].getAttribute('data-mode')===cur));
   }
   document.addEventListener('click',function(e){
-    var b=e.target.closest?e.target.closest('.modes button[data-mode]'):null;
+    var b=e.target.closest?e.target.closest('.ed-modes button[data-mode]'):null;
     if(b){cur=b.getAttribute('data-mode');try{localStorage.setItem(KEY,cur)}catch(e2){}apply();}
-    var p=e.target.closest?e.target.closest('.modes button[data-print]'):null;
+    var p=e.target.closest?e.target.closest('.ed-modes button[data-print]'):null;
     if(p){window.print();}
   });
   apply();
@@ -336,7 +336,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     <button data-mode="print" aria-pressed="true">Print</button>
     <button data-mode="night" aria-pressed="false">Night</button>
     <button data-mode="eink" aria-pressed="false">E-ink</button>
-    <button data-print="1">Print or save as PDF</button>
+    <button data-print="1">Save as PDF</button>
   </nav>
 </div>"""
 
