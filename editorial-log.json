@@ -4189,5 +4189,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Ravens' Zay Flowers and team announce four-year extension at $140M with $108M guaranteed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Flowers 'set a career high with 86 catches in 2025' but the brief data_point says 'Last season, Flowers set career highs with 86 catches' with confidence 'verified-on-chain'. The brief does not specify which season is 'last season' in relation to the current draft date (2026-08-04). The draft's use of '2025' as a definitive year is not explicitly confirmed in the brief's language and creates ambiguity about whether this refers to the immediately preceding season.",
+     "The draft states 'Flowers' 36.9% share of receiving yards was the second-highest share by any player in 2025, behind Seattle's Jaxon Smith-Njigba at 44.1%' but does not attribute this finding to ESPN inline. While the brief confirms the comparison is reported, the draft should clarify attribution of the year-specific league ranking claim."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Jets rookie TE Kenyon Sadiq to miss time after hernia setback during training camp",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes medical speculation beyond the official record: 'Glenn explained that the setback is hernia-related and noted that when doctors perform hernia surgery, \"most doctors do both sides,\" and he wants to \"make sure that I take care of him so he can be ready for the season.\"' This generalizes Glenn's statement about surgical practice into a broader medical explanation without attribution to a medical professional. The phrase 'most doctors do both sides' is Glenn's interpretation, not a verified medical fact, and presenting it as explanatory background for a player's injury crosses into medical terrain beyond the official injury report.",
+     "The draft states 'Sadiq is not expected to require another surgery' as a definitive fact, but the brief confidence label is only 'reported'\u2014this is an expectation, not a confirmed medical determination, and should be attributed more carefully or qualified as an expectation rather than stated as settled fact."
+    ]
+   },
+   {
+    "id": "c133",
+    "headline": "MLB.com ranks 2026 trade deadline winners",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The specific teams named in the ranking, the individual players acquired, and the trades evaluated in the piece are not available from the fetched source material.' This is accurate but the entire draft is an admission that no reportable facts exist beyond the title and publication date. The brief's open_questions section explicitly confirms 'The source text provided is primarily CSS font declarations and contains no readable article content.' Publishing a story that says 'we don't know what the article says' is not fulfilling the editorial mission; the story should not have been drafted at all until the source material was readable."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Falcons extend Robinson, offensive core, put spotlight on QB",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Kyle Pitts signed 'three-year, $54 million three weeks later' (after London's June 8 deal). The brief data_point says 'Kyle Pitts Sr. was extended for three years and $54 million three weeks after London's deal.' However, the brief does not specify the dollar amount for Pitts' deal; only the brief's data_point title references $54M, but checking the actual data point reveals no contract value is explicitly stated in the source URL text. The draft introduces a specific figure ($54M) that cannot be verified against the source material provided in the brief. Additionally, the draft earlier states 'four-year, $141 million deals for receiver Drake London' but the brief states London received a 'four-year, $141 million extension.' The brief does not include a separate data point confirming Pitts' extension value of $54M\u2014only that he was extended 'for three years' three weeks after London. This is a SMUGGLED fact."
+    ]
+   },
+   {
+    "id": "c102",
+    "headline": "Manchester United Women in talks with Eva Olid to replace Marc Skinner",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims talks are with 'multiple sources cited by the Guardian' but the brief explicitly states the source is a single Guardian article and notes 'the brief is thin, drawn entirely from the snippet's assertion of multiple sources.' The writer has fabricated attribution to multiple sources when only one source exists in the brief.",
+     "Draft states 'Olid, 40, could be appointed within the next 36 hours' as a forward-looking possibility, but this fact (the 36-hour timeline) comes from the brief's reported claims and should be presented as reporting from the Guardian, not as speculation about what 'could' happen. The confidence level 'reported' requires the clause to read as what was reported, not as conditional.",
+     "Draft says 'No official confirmation or timeline has been provided by Manchester United' and 'Details of Olid's record at Hearts or other qualifications beyond her previous role are not confirmed' \u2014 these are editorial hedges about what the writer did not find, not facts from the brief. The brief's open_questions note these gaps exist, but the draft should not present the absence of information as a news fact itself."
+    ]
+   }
+  ]
  }
 ]
