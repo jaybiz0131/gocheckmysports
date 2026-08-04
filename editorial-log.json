@@ -4239,5 +4239,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c076",
+    "headline": "Kelsey Plum scores 20 points in first game as Mercury, a day after Sparks trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes Plum's 20-point, 21-minute debut as 'the highest-scoring debut by a Mercury guard since Diana Taurasi in 2004.' The brief data_point states this as a direct comparison, but the brief's open_questions note asks 'How many games has Diana Taurasi played in her Mercury debut in 2004, and what was her point total?' This unresolved discrepancy in the source material means the claim cannot be verified as fact. The draft presents an unconfirmed comparison as settled fact.",
+     "The draft states 'No other material details about the transaction, the game outcome, or the Mercury's current playoff standing are confirmed in the available reporting.' This is a hedge that admits the brief is thin (confirmed: thin=true) but then presents the story anyway. The draft should either provide the material details or acknowledge their absence more transparently in the prose rather than burying it. The opening sentence makes Plum's scoring debut the story, but then admits we don't know the game outcome\u2014a critical detail for assessing whether this performance mattered."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Ravens extend Zay Flowers with $140 million deal, securing Jackson's top target",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes to Lamar Jackson the quote: 'He's just elusive. He's got the speed, he's got the quickness, the in and out of breaks. He really has everything a receiver needs. And he plays big.' However, the brief's data_point 21 attributes this same quote to Ravens cornerback Nate Wiggins, not Jackson. The draft misattributes this quote. Jackson is quoted separately in the brief (data_point 15) with different language about Flowers' market value.",
+     "The draft presents the anecdote about Flowers 'driving to Jackson's house at 5 a.m. in the offseason, honking his horn to get Jackson to come out for workouts' as fact in the narrative flow (it appears in brief data_point 18), but this claim originates from ESPN and should be attributed or flagged as reported, not presented as established fact without source signal in the prose."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Cleveland Sirens: WNBA's newest expansion franchise officially unveiled with independent branding",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Dan Gilbert's Rock Entertainment Group' but the brief data point identifies the owner only as 'Rock Entertainment Group' without naming Dan Gilbert. The draft has smuggled in a name (Dan Gilbert) that does not appear in the brief's sourced material.",
+     "The draft claims the Sirens will begin play 'in 2028 alongside the other expansion team coming to the league in that year,' but the brief contains no data point about a second expansion team or its timing. This is new information not in the brief."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Pac-12 and Mountain West reach settlement in realignment lawsuit",
+    "category": "balance",
+    "reasons": [
+     "The brief explicitly notes the source text is 'truncated and does not contain the substantive details of the settlement: terms agreed to, financial payments, specific schools affected, or statements from either league' and lists multiple open_questions about missing context. The draft transparently admits 'specific terms of the agreement, financial considerations, or detailed statements from either league are not available in the current sourcing,' which undercuts the credibility of leading with a settlement as a resolved matter. A story framed as 'settlement reached' without any terms, amounts, or league statements reads as a rumor-laundering piece and would embarrass the desk if details emerge contradicting the 'resolution' framing. The story is too thin to publish."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Jets rookie TE Sadiq sidelined from camp with hernia setback, Glenn expects Week 1 return",
+    "category": "compliance",
+    "reasons": [
+     "The draft states Sadiq 'managed the hernia injury through part of last season at Oregon, missing only one game' as a definitive fact about a player's medical history and injury management during college. This goes beyond the brief's scope, which only notes that 'Sadiq played with the injury through part of last season at Oregon, missing one game' and that 'The Jets said they were aware of the injury when they drafted him.' The draft's characterization of how he 'managed' a specific medical condition is speculative interpretation beyond the official record provided in the brief.",
+     "The draft's statement 'Despite the immediate practice absence, Glenn expressed confidence about Sadiq's status for the regular season, saying he is \"very confident\" the tight end will be ready for Week 1' requires scrutiny: Glenn's exact confidence level must trace directly to the brief. The brief lists Glenn's quote about being 'very confident' that Sadiq will be ready for Week 1, but the draft's framing of Glenn's confidence as coming 'despite the immediate practice absence' editorializes the tone beyond what the brief supports. The brief's bear_case explicitly notes Glenn said 'So I'm not real worried, but I think I want to make sure that I make the right decision,' indicating measured caution, not unqualified confidence\u2014a nuance the draft softens."
+    ]
+   }
+  ]
  }
 ]
