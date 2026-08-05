@@ -4626,5 +4626,65 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c082",
+    "headline": "Falcons edge rusher Jalon Walker tears ACL in training camp",
+    "category": "compliance",
+    "reasons": [
+     "The brief is marked 'thin': true and contains only 3 data_points with minimal sourcing. The draft presents a torn ACL diagnosis as fact but acknowledges in the second paragraph that 'The Falcons have not issued an official public statement confirming the injury diagnosis.' This creates a compliance liability: the draft reports an injury diagnosis from a secondary source (CBS Sports) without the official team confirmation that would be required for a medical/health claim. A sentence stating an injury diagnosis while simultaneously admitting the team has not confirmed it reads as speculation about a player's medical state beyond the official record, which violates the compliance boundary."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Lu\u00eds Figo calls for Infantino to resign over failed World Cup privatization plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Figo's statement was released 'Wednesday' but the brief data_point timestamps are '2026-08-05' without day-of-week confirmation from the source. The draft should not assert a day name without explicit source confirmation of what day August 5, 2026 falls on.",
+     "The draft names 'the former Arsenal manager and current FIFA chief of global football development' without identifying the individual. This is a factual claim about a person's role that appears in the body but is left unnamed, creating ambiguity about who the statement refers to. The brief's open_questions flag this exact gap: 'Who is the former Arsenal manager identified as current FIFA chief of global football development who distanced himself on Tuesday? The source does not name this figure.' The draft cannot smuggle an unnamed person into the narrative.",
+     "The draft states 'Infantino has not yet responded publicly to Figo's statement or the broader calls for resignation, based on available reporting' but the brief contains no data_point confirming this negative fact. A claim about what Infantino has NOT done requires affirmative source backing, not inference from silence."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "LIV Golf announces outside investor backing to continue beyond 2026 season",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'The funding agreement remains a stated objective rather than a closed transaction' and 'The investor agreement remains unsigned pending final terms and close, making the funding conditional rather than certain.' This language obscures the distinction between announced-not-verified claims in the brief. The brief data_point labels the agreement itself as 'announced-not-verified' (claim: 'LIV Golf has an agreement in place with a lead investor, signed by the investor and approved by the board'). The draft must preserve this confidence label explicitly in prose rather than bury it in cautionary language that may mislead readers into thinking the deal is closer to done than the brief permits.",
+     "The draft states 'LIV Golf reported strong interest from more than a dozen additional parties to serve as minority investors' but the brief labels this claim 'announced-not-verified,' not 'reported.' The draft's framing as a simple report elides the sourcing uncertainty flagged in the brief."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Mykhailo Mudryk plays in friendly after serving 20-month doping suspension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens by stating Mudryk 'returned to competitive football Wednesday in a preseason friendly' and later states 'nine months after the Football Association cleared him to play again.' The brief data_point states 'Mudryk was last week cleared to play again by the FA' (timestamp 2026-08-05). If the friendly is Wednesday Aug 5, 2026, and the brief says 'last week,' that timeline contradicts the draft's 'nine months after' phrasing. The draft has smuggled a time calculation (nine months) not present in the brief and inconsistent with the brief's own timeline ('last week'). This is a factual error on a material detail: when Mudryk was cleared.",
+     "The draft states the friendly was played at 'Kai Tak Stadium in Hong Kong' but the brief's data_point says only 'The friendly was played at the Kai Tak Stadium in Hong Kong' without specifying which Kai Tak Stadium or confirming an active stadium by that name. Kai Tak Stadium (the original Hong Kong venue) closed in 1994. The draft should not assert this venue name without independent source verification beyond the brief, and the brief itself does not confirm it reliably."
+    ]
+   },
+   {
+    "id": "c074",
+    "headline": "Oregon assistant Ra'Shaad Samples charged with DUII after fleeing crash",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and explicitly states 'The provided source text is truncated and contains only navigation metadata; no substantive reporting is present.' The draft asserts multiple facts as established (charges of DUII and reckless driving, a crash, an alleged false identity claim) that do not appear in the brief's data layer and cannot be traced to substantive source content. The writer has smuggled facts from outside the brief.",
+     "The draft presents these charges as confirmed fact rather than announced-not-verified. The brief's open_questions confirm the source is truncated navigation metadata only\u2014no charges or details are actually present in the fetched material."
+    ]
+   },
+   {
+    "id": "c085",
+    "headline": "Browns HC Monken outlines QB audition structure for Watson, Sanders",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and explicitly states 'The provided source text is truncated and contains only navigation metadata; no substantive reporting is present.' The draft asserts that Monken 'announced a plan to start Deshaun Watson and Shedeur Sanders in separate preseason games before making a decision on the Week 3 starter' as established fact, but this information does not appear in the brief's data layer.",
+     "The brief's open_questions confirm 'No details on which quarterback starts which preseason game, when those games occur, the criteria Monken will use to decide, or any quotes from Monken appear in the fetched content.' The writer has attributed a complete QB audition plan to a truncated, navigation-only source and cannot trace the facts back to substantive reporting in the brief."
+    ]
+   }
+  ]
  }
 ]
