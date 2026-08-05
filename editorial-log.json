@@ -4568,5 +4568,63 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c079",
+    "headline": "Falcons Edge Rusher Jalon Walker Suffers Torn ACL in Training Camp",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'the Falcons could be down two starting edge rushers for at least part of the 2026 season' but provides no identification of the second edge rusher or confirmation of injury. The brief's data_point says 'Atlanta could be down two starting edge rushers' but does not specify whether this is confirmed or speculative. The draft presents this as established fact without the qualifying language that would match the brief's uncertainty. The identity and status of the second edge rusher must either be named with source attribution or the sentence must be reframed to reflect that this is a potential scenario, not a confirmed situation."
+    ]
+   },
+   {
+    "id": "c082",
+    "headline": "Browns Plan Separate Preseason Starts for Watson and Sanders Before Naming Starter",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes a plan for Watson and Sanders to 'start in separate preseason games, with the winner of that evaluation earning the start in the third preseason contest.' The brief contains only one data_point: 'Todd Monken plans to start each QB in one preseason game, before deciding who will start the third.' The draft's framing of 'the winner of that evaluation' earning the third start is an inference not present in the brief. The brief does not state that the third start is a reward or that it follows a competitive evaluation between the two games\u2014it only states that a decision will be made before the third game. This characterization goes beyond what the source material supports."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "European Leagues Call for FIFA Governance Reform After Infantino's Failed World Cup Plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Infantino, who is aiming to win a fourth and final term in office in elections scheduled for March' but the brief's open_questions note that the exact year of the FIFA elections is not specified in the source, only 'implied contextually' as 2027. The draft presents March as a settled fact without the uncertainty the brief acknowledges.",
+     "The draft introduces 'Luis Figo called for Infantino to step down, saying he had debased the office' as a single fact in the body, but this appears to be sourced from a different ESPN article (c017) about Figo's statement, not from the European Leagues article cited in c005's sources. The European Leagues brief does not list Figo's call for resignation as a data point; it appears only in c017's brief."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Luis Figo Demands Infantino's Resignation Over Failed World Cup Privatization",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'UEFA has raised the prospect of legal action against Infantino over the World Cup sell-off plan, according to sources who told ESPN, though the reporting carries an unconfirmed label.' However, the brief marks this claim as 'unconfirmed' confidence, and the draft does not signal that uncertainty in its prose\u2014it presents the claim as fact that occurred, only parenthetically noting ESPN's labeling. The sentence structure ('has raised the prospect') reads as settled fact, not speculation.",
+     "The draft names 'Former Arsenal manager and current FIFA chief of global football development distanced himself from Infantino's plan on Tuesday, according to ESPN' without naming Ars\u00e8ne Wenger. The brief's open_questions explicitly flag that 'The source does not name the specific FIFA chief of global football development who distanced himself from Infantino's plan on Tuesday.' The draft compounds this by not naming him while the c005 brief (the broader story) identifies him as Wenger. This creates a factual ambiguity that violates the hard rule: facts must come from the brief, and the c017 brief does not name him."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "LIV Golf Announces Funding Agreement to Secure League Operations Beyond 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'LIV Golf has an agreement in place with a lead investor, signed by the investor and approved by the board' and 'The investor agreement has been signed by the investor and approved by the board.' However, the brief marks this as 'announced-not-verified' confidence, and the bottom_line correctly notes 'The investor agreement remains unsigned pending final terms.' The draft's opening paragraphs present the agreement as already signed, contradicting both the brief's confidence label and the draft's own bottom_line. This is a critical factual collision.",
+     "The draft's title 'LIV Golf Announces Funding Agreement to Secure League Operations Beyond 2026' and opening sentence claim the agreement has been 'reached' and 'announced,' but the brief marks key structural claims (equity distribution, player rights regain, schedule) as 'announced-not-verified' and notes these are O'Neil's statements, not independently verified facts. The draft should flag this uncertainty more clearly in the body, not bury it late in paragraphs."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "Tour de France Femmes: Demi Vollering wins stage five amid general classification reshuffling",
+    "category": "accuracy",
+    "reasons": [
+     "The claim 'Katarzyna Niewiadoma, reflecting on her time trial performance, stated...' attributes a quote about a time trial to Niewiadoma, but the brief's data_point for that quote does not specify that it was about a time trial performance. The draft adds interpretive detail ('reflecting on her time trial performance') not present in the source documentation, changing the context of the quote.",
+     "The draft states 'Riders competing in stage five faced pre-race checks for aerodynamic chest padding' as fact, but the brief marks this as 'reported' confidence with an open question noting 'the substantive reporting details...are not present in the fetched text.' The draft presents this without hedging language despite the source material's incompleteness, risking attribution of a claim the underlying source may not have fully substantiated."
+    ]
+   }
+  ]
  }
 ]
