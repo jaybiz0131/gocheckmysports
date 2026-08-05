@@ -4380,5 +4380,65 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Infantino calls emergency executive meeting in Morocco as criticism mounts from within FIFA",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Wenger, who has held his role encompassing data analysis of the game, FIFA's online training and youth competitions since 2019' but the brief's data point says only 'Wenger, who was hired by Infantino in 2019, is FIFA's chief of global football development'\u2014the specific job description (data analysis, online training, youth competitions) does not appear in the brief and is smuggled from outside research.",
+     "The draft references 'Prince Ali, president of the Jordanian Football Association' making accusations about 'blackmail' and unpaid prize money from the Arab Cup, but the brief does not state the timeframe, context, or whether this criticism is connected to or separate from the FFE scandal\u2014the connection is left ambiguous in a way the source does not support."
+    ]
+   },
+   {
+    "id": "c080",
+    "headline": "Falcons edge rusher Jalon Walker reported to have torn ACL during training camp",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'is reported to have suffered a torn ACL' but the brief's core claim and data point use the softer language 'is feared to have torn his ACL' and mark the claim as 'unconfirmed'\u2014the draft's language 'reported to have' implies more official sourcing than 'unconfirmed' permits; the confidence level must survive in the prose.",
+     "The draft states 'The Falcons could be down two starting edge rushers for at least part of the 2026 season' as fact, but the brief marks this as 'reported' (not 'unconfirmed'), and the brief's open_questions note that 'the identity of the other starting edge rusher mentioned are available'\u2014the draft treats a detail as settled when the source material does not contain it."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "David Mirkovic undergoes foot surgery; return timeline undetermined",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'The fetched source text is a malformed HTML fragment and does not contain the article body; no surgical details, prognosis, official statement from Illinois, or information about his draft status are available.' The draft presents all four core facts (injury date July 31, announcement Aug 4, surgery occurred, return timeline undetermined) as if confirmed by the source, but the source is broken and cannot verify them. The writer has smuggled facts from somewhere other than the brief's data_points.",
+     "The brief marks all four data_points as 'reported' confidence level, but notes that the source itself failed to load. The draft should reflect this uncertainty or the story should not run until a working source can verify these claims."
+    ]
+   },
+   {
+    "id": "c192",
+    "headline": "Brothers George Jr. and Jacob Lombard homer in simultaneous MLB debuts",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions state: 'The fetched source text is primarily CSS font declarations and styling markup; no narrative content carrying game details, scores, dates, team names, or biographical context was extracted.' The source URL does not contain readable article body content.",
+     "The draft presents 'George Jr. and Jacob Lombard are brothers who made simultaneous MLB debuts' and 'Both brothers homered in their respective debut games' as confirmed facts, but the source is corrupted and cannot verify them. The writer has smuggled these facts outside the brief's research process.",
+     "No details are available in the brief about teams, dates, or game circumstances\u2014the brief itself acknowledges this gap in open_questions. The draft should not run until a working source can provide verification."
+    ]
+   },
+   {
+    "id": "c074",
+    "headline": "Larry Berg Named MLS Commissioner; Signals Push for Higher Broadcast Revenue and Roster Changes",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The 30 MLS owners voted for Berg on Monday' and 'Berg needed a two-thirds majority, or 20 owners, to secure the job.' However, the brief's data_point explicitly states 'The 30 MLS owners unanimously voted for Berg on Monday' (confidence: reported). The draft contradicts this by saying multiple rounds of voting were required to reach a 20-owner threshold. The brief's data_point also states 'Multiple rounds of voting were required to reach the 20-owner threshold' (confidence: reported), but this conflicts with the simultaneous claim of unanimous voting. The draft compounds this by presenting the threshold language without clarifying the contradiction between 'unanimous' and 'multiple rounds to reach 20.' This is a material factual discrepancy between draft and brief that must be resolved before publication."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Draper Loses in Tears During Canadian Open Comeback After 12-Month Absence",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'He reached a career-high ranking of number four last summer before winning the Indian Wells Open, per ESPN.' However, the brief assigns this claim to ESPN with confidence 'reported', but the data_point text says 'before winning the Indian Wells Open' while the brief's corresponding data_point about Indian Wells only states 'Draper won the Indian Wells Open before injury cut his 2025 season short' with no temporal anchor to 'last summer.' The sequencing in the draft (ranking four last summer, then won Indian Wells) cannot be verified from the brief's data_points, which do not establish the timing relationship between reaching #4 and winning Indian Wells.",
+     "Draft sources list 'https://www.espn.com/soccer/story/_/id/49532108/jack-draper-tears-canadian-open-comeback-ends-defeat' but this is marked as a soccer URL, not tennis. This is a source integrity issue that raises questions about whether the actual ESPN content was accessed correctly."
+    ]
+   }
+  ]
  }
 ]
