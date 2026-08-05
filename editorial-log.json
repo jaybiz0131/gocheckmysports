@@ -4319,5 +4319,66 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "FIFA executives distance themselves from Infantino's collapsed World Cup plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Kevin Lamour, FIFA's chief operating officer, went further. Lamour said staff had been \"deceived\" by the plan and that it was the \"project of one person,\"' but the brief lists Lamour's quotes in separate data_points. More critically, the draft introduces Lamour as a third executive distancing himself, but the core_claim and angle only mention Wenger and Grafstr\u00f6m as the two senior executives. Lamour appears in data_points but was not part of the original claim structure, making his elevation to equal status with the other two executives a smuggled addition that expands the story beyond the brief's core finding.",
+     "The draft states 'UEFA's lawyers naming Wenger, Grafstr\u00f6m, and Lamour among 18 executives whose communications should be retained as potential evidence' as part of the narrative flow, but this detail is neither in the core_claim nor presented as its own data point emphasis\u2014it reads as supporting context rather than a independently verified finding, and the three executives being named together could imply equal culpability when only Wenger and Grafstr\u00f6m were the focus.",
+     "The draft presents the Jared Kushner relationship ('whose brother Jared Kushner is a son-in-law of U.S. President Donald Trump') as background fact, but this personal/family detail about a non-athlete is compliance-adjacent: it adds political coloring that goes beyond the scope of FIFA governance and could be read as editorializing rather than reporting the investment structure itself."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Falcons EDGE Walker feared to have torn ACL in training camp",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Walker is feared to have suffered a torn ACL' and 'Walker's status is feared to be a torn ACL, though official confirmation from the Falcons is not yet in public sources.' This is medical speculation about a player's body presented with hedging language ('feared,' 'not yet confirmed') but without the clear confidence label from the brief. The brief labels the ACL claim as 'reported,' meaning it comes from a source but is unconfirmed by official team diagnosis. The draft's phrasing ('feared to have') borders on speculation about the athlete's medical state beyond the official record. The compliance line requires that unconfirmed injury claims read as such, and 'feared to have' reads closer to rumor-laundering than to 'reported but unconfirmed by the team.'"
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Source material for Rutschman deadline trade story is corrupted; unable to verify reporting",
+    "category": "accuracy",
+    "reasons": [
+     "Draft presents itself as reporting on a corrupted source and declares no story can proceed, but this meta-commentary about source failure is itself not a fact from the brief. The brief's open_questions and core_claim both state the source is corrupted and unverifiable. The draft should not exist as a published story; it reads as an internal note. If the intent is to publish a story explaining why a planned Rutschman story failed, that is editorial commentary not covered by the brief's data_points, and crosses into original analysis outside the research boundary."
+    ]
+   },
+   {
+    "id": "c073",
+    "headline": "Larry Berg unveiled as new MLS commissioner; signals aggressive media-rights strategy",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'all 30 team owners unanimously voted for the private equity executive on Monday' but the brief data_point says 'All 30 MLS owners unanimously voted for Berg on Monday, according to Columbus Crew owner Jimmy Haslam, who led the succession committee.' The draft drops the attribution and the qualifier that Berg 'needed a two-thirds majority, or 20 owners' per another data_point\u2014the word 'unanimously' is misleading without this context. Berg did not win unanimous approval; he met the 20-owner threshold required.",
+     "Draft contains the sentence 'Berg said he learned from Garber to \"never say never,\" but he does not see promotion and relegation happening anytime soon for MLS.' This sentence appears twice in the draft (once in the promotion/relegation section and once in the roster section), which is redundant and suggests copy-paste error or careless editing."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Infantino convenes emergency executive meeting as senior officials reject restructuring plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Carlos Cordeiro 'resigned over the proposal, stating it was \"a bad deal for football\"' but the brief data_point 15 specifies he is 'the only FIFA official to resign over the scandal'\u2014suggesting his resignation is notable as isolated, not as one among many. The draft's phrasing does not capture this distinction and may overstate the breadth of resignations.",
+     "The draft reports Wenger 'first became aware of the project through media reports' and quotes him stating this, but does not acknowledge the brief's data_point 12, which shows Wenger also issued a separate statement 'a week after' demanding 'transparency and integrity.' The draft omits this timeline and the separate transparency demand, flattening his opposition into a single statement."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Draper loses opening match in injury comeback, breaks down in third set",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Draper 'sustained at the US Open in August of the previous year' but the brief's data_point 9 says 'Draper injured his shoulder at the US Open in August' without specifying 'of the previous year.' The draft adds temporal framing ('of the previous year') not present in the brief's sourced claim.",
+     "The draft claims Draper 'fell from a career-high ranking of number four, reached last summer, to as low as 160th' but the brief data_point 7 states 'Draper's world ranking plummeted from fourth to as low as 160th in a 12-month period'\u2014the draft specifies 'last summer' for the career-high but the brief does not source that specific timing, only the 12-month window.",
+     "The draft states the injury 'subsequently developed into bone bruising' but the brief data_point 10 says 'Since injuring his shoulder, Draper has struggled with bone bruising'\u2014the draft's word 'developed' suggests a causal progression not explicitly stated in the sourced claim.",
+     "The draft claims Draper 'He played without the compression sleeve that had supported him during recent appearances' but brief data_point 12 says 'Draper appeared initially nervous but without the compression sleeve that supported him through recent appearances'\u2014the draft strips the hedging qualifier 'appeared initially nervous' and presents the sleeve absence as isolated fact rather than observation during play."
+    ]
+   }
+  ]
  }
 ]
