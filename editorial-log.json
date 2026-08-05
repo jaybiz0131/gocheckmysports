@@ -4472,5 +4472,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c032",
+    "headline": "Pac-12 and Mountain West finalize settlement over conference poaching and exit fees",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states poaching clause required payments in 'pounds' (\u00a310m, \u00a3500k, \u00a355m total), but brief data_point specifies these figures in dollars ($10m, $500k, $55m). Currency conversion is a material fact that cannot be invented; the writer smuggled a currency change not in the source."
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "Alcaraz withdraws from Cincinnati Masters with wrist injury as US Open looms",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Alcaraz is the defending title holder at the US Open' but this claim does not appear in the brief's data_points. The brief mentions 'defending his US Open crown' in the angle/description, but the core claim and all data_points are sourced to Guardian Sport. The draft asserts a specific fact (defending champion status) that cannot be traced to the provided data_points without assumption that it was in the source material. This is smuggled information not explicitly confirmed in the brief."
+    ]
+   },
+   {
+    "id": "c114",
+    "headline": "Alex Eala wins historic WTA 500 title as Philippines celebrates first breakthrough",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the victory was 'achieved at the DC Open on Monday' but the brief does not specify which tournament this was or confirm the tournament name. The brief's data_point only says 'Eala became the first player from the Philippines to win a Women's Tennis Association title at the 500 level' without naming DC Open. The tournament identification is smuggled in from outside the brief.",
+     "The draft omits the brief's open_question about the 'specific opponent, score, and date of the DC Open final victory'\u2014which signals the brief itself does not confirm the opponent or final score. The draft should reflect this absence rather than present an accomplished fact without those details."
+    ]
+   }
+  ]
  }
 ]
