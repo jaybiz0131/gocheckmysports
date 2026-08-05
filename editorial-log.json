@@ -4440,5 +4440,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "Infantino to meet FIFA leadership amid reported opposition",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'reported opposition from the English FA, Wales, and Jordan' but the brief's data_points contain no such claim. The brief explicitly notes in open_questions that 'no details on the meeting's agenda, the specific issues driving opposition from the English FA, Wales, and Jordan' are provided in the available source text. The draft smuggles in the names of opposing bodies without source support in the brief."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "Adley Rutschman traded to Red Sox at deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim 'Adley Rutschman was traded to the Boston Red Sox at the trade deadline' with confidence level 'announced-not-verified', but the draft presents it as reported fact ('joined the Boston Red Sox at the trade deadline, according to MLB.com') without signaling the unverified status. The draft should indicate this claim has not been independently verified beyond the announcement.",
+     "The draft states 'Rutschman, an All-Star catcher' but 'All-Star' does not appear in the brief's data_points. This is smuggled information not present in the research."
+    ]
+   },
+   {
+    "id": "c110",
+    "headline": "Doubts grow over Carlos Alcaraz's US Open defence after latest withdrawal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Alcaraz 'withdrew from Barcelona' as his first consecutive tournament exit before Cincinnati, but the brief's data_points do not specify Barcelona by name. The brief states 'Alcaraz withdrew from Barcelona (implied as the event immediately preceding the Cincinnati withdrawal)' with only 'reported' confidence, and the open_questions note that 'The circumstances of the April withdrawal from Barcelona are not detailed in the provided source text.' The writer has smuggled a specific tournament name (Barcelona) that is not independently confirmed in the brief's sourced facts.",
+     "The draft states 'His withdrawal from Cincinnati follows an earlier withdrawal from Barcelona' as though Barcelona is established fact, but this exceeds what the brief can support. The brief's own open_questions acknowledge the source text does not provide 'The circumstances of the April withdrawal from Barcelona.' The writer cannot introduce unverified tournament details; facts must trace to the brief's data_points, not to inference about what the Guardian article might contain."
+    ]
+   }
+  ]
  }
 ]
