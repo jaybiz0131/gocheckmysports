@@ -4536,5 +4536,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Mohamed Salah arrives in Turkey to sign for Trabzonspor",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Salah 'announced in March that he would leave Liverpool at the end of the season, despite having a year remaining on the contract he signed in 2025.' The brief data_point says he 'announced in March that he would leave Liverpool at the end of the season, despite having a year to run on the contract he signed in 2025.' Both are consistent, but the phrasing 'contract he signed in 2025' is problematic: if Salah left at the end of a season and has 9 years of service ('nine years at Liverpool'), and signed in 2025, this would place his contract signing in the middle or near end of his tenure. This internal date inconsistency traces back to the brief itself\u2014the draft faithfully reproduced it\u2014but the draft should have flagged this logical impossibility to research rather than publishing it. A contract signed in 2025 cannot logically coexist with 'nine years at the club' if he just departed. This is an accuracy failure: the draft published an internally incoherent claim from the brief without qualification.",
+     "The draft attributes the falling out to 'then-coach Arne Slot' but does not clarify when or whether Slot is still coach. The phrasing 'then-coach' suggests he is no longer in position, which is consistent with Salah's departure, but the brief does not specify Slot's current status. The draft should have either confirmed this in the source or presented it with appropriate caution given the ambiguity."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Tour de France Femmes implements pre-race clothing checks over aerodynamic fairings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Wind tunnel research by universities in Scotland and the Netherlands has found that fairings can produce \"significant drag aero reductions,\" with wider objects generating the largest gains' but the data_point specifies the mannequin was 'a male rider, 177cm in height' - the draft omits this material detail that the research was conducted on a male mannequin, not female riders, which is a critical qualifier given the story's focus on women's cycling enforcement."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "Alcaraz withdraws from Cincinnati Open due to wrist injury ahead of US Open",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'The injury has sidelined Alcaraz since an earlier withdrawal' but the brief specifies the earlier withdrawal was from Barcelona in April\u2014a specific tournament name and date that should appear in the draft for clarity and accuracy, not vague reference to 'an earlier withdrawal'.",
+     "Draft states 'No medical timeline for return to play, statement from Alcaraz or his team, or official injury assessment from the ATP is included in current coverage' as a limiting statement, but this reads as the writer editorializing about source gaps rather than reporting what is known from the brief. The brief's open_questions section is not the same as factual claims in the draft body; this paragraph smuggles uncertainty language into the story that wasn't explicitly in the brief's reported data_points."
+    ]
+   }
+  ]
  }
 ]
