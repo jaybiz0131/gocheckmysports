@@ -4753,5 +4753,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-08",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c042",
+    "headline": "Medical examiner rules Brandon Clarke's death accidental, caused by heroin and cocaine",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Clarke died 'on May 11, 2026' but the brief data_point says he 'died in May 2026' without specifying the date. The draft has smuggled a specific date (May 11) that is not in the brief's data_points.",
+     "The draft says Clarke was 'soon traded to Memphis' after being drafted by Oklahoma City in 2019, but the brief only states he 'was drafted by the Oklahoma City Thunder and traded to the Grizzlies soon after' without confirming the timing as immediate or 'soon.' The phrasing in draft presupposes a narrative not explicitly in the brief."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "Arsenal sign Guimaraes from Newcastle for 75 million pounds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Guimaraes signed 'a four-year contract with the option of a fifth year,' but the brief contains two conflicting data_points: one says 'four-year deal with a one-year option' and another says 'four-year contract with the option of a fifth.' The draft chose the second formulation, but the writer should have traced back to source resolution, not split the difference. This is internal brief inconsistency the draft should have flagged.",
+     "The draft attributes the \u00a375m figure to ESPN, but the brief shows BBC Sport reported the fee first (data_point 1), and ESPN reported the dollar equivalent separately (data_point 4). The draft's attribution is incomplete/misleading about source priority."
+    ]
+   },
+   {
+    "id": "c157",
+    "headline": "Red Sox post 27-3 record in 30-game stretch",
+    "category": "clarity",
+    "reasons": [
+     "The draft body contains a sentence beginning with 'The brief does not provide...' which is an instruction artifact or editorial note that should not appear in published copy. This reads as an incomplete or unpolished draft.",
+     "The draft is extremely thin (only two data points in brief, zero context on playoff position, division standing, historical ranking, or what is driving performance), and while brevity is acceptable for thin briefs, this piece reads unfinished rather than tightly reported. The opening lacks stakes or context that would orient a reader unfamiliar with the Red Sox's season trajectory.",
+     "No attribution of the figures to MLB.com appears inline in the body; the opening phrase 'according to MLB.com' is present but the draft reads as a summary rather than reported prose."
+    ]
+   },
+   {
+    "id": "c182",
+    "headline": "WNBPA opposes players being weaponized in political debate",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The piece also references efforts by Enes Kanter and Royce White, who the article states have \"declared themselves as transgender to play in the WNBA,\" though the full nature of any formal petition or declaration is not detailed in the source' appears to smuggle language and implication beyond what the brief's data point supports. The brief's confidence label on this claim is only 'reported' and the open_question explicitly flags uncertainty: 'Are Enes Kanter and Royce White formally petitioning or declaring intent to join the WNBA, or is this commentary/speculation?' The draft presents this as established fact rather than signaling the ambiguity the brief documents.",
+     "The draft's body includes substantial Awful Announcing editorial commentary (criticism of WNBPA's statement as 'strong but incomplete,' characterizations of Commissioner Englebert as insufficiently 'unequivocal,' warnings about 'scars' and mockery) presented as reportage rather than clearly attributed commentary. This is editorial voice masquerading as fact, creating liability if the underlying premise\u2014that the union's statement was incomplete or the commissioner insufficient\u2014is later disputed."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "2026 Pro Football Hall of Fame Enshrinement Class Announced",
+    "category": "clarity",
+    "reasons": [
+     "The draft body reads as a meta-commentary on missing information rather than reporting. Sentences like 'The specific names, voting details, ceremony date, and individual career highlights of the 2026 inductees are not available in the verified reporting at this time' and 'For complete information on the inductees and their careers, readers should consult the Pro Football Hall of Fame's official announcements' are deflections that hollow out the story. The brief is thin (one data point: 'Five new inductees were enshrined'), but that is true; the correct response is a tight, honest story about the fact itself, not an apology for the absence of names. This reads as filler masquerading as reporting and would embarrass the desk."
+    ]
+   }
+  ]
  }
 ]
