@@ -158,7 +158,8 @@ def _corpus_on_disk():
     return out
 
 
-def classify_published(headline, key_fact="", within_days=21, body=None, corpus=None):
+def classify_published(headline, key_fact="", within_days=21, body=None, corpus=None,
+                       now=None):
     """Relate a candidate to the recently published corpus (widened from 5 to 21 days so
     multi-week running stories stay linked):
       ('rehash', title, slug)  near-duplicate to HOLD: same event, near-identical framing.
@@ -168,10 +169,21 @@ def classify_published(headline, key_fact="", within_days=21, body=None, corpus=
     overlap) is a rehash (the 5x-Kalshi case); the same event with a different angle plus
     >=2 new distinctive, non-outlet specifics (new actor/mechanism/number, e.g. the Ostium
     'Tornado Cash / 10,540 ETH' follow-up) is a development. The update links the EARLIEST
-    matched story (the origin), so 'develops our earlier reporting' points at the first take."""
+    matched story (the origin), so 'develops our earlier reporting' points at the first take.
+
+    `now` is injectable, and that is not a convenience. This function reads the wall clock to
+    build its window, so any test that pins its fixtures to absolute dates is a time bomb: it
+    passes on the day it is written and fails silently when the calendar walks past the
+    window. That is not hypothetical. The canary's Ostium follow-up fixture was dated
+    2026-07-16, the window is 21 days, and on 2026-08-06 it aged out. The origin stopped
+    matching, the follow-up classified 'new' instead of 'update', the assertion fired, and
+    because the canary is a HARD GATE all three desks stopped publishing for two days over a
+    date. hackwatch and fedreg already take an explicit `today=` for exactly this reason;
+    this closes the last clock-reading gap in the pipeline."""
     # Z-suffixed, because stored published_utc values are and this is a raw string compare.
     # isoformat() emits +00:00, which sorts against "Z" wrongly at the window edge.
-    cutoff = ((datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=within_days))
+    _now = now or datetime.datetime.now(datetime.timezone.utc)
+    cutoff = ((_now - datetime.timedelta(days=within_days))
               .strftime("%Y-%m-%dT%H:%M:%SZ")) if within_days else ""
     matches = []
     # corpus is injectable so the guard can be exercised against a controlled set of

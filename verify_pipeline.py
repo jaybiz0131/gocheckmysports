@@ -430,16 +430,25 @@ def _dedupe_guard_canary():
     wrong downstream, and the one case that must still get through, because a guard that
     holds everything is just a slower way to publish nothing."""
     fails = []
+    import datetime as _dt
     import autopilot as ap
     import dedupe
+
+    # THE FIXTURES BELOW CARRY ABSOLUTE DATES, so the clock they are judged against is pinned
+    # beside them. Without this the canary is a time bomb: classify_published builds a 21-day
+    # window from the wall clock, the Ostium origin is dated 2026-07-16, and on 2026-08-06 it
+    # walked out of that window. The follow-up stopped matching, classified 'new' instead of
+    # 'update', this canary's own assertion fired, and because layer 1 is a HARD GATE all
+    # three desks stopped publishing for two days. Nothing was wrong with the guard.
+    NOW = _dt.datetime(2026, 7, 31, 12, 0, tzinfo=_dt.timezone.utc)
 
     # CHASSIS SYNC. dedupe.py is one file copied into three repositories, so the only thing
     # keeping them honest is this hash plus the shared fixtures below. Editing the guard in
     # one desk and not the others reds every desk that was not updated.
     _sha = __import__("hashlib").sha256(
         open(dedupe.__file__, "rb").read()).hexdigest()[:16]
-    _check(_sha == "d4753cc9a2fd90a3", fails,
-           f"dedupe: this desk's dedupe.py is {_sha}, the chassis copy is d4753cc9a2fd90a3. "
+    _check(_sha == "724b2ff8e4771211", fails,
+           f"dedupe: this desk's dedupe.py is {_sha}, the chassis copy is 724b2ff8e4771211. "
            f"The guard was changed in one repo and not the others; re-sync all three.")
 
     # (4) Title Case is not evidence. A headline yields capitalised tokens for ordinary
@@ -514,7 +523,7 @@ def _dedupe_guard_canary():
     corpus = [stale, first]
     verdict, _t, _s = dedupe.classify_published(
         "US Sanctions Iranian Marine Insurers Accepting Bitcoin for Strait of Hormuz Passage",
-        retell["key_fact"], corpus=corpus)
+        retell["key_fact"], corpus=corpus, now=NOW)
     _check(verdict == "rehash", fails,
            f"dedupe: a same-day retelling classified as {verdict!r} with an unrelated older "
            f"story in the corpus; that older story is exactly what made all three Iran "
@@ -525,7 +534,8 @@ def _dedupe_guard_canary():
         "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
         followup["key_fact"], corpus=[dict(origin, id="c900", slug="ostium-origin",
                                            date="2026-07-16",
-                                           published_utc="2026-07-16T07:33:18Z")])
+                                           published_utc="2026-07-16T07:33:18Z")],
+        now=NOW)
     _check(verdict2 == "update", fails,
            f"dedupe: a genuine follow-up classified as {verdict2!r}; the guard has become a "
            f"publish-nothing gate")
