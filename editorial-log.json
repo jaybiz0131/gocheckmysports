@@ -4956,5 +4956,50 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c069",
+    "headline": "Hall of Famer Don Nelson dies at 86",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly notes that source material from both CBS Sports and The Guardian is 'incomplete or corrupted (containing only HTML boilerplate and styling code); no detailed biographical information, cause of death, career specifics, or contextual details are present.' The draft makes specific factual claims about Nelson's accomplishments and death, but the research brief's open_questions flag indicates the sources themselves could not be verified. The draft should not have been written from corrupted source material."
+    ]
+   },
+   {
+    "id": "c068",
+    "headline": "Misiorowski reaches 200 strikeouts in 129\u2154 innings, second-fastest in MLB history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Misiorowski reached 200 strikeouts in '129\u215b innings' but the brief data_point specifies '129\u2153 innings'\u2014a factual discrepancy in a quantitative claim that must trace exactly to the source.",
+     "The draft claims Misiorowski 'became MLB's first pitcher to record 200 strikeouts in a single 2026 season' but the brief's core_claim and data_points say 'in a single season in 2026'\u2014this phrasing matters because it could imply no pitcher in any other year hit 200 K's in fewer innings. The brief does not establish whether this is a single-season record or a 2026-only record.",
+     "The brief's open_questions explicitly ask 'Who previously held the record for fastest to 200 strikeouts' but the draft names no such person, leaving the 'second-fastest' claim unanchored and potentially misleading without context of who was first."
+    ]
+   },
+   {
+    "id": "c116",
+    "headline": "McBride sets WNBA single-game 3-pointer record in Lynx win",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Sinner won his fifth Grand Slam singles title at Wimbledon in July' but the brief identifies this as McBride's WNBA record, not Sinner's tennis achievement. This appears to be copy-paste error from c055 into c116.",
+     "The draft body contradicts itself: it opens with McBride's record but then discusses Sinner's Wimbledon victory, which is entirely outside the brief's core claim about McBride and the Lynx.",
+     "The draft introduces a player named Alexander Zverev and Novak Djokovic competing in Cincinnati, which are facts from c055's brief, not c116's.",
+     "Facts about the US Open (August 30 to September 13) appear in the draft but belong to the Sinner story, not McBride.",
+     "The entire middle section of the draft (from 'Sinner has not played since...' through 'the season's closing major') is wholesale transplant from c055 and has no connection to the brief for c116."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Royals sign 9-time All-Star Craig Kimbrel",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Craig Kimbrel is a 9-time All-Star' as a standalone fact. The brief data_points contain only 'Craig Kimbrel signed with the Royals' marked 'announced-not-verified.' The All-Star credential is not in the brief and therefore smuggled. The writer must source this biographical fact or remove it.",
+     "The draft states the signing 'addresses a need in the bullpen as the Royals navigate a competitive AL Central divisional race.' The brief's open_questions explicitly note 'The motivation or roster context for the signing is not explained in the fetched material.' This context was not in the source and should not appear as reported fact in the draft."
+    ]
+   }
+  ]
  }
 ]
