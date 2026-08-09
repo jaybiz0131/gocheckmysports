@@ -4834,5 +4834,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c073",
+    "headline": "49ers' Kyle Shanahan says his Tesla was on autopilot during July 14 car accident",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Chris Simms said there was a chance Shanahan would lose his right eye' is a data_point in the brief (with 'reported' confidence), but this claim does not appear anywhere in the draft body. The draft mentions '40 stitches in his face' and discusses his injuries, but never mentions the eye injury or Chris Simms. Either the draft must include this reported claim or it cannot be cited as sourced from the brief."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "WNBA commissioner schedules league-wide discussion on transgender athlete eligibility rules",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents detailed personal and political statements from Sophie Cunningham, Natalie Nakase, Stephanie White, and the WNBPA on a contentious issue involving gender identity and transgender participation. The open_question in the brief ('Has any transgender player formally applied for or been denied WNBA eligibility, or is this discussion purely prospective?') is answered in the draft as 'No transgender player has formally sought or been denied WNBA eligibility based on available reporting, meaning the discussion remains prospective rather than tied to a specific case.' This is a factual claim that does not appear in the brief's data_points and therefore is SMUGGLED. Additionally, the draft presents the debate's merits and arguments without sufficient neutrality on a sensitive topic involving marginalized identity; the framing of Cunningham's statement alongside the union's rebuttal and coach responses reads as argument-lawyering rather than reporting. The bear_case in the brief (White's expressed frustration, WNBPA's inclusion-focused statement) survives, but the overall tone tilts the reader toward seeing this as a controversy rather than policy development."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "WNBA rescinds Clark's eighth technical foul, clears her for Liberty game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Under league rules, a player who accumulates eight technical fouls in a season triggers an automatic one-game suspension.' This rule is not present in the brief's data_points. The brief contains only one data_point about Clark receiving a technical for contact with an official; it does not specify the automatic suspension threshold or rule.",
+     "The draft claims the rescission 'removes that penalty' but the brief's open_questions note that 'The league's official ruling or statement rescinding the technical is not present in the source text.' The draft asserts a fact about the consequence of rescission that is not confirmed in the source material available to the brief."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Thorslund becomes undisputed bantamweight champion with shutout win over Johnson",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes the claim: 'Thorslund's training partner, Raven Chapman, underwent emergency brain surgery last month after she collapsed during a sparring session in Denmark' in the brief's data_points, but this claim does not appear in the draft body. This is not a balance issue\u2014it is a health/medical claim about a non-athlete (Chapman) that goes beyond official injury reporting and ventures into personal medical details outside the scope of sports performance. Including unverified medical details about a third party in connection with the athlete creates compliance liability.",
+     "However, the more immediate compliance issue: the draft does not include this Chapman claim at all. The brief lists it as a data_point, but the draft omits it. This suggests either the writer filtered it for sensitivity (correct instinct) or the brief contains a data_point the writer should not have been given. Either way, the draft should be held to clarify whether this medical claim was intentionally dropped due to compliance concern, in which case the brief should be corrected."
+    ]
+   },
+   {
+    "id": "c172",
+    "headline": "Baker save record claim cannot be verified from source",
+    "category": "accuracy",
+    "reasons": [
+     "The draft is structured as a meta-commentary on its own inadequacy rather than a news story. It announces that a claim 'cannot be verified' and demands further research, but the brief itself explicitly flags this in open_questions: the source contains no substantive reporting on the record. The writer has turned the absence of information into the story itself, which violates the hard rule that facts go back to research\u2014the writer does not report on what research failed to find.",
+     "The draft contains zero facts from the brief's single data_point (Baker earned his 34th save in a Rays win over the Mariners). Instead it meta-reports on the unavailability of facts. This is not paraphrase or legitimate rewriting; it is refusal to draft from the brief.",
+     "The bottom_line instructs the desk to 'obtain official MLB records' and 'verify the achievement'\u2014tasks that belong to research, not to a draft's closing instructions. A draft cannot be a rejection memo disguised as a story."
+    ]
+   }
+  ]
  }
 ]
