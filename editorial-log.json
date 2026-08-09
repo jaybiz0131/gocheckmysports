@@ -4884,5 +4884,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c077",
+    "headline": "Commanders' Laremy Tunsil Diagnosed With Torn Triceps",
+    "category": "compliance",
+    "reasons": [
+     "Injury claims must trace to official injury reports or on-record statements. The draft states 'has been diagnosed with a torn triceps' and 'is expected to miss most of the 2026 NFL season' as definitive facts, but the brief notes 'No official Commanders statement or injury report is included in the source text.' The draft presents reported-only information as official diagnosis without hedging language like 'reported' or 'according to sources' to match the brief's confidence level."
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "Max Scherzer Passes Walter Johnson in Career Strikeouts, Reaches 10th in MLB History",
+    "category": "accuracy",
+    "reasons": [
+     "The brief notes that the source is 'severely truncated and does not provide substantive reporting content\u2014only page metadata and navigation elements are present.' The facts in the draft (3,516 strikeouts, passing Walter Johnson, 10th place ranking) are labeled 'reported' confidence in the brief, but the brief's own open_questions section and source_chars assessment (691 chars, marked 'thin': true) indicate the source did not actually deliver verifiable reporting content. The writer appears to have written facts that the source itself does not substantiate.",
+     "The brief explicitly states 'The exact game or date when Scherzer passed Johnson is not specified in the available text' and 'Walter Johnson's strikeout total is not stated for comparison.' The draft presents these as settled facts without qualification, violating the rule that unconfirmed or thinly sourced claims must read that way in prose."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Messi absent from Miami's Leagues Cup defeat following father Jorge's death at 68",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jorge Messi served as his son's agent from the age of 14,' but the brief data point says 'Jorge Messi had been Lionel Messi's agent since Lionel was 14 years old'\u2014these are consistent. However, the draft then says 'In 2000, Jorge accompanied his 13-year-old son to Catalonia,' which contradicts the claim that Jorge became agent at age 14. The brief source material does not reconcile this apparent age discrepancy (13 vs. 14), and the draft presents both facts without noting the inconsistency, creating a factual contradiction within the draft itself that was not resolved in the source material."
+    ]
+   }
+  ]
  }
 ]
