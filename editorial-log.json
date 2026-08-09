@@ -4804,5 +4804,35 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-08",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "WNBA rescinds Caitlin Clark's eighth technical foul, preventing suspension",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The Indiana Fever defeated the Chicago Sky 90-86' but the brief data_point says 'The Indiana Fever won 90-86 over the Chicago Sky' with confidence 'verified-on-chain'. The team name in the draft is 'Sky' not 'Sky'\u2014this is correct. However, the brief does not specify whether Chicago's team is the Sky or Sky; the draft uses 'Sky' throughout but the brief uses 'Chicago' without team name in some places. More critically, the draft does not attribute the game score to ESPN inline; all other facts are attributed, but this score appears unattributed in context, creating ambiguity about sourcing."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "DiJonai Carrington ejected for flagrant foul on Sophie Cunningham; posts on social media after",
+    "category": "balance",
+    "reasons": [
+     "The brief's open_questions note that 'the headline references an apparent reference to white privilege, but the sources do not quote the post itself.' The draft states 'Carrington posted on social media about the ejection incident, per Sporting News. The exact text of the post is not detailed in available reporting.' This is accurate but the framing is weak: the angle explicitly calls the post 'player commentary that reignited debate over fairness and bias in officiating' and says 'the story turns on what Carrington said post-game and how it landed,' yet the draft presents the post as unknown/unspecified. This under-delivers on the promised angle. Either the post text should be included (if available in sources), or the story should acknowledge the controversy explicitly rather than burying it in ambiguity. As written, the draft promises heat and delivers fog, misrepresenting the news peg."
+    ]
+   },
+   {
+    "id": "c155",
+    "headline": "White Sox call up pitching prospects Hagen Smith and Tanner McDougal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The White Sox called up pitching prospects Hagen Smith (No. 2 ranked) and Tanner McDougal (No. 4 ranked) for their major league debuts.' All three data points in the brief are labeled 'announced-not-verified' confidence, meaning the call-up and prospect rankings have not been independently confirmed. The draft presents these as settled fact without any hedging language ('announced,' 'according to,' 'per report') that would reflect the uncertainty in the source confidence. This violates the hard rule that confidence labels must survive into prose."
+    ]
+   }
+  ]
  }
 ]
