@@ -5288,5 +5288,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c025",
+    "headline": "Lions center Cade Mays expected to miss 8-10 weeks with wrist fracture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mays suffered a wrist injury during a recent training camp practice and is expected to miss roughly eight to 10 weeks with a fractured small bone, according to a source reported to NFL Network's Ian Rapoport.' However, the brief data_point explicitly marks the 8-10 week claim with confidence 'unconfirmed', meaning this figure must be attributed as unconfirmed or qualified in the prose. The draft presents it as settled fact without qualification.",
+     "The draft also includes 'The brief does not specify the exact location of the fracture within the wrist, whether imaging has confirmed the diagnosis, or whether the injury will require surgery versus conservative management with immobilization and rest' as a sentence in the body. This is meta-commentary about the brief itself, not reporting, and should not appear in published prose."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "WNBA Faces Eligibility Debate After Comments on Transgender Athletes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Kanter Freedom 'finished his career with the Boston Celtics in 2022' but the brief says he 'finished his playing career with the Boston Celtics in 2022.' More critically, the draft does not source the claim that Kanter Freedom 'declared he will enter the 2027 WNBA Draft' as stated in the brief's core_claim. The draft only says he 'declared myself a WNBA prospect' and made his Instagram statement about meeting eligibility requirements. The brief's angle references '2027 WNBA Draft' but the draft never specifies this timeline, creating a factual gap between what the brief claims happened and what the draft reports actually happened.",
+     "The draft does not attribute the Trump/Vance statements to BBC Sport inline; it merely cites BBC at the end. The sentence 'President Donald Trump expressed support for Cunningham, and Vice President JD Vance said she was \"inspiring,\" per BBC Sport' appears to attribute these claims correctly, but the lack of inline attribution for other BBC-sourced claims in the same paragraph is inconsistent with the desk standard."
+    ]
+   },
+   {
+    "id": "c148",
+    "headline": "All-Star Shortstop Tim Anderson Announces MLB Retirement",
+    "category": "clarity",
+    "reasons": [
+     "The bottom_line states 'The specific circumstances of his exit, his career statistics, and the trajectory of his final seasons would shape the fuller picture of his departure'\u2014this reads as a hedging statement that concedes the draft is incomplete rather than looking forward to what to watch. It describes what is missing from the story rather than what should happen next or what would invalidate the news. A proper bottom_line should articulate what development would change the story's meaning, not what data gaps exist in the current draft.",
+     "The draft is severely underdeveloped relative to the brief. The brief marks itself 'thin: true' with only two data_points, but the draft offers almost no reporting beyond those two facts. There is no statement from Anderson, no detail on his age, no injury context, no explanation of his motivation, and no follow-up from the White Sox. The brief itself identifies six open_questions; the draft's body text (two sentences) resolves none of them. This is not a tight short story\u2014it is a stub that should not have been submitted for approval without additional reporting."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "Big East hires Tim Brosnan, former MLB executive, as new commissioner",
+    "category": "accuracy",
+    "reasons": [
+     "Paragraph 2 states 'The specific roles Brosnan held at MLB, the sports deals he brokered, his start date as commissioner, and the Big East's stated rationale for prioritizing commercial expertise over college sports experience are not detailed in available reporting.' This is a meta-commentary on what the brief does not contain, not a fact from the brief itself. The writer is explaining gaps in the research rather than reporting. This violates the hard rule that no fact exists outside the brief\u2014the writer may not editorialize about missing information or advertise research limitations in the draft.",
+     "The bottom_line claims 'Brosnan's appointment will take effect ahead of the 2026-27 season.' This specific timing detail ('ahead of the 2026-27 season') does not appear in any data_point in the brief and is smuggled information not traced to the source."
+    ]
+   }
+  ]
  }
 ]
