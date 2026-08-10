@@ -5330,5 +5330,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "NFL to allow coach's designee to initiate replay challenges",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Last season saw 151 coaches' challenges, the highest total since 2019,' but the brief data_point specifies 'There were 151 coaches' challenges in 2025, the highest total since 2019.' The draft says 'last season' without clarifying that 2025 is the season being referenced. This creates temporal ambiguity about whether the reference is to the 2025 season or some other recent season. The year should be explicitly stated as it appears in the source."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Liverpool sign Araujo on loan from Barcelona with \u20ac55M buy option",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ibrahima Konat\u0117 departed to Real Madrid on a free transfer this summer' but the brief data_point says 'Ibrahima Konat\u0117 left Liverpool on a free transfer to Real Madrid this summer'\u2014both are consistent. However, the draft also claims 'During Xasi's tenure at Barcelona, Araujo was deployed in a special \"anti-Vin\u00edcius Jr.\" role' but the brief says 'During Xavi's time at Barcelona' (Xavi, not 'Xasi'). This is a factual error in the draft.",
+     "The draft presents Hansi Flick's quote about Araujo's ball-playing as a deficiency ('ball-playing ability seen as a deficiency in the manager's system'), but the brief's Flick quote says Araujo's ball-playing is 'quite good.' The draft's interpretation inverts the source material and adds editorial characterization not present in the brief.",
+     "The draft states 'Reports indicate Araujo took a pay cut to facilitate the move, though this has not been independently verified' but the confidence label in the brief is 'unconfirmed,' which should surface more prominently and cautiously in prose. The hedge is present but minimal; 'unconfirmed' claims should read with stronger qualification.",
+     "The draft characterizes the Flick quote as indicating 'Araujo's playing style does not align with his tactical preferences' and 'his ball-playing ability seen as a deficiency'\u2014but Flick explicitly said Araujo is 'quite good' with the ball. The draft misrepresents Flick's actual statement."
+    ]
+   },
+   {
+    "id": "c157",
+    "headline": "MLB Releases 2026 Playoff and World Series Schedule",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'MLB released the official 2026 playoff and World Series schedule' and instructs readers to 'Consult the official MLB announcement for specific start dates, game times, venues, and format details.' However, the brief's open_questions explicitly state that the source text contains 'only HTML font-face and CSS color variable declarations and no actual schedule information, dates, format details, or substantive playoff data.' The draft presents as fact that a schedule was released and is publicly available when the source evidence does not support any actual schedule content. This is a smuggled claim not supported by the research brief.",
+     "The brief is marked 'thin: true' with zero data_points, indicating the source failed to yield reportable information. A story asserting a release occurred and advising readers to check details that do not exist in the source material is not a valid article; it should have been rejected at research stage or rewritten as a non-story. The current draft directs readers to information the brief confirms does not exist in the source."
+    ]
+   }
+  ]
  }
 ]
