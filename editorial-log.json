@@ -5143,5 +5143,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c094",
+    "headline": "Confederations push for Infantino resignation as succession candidates emerge",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Concacaf president Montagliani is being seen as a top contender to succeed him' but the brief provides no information about Montagliani's full name, background, or confirmation that he is the current Concacaf president. The data_point only says he 'is seen as a top contender' without establishing his current position or identity clearly enough for publication.",
+     "The draft claims 'The three confederations are simultaneously discussing rival competitions' but the brief's data_point says only that 'The confederations are discussing rival competitions alongside their push for Infantino to resign' with confidence marked 'reported.' The word 'simultaneously' adds temporal specificity not present in the source material.",
+     "The brief is marked 'thin: true' with only 3 data_points total. The draft substantially elaborates on succession planning and rival competition structures without proportional sourcing\u2014it treats The Guardian as the sole source for all claims despite the thin brief suggesting limited reporting depth."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Everton and Crystal Palace complete McNeil-Johnson swap deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states McNeil 'has scored 15 times in 128 games in all competitions for the club' but a data_point in the brief reports 'McNeil has made 114 appearances for Everton' (per ESPN). The draft uses the BBC figure of 128 games while the brief's ESPN source says 114. The discrepancy between sources is not reconciled and both figures appear in the brief itself, creating internal contradiction that the draft must resolve by choosing one and explaining the difference, or noting it.",
+     "The draft's opening sentence claims both players 'are expected to undergo medicals on Monday and sign four-year contracts' but does not attribute these details inline to their respective sources (BBC Sport for medicals, BBC Sport for contracts). Attribution is present but not inline per desk standard."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "What the Giants' West Virginia camp revealed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jevon Holland (who was around the ball frequently) showed promise' but the brief data_point says 'Jevon Holland looks primed for a bounce back and was around the ball a lot during camp.' The draft omits the 'bounce back' framing, which is a material detail about Holland's narrative that changes the meaning of his camp performance from recovery-focused to general promise.",
+     "The draft characterizes DJ Reader as having 'looked solid as a run stuffer' but the brief says 'DJ Reader looked really good as a run stuffer in the middle of the defense.' 'Solid' and 'really good' are materially different confidence levels; the downgrade softens the data point without justification from the source."
+    ]
+   }
+  ]
  }
 ]
