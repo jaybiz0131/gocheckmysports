@@ -5064,5 +5064,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c145",
+    "headline": "111 games, zero errors: Wilson sets MLB record at shortstop",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Wilson set the record 'with 111 games' but provides no context for the timeframe or team. The brief's open_questions flag that date range, team, and total games played during the streak are unknown. The draft presents a bare fact without the context needed to verify or understand it, and omits critical sourcing details that should be attributed inline."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Jacob Misiorowski becomes first pitcher to reach 200 strikeouts in 2026, second-fastest in MLB history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Misiorowski is 'the second-fastest pitcher in league history' to reach 200 strikeouts, but the brief's open_questions make clear the identity of the fastest pitcher and the comparative timeline are unknown and unconfirmed. The brief marks Misiorowski as 'second-fastest' with 'reported' confidence, not verified confidence. The draft should acknowledge this comparative claim is unconfirmed or the brief should have supplied the name and date of the pitcher who holds the record."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Saints rookie left tackle Radunz suffers ACL tear in training camp",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The available source material does not provide details on the specific timeline of the injury within training camp' but then presents the injury as a confirmed fact in the opening sentence ('suffered an ACL tear during training camp'). The brief's open_questions explicitly note that 'The source text provided is a navigation menu and does not contain the article body; no details about the injury timeline, specific context, Saints organizational response, or depth chart alternatives can be confirmed.' The draft cannot confirm even the basic detail that the injury occurred 'during training camp' vs. at another time.",
+     "The draft references 'second-year QB Tyler Shough' and his 'critical development phase' in the angle/bottom_line context, but this connection to Shough's development is explicitly listed as unconfirmed in the brief's open_questions: 'The relationship between this injury and Tyler Shough's development cannot be confirmed from the provided source material.' This is a smuggled inference beyond the brief."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Everton and Crystal Palace agree straight swap for wingers McNeil and Johnson",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'He made 114 appearances for the club, per ESPN' for McNeil at Everton, but attributes this only to ESPN while the 128-game figure is attributed to BBC Sport. The brief shows McNeil's 114 appearances comes from ESPN and the 128 games in all competitions comes from BBC Sport. The draft conflates these as two separate stats for the same club without clarifying that 128 (all competitions) and 114 (appears to be league/primary appearances) are different count methods. However, more critically, the draft does not attribute the 128-game figure inline to BBC Sport where it first appears ('scoring 15 times in 128 games in all competitions for the Toffees, per BBC Sport'), making attribution ambiguous.",
+     "The draft presents McNeil as having '15 times in 128 games in all competitions' and then separately '114 appearances' without clear explanation of what the 114 counts. The brief distinguishes these: 128 games all competitions (BBC) vs. 114 appearances (ESPN). The draft's presentation could mislead readers into thinking these are different periods or conflicting figures rather than complementary ones counting different scopes."
+    ]
+   }
+  ]
  }
 ]
