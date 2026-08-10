@@ -5247,5 +5247,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c126",
+    "headline": "UEFA, Concacaf, and AFC Formally Accuse Infantino of Deception Over World Cup Privatization Plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'VICTOR Montagliani, whose name has been floated as a potential challenger to Infantino in the March election, has not announced an intention to run.' However, the brief data_point states 'Montagliani's name has arisen as the likeliest contender to oppose Infantino in FIFA's election next spring' \u2014 the capitalization of 'VICTOR' mid-paragraph appears to be a typographical error that disrupts readability and suggests incomplete editing, and more critically, the characterization of Montagliani as 'likeliest contender' in the brief is weakened to merely 'floated as a potential challenger' in the draft without acknowledgment of the confidence difference.",
+     "The draft claims 'The continental leaders stated in their letter, according to Front Office Sports' and then provides two block quotes. However, the brief identifies these as data_points from Front Office Sports reporting of the letter's contents. The inline attribution is present, but the draft does not verify that FOS directly quoted the letter versus paraphrasing or quoting secondhand sources \u2014 a distinction that matters for liability when direct quotations of a controversial political letter are attributed."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "WNBA Faces Eligibility Debate After Cunningham Comments and Player Draft Declarations Expose Rule Ambiguity",
+    "category": "compliance",
+    "reasons": [
+     "The draft characterizes Kanter Freedom's declaration as exposing a 'loophole' in eligibility rules without sufficient qualification. The brief's bear_case explicitly notes that 'Kanter Freedom stated he is 'definitely not here to mock, make fun of, or disrespect any community or personal choices,' suggesting his declaration may be intended as a critique of the rule loophole rather than as a genuine attempt to play.' The draft presents the rule ambiguity as a vulnerability the league faces but does not adequately reflect the bear_case framing that Kanter Freedom's declaration may itself be performative critique rather than a genuine eligibility claim. This creates potential liability by implying a legal or regulatory danger that may not match the actual stakes of Kanter Freedom's stated intent.",
+     "The draft includes the claim 'Some former men's NBA players have now declared they will enter the WNBA 2027 Draft, citing the current guidelines or lack thereof for transgender women players, according to BBC Sport.' However, the brief data_point states 'Some former men's NBA players have declared they will enter the WNBA 2027 Draft, citing the current eligibility guidelines, or lack of, for transgender women players.' The word 'now' in the draft suggests contemporaneous action across multiple players, but the brief only names Kanter Freedom with specificity and uses softer language ('have declared'). The draft overstates the scale and coordination of declarations without additional sourcing."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Bezos consortium advances talks for stake in Liverpool",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the potential stake sale is 'valued at \u00a31.35bn' but attributes this only to The Guardian in the body text. The brief marks this as a separate data_point from BBC Sport's report of the 30% stake negotiation, suggesting these may be two distinct reported facts. The draft conflates them without clarifying whether both outlets reported the valuation or only The Guardian did. This creates ambiguity about what is jointly confirmed versus singly sourced.",
+     "The draft's second paragraph acknowledges 'the available reporting does not confirm the timeline for deal completion, the full membership of the consortium beyond Bezos, how the minority stake would integrate with Liverpool's current ownership structure under Fenway Sports Group, or what regulatory approvals may be required'\u2014but then names Fenway Sports Group as the current owner without that being explicitly confirmed in the reported material according to the brief's open_questions. This reads as an insertion of context not directly from the reporting."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Ron Snodgrass named national coordinator of college football officials",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Ron Snodgrass, a veteran college football referee' but the brief's open_questions explicitly flag that 'The sources do not state Snodgrass's age; the brief incorrectly stated he is 26 years old.' The brief's core_claim contains '26-year-old' but the open_questions confirm this was not in the source. The draft removed the age claim (correct), but the writer introduced 'veteran' without a source data_point defining years of experience as 'veteran' rather than the fact-checked '26 seasons.' The core fact to trace is: does the source support calling him a 'veteran'? The brief data_point says 'Snodgrass officiated in Division I for 26 seasons' (confidence: announced-not-verified), which supports experience but not the semantic judgment 'veteran.' This is a paraphrase that survived source verification, so it is acceptable. However, the draft omits a critical liability signal: all data_points are marked 'announced-not-verified,' meaning the NCAA announcement has not been independently verified. The draft presents the appointment as fact without signaling that confidence level. The opening sentence 'The NCAA announced Monday that Ron Snodgrass...has been appointed' reads as settled fact, but the brief flags every claim as announced-not-verified. The draft must surface that the appointment comes from an announcement that has not been independently confirmed, not just report it as an accomplished fact."
+    ]
+   }
+  ]
  }
 ]
