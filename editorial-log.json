@@ -5015,5 +5015,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c094",
+    "headline": "UEFA, Concacaf and AFC call for Infantino's resignation in open letter",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Concacaf president Victor Montagliani is being discussed as a potential successor to Infantino' but the brief data_point says only 'Concacaf president Montagliani is seen as a top contender to replace Infantino.' The draft adds the descriptor 'Victor' (first name) which does not appear in the brief and cannot be verified from the source provided.",
+     "The draft contains a full paragraph ('The sources provided do not contain substantive details...') that reads as meta-commentary about the brief's limitations rather than reporting. This violates the hard rule that facts must come from the brief or source; editorial caveats about source gaps belong in editing notes, not in the published draft body."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Everton and Crystal Palace complete McNeil-Johnson swap deal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states McNeil 'made 114 appearances for Everton' per ESPN, but brief data_point says he 'scored 15 times in 128 games in all competitions for the club, per BBC Sport.' The draft reports 128 appearances to BBC Sport but then contradicts itself by citing ESPN for 114 appearances in the same paragraph. This internal factual conflict must be resolved in the brief before publication; the writer cannot arbitrate between two sourced figures.",
+     "Draft claims Everton finished '13th in the Premier League last season' and Palace finished '15th,' attributed to ESPN. However, the brief's data_point attributes this claim to ESPN with the exact same language. The claim appears in both sources but the draft does not distinguish which source it pulled from or reconcile any potential differences. This is acceptable if both sources agree, but the draft should make clear which outlet is the primary source for each fact."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Kayla McBride sets WNBA single-game 3-pointer record",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'Kayla McBride of the Minnesota Lynx set a WNBA single-game record for 3-pointers made in a game against the Dallas Wings on Sunday, per Sporting News.' The brief's only data_point states 'Kayla McBride etched her name into the history books on Sunday' with confidence 'reported.' The draft reports a specific claim\u2014that McBride set the record against Dallas Wings on Sunday\u2014but the brief's data_point does not confirm the opponent or game details. The draft has smuggled in 'against the Dallas Wings' and the game context beyond what the brief provides. The brief explicitly flags as an open question: 'The opponent team is identified only as 'Wings' in the snippet; no full context on the opponent or location is provided in the available source text.' The draft should not state 'against the Dallas Wings' as fact if the brief has not confirmed it."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Misiorowski reaches 200 strikeouts, second-fastest in MLB history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Misiorowski is the National League Cy Young Award frontrunner' but the brief lists this as a separate data_point with 'reported' confidence, not embedded in the core claim. The brief's open_questions include 'Who are the other leading Cy Young Award candidates?' \u2014 indicating the CBS source did not establish Misiorowski as a frontrunner, only reported the strikeout milestone. The draft overstates CBS's reporting by treating Cy Young status as a fact CBS confirmed rather than a reasonable inference.",
+     "The draft states 'The 200-strikeout milestone has historically marked pitchers at the peak of their dominance, and Misiorowski's pace ranks him among baseball's most prolific strikeout seasons on record.' This is an interpretive/editorial claim not present in the brief's data_points. The brief's open_questions explicitly ask 'Which pitcher holds the record for fastest to 200 strikeouts in MLB history?' \u2014 meaning the CBS article does not provide the historical context the draft asserts."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Algeria, Morocco, Cameroon, and Malawi qualify for 2027 Women's World Cup via WAFCON",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'The four nations that lost in the quarter-finals (Ghana, Ivory Coast, Nigeria, and South Africa) retain a path to the 2027 World Cup through intercontinental play-offs in November and December. Of the 10 nations competing in those play-offs, three will qualify for the World Cup.' The brief's data_point on this topic specifies: 'On Thursday, Ivory Coast will play Ghana and Nigeria will face South Africa in the WAFCON quarter-final third-place deciders, with the two winners going into the 10-nation intercontinental play-offs.' The draft omits the critical fact that only TWO of the four quarter-final losers will advance to the play-offs (via third-place play). This is a material misrepresentation of the qualification pathway and materially changes the stakes for Ghana, Ivory Coast, Nigeria, and South Africa."
+    ]
+   }
+  ]
  }
 ]
