@@ -5177,5 +5177,75 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "FIFA Vice Presidents Accuse Infantino of 'Deception' Over World Cup Plan",
+    "category": "balance",
+    "reasons": [
+     "The draft states 'U.S. Soccer, however, stated its support for \"meaningful change that strengthens FIFA's governance, transparency and accountability,\" though the federation has not disclosed its position on Infantino's reelection.' The brief's data_point 10 says U.S. Soccer 'put out a statement saying it stands with other CONCACAF soccer bodies\u2014excluding Mexico\u2014in \"calling for meaningful change that strengthens FIFA's governance, transparency and accountability.\"' The draft's framing ('however') suggests U.S. Soccer is distancing itself from the three confederation letter, but the brief indicates U.S. Soccer is actually aligned with CONCACAF bodies on meaningful change\u2014a bear_case point that should soften the narrative. The balance of the draft tips heavily toward the opposition and undersells the official support Infantino retains and the procedural acknowledgment FIFA made on Aug. 5.",
+     "The draft omits the bear_case item: 'FIFA on Aug. 5 released a statement apologizing for keeping the FFE plan in secret and promising to conduct a review, showing some acknowledgment of procedural failure.' While the Aug. 5 apology is mentioned, it is immediately undercut by the Aug. 8 counter-statement without adequate framing that this was an initial acknowledgment\u2014a meaningful bear_case detail that belongs in the story to show Infantino's position is not monolithic defensiveness.",
+     "The draft also omits the bear_case detail that 'The confederation leaders are not necessarily speaking on behalf of all of their member associations,' a crucial caveat to the headline's framing of three confederations 'formally accus[ing]' when the signatories are presidents, not all members. This structural limitation is a material balance issue."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Lions Center Cade Mays Out 8-10 Weeks With Wrist Fracture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Head coach Dan Quinn acknowledged the blow without offering a specific return timeline.' However, the brief attributes all quotes to 'Dan Campbell' not 'Dan Quinn.' The brief's data_points 2, 4, and 7 all cite Campbell as the Lions head coach. The draft has conflated or confused the coach's name, a factual error that undermines credibility on an injury story where the coach's exact words matter.",
+     "The bottom_line states 'The 8-to-10-week absence would extend into the regular season, depending on the exact timing of the injury and the start of recovery.' This is speculative reasoning not present in the brief. The brief's open_questions section explicitly flags: 'Whether the 8-10 week timeline means Mays could return during the regular season or would miss the entire regular season has not been clarified by sources; the calculation depends on when the 8-10 weeks begin.' The draft should not resolve an open question by offering its own calculation as fact."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Commanders LT Laremy Tunsil to Undergo Triceps Surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line states: 'The 8-to-14-month recovery window suggests Tunsil's status for the regular season will remain uncertain for weeks.' The brief data_point 3 specifies: 'The recovery time for a triceps injury is typically at least four months and as long as six or seven months.' The draft has converted '4-7 months' into '8-14 months,' which is a material misrepresentation of the medical guidance provided in the source. This is a factual error, not paraphrase.",
+     "The draft contains a quote attribution error in paragraph 3: 'Quinn told ESPN: \"Not only is he an unbelievable player, but he is an absolutely fantastic teammate. He'll be missed, and we certainly can't wait to get him back.\"' The brief's data_point 13 shows this quote is about Tunsil (the injured player), not about Coleman, yet the draft places it immediately after discussing Coleman as the replacement, creating ambiguity and misattribution of the emotional target of the quote."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "Reds' Hunter Greene to have season-ending surgery for torn UCL",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Greene has not made more than 26 starts in a single season since his debut' but the brief data_point says 'Greene hasn't made more than 26 starts in a season since his debut in 2022.' The draft's phrasing is ambiguous about whether 2022 counts as included in this constraint or not; more critically, the brief explicitly ties the constraint to 2022 forward, while the draft leaves it unclear. Since the brief says '2022' was his debut year and the constraint applies since then, the draft should clarify that 26 starts is the max in any season from 2022 onward.",
+     "The draft mentions Tommy John surgery was in 2018 per the brief data_point 7, but this fact does not appear anywhere in the draft body. The brief explicitly includes this claim with 'reported' confidence, yet the draft omits it entirely from the injury history paragraph. The writer should either include it or confirm it's not in the source material."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Sources: Bears' Luther Burden III expected to miss preseason",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'the team believes he will be ready for the Week 1 regular-season opener' without flagging that this comes from unnamed sources and has not been confirmed by the Bears organization itself. The brief's open_questions explicitly flag: 'No official timeline or medical evaluation of the injury is provided by the Bears organization itself; the team's belief that Burden will be ready for Week 1 is attributed to unnamed sources.' The draft must signal this uncertainty\u2014'according to ESPN sources' appears in the lede but the later assertion 'the Bears believe' reads as settled fact without attribution or confidence label. The brief open_question tells us this is unconfirmed-by-official-sources and the draft's phrasing masks that.",
+     "The draft says 'The Bears' assessment that he will be ready for Week 1 comes from unnamed sources and has not been confirmed by the team organization itself' in paragraph 3, which is good, but this flagging comes after the lede has already presented it as 'the team believes,' creating a compliance lag. The lede should carry the uncertainty flag."
+    ]
+   },
+   {
+    "id": "c077",
+    "headline": "Big East hires former MLB executive Tim Brosnan as new commissioner",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions note: 'The source text is heavily truncated (page metadata and navigation fragments); the full article content explaining the hire, Brosnan's specific background at MLB, the Big East's stated rationale, competing candidates, or his intended start date is not available.' The brief is explicitly marked 'thin: true' with only 641 source characters and 4 data_points. The draft invents interpretive framing ('This marks an unconventional choice,' 'Brosnan's appointment signals the Big East's priority on media and sponsorship deal expertise') that goes beyond the four minimal data points available. The bottom_line asks readers to 'Watch for the conference's explanation' and speculates about 'Power 4 conferences follow with similar outside hires'\u2014narrative moves that create a story from a fragment.",
+     "The draft asserts 'Brosnan's specific role at MLB and the details of his sports deal-making record have not been disclosed' as fact, but the brief does not provide a data_point confirming this negative claim. The brief says 'The specific sports deals Brosnan brokered at MLB are not detailed' in open_questions, but the draft states it as established fact without attribution to the source material."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Bezos consortium advances talks for stake in Liverpool",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bezos, whose estimated net worth stands at $256bn (\u00a3192bn) according to BBC Sport' but the brief marks this data_point as 'reported' confidence, meaning it is a claim reported by BBC Sport rather than independently verified fact. The phrasing 'stands at' presents the figure as settled fact rather than reported estimate.",
+     "The draft acknowledges in its body that 'The fetched source material does not specify the full membership of the consortium beyond Bezos, the timeline for deal completion, how the stake would integrate with Liverpool's existing governance structure under Fenway Sports Group, or what regulatory approvals may be required' and 'No statement from Liverpool FC, Fenway Sports Group, or representatives of Bezos's consortium is included in the available reporting.' These admissions, while transparent, undermine the draft's authority to lead with a hard news claim when the underlying sources are truncated (source_chars: 267) and unverified by any official statement. The draft presents 'advancing negotiations' as fact when the brief's open_questions flag that source texts contain only captions and headlines\u2014no detail confirming active negotiations exists in the fetched material."
+    ]
+   }
+  ]
  }
 ]
