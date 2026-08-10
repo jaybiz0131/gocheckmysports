@@ -5104,5 +5104,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c141",
+    "headline": "111 games, zero errors: Wilson sets MLB record at shortstop",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jacob Wilson has set an MLB record' but the brief contains only two verified data points with no information about which team Wilson plays for, when the streak began, when it ended, or career context. The draft presents the record as a settled, complete fact when the brief's open_questions indicate critical details are missing: 'Which team Jacob Wilson plays for,' 'When the streak began and when it was achieved,' and 'Whether the streak is still ongoing or has ended.' The draft should acknowledge the thinness of the reporting and the missing contextual information rather than presenting the achievement as though the full story is known."
+    ]
+   },
+   {
+    "id": "c168",
+    "headline": "Jeff Bezos and Facebook co-founder close in on major Liverpool investment",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states in open_questions that 'the source text provided is navigation/site structure markup with no substantive reporting\u2014the article body is not fetched' and 'No statement from Liverpool FC, the consortium, Bezos, or the Facebook co-founder is present in the source text.' The draft cites 'Sporting News reporting' as though a full article was retrieved and reviewed, but the brief shows only 2,096 source characters of navigation/site structure with no actual article body. The draft should not claim to report details from a source document that was not actually fetched. This is a fundamental accuracy breach: the writer is citing reporting that does not exist in the source material."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Everton and Crystal Palace swap McNeil for Johnson",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'McNeil joined Everton from Burnley for \u00a320m in July 2022' and later 'He scored 15 times in 128 games in all competitions for the Toffees, according to BBC Sport, while making 114 appearances for the club per ESPN.' This is internally contradictory: 128 games vs. 114 appearances. The brief lists both figures from different sources (BBC: 128 games; ESPN: 114 appearances) but the draft presents them as if they refer to the same stat without reconciling the discrepancy or attributing which figure comes from which outlet.",
+     "The draft states 'The two sides meet on the opening weekend of the Premier League campaign on Saturday, August 22, per BBC Sport.' However, the brief's data point says 'The two sides meet at Hill Dickinson Stadium on Saturday, 22 August, on the opening weekend of the Premier League campaign.' The draft omits the venue detail (Hill Dickinson Stadium) that appears in the verified source, creating an incomplete picture of a verifiable fact."
+    ]
+   },
+   {
+    "id": "c154",
+    "headline": "Royals sign relief pitcher Craig Kimbrel",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The source text is corrupted (font declarations and styling markup only); no verifiable facts about Kimbrel's contract terms, signing date, or performance details are available from the fetched page' and lists zero data_points. The draft claims 'The Kansas City Royals have signed relief pitcher Craig Kimbrel' as a fact, but this core claim cannot be traced to the brief because the source was corrupted and contained no recoverable facts. The writer has asserted a signing occurred without a valid fact in the brief to anchor it to."
+    ]
+   }
+  ]
  }
 ]
