@@ -5540,5 +5540,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Trump backs FIFA's Infantino amid World Cup privatization scandal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Sophie Cunningham and other national federations within CONCACAF and AFC have reaffirmed support for Infantino' but the brief contains no data point supporting this claim. The brief's bear_case and data_points make no mention of any federation reaffirming support for Infantino; this is smuggled information not in the research.",
+     "The draft states 'U.S. Soccer put out a statement saying it stands with other CONCACAF soccer bodies, excluding Mexico' but this claim does not appear in any data_point in the brief. This is an unvetted factual assertion introduced by the writer."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Carrington clarifies 'white privilege' post after ejection backlash",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'what Carrington's post actually referred to remains unspecified in public statements,' but the brief's core_claim explicitly states she 'later clarified she never claimed the foul assessment itself was based on white privilege, but rather said the post referred to a separate matter.' The brief itself acknowledges the answer is unspecified (open_question: 'What exactly did Carrington's white privilege post refer to'), yet the draft presents this as established fact that it 'remains unspecified,' which is accurate but contradicts the framing in the story that Carrington has 'clarified' her position when in fact her actual meaning remains unclear.",
+     "More critically: the draft reports that Carrington said 'I've never once claimed that the assessment of the foul was white privilege' and attributes this to 'Awful Announcing' as the source, but this is a quote from Carrington's own X/Twitter post. The attribution is misleading\u2014Awful Announcing reported that she posted it, but the quote originates from Carrington. This is a sourcing accuracy problem that obscures the chain of statement."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Everton and Crystal Palace complete two-player swap, McNeil finally joins Palace",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'McNeil's partner Megan Sharpley accused Palace via Instagram of toying with McNeil's mental health following the failed transfer, as reported by ESPN.' However, the brief shows this claim is sourced to BBC Sport in the data_points (not ESPN), and ESPN's data_point specifies the accusation was about 'radio silence' specifically. The draft attributes the claim to the wrong source outlet.",
+     "The draft includes 'Johnson then signed for Palace in a 35 million pound deal in January but made 26 appearances in all competitions for the club without scoring.' This fact does not appear in the brief's data_points at all. The brief does not contain a data_point confirming Johnson signed for Palace for \u00a335m in January; it only appears in the sourced articles list, not in the verified data_points researchers confirmed. This is a smuggled fact.",
+     "The draft states Johnson 'scored Tottenham's winning goal in the Europa League final in May' but does not specify the year (2026), creating ambiguity about whether this refers to May 2025 or May 2026. The brief data_point clarifies '(year unspecified but context suggests May 2026)' \u2014 the draft should match this uncertainty or clarify the year explicitly from source."
+    ]
+   },
+   {
+    "id": "c196",
+    "headline": "Angel Reese breaks Atlanta Dream single-season double-double record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Angel Reese has broken the Atlanta Dream's single-season double-double record' as settled fact. The brief's data_point labels this claim 'reported' (not verified-on-chain), meaning it is announced but unconfirmed. The draft must signal this confidence level; presenting it without qualification violates the rule that confidence labels must survive into prose.",
+     "The draft identifies Sporting News as the source but does not attribute the claim inline to that outlet in the opening sentences, leaving the attribution buried in the body.",
+     "The brief is marked 'thin: true' with only two data_points and multiple open_questions (exact totals, record-holder identity, exact gap to Thomas). The draft states these details were not disclosed by sources ('The sources do not specify how many double-doubles remain...'), which is appropriate for the bottom_line, but the core claim itself rests on a single 'reported' (not verified) source without any hedging language in the body. A headline that reads as a completed fact, sourced to reporting rather than verification, creates liability if the record claim is later disputed or clarified differently."
+    ]
+   }
+  ]
  }
 ]
