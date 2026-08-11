@@ -5500,5 +5500,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c031",
+    "headline": "Everton and Palace Complete McNeil-Johnson Swap",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'McNeil scored 15 goals and provided 19 assists in 128 games in all competitions for Everton, per BBC Sport, though ESPN reports he made 114 appearances for the club.' This directly contradicts the brief's data_points, which list both stats as coming from BBC Sport (128 games with 15 goals and 19 assists). The ESPN figure of 114 appearances appears in the brief as a separate conflicting claim from ESPN, not as a parenthetical caveat to the BBC figure. The draft misattributes the ESPN discrepancy by implying ESPN also covers the goal/assist stats when it only disputes the appearance count.",
+     "The draft states 'Palace finished 15th in the Premier League last season, per ESPN' but the brief shows this is marked 'verified-on-chain' confidence from ESPN, not 'reported.' However, more critically, the draft later states 'Palace have won the FA Cup, Community Shield, and Europa Conference League in the last two seasons, per BBC Sport' but the brief shows this claim comes from BBC Sport marked 'reported' confidence. The draft's attribution is correct but the statement that Palace won the FA Cup and Community Shield in the last two seasons needs verification\u2014these are major trophies and the timeframe matters for credibility."
+    ]
+   },
+   {
+    "id": "c163",
+    "headline": "Red Sox Rutschman activation: source verification failed",
+    "category": "accuracy",
+    "reasons": [
+     "Draft body acknowledges source is unreadable and contains no verifiable facts, yet this is presented as a draft for approval rather than a research failure returned to the desk. The hard rule is: no fact exists outside the brief. This brief has zero data_points because the source failed. The draft itself is correct in refusing to publish, but it should not be submitted to approval; it should be rejected at research intake."
+    ]
+   },
+   {
+    "id": "c190",
+    "headline": "Seattle Storm game: source verification failed",
+    "category": "accuracy",
+    "reasons": [
+     "Draft body acknowledges source is unreadable and contains no verifiable facts, yet this is presented as a draft for approval rather than a research failure returned to the desk. The brief has zero data_points because the source failed. The draft correctly refuses publication, but this should not reach approval; research must recover the source or the story cannot be written."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Carrington clarifies 'white privilege' post, tells critics to research her background",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Carrington 'holds a bachelor's degree in Psychology and a bachelor's degree in African and African American Studies, both from Stanford, per Awful Announcing.' The brief data_point confirms both degrees are from Stanford. However, the draft attributes this to Awful Announcing when it should be attributed inline to that source in the body text where the education is introduced, not buried as a parenthetical at the end of a paragraph about her response. More critically, the draft introduces Carrington's educational credentials in a way that reads as character defense without the original context from the brief's open_questions noting that 'Carrington's response clarifies what she did NOT claim, but does not explicitly state what her original post was intended to communicate.' The brief also documents that Acho holds degrees in sports management and sports psychology from University of Texas (data_point provided), but the draft omits this entirely while including Carrington's credentials, creating asymmetrical sourcing of educational background that tilts the narrative toward Carrington's credibility without balance.",
+     "Draft states Emmanuel Acho's follow-up criticism as: 'The problem with Dijonai's tweet is nothing about it was clear. If we're ignoring the obvious context of her ejection, \"White privilege\" becomes an explosive accusation with no context.' The brief data_point provides the fuller quote: 'Respectfully, the problem with Dijonai's tweet is nothing about it was clear. If we're ignoring the obvious context of her ejection, \"White privilege\" becomes an explosive accusation with no context. White privilege is a real thing, it's not a claim you can ambiguously make.' The draft truncates the final substantive clause ('White privilege is a real thing, it's not a claim you can ambiguously make') which is essential to Acho's argument and part of the bear_case. Omitting this changes the weight of his critique."
+    ]
+   }
+  ]
  }
 ]
