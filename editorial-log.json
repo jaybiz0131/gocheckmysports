@@ -5388,5 +5388,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c016",
+    "headline": "Everton and Crystal Palace complete McNeil-Johnson swap",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states McNeil 'told Everton's media that Palace's recent trophy success \"is something that I want to be a part of,\" per BBC Sport.' However, the brief attributes a longer, directly quoted statement to McNeil via BBC Sport: 'The lads have had some great success over the last two seasons. It's something that I want to be a part of, so I'm really looking forward to getting started.' The draft paraphrases selectively and omits the fuller quote that was sourced.",
+     "The draft states 'ESPN reports he made 114 appearances for the club' referring to McNeil at Everton, but earlier states 'For Everton, he scored 15 goals and provided 19 assists in 128 games in all competitions, per BBC Sport.' The brief shows 128 games from BBC Sport and 114 from ESPN\u2014the draft presents these as separate claims from different sources without flagging the discrepancy. This is a factual conflict that requires clarification or omission, not silent contradiction.",
+     "The draft does not include Megan Sharpley's fuller quoted statements from the brief's ESPN data_points. The brief provides two distinct extended quotes from her Instagram post; the draft paraphrases only the emotional impact ('stating via ESPN that McNeil had been \"dragged along on an emotional rollercoaster\" and \"toyed with until the final minute\"') without attributing the fuller context of her mental health critique also present in the source. Attribution is incomplete."
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "Quinnen Williams, Cowboys agree to $105.9M extension",
+    "category": "clarity",
+    "reasons": [
+     "The brief notes that the angle involves 'its effect on cap flexibility for other pending free agents like WR CeeDee Pickens,' but the draft does not mention this competitive context or the cap impact at all, despite the brief identifying it as central to the story. The draft is too thin even for a short story when the brief itself flags key questions about salary cap consequences and other pending signings.",
+     "The bottom_line states 'the deal's salary cap impact and its consequences for other pending free agents remain to be seen,' but the draft body provides zero context on why this matters or who those free agents are. The bottom_line promises forward-looking stakes but the draft itself does not establish them, leaving readers without sufficient reporting to understand the significance of the extension."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "Trump backs Infantino amid FIFA governance crisis",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 2026 World Cup, which Trump references in his statement, was co-hosted by the United States, Canada, and Mexico, with Spain defeating Argentina in the final.' However, the brief data_point claims 'The 2026 World Cup was co-hosted by the US, Canada and Mexico this summer, with Spain crowned champions after beating Argentina in the final.' The brief itself is marked as written in August 2026 with a 2026 World Cup that has already concluded. This is internally inconsistent\u2014the 2026 World Cup cannot have already been played in August 2026 when it is scheduled for November-December 2026 in reality. The draft presents this as fact without qualification. The confidence label in the brief is 'verified-on-chain' but the temporal impossibility makes this claim unreliable. The writer should have flagged this discrepancy rather than presenting it as settled fact."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Football Australia backs AFC stance on Infantino but avoids resignation call",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a claim not supported by the brief: 'Football Australia issued a statement backing the Asian Football Confederation's position on FIFA president Gianni Infantino, calling for 'clear and credible action' in response to the FFE crisis while stopping short of explicitly demanding his resignation, according to the Guardian.' The brief's first data_point says Football Australia called for 'clear and credible action' but does not specify that this was 'in response to the FFE crisis'\u2014the brief only establishes that Infantino faced pressure over the FFE. The draft conflates Football Australia's call for action with the FFE specifically, adding a causal link not present in the source material. This is smuggled specificity beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c102",
+    "headline": "Cricket Australia board to explore Big Bash League expansion to 10 teams",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cricket Australia's board is ready to explore a potential expansion of the Big Bash League to 10 teams if plans to sell off some of the existing franchises are approved' but the brief notes the source is paywalled and incomplete (source_chars: 160 characters). The writer has presented the core claim as established fact when the brief explicitly flags that the full article details are unavailable and only 160 characters of source text were captured. A claim this significant cannot rest on an incomplete, paywalled source where the full reporting is inaccessible for verification.",
+     "The draft presents this as the board's settled position ('is ready to explore') without caveating that the source material is severely limited. The brief's 'thin: true' and 'open_questions' about missing details should have prompted either rejection or a much more cautious framing that acknowledges the information gap."
+    ]
+   }
+  ]
  }
 ]
