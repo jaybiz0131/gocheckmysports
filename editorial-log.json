@@ -5647,5 +5647,73 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Vikings name Kyler Murray starting QB, ending competition with J.J. McCarthy",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains two data_points about Kirk Cousins and Sam Darnold (confidence: 'reported') that are not mentioned in the draft body. However, these appear to be false or fabricated data points inserted into the brief itself (Darnold winning the Super Bowl last year is not a real event, and these figures are not standard NFL knowledge for 2026). The writer correctly did not use these suspect data points, but per the hard rule 'no fact exists outside the brief'\u2014if these were meant to be in the story, they should be there; if not, the brief contains smuggled or test data. The draft's omission suggests the writer caught the problem, but this represents a breakdown in brief integrity, not draft failure. HOWEVER, examining more carefully: the brief's data_points about Cousins and Darnold are labeled 'reported' and sourced to the same ESPN URL as all other claims. The draft does not include these claims. Under the rule, the draft should either include them or flag them as unavailable. Since the brief presents them as 'reported' facts from the source, their absence from the draft is an accuracy failure\u2014the writer was told these facts exist in research and omitted them without explanation."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Saints defensive end Cam Jordan (hamstring) could miss start of regular season",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line states: 'Watch how quickly Portland adjusts its midfield lineup in the remaining regular season and whether coach Kellen Moore rotates new combinations into the lineup.' Kellen Moore is the Saints head coach (per c014 brief and draft), not the Portland Thorns coach. This is a factual error introduced into the bottom_line. The draft is about Olivia Moultrie and the Portland Thorns; the coach's name should not be transferred from an unrelated NFL story."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "USWNT midfielder Olivia Moultrie (ACL) out for 2026 NWSL season",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim and data_points mark the ACL injury announcement and season-ending status with confidence label 'announced-not-verified,' meaning the injury has been announced by the club but not independently verified by medical examination or multiple sources. The draft presents these claims in declarative form ('has been ruled out,' 'has been placed on the season-ending injury list') without any hedge or qualifier that signals the 'announced-not-verified' confidence level. Per approval rules, confidence labels must survive in prose: a claim marked 'announced-not-verified' must read that way. The language should include qualifiers like 'according to the club' or 'the Thorns announced' rather than stating it as settled fact."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Kansas City Chiefs sign defensive end Emmanuel Ogbah to one-year deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'No official confirmation from the Chiefs organization, the player, or his representatives has been provided.' This is interpretation/editorializing beyond the brief. The brief's data_point simply marks the claim as 'reported' confidence, not as unconfirmed. The draft injects doubt about the sourcing that is not present in the brief's confidence label. The brief does not flag the claim as 'announced-not-verified' or 'unconfirmed'; it is marked 'reported,' which means it should be presented as a report, not as lacking confirmation.",
+     "The draft's opening paragraph states 'agreed to sign...according to UPI reporting via Yahoo Sports,' but the source provided is only Yahoo Sports. The brief attributes to 'UPI (reported via Yahoo Sports),' but the draft should trace attribution clearly to the original source venue as marked in the brief. The phrasing 'according to UPI reporting via Yahoo Sports' is acceptable, but the second paragraph's statement 'The report cites only a source familiar with the agreement to UPI' goes beyond what the brief contains\u2014the brief does not provide detail about UPI's sourcing methodology."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Trump backs Infantino against FIFA confederation leadership challenge",
+    "category": "balance",
+    "reasons": [
+     "The brief contains a robust bear_case with six items contradicting or complicating Trump's endorsement, but the draft marginalizes this counter-narrative. Paragraph 2 mentions confederation opposition in a single sentence ('breaks from the position of U.S. Soccer and contradicts the stance of three major continental confederations'), and paragraph 2's quote from the confederation letter appears, but the draft does not build out the bear_case items systematically. Specifically, the brief's bear_case notes that 'Trump initially refused to defend Infantino when asked about the FFE on July 31, saying \"No, I never spoke to him,\"' suggesting he did not rush to defend him before Monday's post\u2014this critical detail showing Trump's reversal is missing from the draft. The UEFA boycott threat and the characterization of the FFE as a 'profound failure of judgement' appear, but they are embedded in narrative rather than given proportionate counter-weight. A story that leads with Trump's backing and only later sketches confederation opposition under-represents the bear case relative to the brief's framing of the 'political fracture' in FIFA's leadership. The draft reads as Trump-centered rather than conflict-centered."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "College Football Playoff expansion is a media rights fight, not a format debate",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'ESPN currently pays 1.3 billion dollars annually for playoff rights' but the brief data_point says 'ESPN currently pays $1.3 billion annually for the College Football Playoff' \u2014 this is consistent and traces correctly.",
+     "Draft claims 'ESPN's 16-team proposal with separate play-in games is designed to stay below that threshold. Only the play-in matches would become open inventory, while the 16-team playoff itself remains under ESPN's exclusive contract.' The brief data_point states 'ESPN's 16-team proposal with separate play-in games would allow ESPN to retain broadcast rights for the entire tournament, with only the play-in games hitting the open market.' These statements are contradictory \u2014 the draft says play-in games become open inventory, but the brief says only the play-in games hit the open market, meaning the 16-team playoff proper stays with ESPN. The draft's phrasing 'Only the play-in matches would become open inventory' is accurate to the brief, but this is actually consistent with what the draft says overall. Re-reading: the draft says 'stay below that threshold' and 'only the play-in matches would become open inventory, while the 16-team playoff itself remains under ESPN's exclusive contract' \u2014 this matches the brief's data point exactly.",
+     "Draft states regarding Bob Thompson: 'ESPN would automatically retain rights to any format up to 14 teams at no increase in fee; a 16-team expansion would trigger a pro rata increase but keep all inventory in ESPN's hands; any format beyond 16 teams would force the entire playoff back to the open market.' The brief attributes these claims to 'former Fox Sports Networks president Bob Thompson, cited by Awful Announcing' with separate data_points for each threshold (14, 16, beyond-16). The draft accurately reflects these but presents them as a single attributed claim. However, the attribution is correct: all three thresholds are attributed to Bob Thompson per the brief's data_points.",
+     "Draft uses the phrase 'According to reporting by Awful Announcing' and 'Former Fox Sports Networks president Bob Thompson, cited by Awful Announcing' \u2014 these attributions align with the brief's source. All major factual claims trace back to the Awful Announcing source in the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Inter Miami offers support but no timeline as Messi grieves father's death",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the stadium is 'Miami's Ne Stadium' but the brief data_point specifies 'Miami's Nu Stadium.' The draft contains a factual error: 'Ne' should be 'Nu'.",
+     "Draft quotes Facundo Mura with: '\"We are deeply affected by what happened. We are standing with Leo from afar during this difficult time,\" Mura said. \"We understand what he is going through and want him to know we support him and are by his side. Whenever he feels ready to return, we will be here to continue supporting him in everything that lies ahead.\"' The brief provides two separate Mura quotes in data_points 4 and 5. Data_point 4 matches the first part, but data_point 5 contains additional preamble ('As individuals, as you just mentioned, and certainly as colleagues, a team, and a club, I think We are sorry about what happened. And well,') that the draft omits, then uses language that matches data_point 5's ending. The draft appears to have combined and paraphrased two separate statements into one continuous quote without the connector text, which could be acceptable as paraphrase, but the combined attribution as a single monologue is misleading about the actual structure of his remarks.",
+     "Draft states Hoyos 'did not specify when Messi would rejoin the team' which traces to brief data_point 11 accurately."
+    ]
+   }
+  ]
  }
 ]
