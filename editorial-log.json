@@ -5895,5 +5895,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "Barcelona grant Ferran Torres permission to skip training amid PSG move",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Torres 'scored the extra-time winning goal in the World Cup final for Spain this summer.' Brief data_point c036 says 'Torres scored the extra-time winner against Argentina to help Spain claim their second World Cup this summer.' The brief does not specify which World Cup or when it occurred. The draft's phrasing 'this summer' is contextually ambiguous given the story's timestamp (2026-08-12) and could mislead readers about recency. More critically: the draft says he scored 'the' winning goal but does not specify which team Spain beat or confirm this was the final\u2014the brief says 'against Argentina' and 'World Cup final' but the draft omits Argentina. This is a material factual loss from brief to draft.",
+     "Draft states 'PSG are in the market for a new striker after the departure of Goncalo Ramos to AC Milan this summer.' The brief does not state Ramos departed 'this summer'\u2014it only says 'this summer' in the context of the data_point timestamp (2026-08-12). The timing 'this summer' in the draft is not sourced to the brief and introduces ambiguity about when Ramos left. Check traceability: the brief's data_point says 'PSG are in the market for a new striker after the departure of Goncalo Ramos to AC Milan this summer' with source ESPN and confidence 'reported'\u2014so the draft does track the brief. RETRACT: this is traced. However, see next issue.",
+     "Draft says 'The BBC reported that the deal is likely to be worth more than \u00a340 million' and also says 'Barcelona anticipate closing a deal in the coming days for a total package of around EUR 55 million ($63.4m).' The brief data_point on BBC says 'The deal with PSG is likely to be worth more than \u00a340m' (confidence 'reported'). The draft presents both figures side-by-side without reconciling them or flagging the discrepancy as unresolved. A reader cannot tell if \u00a340m \u2248 \u20ac55m or if these are conflicting reports. The brief's bear_case explicitly flags this ambiguity: 'BBC reporting states the deal is likely to be worth more than \u00a340m while ESPN specifies around \u20ac55m, creating ambiguity on final structure.' The draft failed to surface this tension from the brief's bear_case. This is a balance failure\u2014the bear_case contradiction is present in the brief but absent from the draft."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Pogba expected to exit Monaco via contract termination",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Pogba 'signed a two-year deal with Monaco' but the brief data_point c061 says 'Pogba signed a two-year deal with Monaco due to run until the end of the forthcoming season.' The brief's phrasing is contradictory and unclear ('two-year deal' should run until 2027, not 'end of the forthcoming season' in 2026), but the draft omits this internal discrepancy without clarifying. The draft does not flag the structural oddity to readers.",
+     "Draft says 'Discussions between Pogba and Monaco over an early contract exit are under way and expected to be concluded soon, according to a source who told the BBC.' The corresponding brief data_point is marked confidence 'unconfirmed.' The draft presents this as reported fact ('are under way and expected to be concluded soon') without signaling the unconfirmed status. Per the hard rule: 'Confidence labels must survive: a brief claim marked unconfirmed or announced-not-verified must read that way in the prose.' The draft fails this test."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Manchester City sign goalkeeper Rulli from Marseille",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Rulli 'reached the 2026 World Cup final with the national team,' but brief data_point says only 'reached the 2026 World Cup final with Argentina'\u2014this is impossible if the timestamp is 2026-08-12. A World Cup final in 2026 cannot have already been played. This claim either contradicts the timeline or is unverified speculation beyond the brief's scope."
+    ]
+   },
+   {
+    "id": "c200",
+    "headline": "UEFA Super Cup opens 2026/27 European season in Salzburg",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions note states: 'The provided source text is a navigation menu/boilerplate and does not contain substantive information about the UEFA Super Cup format, all-time winners, or the specific matchup...The full article content was not fetched.' The brief itself warns the source is incomplete. Draft acknowledges sourced material contains only 'date and venue' but this admission does not cure the underlying liability: the story is built on a source that failed to load. A draft built on an incomplete brief violates the rule that facts must trace to the research provided."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Michele Tafoya wins Minnesota GOP Senate primary, advances to face Lt. Gov. Flanagan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Tafoya 'told reporters that her position at Sunday Night Football, which topped prime-time ratings for 11 consecutive years, limited her freedom to comment on broader events.' The brief's data_point shows the full quote includes 'I was not as free to be as vocal about world events that I'm concerned about. It's not because I was told to shut up.' The draft paraphrases this accurately, BUT then immediately states 'She emphasized that NBC did not silence her, but rather that the role itself constrained her voice'\u2014this interpretive claim goes beyond the reported quote and inserts analysis not present in the brief's source material.",
+     "The draft attributes the Flanagan characterization ('progressive candidate') and the fraud scandal claim to 'ESPN's reporting' in separate sentences, but the brief shows the fraud scandal data_point carries only 'reported' confidence with no bear_case counterweight explaining what this scandal is or its scale. The brief's open_questions flag 'What specific fraud scandal involving the widespread theft of public funds are Republicans referencing' indicates the claim itself is unverified as to its actual scope/details. Presenting it as settled fact ('Republicans are hoping a fraud scandal involving widespread theft of public funds will give them an opening') without qualification violates the confidence-label survival rule.",
+     "The draft cites Tafoya's remarks about a press conference ('Minnesota is going 100 miles an hour in the wrong direction...') and attributes this to 'per Awful Announcing' but the brief marks this exact quote as 'announced-not-verified' confidence level. The draft presents it as Tafoya's campaign statement without any hedge language acknowledging it has not been independently verified."
+    ]
+   }
+  ]
  }
 ]
