@@ -186,8 +186,9 @@ def check(client, obj, stories, boards, extras=None):
             "citing it is correct. Respond ONLY with JSON: "
             '{"problems": [{"claim": "<the edition\'s exact words>", '
             '"kind": "absent"|"contradicted"|"advice"|"register", '
-            '"evidence": "<for contradicted: the input fact it conflicts with; '
-            'for absent: a short note; otherwise the offending words>"}]}. '
+            '"evidence": "<for contradicted: the conflicting input text QUOTED '
+            'VERBATIM, word for word; for absent: a short note; otherwise the '
+            'offending words>"}]}. '
             "An edition with nothing wrong returns {\"problems\": []}. List ONLY "
             "problems; never list things the edition got right. If you are unsure "
             "whether a specific fact traces to the inputs, list it as a problem.\n\n"
@@ -197,9 +198,31 @@ def check(client, obj, stories, boards, extras=None):
             + (("\n\nADDITIONAL PERMITTED INPUTS:\n" + json.dumps(extras, indent=1))
                if extras else ""))
     KINDS = {"absent", "contradicted", "advice", "register"}
+
+    # EVIDENCE IS VERIFIED, NOT TRUSTED (2026-08-12, same evening as the derived
+    # verdict): the structured contract exposed WHAT the checker was rejecting on, and
+    # two of the first four items refuted themselves ("the input confirms 'per
+    # intermediary' so no contradiction" -> listed as a contradiction; a claim listed
+    # as ABSENT whose own evidence quoted the input story carrying it). A model cannot
+    # be word-listed out of that, but its receipts can be checked mechanically: a
+    # CONTRADICTED item must quote the conflicting input verbatim and the quote must
+    # actually occur in the inputs; an ABSENT item is invalid if the claim's own words
+    # occur verbatim in the inputs. An item that fails verification is a contract
+    # violation and climbs the ladder, so the checker either brings real evidence or
+    # drops the item; it can never kill a slot with a receipt that does not check out.
+    def _norm(s):
+        return " ".join(re.sub(r"[^a-z0-9$%.]+", " ", str(s).lower()).split())
+
+    def _windows(s, n=6):
+        w = _norm(s).split()
+        if len(w) <= n:
+            return [" ".join(w)] if w else []
+        return [" ".join(w[i:i + n]) for i in range(len(w) - n + 1)]
+
     def check_shape(o):
         if not isinstance(o.get("problems"), list):
             raise llmlib.LLMError("wrapcheck output missing 'problems' list")
+        inputs_text = _norm(json.dumps([stories, boards, extras or {}]))
         for p in o["problems"]:
             if not (isinstance(p, dict) and str(p.get("claim", "")).strip()
                     and p.get("kind") in KINDS):
@@ -207,6 +230,20 @@ def check(client, obj, stories, boards, extras=None):
                     f"wrapcheck: malformed problem item {str(p)[:120]!r}; every item "
                     f"needs a non-empty 'claim' and a 'kind' from "
                     f"absent/contradicted/advice/register")
+            if p["kind"] == "contradicted":
+                ev = str(p.get("evidence", ""))
+                if not any(w in inputs_text for w in _windows(ev)):
+                    raise llmlib.LLMError(
+                        f"wrapcheck: 'contradicted' item's evidence does not quote the "
+                        f"inputs verbatim ({str(p.get('claim'))[:80]!r}); quote the "
+                        f"conflicting input text word for word, or drop the item if "
+                        f"nothing in the inputs conflicts")
+            if p["kind"] == "absent":
+                if any(w in inputs_text for w in _windows(p["claim"])):
+                    raise llmlib.LLMError(
+                        f"wrapcheck: 'absent' item's claim occurs verbatim in the "
+                        f"inputs ({str(p.get('claim'))[:80]!r}); a claim the inputs "
+                        f"carry is traced, not absent; drop the item")
         return o
     v = client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
