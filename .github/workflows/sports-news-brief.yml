@@ -46,6 +46,11 @@ on:
       breaking:
         type: boolean
         default: false
+      # the edition slug a slot-recovery fire is for; wrap.py regenerates exactly this
+      # slot instead of resolving one from the wall clock (empty = resolve normally)
+      slot:
+        type: string
+        default: ""
 
 # PUBLISH LOCK (directive item 9): one publish at a time per repo. The group is shared
 # with the watcher's breaking runs, so a breaking run QUEUES behind an in-flight scheduled
@@ -223,6 +228,8 @@ jobs:
           # includes the story that just broke (owner directive 2026-07-15)
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
           SLOT_CRON: ${{ github.event.schedule }}
+          # the slot a recovery fire is FOR (outranks cron and clock in wrap.py)
+          SLOT_NAME: ${{ inputs.slot }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
 

@@ -26,6 +26,8 @@ jobs:
     outputs:
       trigger: ${{ steps.w.outputs.trigger }}
       breaking: ${{ steps.w.outputs.breaking }}
+      # the edition slug a slot-recovery fire is for; empty on market/news triggers
+      slot: ${{ steps.w.outputs.slot }}
       reason: ${{ steps.w.outputs.reason }}
     steps:
       - uses: actions/checkout@v4
@@ -50,14 +52,32 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           python3 - <<'PYEOF'
-          import json, os, urllib.request
+          import json, os, time, urllib.request
           tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
           hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
           title = "Missed edition: a slot window closed without publishing"
+
+          def call(req):
+              # RETRY, THEN STAND DOWN (2026-08-12, run 31637476802): a transient
+              # RemoteDisconnected from the API crashed this step and turned an ADVISORY
+              # flag into a red watcher run, which is itself a failure report to the
+              # owner about nothing. The flag is idempotent by title and this step runs
+              # again on the next tick, so after three attempts the right move is a
+              # warning, not a failure.
+              for i in range(3):
+                  try:
+                      return json.load(urllib.request.urlopen(req, timeout=30))
+                  except Exception as e:
+                      last = e
+                      time.sleep(2 ** i)
+              print(f"::warning::missed-edition flag could not reach the API after 3 "
+                    f"attempts ({last}); the next watcher tick retries")
+              raise SystemExit(0)
+
           q = urllib.request.Request(
               f"https://api.github.com/repos/{repo}/issues?state=open&per_page=100",
               headers=hdrs)
-          open_titles = {i["title"] for i in json.load(urllib.request.urlopen(q))}
+          open_titles = {i["title"] for i in call(q)}
           if title in open_titles:
               print("already flagged; staying quiet")
           else:
@@ -70,7 +90,7 @@ jobs:
                                  "labels": ["pipeline"]}).encode()
               req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues",
                                            data=data, headers=hdrs, method="POST")
-              urllib.request.urlopen(req)
+              call(req)
               print("flag issue opened")
           PYEOF
 
@@ -82,6 +102,7 @@ jobs:
     uses: ./.github/workflows/sports-news-brief.yml
     with:
       breaking: ${{ needs.watch.outputs.breaking == 'true' }}
+      slot: ${{ needs.watch.outputs.slot }}
     secrets: inherit
     permissions:
       contents: write

@@ -35,12 +35,18 @@ FRESH_MIN = int(os.environ.get("WATCH_FRESH_MIN") or "90")
 COOLDOWN_MIN = int(os.environ.get("WATCH_COOLDOWN_MIN") or "120")
 
 
-def emit(trigger, reason="", breaking=True):
+def emit(trigger, reason="", breaking=True, slot=""):
+    # `slot` names the edition slug a SLOT RECOVERY fire is FOR. It rides the outputs
+    # into the fired brief run as SLOT_NAME so wrap.py regenerates THAT slot, instead of
+    # resolving by wall clock and regenerating whichever slot the clock says (2026-08-12:
+    # a morning recovery firing at 14:23 produced a midday edition, so the morning slot
+    # was unrecoverable all day and the watcher re-fired it uselessly every tick).
     print(("WATCHER TRIGGER: " + reason) if trigger else f"watcher: quiet ({reason})")
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
         open(out, "a").write(f"trigger={'true' if trigger else 'false'}\n"
                              f"breaking={'true' if breaking else 'false'}\n"
+                             f"slot={slot}\n"
                              f"reason={reason}\n")
 
 
@@ -163,7 +169,7 @@ def main():
     if slug:
         emit(True, f"SLOT RECOVERY: {slug} deadline passed with no edition published "
                    f"(cron drifted or the run failed); re-firing the pipeline",
-             breaking=False)
+             breaking=False, slot=slug)
         return 0
     if desk_published_recently():
         emit(False, f"desk published within the last {COOLDOWN_MIN}m; coverage is fresh")

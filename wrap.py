@@ -139,60 +139,85 @@ def belts(article_body, dek, bottom_line):
     for pat in bottom_line_lint(bottom_line + " " + dek):
         problems.append(f"Bottom Line lane violation (directional/predictive): {pat}")
     words = len(article_body.split())
-    if not 120 <= words <= 950:
-        problems.append(f"body {words} words outside 120-950")
+    # The band is a runaway guard, not a style enforcer: the prompt's own cap is 850 and
+    # the model aims there, so this belt exists to stop a 2,000-word ramble or a 50-word
+    # stub. At 950 it killed the 2026-08-12 midday slot over a 952-word body, two words
+    # of drift the reader cannot perceive; a near-miss burns a ladder rung (or the whole
+    # slot on the last rung) that a real defect might need.
+    if not 120 <= words <= 1050:
+        problems.append(f"body {words} words outside 120-1050")
     return problems
 
 
-def check(client, obj, stories, boards):
-    """Independent trace check: every specific fact must come from the inputs."""
-    # CALIBRATION (2026-07-26): three straight days of good editions died here on false
-    # positives (identical dates in different formats, permitted arithmetic synthesis,
-    # relative weekdays resolved against a story's dateline). The checker's job is
-    # INVENTED OR CONTRADICTED SUBSTANCE, not formatting.
-    user = ("Verify this daily edition against its ONLY permitted inputs. REJECT only when "
-            "the edition asserts a specific fact (number, name, date, event, outcome) that "
-            "is ABSENT from the inputs or CONTRADICTED by them ON SUBSTANCE. These are NOT "
-            "discrepancies and must never cause rejection: (a) the same date or number in a "
-            "different format ('July 15' vs '15 July 2026'; '60,000' vs 'nearly 60,000'); "
-            "(b) sums or combinations of input numbers when the edition labels them as "
-            "combined or in total; (c) a weekday reference consistent with an input "
-            "story's own dateline ('Saturday evening' and a date that falls on that "
-            "Saturday are the SAME fact); (d) paraphrase of an event the inputs carry. "
-            "Connecting and synthesizing the inputs is allowed and expected; when two "
-            "inputs differ because one is newer, the newer figure governs and citing it is "
-            "correct. Also REJECT anything that reads as a price prediction, trade advice, "
-            "or 'you should', and any hype or panic register. Respond ONLY with JSON: "
-            '{"decision": "APPROVE"|"REJECT", "reasons": ["<specific claim and why>"]}. '
-            "reasons lists ONLY violations; never list permitted or accurate claims, and "
-            "an APPROVE may have empty reasons.\n\n"
+def check(client, obj, stories, boards, extras=None):
+    """Independent trace check: every specific fact must come from the inputs.
+
+    CALIBRATION (2026-07-26): three straight days of good editions died here on false
+    positives (identical dates in different formats, permitted arithmetic synthesis,
+    relative weekdays resolved against a story's dateline). The checker's job is
+    INVENTED OR CONTRADICTED SUBSTANCE, not formatting.
+
+    THE VERDICT IS DERIVED, NOT ASKED FOR (2026-08-12): asking the model for a global
+    APPROVE/REJECT alongside its reasons produced REJECTs whose own reasons said the
+    edition was right ("The edition correctly uses 7.4-magnitude... supported by
+    inputs" -> REJECT), and a word-list guard could not catch that because the essay
+    also contained the word "contradicts". The checker now returns only a structured
+    problem list; the verdict is computed here as len(problems) == 0. Fail-closed is
+    preserved where it matters, per claim: any claim the checker cannot trace must be
+    LISTED, and a malformed problem item fails the contract (climbing the ladder)
+    rather than being silently dropped, so sloppy output can never soften the gate.
+
+    `extras` carries any additional permitted inputs the edition was WRITTEN from
+    (e.g. the jurisdiction tracker): auditing against fewer inputs than the writer had
+    rejects legitimate claims as unverifiable, which cost the 2026-08-12 midday slot."""
+    user = ("Audit this daily edition against its ONLY permitted inputs. Return every "
+            "PROBLEM you find. A problem is exactly one of: a specific fact (number, "
+            "name, date, event, outcome) that is ABSENT from the inputs; a specific fact "
+            "CONTRADICTED by the inputs ON SUBSTANCE; language that reads as a price "
+            "prediction, trade advice, or 'you should' (kind: advice); hype or panic "
+            "register (kind: register). These are NOT problems and must never be listed: "
+            "(a) the same date or number in a different format ('July 15' vs '15 July "
+            "2026'; '60,000' vs 'nearly 60,000'); (b) sums or combinations of input "
+            "numbers when the edition labels them as combined or in total; (c) a weekday "
+            "reference consistent with an input story's own dateline; (d) paraphrase of "
+            "an event the inputs carry; (e) phrasing that could be more precise but is "
+            "not wrong. Connecting and synthesizing the inputs is allowed and expected; "
+            "when two inputs differ because one is newer, the newer figure governs and "
+            "citing it is correct. Respond ONLY with JSON: "
+            '{"problems": [{"claim": "<the edition\'s exact words>", '
+            '"kind": "absent"|"contradicted"|"advice"|"register", '
+            '"evidence": "<for contradicted: the input fact it conflicts with; '
+            'for absent: a short note; otherwise the offending words>"}]}. '
+            "An edition with nothing wrong returns {\"problems\": []}. List ONLY "
+            "problems; never list things the edition got right. If you are unsure "
+            "whether a specific fact traces to the inputs, list it as a problem.\n\n"
             "EDITION:\n" + json.dumps(obj, indent=1)
             + "\n\nINPUT STORIES:\n" + json.dumps(stories, indent=1)
-            + "\n\nINPUT BOARDS:\n" + json.dumps(boards, indent=1))
+            + "\n\nINPUT BOARDS:\n" + json.dumps(boards, indent=1)
+            + (("\n\nADDITIONAL PERMITTED INPUTS:\n" + json.dumps(extras, indent=1))
+               if extras else ""))
+    KINDS = {"absent", "contradicted", "advice", "register"}
     def check_shape(o):
-        if o.get("decision") not in ("APPROVE", "REJECT"):
-            raise llmlib.LLMError(f"wrapcheck: invalid decision {o.get('decision')!r}")
+        if not isinstance(o.get("problems"), list):
+            raise llmlib.LLMError("wrapcheck output missing 'problems' list")
+        for p in o["problems"]:
+            if not (isinstance(p, dict) and str(p.get("claim", "")).strip()
+                    and p.get("kind") in KINDS):
+                raise llmlib.LLMError(
+                    f"wrapcheck: malformed problem item {str(p)[:120]!r}; every item "
+                    f"needs a non-empty 'claim' and a 'kind' from "
+                    f"absent/contradicted/advice/register")
         return o
-    def _coherent(v):
-        # A REJECT whose every stated reason describes the claim as permitted, accurate,
-        # or confirmed is a malformed verdict, not a judgment (observed 2026-07-27 on
-        # news: the checker enumerated "INPUTS CONFIRM... ACCURATE" and still rejected).
-        if v.get("decision") != "REJECT":
-            return v
-        rs = [str(r) for r in v.get("reasons", [])]
-        ok_words = ("permitted", "accurate", "confirm", "correct", "consistent")
-        if rs and all(any(w in r.lower() for w in ok_words)
-                      and not any(b in r.lower() for b in ("absent", "contradict",
-                                                           "invented", "not in", "no input"))
-                      for r in rs):
-            print("::warning::wrapcheck: REJECT verdict with no stated violation "
-                  "-> treating as APPROVE (malformed verdict, not a judgment)")
-            v["decision"] = "APPROVE"
-        return v
-    v = _coherent(client.call_json("wrapcheck",
+    v = client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
-                         "Reject invented or contradicted substance without mercy; never reject over formatting, arithmetic the edition labels, or paraphrase.", user, validate=check_shape))
-    return v.get("decision") == "APPROVE", v.get("reasons", [])
+                         "List invented or contradicted substance without mercy; never "
+                         "list formatting, labeled arithmetic, or paraphrase. You return "
+                         "only the problem list; the verdict is computed from it.",
+                         user, validate=check_shape)
+    reasons = [f"{p['kind']}: {p['claim']}"
+               + (f" [{p['evidence']}]" if str(p.get("evidence", "")).strip() else "")
+               for p in v["problems"]]
+    return not v["problems"], reasons
 
 
 def build_item(edition, obj, stories, date, published_utc):
@@ -241,8 +266,27 @@ def main():
     CRON_SLOT = {"40 9 * * *": "morning", "38 15 * * *": "midday", "38 23 * * *": "evening",
                  "55 10 * * *": "morning", "25 11 * * *": "morning", "10 17 * * *": "midday"}
     cron = (os.environ.get("SLOT_CRON") or "").strip()
+    # SLOT_NAME: the slot this run was fired FOR, named by the caller, and it outranks
+    # both the cron and the clock. The watcher's slot recovery re-fires the pipeline for
+    # a specific missed slot, but the fired run inherits the WATCHER'S cron in SLOT_CRON
+    # (not a slot cron), so wrap fell through to the wall clock and regenerated whatever
+    # slot the clock said instead (2026-08-12: every recovery of the missed morning brief
+    # resolved 'midday' after 14:00, so a morning slot could never be recovered once the
+    # clock moved on, and the watcher re-fired it uselessly all afternoon). Accepts the
+    # EDITIONS key or the slug, because the watcher names slots by slug.
+    slot_name = (os.environ.get("SLOT_NAME") or "").strip().lower()
+    # first-wins: "closing" is a legacy alias sharing evening-brief's slug, and the
+    # midnight day-anchor below matches on the canonical key
+    slug_to_key = {}
+    for k, v in EDITIONS.items():
+        slug_to_key.setdefault(v["slug"], k)
     if "--edition" in argv:
         edition = argv[argv.index("--edition") + 1]
+    elif slot_name in EDITIONS or slot_name in slug_to_key:
+        edition = slug_to_key.get(slot_name, slot_name)
+        # a recovered evening slot fired past midnight still belongs to its own day
+        if edition == "evening" and now.hour < 5:
+            now = now - datetime.timedelta(hours=now.hour + 1)
     elif cron in CRON_SLOT:
         edition = CRON_SLOT[cron]
         # an evening cron that drifts past midnight still belongs to its own day
@@ -253,7 +297,8 @@ def main():
         now = now - datetime.timedelta(hours=now.hour + 1)  # anchor date to the slot's day
     else:
         edition = "morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"
-    if cron and cron not in CRON_SLOT:
+    if (cron and cron not in CRON_SLOT and "--edition" not in argv
+            and slot_name not in EDITIONS and slot_name not in slug_to_key):
         common.gh("notice", f"wrap: unrecognised cron {cron!r}; resolved '{edition}' "
                             f"by clock. Add it to CRON_SLOT if it is a slot cron.")
     if edition not in EDITIONS:
