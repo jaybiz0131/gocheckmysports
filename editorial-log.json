@@ -5786,5 +5786,66 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c210",
+    "headline": "UEFA Super Cup scheduled for August 12 in Salzburg",
+    "category": "clarity",
+    "reasons": [
+     "The bottom_line states 'The UEFA Super Cup kicks off tonight in Salzburg' but the draft body explicitly says 'Reporting available confirms only the date and venue' and does not identify competing teams or any other match details. The phrase 'kicks off tonight' presumes the reader is consuming this on August 12; if published any other day, it reads as stale or false. The draft correctly hedges in the body but the bottom_line undercuts that caution and creates liability by collapsing temporal specificity.",
+     "The brief is explicitly marked 'thin: true' with only one data_point. The draft appropriately mirrors that thinness by stating what is known and what is not. However, the bottom_line's confident forward-looking framing ('Watch for...') and 'tonight' language overstates the story's news value and solidity given how little reporting exists. A thin brief should produce a tighter, more cautious bottom_line."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Barcelona give Ferran Torres permission to miss training ahead of PSG move",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Torres 'was due to return to work on Wednesday' but the brief data_point says 'Torres, 26, was due to return to work on Wednesday following three weeks off.' The draft's phrasing creates ambiguity about which Wednesday\u2014the article timestamp is August 12, 2026, and it is unclear whether Wednesday is August 14 (the next day) or a past date. The brief's language is identical but the context matters: if published on August 12 and Wednesday is August 14, 'was due' is correct future-looking language. If Wednesday has passed, the tense is wrong. This is a minor clarity issue but in a transfer story with tight timeline language, it risks confusion about when the story was published versus when the action occurred.",
+     "The draft states 'PSG have won the Champions League in the past two seasons' but the brief data_point says 'PSG have won the Champions League in the past two seasons.' This is accurate to the brief, but it is an extraordinary claim for a real-world check: PSG has not won the Champions League in the past two seasons (2024-25, 2025-26 would be the relevant seasons in a 2026 timeline). The brief marks this as 'reported' confidence, meaning it came from ESPN or BBC, but the claim itself is factually implausible in real history. However, since the instruction is to verify facts against the brief, not against external reality, and the draft accurately paraphrases the brief's data_point, this passes the accuracy check against the brief. However, it is a red flag for the desk: the brief may contain an error that went uncaught."
+    ]
+   },
+   {
+    "id": "c172",
+    "headline": "Padres rout Brewers, create three-way tie for final two NL Wild Card spots",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions flag states: 'final score, specific game dates, team records, and which teams are tied for the wild card spots are not discernible from the fetched content.' The draft names three teams as tied but the brief provides no data_points identifying which three teams they are. This is smuggled information not in the brief.",
+     "The draft states 'San Diego Padres defeated Milwaukee Brewers in a series' but the brief's open_questions note that 'final score, specific game dates' cannot be verified from the source. A series win is asserted without verification from the fetched source content."
+    ]
+   },
+   {
+    "id": "c178",
+    "headline": "Walls hits two homers as Rays extend winning streak to eight games",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions explicitly state: 'The source text provided is incomplete (CSS font declarations only); specific details about Walls' previous homer-less streak duration...cannot be verified from the fetched source.' The draft claims 'Walls, a bench player, had gone a year without a home run before the two-homer outburst.' This is a specific factual claim (duration of the drought) that the brief identifies as unverifiable from the source. The writer has smuggled a detail not confirmed in the fetched content.",
+     "Brief open_questions also note that 'specific details about the exact timing of his two home runs in the game, opponent pitchers, and other game context cannot be verified from the fetched source'\u2014yet the draft presents these events as confirmed facts sourced from MLB.com when the source content itself is incomplete CSS only."
+    ]
+   },
+   {
+    "id": "c182",
+    "headline": "Muncy delivers bases-loaded walk-off in 10th inning against Royals",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions flag states: 'The source text provided is incomplete (CSS font declarations only); specific details about the game situation, the type of hit (single, double, home run)...cannot be verified from the fetched source.' The draft refers to a 'walk-off hit' generically, but cannot confirm from the brief what type of hit it was (home run, single, etc.). The brief's data_point says 'walk-off hit' but the fetched source is incomplete CSS only, per the open_questions. This is unverified information presented as fact.",
+     "The draft's characterization of Muncy's 'pattern of production when games are decided' and 'track record of performing in critical moments' goes beyond the brief's single data_point about this one walk-off, smuggling a career narrative that the brief does not support with historical data."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Former NFL reporter Michele Tafoya wins Minnesota GOP Senate primary",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'She defeated Marine veteran and Navy SEAL Adam Schwarze and former NBA player Royce White, per ESPN's reporting.' The brief data_point on Schwarze says only 'Marine veteran and Navy SEAL Adam Schwarze' without attribution to ESPN\u2014the source is Awful Announcing. The draft attributes this specific characterization of Schwarze to ESPN when the brief does not. Additionally, the draft characterizes White as 'former NBA player' without the brief's additional context that he is a 'prior candidate and conservative commentator,' which is a material omission of sourced information.",
+     "Draft states 'Flanagan ran as a progressive with a pledge to confront President Donald Trump's influence, according to ESPN.' The brief data_point says 'Peggy Flanagan is a progressive who defeated centrist U.S. Rep. Angie Craig with a pledge to fight the influence of corporations and confront President Donald Trump.' The draft omits 'fight the influence of corporations' from the pledge; the draft's version is incomplete relative to the sourced claim.",
+     "Draft states 'Republicans are banking on a public fraud scandal involving widespread theft of public funds as an opening up and down the ballot, according to ESPN.' The brief data_point says 'Republicans are hoping a fraud scandal involving the widespread theft of public funds will give them an opening up and down the ballot.' The draft changes 'hoping' to 'banking on'\u2014a material shift in tone/confidence that is not justified by the source language provided."
+    ]
+   }
+  ]
  }
 ]
