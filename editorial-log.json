@@ -6000,5 +6000,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Paul Skenes exits after 65 pitches amid latest velocity drop",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Neither the Pirates organization nor Skenes' medical staff has commented publicly on whether the velocity decline reflects an underlying arm or shoulder issue, or whether any diagnostic work has been performed to rule out structural damage.' This sentence speculates about medical evaluation and structural damage beyond what is in the brief. The brief's open_questions note that no such comment has been made, but the draft's phrasing\u2014particularly 'has not commented' and 'whether any diagnostic work has been performed'\u2014implies an ongoing investigation or concern that is not supported by the data_points. This crosses into health/medical speculation beyond the official record and is a compliance violation."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Notre Dame OL Augustine (toe), CB Smith (wrist) to have surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft refers to Augustine and Smith as 'starters' in the opening and framing ('Two starters sidelined by injury'), but the brief data_points only confirm Augustine was 'competing for a starting job at right guard' and Smith's status is 'removes him from the cornerback competition.' Smith is explicitly identified as a 'freshman' and a 'three-star recruit,' language that does not establish him as an established starter. Augustine is also only competing, not confirmed as a starter. The draft inflates their status beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Everton's Sherif charged with 61 alleged bets on football matches",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the charges against Sherif as 'announced-not-verified' confidence level, but the draft presents them as settled fact without qualification. The sentence 'Sherif, 20, is accused of placing 61 bets on football matches between November 20, 2024 and February 12, 2026' should signal the unverified status per the brief's confidence label.",
+     "The draft states 'The Football Association charged Everton forward Martin Sherif with breaching betting rules' as a definitive fact, but the brief's core claim and data points mark the charge itself as 'announced-not-verified'. The prose must reflect that the FA made an announcement; verification is pending Sherif's response and adjudication."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "NFL preseason arrives with narrative stakes for 2026 season",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin': true with only one data_point and a core_claim that reads 'Unable to verify core claim from source text; fetched content is truncated or malformed.' The draft cites CBS Sports as a source but then immediately admits in its own prose: 'CBS Sports flagged preseason as consequential to the season ahead but did not provide the underlying storyline details in the distributed text.' This is a story built on a source that failed to deliver. The writer has smuggled the problem into the draft's own body rather than rejecting the assignment.",
+     "The draft's opening ('The NFL preseason does not count in the standings, yet it carries material consequences') is a generic definition, not a stake. The story then confesses it has no actual facts to report. A thin brief with a failed source fetch should not proceed to draft; this draft is a placeholder masquerading as reporting."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "Root abolishes England's midnight curfew, signals shift to player autonomy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Stokes and pace bowler Gus Atkinson were out past midnight following England's victory over New Zealand at Lord's, when a member of the England security staff was punched by a Saracens rugby player.' The brief's data_point on this incident says 'Stokes and pace bowler Gus Atkinson were out past midnight following the victory over New Zealand at Lord's, when a member of the England security staff was punched by a Saracens rugby player.' The draft presents this as Stokes and Atkinson being out when this punch occurred, but the brief does not clarify whether Stokes and Atkinson were involved in, witnesses to, or merely coincidentally out at the time of the incident. The draft's phrasing creates ambiguity about causal connection that the brief does not resolve, and the writer has narrated the sequence in a way that suggests Stokes and Atkinson's presence was tied to the security staff member being punched.",
+     "The draft states 'Root said, \"There's not going to be a curfew. I don't think this needs to be a big deal, to be honest.\" He expanded on his reasoning in a statement reported by BBC Sport: \"My view on curfews is that I don't think they work...\"' However, the brief data_points list these as two separate quotes from Root. The draft presents them as a continuous statement ('He expanded'), but the brief does not confirm they come from the same interview or statement. The writer has woven them together in a way the brief does not warrant.",
+     "The draft states 'The curfew was first introduced during Root's own first spell as Test captain, between 2017 and 2022, following drinking incidents on the Ashes tour of 2017-18.' The brief's corresponding data_point says the curfew was 'first put in place during Root's first spell as Test captain.' However, the brief also contains an earlier data_point stating the curfew 'was imposed on the England team under Ben Stokes during the winter after a number of late-night incidents on the tours of New Zealand and Australia.' This creates a direct contradiction in the brief itself about whether Root or Stokes first imposed it. The draft resolves this by attributing the original curfew to Root, but the brief's own data_points are internally inconsistent on this point, making the draft vulnerable."
+    ]
+   }
+  ]
  }
 ]
