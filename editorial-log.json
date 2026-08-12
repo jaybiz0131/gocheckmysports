@@ -5847,5 +5847,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Barcelona clear path for Torres to PSG as deal nears completion",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Torres 'helped Spain claim their second World Cup this summer' but the brief data point says he 'scored the winning goal' in the World Cup final. The draft also later says 'Torres scored the winning goal in the World Cup final for Spain.' These two statements are contradictory: if he scored the winning goal, Spain won the Cup (their achievement); the phrasing 'helped Spain claim their second World Cup' is vague about his specific role and conflicts with the more precise data point about him scoring the extra-time winner. The claim needs clarification: did Spain win the Cup or not? A 'winning goal' in a final means Spain won. The draft should align both references.",
+     "The draft claims Torres 'helped Spain claim their second World Cup this summer with an extra-time winning goal against Argentina' but does not verify Spain actually won the World Cup. The brief data point only says he 'scored the winning goal in the World Cup final for Spain,' not that Spain won overall. If he scored an extra-time winner in the final against Argentina, Spain won\u2014but this must be stated explicitly, not implied. The casual framing creates ambiguity about the outcome."
+    ]
+   },
+   {
+    "id": "c199",
+    "headline": "RESEARCH HOLD: Rutschman Red Sox debut source unreadable",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and the open_questions field explicitly states the source is truncated and unreadable, containing only CSS and font-face declarations with no actual game content, statistics, or narrative. The draft itself acknowledges this and refuses to proceed. Per the hard rule: no fact exists outside the brief. A draft written from an empty or unreadable brief violates the foundational accuracy requirement. This is a research-intake failure, not a drafting failure. The draft correctly identifies the problem but should never have reached approval review in this state."
+    ]
+   },
+   {
+    "id": "c178",
+    "headline": "Padres rout Brewers, create three-way tie for final two NL Wild Card spots",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself acknowledges that the source URL does not contain verifiable data: 'The source URL provided does not contain the data necessary to verify the core claims: the final score of the game, the specific date on which it was played, the current win-loss records of the teams involved, or the identity of the three teams now tied for the final two National League wild-card spots.' No facts can be traced to the source material because the source material contains only CSS declarations and no game content, box scores, or standings. The brief's open_questions confirm this: all critical data points (final score, game date, standings, team records) are missing from the provided source text. A story cannot be published when its core factual claims cannot be verified against the source."
+    ]
+   },
+   {
+    "id": "c180",
+    "headline": "Who will be the HR king? We haven't had a race this close in over 40 years",
+    "category": "accuracy",
+    "reasons": [
+     "The draft acknowledges the source failure directly: 'The fetched content does not identify the competing players, their current home-run totals, the margin separating the leaders, or any historical comparison data that would establish or contextualize the claim.' The brief confirms the source text is 'largely CSS font-face declarations' with no substantive reporting. The single data point in the brief\u2014'The home-run race is characterized as the closest it has been in over 40 years'\u2014has confidence 'reported' but the actual source provides no player names, totals, margins, or historical data to support the claim. Without these facts in the source, the story cannot proceed."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Pogba expected to exit Monaco as contract termination talks advance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Pogba joined Monaco in June 2025 after the Court of Arbitration for Sport reduced his doping ban to 18 months in March of that year' but the brief data shows the CAS decision reduced the ban from a provisional four-year ban to 18 months, with Pogba returning in March 2025\u2014the conditional clause 'after' in the draft incorrectly suggests causality in sequence when the brief shows the CAS reduction happened in March 2025 and Pogba returned to play in March 2025, not that he joined Monaco after returning. The draft's phrasing is ambiguous but the timeline should clarify: CAS decision in March 2025 restored eligibility, then he joined Monaco in June 2025.",
+     "The draft presents 'BBC Sport understands that the injury could delay Pogba's anticipated switch to Major League Soccer' as factual statement without attribution clarity. The confidence label in the brief is 'reported,' but the phrasing 'BBC Sport understands' appears later in the paragraph as a single claim about MLS interest. The injury-delay claim should be clearly attributed to the BBC source inline."
+    ]
+   }
+  ]
  }
 ]
