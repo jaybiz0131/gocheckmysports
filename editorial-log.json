@@ -5946,5 +5946,59 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c170",
+    "headline": "UNABLE TO PUBLISH",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_points array is empty. The draft body itself is a desk note acknowledging source retrieval failure, not a reportable story. Per the hard rule: 'no fact exists outside the brief.' With zero data_points, no facts can be traced back to research. This is not a drafting failure; it is a research failure that should never have reached the approval desk. The draft correctly flags this, but the submission itself violates the approval workflow: a story without verified data_points cannot be approved for publication."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Research failure: Rutschman story cannot be drafted",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains zero data_points and open_questions explicitly flag that source material is unreadable (CSS/styling markup only, no game statistics or box score). Per hard rule 'no fact exists outside the brief,' a draft cannot be written from an empty brief. The draft itself correctly identifies this as a research intake failure, not a completed draft\u2014it should not have been submitted for approval. If this were a genuine draft attempt, every factual claim (hit, two walks, trade details, activation) would be unsourced."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Manchester City sign Rulli from Marseille as goalkeeper backup",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'He was also in the Argentina squad that reached the 2026 World Cup final.' The brief data_point states this identically, but this is a future event (the timestamp on the brief is 2026-08-12, and a 2026 World Cup final would not have occurred yet at story publication). This claim appears to be from a corrupted or test brief with impossible future knowledge. A goalkeeper cannot have 'reached' a final that has not yet occurred at the time of publication. This is either a verification failure in the brief or an impossible factual claim that must be struck from the draft."
+    ]
+   },
+   {
+    "id": "c192",
+    "headline": "Research failure: UEFA Super Cup story cannot be drafted",
+    "category": "accuracy",
+    "reasons": [
+     "The draft correctly identifies itself as a research intake failure. The brief contains only 2 data_points (date and venue), marked 'thin': true, and open_questions explicitly state that source material lacks information on format, rules, all-time winners, and competing teams. The core_claim references 'which teams are competing' but no team data appears in the brief. Per hard rule, no fact outside the brief can be used, and this brief is too incomplete to support a publishable draft. Like c128, this should not have been submitted for approval\u2014it is a research rejection, not a draft."
+    ]
+   },
+   {
+    "id": "c045",
+    "headline": "Torres clears Barcelona training schedule to advance PSG transfer",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'he has made 207 appearances for the Spanish club since 2022, with 94 of those (45 percent) coming as a substitute.' The brief data_point says '207 appearances for Barcelona since signing from Manchester City in 2022' \u2014 these are Barcelona appearances, not Spanish national team appearances. The sentence conflates two different statistics and is factually misleading in context."
+    ]
+   },
+   {
+    "id": "c202",
+    "headline": "Tulsa National Little League disqualified from World Series over eligibility violation",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points (empty array) \u2014 meaning no factual claims beyond the core disqualification were verified by research. The draft introduces a new factual claim not in the brief: 'Little League World Series rules specify eligibility requirements for participating teams, including roster composition and residency thresholds.' This claim about what the rules contain is smuggled in without a source in the brief and violates the hard rule that no fact exists outside the brief."
+    ]
+   }
+  ]
  }
 ]
