@@ -5755,5 +5755,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c067",
+    "headline": "Bears safety Coby Bryant injured in camp; recovery timeline unclear",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The headline references a 4-to-6-month absence, while the body text cites an 8-to-10-week recovery window.' This internal contradiction is presented as fact about what the source says, but the brief's bear_case notes this discrepancy exists in the source itself. The draft then pivots to treating the 8-10-week figure as the operative timeline ('Bryant's knee injury is confirmed, but the source reporting contradicts itself on recovery duration, ranging from 8-10 weeks to 4-6 months'). However, the brief data_point specifies only '8-10 weeks' as the expected recovery\u2014not both figures. By elevating the 4-6-month figure to equal weight without a second data_point in the brief confirming that figure appears in the source, the draft is smuggling unverified information. The writer should either quote the source directly or align with the single confirmed data_point (8-10 weeks)."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Vikings name Kyler Murray starting QB over J.J. McCarthy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Kevin O'Connell named Kyler Murray the Week 1 starting quarterback on Tuesday, according to CBS Sports' but the brief explicitly states the source is 'corrupted/truncated' with only 'headline and snippet' available and no substantive reporting. The draft presents this as a confirmed fact when the brief's open_questions section flags that 'The source text is corrupted/truncated and does not contain substantive reporting.' The writer has smuggled a fact (the specific day, the explicit decision) beyond what the brief's source actually provides."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "Fever president Krauskopf backs coach Stephanie White amid pressure",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim explicitly names the underlying incident: 'Sophie Cunningham\u2013DiJonai Carrington incident.' The draft omits this entirely and states only that 'Details of the incident that prompted calls for White's firing...have not been disclosed in available reporting.' This is inaccurate: the brief itself contains the incident identifier, even if source details are sparse. The draft should acknowledge what the brief establishes rather than claim the incident is unknown.",
+     "The brief characterizes Krauskopf's message as 'blunt' (from headline); the draft presents only 'publicly backed' without the tone detail that the brief source provided, understating the nature of the statement."
+    ]
+   }
+  ]
  }
 ]
