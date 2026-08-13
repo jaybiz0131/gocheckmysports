@@ -6135,5 +6135,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c070",
+    "headline": "Lakers sold to Iger and Kushner group for $12.5 billion after Mark Walter's 14-month hold",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Chris Broussard, Wright's cohost, offered speculation linking the sale to Walter's legal circumstances' and 'Broussard suggested the sale might be related to the federal investigation into Walter.' However, the brief marks Broussard's speculation that Walter 'might have gotten a tip that he would need money, motivating the quick resale' as 'unconfirmed' confidence level. The draft presents Broussard's unconfirmed speculation as direct attribution without the confidence qualifier that survival of the bear_case required\u2014this crosses from reporting commentary to endorsing an unverified causal claim.",
+     "The draft twice references 'per Awful Announcing' for the assertion that 'The Wall Street Journal reported that Mark Walter is under FBI investigation' but Awful Announcing is a commentary outlet, not the original reporting source. The brief's data_point correctly names WSJ as the source. The draft should attribute the FBI investigation to The Wall Street Journal directly, not route it through Awful Announcing's repetition of it.",
+     "The draft states no official statement from the named parties 'addressing the sale's timing or Walter's federal investigation appears in the provided source texts,' and later acknowledges Wright's own hedging ('I'm not doing the reporting'). However, the entire story rests on speculation from TV commentators framed as news analysis. A draft this thin on primary sourcing, built almost entirely on commentary speculation about motives and legal consequences, exceeds the brief's own transparency about what is and is not confirmed. The bottom_line correctly flags this, but the body does not maintain sufficient clarity that all causal linkages are speculative."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "WNBA denounces Kanter and White draft declarations as bad-faith efforts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WNBA's anti-hate task force issued a statement characterizing the WNBA Draft declarations by Enes Kanter and Royce White as bad-faith efforts' but the brief does not specify which WNBA body made the statement, only that 'The WNBA's anti-hate task force issued a statement.' However, the data_point in the brief says 'The WNBA's anti-hate task force issued a statement characterizing these declarations as 'bad-faith efforts.'' This matches the draft. But the brief itself contains a red flag in its open_questions: 'What specific language did the WNBA's anti-hate task force use in its statement?' indicating that even the source text does not clearly specify this attribution. The draft should not assert the 'anti-hate task force' issued it as fact when the source material's own questions suggest ambiguity about which WNBA entity made the statement.",
+     "The draft is extremely thin\u2014only two sentences of body reporting. The brief marks this as 'thin: true' and lists five open_questions. A draft this sparse offers no detail beyond what two sentences can hold. However, the more fundamental issue is that the draft presents the league's denunciation as a completed fact without any reported response, counterargument, or evidence of what the actual WNBA statement said. The entire story collapses if the Sporting News article does not reproduce or link the statement itself. The draft cannot verify it did."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Atletico Madrid agrees \u00a334.2m deal for Tottenham captain Romero",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Romero represented Argentina during their run to the World Cup final this summer, according to BBC Sport, missing just one match.' However, the brief contains a contradictory data point: 'ESPN's reporting stated separately that Romero made seven appearances for Argentina at the tournament.' These claims are incompatible\u2014missing one match in a knockout tournament run to the final does not equal seven total appearances. The draft attributes the first claim to BBC but the brief cites ESPN for the seven-appearance figure. The draft must resolve which is accurate or acknowledge the discrepancy; it cannot state both as settled fact from different sources without noting the conflict.",
+     "The draft references Romero winning 'the 2025 Europa League with Tottenham before the club endured the difficult season that followed,' attributing this to ESPN. However, no data point in the brief explicitly confirms Tottenham won the 2025 Europa League. The brief only cites ESPN for the statement that 'Romero won the 2025 Europa League with Tottenham before the club endured a difficult 2025-26 season fighting to escape relegation,' but this is presented as a conjunctive historical claim without independent verification of the Europa League trophy. The draft should not assert this trophy win without explicit confirmation in the brief data_points."
+    ]
+   }
+  ]
  }
 ]
