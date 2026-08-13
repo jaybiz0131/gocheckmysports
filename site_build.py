@@ -1915,7 +1915,11 @@ def build():
 
     w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
                     f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
-    w("_redirects", "/*  /404.html  404\n")
+    # /rss.xml is the address readers and aggregators try first; the desk publishes at
+    # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit). This desk has no
+    # retired-slug registry yet; when it merges its first duplicate pair, port the
+    # RETIRED_ARTICLES block from the crypto or news chassis ahead of the catch-all.
+    w("_redirects", "/rss.xml  /feed.xml  301\n/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03, chassis extension per the approved crypto
     # build): the composed front replaces the Latest tab at its own URL; back issues
     # under /edition/. Written LAST so the composed front wins the /news.html route.
