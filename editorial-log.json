@@ -6277,5 +6277,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c079",
+    "headline": "Phillies-Twins Field of Dreams Game airs on Netflix tonight at 7:30 ET",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game 'airs on Netflix tonight at 7:30 ET' but the brief's open_questions explicitly flag that source texts contain 'only CSS font declarations and boilerplate HTML; no readable content about game specifics, player matchups, preview analysis, or viewing platform details beyond the headline and URL slug.' The writer cannot verify the core facts (date, time, platform, teams) are actually in the source material.",
+     "Draft claims 'according to MLB.com' multiple times, but the brief identifies the sources as containing no readable content\u2014only HTML boilerplate. Facts presented as verified cannot be traced to actual article content."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "Reds ace Greene undergoes 2nd Tommy John surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft asserts Greene 'underwent a second Tommy John surgery' and 'is expected to miss all of 2027' as facts attributed to MLB.com and CBS Sports. However, the brief's open_questions state: 'The source texts provided contain only CSS font declarations and boilerplate HTML; no readable content about surgery date, surgeon, expected recovery timeline, team statement, player comment, or medical prognosis beyond the headline and URL slug.' The writer cannot verify these claims trace to actual source content.",
+     "The brief explicitly notes 'No information on when the surgery occurred or when it was announced' and questions whether the 2027 timeline is definitive, yet the draft presents both as established fact without qualification."
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "Maryland EDGE Zahir Mathis out for season before critical Locksley year",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Maryland edge rusher Zahir Mathis is out for the season' as settled fact, but the brief's only data point on the injury itself is marked 'reported' (not 'confirmed'). The brief does not specify the nature, severity, or official status of the injury\u2014only that news 'came on Wednesday.' The draft presents this as definitive without the conditional language the confidence label requires.",
+     "The draft is 95 words and offers no substantive facts beyond the announcement. The brief lists five open_questions (nature of injury, when/where it occurred, player stats, depth chart impact, roster response) and marks thin=true. A thin brief should produce a tight, accurate short story; this one reads as incomplete reporting masquerading as finished copy. It does not meet the liability threshold for a health/injury claim without on-record medical detail or official team statement attribution."
+    ]
+   }
+  ]
  }
 ]
