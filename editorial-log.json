@@ -6310,5 +6310,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Josh Allen and Bills starters set to play in preseason opener at new Highmark Stadium",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'marking a departure from the previous regime's preseason approach' and 'Allen sat out the entire preseason last season under former head coach Sean McDermott, marking the first year the nine-year veteran did not play a preseason snap.' This characterization of McDermott's approach as a standing regime policy is not supported by the brief. The brief only confirms the single data point that Allen did not play preseason last year under McDermott; it does not establish McDermott had a systematic 'preseason approach' of sitting starters. The draft has inferred and smuggled a pattern claim (regime approach/departure) that is not in the brief."
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Boxer Prichard Colon dies at 33, a decade after 2015 ring injury",
+    "category": "compliance",
+    "reasons": [
+     "The brief explicitly flags in open_questions: 'the precise cause of death and whether it is directly attributable to the 2015 brain injury is not confirmed in the provided materials' and notes 'the source text was not fetched.' The draft's opening paragraph reads 'has died at age 33 approximately a decade after suffering a traumatic brain injury during a 2015 fight' in a way that implies causal or temporal proximity. The bottom_line states 'Colon's death is a significant reminder of the documented long-term neurological risks associated with professional boxing,' which frames his death as evidence of boxing's dangers without the source confirming causation. This crosses from reporting an unconfirmed fact into medical/health speculation about cause of death, which violates the compliance boundary for health claims outside official records."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Lakers ownership transfer: Walter sells to Kushner and Iger at record $12.5 billion valuation",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Doncic is a six-time All-Star' but brief data_point says 'Doncic is a 27-year-old superstar' with no All-Star count listed. The six-time All-Star claim is not in the brief and cannot be verified from the source provided.",
+     "Draft mentions 'Lon Rosen (named Lakers president of business operations in February)' but brief data_point describes Rosen as 'Dodgers executive vice president and chief marketing officer, named Lakers president of business operations in February'\u2014the Lakers role assignment is in the brief, but the Dodgers title is added by the writer and not sourced.",
+     "Draft includes 'The Dodgers, at 73-48, have one of the top records in MLB as they try for a three-peat' in a paragraph about Pelinka working with Dodgers staff. This Dodgers record/narrative is listed in the brief but appears isolated and contextually disconnected from the Lakers story; it reads as smuggled context rather than integral to the Lakers sale narrative."
+    ]
+   }
+  ]
  }
 ]
