@@ -238,6 +238,15 @@ def check(client, obj, stories, boards, extras=None):
                         f"inputs verbatim ({str(p.get('claim'))[:80]!r}); quote the "
                         f"conflicting input text word for word, or drop the item if "
                         f"nothing in the inputs conflicts")
+                # a quote that CONTAINS the claim (or vice versa) is agreement wearing
+                # a contradiction label ("AS2032" rejected with "identified as AS2032")
+                nc, ne = _norm(p["claim"]), _norm(ev)
+                if nc and ne and (nc in ne or ne in nc):
+                    raise llmlib.LLMError(
+                        f"wrapcheck: 'contradicted' item's evidence quote contains the "
+                        f"claim itself ({str(p.get('claim'))[:80]!r}); a quote that "
+                        f"agrees with the claim is not a contradiction; state input "
+                        f"words that say something INCOMPATIBLE, or drop the item")
             if p["kind"] == "absent":
                 if any(w in inputs_text for w in _windows(p["claim"])):
                     raise llmlib.LLMError(
@@ -251,6 +260,48 @@ def check(client, obj, stories, boards, extras=None):
                          "list formatting, labeled arithmetic, or paraphrase. You return "
                          "only the problem list; the verdict is computed from it.",
                          user, validate=check_shape)
+
+    # BINARY ADJUDICATION OF SURVIVORS (2026-08-13, the fourth live run of the night):
+    # with the receipts verified, the checker's remaining rejections were quotes that
+    # AGREED with the claim ("AS2032" rejected with evidence "identified as AS2032";
+    # "above prescribed concentration limits" rejected with "exceeding prescribed
+    # safety limits"). Whole-edition auditing is a task the checker demonstrably gets
+    # wrong item by item, so each surviving 'contradicted' item is re-asked as the
+    # narrowest possible question: input says X, edition says Y, can both be true?
+    # Tightly-scoped binary comparison is the regime where these models are reliable;
+    # this is the same narrowing that fixed the boundary classifier. An item judged
+    # compatible is dropped with a note; a judged conflict stands and still kills the
+    # edition (fail-closed on real contradictions is unchanged).
+    kept = []
+    for p in v["problems"]:
+        if p["kind"] != "contradicted":
+            kept.append(p)
+            continue
+        q = ("Two statements about the same event.\n"
+             f"INPUT SAYS: {str(p.get('evidence', ''))[:400]}\n"
+             f"EDITION SAYS: {str(p.get('claim', ''))[:400]}\n"
+             "Could both be true at once (including when one merely rephrases, "
+             "abbreviates, or rounds the other)? Respond ONLY with JSON: "
+             '{"conflict": true|false, "why": "<one sentence>"}. '
+             "conflict=true ONLY if they cannot both be true.")
+        def _adj_shape(o):
+            if not isinstance(o.get("conflict"), bool):
+                raise llmlib.LLMError("wrapcheck adjudication missing boolean 'conflict'")
+            return o
+        try:
+            a = client.call_json("wrapcheck",
+                                 "You compare two short statements and say whether they "
+                                 "conflict. Paraphrase and rounding are not conflicts.",
+                                 q, validate=_adj_shape)
+        except llmlib.LLMError:
+            kept.append(p)  # adjudication unavailable -> the rejection stands (fail-closed)
+            continue
+        if a["conflict"]:
+            kept.append(p)
+        else:
+            print(f"::notice::wrapcheck: dropped self-agreeing 'contradicted' item "
+                  f"({str(p.get('claim'))[:80]!r}): {str(a.get('why'))[:120]}")
+    v["problems"] = kept
     reasons = [f"{p['kind']}: {p['claim']}"
                + (f" [{p['evidence']}]" if str(p.get("evidence", "")).strip() else "")
                for p in v["problems"]]
