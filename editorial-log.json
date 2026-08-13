@@ -6342,5 +6342,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Reds ace Greene undergoes 2nd Tommy John surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hunter Greene has undergone a second Tommy John surgery, according to MLB.com reporting' but the brief explicitly notes that the source text is 'entirely font styling and CSS markup with no readable article content' and that 'actual details of Greene's surgery cannot be extracted.' The writer has asserted a fact from an unreadable source and presented it as confirmed when the brief marks it as unverifiable from the provided material.",
+     "The draft then acknowledges 'The source does not provide the date of the procedure, the timeline for Greene's return to play, or statements from the Reds organization' but this contradicts the opening sentence's confident attribution. The core fact itself (that surgery occurred) cannot be verified from the brief's data_points (which are empty) or from a source that contains no readable content."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Phillies and Twins to play 2026 Field of Dreams Game in Iowa on Netflix",
+    "category": "accuracy",
+    "reasons": [
+     "The draft asserts 'The Philadelphia Phillies and Minnesota Twins are scheduled to play the 2026 Field of Dreams Game in Iowa, with the game airing on Netflix' but the brief's data_points are empty and the open_questions explicitly state 'the provided source text is entirely font styling and CSS markup with no readable article content.' The writer has presented a fact as confirmed from a source that contains no extractable information.",
+     "The brief lists the core_claim but marks the source as unreadable CSS markup with no actual article content. A fact cannot be traced to a brief when the brief itself documents the source as unverifiable."
+    ]
+   },
+   {
+    "id": "c078",
+    "headline": "Maryland edge rusher Zahir Mathis sidelined for season",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Head coach Mike Locksley is entering a season that has been characterized by external observers as critical to his tenure' and 'CBS Sports identified the coaching position as under pressure.' The brief's data_point says 'Mike Locksley is Maryland's head coach and on a hot seat entering the season' with confidence 'reported.' The draft's phrasing ('external observers,' 'characterized by') softens the claim beyond what the brief supports; the brief presents it as directly reported by CBS Sports, not filtered through unnamed external observers. This conflates reported fact with punditry framing."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Hockey Canada upholds suspension of four acquitted players",
+    "category": "accuracy",
+    "reasons": [
+     "Opening paragraph states 'four of five ice hockey players acquitted of sexual assault in July 2025 broke Hockey Canada's code of conduct' but the draft then contradicts itself by saying 'Formenton was deemed to have broken conduct rules but is now being reinstated.' This is internally incoherent: if Formenton broke the rules but was reinstated immediately, he is not one of 'the four' facing suspension. The brief's core_claim says 'four of five' remained suspended while 'a fifth player (Alex Formenton) was reinstated'\u2014the draft fails to distinguish cleanly between these two groups.",
+     "Second paragraph states 'Justice Maria Carroccia found the complainant's evidence was not credible or reliable when acquitting all five in July 2025.' The brief data_point says Justice Carroccia 'did not find the complainant's evidence credible or reliable'\u2014the double negative in the brief is corrected to a positive in the draft, which changes the meaning. The draft should preserve the exact phrasing from the source to avoid any appearance of interpretation on a sensitive verdict.",
+     "Final paragraph states 'The appeals board decision leaves unaddressed the specific code-of-conduct violations it found...' This is editorial speculation not grounded in the brief. The brief lists these as open_questions (unknowns), not as facts established by the ruling. Saying the board's decision 'leaves unaddressed' implies the board was silent on something it should have addressed; the brief does not confirm that characterization\u2014only that the violations were not publicly disclosed."
+    ]
+   }
+  ]
  }
 ]
