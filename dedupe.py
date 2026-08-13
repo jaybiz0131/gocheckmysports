@@ -91,7 +91,34 @@ def _signature(*texts):
     nums = re.findall(r"\b\d[\d,\.]*\b", blob)
     sig = {p.lower().rstrip(".").replace(",", "") for p in proper}
     sig |= {n.replace(",", "").rstrip(".") for n in nums}
+    sig |= _magnitudes(blob)
     return {t for t in sig if t and t not in _UBIQUITOUS and len(t) >= 2}
+
+
+def _magnitudes(blob):
+    """The SAME figure written two ways must fingerprint the same (2026-08-13 audit).
+    The desk published one $200K bridge exploit twice: one headline said '$200K', the
+    other '$200,000', and the key facts carried '199,916'. Literal tokens made those
+    three different fingerprints, the pair scored one shared token against a threshold
+    of two, and the guard let a duplicate through. Money and large counts are bucketed
+    to a rounded magnitude so the writing style stops deciding whether two stories are
+    the same event."""
+    out = set()
+    for num, suffix in re.findall(r"\$?\b(\d[\d,]*(?:\.\d+)?)\s*(k|m|b|bn|million|billion|thousand)?\b",
+                                  blob, re.I):
+        try:
+            v = float(num.replace(",", ""))
+        except ValueError:
+            continue
+        mult = {"k": 1e3, "thousand": 1e3, "m": 1e6, "million": 1e6,
+                "b": 1e9, "bn": 1e9, "billion": 1e9}.get((suffix or "").lower(), 1)
+        v *= mult
+        if v >= 1000:
+            # two significant figures: 199,916 and 200,000 both land on mag:2.0e5
+            import math
+            exp = int(math.floor(math.log10(v)))
+            out.add(f"mag:{round(v / 10 ** exp, 1)}e{exp}")
+    return out
 
 
 def same_event(a_title, a_kf, b_title, b_kf, word_thr=0.7, sig_thr=2):
