@@ -6235,5 +6235,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Lakers sold to Josh Kushner and Bob Iger at $12.5 billion valuation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Doncic, the 27-year-old six-time All-Star, was not consulted about the sale but plans a video conference call with Iger and Kushner next week from Slovenia, per ESPN. Doncic has had five owners now. The Mavericks were sold by Mark Cuban to Patrick Dumont and the Adelson family before Doncic was traded to the Lakers in February 2025.' This passage conflates Doncic's ownership history: the brief's data_point claims 'Doncic has had five owners now' and separately states the Mavericks were sold before he was traded to Lakers, but the draft does not clarify that Doncic's five owners span his entire NBA career (prior to and after the Lakers), not just Lakers ownership. The phrasing creates ambiguity about whether five owners refers to Lakers history or total career history.",
+     "The draft includes: 'One source close to James told ESPN: \"Maybe. But that's tough to answer. Communication could have been better [with Iger and Kushner, compared to Walter].\"' This quote appears in the draft as direct speech, but the brief lists it under bear_case as paraphrased/summarized. Direct quotation without clear attribution to the original source violates the accuracy rule if the source material only paraphrased the sentiment rather than providing the exact quote."
+    ]
+   },
+   {
+    "id": "c175",
+    "headline": "Reds pitcher Hunter Greene undergoes second Tommy John surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only one data_point: 'Hunter Greene has second Tommy John surgery' with confidence 'reported', with no details on surgery date, recovery timeline, circumstances, or context. The draft correctly reflects this thinness, but the opening sentence 'Cincinnati Reds pitcher Hunter Greene underwent a second Tommy John surgery, according to MLB.com. The source does not specify the surgery date, expected recovery timeline, or the circumstances that led to the second procedure.' is problematic: it makes a claim (that MLB.com 'does not specify') that is not verifiable from the brief itself. The writer is asserting what the source does or does not contain without that verification in the research. This is smuggled editorial judgment, not a fact from the brief."
+    ]
+   },
+   {
+    "id": "c14",
+    "headline": "Six Arab federations back Infantino amid global revolt over World Cup investment plan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Infantino has served as FIFA president since 2016 and appeared assured of unopposed reelection in March' but the brief's data_point says 'seemed sure to be reelected unopposed next year in Morocco'\u2014the draft omits the location (Morocco) and the phrase is less precise. More critically, the brief says 'next year' (which in context of August 2026 would be 2027) but the draft says 'March' without a year, creating ambiguity about whether this is a March 2027 election or another timeline.",
+     "The draft claims 'UEFA has warned of a boycott of all FIFA games and events' as a present-tense threat, but the brief confidence label is 'reported'\u2014meaning this is a warned threat, not a confirmed action. The prose should reflect this is a conditional warning, not a locked commitment."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "Panthers' Chuba Hubbard sidelined by hamstring injury during preseason",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Chuba Hubbard, the Panthers' starting running back' but the brief data_point only claims 'Chuba Hubbard, the Panthers' starting running back, suffered a hamstring injury' without confirming his starter status in the source. The source text is truncated and does not verify starter designation.",
+     "The draft claims the injury occurred 'during preseason work' but the brief's open_questions explicitly note that 'the full article body containing details about injury severity, recovery timeline, medical status, or any official statements from the Panthers organization is not available' in the fetched text. The specific timing (preseason vs. other) is not confirmed in the available source material.",
+     "The draft references 'reporting from Sporting News' but then cites two sources (Sporting News and Yahoo), and the brief notes both source texts are 'truncated navigation menus and site structure' with no full article body. The factual claim about when/where the injury occurred cannot be traced to verified content in the brief."
+    ]
+   }
+  ]
  }
 ]
