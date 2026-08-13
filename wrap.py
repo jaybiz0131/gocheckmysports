@@ -272,8 +272,61 @@ def check(client, obj, stories, boards, extras=None):
     # this is the same narrowing that fixed the boundary classifier. An item judged
     # compatible is dropped with a note; a judged conflict stands and still kills the
     # edition (fail-closed on real contradictions is unchanged).
+    # The same narrowing for 'absent' items, with retrieval: the sixth live run died on
+    # an 'absent' rejection whose own evidence conceded the inputs carry the fact ("The
+    # permitted input on Russia cites December 1, 2026 as a stated date") but the claim
+    # wrote the date as prose while the input stores it as 2026-12-01, so the verbatim
+    # window rule could not see the equivalence, and date-format equivalence is exactly
+    # what the calibration says must never cause rejection. Deterministic retrieval
+    # picks the input chunks sharing the most words with the claim; the model gets the
+    # narrow question "does this excerpt support this statement, any format?".
+    def _chunks():
+        out = []
+        for st in stories:
+            out.append(json.dumps(st))
+        if boards:
+            for k, val in boards.items():
+                out.append(json.dumps({k: val}))
+        if extras:
+            out.append(json.dumps(extras))
+        return out
+
+    def _best_excerpts(claim, n=2, size=500):
+        cw = set(_norm(claim).split())
+        scored = sorted(_chunks(), key=lambda c: -len(cw & set(_norm(c).split())))
+        return [c[:size] for c in scored[:n]]
+
     kept = []
     for p in v["problems"]:
+        if p["kind"] == "absent":
+            ex = _best_excerpts(p["claim"])
+            q = ("A fact-checker says the EDITION STATEMENT below appears nowhere in the "
+                 "permitted inputs. Here are the closest input excerpts.\n"
+                 + "\n".join(f"INPUT EXCERPT {i+1}: {e}" for i, e in enumerate(ex))
+                 + f"\nEDITION STATEMENT: {str(p.get('claim', ''))[:400]}\n"
+                 "Do the excerpts carry this statement's substance (the same fact in any "
+                 "format; dates and numbers count as the same fact in any format)? "
+                 'Respond ONLY with JSON: {"supported": true|false, "why": "<one '
+                 'sentence>"}.')
+            def _abs_shape(o):
+                if not isinstance(o.get("supported"), bool):
+                    raise llmlib.LLMError("wrapcheck adjudication missing boolean 'supported'")
+                return o
+            try:
+                a = client.call_json("wrapcheck",
+                                     "You judge whether an input excerpt carries a "
+                                     "statement's substance. Format differences are "
+                                     "irrelevant; substance is what matters.",
+                                     q, validate=_abs_shape)
+            except llmlib.LLMError:
+                kept.append(p)  # adjudication unavailable -> the rejection stands
+                continue
+            if a["supported"]:
+                print(f"::notice::wrapcheck: dropped 'absent' item the inputs carry "
+                      f"({str(p.get('claim'))[:80]!r}): {str(a.get('why'))[:120]}")
+            else:
+                kept.append(p)
+            continue
         if p["kind"] != "contradicted":
             kept.append(p)
             continue
