@@ -6169,5 +6169,71 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c167",
+    "headline": "Phillies and Twins set for Field of Dreams Game on Netflix",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly flags that the source text 'consists entirely of CSS font declarations and color variable definitions with no readable game details, date, time, or event information.' The draft contains no data_points in the brief to source from. The core claim itself cannot be verified against the fetched source. Every factual assertion in the draft (the teams, the year, the Netflix platform, the Field of Dreams concept) lacks a verified data_point in the brief to anchor it."
+    ]
+   },
+   {
+    "id": "c170",
+    "headline": "Rays complete perfect 9-0 road trip, a franchise first",
+    "category": "accuracy",
+    "reasons": [
+     "The brief flags that the fetched source 'consists entirely of CSS font declarations and color variable definitions with no readable content.' The brief contains zero data_points. The draft presents the 9-0 record, the franchise-first claim, the three-series structure, and the divisional context as fact, but none of these can be traced to verified source material. The source URL is unreachable content; the story is built on unconfirmed information."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "Reports suggest countries reconsidering Infantino support amid World Cup privatization crisis",
+    "category": "accuracy",
+    "reasons": [
+     "The brief notes source_chars: 0 and flags the source as empty. The draft asserts 'Former FIFA Council member Isha Johansen has called on Infantino to step down' but this claim does not appear in any data_point in the brief. The core claim in the brief reads 'Countries are officially withdrawing support' but the draft hedges it as 'potentially withdrawing support' and 'remain unconfirmed'\u2014the draft walks back the brief's own claim, yet still presents Johansen's statement as fact without a verified source. No data_points exist to support any specific factual claim in the draft."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Chelsea Sets Friday Deadline on Enzo Fernandez at \u00a3120m",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'He helped Argentina reach the World Cup final, where he was sent off as Argentina lost to Spain 1-0.' This claim does not appear in the brief's data_points. The brief only mentions Fernandez was 'sent off' in a World Cup context but does not specify the opponent, score, or result. This is a factual detail imported from outside the brief.",
+     "The draft references 'Chelsea finished 10th in the Premier League last season and ended the campaign without a trophy after losing the FA Cup final to Manchester City' in the context of Chelsea's season context, but this claim appears in the brief's data_points (data_point 4) yet is completely absent from the draft body. However, the inverse problem is more serious: the draft includes World Cup final details (Spain, 1-0 score) not in the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Manchester City Extends Doku, Pursues Reinders Exit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft refers to 'Arena midfielder Enzo Fern\u00e1ndez' but the brief identifies him as 'Argentina midfielder Enzo Fern\u00e1ndez.' 'Arena' appears to be a typo or corruption of 'Argentina' that was introduced in drafting rather than traced to the brief.",
+     "The draft states Reinders 'moved to Manchester from Milan last summer for \u00a346.5m' but the brief's data_point 7 states 'Reijnders moved to the Etihad from Milan last summer for \u00a346.5m.' The spelling of the player's name is 'Reijnders' in the brief but 'Reinders' throughout the draft. This is a factual name error that compounds across multiple mentions."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Russell Westbrook announces retirement after 17 seasons",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Westbrook played '17 seasons' but the brief's open_questions note states: 'The number of seasons played (17) comes from the headline, not from the source_text itself.' This fact is not verified in the actual source material provided to research; it was pulled from an HTML headline fragment, not from the article body. The hard rule is that facts go back to research; unverified claims cannot be patched by the writer.",
+     "The brief explicitly notes the source is 'truncated HTML' and the 'actual retirement announcement text, Westbrook's quoted statement, specific career highlights, or Hall of Fame commentary are not present in the provided source material.' The draft presents the story as though the source was complete, but it was not. This is a liability exposure: the writer cannot verify the retirement actually occurred from the material provided."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "Bihina saves four penalties as Cameroon upsets Morocco to reach Wafcon final",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bihina plays for Benfica' but the brief's corresponding data_point reads 'Bihina plays for Benfica in her homeland.' The brief explicitly adds 'in her homeland,' implying Bihina plays for Benfica (which is in Portugal, not Cameroon). The draft omits this qualifier, changing the factual claim. Either the brief's language is imprecise or the draft has smuggled a correction\u2014either way, the draft does not match the brief.",
+     "The draft attributes the VAR decision to 'Nyadjou's arm' catching Ouzraoui 'in the face' but the brief's data_point specifies: 'The penalty that decided the match was awarded after a VAR review, with Togolese official Vincentia Amedome determining that Nyadjou had caught Ouzraoui in the face with her arm.' The draft omits the official's name and attribution. While the fact is substantially correct, the brief provides an official name that anchors the decision; omitting it weakens accountability and does not trace cleanly to the source material."
+    ]
+   }
+  ]
  }
 ]
