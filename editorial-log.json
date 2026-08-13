@@ -6384,5 +6384,42 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "Reds pitcher Hunter Greene undergoes second Tommy John surgery, faces extended absence",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In Thursday's preseason game against Las Vegas, Jacoby Brissett had been scheduled to start, though Greene's surgery does not directly affect that game.' This sentence is confusing and appears to smuggle information not in the brief. The brief contains no data point about Jacoby Brissett or any preseason game against Las Vegas in relation to Greene's surgery. This appears to be conflated detail from a different story (the c008 brief mentions Brissett and Raiders) and should not appear here without sourcing in the brief."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Saints rookie WR Jordyn Tyson exits practice with leg injury",
+    "category": "compliance",
+    "reasons": [
+     "Draft contains medical speculation beyond the official injury report. The sentence 'The specific nature and severity of the injury, whether it involves the same hamstring that troubled him in the offseason...' presents as uncertain but the phrase 'injury pattern, soft-tissue to soft-tissue' in the bottom_line treats the current injury as soft-tissue without official confirmation from Coach Moore. Moore only said 'leg or lower body injury'\u2014not soft-tissue. The draft speculates about tissue type and connects it to prior hamstring issues in a way that exceeds the official record. This violates the compliance rule on health claims beyond official reports."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "NBA schedule release: 10 key dates to circle for 2026-27 season from big returns to rivalries renewed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'LeBron James joining the 76ers at age 41' in the opening paragraph, but the brief's data point says 'LeBron James, 41 years old, joined the Philadelphia 76ers' with confidence 'announced-not-verified'. The draft presents this as a settled fact without any qualifier; the confidence level requires hedging language.",
+     "The draft claims 'the 2024 Finals MVP' refers to Jaylen Brown without qualification, but the brief lists 'Brown was the 2024 Finals MVP' with confidence 'reported'. This fact is embedded as though unquestionable when the source confidence suggests it should be marked as reported.",
+     "The draft states 'Shai Gilgeous-Alexander is the two-time reigning MVP' as fact, but the brief lists this claim with confidence 'reported', not verified. Without qualification, this reads as a settled current title rather than a reported claim.",
+     "The draft claims 'Victor Wembanyama is the Defensive Player of the Year' without noting this is a reported claim. The brief marks this with confidence 'reported'.",
+     "The draft introduces multiple 'announced-not-verified' trade claims (Giannis to Heat, Jaylen Brown to 76ers, LeBron to 76ers) as settled facts without any hedging language like 'according to reports' or 'reportedly'. These should carry qualification markers inline.",
+     "The draft states 'the Spurs reached the Finals last season, losing to New York in a five-game series that averaged 20.6 million viewers, making it the most-watched Finals series since 1998, per ESPN's reporting' but does not attribute the viewership figure inline to ESPN in the sentence structure; it only appears at the end of a multi-clause statement, creating ambiguity about which outlet reported which fact.",
+     "The draft includes the claim 'Paul George had a 25-game suspension for violating the NBA's anti-drug policy during his time with the 76ers' without noting the confidence level 'reported'; this should be hedged as a report, not stated as settled fact.",
+     "The draft includes 'Ja Morant returns to Memphis with the Trail Blazers on February 6' and other return matchups using definitive language ('returns') when the underlying brief claims are 'reported' confidence. The future-tense construction masks the fact these are reported claims, not confirmed future events."
+    ]
+   }
+  ]
  }
 ]
