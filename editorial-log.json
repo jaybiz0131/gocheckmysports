@@ -6456,5 +6456,65 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c119",
+    "headline": "Cardinals lose second-round rookie guard Chase Bisontis to knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'thin: true' and 'data_points: []' with a note that 'No source text was provided; the snippet alone states a knee injury occurred during preseason but does not specify severity, recovery timeline, whether Bisontis underwent surgery, or what role he was expected to play.' The draft presents multiple unconfirmed details as fact: that Bisontis 'suffered the injury during training camp,' that he 'will miss time,' that the injury 'cuts into' evaluation, and that it 'marks a significant loss at a position the team invested heavily in.' None of these claims can be traced to a data_point in the brief. The brief also flags that 'The identity of Bisontis (name spelling, position, draft pick specificity) cannot be confirmed from the provided materials,' yet the draft presents all of this as established fact."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "Prichard Colon dies at 33, nearly 11 years after severe 2015 ring injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Prichard Colon, a Puerto Rican professional boxer, has died aged 33 nearly 11 years after suffering a catastrophic brain injury during a light-middleweight fight with Terrell Williams in Fairfax, Virginia, on August 14, 2026.' The brief data_point for Colon's death is labeled 'announced-not-verified' and the open_questions section explicitly states 'The exact date of Colon's death in August 2026 is not specified; only the first-seen timestamp (2026-08-14) is provided.' By presenting August 14, 2026 as the definitive death date in the lead without qualification, the draft elevates an unverified announcement to settled fact. A confidence label of 'announced-not-verified' must survive in the prose as uncertainty, not be converted to certainty.",
+     "The draft states 'Richard Colon wrote on Facebook' but the brief data_point specifies this quote was reported by BBC Sport; there is no independent confirmation in the brief that this quote appeared on Facebook. The draft fabricates the platform detail."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Swiatek defeats Rybakina to win Canadian Open",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Swiatek is 25 years old' but the data_point for Swiatek's age is absent from the brief. The brief only includes a data_point stating 'Rybakina, 25 years old and world number two' (which appears to be Rybakina's age). The draft then states 'Swiatek's 25-year-old opponent, Rybakina' later in the text, correctly attributing 25 to Rybakina. This creates a factual contradiction: Swiatek cannot be both 25 and have a 25-year-old opponent. The draft smuggled in Swiatek's age without a corresponding data_point.",
+     "The draft states 'She won the Wimbledon title last year' but the brief data_point says 'Swiatek won the Wimbledon final last year.' A 'final' and a 'title' are not the same claim; winning a final without winning the tournament is a material factual difference. The brief's language is ambiguous; the draft resolves the ambiguity in favor of a championship without confirmation from the source."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "New Zealand withdraws Infantino support, splits from OFC on FIFA leadership",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Individual member nations including Mexico, Grenada, St Kitts and Nevis, and Argentina have gone against their confederations to support him.' The brief data_point says 'Concacaf members Mexico, Grenada and St Kitts and Nevis have gone against their federation and backed Infantino, while Argentina are aligned with Conmebol in their support.' Argentina is NOT going against its confederation (Conmebol); it is aligned with Conmebol's backing. The draft misrepresents Argentina's position by grouping it with nations that defied their confederations."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Tigers blank Guardians 3-0 with zero strikeouts, first shutout of its kind since 2014",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Keider Montero led the effort, pitching into the seventh inning' but the brief data_point says only 'Keider Montero pitched into the seventh inning and allowed three hits' with confidence 'reported', not 'verified-on-chain'. The draft asserts a causal claim ('led the effort') that goes beyond what the brief supports and frames a 'reported' confidence fact as settled.",
+     "The brief's open_questions section includes 'How many innings did Montero pitch exactly?' indicating the exact inning count is unresolved. The draft states 'into the seventh inning' as definitive fact when the brief itself marks this as incomplete/uncertain information.",
+     "The draft presents interpretive claims ('The Tigers' reliance on contact management and defensive execution rather than strikeout velocity') that are not in the brief as data_points. These are the writer's own analytical conclusions, not research-backed statements."
+    ]
+   },
+   {
+    "id": "c188",
+    "headline": "Scherzer surpasses 3,000 career innings, second active pitcher to reach milestone",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Scherzer 'surpassed 3,000 career innings in a start against the Boston Red Sox' but provides no date. The brief data_point timestamp is '2026-08-13T22:56:00Z' but the draft gives no date at all, making the claim undated and creating potential liability if timing matters for verification.",
+     "The draft states 'Three thousand innings represents an elite threshold in pitching history, typically associated with pitchers who have sustained excellence and durability across multiple decades. The mark has been reached by a select group of pitchers, many of whom have gone on to Hall of Fame consideration or enshrinement.' None of these generalizations appear in the brief as data_points. These are the writer's own assertions about historical context, not research-backed claims.",
+     "The brief marks both data_points with confidence 'reported', yet the draft presents them without hedging language that would signal the information comes from reporting rather than verified fact."
+    ]
+   }
+  ]
  }
 ]
