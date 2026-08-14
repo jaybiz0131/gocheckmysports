@@ -6421,5 +6421,40 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c077",
+    "headline": "NBA 2026-27 season tips off Oct. 20 with Knicks-76ers championship rematch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Prime Video's role in covering marquee matchups' in the bottom_line, but this claim does not appear in the brief's data_points. The brief's open_questions note that 'specific details about...Prime Video's Eastern Conference Finals broadcast details cannot be verified from the provided source text,' indicating this information was not confirmed in the source. The writer has smuggled an unverified claim about Prime Video coverage into the forward-looking section."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Cade Cavalli carries no-hitter into 7th, Nationals rout Cubs 7-0",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Nationals rookie Cavalli' in bottom_line, but brief data_points do not confirm Cavalli is a rookie. This is a smuggled fact not present in the brief.",
+     "Draft states 'to avoid sweep' in bottom_line, but brief only confirms win 'allowed Washington to avoid a three-game sweep' with 'reported' confidence\u2014the framing should reflect the broader series context, not assume this phrasing without source verification of exactly which game in a series this was.",
+     "Draft does not mention Cavalli's record (10-5) or that he turns 28 on Friday, both in the brief data_points with 'reported' confidence. While omission is not an error, the draft adds 'Nationals pitcher' description without grounding it; the omission of his record is acceptable but the bottom_line's claim of 'rookie' status invents a detail not in the brief."
+    ]
+   },
+   {
+    "id": "c202",
+    "headline": "Field of Dreams game: source verification failed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body consists of meta-commentary about source failure rather than reporting. No facts from the brief can be verified in the draft because the draft contains no substantive claims about the Field of Dreams game, teams, weather, or contingencies.",
+     "The brief's core_claim (Twins vs. Phillies, Thursday, contingency plans) appears nowhere in the draft prose. The brief's angle (rain risk, Hall of Famers, backup plan readiness) is not reported.",
+     "The data_points array is empty in the brief, meaning there are no facts to trace\u2014yet the draft was submitted as a finished piece rather than being rejected at research stage or held pending source acquisition.",
+     "This reads as a source-check memo, not a draft article. It should not have advanced to approval."
+    ]
+   }
+  ]
  }
 ]
