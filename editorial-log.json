@@ -6516,5 +6516,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "BBC Sport confirms Liverpool ownership deal with Bezos consortium",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Stake size: around one-third (approximately 33%)' but brief data_point states 'approximately one-third (approximately 33%)' while Guardian (c090) reports exact '30%'. The draft presents BBC's approximate language as independent corroboration when the two sources differ materially (one-third \u2260 30%), yet the draft body does not flag this discrepancy despite claiming 'The reported stake size aligns with other accounts.' This obscures a factual divergence between sources."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "MLB announces 2027 Field of Dreams Game: Royals vs. Red Sox",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents the announced matchup as settled fact ('will meet') without qualifying language, but the brief's confidence label is 'announced-not-verified'\u2014a material uncertainty that must survive in the prose. The draft reads as fact rather than announcement, violating the rule that confidence labels must be preserved in final copy."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Giants to host 2028 All-Star Game at Oracle Park",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents the announcement as fact ('MLB has named the San Francisco Giants hosts'), but the brief marks confidence as 'announced-not-verified'. The prose must reflect this uncertainty; 'announced' or 'according to MLB's statement' would be required to match the confidence level.",
+     "The brief notes in open_questions that 'the source text provided contains only font declarations and styling markup; no substantive content about the venue, dates, or any additional details about the 2028 All-Star Game is recoverable.' The draft makes claims about Oracle Park as the venue and describes the decision as 'a formal validation' and 'reflects MLB's confidence'\u2014these are interpretations not supported by verified source content."
+    ]
+   },
+   {
+    "id": "c081",
+    "headline": "Liberty's Satou Sabally steps away from team due to concussion issues",
+    "category": "compliance",
+    "reasons": [
+     "The draft states definitively that Sabally 'is stepping away from the team due to lingering concussion issues' as a medical fact. Per the compliance rule, health claims must trace to official injury reports or on-record statements. The brief provides no medical documentation, official diagnosis, or team statement on the cause or nature of the concussion\u2014only that she is stepping away and CBS reported it. The draft should attribute the concussion claim more carefully or mark it as reported-not-verified rather than stating it as established fact."
+    ]
+   },
+   {
+    "id": "c115",
+    "headline": "Titans Players Harrell, Kanak Injured in Preseason Game vs. 49ers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jaylen Harrell and Jaren Kanak were injured in Tennessee's preseason game against the San Francisco 49ers, according to Yahoo Sports reporting.' However, the brief's single data_point says only that both 'were injured in a Tennessee Titans preseason game against the 49ers'\u2014it does not confirm the source as Yahoo Sports or provide the source URL/text to verify this reporting. The draft attributes the claim to Yahoo Sports but the brief does not confirm Yahoo Sports as the source of this information. The source_chars value of 0 in the brief suggests no article text was provided to verify the attribution."
+    ]
+   }
+  ]
  }
 ]
