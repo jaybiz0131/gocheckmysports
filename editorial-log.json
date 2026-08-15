@@ -6630,5 +6630,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c076",
+    "headline": "Titans' Johnson suspended six games for PED violation tied to fertility treatment",
+    "category": "compliance",
+    "reasons": [
+     "The brief marks both core facts\u2014the suspension and the fertility treatment explanation\u2014as unconfirmed ('announced-not-verified' and 'reported' from a single source with boundary_ok=false), yet the draft presents them as settled fact without hedging language or attribution that signals uncertainty. The opening sentence 'has received a six-game NFL suspension' should reflect the unconfirmed status (e.g., 'according to CBS Sports, received' or 'is reported to have received').",
+     "The boundary flags show the core identifiers ('Nazeeh Johnson', 'six games') do not appear verbatim in the advisory URL, indicating the source relationship is unverified. The draft must acknowledge this gap in official confirmation rather than laundering the claim as fact."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Tennessee S Farooq suffers season-ending torn patellar tendon",
+    "category": "compliance",
+    "reasons": [
+     "The brief marks the core claim\u2014that Farooq 'suffered a torn patellar tendon' and 'will miss the 2026 season'\u2014as 'announced-not-verified,' meaning the injury diagnosis and prognosis come from announcement only, not independent medical verification. The draft presents both as settled medical fact ('suffered a torn patellar tendon', 'will miss the entire 2026 season') without any hedging language that signals this is reported/announced status, not verified medical diagnosis. The opening sentence must read 'according to ESPN reporting' or similar, and should preserve the 'announced-not-verified' confidence level in the prose.",
+     "The Tennessee statement quote 'We stand with Edrees and support him as he begins the recovery process. We know he will continue to make a strong leadership impact on our team this fall' contains an internal contradiction: it says he will 'continue to make a strong leadership impact on our team this fall' while the rest of the story establishes he will miss the entire season. This is a factual incoherence that should have been flagged in drafting; the quote as presented is misleading."
+    ]
+   },
+   {
+    "id": "c175",
+    "headline": "Dodgers release injury updates on Ohtani, Smith, Rushing; details unavailable",
+    "category": "accuracy",
+    "reasons": [
+     "The draft makes factual claims about injury updates being announced ('The Los Angeles Dodgers announced updates...') but the brief explicitly states the source is corrupted and contains 'only CSS font styling markup with no readable content.' The draft presents as though updates were accessible and reported when the brief confirms they are not. The draft should acknowledge the source failure directly rather than implying announcements occurred."
+    ]
+   },
+   {
+    "id": "c102",
+    "headline": "Puerto Rican boxer Prichard Col\u00f3n dies at 33, 11 years after ring injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Col\u00f3n had compiled a professional record of 16 wins before suffering a brain bleed in 2015 during the only defeat of his career.' The brief data_point says 'Col\u00f3n had won his first 16 professional fights,' which is compatible, but the draft then adds 'during the only defeat of his career' without a data_point confirming the 2015 loss was his only professional defeat. The brief states the injury occurred 'in the only defeat of his professional career' but provides no data_point establishing he never lost again after 2015\u2014only that 2015 was his only loss at that point. The claim as written (singular, definitive 'only defeat') goes beyond what the brief confirms."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "ESPN layoffs signal retreat from expert NBA analysis",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions field explicitly flags that 'The source_texts field is empty; no fetched Guardian article text is available to extract specific names of laid-off analysts, dates of layoffs, or quantified coverage changes.' The draft presents the layoff as fact ('ESPN has cut familiar expert NBA analysts') without any data_points to support it in the brief.",
+     "The brief contains zero data_points and zero bear_case items. The draft's core claim\u2014that ESPN laid off analysts and the network's editorial priority has shifted\u2014has no research backing provided in the brief.",
+     "The draft states 'Detailed names, dates, and specifics of the layoff have not been independently verified beyond The Guardian's reporting' but then still asserts the layoff happened as though it were established fact, when the brief itself contains no source text or verification.",
+     "The claim 'engagement metrics and viral argument-driven content now rank higher in the editorial priority than sustained technical analysis' is editorial speculation not found in any data_point in the brief."
+    ]
+   }
+  ]
  }
 ]
