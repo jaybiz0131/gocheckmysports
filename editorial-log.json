@@ -6587,5 +6587,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c105",
+    "headline": "NFL suspends Atlanta Falcons star James Pearce Jr. following alleged Rickea Jackson incident",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The NFL suspended Atlanta Falcons player James Pearce Jr.' as a settled fact, but the brief explicitly notes 'The source text is empty; the snippet mentions a suspension but provides no suspension length, specific dates, details of the alleged incident, or official NFL statement.' The core claim itself is unverified from the fetched source.",
+     "The brief is marked 'thin: true' with 'source_chars: 0', indicating no actual source material was retrieved. The draft presents the suspension as reported fact without any data_points in the brief to back it. This is smuggled information masquerading as sourced reporting."
+    ]
+   },
+   {
+    "id": "c154",
+    "headline": "Blue Jays surging up Wild Card standings -- but holding breath over Vladdy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'The Blue Jays are reported to have defeated the Yankees' but the brief contains zero data_points and is marked 'thin: true'. The brief's open_questions explicitly state: 'The source text is a CSS font declaration and styling block with no game data, score, date, or injury details. The actual article content is missing.' The game outcome is unverified from the fetched source.",
+     "The draft claims 'facing an uncertainty over Vladimir Guerrero Jr.'s health following a collision during play' without any data_points in the brief to support the collision, the injury claim, or any official evaluation. This fact is smuggled; it does not appear in the source material according to the brief itself.",
+     "All core facts (game outcome, date, standings, Guerrero Jr.'s condition) are unverified. The draft should not have been written from a brief with zero data_points and no retrievable source content."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "PSG signs Ferran Torres from Barcelona on five-year deal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Torres scored 21 goals in 49 appearances in all competitions for Barcelona last season with three assists, per BBC Sport' but brief data_points show BBC reported '21 goals in 49 appearances in all competitions' without attribution of '3 assists' to BBC. Brief also includes a separate ESPN data_point claiming 'Torres scored 19 goals in 45 matches for Barcelona in the previous campaign' which is a different figure entirely (19 vs 21, 45 vs 49). Draft conflates these figures and attributes only the 21-goal, 49-appearance version to BBC when ESPN separately reports 19 goals in 45 matches. This is a factual inconsistency that must trace cleanly to brief; the writer has not resolved which figure is current-season vs prior-season.",
+     "Draft states 'Robert Lewandowski joined the Chicago Fire, which triggered Barcelona's need for a new striker' but brief data_point says Lewandowski joined Chicago Fire only as context explaining Barcelona's need. This reads as causal fact-reporting when it is actually context/motivation from ESPN's reporting. The phrasing 'triggered Barcelona's need' overstates the relationship and should be more carefully attributed."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Steelers rookie QB impresses in preseason Week 1; Titans' Ward struggles",
+    "category": "accuracy",
+    "reasons": [
+     "The draft identifies the Steelers rookie QB only as 'a rookie signal-caller with the Steelers' without naming him. The brief data_point does not specify the QB's identity either, only that a 'Steelers rookie QB shined.' The source text is described in open_questions as 'mostly unreadable HTML/CSS markup' with no substantive content beyond the headline. The writer cannot verify the specific identity, statistics, or details of this performance against the source material, violating the hard rule that facts must trace to the brief.",
+     "Similarly, the draft refers to Cam Ward's performance as raising 'questions about his adjustment to the pro game,' but the brief does not contain a data_point elaborating on the nature, scope, or specific context of his 'struggle.' The draft paraphrases and interprets beyond what the brief data supports."
+    ]
+   }
+  ]
  }
 ]
