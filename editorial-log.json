@@ -6681,5 +6681,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c080",
+    "headline": "Devon Witherspoon signs four-year, $132M extension with Seahawks, becomes NFL's highest-paid cornerback",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Witherspoon 'becomes NFL's highest-paid cornerback' in the title and 'the NFL's highest-paid cornerback' in the body. The brief data_point says only 'the Seahawks' highest-paid cornerback.' The draft inflates the claim beyond what the brief supports\u2014the brief does not contain evidence he is league-wide highest-paid, only that he became the Seahawks' highest-paid at this figure. This is a smuggled fact not in the research.",
+     "The draft states 'The move places direct pressure on teams such as the New England Patriots, whose cornerback Christian Gonzalez is expected to pursue terms that match or exceed Witherspoon's new ceiling.' The brief notes in open_questions that 'the full source text does not carry details about contract structure, salary breakdown, guaranteed money, or specific market comparisons' and the snippet only 'mentions Christian Gonzalez and the Patriots' future negotiation' but those details are not confirmed in the actual data_points provided. This appears to be speculation or interpretation beyond the brief."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "Vladimir Guerrero Jr. placed on 7-day injured list with head injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Guerrero Jr. as a 'six-time All-Star,' but this biographical fact is not present in the brief's data_points. The brief notes in open_questions that 'The source text provided is predominantly CSS styling code and does not contain narrative content describing the injury circumstances.' The draft has smuggled the All-Star designation from outside the research brief.",
+     "The draft states he 'exited a game with head injury symptoms,' but the brief only confirms he was 'placed on 7-day injured list' (verified-on-chain). The angle mentions 'after exiting a game with head injury symptoms' but the open_questions reveal 'No information is available about when Guerrero Jr. exited the game, against which opponent, or the specific head injury event that triggered the IL placement.' The draft treats 'exiting the game' and 'head injury symptoms' as established fact when they are not confirmed in available sources per the brief's own assessment."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Blue Jays defeat Yankees 4-1; McAdoo delivers tiebreaking 7th-inning double",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The win marked the Blue Jays' 13th victory in their last 19 games' and 'The surge positions Toronto ahead of a Yankees team competing in the same division during the final stretch of the regular season.' The brief's open_questions note that the source text from ESPN is empty (source_chars: 0), meaning these claims cannot be verified against fetched material. The brief marks the '13th win in 19 games' as a data_point with 'reported' confidence, but the ESPN recap URL yielded no actual article content\u2014only a game result snippet. Claims about the pennant-race context and the Jays being 'ahead' of the Yankees in the division are not supported by the brief's available source material and represent smuggled facts beyond what was confirmed."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Cristian Romero completes transfer to Atl\u00e9tico Madrid from Tottenham",
+    "category": "accuracy",
+    "reasons": [
+     "Body paragraph 4 states: 'Postecoglou was sacked weeks after Tottenham's European success, which included an open-top bus parade through north London attended by an estimated 200,000 fans following a win in Bilbao, according to ESPN.' The brief's data_point claims 'Postecoglou was sacked weeks later and Romero waited for successor Thomas Frank to be announced'\u2014but the draft names Roberto De Zerbi as the new manager in paragraph 5 ('New Tottenham manager Roberto De Zerbi'), not Thomas Frank. The brief itself contains this contradiction (Thomas Frank vs. De Zerbi), but the draft has smuggled a resolution (De Zerbi) that does not appear in the brief's source citations. The writer cannot patch conflicting information; this must go back to research."
+    ]
+   }
+  ]
  }
 ]
