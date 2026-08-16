@@ -6859,5 +6859,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Timpson's career-high 20 points lifts Fever past Dream in overtime",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Timpson 'scored Indiana's first three field goals in overtime' but the brief data_point says she 'scored Indiana's first three field goals in overtime'\u2014the draft then says she scored these to 'establish early momentum,' but does not clarify whether these were field goals (2-pointers) or three-pointers. The brief does not specify, and the draft's phrasing 'first three field goals' is ambiguous and potentially misleading if the source meant three consecutive field goals, not three individual possessions. This is unverified language beyond the brief.",
+     "Draft claims the game was 'critical WNBA playoff positioning' but the brief only says it 'protected the Fever's hold on fourth place' with no verification from the source that this was described as 'critical' or in a 'playoff positioning stretch.' The draft's framing of 'final playoff positioning stretch' in the body is supported by the brief, but the bottom_line's characterization of 'playoff positioning game' as a presupposition rather than a stated fact in the brief goes beyond what was sourced."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "Vikings linebacker Jamal Adams out for season after preseason knee injury",
+    "category": "compliance",
+    "reasons": [
+     "Draft speculates on medical details ('whether it is an ACL, MCL, or other ligament damage, has not been disclosed') in a way that invites speculation about the nature of Adams's injury. The brief's open_question explicitly flags that 'The specific nature of the knee injury (ACL, MCL, other) is not stated in the sources,' indicating this is unconfirmed territory. The draft should not list specific injury types as possibilities without source attribution, as this crosses into medical speculation about an athlete's body beyond the official record.",
+     "Draft includes language in bottom_line ('whether Adams pursues any medical appeals or second opinions that could affect his recovery timeline') that is speculative and not grounded in any data_point or bear_case in the brief. This ventures into speculation about Adams's personal medical decisions without any reporting to support it."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Padres defeat Guardians 5-0 as Mize records first win in San Diego uniform",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Four home runs' and 'The Padres' offense provided substantial support through four home runs' but only names two home run hitters (Rengifo and Sheets). The brief's open_questions explicitly flag that 'only two (Rengifo and Sheets) are named in the source text; the other two home run hitters are not identified.' The draft presents four home runs as a confirmed fact when the brief itself identifies this as an open question\u2014the source text does not verify who hit the other two home runs. This is a smuggled fact not traceable to the verified data_points."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Manchester Super Giants claim first Hundred title with five-wicket victory",
+    "category": "clarity",
+    "reasons": [
+     "The brief marks as 'thin: true' with only 5 core data_points and multiple open questions about Rockets' score, their first-innings total, and other key contributors. The draft fails to establish basic stakes: what was Rockets' target? The opening line says Manchester won 'by five wickets' but never states what score they were chasing or whether the chase was comfortable or a late wobble (which the brief's open_questions suggest might have occurred per BBC reporting). A reader cannot assess the significance of the victory without knowing Rockets' total. For a thin brief, the draft should be tight and precise; instead it is vague about the match itself while padding with generic commentary about Hundred format ('100-ball-per-side structure'). The bottom_line avoids forward stakes ('watch how the team builds momentum') which is permissible, but the body lacks the basic context needed to report the event clearly."
+    ]
+   },
+   {
+    "id": "c117",
+    "headline": "Bears activate Trapilo off PUP list after patellar tendon recovery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Trapilo suffered a patellar tendon tear 'in January's wild-card playoff win over the Green Bay Packers,' but the brief data_point says 'tore his patellar tendon in the wild-card round playoff win over the Green Bay Packers in January' with confidence 'reported'\u2014not 'verified-on-chain.' The draft presents this as settled fact without the appropriate confidence qualifier; a patellar tendon injury sustained during a playoff game is a medical and factual claim that requires source confirmation language, especially given it is only 'reported,' not confirmed on-chain."
+    ]
+   }
+  ]
  }
 ]
