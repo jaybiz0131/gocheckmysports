@@ -6721,5 +6721,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c031",
+    "headline": "Vikings edge Giants 13-10 in preseason with Murray debut",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'a player named Dart threw a touchdown pass for the team' but does not identify which team Dart plays for or clarify his role. The brief lists this as a data point but the draft's phrasing is ambiguous: it reads as though Dart is a Vikings player, but the context (following Murray's debut description) makes the attribution unclear. The sentence needs inline clarification of Dart's team affiliation to avoid reader confusion about which side scored the touchdown.",
+     "The draft contains a meta-commentary paragraph ('The ESPN recap confirms the final score...does not provide detailed statistics') that reads as editorial hedging rather than reporting. This undermines the story's credibility and should be removed; if stats are unavailable, the draft should simply omit them rather than announcing the omission to readers."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "McAdoo's go-ahead double lifts Blue Jays past Yankees 4-1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred 'on Saturday' but the brief's timestamp is '2026-08-15T22:06:30Z', which is a Friday evening. If the game was reported Friday night (post-game recap), the draft's statement that it happened 'on Saturday' is inaccurate. The date must align with the actual game date in the source.",
+     "The draft contains a meta-commentary paragraph ('The ESPN recap confirms the final score...or the precise date in August') that reads as editorial hedging rather than reporting. If the precise date is unknown, the draft should either report what is known or note the limitation inline; announcing what the sources 'do not provide' reads as excuse-making and undermines credibility."
+    ]
+   },
+   {
+    "id": "c161",
+    "headline": "Guerrero Jr. placed on 7-day injured list",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The source material provided does not contain details about the nature of the injury' but brief's core_claim explicitly states the injury is 'a head injury' and 'a concussion.' The writer has access to this information in the brief and should have included it in the draft.",
+     "The brief's core_claim includes 'head injury during a game on August 15, 2026' which is a verified-on-chain data point that must appear in the draft. The draft's blanket statement that specifics are unavailable contradicts the brief's own core claim."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Djokovic ousted from Cincinnati Open in second round by Tirante",
+    "category": "accuracy",
+    "reasons": [
+     "Draft quotes Tirante as saying 'I think this is the best win of my career. I think I really did a good job inside the court. I managed very well the nerves of playing against a legend like Novak.' per ESPN, but the BBC data point provides a different quote: 'This is the best win of my career. I managed the nerves of playing a legend like Novak. It was all so much pressure.' The draft used the ESPN version without noting the discrepancy between sources.",
+     "Draft states Djokovic 'marked his earliest exit at the tournament since making his debut there in 2005' but the BBC data point says 'had never failed to reach at least the last 32 of the tournament in Ohio since making his debut in it in 2005'\u2014these are meaningfully different claims about his historical record. The draft's phrasing oversimplifies.",
+     "Draft says BBC's reporting 'noted Djokovic appeared to vomit twice during the match' but must clarify that this is 'reported' confidence per brief, not definitive fact. The language 'appeared to' does this correctly, but pairing it with the medical details (physio, doctor assistance) without confidence qualification could mislead."
+    ]
+   }
+  ]
  }
 ]
