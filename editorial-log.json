@@ -6818,5 +6818,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Tommy John, Pitcher Whose Name Became Synonymous With Elbow Surgery, Dies",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains multiple factual claims not present in the research brief's data_points: the mid-1970s timing of John's return to pitching, the official name 'ulnar collateral ligament reconstruction,' ripple effects across football and basketball, and the prevalence of thousands of annual procedures. The brief explicitly lists 'Date of death,' 'Cause of death,' 'Location of death,' 'Career statistics and Hall of Fame status,' and 'Details of the surgical procedure' as open_questions with no data_points to support them. The draft asserts these details as established fact despite the brief marking them unconfirmed.",
+     "The draft presents speculative medical and career history (the procedure's adoption across sports, its prevalence in locker rooms worldwide) without sourcing to the single MLB.com data_point available. These are smuggled details beyond the brief."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Bangladesh Defeats Australia by Nine Wickets in Test Series-Opener",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hasan Mahmud was named player of the match after taking nine wickets' but the brief data_point says he 'took nine wickets,' not that he took nine wickets in a single innings or match performance. The phrase 'A nine-wicket haul by a single bowler in a Test match represents a commanding individual performance' goes beyond what the brief supports and implies context (dominance over extended period, sustained batting resistance) not present in the source.",
+     "The draft's second paragraph characterizes the nine-wicket performance without the brief providing match-by-match or innings-by-innings detail to support the assertion that this reflects 'dominance over an extended period.' This is interpretation beyond the data_points."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Rockets crush Sunrisers for first women's Hundred title",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case notes the match was 'disappointingly one-sided,' signaling lack of competitive balance, but the draft presents this only as Rockets' dominance without acknowledging the bear_case perspective that the final lacked drama or competitive interest. A reader could mistake this for a thrilling victory rather than an uncompetitive blowout that disappointed observers."
+    ]
+   },
+   {
+    "id": "c088",
+    "headline": "Ronaldo signals likely retirement after this year at age 41",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'told Vogue magazine in an interview published Sunday that this year is \"probably\" his last as a professional footballer, according to The Guardian's reporting.' This is a second-order report: The Guardian reported what Vogue published. The brief's open_questions note that 'The Guardian source did not fetch the Vogue interview itself; no direct quote from Ronaldo or Vogue's full framing is available to verify tone or conditions around the 'probably' qualifier.' The draft presents this as settled fact through The Guardian, but the actual source material (a navigation/header dump per the brief) does not contain the article body, full statement, or direct quotes. The writer has smuggled a fact\u2014the exact wording and conditions of Ronaldo's 'probably' statement\u2014that is not verifiable in the provided source material.",
+     "The draft claims 'the available reporting does not specify whether he means the calendar year, the end of the 2026 season, or another threshold,' which acknowledges ambiguity but does not address that the source itself was not fully fetched. This reads as the writer filling gaps with inference rather than sticking to what the brief's source material actually contains."
+    ]
+   }
+  ]
  }
 ]
