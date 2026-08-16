@@ -6778,5 +6778,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Red Sox place Masataka Yoshida on IL with hamstring strain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Yoshida himself noted Saturday that a prior hamstring injury sustained while playing in Japan cost him approximately a month of games, but the Red Sox have not confirmed such a projection for this season.' This phrasing creates ambiguity about whether the Red Sox explicitly denied the timeline or merely did not confirm it. The brief's data_point says 'Yoshida noted Saturday that the last time he injured his hamstring while playing in Japan, it cost him around a month's worth of games' without any claim that the Red Sox rejected this estimate. The draft's framing ('but the Red Sox have not confirmed') reads as the writer injecting editorial caution that is not supported by the brief's actual reporting\u2014it is not a fact from the source, but an inference about what the Red Sox did not say."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "RESEARCH INTAKE FAILURE: Source unreadable, no verifiable facts present",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a meta-commentary on research failure, not a news story. It violates the hard rule that no fact exists outside the brief: it claims the source is 'unreadable' and contains only 'CSS formatting code,' but these claims are the writer's inferences about the source quality, not facts from a research brief data_point. The brief's open_questions acknowledge source limitations, but the draft uses this as grounds to reject the entire story\u2014which is a research and editorial gatekeeping decision, not a drafting task. The draft should not have been submitted for approval; it should have been returned to research before reaching the approver. A draft that explains why it cannot be written is not a draft."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Ronaldo states 2026-27 will be his final season of professional football",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 2026 World Cup in Qatar was earlier confirmed by Ronaldo as his final tournament appearance.' The brief confirms Ronaldo said the 2026 World Cup would be his last, but the brief does not specify the venue as Qatar. This detail is smuggled and not present in the source material cited.",
+     "The draft quotes Ronaldo as saying 'This is probably my last year of football, and I want to leave a spectacular legacy,' but the brief only confirms the quote 'This is probably my last year of football.' The addition of 'and I want to leave a spectacular legacy' is not in any data_point and is smuggled.",
+     "The draft presents the marriage detail ('The Vogue interview, according to ESPN, took place five days before Ronaldo's marriage to Georgina Rodr\u00edguez in Cascais, Portugal') as a factual framing device in the story's narrative arc, but this personal/lifestyle material beyond sport falls into compliance territory and should be handled with care or excluded given the desk's liability posture on personal athlete material outside sport."
+    ]
+   },
+   {
+    "id": "c45",
+    "headline": "Lottie Fry becomes first rider to retain both FEI World dressage titles",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Fry claimed the Grand Prix Special title in Aachen, Germany, on Friday' but the brief data_point says 'Fry claimed the Grand Prix Special title in Aachen, Germany, on Friday'\u2014however, the draft later says 'Fry won the Grand Prix Special and the Grand Prix Freestyle at the World Championships in Aachen, Germany, defending the titles she won four years earlier.' The brief's core_claim says she 'retain[ed] both individual dressage titles, winning the Grand Prix Special and Grand Prix Freestyle,' which matches the draft. However, the draft contains a factual claim unsupported by the brief: 'The victory marked the first time in 60 years of the competition that a rider achieved the double-double defense in the Grand Prix Freestyle event.' The brief data_point states 'Fry is the first rider in 60 years of the competition to achieve the 'double-double' in the Grand Prix Freestyle event,' which supports this claim. However, the draft also states 'Britain was the only nation to field three riders in the top seven of the Freestyle event, with Becky Moody and Jagerbomb finishing fifth overall and Carl Hester and Fame finishing seventh.' The brief says 'GB was the only nation to have three riders in the top seven' but does not specify these are results 'of the Freestyle event'\u2014the brief data_point is ambiguous about which event these placements reference, and the draft's specification may exceed the brief's scope."
+    ]
+   }
+  ]
  }
 ]
