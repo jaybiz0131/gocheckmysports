@@ -429,17 +429,43 @@ jobs:
       # minutes (the free tier pools ~300/month across all sites). No hook secret ->
       # documented skip.
       - name: Refresh the website (Netlify build hook)
+        id: ping
         if: always()
         env:
           HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
           PUSHED: ${{ steps.publish.outputs.pushed }}
         run: |
+          pinged=false
           if [ "$PUSHED" = "true" ]; then
             echo "::notice::Stories were pushed; that deploy already rebuilt the site. Skipping the hook ping."
           elif [ -n "$HOOK" ]; then
-            curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
-              && echo "::notice::Triggered a Netlify rebuild." \
-              || echo "::warning::Netlify build hook ping failed; the site will refresh on the next deploy."
+            if curl -s -f -X POST -d '{}' "$HOOK" > /dev/null; then
+              echo "::notice::Triggered a Netlify rebuild."
+              pinged=true
+            else
+              echo "::warning::Netlify build hook ping failed; the site will refresh on the next deploy."
+            fi
           else
             echo "::notice::NETLIFY_BUILD_HOOK not set; the site rebuilds only on pushes. Add the secret to enable the daily refresh."
           fi
+          echo "pinged=$pinged" >> "$GITHUB_OUTPUT"
+
+      # OPS LEDGER (owner ruling 2026-08-17, audit fix 5b/5d): one queryable outcome row
+      # per brief execution, appended as a comment on the month's "Ops ledger" issue.
+      # Answers "how many builds, and why" as a lookup instead of a log dig, and counts
+      # watcher-embedded executions (wf field carries the calling workflow's name).
+      # Observability only: a ledger failure never fails the run.
+      - name: Ops ledger (append this execution's outcome)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WF: ${{ github.workflow }}
+          EV: ${{ github.event_name }}
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+          CRON: ${{ github.event.schedule }}
+          SERVE: ${{ steps.guard.outputs.serve }}
+          PUSHED: ${{ steps.publish.outputs.pushed }}
+          PINGED: ${{ steps.ping.outputs.pinged }}
+          RUN_ID: ${{ github.run_id }}
+        run: python3 scripts/ops_ledger.py || echo "::warning::ops ledger append failed (observability only, run unaffected)"

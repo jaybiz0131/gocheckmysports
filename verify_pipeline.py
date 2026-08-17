@@ -36,6 +36,7 @@ import inspect
 import json
 import os
 import sys
+import time
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -854,7 +855,7 @@ def _failclosed_canaries(cfg):
 
 def layer2_sources():
     cfg = common.load_config()
-    mismatch = False
+    fails = []
     for f in cfg["sources"]["rss"]:
         name, url = f["name"], f["url"]
         try:
@@ -867,34 +868,51 @@ def layer2_sources():
             continue
         if code != 200:
             # A feed with a configured API fallback is healthy when the FALLBACK serves
-            # (the ESPN RSS hosts answer runner IPs with 202 bot challenges by design;
-            # the pipeline never reads those URLs from CI, aggregate.espn_api_fallback
-            # does). Only a feed with no working fallback is a real liveness failure.
+            # (the ESPN RSS hosts answer runner IPs with HTTP 202 bot challenges by
+            # design; the pipeline never reads those URLs from CI, the aggregate's API
+            # fallback does). Only a feed with no working fallback is a real liveness
+            # failure. The probe gets two attempts: the 2026-08 Monday reds were
+            # transient probe misses dressed up as seven dead feeds.
             fb = f.get("fallback_api")
+            fb_note = "no fallback configured"
             if fb:
-                try:
-                    freq = urllib.request.Request(fb, headers={"User-Agent": common.UA})
-                    with urllib.request.urlopen(freq, timeout=30) as fr:
-                        if fr.getcode() == 200:
-                            print(f"LAYER 2 sources: OK '{name}' -> RSS {code} but API "
-                                  f"fallback resolves 200 (the path the pipeline uses).")
-                            continue
-                except Exception:
-                    pass
-            gh("error", f"sources: '{name}' did not resolve 200 (got {code}): {url}")
-            mismatch = True
+                fb_note = "fallback probe failed twice"
+                for attempt in (1, 2):
+                    try:
+                        freq = urllib.request.Request(fb, headers={"User-Agent": common.UA})
+                        with urllib.request.urlopen(freq, timeout=30) as fr:
+                            if fr.getcode() == 200:
+                                fb_note = "fallback OK"
+                                break
+                    except Exception:
+                        pass
+                    if attempt == 1:
+                        time.sleep(3)
+                if fb_note == "fallback OK":
+                    print(f"LAYER 2 sources: OK '{name}' -> RSS {code} but API "
+                          f"fallback resolves 200 (the path the pipeline uses).")
+                    continue
+            why = ("HTTP 202 bot challenge (runner-IP block)" if code == 202
+                   else f"HTTP {code}")
+            gh("error", f"sources: '{name}' -> {why}; {fb_note}: {url}")
+            fails.append({"feed": name, "url": url, "status": why, "fallback": fb_note})
             continue
         if not ("<rss" in head or "<feed" in head or "<rdf" in head or "<?xml" in head):
             gh("error", f"sources: '{name}' did not look like an RSS/Atom feed: {url}")
-            mismatch = True
+            fails.append({"feed": name, "url": url,
+                          "status": "HTTP 200 but not feed-shaped", "fallback": "n/a"})
         else:
             print(f"LAYER 2 sources: OK '{name}' -> HTTP 200, feed-shaped.")
-    if mismatch:
-        print("\nLAYER 2 SOURCES: CONTENT MISMATCH -> notify (exit 3). Does NOT block a run.")
+    if fails:
+        # Machine-readable failure list: the verify workflow's flag issue names the
+        # feeds from this file instead of sending the owner into the run logs.
+        os.makedirs("out", exist_ok=True)
+        with open(os.path.join("out", "layer2_failures.json"), "w", encoding="utf-8") as fh:
+            json.dump(fails, fh, indent=1)
+        print(f"\nLAYER 2 SOURCES: {len(fails)} feed(s) failing -> notify (exit 3). Does NOT block a run.")
         return 3
     print("LAYER 2 SOURCES: PASS -> all configured feeds resolve 200 and look like feeds.")
     return 0
-
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "all"

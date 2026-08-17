@@ -44,23 +44,34 @@ jobs:
         with: { python-version: "3.12" }
       - name: Check RSS feeds resolve (live)
         run: python3 verify_pipeline.py sources
-      - name: Open an issue on a broken feed
+      - name: Open or update the broken-feed issue (names the feeds)
         if: failure()
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require("fs");
             const title = "GoCheckMySports source feed check failed";
+            let detail = "The failure list was not written; see the run log.";
+            try {
+              const fails = JSON.parse(fs.readFileSync("out/layer2_failures.json", "utf8"));
+              detail = fails.map(f => "- **" + f.feed + "**: " + f.status + " (" + f.fallback + ")\n  " + f.url).join("\n");
+            } catch (e) {}
+            const runUrl = context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId;
             const body = [
-              "Layer 2 source verification found a configured RSS feed that did not resolve 200",
-              "or no longer looks like an RSS/Atom feed (see `config.json`).",
-              "",
-              "See the failed run log for the exact feed:",
-              `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-              "",
-              "This did NOT block anything. Update or replace the feed URL in config.json."
+              "Layer 2 source verification failed for these configured feeds:",
+              "", detail, "",
+              "Run: " + runUrl, "",
+              "This did NOT block anything. A 202 with a failing fallback usually means a",
+              "runner-IP bot challenge; a persistent non-202 failure means the feed moved or died.",
+              "Update or replace the feed URL in config.json, then close this issue."
             ].join("\n");
             const { owner, repo } = context.repo;
             const existing = await github.rest.issues.listForRepo({
               owner, repo, state: "open", labels: "sports-pipeline" });
-            if (existing.data.some(i => i.title === title)) return;
-            await github.rest.issues.create({ owner, repo, title, body, labels: ["sports-pipeline"] });
+            const open = existing.data.find(i => i.title === title);
+            if (open) {
+              // A repeat failure adds its detail instead of vanishing behind the open issue.
+              await github.rest.issues.createComment({ owner, repo, issue_number: open.number, body });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body, labels: ["sports-pipeline"] });
+            }
