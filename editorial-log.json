@@ -6907,5 +6907,50 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Bangladesh defeats Australia by 5 runs in Test in Darwin",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Bangladesh defeated Australia 95-91' but the core_claim and data_points establish the final score as 95-91 with Bangladesh winning by 5 runs in a Test match, not 95-91 total runs. The draft opens with a confusing score format that conflates the victory margin with what appears to be a limited-overs or ODI score, creating factual ambiguity.",
+     "Draft claims 'Hasan Mahmud took the wickets of Jake Weatherald and Travis Head in the first innings' but this data_point does not appear in the brief's data_points list; it is mentioned only in open_questions as something not yet confirmed. This fact is smuggled outside the brief.",
+     "Draft includes 'Australia dropped five catches; the first was dropped in the second over of Bangladesh's reply' in the body text, but this claim does not appear anywhere in the draft body provided\u2014however, the brief lists this as a data_point marked 'reported' confidence. The draft fails to include this claim despite it being in the brief, suggesting selective omission of counter-evidence.",
+     "Draft mentions 'Pat Cummins reported the pitch as rock hard underneath, and the ball moved significantly for only a two-hour window early in Australia's first innings' but conflates two separate claims: the bear_case states 'Pat Cummins admitted the ball moved significantly in only a two-hour window early in Australia's first innings,' placing the movement window in the first innings. The draft's phrasing is consistent but the claim about movement is attributed to Cummins when the brief shows it as a separate reported observation about the pitch deterioration."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Tottenham goalkeeper Vicario joins Juventus on season-long loan with purchase option",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Emiliano Mart\u00ednez had 'an injured finger' making him 'unavailable for selection,' but the brief's confidence label is 'reported' only\u2014this reads as a medical diagnosis presented as settled fact. The brief says Mart\u00ednez was 'known to have an injured finger and is currently unavailable for selection,' which is closer to reporting the unavailability claim, but the draft's phrasing ('whose injured finger has made him unavailable') implies a causal medical certainty that exceeds the source's precision.",
+     "The draft introduces outbound player destinations (Vuskovic to Brighton, Lankshear to Middlesbrough, Solomon to West Ham) that are not explicitly listed in the brief's data_points, only referenced generically in the brief's data_point 18. The brief says these moves occurred but does not specify destinations for all three players in the data_points themselves\u2014the draft has added specificity (Brighton, Middlesbrough, West Ham) not present in the research."
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Cycling community mobilizes for safety reforms after Finlay Tarling's death",
+    "category": "balance",
+    "reasons": [
+     "The brief identifies no bear_case items, and the draft correctly reports unknown details (investigation scope, specific safety reforms demanded, official statements pending). However, the draft's structure and tone treat unknowns as placeholders without offering any counterweight or perspective that might contextualize the incident within broader cycling safety norms or prior reforms. The brief is thin (four data_points only), and the draft is appropriate in length, but it reads as pure statement-of-unknowns without acknowledging whether this incident represents an anomaly or a systemic problem. The opening reports the death and 'furious response' but then pivots entirely to what is *not* known, leaving the reader with no sense of whether the cycling community's mobilization is justified by patterns or is reactive to a singular tragedy.",
+     "The draft relies on Yahoo Sports as sole source and repeatedly qualifies claims as 'not yet confirmed in reporting' and 'remain unaddressed,' which is accurate disclosure but creates a hollow story. A thin brief with one outlet should either find additional confirmation or acknowledge in the opening that details remain sparse; instead, the draft frontloads the death and outrage, then backtracks to uncertainties, creating a mismatch between stakes and substance."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "England's Whaley wins US Amateur at Merion, joins elite historical lineage",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Whaley was ranked 90th' but brief data_point 5 says 'Whaley was ranked 67 places lower than Leng Jr' (23rd). 67 places lower than 23rd is 90th, which is mathematically correct, but the brief does not contain the explicit '90th' ranking claim. The writer inferred a specific number not stated in the research brief.",
+     "Draft claims The Open is 'at St Andrews in 2027' as a specific fact, but data_point 15 only says 'The Open at St Andrews in 2027' without confirming that The Open will be held at St Andrews in 2027 (this is stated as part of the prize, not as independently verified championship information). If St Andrews hosting in 2027 is not in the brief, it is smuggled.",
+     "Draft references Fitzpatrick's broader career achievements ('Before Fitzpatrick, Harold Hilton won the title in 1911') and mentions 'the championship's honors roll includes Arnold Palmer, Jack Nicklaus, Tiger Woods, Bryson DeChambeau, and Viktor Hovland'\u2014all of which trace to data_points. However, data_point 14 mentions Fitzpatrick won at Brookline in 2022 (the US Open), information not used in the draft but present in the brief, suggesting selective sourcing is not the issue. The core issue is the '90th ranking' inference, which violates the hard rule."
+    ]
+   }
+  ]
  }
 ]
