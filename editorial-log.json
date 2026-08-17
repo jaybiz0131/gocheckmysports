@@ -7002,5 +7002,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Buss family exits Lakers after 57 years, selling remaining stake to Iger and Kushner",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'ending a family ownership era that began when Jerry Buss purchased the franchise from Jack Kent Cooke in May 1979' and later says 'Under the Buss family's 47-year stewardship.' May 1979 to August 2026 is approximately 47 years, but the brief's core_claim states '57 years' and the title says '57 years.' The brief data_point confirms Jerry Buss purchased in May 1979, but the math does not support 57 years from 1979 to 2026. The draft contains an internal inconsistency with its own headline and the brief's core claim.",
+     "The draft omits material bear_case information: 'Jeanie Buss is contesting the family vote to sell the stake, per the headline on a separate ESPN story.' The draft mentions this once in passing ('However, Jeanie Buss is contesting the family vote, according to a separate ESPN headline') but does not emphasize it as a countervailing fact that could derail the transaction or create legal/governance risk. The bear case appears but is buried and not proportionately weighted.",
+     "The draft states 'Walter has agreed to sell roughly 65% of the franchise to Kushner and Iger' but does not attribute this figure inline to ESPN or trace it to the brief's data_point confirming it. While the figure is in the brief, the draft should cite it at point of use.",
+     "The draft includes a new claim not in the brief: 'Walter, who built his financial empire in the insurance industry, is under federal investigation for alleged tax fraud by other companies tied to the billionaire.' This appears in the brief as a data_point ('Walter, who built his financial empire in the insurance industry, is under federal investigation for alleged tax fraud by other companies tied to the billionaire') with confidence 'reported,' but the draft does not include this material fact about ongoing federal investigation into the new owner. Omitting this is a material gap given liability implications, though it is not a smuggled fact."
+    ]
+   },
+   {
+    "id": "c166",
+    "headline": "MLB approves Padres sale to Feliciano and Jones",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states the source text is 'incomplete and consists primarily of CSS styling information; the actual news content is not present, making it impossible to verify the sale price, closing date, or any further details about the transaction.' The draft presents the $3.9 billion price as fact, but the brief marks confidence as 'announced-not-verified' and notes the source cannot be verified. The draft should reflect this uncertainty.",
+     "The brief's open_questions note that 'No statement from Feliciano, Jones, Seidler, or MLB Commissioner is available in the source text,' yet the draft presents the approval as a settled fact without any caveating language about source limitations.",
+     "The brief is explicitly marked 'thin: true' with only one data_point and severe source validation issues. The draft reads with false certainty given the brief's own finding that the source material is incomplete."
+    ]
+   },
+   {
+    "id": "c085",
+    "headline": "NBA disputes ESPN report on Ballmer, Kawhi, cap circumvention",
+    "category": "balance",
+    "reasons": [
+     "The brief is marked 'thin: true' with only two data_points and multiple critical open_questions, yet the draft reads as though substantial reporting and investigation details are known. The brief explicitly notes: 'What was the original ESPN report's central claim and what evidence did it present?' but the draft describes ESPN's allegation with apparent authority ('ESPN's investigation alleged such a scheme occurred') without having confirmed the content or specifics of ESPN's original reporting in the source material provided.",
+     "The draft asserts facts about what 'ESPN's investigation alleged' without those allegations being present in the brief's data_points. The brief contains no data_point about the content of ESPN's report itself\u2014only that the NBA disputed it. The draft has smuggled the ESPN reporting's substance into the narrative without a source in the brief to back it.",
+     "The open_questions include 'What was the original ESPN report's central claim and what evidence did it present?'\u2014indicating the brief writer was uncertain about ESPN's actual allegations. The draft should not write ESPN's claims as established fact when the brief itself questions what those claims were."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Rodri completes Barcelona transfer, ends seven-year Manchester City tenure",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Rodri joined Manchester City from Atletico Madrid in 2019 for what was then a club record \u20ac62.8 million' but the brief data_point says '\u20ac62.8m' without currency conversion context in that specific claim. The draft then earlier states the transfer fee as '\u00a365 million, valued at \u20ac76.5 million' which creates an internal contradiction: if the fee is \u00a365m = \u20ac76.5m, then \u20ac62.8m (the 2019 Atletico fee) cannot also equal \u00a362.8m. The brief does not clarify this conversion discrepancy, making the draft's assertion potentially inaccurate without supporting data.",
+     "Draft states Rodri 'won the Champions League in 2023' but brief data_point specifies 'the Champions League in 2022-23' and a separate ESPN data_point notes 'Rodri scored the only goal when Manchester City beat Inter Milan in the 2023 Champions League final.' The draft's phrasing omits the specific season and the fact that he scored in that final, which is in the brief but not mentioned in the draft\u2014not a fatal omission, but the year reference is imprecise.",
+     "Draft refers to 'Enzo Maresca' as Manchester City manager, but the brief's data_point attributes the Maresca quote to 'Manchester City manager' without confirming Maresca was the manager at the time of the article (August 2026). The timestamp and context suggest this may be accurate, but the brief does not explicitly confirm Maresca held that position in August 2026; this is presented as fact without brief support for the attribution timing."
+    ]
+   }
+  ]
  }
 ]
