@@ -415,7 +415,15 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
-    url = ORIGIN + path
+    # ONE URL PER PAGE (2026-08-17). Netlify's Pretty URLs serve every page at both
+    # /articles/foo and /articles/foo.html, and rewrite internal links to the
+    # extensionless form. Emitting a .html canonical meant Google crawled the linked
+    # (extensionless) URL, read a canonical pointing somewhere else, and filed it as
+    # "Alternate page with proper canonical tag" for every story. The same mismatch made
+    # og:url disagree with the URL people actually share. Both are fixed by naming the
+    # form the site actually serves and links. If Pretty URLs is ever disabled, this must
+    # revert with it, or every canonical will point at a 404.
+    url = ORIGIN + (path[:-5] if path.endswith(".html") else path)
     site_name = NAME
     # Home only: the hero band's poster is the LCP element (the video is preload="none"
     # by design), so hint the browser to fetch it first.
@@ -657,7 +665,7 @@ def render_article(item, all_items=None):
     {bottom}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
-    {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
+    {share_row(ORIGIN + f"/articles/{item['slug']}", item.get("title") or "")}
     {trail}
     {src_html}
     {rel_html}
@@ -1872,7 +1880,11 @@ def build():
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
-    urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
+    # the sitemap must name the SAME url the canonical does, or it advertises the
+    # non-canonical form and re-creates the duplicate it was meant to remove
+    urls = "\n".join(
+        f"  <url><loc>{ORIGIN}{esc(p[:-5] if p.endswith('.html') else p)}</loc></url>"
+        for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
 
@@ -1895,7 +1907,7 @@ def build():
             continue
         news_rows.append(
             f"  <url>\n"
-            f"    <loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
+            f"    <loc>{ORIGIN}/articles/{esc(it['slug'])}</loc>\n"
             f"    <news:news>\n"
             f"      <news:publication>\n"
             f"        <news:name>{esc(NAME)}</news:name>\n"
