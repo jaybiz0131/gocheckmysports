@@ -127,6 +127,53 @@ def kill_history(title):
     return []
 
 
+SPEND_BREAKER_N = 5   # consecutive kills on one development before the desk stops paying
+                      # to draft it again and hands the call to a human
+SPEND_BREAKER_SAME = 3  # fewer are needed when the SAME objection keeps landing
+
+
+def _reason_key(k):
+    """A coarse fingerprint of WHY a draft died, so 'the same objection again' can be
+    recognised across attempts without demanding identical wording."""
+    import re
+    blob = " ".join(k.get("reasons") or []).lower()
+    blob = re.sub(r"[^a-z ]", " ", blob)
+    words = [w for w in blob.split() if len(w) > 4]
+    return frozenset(words[:40])
+
+
+def stop_drafting(title, n=SPEND_BREAKER_N, same_n=SPEND_BREAKER_SAME):
+    """Should the desk stop drafting this development and hand it to a human?
+
+    THE CIRCUIT BREAKER (2026-08-17 handoff, redesigned against the evidence). The
+    handoff proposed breaking when attempt N+1 dies on the SAME objection as attempt N,
+    on the reasoning that repeating an argument the desk keeps losing cannot help. The
+    log does not support that premise: the ETF-inflow development died eleven times and
+    the objections were all DIFFERENT, an unsignalled attribution, then a paraphrase
+    that moved 'performance' to 'inflow', then a 'mid-April' the brief never said, then
+    an omitted bear case. The writer fixes each point and surfaces a new one.
+
+    So the primary rule is count, not repetition: after N consecutive kills the desk is
+    empirically not converging, whatever the reasons say, and further drafting spends
+    research, writing and approval budget to publish nothing. The same-objection case
+    still exists and breaks sooner, because that one really is arguing in a circle.
+
+    Returns (True, reason) or (False, ""). Advisory: it stops DRAFTING, never publishing,
+    and the digest carries the development to a human who can decide whether the gate is
+    right (drop it) or the brief is wrong (fix the inputs)."""
+    hist = kill_history(title)
+    if len(hist) >= same_n:
+        a, b = _reason_key(hist[-1]), _reason_key(hist[-2])
+        if a and b and len(a & b) / max(1, min(len(a), len(b))) >= 0.6:
+            return True, (f"{len(hist)} consecutive kills and the last two land on "
+                          f"substantially the same objection; this is a circle, not an edit")
+    if len(hist) >= n:
+        return True, (f"{len(hist)} consecutive kills with no publish; the desk is not "
+                      f"converging on this development and further drafts spend without "
+                      f"changing the outcome")
+    return False, ""
+
+
 def _flag_digest(groups):
     """ONE digest issue for all live streaks (25 on first run; one issue per
     development would flood the tracker and bury the signal). Deduplicated by title;
@@ -170,7 +217,12 @@ def _flag_digest(groups):
         if dropped:
             sections.append(f"\n_{dropped} further streak(s) omitted to fit GitHub's "
                             f"issue-body limit; the run log lists every one._")
+        stopped = [g for g in groups if stop_drafting(g[-1]["headline"])[0]]
         body = (
+            (f"**{len(stopped)} of these are no longer being drafted** (the spend "
+             f"breaker: repeated paid attempts that published nothing). Each needs a "
+             f"human call: is the gate right and the story should be dropped, or is the "
+             f"brief wrong and the inputs need fixing?\n\n" if stopped else "") +
             "Developments with three or more consecutive approver kills and no publish "
             "breaking the streak (the Coldcard pattern: 13 kills over three days while "
             "the story tripled and led every competitor).\n\nEach kill is quoted so a "

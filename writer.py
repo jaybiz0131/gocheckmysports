@@ -164,6 +164,25 @@ def run(client=None):
                       f"would publish nothing. Remaining stories roll to the next slot.")
             break
         chunk = stories[i:i + chunk_size]
+        # SPEND BREAKER (2026-08-17): a development the desk has failed to publish N
+        # times running is not drafted again. It is not dropped, it is handed over: the
+        # kill-streak digest carries it to a human who decides whether the gate is right
+        # or the brief is wrong. Eleven paid attempts on one ETF story bought nothing.
+        try:
+            import kill_streak as _ks
+            kept = []
+            for s in chunk:
+                stop, why = _ks.stop_drafting(str(s.get("headline") or ""))
+                if stop:
+                    common.gh("warning", f"writer: NOT drafting "
+                              f"'{str(s.get('headline'))[:60]}' ({why})")
+                else:
+                    kept.append(s)
+            chunk = kept
+            if not chunk:
+                continue
+        except Exception as e:
+            common.gh("warning", f"writer: spend breaker unavailable ({e})")
         # KILL-STREAK CARRY-FORWARD (owner ruling 2026-08-03, the Coldcard fix): if this
         # development has been drafted and killed before, attempt N+1 gets every prior
         # approver objection VERBATIM, instead of a fresh writer smuggling a fresh error
