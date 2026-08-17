@@ -6952,5 +6952,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c121",
+    "headline": "Jets coach Aaron Glenn gives positive update on Breece Hall training camp injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hall, a key offensive piece for the Jets, suffered the injury during camp' and 'Jets head coach Aaron Glenn delivered positive news regarding running back Breece Hall's training camp injury'\u2014but the brief contains zero data_points and explicitly lists as open_questions 'No source text was fetched; the specific nature of Hall's injury is unknown' and 'The exact nature of the positive news from Glenn is not stated in available material.' The writer has smuggled facts (that there is an injury, that Glenn gave positive news about it) that do not exist in the brief's evidentiary record.",
+     "The brief is marked 'thin: true' with 'source_chars: 0'\u2014no source text was successfully retrieved. The draft should not have been written without source confirmation, or should have been rejected by research before assignment. The writer proceeded from a core_claim alone, inventing a narrative frame the evidence cannot support."
+    ]
+   },
+   {
+    "id": "c081",
+    "headline": "Lynx post 14-win streak heading into final stretch of WNBA regular season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Minnesota Lynx won 14 of their last 15 games and posted a significant victory over Las Vegas on Saturday night'\u2014but the brief's data_points show confidence label 'reported' for both the 14-of-15 claim and the Las Vegas win. The draft presents both as settled fact without any hedging language ('according to reporting', 'per reporting'), which is appropriate only for 'confirmed' confidence; 'reported' claims must carry source attribution inline.",
+     "The draft states 'The specific date of the Las Vegas victory is not stated in available source material' (correctly flagging a gap) yet still reports the win as fact in the opening sentence without noting this is from reporting. The narrative inconsistently acknowledges the incompleteness midway through after presenting it as news."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Hunt wins four golds at European Athletics Championships",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to BBC Sport' but provides no attribution for the core claim. The brief's data_points show only that BBC Sport reported Hunt won four golds in those events, yet the draft omits any mention of the location, date, or winning times\u2014which are critical facts for verifying the claim actually happened. The sources are listed but the body text does not trace the facts to them inline.",
+     "The draft acknowledges 'The sources do not specify the exact dates or location of the championships' in the body, but this is not a limitation to flag\u2014it is a red flag that the core factual claim (which championships, when, where) cannot be verified from the brief's data_points. A four-gold achievement is meaningless without confirming which championship and when it occurred."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Dolphins activate WR Chris Bell from injury list",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'In an October game against Miami, he finished with 136 yards and two touchdowns on nine catches, per ESPN.' The brief's data_point states: 'In an upset win over the Miami Hurricanes in October, Bell finished with 136 yards and two touchdowns on nine catches.' The brief makes clear this was a college game against the University of Miami (the Hurricanes), not a game 'against Miami' the NFL team. The draft's wording creates ambiguity about whether this was an NFL performance, which it was not. The writer failed to preserve the college context from the brief."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "San Francisco announced as 2028 MLB All-Star Game host at Oracle Park",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'MLB has announced that San Francisco will host the 2028 All-Star Game' in the opening sentence, but the brief identifies the source as 'Axios via Google News' with confidence 'reported' and explicitly notes in open_questions that 'No official MLB announcement URL or primary source is available in the fetched source text\u2014only a Google News RSS redirect.' The draft presents this as a direct MLB announcement when it is actually reported by a news outlet. The disclaimer in paragraph 2 ('an official MLB statement or press release is not yet independently available from a primary league source') contradicts the headline's framing and should have appeared in the lede, not buried. This is a smuggled confidence level violation: a 'reported' claim cannot open as 'MLB has announced.'",
+     "The sources list contains only a Google News RSS redirect URL, which is not a primary source and does not meet GoCheckMySports' attribution standard. The brief explicitly flags this as an open question; the draft should not present this as settled fact without acknowledging the source limitation in the opening."
+    ]
+   }
+  ]
  }
 ]
