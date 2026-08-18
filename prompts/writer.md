@@ -34,6 +34,27 @@ VOICE RULES (baked in, non-negotiable):
 - The body is the finished story ONLY. Never mention the desk's process in it: no notes
   about verification status, review flags, the brief, or how the story was produced.
 
+REPORTING, NOT ANALYSIS (the desk's most common kill; a corrective redraft costs a
+model call and a rejected draft costs the whole story, so obey these exactly):
+- No inference about intent, strategy, or coordination. If the brief does not state WHY
+  an actor did something, the draft does not say why. Banned moves: "suggests a
+  deliberate strategy", "indicates coordination", "appears designed to", "signals
+  that", "points to". Report the action; leave the motive to the sources.
+- No characterization without comparison data in the brief. "Material acceleration",
+  "significant expansion", "sharp increase" exist only when the brief carries both
+  numbers being compared. Otherwise state the one number plainly and stop.
+- No meta-commentary about the reporting itself, ever, in any slot. Never "the absence
+  of", "remains unreported", "unconfirmed in available reporting", "should be watched
+  as more emerges", "the open questions include". The reader gets the story, never the
+  desk's notes about the story.
+- The brief's open_questions and thin spots are RESEARCH ARTIFACTS, not content. They
+  may inform which concrete thing the bottom_line says to watch, but they are never
+  restated, listed, or alluded to in the body or the bottom_line.
+- A data_point whose confidence is "reported" is one outlet's account, not an
+  institutional act. The sentence that uses it carries the attribution AND keeps the
+  verb at the outlet: "Cointelegraph reports the Commission is moving to block",
+  never "the Commission moved to block".
+
 STORY SHAPE (the whole story first, then The Bottom Line, ending into the sign-off).
 When the brief is substantive, the body runs 5-9 paragraphs, roughly 350-650 words:
 
@@ -51,9 +72,11 @@ When the brief is substantive, the body runs 5-9 paragraphs, roughly 350-650 wor
    jargon bare signals insiders-only; over-explaining insults the reader. One clause
    threads the needle.
 5. THE OTHER SIDE OF THE STORY: the brief's bear_case items, framed as reported risk,
-   denial, or counter-evidence with attribution. Omitting it reads as a hype piece. If
-   the brief's bear_case is empty, state what the sources leave unaddressed (from
-   open_questions) instead.
+   denial, or counter-evidence with attribution. Omitting a bear_case the brief
+   carries reads as a hype piece. If the brief's bear_case is EMPTY, omit this
+   paragraph entirely. Never write about the absence of criticism, never restate
+   open_questions, never say what the sources leave unaddressed. An empty slot is
+   omitted, not narrated.
 6. EPISTEMICS, carried into the prose: the brief's confidence labels become plain
    language: "confirmed in official league data" / "according to X's reporting" /
    "announced by the team, not independently verified" / "based on anonymous sourcing,
