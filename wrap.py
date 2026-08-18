@@ -211,7 +211,11 @@ def check(client, obj, stories, boards, extras=None):
     # violation and climbs the ladder, so the checker either brings real evidence or
     # drops the item; it can never kill a slot with a receipt that does not check out.
     def _norm(s):
-        return " ".join(re.sub(r"[^a-z0-9$%.]+", " ", str(s).lower()).split())
+        # $1,914.84 and 1914.84 are the same number; the board JSON stores the bare
+        # form while prose (and the checker's receipts) carry separators, and the old
+        # comma->space scrub made the verbatim window unmatchable (fix list 2026-08-18).
+        s = re.sub(r"(?<=\d),(?=\d)", "", str(s))
+        return " ".join(re.sub(r"[^a-z0-9$%.]+", " ", s.lower()).split())
 
     def _windows(s, n=6):
         w = _norm(s).split()
@@ -220,9 +224,15 @@ def check(client, obj, stories, boards, extras=None):
         return [" ".join(w[i:i + n]) for i in range(len(w) - n + 1)]
 
     def check_shape(o):
+        # CONTRACT FAILURES ARE FOR MALFORMED OUTPUT ONLY (owner fix list 2026-08-18):
+        # the verbatim-receipt rule used to live here, inside the output contract, so a
+        # legitimate receipt the normalizer could not match (board JSON is inherently
+        # paraphrase; number formatting differed) climbed the retry ladder, exhausted
+        # it, and killed slots where nothing was wrong. Receipts are still checked,
+        # deterministically, in the screening pass after this call; an unmatchable
+        # receipt now routes to binary adjudication instead of failing the run.
         if not isinstance(o.get("problems"), list):
             raise llmlib.LLMError("wrapcheck output missing 'problems' list")
-        inputs_text = _norm(json.dumps([stories, boards, extras or {}]))
         for p in o["problems"]:
             if not (isinstance(p, dict) and str(p.get("claim", "")).strip()
                     and p.get("kind") in KINDS):
@@ -230,29 +240,6 @@ def check(client, obj, stories, boards, extras=None):
                     f"wrapcheck: malformed problem item {str(p)[:120]!r}; every item "
                     f"needs a non-empty 'claim' and a 'kind' from "
                     f"absent/contradicted/advice/register")
-            if p["kind"] == "contradicted":
-                ev = str(p.get("evidence", ""))
-                if not any(w in inputs_text for w in _windows(ev)):
-                    raise llmlib.LLMError(
-                        f"wrapcheck: 'contradicted' item's evidence does not quote the "
-                        f"inputs verbatim ({str(p.get('claim'))[:80]!r}); quote the "
-                        f"conflicting input text word for word, or drop the item if "
-                        f"nothing in the inputs conflicts")
-                # a quote that CONTAINS the claim (or vice versa) is agreement wearing
-                # a contradiction label ("AS2032" rejected with "identified as AS2032")
-                nc, ne = _norm(p["claim"]), _norm(ev)
-                if nc and ne and (nc in ne or ne in nc):
-                    raise llmlib.LLMError(
-                        f"wrapcheck: 'contradicted' item's evidence quote contains the "
-                        f"claim itself ({str(p.get('claim'))[:80]!r}); a quote that "
-                        f"agrees with the claim is not a contradiction; state input "
-                        f"words that say something INCOMPATIBLE, or drop the item")
-            if p["kind"] == "absent":
-                if any(w in inputs_text for w in _windows(p["claim"])):
-                    raise llmlib.LLMError(
-                        f"wrapcheck: 'absent' item's claim occurs verbatim in the "
-                        f"inputs ({str(p.get('claim'))[:80]!r}); a claim the inputs "
-                        f"carry is traced, not absent; drop the item")
         return o
     v = client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
@@ -260,6 +247,36 @@ def check(client, obj, stories, boards, extras=None):
                          "list formatting, labeled arithmetic, or paraphrase. You return "
                          "only the problem list; the verdict is computed from it.",
                          user, validate=check_shape)
+
+    # RECEIPT SCREENING, OUTSIDE THE CONTRACT (owner fix list 2026-08-18, item 1): two
+    # receipt outcomes disprove the item itself and are deterministic drops: evidence
+    # that contains the claim (agreement wearing a contradiction label) and an 'absent'
+    # claim occurring verbatim in the inputs. A 'contradicted' receipt that fails the
+    # verbatim window is NOT dropped and NOT a contract failure: board-derived evidence
+    # is inherently paraphrase, so the item proceeds to the binary adjudication below,
+    # which judges claim vs evidence on substance. A judged conflict still kills the
+    # edition; fail-closed on real contradictions is unchanged.
+    inputs_text = _norm(json.dumps([stories, boards, extras or {}]))
+    screened = []
+    for p in v["problems"]:
+        if p["kind"] == "contradicted":
+            ev = str(p.get("evidence", ""))
+            nc, ne = _norm(p["claim"]), _norm(ev)
+            if nc and ne and (nc in ne or ne in nc):
+                print(f"::notice::wrapcheck: dropped 'contradicted' item whose evidence "
+                      f"contains the claim itself ({str(p.get('claim'))[:80]!r}); "
+                      f"agreement is not a contradiction")
+                continue
+            if not any(w in inputs_text for w in _windows(ev)):
+                print(f"::notice::wrapcheck: 'contradicted' receipt is not a verbatim "
+                      f"input quote ({str(p.get('claim'))[:80]!r}); treating as "
+                      f"paraphrase/board-derived evidence; adjudication decides")
+        if p["kind"] == "absent" and any(w in inputs_text for w in _windows(p["claim"])):
+            print(f"::notice::wrapcheck: dropped 'absent' item whose claim occurs "
+                  f"verbatim in the inputs ({str(p.get('claim'))[:80]!r})")
+            continue
+        screened.append(p)
+    v["problems"] = screened
 
     # BINARY ADJUDICATION OF SURVIVORS (2026-08-13, the fourth live run of the night):
     # with the receipts verified, the checker's remaining rejections were quotes that
@@ -438,7 +455,11 @@ def main():
         now = now - datetime.timedelta(hours=now.hour + 1)  # anchor date to the slot's day
     else:
         edition = "morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"
-    if (cron and cron not in CRON_SLOT and "--edition" not in argv
+    # the watcher's own crons are not slot crons and fire this workflow routinely;
+    # a notice for them is noise (fix list 2026-08-18, hygiene)
+    _watcher_crons = {"17,47 * * * *", "2,17,32,47 * * * *"}
+    if (cron and cron not in CRON_SLOT and cron not in _watcher_crons
+            and "--edition" not in argv
             and slot_name not in EDITIONS and slot_name not in slug_to_key):
         common.gh("notice", f"wrap: unrecognised cron {cron!r}; resolved '{edition}' "
                             f"by clock. Add it to CRON_SLOT if it is a slot cron.")

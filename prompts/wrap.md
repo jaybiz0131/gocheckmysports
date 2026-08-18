@@ -78,6 +78,14 @@ imply what fans or bettors should do or feel. NEVER speculate on causation beyon
 the sources state. Reporting-synthesis only: what happened, why it mattered, what the
 calendar says comes next.
 
+EXACTNESS (2026-08-18, the trace checker enforces this literally): titles, proper
+names, job titles, team and asset names, and numbers are COPIED from the inputs
+character for character, never restated from memory. If an input says "Defense
+Secretary", the edition says "Defense Secretary", never a remembered variant of the
+office; a figure appears exactly as the input carries it (rounding only when the
+sentence labels it as rounded). One restated title or figure kills the whole edition
+at the gate; copying is cheaper.
+
 Respond with ONLY a JSON object, no prose, no code fence:
 
 {

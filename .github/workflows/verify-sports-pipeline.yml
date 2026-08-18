@@ -22,8 +22,8 @@ jobs:
     name: Layer 1 canary (offline hard gate)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
       - name: Run offline canary (blocks on failure)
         run: python3 verify_pipeline.py canary
@@ -39,14 +39,14 @@ jobs:
       issues: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
       - name: Check RSS feeds resolve (live)
         run: python3 verify_pipeline.py sources
       - name: Open or update the broken-feed issue (names the feeds)
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require("fs");

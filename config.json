@@ -1,688 +1,689 @@
 {
- "brand": "GoCheckMySports",
- "tagline": "The score is a fact. The story gets checked.",
- "MONETIZATION_RULE": "STANDING RULE (strategy desk, 2026-07-21): NO monetization of any kind (ads, AdSense, affiliate links) on any page fed by MLB StatsAPI, NHL api-web, or ESPN endpoints (scoreboards, content API) until a formal terms review of those feeds is completed. Publishing unmonetized content from them continues as-is (acceptable use). Monetizing pages built on these feeds without that review is the quiet terms violation that gets API access cut. Any session wiring ads or affiliates MUST check this rule first. The per-feed terms flags live in sources.league_apis.note.",
- "EVENT_CALENDAR_NOTE": "Owner directive 2026-07-21: marquee event days are staffed by default. Windows are deliberately approximate (they bias the editor's staffing, never facts); refresh the list each season. Injected into the editor prompt by editor.active_events().",
- "event_calendar": [
-  {
-   "name": "NFL training camps (daily injury and coach news)",
-   "start": "2026-07-20",
-   "end": "2026-09-05",
-   "keywords": [
-    "training camp",
-    "injury",
-    "injured",
-    "acl",
-    "holdout",
-    "pup list",
-    "camp battle",
-    "limited practice"
-   ]
-  },
-  {
-   "name": "WNBA All-Star Weekend (Chicago)",
-   "start": "2026-07-23",
-   "end": "2026-07-26",
-   "keywords": [
-    "wnba",
-    "all-star",
-    "3-point contest",
-    "shooting stars",
-    "clark",
-    "bueckers"
-   ]
-  },
-  {
-   "name": "NFL preseason",
-   "start": "2026-08-06",
-   "end": "2026-09-03",
-   "keywords": [
-    "preseason",
-    "roster cuts",
-    "training camp"
-   ]
-  },
-  {
-   "name": "MLB pennant races (stretch run)",
-   "start": "2026-08-15",
-   "end": "2026-09-27",
-   "keywords": [
-    "pennant",
-    "wild card",
-    "division race",
-    "clinch"
-   ]
-  },
-  {
-   "name": "WNBA stretch run and playoff race",
-   "start": "2026-08-15",
-   "end": "2026-09-10",
-   "keywords": [
-    "wnba",
-    "playoff race",
-    "standings"
-   ]
-  },
-  {
-   "name": "College football kickoff",
-   "start": "2026-08-29",
-   "end": "2026-09-08",
-   "keywords": [
-    "college football",
-    "week zero",
-    "week 1"
-   ]
-  },
-  {
-   "name": "US Open tennis",
-   "start": "2026-08-31",
-   "end": "2026-09-13",
-   "keywords": [
-    "US Open",
-    "Flushing Meadows"
-   ]
-  },
-  {
-   "name": "NFL kickoff week",
-   "start": "2026-09-10",
-   "end": "2026-09-15",
-   "keywords": [
-    "kickoff",
-    "week 1",
-    "season opener"
-   ]
-  },
-  {
-   "name": "WNBA playoffs and Finals",
-   "start": "2026-09-11",
-   "end": "2026-10-20",
-   "keywords": [
-    "wnba",
-    "playoffs",
-    "finals",
-    "commissioner's cup"
-   ]
-  },
-  {
-   "name": "Ryder Cup week",
-   "start": "2026-09-21",
-   "end": "2026-09-27",
-   "keywords": [
-    "Ryder Cup",
-    "Adare Manor"
-   ]
-  },
-  {
-   "name": "MLB postseason and World Series",
-   "start": "2026-09-29",
-   "end": "2026-11-01",
-   "keywords": [
-    "postseason",
-    "playoffs",
-    "World Series",
-    "ALCS",
-    "NLCS"
-   ]
-  },
-  {
-   "name": "NHL opening week",
-   "start": "2026-10-06",
-   "end": "2026-10-13",
-   "keywords": [
-    "opening night",
-    "season opener",
-    "NHL"
-   ]
-  },
-  {
-   "name": "NBA opening week",
-   "start": "2026-10-20",
-   "end": "2026-10-27",
-   "keywords": [
-    "opening night",
-    "season opener",
-    "NBA"
-   ]
-  },
-  {
-   "name": "NFL Thanksgiving games",
-   "start": "2026-11-26",
-   "end": "2026-11-27",
-   "keywords": [
-    "Thanksgiving"
-   ]
-  },
-  {
-   "name": "College Football Playoff",
-   "start": "2026-12-18",
-   "end": "2027-01-20",
-   "keywords": [
-    "CFP",
-    "playoff",
-    "national championship"
-   ]
-  },
-  {
-   "name": "NHL Winter Classic",
-   "start": "2027-01-01",
-   "end": "2027-01-02",
-   "keywords": [
-    "Winter Classic"
-   ]
-  },
-  {
-   "name": "NFL playoffs",
-   "start": "2027-01-09",
-   "end": "2027-02-01",
-   "keywords": [
-    "playoffs",
-    "wild card",
-    "divisional",
-    "conference championship"
-   ]
-  },
-  {
-   "name": "Australian Open",
-   "start": "2027-01-18",
-   "end": "2027-01-31",
-   "keywords": [
-    "Australian Open",
-    "Melbourne"
-   ]
-  },
-  {
-   "name": "Super Bowl week",
-   "start": "2027-02-05",
-   "end": "2027-02-15",
-   "keywords": [
-    "Super Bowl"
-   ]
-  },
-  {
-   "name": "NBA All-Star Weekend",
-   "start": "2027-02-12",
-   "end": "2027-02-15",
-   "keywords": [
-    "all-star",
-    "3-point contest",
-    "dunk contest"
-   ]
-  },
-  {
-   "name": "NCAA March Madness",
-   "start": "2027-03-16",
-   "end": "2027-04-06",
-   "keywords": [
-    "March Madness",
-    "NCAA tournament",
-    "Final Four"
-   ]
-  },
-  {
-   "name": "The Masters",
-   "start": "2027-04-08",
-   "end": "2027-04-11",
-   "keywords": [
-    "Masters",
-    "Augusta"
-   ]
-  },
-  {
-   "name": "NBA and NHL playoffs open",
-   "start": "2027-04-17",
-   "end": "2027-05-01",
-   "keywords": [
-    "playoffs",
-    "first round"
-   ]
-  },
-  {
-   "name": "PGA Championship",
-   "start": "2027-05-20",
-   "end": "2027-05-23",
-   "keywords": [
-    "PGA Championship"
-   ]
-  },
-  {
-   "name": "Stanley Cup Final and NBA Finals window",
-   "start": "2027-06-01",
-   "end": "2027-06-22",
-   "keywords": [
-    "Stanley Cup",
-    "NBA Finals"
-   ]
-  },
-  {
-   "name": "US Open golf",
-   "start": "2027-06-17",
-   "end": "2027-06-20",
-   "keywords": [
-    "US Open"
-   ]
-  },
-  {
-   "name": "Wimbledon",
-   "start": "2027-06-28",
-   "end": "2027-07-11",
-   "keywords": [
-    "Wimbledon"
-   ]
-  },
-  {
-   "name": "The Open Championship",
-   "start": "2027-07-15",
-   "end": "2027-07-18",
-   "keywords": [
-    "Open Championship",
-    "claret jug"
-   ]
-  }
- ],
- "cadence": "daily-brief",
- "lookback_hours": 44,
- "top_n": 8,
- "TOP_N_NOTE": "TOP_N RULING 2026-07-31: cut from 12 to 8 per slot. The desks were publishing ~184 articles a week between them while all article pages combined drew ~16 weekly views, so slots 9 to 12 were reaching nobody. Cutting the tail reduces per-run spend (fewer researcher, writer, and verifier calls), raises the average significance of what reaches the front page, and lowers exposure to search-engine scaled-content policies, which target high-volume automated publishing. Revisit when distribution catches up to the inventory; this is a quality-over-volume decision, not a cost-only one.",
- "budget": {
-  "max_tokens_per_run": 400000,
-  "max_usd_per_run": 1.5,
-  "note": "Fail-closed cap. The token and USD caps must express the SAME limit and they did not: 220k tokens fires at roughly $0.32-0.41 on Haiku while the USD cap allows $1.50, so the token cap was binding at about a quarter of the approved spend and a normal run already sat at 50-100% of it. A News run on 2026-07-31 drafted 8 of 8 stories and then died in the approver at 227,860 tokens, spending everything and publishing nothing. 400k keeps a full run near $0.60, still well under the USD cap, which is now the limit that actually binds. Cutting top_n from 12 to 8 was tried first and did not fix it."
- },
- "models": {
-  "editor": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 12000
-  },
-  "verifier": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 10000
-  },
-  "researcher": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 20000,
-   "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity.",
-   "note_capacity": "Output ceilings sized for a full 12-story day (2026-07-22: the researcher hit the 8000 cap on all three ladder rungs once the intake fattened; Haiku 4.5 allows 64k output, and a ceiling only bills when used)."
-  },
-  "writer": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 20000,
-   "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
-  },
-  "approver": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 8000,
-   "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
-  },
-  "note": "COST LOCKDOWN (owner directive 2026-07-21, supersedes the quality-launch A/B): crypto is the priority bet and this desk must never run a higher cost than the crypto desk. claude-haiku-4-5 on every desk stage, exactly like crypto; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, corroboration rules) are the quality floor, not the model. wraprescue keeps claude-sonnet-5 for the rare edition-failure path only, same as crypto. REVERSAL TRIGGER: real audience traction on this desk -> revisit the writer model.",
-  "publicist": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 1500,
-   "note": "Publicist DISABLED per strategy 2026-07-21: LinkedIn is currently the government-sales channel. Code kept in the repo, schedule removed from publicist.yml. Re-enable only on explicit direction."
-  },
-  "wrap": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 8000,
-   "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
-  },
-  "wrapcheck": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 3000,
-   "note": "Independent trace check on the edition: every specific fact must come from the provided inputs; no betting advice or predictions; calm register. Separate call from the writer."
-  },
-  "aging": {
-   "model": "claude-haiku-4-5",
-   "max_tokens": 4000,
-   "note": "Monthly post-publication review (aging.py, report-only): has any published story's premise been invalidated? Conservative flagging; a human decides on corrections."
-  },
-  "wraprescue": {
-   "model": "claude-sonnet-5",
-   "max_tokens": 16000,
-   "note": "The Daily Edition's second-chance generator: when the Haiku edition fails its trace check, the corrective rewrite runs here. CEILING RAISED 8000->16000 (owner ruling 2026-08-04): this stage returned empty responses that cost two editions; the diagnostics showed thinking consuming the whole output budget (stop_reason=max_tokens, blocks=['thinking'], out_tokens at the ceiling), leaving no text block."
-  }
- },
- "sources": {
-  "note": "source_tier drives editorial weight. primary = official league/institutional sources (trust most: box scores, transactions, discipline rulings straight from the league). major = established outlets with editorial standards. mixed = aggregated or rumor-adjacent feeds (never publish alone; two-source rule applies). All feeds below are free and keyless, verified live 2026-07-19. The reliability layer is the pipeline (tiering, two-source corroboration, adversarial verifier, primary-source linking), not any single API.",
-  "rss": [
-   {
-    "name": "ESPN Top Lines",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/news",
-    "fallback_api": "https://now.core.api.espn.com/v1/sports/news?limit=40"
-   },
-   {
-    "name": "ESPN NFL",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/nfl/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news",
-    "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
-   },
-   {
-    "name": "ESPN NBA",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/nba/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news",
-    "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
-   },
-   {
-    "name": "ESPN MLB",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/mlb/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news",
-    "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
-   },
-   {
-    "name": "ESPN NHL",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/nhl/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/news",
-    "fallback_note": "espn.com RSS serves HTTP 202 bot challenges to datacenter IPs (GitHub runners); the API tier serves everyone. aggregate.espn_api_fallback maps this endpoint when RSS fails."
-   },
-   {
-    "name": "BBC Sport",
-    "tier": "major",
-    "url": "https://feeds.bbci.co.uk/sport/rss.xml"
-   },
-   {
-    "name": "CBS Sports",
-    "tier": "major",
-    "url": "https://www.cbssports.com/rss/headlines/"
-   },
-   {
-    "name": "Guardian Sport",
-    "tier": "major",
-    "url": "https://www.theguardian.com/uk/sport/rss"
-   },
-   {
-    "name": "Yahoo Sports",
-    "tier": "mixed",
-    "url": "https://sports.yahoo.com/rss/",
-    "keywords": [
-     "trade",
-     "signs",
-     "contract",
-     "injury",
-     "suspended",
-     "fired",
-     "hired",
-     "record",
-     "playoff",
-     "championship",
-     "final",
-     "deadline",
-     "waived",
-     "extension",
-     "retire"
-    ]
-   },
-   {
-    "name": "Front Office Sports",
-    "tier": "major",
-    "url": "https://frontofficesports.com/feed/",
-    "note": "Sports media/business desk (added 2026-07-22: the ESPN and NFL Network layoffs story never reached the intake; the general sports feeds carried only angle pieces). Covers the media-business class the league feeds ignore."
-   },
-   {
-    "name": "Google News: fight cards and marquee events",
-    "tier": "mixed",
-    "url": "https://news.google.com/rss/search?q=boxing+OR+%22title+fight%22+OR+%22knockout%22+OR+%22All-Star%22+when:2d&hl=en-US&gl=US&ceid=US:en",
-    "note": "DISCOVERY ONLY (added 2026-07-30). Google News is an aggregator and its item links are google.com redirects, not article URLs, so it rides the 'mixed' tier: it can surface an event the desk's own feeds missed (the Joshua KO and ESPN layoffs classes), but the corroboration rules require a tiered, directly-citable outlet to supply the source before anything publishes.",
-    "max_items": 10
-   },
-   {
-    "name": "Google News: sports media business",
-    "tier": "mixed",
-    "url": "https://news.google.com/rss/search?q=ESPN+OR+%22NFL+Network%22+layoffs+OR+%22media+rights%22+when:2d&hl=en-US&gl=US&ceid=US:en",
-    "note": "DISCOVERY ONLY (added 2026-07-30). Google News is an aggregator and its item links are google.com redirects, not article URLs, so it rides the 'mixed' tier: it can surface an event the desk's own feeds missed (the Joshua KO and ESPN layoffs classes), but the corroboration rules require a tiered, directly-citable outlet to supply the source before anything publishes.",
-    "max_items": 10
-   },
-   {
-    "name": "MLB.com",
-    "tier": "primary",
-    "url": "https://www.mlb.com/feeds/news/rss.xml",
-    "note": "The league's own newsroom (verified live 2026-07-31, 25 items, current). Sports had ZERO primary-tier NEWS feeds: its only primaries were score and transaction data APIs, so official league reporting never reached the intake. Also the deadline-coverage gap."
-   },
-   {
-    "name": "ESPN WNBA",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/wnba/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/news",
-    "note": "Closes the women's-basketball blind spot the 2026-07-24 audit flagged (All-Star weekend missed entirely). Verified 15 articles via the API tier that already serves the other ESPN feeds when the RSS host answers runner IPs with a 202 challenge."
-   },
-   {
-    "name": "ESPN College Football",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/ncf/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news",
-    "note": "A major US sport with no dedicated intake at all; the season opens in August."
-   },
-   {
-    "name": "ESPN Golf",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/golf/news",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/golf/pga/news",
-    "note": "The Open Championship ran single-source from BBC Sport for days; majors need real intake."
-   },
-   {
-    "name": "Awful Announcing",
-    "tier": "major",
-    "url": "https://awfulannouncing.com/feed",
-    "note": "Sports-media beat, a second outlet alongside Front Office Sports for the class that produced the missed ESPN and NFL Network layoffs (verified live 2026-07-31)."
-   },
-   {
-    "name": "Sporting News",
-    "tier": "major",
-    "url": "https://www.sportingnews.com/us/rss",
-    "note": "General sports desk, added 2026-07-31 for corroboration mass: Sports ran 9 major outlets against News's 17, which is a direct cause of its lower cross-outlet corroboration."
-   }
-  ],
-  "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
-  "league_apis": {
-   "note": "Official and quasi-official structured data endpoints, all keyless and verified live 2026-07-19. These are the desk's PRIMARY factual sources: the researcher and verifier treat league-published schedules, scores, and transactions as ground truth that outranks any outlet's retelling. balldontlie was dropped (now key-gated, 401). Upgrade path if the desk ever needs deeper stats: API-Sports (~$10/mo) or SportsDataIO, deliberately excluded from v1 under the free-only constraint. TERMS FLAGS: MLB StatsAPI is public but historically non-commercial terms; ESPN scoreboard/content endpoints are unofficial with no stated terms (revocable); NHL api-web is undocumented. See MONETIZATION_RULE at the top of this file: no ads or affiliate monetization on pages fed by these until a formal terms review.",
-   "endpoints": [
+  "brand": "GoCheckMySports",
+  "tagline": "The score is a fact. The story gets checked.",
+  "MONETIZATION_RULE": "STANDING RULE (strategy desk, 2026-07-21): NO monetization of any kind (ads, AdSense, affiliate links) on any page fed by MLB StatsAPI, NHL api-web, or ESPN endpoints (scoreboards, content API) until a formal terms review of those feeds is completed. Publishing unmonetized content from them continues as-is (acceptable use). Monetizing pages built on these feeds without that review is the quiet terms violation that gets API access cut. Any session wiring ads or affiliates MUST check this rule first. The per-feed terms flags live in sources.league_apis.note.",
+  "EVENT_CALENDAR_NOTE": "Owner directive 2026-07-21: marquee event days are staffed by default. Windows are deliberately approximate (they bias the editor's staffing, never facts); refresh the list each season. Injected into the editor prompt by editor.active_events().",
+  "event_calendar": [
     {
-     "name": "MLB StatsAPI",
-     "tier": "primary",
-     "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1",
-     "note": "MLB's own stats API. Official."
+      "name": "NFL training camps (daily injury and coach news)",
+      "start": "2026-07-20",
+      "end": "2026-09-05",
+      "keywords": [
+        "training camp",
+        "injury",
+        "injured",
+        "acl",
+        "holdout",
+        "pup list",
+        "camp battle",
+        "limited practice"
+      ]
     },
     {
-     "name": "NHL API",
-     "tier": "primary",
-     "url": "https://api-web.nhle.com/v1/schedule/now",
-     "note": "NHL's own API (follow redirects). Official."
+      "name": "WNBA All-Star Weekend (Chicago)",
+      "start": "2026-07-23",
+      "end": "2026-07-26",
+      "keywords": [
+        "wnba",
+        "all-star",
+        "3-point contest",
+        "shooting stars",
+        "clark",
+        "bueckers"
+      ]
     },
     {
-     "name": "ESPN Scoreboard NFL",
-     "tier": "major",
-     "url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
-     "note": "Unofficial-but-stable ESPN JSON. Reliable data, no SLA; a fetch failure is a documented skip, never a pipeline failure."
+      "name": "NFL preseason",
+      "start": "2026-08-06",
+      "end": "2026-09-03",
+      "keywords": [
+        "preseason",
+        "roster cuts",
+        "training camp"
+      ]
     },
     {
-     "name": "ESPN Scoreboard NBA",
-     "tier": "major",
-     "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
+      "name": "MLB pennant races (stretch run)",
+      "start": "2026-08-15",
+      "end": "2026-09-27",
+      "keywords": [
+        "pennant",
+        "wild card",
+        "division race",
+        "clinch"
+      ]
     },
     {
-     "name": "ESPN Scoreboard MLB",
-     "tier": "major",
-     "url": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+      "name": "WNBA stretch run and playoff race",
+      "start": "2026-08-15",
+      "end": "2026-09-10",
+      "keywords": [
+        "wnba",
+        "playoff race",
+        "standings"
+      ]
     },
     {
-     "name": "ESPN Scoreboard NHL",
-     "tier": "major",
-     "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard"
+      "name": "College football kickoff",
+      "start": "2026-08-29",
+      "end": "2026-09-08",
+      "keywords": [
+        "college football",
+        "week zero",
+        "week 1"
+      ]
     },
     {
-     "name": "TheSportsDB",
-     "tier": "mixed",
-     "url": "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php",
-     "note": "Community-maintained, free test key. Lookup/reference only, never a sole source."
+      "name": "US Open tennis",
+      "start": "2026-08-31",
+      "end": "2026-09-13",
+      "keywords": [
+        "US Open",
+        "Flushing Meadows"
+      ]
+    },
+    {
+      "name": "NFL kickoff week",
+      "start": "2026-09-10",
+      "end": "2026-09-15",
+      "keywords": [
+        "kickoff",
+        "week 1",
+        "season opener"
+      ]
+    },
+    {
+      "name": "WNBA playoffs and Finals",
+      "start": "2026-09-11",
+      "end": "2026-10-20",
+      "keywords": [
+        "wnba",
+        "playoffs",
+        "finals",
+        "commissioner's cup"
+      ]
+    },
+    {
+      "name": "Ryder Cup week",
+      "start": "2026-09-21",
+      "end": "2026-09-27",
+      "keywords": [
+        "Ryder Cup",
+        "Adare Manor"
+      ]
+    },
+    {
+      "name": "MLB postseason and World Series",
+      "start": "2026-09-29",
+      "end": "2026-11-01",
+      "keywords": [
+        "postseason",
+        "playoffs",
+        "World Series",
+        "ALCS",
+        "NLCS"
+      ]
+    },
+    {
+      "name": "NHL opening week",
+      "start": "2026-10-06",
+      "end": "2026-10-13",
+      "keywords": [
+        "opening night",
+        "season opener",
+        "NHL"
+      ]
+    },
+    {
+      "name": "NBA opening week",
+      "start": "2026-10-20",
+      "end": "2026-10-27",
+      "keywords": [
+        "opening night",
+        "season opener",
+        "NBA"
+      ]
+    },
+    {
+      "name": "NFL Thanksgiving games",
+      "start": "2026-11-26",
+      "end": "2026-11-27",
+      "keywords": [
+        "Thanksgiving"
+      ]
+    },
+    {
+      "name": "College Football Playoff",
+      "start": "2026-12-18",
+      "end": "2027-01-20",
+      "keywords": [
+        "CFP",
+        "playoff",
+        "national championship"
+      ]
+    },
+    {
+      "name": "NHL Winter Classic",
+      "start": "2027-01-01",
+      "end": "2027-01-02",
+      "keywords": [
+        "Winter Classic"
+      ]
+    },
+    {
+      "name": "NFL playoffs",
+      "start": "2027-01-09",
+      "end": "2027-02-01",
+      "keywords": [
+        "playoffs",
+        "wild card",
+        "divisional",
+        "conference championship"
+      ]
+    },
+    {
+      "name": "Australian Open",
+      "start": "2027-01-18",
+      "end": "2027-01-31",
+      "keywords": [
+        "Australian Open",
+        "Melbourne"
+      ]
+    },
+    {
+      "name": "Super Bowl week",
+      "start": "2027-02-05",
+      "end": "2027-02-15",
+      "keywords": [
+        "Super Bowl"
+      ]
+    },
+    {
+      "name": "NBA All-Star Weekend",
+      "start": "2027-02-12",
+      "end": "2027-02-15",
+      "keywords": [
+        "all-star",
+        "3-point contest",
+        "dunk contest"
+      ]
+    },
+    {
+      "name": "NCAA March Madness",
+      "start": "2027-03-16",
+      "end": "2027-04-06",
+      "keywords": [
+        "March Madness",
+        "NCAA tournament",
+        "Final Four"
+      ]
+    },
+    {
+      "name": "The Masters",
+      "start": "2027-04-08",
+      "end": "2027-04-11",
+      "keywords": [
+        "Masters",
+        "Augusta"
+      ]
+    },
+    {
+      "name": "NBA and NHL playoffs open",
+      "start": "2027-04-17",
+      "end": "2027-05-01",
+      "keywords": [
+        "playoffs",
+        "first round"
+      ]
+    },
+    {
+      "name": "PGA Championship",
+      "start": "2027-05-20",
+      "end": "2027-05-23",
+      "keywords": [
+        "PGA Championship"
+      ]
+    },
+    {
+      "name": "Stanley Cup Final and NBA Finals window",
+      "start": "2027-06-01",
+      "end": "2027-06-22",
+      "keywords": [
+        "Stanley Cup",
+        "NBA Finals"
+      ]
+    },
+    {
+      "name": "US Open golf",
+      "start": "2027-06-17",
+      "end": "2027-06-20",
+      "keywords": [
+        "US Open"
+      ]
+    },
+    {
+      "name": "Wimbledon",
+      "start": "2027-06-28",
+      "end": "2027-07-11",
+      "keywords": [
+        "Wimbledon"
+      ]
+    },
+    {
+      "name": "The Open Championship",
+      "start": "2027-07-15",
+      "end": "2027-07-18",
+      "keywords": [
+        "Open Championship",
+        "claret jug"
+      ]
     }
-   ]
+  ],
+  "cadence": "daily-brief",
+  "lookback_hours": 44,
+  "top_n": 8,
+  "TOP_N_NOTE": "TOP_N RULING 2026-07-31: cut from 12 to 8 per slot. The desks were publishing ~184 articles a week between them while all article pages combined drew ~16 weekly views, so slots 9 to 12 were reaching nobody. Cutting the tail reduces per-run spend (fewer researcher, writer, and verifier calls), raises the average significance of what reaches the front page, and lowers exposure to search-engine scaled-content policies, which target high-volume automated publishing. Revisit when distribution catches up to the inventory; this is a quality-over-volume decision, not a cost-only one.",
+  "budget": {
+    "max_tokens_per_run": 400000,
+    "max_usd_per_run": 1.5,
+    "note": "Fail-closed cap. The token and USD caps must express the SAME limit and they did not: 220k tokens fires at roughly $0.32-0.41 on Haiku while the USD cap allows $1.50, so the token cap was binding at about a quarter of the approved spend and a normal run already sat at 50-100% of it. A News run on 2026-07-31 drafted 8 of 8 stories and then died in the approver at 227,860 tokens, spending everything and publishing nothing. 400k keeps a full run near $0.60, still well under the USD cap, which is now the limit that actually binds. Cutting top_n from 12 to 8 was tried first and did not fix it."
   },
-  "max_items_per_feed": 40
- },
- "narratives": {
-  "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
-  "watchlist": [
-   {
-    "name": "MLB trade deadline",
-    "keywords": [
-     "trade deadline",
-     "deadline deal",
-     "deadline trade"
-    ]
-   },
-   {
-    "name": "NFL training camp",
-    "keywords": [
-     "training camp",
-     "holdout",
-     "camp battle"
-    ]
-   },
-   {
-    "name": "NBA free agency",
-    "keywords": [
-     "free agency",
-     "free agent",
-     "max contract",
-     "offseason",
-     "opts in",
-     "opts out",
-     "player option",
-     "sign-and-trade",
-     "team option"
+  "models": {
+    "editor": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 12000
+    },
+    "verifier": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 10000
+    },
+    "researcher": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 20000,
+      "note": "Role 1 of the three-role editorial pipeline: builds the structured research brief (data points + confidence labels + the other side of the story) from the fetched source pages. Fact fidelity is the whole job. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity.",
+      "note_capacity": "Output ceilings sized for a full 12-story day (2026-07-22: the researcher hit the 8000 cap on all three ladder rungs once the intake fattened; Haiku 4.5 allows 64k output, and a ceiling only bills when used)."
+    },
+    "writer": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 20000,
+      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
+    },
+    "approver": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
+      "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). A different call from the writer so the builder never approves their own work."
+    },
+    "note": "COST LOCKDOWN (owner directive 2026-07-21, supersedes the quality-launch A/B): crypto is the priority bet and this desk must never run a higher cost than the crypto desk. claude-haiku-4-5 on every desk stage, exactly like crypto; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, corroboration rules) are the quality floor, not the model. wraprescue keeps claude-sonnet-5 for the rare edition-failure path only, same as crypto. REVERSAL TRIGGER: real audience traction on this desk -> revisit the writer model.",
+    "publicist": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 1500,
+      "note": "Publicist DISABLED per strategy 2026-07-21: LinkedIn is currently the government-sales channel. Code kept in the repo, schedule removed from publicist.yml. Re-enable only on explicit direction."
+    },
+    "wrap": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
+      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): synthesis over the desk's own published stories. COST LOCKDOWN (owner directive 2026-07-21): Haiku, crypto-desk parity."
+    },
+    "wrapcheck": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 3000,
+      "note": "Independent trace check on the edition: every specific fact must come from the provided inputs; no betting advice or predictions; calm register. Separate call from the writer."
+    },
+    "aging": {
+      "model": "claude-haiku-4-5",
+      "max_tokens": 4000,
+      "note": "Monthly post-publication review (aging.py, report-only): has any published story's premise been invalidated? Conservative flagging; a human decides on corrections."
+    },
+    "wraprescue": {
+      "model": "claude-sonnet-5",
+      "max_tokens": 16000,
+      "note": "The Daily Edition's second-chance generator: when the Haiku edition fails its trace check, the corrective rewrite runs here. CEILING RAISED 8000->16000 (owner ruling 2026-08-04): this stage returned empty responses that cost two editions; the diagnostics showed thinking consuming the whole output budget (stop_reason=max_tokens, blocks=['thinking'], out_tokens at the ceiling), leaving no text block."
+    }
+  },
+  "sources": {
+    "note": "source_tier drives editorial weight. primary = official league/institutional sources (trust most: box scores, transactions, discipline rulings straight from the league). major = established outlets with editorial standards. mixed = aggregated or rumor-adjacent feeds (never publish alone; two-source rule applies). All feeds below are free and keyless, verified live 2026-07-19. The reliability layer is the pipeline (tiering, two-source corroboration, adversarial verifier, primary-source linking), not any single API.",
+    "rss": [
+      {
+        "name": "BBC Sport",
+        "tier": "major",
+        "url": "https://feeds.bbci.co.uk/sport/rss.xml"
+      },
+      {
+        "name": "CBS Sports",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/"
+      },
+      {
+        "name": "Guardian Sport",
+        "tier": "major",
+        "url": "https://www.theguardian.com/uk/sport/rss"
+      },
+      {
+        "name": "Yahoo Sports",
+        "tier": "mixed",
+        "url": "https://sports.yahoo.com/rss/",
+        "keywords": [
+          "trade",
+          "signs",
+          "contract",
+          "injury",
+          "suspended",
+          "fired",
+          "hired",
+          "record",
+          "playoff",
+          "championship",
+          "final",
+          "deadline",
+          "waived",
+          "extension",
+          "retire"
+        ]
+      },
+      {
+        "name": "Front Office Sports",
+        "tier": "major",
+        "url": "https://frontofficesports.com/feed/",
+        "note": "Sports media/business desk (added 2026-07-22: the ESPN and NFL Network layoffs story never reached the intake; the general sports feeds carried only angle pieces). Covers the media-business class the league feeds ignore."
+      },
+      {
+        "name": "Google News: fight cards and marquee events",
+        "tier": "mixed",
+        "url": "https://news.google.com/rss/search?q=boxing+OR+%22title+fight%22+OR+%22knockout%22+OR+%22All-Star%22+when:2d&hl=en-US&gl=US&ceid=US:en",
+        "note": "DISCOVERY ONLY (added 2026-07-30). Google News is an aggregator and its item links are google.com redirects, not article URLs, so it rides the 'mixed' tier: it can surface an event the desk's own feeds missed (the Joshua KO and ESPN layoffs classes), but the corroboration rules require a tiered, directly-citable outlet to supply the source before anything publishes.",
+        "max_items": 10
+      },
+      {
+        "name": "Google News: sports media business",
+        "tier": "mixed",
+        "url": "https://news.google.com/rss/search?q=ESPN+OR+%22NFL+Network%22+layoffs+OR+%22media+rights%22+when:2d&hl=en-US&gl=US&ceid=US:en",
+        "note": "DISCOVERY ONLY (added 2026-07-30). Google News is an aggregator and its item links are google.com redirects, not article URLs, so it rides the 'mixed' tier: it can surface an event the desk's own feeds missed (the Joshua KO and ESPN layoffs classes), but the corroboration rules require a tiered, directly-citable outlet to supply the source before anything publishes.",
+        "max_items": 10
+      },
+      {
+        "name": "MLB.com",
+        "tier": "primary",
+        "url": "https://www.mlb.com/feeds/news/rss.xml",
+        "note": "The league's own newsroom (verified live 2026-07-31, 25 items, current). Sports had ZERO primary-tier NEWS feeds: its only primaries were score and transaction data APIs, so official league reporting never reached the intake. Also the deadline-coverage gap."
+      },
+      {
+        "name": "Awful Announcing",
+        "tier": "major",
+        "url": "https://awfulannouncing.com/feed",
+        "note": "Sports-media beat, a second outlet alongside Front Office Sports for the class that produced the missed ESPN and NFL Network layoffs (verified live 2026-07-31)."
+      },
+      {
+        "name": "Sporting News",
+        "tier": "major",
+        "url": "https://www.sportingnews.com/us/rss",
+        "note": "General sports desk, added 2026-07-31 for corroboration mass: Sports ran 9 major outlets against News's 17, which is a direct cause of its lower cross-outlet corroboration."
+      },
+      {
+        "name": "CBS Sports NFL",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/nfl/"
+      },
+      {
+        "name": "CBS Sports NBA",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/nba/"
+      },
+      {
+        "name": "CBS Sports MLB",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/mlb/"
+      },
+      {
+        "name": "CBS Sports NHL",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/nhl/"
+      },
+      {
+        "name": "CBS Sports Golf",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/golf/"
+      },
+      {
+        "name": "CBS Sports College Football",
+        "tier": "major",
+        "url": "https://www.cbssports.com/rss/headlines/college-football/"
+      },
+      {
+        "name": "Yahoo NFL",
+        "tier": "major",
+        "url": "https://sports.yahoo.com/nfl/rss/"
+      },
+      {
+        "name": "Yahoo NBA",
+        "tier": "major",
+        "url": "https://sports.yahoo.com/nba/rss/"
+      },
+      {
+        "name": "Yahoo MLB",
+        "tier": "major",
+        "url": "https://sports.yahoo.com/mlb/rss/"
+      },
+      {
+        "name": "Yahoo NHL",
+        "tier": "major",
+        "url": "https://sports.yahoo.com/nhl/rss/"
+      },
+      {
+        "name": "Yahoo WNBA",
+        "tier": "major",
+        "url": "https://sports.yahoo.com/wnba/rss/"
+      }
     ],
-    "note": "Keywords widened 2026-07-28: option decisions are free-agency chapters."
-   },
-   {
-    "name": "World Cup aftermath",
-    "keywords": [
-     "world cup",
-     "fifa"
+    "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
+    "league_apis": {
+      "note": "Official and quasi-official structured data endpoints, all keyless and verified live 2026-07-19. These are the desk's PRIMARY factual sources: the researcher and verifier treat league-published schedules, scores, and transactions as ground truth that outranks any outlet's retelling. balldontlie was dropped (now key-gated, 401). Upgrade path if the desk ever needs deeper stats: API-Sports (~$10/mo) or SportsDataIO, deliberately excluded from v1 under the free-only constraint. TERMS FLAGS: MLB StatsAPI is public but historically non-commercial terms; ESPN scoreboard/content endpoints are unofficial with no stated terms (revocable); NHL api-web is undocumented. See MONETIZATION_RULE at the top of this file: no ads or affiliate monetization on pages fed by these until a formal terms review.",
+      "endpoints": [
+        {
+          "name": "MLB StatsAPI",
+          "tier": "primary",
+          "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1",
+          "note": "MLB's own stats API. Official."
+        },
+        {
+          "name": "NHL API",
+          "tier": "primary",
+          "url": "https://api-web.nhle.com/v1/schedule/now",
+          "note": "NHL's own API (follow redirects). Official."
+        },
+        {
+          "name": "ESPN Scoreboard NFL",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+          "note": "Unofficial-but-stable ESPN JSON. Reliable data, no SLA; a fetch failure is a documented skip, never a pipeline failure."
+        },
+        {
+          "name": "ESPN Scoreboard NBA",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
+        },
+        {
+          "name": "ESPN Scoreboard MLB",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+        },
+        {
+          "name": "ESPN Scoreboard NHL",
+          "tier": "major",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard"
+        },
+        {
+          "name": "TheSportsDB",
+          "tier": "mixed",
+          "url": "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php",
+          "note": "Community-maintained, free test key. Lookup/reference only, never a sole source."
+        }
+      ]
+    },
+    "max_items_per_feed": 40,
+    "espn_note": "ESPN REMOVED 2026-08-18 (owner fix list item 3): the RSS hosts answer every GitHub runner IP with HTTP 202 bot challenges and the site.api fallback now 403s from runners too, so both tiers were dead from CI and every scheduled run lost them. Replaced with per-league CBS Sports + Yahoo feeds, each live-verified feed-shaped under the desk's own UA before wiring. If ESPN's posture changes or the desk gets a non-datacenter egress, the old entries are in git history."
+  },
+  "narratives": {
+    "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
+    "watchlist": [
+      {
+        "name": "MLB trade deadline",
+        "keywords": [
+          "trade deadline",
+          "deadline deal",
+          "deadline trade"
+        ]
+      },
+      {
+        "name": "NFL training camp",
+        "keywords": [
+          "training camp",
+          "holdout",
+          "camp battle"
+        ]
+      },
+      {
+        "name": "NBA free agency",
+        "keywords": [
+          "free agency",
+          "free agent",
+          "max contract",
+          "offseason",
+          "opts in",
+          "opts out",
+          "player option",
+          "sign-and-trade",
+          "team option"
+        ],
+        "note": "Keywords widened 2026-07-28: option decisions are free-agency chapters."
+      },
+      {
+        "name": "World Cup aftermath",
+        "keywords": [
+          "world cup",
+          "fifa"
+        ]
+      },
+      {
+        "name": "Sports betting integrity",
+        "keywords": [
+          "betting scandal",
+          "gambling investigation",
+          "prop bet",
+          "integrity fee",
+          "wagering violation"
+        ]
+      },
+      {
+        "name": "NIL and college pay",
+        "keywords": [
+          "nil",
+          "revenue sharing",
+          "house settlement",
+          "collective"
+        ]
+      },
+      {
+        "name": "Sports media business",
+        "keywords": [
+          "layoff",
+          "layoffs",
+          "espn cuts",
+          "nfl network",
+          "media rights",
+          "regional sports network",
+          "rsn",
+          "carriage dispute",
+          "broadcast deal"
+        ]
+      },
+      {
+        "name": "WNBA and women's basketball",
+        "keywords": [
+          "wnba",
+          "caitlin clark",
+          "paige bueckers",
+          "a'ja wilson",
+          "aces",
+          "liberty",
+          "fever",
+          "lynx",
+          "women's basketball"
+        ]
+      },
+      {
+        "name": "League discipline",
+        "keywords": [
+          "suspended",
+          "suspension",
+          "fined",
+          "fine",
+          "banned",
+          "ejected",
+          "violation",
+          "misconduct",
+          "disciplinary"
+        ],
+        "note": "Owner directive 2026-07-31: discipline stories get heavy spin elsewhere; a straight sourced account is the differentiator."
+      },
+      {
+        "name": "Player health and obituaries",
+        "keywords": [
+          "dies",
+          "died",
+          "death",
+          "obituary",
+          "cte",
+          "dementia",
+          "concussion",
+          "diagnosed",
+          "hospitalized"
+        ],
+        "note": "Owner directive 2026-07-31: CTE deaths and player-health stories are recurring, verifiable, high-trust items squarely in the verified-facts lane."
+      }
     ]
-   },
-   {
-    "name": "Sports betting integrity",
-    "keywords": [
-     "betting scandal",
-     "gambling investigation",
-     "prop bet",
-     "integrity fee",
-     "wagering violation"
-    ]
-   },
-   {
-    "name": "NIL and college pay",
-    "keywords": [
-     "nil",
-     "revenue sharing",
-     "house settlement",
-     "collective"
-    ]
-   },
-   {
-    "name": "Sports media business",
-    "keywords": [
-     "layoff",
-     "layoffs",
-     "espn cuts",
-     "nfl network",
-     "media rights",
-     "regional sports network",
-     "rsn",
-     "carriage dispute",
-     "broadcast deal"
-    ]
-   },
-   {
-    "name": "WNBA and women's basketball",
-    "keywords": [
-     "wnba",
-     "caitlin clark",
-     "paige bueckers",
-     "a'ja wilson",
-     "aces",
-     "liberty",
-     "fever",
-     "lynx",
-     "women's basketball"
-    ]
-   },
-   {
-    "name": "League discipline",
-    "keywords": [
-     "suspended",
-     "suspension",
-     "fined",
-     "fine",
-     "banned",
-     "ejected",
-     "violation",
-     "misconduct",
-     "disciplinary"
+  },
+  "dedupe": {
+    "jaccard_threshold": 0.6,
+    "min_significant_tokens": 3,
+    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration. CROSS-OUTLET SIGNAL (2026-07-31, news parity): headline-token Jaccard almost never fires across outlets wording the same event differently. A second conservative signal merges on shared distinctive entities (capitalized words and numbers) within a time window and above a token floor. Measured on news intake: corroboration 4% -> 8% with zero false merges; looser settings were REJECTED because they merged opinion columns with news as if they corroborated each other. BODY-TEXT MATCHING (2026-08-01): headlines are reworded freely across outlets, so headline signals alone found only 4% corroboration while a 20-of-20 hand sample showed every single-source story HAD other outlets on it. Entities are now also read from the feed's sentence-cased snippet (90% of items carry one), where a capitalised word is a real proper noun rather than Title Case. When the prose shares body_strong_entities distinctive specifics INCLUDING a number, that stands alone without the headline-overlap floor, which was gating out exactly the pairs body matching exists to catch.",
+    "min_shared_entities": 2,
+    "cross_outlet_jaccard_floor": 0.25,
+    "cross_outlet_window_hours": 24,
+    "body_strong_entities": 3
+  },
+  "publish": {
+    "require_human_approval": true,
+    "require_verifier_verdict": [
+      "VERIFIED"
     ],
-    "note": "Owner directive 2026-07-31: discipline stories get heavy spin elsewhere; a straight sourced account is the differentiator."
-   },
-   {
-    "name": "Player health and obituaries",
-    "keywords": [
-     "dies",
-     "died",
-     "death",
-     "obituary",
-     "cte",
-     "dementia",
-     "concussion",
-     "diagnosed",
-     "hospitalized"
+    "allow_with_human_override": [
+      "NEEDS-HUMAN-REVIEW"
     ],
-    "note": "Owner directive 2026-07-31: CTE deaths and player-health stories are recurring, verifiable, high-trust items squarely in the verified-facts lane."
-   }
-  ]
- },
- "dedupe": {
-  "jaccard_threshold": 0.6,
-  "min_significant_tokens": 3,
-  "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration. CROSS-OUTLET SIGNAL (2026-07-31, news parity): headline-token Jaccard almost never fires across outlets wording the same event differently. A second conservative signal merges on shared distinctive entities (capitalized words and numbers) within a time window and above a token floor. Measured on news intake: corroboration 4% -> 8% with zero false merges; looser settings were REJECTED because they merged opinion columns with news as if they corroborated each other. BODY-TEXT MATCHING (2026-08-01): headlines are reworded freely across outlets, so headline signals alone found only 4% corroboration while a 20-of-20 hand sample showed every single-source story HAD other outlets on it. Entities are now also read from the feed's sentence-cased snippet (90% of items carry one), where a capitalised word is a real proper noun rather than Title Case. When the prose shares body_strong_entities distinctive specifics INCLUDING a number, that stands alone without the headline-overlap floor, which was gating out exactly the pairs body matching exists to catch.",
-  "min_shared_entities": 2,
-  "cross_outlet_jaccard_floor": 0.25,
-  "cross_outlet_window_hours": 24,
-  "body_strong_entities": 3
- },
- "publish": {
-  "require_human_approval": true,
-  "require_verifier_verdict": [
-   "VERIFIED"
-  ],
-  "allow_with_human_override": [
-   "NEEDS-HUMAN-REVIEW"
-  ],
-  "never_publish_verdict": [
-   "REJECT"
-  ],
-  "not_financial_advice": "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice.",
-  "targets": {
-   "newsletter": {
-    "enabled": false,
-    "adapter": "newsletter",
-    "note": "Owned audience, highest value, build first. Set endpoint + key to enable."
-   },
-   "site": {
-    "enabled": false,
-    "adapter": "site",
-    "note": "SEO + archive article publish."
-   },
-   "social": {
-    "enabled": false,
-    "adapter": "social",
-    "note": "Social scheduling."
-   },
-   "video": {
-    "enabled": false,
-    "adapter": "video",
-    "note": "Newscast script handoff to the recording workflow."
-   }
+    "never_publish_verdict": [
+      "REJECT"
+    ],
+    "not_financial_advice": "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice.",
+    "targets": {
+      "newsletter": {
+        "enabled": false,
+        "adapter": "newsletter",
+        "note": "Owned audience, highest value, build first. Set endpoint + key to enable."
+      },
+      "site": {
+        "enabled": false,
+        "adapter": "site",
+        "note": "SEO + archive article publish."
+      },
+      "social": {
+        "enabled": false,
+        "adapter": "social",
+        "note": "Social scheduling."
+      },
+      "video": {
+        "enabled": false,
+        "adapter": "video",
+        "note": "Newscast script handoff to the recording workflow."
+      }
+    }
   }
- }
 }

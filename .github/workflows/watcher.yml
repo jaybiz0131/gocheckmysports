@@ -30,8 +30,8 @@ jobs:
       slot: ${{ steps.w.outputs.slot }}
       reason: ${{ steps.w.outputs.reason }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
       - name: Threshold check (no model, no spend)
         id: w

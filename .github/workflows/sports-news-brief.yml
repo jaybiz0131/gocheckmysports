@@ -67,9 +67,15 @@ jobs:
   brief:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
+
+      # The pipeline itself is stdlib-only; Pillow is the one optional extra, used by
+      # the share-card render exactly as the Netlify build uses it (fix list 2026-08-18).
+      # Fail-open: no Pillow just means cards are skipped, exactly like production.
+      - name: Optional deps (OG card rendering, matches the Netlify build)
+        run: pip install --quiet Pillow || true
 
       - name: Offline canary (hard gate, blocks a mis-wired pipeline)
         run: python3 verify_pipeline.py canary
@@ -424,7 +430,7 @@ jobs:
 
       - name: Upload the review queue for human approval
         if: steps.key.outputs.have_key == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sports-review-queue
           path: |
@@ -495,7 +501,7 @@ jobs:
       # run goes red.
       - name: Fail the run if the edition stage failed
         if: always() && steps.wrap.outputs.rc != '' && steps.wrap.outputs.rc != '0'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const now = new Date();

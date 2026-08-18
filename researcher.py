@@ -167,6 +167,24 @@ def run(client=None):
         print("researcher: 0 briefable stories -> out/briefs.json")
         return obj
 
+    # WIDEN THE BRIEF ON A KILL STREAK (owner fix list 2026-08-18, item 2): the
+    # dominant kill reason across all three desks is a draft carrying facts the brief
+    # does not, and it repeats because attempt N+1 gets the same thin brief attempt N
+    # died with. A development killed 3+ times gets a WIDE brief: every extractable
+    # data point from the same sources, so the writer has no gap to fill from memory.
+    # Fail-soft: no history available means no change.
+    try:
+        import kill_streak as _ks
+        for s in stories:
+            hist = _ks.kill_history(str(s.get("headline") or ""))
+            if len(hist) >= 3:
+                s["_widen_brief"] = len(hist)
+                common.gh("notice", f"researcher: widening the brief for "
+                          f"{str(s.get('headline'))[:70]!r} (killed {len(hist)}x; "
+                          f"a thin brief invites the writer to fill gaps from memory)")
+    except Exception as e:
+        common.gh("warning", f"researcher: kill-history widening unavailable ({e})")
+
     system = common.load_prompt("researcher.md")
     # Exhaustive briefs are LONG, and the judgment model's thinking bills against the same
     # output ceiling: an all-stories single call truncates mid-JSON at 6+ stories (it did,
@@ -175,8 +193,17 @@ def run(client=None):
     briefs = []
     for i in range(0, len(stories), chunk_size):
         chunk = stories[i:i + chunk_size]
+        widen = [s for s in chunk if s.get("_widen_brief")]
         user = ("Build a research brief for each story from its fetched source texts.\n\n"
-                "Stories:\n" + json.dumps(chunk, indent=1))
+                + "".join(
+                    f"WIDE BRIEF REQUIRED for story id {s.get('id')}: earlier drafts of "
+                    f"this development were rejected {s['_widen_brief']} times for "
+                    f"carrying facts the brief did not. Extract EVERY concrete data "
+                    f"point the source texts support (numbers, names, dates, titles, "
+                    f"direct quotes), not just the leading ones; a wide brief leaves "
+                    f"the writer nothing to fill in from memory.\n\n"
+                    for s in widen)
+                + "Stories:\n" + json.dumps(chunk, indent=1))
         part = client.call_json("researcher", system, user,
                                 validate=lambda o: validate(o, chunk))
         briefs.extend(part["briefs"])
