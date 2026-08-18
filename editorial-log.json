@@ -7190,5 +7190,60 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "Bayern Munich's Musiala diagnosed with absence seizures after two on-pitch collapses",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'The source texts provided are truncated navigation/metadata snippets with no substantive reporting content. The actual medical details\u2014when the collapses occurred, what Musiala said about his diagnosis, the seizure type specifics, treatment plan, and return-to-play status\u2014are not present in the fetched material.' The draft presents specific factual claims (two collapses within four days, diagnosis of absence seizures, Musiala's public disclosure, specifics about the condition being treatable) that are not substantiated in the brief's data_points (which is empty: []). The writer has smuggled medical and factual detail beyond what the research brief contains.",
+     "The draft states 'Absence seizures are brief episodes of impaired consciousness characterized by temporary lack of awareness, often lasting seconds' and 'Absence seizures, when properly managed through treatment, allow many individuals to return to normal activity'\u2014these are medical generalizations not found in the brief's data_points and appear to be the writer's own research or general knowledge, violating the hard rule that no fact exists outside the brief.",
+     "The brief marks all open_questions as unverified/absent from sources, yet the draft narrates these details as settled facts rather than explicitly flagging uncertainty."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Barcelona signs Rodri from Manchester City for 365 million pounds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'City simultaneously navigated significant roster changes: Pep Guardiola stepped down as manager after a decade in charge' and later 'Manchester City's midfield replacements, particularly Anderson and Bouaddi, will indicate how quickly Pep's successor stabilizes the squad.' However, the brief's data_points do not identify who Guardiola's successor is, and the bottom_line references 'Pep's successor' as an unknown figure. The draft should not narrate an unnamed successor as though it is settled fact without specifying who has replaced Guardiola.",
+     "The draft references 'Anderson' in the bottom_line ('Watch for Rodri's integration into Barcelona's midfield setup under Flick and any early signs of how his injury history affects availability. Manchester City's midfield replacements, particularly Anderson and Bouaddi...') but the brief data_point states the full name is 'Elliot Anderson' and he was signed from 'Nottingham Forest.' The brief does not appear in the draft body, only referenced obliquely in the bottom_line as 'Anderson' without attribution or full identification, creating ambiguity about which player is meant.",
+     "The bear_case includes 'Manchester City had wanted to extend Rodri's contract, but talks did not yield a result, suggesting potential disagreement on terms or project direction,' but this claim does not appear anywhere in the draft body, violating the requirement that bear_case items surface in the narrative to ensure balance."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "Trey Mancini announces retirement from Major League Baseball",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions field explicitly states: 'The fetched source text is corrupted\u2014it contains only font-face declarations and CSS styling with no readable article content.' The draft claims facts ('Trey Mancini has announced his retirement from Major League Baseball') from a source that yielded no verifiable content. No data_points exist in the brief to anchor this claim. The hard rule is violated: facts must trace to the brief's research, and this fact has no evidentiary support in the brief.",
+     "The brief contains zero data_points and an empty bear_case, signaling the source material failed to load. Publishing this draft launders an unverified announcement as fact without acknowledging the source corruption."
+    ]
+   },
+   {
+    "id": "c103",
+    "headline": "Christian McCaffrey absent from 49ers practice during training camp",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and explicitly states in open_questions: 'No source text was fetched.' The draft claims facts ('Christian McCaffrey is missing 49ers practice due to injury', 'Kyle Shanahan addressing the running back's status', 'contract speculation surrounding McCaffrey') with no evidentiary support in the brief. Source_chars=0 confirms no content was retrieved.",
+     "The hard rule is violated: no fact exists outside the brief. The draft manufactures a narrative from a failed fetch without acknowledging the source failure or declining to publish.",
+     "The body paragraph 'Contract speculation surrounding McCaffrey has also drawn attention during this stretch' invokes a claim ('contract speculation') not present in the brief's data_points, compounding the smuggling."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Israel Withdraws Support for FIFA President Infantino",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'UEFA's 55 members have threatened to boycott FIFA competitions unless they receive \"assurances\"' but does not attribute this threat inline to its source or date. The brief data_point specifies this was a 'July 30 statement from UEFA' with specific language about 'assurances' that 'such attempts to disfigure the game in this way will never be made again.' The draft's paraphrase obscures the source and timing of this conditional threat.",
+     "The draft presents the Cs\u00e1nyi quote as 'points to serious shortcomings in professional judgment, ethical standards and leadership' but the brief data_point shows the full quote begins 'The fact that his dismissal was prompted by his criticism of [FFE] \u2014 an initiative that you yourself ultimately acknowledged to have been misguided \u2014' which contains material context about Infantino's own acknowledgment. The draft's partial quote removes that context and weakens the attribution chain.",
+     "The draft states 'A separate August 1 statement from CONCACAF said his actions followed \"a pattern of missteps\"' but the brief shows the full CONCACAF statement includes 'This recent unilateral and egregious act of poor governance and leadership follows a pattern of missteps and similar behaviour. A comprehensive reckoning with the presidency is imperative.' The draft's paraphrase undersells the harshness of the original language, which is a material misrepresentation of the source material's tone."
+    ]
+   }
+  ]
  }
 ]
