@@ -167,6 +167,53 @@ def run(client=None):
         print("researcher: 0 briefable stories -> out/briefs.json")
         return obj
 
+    # DROP WHAT THE DESK ALREADY PUBLISHED, BEFORE PAYING TO WRITE IT AGAIN (owner
+    # directive 2026-08-18). The published-corpus guard lived ONLY in autopilot, at the
+    # very end: a story the desk ran yesterday was researched, drafted, and judged, then
+    # held as a rehash at the last gate. The tokens were spent, the story never shipped,
+    # and the hold counted as a kill, which is how the Treasury GENIUS development
+    # reached 12 "kills" while a correct story about it sat live on the site since
+    # 2026-08-17. Same chassis function, same threshold as autopilot, called earlier:
+    # anything autopilot would hold as a rehash never reaches the writer. A genuine
+    # DEVELOPMENT of a published story is not a rehash and passes untouched.
+    try:
+        from dedupe import classify_published, _headline_overlap, _corpus_on_disk
+        # CONSERVATIVE BY CONSTRUCTION (the offline canary caught the loose version
+        # matching an unrelated story): at this stage a candidate carries only a feed
+        # snippet, and autopilot's own notes say a thin blurb makes the claim-signature
+        # matcher unreliable. So a drop here needs BOTH the module's rehash verdict AND
+        # a strong headline overlap against the very story it matched. Anything less
+        # confident is left alone and faces the full-strength guard in autopilot, which
+        # judges the finished draft. This guard only ever saves work; it never decides
+        # coverage on its own.
+        _pub_titles = [str(p.get("title") or "") for p in _corpus_on_disk()]
+        keep = []
+        for s in stories:
+            rel, mtitle, _ = classify_published(str(s.get("headline") or ""),
+                                                str(s.get("key_fact") or s.get("snippet") or ""))
+            strong = (rel == "rehash" and mtitle
+                      and _headline_overlap(str(s.get("headline") or ""), str(mtitle)) >= 0.7)
+            if strong:
+                common.gh("notice", f"researcher: not briefing "
+                          f"{str(s.get('headline'))[:60]!r}; the desk already published "
+                          f"{str(mtitle)[:60]!r} (rehash, dropped before drafting)")
+                continue
+            keep.append(s)
+        if len(keep) != len(stories):
+            print(f"researcher: dropped {len(stories) - len(keep)} already-published "
+                  f"rehash(es) before drafting")
+            stories = keep
+    except Exception as e:
+        common.gh("warning", f"researcher: pre-draft rehash guard unavailable ({e})")
+
+    if not stories:
+        obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
+               "briefed": 0, "note": "every candidate was an already-published rehash",
+               "budget": client.budget.summary()}}
+        common.write_out("briefs.json", obj)
+        print("researcher: 0 briefable stories after the rehash guard -> out/briefs.json")
+        return obj
+
     # WIDEN THE BRIEF ON A KILL STREAK (owner fix list 2026-08-18, item 2): the
     # dominant kill reason across all three desks is a draft carrying facts the brief
     # does not, and it repeats because attempt N+1 gets the same thin brief attempt N

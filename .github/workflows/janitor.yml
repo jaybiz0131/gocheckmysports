@@ -1,0 +1,54 @@
+# Issue janitor: dispatch-only, closes STALE auto-opened pipeline issues so the next
+# real alarm opens fresh instead of commenting on an old thread (owner fix list
+# 2026-08-18, hygiene). Never runs on a schedule; the owner triggers it from the
+# Actions tab after a fix wave supersedes the old alarms.
+#
+# It closes ONLY issues whose title starts with one of the known auto-alarm classes
+# AND that were created before the cutoff. It never touches the kill-streak digests
+# (a human ruling queue), the ops ledger, the calendar queue, or anything a human
+# opened by hand.
+name: Issue janitor (close stale auto-alarms)
+
+on:
+  workflow_dispatch:
+    inputs:
+      cutoff:
+        description: "Close matching auto-issues created BEFORE this date (YYYY-MM-DD)"
+        type: string
+        default: "2026-08-18"
+
+permissions:
+  issues: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close stale auto-alarms
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const cutoff = "${{ inputs.cutoff }}";
+            const CLASSES = [
+              "Edition stage failed:",
+              "Edition gap:",
+              "Missed edition:",
+              "Desk run failed:",
+              "source feed check failed"
+            ];
+            const { owner, repo } = context.repo;
+            const open = await github.paginate(github.rest.issues.listForRepo,
+              { owner, repo, state: "open", per_page: 100 });
+            let closed = 0;
+            for (const i of open) {
+              if (i.pull_request) continue;
+              const auto = CLASSES.some(c => i.title.includes(c));
+              if (!auto) continue;
+              if (i.created_at >= cutoff) continue;
+              await github.rest.issues.createComment({ owner, repo, issue_number: i.number,
+                body: `Closed by the issue janitor: superseded by the 2026-08-17/18 fix wave (fail-loud gate, wrapcheck receipt repair, canary feed naming). A recurrence opens a fresh issue.` });
+              await github.rest.issues.update({ owner, repo, issue_number: i.number, state: "closed" });
+              console.log(`closed #${i.number}: ${i.title}`);
+              closed++;
+            }
+            console.log(`${closed} stale auto-alarm(s) closed (cutoff ${cutoff})`);
