@@ -100,6 +100,66 @@ def append_editorial_log(date, mode, approvals, drafts):
     json.dump(log[-200:], open(LOG_PATH, "w", encoding="utf-8"), indent=1)
 
 
+def _rescue_rejects(client, obj, pairs, drafts):
+    """Redraft each REJECTED story once against the approver's stated objection, then
+    re-judge. Mutates obj["approvals"] in place. Returns the number of drafts that were
+    corrected and subsequently approved."""
+    if client.mode == "replay":
+        return 0
+    by_id = {a["id"]: a for a in obj["approvals"]}
+    pair_by_id = {p["id"]: p for p in pairs}
+    draft_by_id = {d["id"]: d for d in drafts.get("drafts", [])}
+    rejects = [a for a in obj["approvals"] if a.get("decision") == "REJECT"]
+    if not rejects:
+        return 0
+    writer_sys = common.load_prompt("writer.md")
+    approver_sys = common.load_prompt("approver.md")
+    fixed = 0
+    for a in rejects:
+        pid = a["id"]
+        pair, draft = pair_by_id.get(pid), draft_by_id.get(pid)
+        if not pair or not draft:
+            continue
+        if client.budget.would_starve_approver():
+            common.gh("warning", "approver: stopping corrective redrafts to leave budget "
+                                 "for judging; remaining rejects stand")
+            break
+        objection = "; ".join(str(r) for r in (a.get("reasons") or []))[:1200]
+        try:
+            user = ("Rewrite ONE story. The desk's approver rejected your previous draft "
+                    "for a specific, categorized reason. Fix exactly that and change "
+                    "nothing else. Every fact must still trace to the brief.\n\n"
+                    f"REJECTION [{a.get('category')}]: {objection}\n\n"
+                    "Previous draft:\n" + json.dumps(pair["draft"], indent=1) +
+                    "\n\nBrief:\n" + json.dumps(pair["brief"], indent=1))
+            new_draft = client.call_json("writer", writer_sys, user)
+            art = new_draft.get("article_draft") or new_draft
+            if not isinstance(art, dict) or not art.get("title"):
+                continue
+            judged = client.call_json(
+                "approver", approver_sys,
+                "Judge this corrected draft against its brief. Decision + categorized "
+                "reason.\n\nDrafts with briefs:\n" +
+                json.dumps([{"id": pid, "draft": art, "brief": pair["brief"]}], indent=1))
+            verdict = next((x for x in (judged.get("approvals") or [])
+                            if x.get("id") == pid), None)
+        except Exception as e:
+            common.gh("warning", f"approver: corrective redraft failed for {pid} ({e}); "
+                                 f"the original rejection stands")
+            continue
+        if verdict and verdict.get("decision") == "APPROVE":
+            draft["article_draft"] = art
+            pair["draft"] = art
+            by_id[pid].update(verdict)
+            by_id[pid]["corrected"] = True
+            fixed += 1
+        # a redraft that still fails keeps its ORIGINAL rejection: the record should show
+        # what the desk actually objected to, not the second version of the argument
+    if fixed:
+        common.write_out("drafts.json", drafts)
+    return fixed
+
+
 def run(client=None):
     cfg = common.load_config()
     drafts = common.read_out("drafts.json")
@@ -131,6 +191,25 @@ def run(client=None):
                                 validate=lambda o: validate(o, chunk))
         approvals.extend(part["approvals"])
     obj = {"approvals": approvals}
+
+    # ONE CORRECTIVE REDRAFT, THEN THE KILL STANDS (owner directive 2026-08-18, quality
+    # over quantity). A REJECT is not a verdict that the STORY is bad; it is a finding
+    # that this DRAFT misstated something, and the finding is precise: "the draft says
+    # mid-April, the brief says April". Today that finding is thrown away. The story dies
+    # for the run and the next run drafts it from scratch, which is how one ETF story
+    # died eleven times on eleven DIFFERENT objections, each draft fixing nothing because
+    # each draft never saw the last one's fault.
+    #
+    # So the writer gets the objection and one attempt to fix it, and the approver judges
+    # the result fresh. This raises quality rather than volume: what publishes is a draft
+    # whose known defect was corrected, not a draft that skipped a gate. Exactly one
+    # attempt, deliberately. A second would be grinding the gate rather than fixing the
+    # copy, and the cross-run spend breaker already handles a development that cannot be
+    # written correctly at all.
+    rescued = _rescue_rejects(client, obj, pairs, drafts)
+    if rescued:
+        print(f"approver: {rescued} draft(s) corrected on the approver's own objection "
+              f"and re-judged")
 
     counts = {"APPROVE": 0, "REJECT": 0}
     for a in obj["approvals"]:

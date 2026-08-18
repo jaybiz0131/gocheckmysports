@@ -18,7 +18,7 @@ import common
 import llm as llmlib
 
 
-EDITOR_MAX_CLUSTERS = 120
+EDITOR_MAX_CLUSTERS = 260
 
 
 def active_events(today=None):
@@ -98,9 +98,18 @@ def build_user(items, top_n):
         # Newest first, keep the cap: a 180-cluster day overwhelms the editor's output
         # budget and truncates its JSON (fail-closed catches it, but we would rather rank
         # the newest 120 than fail). Timestamps are ISO strings; empties sort last.
-        pool = sorted(pool, key=lambda c: c.get("timestamp") or "0", reverse=True)
-        print(f"editor: {len(items['clusters'])} clusters -> capped to newest {EDITOR_MAX_CLUSTERS}")
-        pool = pool[:EDITOR_MAX_CLUSTERS]
+        # CORROBORATION SURVIVES THE CAP (owner directive 2026-08-18). Sorting by recency
+        # alone drops well-attested stories for fresher thin ones, which is backwards on a
+        # desk whose promise is cross-outlet verification. The Lakers sale arrived in six
+        # separate clusters and still missed the cut. Heavily corroborated clusters are
+        # kept first, then the newest fill the rest.
+        pool = sorted(pool, key=lambda c: (-len(c.get("corroboration") or []),
+                                           c.get("timestamp") or "0"), reverse=False)
+        pool = sorted(pool, key=lambda c: len(c.get("corroboration") or []), reverse=True)
+        keep = pool[:EDITOR_MAX_CLUSTERS]
+        print(f"editor: {len(items['clusters'])} clusters -> capped to "
+              f"{EDITOR_MAX_CLUSTERS}, best-corroborated kept first")
+        pool = sorted(keep, key=lambda c: c.get("timestamp") or "0", reverse=True)
     clusters = []
     for c in pool:
         clusters.append({
@@ -156,6 +165,35 @@ def build_user(items, top_n):
                      "advances instead of going stale. A thread whose chapter is many hours "
                      "old while the wires carry developments is the desk falling behind:\n"
                      + rows + "\n\n")
+    # THE CORROBORATION FLOOR (owner directive 2026-08-18, quality over quantity). This
+    # does not tell the editor to rank more stories; it tells it which ones it may not
+    # ignore. A story independently carried by several outlets is the desk's strongest
+    # available quality signal, computed for free at intake, and it is exactly the signal
+    # that was present and unused when the Lakers sale (six clusters), Westbrook and the
+    # Leavitt departure all missed the cut on the day competitors led with them.
+    # Corroboration alone is NOT a quality signal, and testing this against real intake
+    # proved it: "PEPECOIN to $10 imminent, get in early" carried thirteen outlets and
+    # would have been protected by a naive count. Pump content is precisely what gets
+    # republished widely. The floor therefore respects the desk's own shill belt, which
+    # already scored that story 9 and rejected it, and takes only clusters the belt left
+    # clean.
+    floor = sorted((c for c in clusters
+                    if len(c.get("corroboration") or []) >= 3
+                    and not c.get("shill_rejected")
+                    and not (c.get("shill_flags") or [])
+                    and (c.get("shill_score") or 0) == 0),
+                   key=lambda c: -len(c.get("corroboration") or []))[:5]
+    floor_note = ""
+    if floor:
+        floor_note = ("\n\nINDEPENDENTLY CORROBORATED, RANK OR EXPLAIN: each of these is "
+                      "carried by three or more independent outlets, the strongest signal "
+                      "this desk has that a story is real and that readers will meet it "
+                      "elsewhere. Rank it, or leave it out only for a reason you would "
+                      "defend to the editor-in-chief (already covered, not this desk's "
+                      "beat, thin despite the outlet count):\n"
+                      + "\n".join(f"- {c['id']}: {c['headline'][:110]} "
+                                  f"({len(c.get('corroboration') or [])} outlets)"
+                                  for c in floor) + "\n")
     return (f"Here are {len(clusters)} deduplicated story clusters from the last "
             f"{items['_meta'].get('lookback_hours', '?')} hours. Rank the top {top_n} real "
             f"stories and reject the shill." + shelf + cal + run_block + json.dumps(clusters, indent=2))
