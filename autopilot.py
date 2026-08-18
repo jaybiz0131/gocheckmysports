@@ -111,6 +111,14 @@ def _rehash_of(drafts, cid, story):
     return verdict == "rehash"
 
 
+def _claim_of(drafts, cid, story):
+    """The richest available claim for this story, same ordering as _rehash_of."""
+    d = drafts.get(cid, {}) or {}
+    return ((d.get("script_skeleton") or {}).get("key_fact")
+            or (d.get("article_draft") or {}).get("key_fact")
+            or story.get("snippet") or "")
+
+
 def main():
     tpl_path = os.path.join(OUT, "approval_template.json")
     report_path = os.path.join(OUT, "run_report.json")
@@ -196,6 +204,22 @@ def main():
             reruns += 1
             print(f"autopilot: HELD same-run duplicate of an event already approved this "
                   f"run ('{str(story.get('headline') or '')[:60]}')")
+        elif dedupe.adds_nothing_new(_shipped_title(drafts, cid, story),
+                                     _claim_of(drafts, cid, story))[0]:
+            # ZERO-NOVELTY HOLD (owner directive 2026-08-18). dupe_audit has always been
+            # able to name the stories that said the same thing twice ("10 added NOTHING
+            # new"), but it is advisory, so nothing stopped them: one Indonesia earthquake
+            # shipped as six separate URLs and one court ruling as three. The rehash guard
+            # above cannot catch these because its tri-state leans toward "update" by
+            # design. This holds ONLY the certain class, a story adding zero distinctive
+            # claim tokens over one already published; the one-fact gray zone stays
+            # advisory for the editor.
+            _rep_t, _rep_s = dedupe.adds_nothing_new(_shipped_title(drafts, cid, story),
+                                                     _claim_of(drafts, cid, story))
+            story["decision"] = "hold"
+            reruns += 1
+            print(f"autopilot: HELD zero-novelty retelling of '{(_rep_t or '')[:52]}' "
+                  f"('{str(story.get('headline') or '')[:44]}')")
         else:
             story["decision"] = "approve"
             approved += 1

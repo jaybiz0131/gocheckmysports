@@ -95,15 +95,32 @@ def _group(kills):
     return groups
 
 
+def _last_publish(group, published):
+    """The date the desk last published this development, or '' if it never did."""
+    dates = [date for date, title in published
+             if dedupe.same_event(group[0]["headline"], "", title, "")]
+    return max(dates) if dates else ""
+
+
+def _live_run(group, published):
+    """The kills SINCE the desk last published this development, oldest first.
+
+    A streak means 'the desk keeps killing this and never runs it'. The old rule only
+    broke a streak when a publish was dated at or after the LAST kill, so a single
+    later kill resurrected the entire history: the Treasury GENIUS development showed
+    twelve kills while a correct story about it had been live since 2026-08-17, and
+    most of those kills were the desk re-drafting the story it had already published
+    (fixed upstream by the researcher's rehash guard). A publish settles everything
+    before it; only what the desk killed afterwards is evidence of abandonment.
+    """
+    cut = _last_publish(group, published)
+    return sorted([k for k in group if not cut or k["date"] > cut],
+                  key=lambda k: k["date"])
+
+
 def _unbroken(group, published):
-    """A publish matching the development after the last kill breaks the streak."""
-    last = max(k["date"] for k in group)
-    for date, title in published:
-        if date >= min(k["date"] for k in group) and \
-                dedupe.same_event(group[0]["headline"], "", title, ""):
-            if date >= last:
-                return False
-    return True
+    """Kept for callers that want the old boolean: is anything still unresolved?"""
+    return bool(_live_run(group, published))
 
 
 def streaks(n=STREAK_N):
@@ -111,8 +128,12 @@ def streaks(n=STREAK_N):
     if not kills:
         return []
     pub = _published(since_date=min(k["date"] for k in kills))
-    return [sorted(g, key=lambda k: k["date"]) for g in _group(kills)
-            if len(g) >= n and _unbroken(g, pub)]
+    out = []
+    for g in _group(kills):
+        run = _live_run(g, pub)          # only kills since the last publish count
+        if len(run) >= n:
+            out.append(run)
+    return out
 
 
 def kill_history(title):
@@ -122,8 +143,8 @@ def kill_history(title):
         return []
     pub = _published(since_date=min(k["date"] for k in kills))
     for g in _group(kills):
-        if dedupe.same_event(g[0]["headline"], "", title, "") and _unbroken(g, pub):
-            return sorted(g, key=lambda k: k["date"])
+        if dedupe.same_event(g[0]["headline"], "", title, ""):
+            return _live_run(g, pub)     # kills since the last publish, never older
     return []
 
 

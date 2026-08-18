@@ -246,3 +246,35 @@ def classify_published(headline, key_fact="", within_days=21, body=None, corpus=
     if len(new) >= NOVELTY_MIN:
         return ("update", earliest.get("title", ""), earliest.get("slug", ""))
     return ("rehash", nearest.get("title", ""), nearest.get("slug", ""))
+
+
+def adds_nothing_new(title, key_fact, body=None, corpus=None, within_days=21):
+    """The certain half of dupe_audit's measure, promoted to a live gate.
+
+    dupe_audit has always been able to name the stories that said the same thing twice
+    ("10 added NOTHING new"), but it is advisory, so nothing stopped them: one Indonesia
+    earthquake shipped as six separate URLs, one court ruling as three. classify_published
+    cannot catch these on its own because its tri-state deliberately leans toward "update"
+    (calling a real follow-up a duplicate silently loses reporting).
+
+    So this asks dupe_audit's question, not the guard's: how many distinctive claim tokens
+    does this story add that an already-published story on the same event did not carry?
+    ZERO means the desk is about to say the same thing twice, and that is the only case
+    this reports. One-fact-of-novelty stays where it is today, advisory, because that is
+    the genuinely ambiguous zone where an editor should decide.
+
+    Returns (title, slug) of the story it repeats, or (None, None).
+    """
+    cand = {"title": title or "", "key_fact": key_fact or "", "body": body or ""}
+    for origin in (corpus if corpus is not None else _corpus_on_disk()):
+        if origin.get("example") or str(origin.get("id") or "").startswith("wrap-"):
+            continue
+        if not is_coverage(origin):
+            continue
+        if not same_event(origin.get("title", ""), origin.get("key_fact", ""),
+                          cand["title"], cand["key_fact"]):
+            continue
+        novel = _claim_signature(cand) - _covered_signature(origin) - _OUTLETS
+        if not novel:
+            return origin.get("title"), origin.get("slug")
+    return None, None

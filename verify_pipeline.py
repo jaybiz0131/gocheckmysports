@@ -448,8 +448,8 @@ def _dedupe_guard_canary():
     # one desk and not the others reds every desk that was not updated.
     _sha = __import__("hashlib").sha256(
         open(dedupe.__file__, "rb").read()).hexdigest()[:16]
-    _check(_sha == "d5664e24bc8a6a3a", fails,
-           f"dedupe: this desk's dedupe.py is {_sha}, the chassis copy is d5664e24bc8a6a3a. "
+    _check(_sha == "dfe3292abc6737df", fails,
+           f"dedupe: this desk's dedupe.py is {_sha}, the chassis copy is dfe3292abc6737df. "
            f"The guard was changed in one repo and not the others; re-sync all three.")
 
     # (4) Title Case is not evidence. A headline yields capitalised tokens for ordinary
