@@ -7091,5 +7091,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Sydney Swans board meets on stand-downs as police investigation into sexual assault allegations continues",
+    "category": "compliance",
+    "reasons": [
+     "The draft names four players (Chad Warner, Isaac Heeney, James Jordan, Riley Bice) as those 'widely named in media reports' and involved in the inquiry. The brief's data_point on this claim is marked 'reported' confidence, which is appropriate for naming them. However, the subsequent statement 'No players have been publicly accused of wrongdoing' directly contradicts the act of naming them in connection with sexual assault allegations under police investigation. This creates a liability exposure: naming specific players in the context of a sexual assault investigation while claiming none have been accused is legally and ethically problematic. The draft should either not name players (per the bear_case emphasis on lack of charges/arrests) or explicitly clarify the distinction between media reporting and formal accusation\u2014not assert both simultaneously.",
+     "The brief contains a data_point marked 'announced-not-verified' for the Swans' board statement and CEO Pavlich statement. The draft presents the Swans' statement ('The Club believes the players are in serious breach of expected Club behaviour and standards') as settled fact without any qualifier that distinguishes an announced club position from a verified investigation outcome. The unverified status must survive in prose to avoid presenting the club's self-protective framing as objective fact.",
+     "The draft states 'the AFL's integrity unit may become involved in determining any sanctions' but the brief's corresponding data_point says 'The AFL's integrity unit appears certain to become involved, though no senior figures at the AFL have publicly commented on the matter' and is marked 'reported' confidence. The draft's hedging ('may') softens a reported claim; the brief supports a stronger assertion aligned with reporting."
+    ]
+   },
+   {
+    "id": "c179",
+    "headline": "MLB approves Padres' sale to Jos\u00e9 E. Feliciano and Kwanza Jones",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains only one fact-claim ('MLB has approved the sale of the San Diego Padres franchise to an ownership group led by Jos\u00e9 E. Feliciano and Kwanza Jones'), which traces to the brief's single data_point. However, the brief's core_claim states the approval was 'unanimous,' and the data_point's source_url references that detail. The draft omits 'unanimous' despite it being in the brief's core claim and sourced. This is a material omission of an on-the-record detail about the nature of the vote.",
+     "The draft repeatedly states 'The available source material does not disclose' purchase price, closing date, ownership composition, previous owner, and contingencies. The brief explicitly flags these as open_questions and notes 'The source text appears to be largely CSS and font-face declarations; does the article contain substantive detail on the transaction terms, buyer profiles, or league statement?' This signals the brief itself is thin and the source may be incomplete. The draft is defensively disclaiming information it never had access to verify, which reads as uncertainty about the source's completeness rather than clarity about what was reported. A thin brief producing a thin story is acceptable; disclaiming gaps in the source as lack of disclosure is not\u2014that conflates 'source didn't report it' with 'source couldn't access it.'"
+    ]
+   },
+   {
+    "id": "c180",
+    "headline": "Swanson placed on injured list with left-side injury during Cubs' stretch run",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'left-side injury' but brief core_claim specifies 'oblique strain.' The brief's data_point is marked 'announced-not-verified,' meaning the oblique strain diagnosis itself has not been independently verified\u2014yet the draft presents 'left-side injury' as if it is the confirmed diagnosis. The draft should either name the oblique strain with the confidence caveat ('reportedly an oblique strain') or stick to the generic 'left-side discomfort' from the URL slug, not offer a middle ground that suggests partial verification.",
+     "Draft says 'The source material does not specify the injury grade, the expected return timeline, the exact date of the placement, or a statement from Swanson, team management, or medical staff'\u2014this is a meta-narrative that breaks the news voice and reads as an editorial hedge rather than reporting. If the brief confirms these details are absent, the draft should either report what is known cleanly or note in the bottom_line that clarity is pending; it should not narrate the absence of information inline."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Marte placed on restricted list after missing Diamondbacks game",
+    "category": "compliance",
+    "reasons": [
+     "Draft includes the sentence 'The source materials do not disclose the specific nature of the personal issue, the expected timeline for Marte's return to the team, whether he will address the situation publicly, the Diamondbacks' official explanation beyond Lovullo's comment, or any statement from Marte himself.' This reads as meta-editorial commentary narrating what the sources lack, not as reporting. It breaks the news voice and pulls the reader out of the story.",
+     "The phrase 'For official team guidance on his status and availability, refer to the Diamondbacks' or MLB's formal statement' is a compliance risk: it can read as a punt or as an instruction to the reader to seek out other sources, which may imply the story itself is incomplete or unreliable. If the brief is thin and gaps are real, the draft should either report what is known cleanly or acknowledge in the bottom_line that clarity is pending; it should not direct readers elsewhere inline."
+    ]
+   }
+  ]
  }
 ]
