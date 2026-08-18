@@ -7049,5 +7049,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c178",
+    "headline": "Cubs' Swanson placed on injured list with oblique strain",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Cubs shortstop Dansby Swanson was placed on the injured list with an oblique strain' but the brief's only data_point says 'Dansby Swanson is on the injured list with an oblique strain' sourced from 'https://www.mlb.com/news/dansby-swanson-exits-with-left-side-discomfort'. The source URL mentions 'left-side discomfort' not 'oblique strain'\u2014the specific injury diagnosis is not confirmed in the source material and cannot be stated as fact. The brief itself flags this: 'the source text is heavily corrupted with font-face CSS and provides no detail on injury grade.' The draft presents an unverified injury classification as settled fact."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Jeanie Buss Contests Family Vote to Sell Lakers Stake",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'CNBC published a letter from Jeanie Buss's lawyer' but the brief data_point says the letter was 'published by Front Office Sports' (the only source cited). The draft invents CNBC as the publisher of the letter\u2014this fact does not appear in the brief and represents smuggled information. The brief explicitly identifies Front Office Sports as the source reporting the letter.",
+     "Draft states 'Jeanie Buss has served as governor since 2025' but the brief data_point says 'Jeanie Buss has remained team governor since her family sold a majority stake to Mark Walter last year.' The year 2025 is not in the brief and contradicts the temporal framing ('last year'). Without explicit year confirmation in the source, stating '2025' as fact is smuggled.",
+     "Draft states the franchise is 'worth 12.5 billion dollars under new majority owners Joshua Kushner and Bob Iger' but the brief data_point attributes this valuation to 'Mark Walter sold the Lakers last week to the group led by Kushner and Iger at a $12.5 billion valuation.' The draft does not attribute the valuation figure to any outlet inline and conflates who owns it with what it was valued at in the transaction\u2014this reads as imprecise on a $12.5B fact."
+    ]
+   },
+   {
+    "id": "c177",
+    "headline": "MLB Approves Padres Sale to Feliciano and Jones",
+    "category": "clarity",
+    "reasons": [
+     "The draft's body and bottom_line acknowledge that critical information is missing ('does not detail the transaction price, closing date, or additional terms'; 'refer to MLB's official announcement'), but this framing makes the story itself read as incomplete filler rather than reportage. The brief is confirmed thin (one data_point only), and the correct output for a thin brief is a tight, honest story\u2014but this draft explicitly admits it has nothing to say beyond the bare approval fact. A one-sentence story would be more honest: 'MLB approved the sale of the Padres to Jos\u00e9 E. Feliciano and Kwanza Jones, according to MLB.com.' The current draft pads the void with meta-commentary about what it doesn't know, which reads as placeholder copy."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "Pete Crow-Armstrong achieves second straight 30-30 season",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim as 'announced-not-verified' with a corrupted source that contains only CSS and no article body. The draft presents the achievement as settled fact ('has recorded') without qualification. The confidence label 'announced-not-verified' must survive in the prose\u2014the draft should signal that this is an announcement pending verification, not a confirmed milestone.",
+     "The brief flags the source as corrupted with no substantive detail available. The draft constructs narrative authority ('according to MLB.com') from a source that provided no verifiable body text. The writer cannot substantiate the claim beyond an unverified announcement.",
+     "The brief explicitly notes that 'no details are available on when Crow-Armstrong achieved the 30-30, against which opponent, in what game context, or what his exact stats are.' The draft offers none of these details either, which is appropriate for a thin brief\u2014but combined with the unverified source status, publishing this as fact is premature and creates liability if the announcement is later corrected or retracted."
+    ]
+   }
+  ]
  }
 ]
