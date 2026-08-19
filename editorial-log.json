@@ -7385,5 +7385,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c136",
+    "headline": "Pitcher Nestor Cortes signs Major League deal with Phillies",
+    "category": "accuracy",
+    "reasons": [
+     "The data_point confidence label is 'announced-not-verified', but the draft presents the signing as a settled fact with 'Per MLB.com's report, Cortes agreed to the deal with the Phillies.' The brief's own open_questions flag 'Official Phillies or MLB statement confirming the deal' as unresolved. An announced-not-verified claim must read with that caveat in the prose; the draft does not."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Nick Kyrgios suspended from tennis after testing positive for cocaine metabolite",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The suspension was confirmed by the International Tennis Integrity Agency' but the brief marks this claim as 'announced-not-verified' confidence level. The draft presents an unverified claim as settled fact without hedging language or attribution that signals uncertainty.",
+     "The draft attributes the quote 'coming to terms with being near the end of my career has been harder than I ever imagined' to Kyrgios's statement, but this is a paraphrase or interpretation of his Instagram statement, not a direct quote. The brief lists it as a claimed quote with 'reported' confidence, meaning it should appear as Kyrgios stated it in the source, not reconstructed as prose narrative."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "Nneka Ogwumike announces retirement after 2026 season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ogwumike's departure this offseason' in the bottom_line, but the brief and all data_points establish that Ogwumike will retire after the 2026 season\u2014meaning she is still playing now. 'This offseason' (implying imminent departure) contradicts the core claim and misrepresents the timeline; she is not departing until after her 15th season concludes.",
+     "The draft does not cite the sources inline for key attributable claims. 'Per Yahoo WNBA' appears only once in the body, but other facts (her age, All-WNBA selections, MVP year, current team, the quote) lack inline attribution and should show which outlet reported each piece."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Alvin Kamara sidelined with MCL sprain, expected to miss at least one month",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'is expected to miss at least one month' as current fact, but the brief data_point confirms only that Kamara 'is expected to miss at least one month.' The brief is thin and the open_questions flag that 'No official statement from the Saints organization, team medical staff, or the NFL injury reporting system is included.' The draft should either hedge ('reportedly') or attribute the claim inline to a specific source if the source material itself is not from official injury reporting.",
+     "The draft cites 'CBS Sports' and 'Yahoo WNBA' [sic] but the sources list shows 'cbssports.com' and 'sports.yahoo.com/nfl/'. The draft does not attribute the 'at least one month' timeline or the Week 1 availability concern inline to either outlet, leaving the reader uncertain which outlet sourced which claim."
+    ]
+   },
+   {
+    "id": "c076",
+    "headline": "Israel withdraws support for Infantino as FIFA presidency crisis deepens",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The AFC, representing Asia's 45 federations, co-signed a letter with UEFA and CONCACAF leadership accusing Infantino of deception over FIFA Forward Enterprise.' The brief data_point says 'The AFC's president and general secretary co-signed a letter along with the leaders of UEFA and CONCACAF accusing Infantino of deception over the FFE proposal.' The draft incorrectly attributes the letter to the entire AFC as a body representing 45 federations when the source states only the AFC leadership (president and general secretary) signed it. This is a material factual misrepresentation.",
+     "The draft references 'a July 30 statement from UEFA indicated that its 55 member federations plan to boycott FIFA competitions unless they receive assurances that such attempts to compromise the game will never be made again' but the brief data_point states the boycott threat is conditional on receiving assurances that 'such attempts to disfigure the game in this way will never be made again.' The draft paraphrases 'compromise' for 'disfigure,' which changes the connotative weight; more critically, the brief notes UEFA plans to boycott 'despite Infantino scrapping FIFA Forward Enterprise,' meaning the boycott threat persists even after FFE's collapse\u2014the draft's phrasing suggests UEFA wants assurances against future attempts but does not clearly convey that the boycott stands despite the plan being scrapped."
+    ]
+   }
+  ]
  }
 ]
