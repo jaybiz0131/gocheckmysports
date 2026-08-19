@@ -7277,5 +7277,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c126",
+    "headline": "Brewers rout Mariners 22-0, matching 138-year-old shutout record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims the 22-run shutout margin 'matches a record set in 1887' and refers to a '138-year-old shutout record,' but the brief explicitly notes in open_questions: 'The provided source text contains only HTML metadata and font declarations; the actual game details, historical comparison to the 1887 record, and context about the pennant race are not present in the fetched source material.' The historical comparison to 1887 is not verified in the source; this is smuggled information not present in the research brief.",
+     "The draft states 'This occurred during the pennant-race stretch of the 2026 season' but the brief's open_questions identifies that 'What was the date of the game?' remains unanswered. The pennant-race context cannot be confirmed from the fetched source material.",
+     "The brief marks the source as containing only HTML metadata with source_chars: 6000, indicating the actual article content was not successfully retrieved. The historical record claim and pennant-race framing exceed what the research brief actually verified."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Musiala collapses in second match in four days, discloses seizure diagnosis",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Musiala disclosed the collapses on Instagram, stating that he has been diagnosed with temporary absence seizures due to a neurological dysfunction' and 'The diagnosis and its clinical details were announced by Musiala himself and have not been independently verified through official Bayern or medical releases.' While the second sentence correctly flags the unverified status, the first sentence presents the diagnosis as fact without maintaining the 'announced-not-verified' confidence label throughout the narrative. The clinical diagnosis of a medical condition must consistently reflect its unverified status per the confidence label, not be introduced as settled fact in the opening.",
+     "The draft provides clinical language ('temporary absence seizures due to a neurological dysfunction') that could constitute speculation about a player's medical state beyond official verification. The brief marks the diagnosis claim as 'announced-not-verified,' meaning it must read with clear attribution and uncertainty markers throughout, not as medical fact."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Dodgers place closer Edwin D\u00edaz on injured list",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim states D\u00edaz 'continues to struggle with an 11.85 ERA this season,' and the brief includes three performance data points (11.85 ERA, 2.56 WHIP, -1.4 WAR) all marked 'reported' confidence. The draft omits all three statistics entirely, failing to substantiate the core angle that D\u00edaz is 'underperforming critically.' A writer cannot suppress the evidence the brief was built on\u2014these stats exist in the source and must appear in the draft or the draft rejects the brief's own framing.",
+     "The draft states 'The specific nature of the injury and the expected length of D\u00edaz's absence have not been disclosed in available reports' and lists open_questions about the injury details. However, the brief's core_claim and angle center on D\u00edaz's poor performance (11.85 ERA) as the driver of the IL placement, not an undisclosed injury. The draft's framing inverts the story: it reads as 'injury mystery deepens' when the brief framed it as 'underperforming closer finally removed.' This is a misrepresentation of the brief's own structure."
+    ]
+   },
+   {
+    "id": "c103",
+    "headline": "LIV Golf reduces prize money by $30M from end-of-season events",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule ('no fact exists outside the brief'), the draft cannot be approved without a brief to trace facts against. The approver has no authority to verify the Front Office Sports article, the $30M figure, the Indianapolis and Michigan event details, or the claim about 'Saudi Public Investment Fund backing shifting in scope.' The desk must provide a completed brief or the draft is rejected at the gate."
+    ]
+   },
+   {
+    "id": "c230",
+    "headline": "Report: Kamara left joint practice with knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Kamara 'left a joint practice...with a knee injury' but the brief's core_claim states he 'sustained a knee injury...but avoided major structural damage.' The draft omits the crucial 'avoided major structural damage' finding that appears in the brief, understating the reporting. The brief source is the same Yahoo URL, so this information should be present in the draft.",
+     "The brief's core_claim is a complete thought about the injury outcome; the draft presents only the first half (that an injury occurred) and explicitly says 'The exact nature of the injury, its severity classification' are 'not detailed in available reporting.' This contradicts the brief's stated data point about avoiding major structural damage and appears to hide information that was in the source."
+    ]
+   }
+  ]
  }
 ]
