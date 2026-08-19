@@ -7435,5 +7435,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c130",
+    "headline": "Cortes agrees to Major League deal with Phillies, per MLB.com",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'MLB.com reported on Tuesday' but the brief provides no timestamp or day-of-week context, only a UTC timestamp. The writer has added 'Tuesday' without a data point backing it.",
+     "The draft's framing\u2014'The announcement carries no contract terms, deal structure, timeline for effectiveness, or confirmation from the Phillies organization or from Cortes himself'\u2014narratively restates open_questions and absence rather than reporting what was confirmed. This violates the rule forbidding narration of absence. The brief itself flags that the source is 'corrupted' and provides no detail; the draft should either report the single confirmed fact (Cortes agreed to a deal) or kill the story, not use prose to highlight what the source lacks."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Seahawks sign cornerback Trevon Diggs to 1-year deal",
+    "category": "accuracy",
+    "reasons": [
+     "Third paragraph contains 'Biadasz arrives on a short-term pact'\u2014this is a clear factual error. The draft is about Trevon Diggs signing with the Seahawks, not Biadasz (who appears in story c180 about the Chargers). This sentence is smuggled misinformation not present in the brief and introduces a player from an unrelated story."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "FIFA vice president Cs\u00e1nyi withdraws support from Infantino, citing Lamour dismissal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'CONCACAF has 41 member associations' but the brief data_point specifies 'CONCACAF has 41 member associations, of which 35 are FIFA members.' The draft omits the crucial qualifier about FIFA membership, conflating total regional members with FIFA voting members, which directly affects vote counting logic in the story.",
+     "Draft claims 'No public opposition has emerged among CONMEBOL's 10 South American members' but this is narration of absence from the brief's open_questions, not a data_point. The rule forbids restating what sources do not report as if it is established fact.",
+     "Draft attributes CONCACAF's Aug. 1 statement to 'CONCACAF...and its 41 member associations' but the brief data_point says the statement was from 'CONCACAF's president and general secretary co-signed a letter along with the leaders of UEFA and the AFC'\u2014not all 41 members. The draft overstates the breadth of the statement's authorship."
+    ]
+   }
+  ]
  }
 ]
