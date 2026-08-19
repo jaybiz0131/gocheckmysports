@@ -7245,5 +7245,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Musiala Collapses on Pitch for Second Time in Four Days, Diagnosed With Seizure Disorder",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Musiala's seizure diagnosis and medical prognosis as settled clinical fact ('has been diagnosed with', 'temporary, brief, but easily treatable') when the brief marks these claims as 'announced-not-verified.' A diagnosis announced by a player on Instagram is not verified medical fact and should be framed with appropriate distance to avoid medical speculation liability.",
+     "The draft states definitively that the seizures are 'due to a neurological dysfunction' and that Musiala expressed 'optimism about his condition and return to play,' presenting the player's medical optimism as validated medical prognosis rather than the player's own statement about an unverified diagnosis.",
+     "The brief's bear_case explicitly flags 'No medical uncertainty is raised by the source; Musiala's diagnosis and optimism are presented as clinical fact,' but the draft does exactly that\u2014it treats an announced diagnosis as confirmed rather than acknowledging the gap between announcement and verification."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Dodgers place closer Edwin D\u00edaz on injured list amid bullpen struggles",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'D\u00edaz has produced a 11.85 ERA across 16 appearances this season' without attribution to the source. The brief notes the source text is 'truncated/corrupted (contains only HTML boilerplate and navigation elements)' and that the open_questions explicitly state 'the nature of D\u00edaz's injury is not specified in the available text.' The writer has smuggled statistics (ERA, WHIP, WAR figures) that cannot be verified against the corrupted source material. No fact outside the brief is permitted; these figures cannot be traced to readable source content."
+    ]
+   },
+   {
+    "id": "c346",
+    "headline": "Fever's Kelsey Mitchell ties A'ja Wilson's consecutive 20-point streak",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mitchell 'reached the milestone during the Fever's 101-95 win over Toronto' but the brief's data_point says 'The Fever defeated the Toronto Tempo 101-95'\u2014the opponent name is different. The draft uses 'Toronto' while the brief specifies 'Toronto Tempo.' This is either a smuggled fact correction or a discrepancy that breaks the hard rule: all facts trace back to the brief as written, not corrected."
+    ]
+   }
+  ]
  }
 ]
