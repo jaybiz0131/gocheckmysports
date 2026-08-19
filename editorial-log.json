@@ -7328,5 +7328,62 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Brewers shut out Mariners 22-0 in Modern Era record-tying game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Julio Rodr\u00edguez committed a notable mental gaffe during the game' but does not attribute this claim inline to CBS Sports. The sentence treats it as established fact without signaling it comes from the single source, which violates the inline attribution requirement.",
+     "The draft narrates absence in the bottom_line ('The full details of Rodr\u00edguez's error and the Brewers' offensive contributors remain unreported') and in the body ('though the specific nature and context of the error are not detailed in available sources'). Per the approval rubric, the writer is forbidden from narrating absence, and restating open_questions as prose ('remain unreported') is an accuracy violation."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "NFL preseason injury tracker",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points. The core_claim is a simple statement that a tracker exists. The draft narrates absence throughout ('Specific current injuries, affected players, expected return dates, and severity assessments are not available in sourced material. Readers seeking detailed injury information...should consult the tracker directly'). Per the approval rubric, when a brief's bear_case is empty and data_points are empty, a draft with no counter-evidence paragraph is correct\u2014but a sentence that restates open_questions and narrates absence ('not available in sourced material', 'are not included') is an accuracy violation. The writer cannot construct narrative from the lack of reporting."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Welsh FA chief calls for Infantino to step down",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per the hard rule, the writer must cite sources for every factual claim. The draft cites only one BBC Sport URL in the sources array, but the body contains multiple specific claims (UEFA statement on July 30, Concacaf statement on August 1, positions by Mexico, Grenada, St Kitts and Nevis, Argentina, Hungary's S\u00e1ndor Cs\u00e1nyi) that are not sourced inline and cannot be traced to the single cited BBC article. Facts without sources in the brief or draft are smuggled and the draft must be rejected."
+    ]
+   },
+   {
+    "id": "c170",
+    "headline": "Jets' Breece Hall could be on track for Week 1 after groin injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The injury came during the Jets' preseason preparation' without citing a source. The brief's open_questions explicitly note 'The source and mechanism of the groin injury (practice incident, previous condition, etc.) are not documented in the provided source text.' The draft has asserted a fact (timing/context of the injury) that does not appear in the brief's data_points and cannot be verified from the cited source. This is smuggled information.",
+     "The draft claims 'CBS Sports reports the injury timeline places Hall on track for the Week 1 opener' without inline attribution. The brief's bear_case notes that 'The fetched source text is a page header/navigation fragment and does not contain the full article body, quotes from Aaron Glenn, or additional context,' making the sourcing reliability unclear. The draft must attribute this claim inline to CBS Sports with proper qualification of what the source actually contains."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Max Fried lands back on IL with elbow injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The placement comes during the team's stretch-run push toward the playoffs' but the brief does not contain a data_point confirming the timing of the season or playoff implications. This is inferential framing unsupported by the brief.",
+     "The draft asserts 'a reported lack of offensive production that has put added pressure on the pitching staff' and attributes this to the briefed claim that 'The pitching staff is working overtime amid a lack of offensive production.' However, the brief itself marks this data_point as thin (source_chars: 725, fetched text is incomplete) and its bear_case is empty while open_questions list three significant gaps. The draft presents a complex causal claim (lack of offense \u2192 pressure on pitchers \u2192 Fried placed on IL) that overreaches the evidence available in the brief."
+    ]
+   },
+   {
+    "id": "c258",
+    "headline": "Fever-Dream overtime game sets new WNBA viewership record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Caitlin Clark and Angel Reese, who joined the WNBA in 2024, were central to the league's growth narrative.' The brief's data_point confirms only that 'Caitlin Clark and Angel Reese joined the WNBA in 2024' and that they feature in the growth narrative angle. However, the draft then asserts 'In college, Reese's LSU defeated Clark's Iowa for the NCAA national championship' as a direct statement of fact. The brief's data_point says 'Clark's Iowa lost the NCAA national championship to Reese's LSU in their college rivalry'\u2014same outcome, but this is a historical college sports fact that relies on the brief's sourcing. The problem is that the brief attributes this to Yahoo WNBA, which is a WNBA-focused outlet unlikely to be the authoritative source for a 2023 college basketball championship result. The draft presents this as established fact without qualification or attribution to a college sports source, creating potential liability if the college result detail is not independently verified by the outlet cited."
+    ]
+   }
+  ]
  }
 ]
