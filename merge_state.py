@@ -36,11 +36,35 @@ USAGE, from inside a stopped rebase
 """
 
 import json
+import re
 import subprocess
 import sys
 
 # The only paths this script will resolve. Anything else conflicting is a real conflict.
 KNOWN = ("editorial-log.json", "site/data/scores.json")
+
+
+# EDITION FILES ALSO HAVE A DETERMINISTIC RESOLUTION (owner report 2026-08-19). A slot's
+# edition is regenerated WHOLESALE for one date and slot, so two runs that both wrote it
+# did not each contribute a piece: one of them is simply newer. Taking the newer
+# published_utc is the whole rule. Before this, a raced edition file was an unknown
+# conflict, merge_state refused it (correctly, by its own lights), the rebase stayed
+# stopped and the run lost its stories: the only failure in the 2026-08-19 report where
+# nothing published. Anything that is not an edition file still needs a human.
+EDITION_RE = re.compile(r"^site/content/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z-]*(brief|wrap|edition)\.json$")
+
+
+def _is_edition(path):
+    return bool(EDITION_RE.match(path))
+
+
+def merge_edition(upstream, mine):
+    """The newer of two regenerations of one slot's edition wins, whole."""
+    def stamp(d):
+        return str((d or {}).get("published_utc") or "")
+    if stamp(mine) >= stamp(upstream):
+        return mine if mine is not None else upstream
+    return upstream
 
 def _stage(path, n):
     """One side of the conflict straight from the index, so conflict markers in the
@@ -100,7 +124,7 @@ def main():
         print("merge_state: nothing conflicted")
         return 0
 
-    unknown = [p for p in paths if p not in KNOWN]
+    unknown = [p for p in paths if p not in KNOWN and not _is_edition(p)]
     if unknown:
         print(f"::error::merge_state: refusing to auto-resolve a real conflict in "
               f"{', '.join(unknown)}. Only {', '.join(KNOWN)} have a deterministic "
@@ -114,13 +138,17 @@ def main():
         if upstream is None and mine is None:
             print(f"::error::merge_state: neither side of {p} parsed as JSON")
             return 1
-        merged = MERGERS[p](upstream, mine)
+        merged = (merge_edition if _is_edition(p) else MERGERS[p])(upstream, mine)
         with open(p, "w", encoding="utf-8") as f:
             json.dump(merged, f, indent=1, ensure_ascii=False,
                       sort_keys=(p != "editorial-log.json"))
             f.write("\n")
         size = len(merged) if isinstance(merged, (list, dict)) else 1
         print(f"merge_state: resolved {p} ({size} entries)")
+    # STAGE WHAT WE RESOLVED (2026-08-19): the workflow git-adds a hardcoded
+    # list, so a path this script learned to resolve later would be merged on
+    # disk and left unstaged, and the rebase would stop on it anyway.
+    subprocess.run(["git", "add"] + paths, check=False)
     return 0
 
 

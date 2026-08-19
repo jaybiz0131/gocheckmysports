@@ -10,6 +10,14 @@ on:
     - cron: "0 13 1 * *"   # 1st of the month, 13:00 UTC (US morning)
   workflow_dispatch: {}
 
+# PUBLISH LOCK, SHARED WITH THE BRIEF (owner report 2026-08-19): this
+# workflow pushes to main, so it must queue behind a running brief instead
+# of moving main underneath it. A push landing mid-run is what made the
+# brief rebase onto a conflicting edition file and lose the run's stories.
+concurrency:
+  group: sports-publish
+  cancel-in-progress: false
+
 permissions:
   contents: write   # the correction loop (charter 2026-07-15) commits approved updates
 

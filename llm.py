@@ -221,6 +221,20 @@ class Client:
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)
+        # TRUNCATION IS NOT A PARSE FAILURE (owner report 2026-08-19). A response cut off
+        # at the output ceiling leaves an unterminated JSON object, every parser in
+        # extract_json fails, and the stage reported "model output was not parseable JSON
+        # (first 200 chars: '```json...')", which reads as a markdown-fence problem and
+        # sent a fix at fence stripping that has been implemented since July. Naming the
+        # real cause makes the next occurrence answerable from the log alone. ContractError
+        # is what the ladder retries on, so the behaviour (climb a rung) is unchanged.
+        if resp_json.get("stop_reason") == "max_tokens":
+            _u = resp_json.get("usage", {}) or {}
+            raise ContractError(
+                f"{stage}: response hit the output ceiling and was truncated mid-JSON "
+                f"(output {_u.get('output_tokens')} tokens against max_tokens "
+                f"{body.get('max_tokens')}). This is truncation, not malformed output; "
+                f"raise this stage's max_tokens in config.json if it repeats.")
         if resp_json.get("stop_reason") == "refusal":
             raise LLMError(f"{stage}: model refused the request (whole fallback chain, if any) "
                            f"-> failing closed")

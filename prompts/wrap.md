@@ -86,6 +86,14 @@ office; a figure appears exactly as the input carries it (rounding only when the
 sentence labels it as rounded). One restated title or figure kills the whole edition
 at the gate; copying is cheaper.
 
+FINALITY (2026-08-19, the trace checker enforces this): never call a live matter
+finished. Banned on anything with proceedings, appeals, comment periods, votes, reviews
+or investigations still open: "for good", "once and for all", "ends the fight", "closes
+the door", "settles the matter", "final word", "puts to rest". A declined petition, one
+ruling among several, or a stage of a process is reported as exactly that, with what
+remains open stated in the same sentence. The desk can say what happened; it cannot say
+what can never happen next.
+
 Respond with ONLY a JSON object, no prose, no code fence:
 
 {

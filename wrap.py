@@ -223,6 +223,32 @@ def check(client, obj, stories, boards, extras=None):
             return [" ".join(w)] if w else []
         return [" ".join(w[i:i + n]) for i in range(len(w) - n + 1)]
 
+    # Connectives are arrangement, not content: "opener against Detroit" and "Detroit
+    # opener" state one fact. Tuned on the real 2026-08-19 false positive plus two
+    # hallucinated controls: with these excluded the true claim scores 1.00 while a
+    # wrong-opponent claim scores 0.57 and a wrong-date claim 0.50, so 0.85 keeps a wide
+    # margin between "the inputs carry this" and "the writer invented it".
+    _STOP = {"the", "a", "an", "of", "to", "in", "on", "at", "for", "and", "or", "is",
+             "was", "were", "be", "by", "with", "as", "that", "this", "its", "it",
+             "from", "has", "have", "had", "not", "but", "s",
+             "against", "over", "after", "before", "between", "during", "amid",
+             "versus", "vs", "into", "per"}
+
+    def _claim_words_present(claim, words, need=0.85):
+        """Does the input carry this claim's content words, in any order?
+
+        Deliberately strict on CONTENT (numbers and proper nouns are content) and blind to
+        arrangement, which is the difference between a fact the inputs carry and a fact
+        they do not. A claim whose words are nearly all present is not 'absent'; whether
+        it is CONTRADICTED is a different question, judged separately below.
+        """
+        cw = [w for w in _norm(claim).split() if w not in _STOP]
+        if len(cw) < 3:
+            return False
+        hit = sum(1 for w in cw if w in words)
+        return hit / len(cw) >= need
+
+
     def check_shape(o):
         # CONTRACT FAILURES ARE FOR MALFORMED OUTPUT ONLY (owner fix list 2026-08-18):
         # the verbatim-receipt rule used to live here, inside the output contract, so a
@@ -257,6 +283,7 @@ def check(client, obj, stories, boards, extras=None):
     # which judges claim vs evidence on substance. A judged conflict still kills the
     # edition; fail-closed on real contradictions is unchanged.
     inputs_text = _norm(json.dumps([stories, boards, extras or {}]))
+    inputs_words = set(inputs_text.split())
     screened = []
     for p in v["problems"]:
         if p["kind"] == "contradicted":
@@ -271,7 +298,14 @@ def check(client, obj, stories, boards, extras=None):
                 print(f"::notice::wrapcheck: 'contradicted' receipt is not a verbatim "
                       f"input quote ({str(p.get('claim'))[:80]!r}); treating as "
                       f"paraphrase/board-derived evidence; adjudication decides")
-        if p["kind"] == "absent" and any(w in inputs_text for w in _windows(p["claim"])):
+        # ORDER-INDEPENDENT (owner report 2026-08-19). The sliding verbatim window could
+        # not match reordered words, so "the Sept. 13 opener against Detroit" failed to
+        # match the input's "the Sept. 13 Detroit opener" and a fact the inputs plainly
+        # carried survived as an 'absent' problem. Content words, compared as a set, are
+        # what "the inputs carry this" actually means.
+        if p["kind"] == "absent" and (
+                any(w in inputs_text for w in _windows(p["claim"]))
+                or _claim_words_present(p["claim"], inputs_words)):
             print(f"::notice::wrapcheck: dropped 'absent' item whose claim occurs "
                   f"verbatim in the inputs ({str(p.get('claim'))[:80]!r})")
             continue
@@ -309,9 +343,31 @@ def check(client, obj, stories, boards, extras=None):
         return out
 
     def _best_excerpts(claim, n=2, size=500):
+        """The excerpt must contain the words that made this chunk win.
+
+        WHY NOT c[:size] (owner report 2026-08-19): the chunk is a whole story object
+        serialised with title and summary first, so a fixed head slice showed the
+        adjudicator the summary fields and cut the body, and it ruled 'unsupported' on a
+        fact the body carried two paragraphs down (the Saints' Detroit opener). The window
+        now centres on the best-matching region of the chunk, so the evidence that earned
+        the ranking is the evidence the model actually reads.
+        """
         cw = set(_norm(claim).split())
         scored = sorted(_chunks(), key=lambda c: -len(cw & set(_norm(c).split())))
-        return [c[:size] for c in scored[:n]]
+        out = []
+        for c in scored[:n]:
+            if len(c) <= size:
+                out.append(c)
+                continue
+            best_at, best_hit = 0, -1
+            step = max(1, size // 4)
+            for start in range(0, max(1, len(c) - size + 1), step):
+                hit = len(cw & set(_norm(c[start:start + size]).split()))
+                if hit > best_hit:
+                    best_hit, best_at = hit, start
+            out.append(("..." if best_at else "") + c[best_at:best_at + size]
+                       + ("..." if best_at + size < len(c) else ""))
+        return out
 
     kept = []
     for p in v["problems"]:
