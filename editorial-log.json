@@ -7532,5 +7532,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c355",
+    "headline": "Olivia Miles scores 20 points, adds 7 assists before ankle injury as Lynx beat Valkyries 77-66",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains a data_point claiming 'Stephen Curry's signature \"night night\" gesture was made during the game' with 'reported' confidence, but this claim does not appear anywhere in the draft body. This is a smuggled fact from the brief that should have been included if reported, or the brief contains erroneous data that was correctly omitted by the writer. Either way, the draft/brief alignment is broken.",
+     "The bottom_line states 'the sources do not yet detail' the severity of the injury, which is appropriate given open_questions, but this phrasing risks narrating absence in a way that could confuse readers. However, the core facts (20 points, 7 assists, 5 rebounds, ankle injury, final score, opponent, McBride's 20 points) all trace cleanly to reported data_points."
+    ]
+   },
+   {
+    "id": "c261",
+    "headline": "Cavaliers acquire Peyton Watson in multi-team deal, sign him to 4-year, $88 million contract",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim and angle reference 'Peyton Watson' as an 'All-Star-caliber' player and the deal as a 'deadline deal,' but the brief contains only one data_point (the qualifying offer) and zero detail on Watson's caliber, performance, or contract guarantees beyond the headline figure. The draft correctly does not claim Watson is All-Star caliber, but the brief's framing overstates the evidence provided to the writer.",
+     "More critically: the brief lists 'Whether Watson is restricted or unrestricted free agent status before the trade' as an open_question, yet the draft makes no mention of this status. The writer is forbidden from narrating absence, but the brief's own thinness (one data_point for a multi-team deal) suggests the writer appropriately stuck to what was reported. The core facts (4-year, $88M contract, multi-team deal, $6.5M qualifying offer) all trace to the single sourced URL."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "Yankees defeat Orioles in AL East game marked by disputed Alonso call",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body explicitly states 'The source material does not provide details about the final score, the specific inning in which the call occurred, why umpires ruled as they did, or statements from players, managers, or other officials disputing the decision.' This violates the hard rule that facts go back to research: the writer is narrating the absence of information from the source, which is forbidden. A sentence that restates open_questions or absence ('The source text is primarily CSS and formatting markup...') is an accuracy failure, not a quality issue.",
+     "The draft acknowledges in its body that the source fetch failed to return readable content ('The source material does not provide...The MLB.com article headline indicates...but the full game narrative...are not available from the fetched source text'). Publishing a story that admits the source material could not be read is a liability breach."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Verstappen extends Red Bull contract through 2030 with performance escape clauses",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Last season, Verstappen came within two points of beating McLaren's Lando Norris to the world title, mounting a dramatic fightback from a deficit of more than 100 points in the championship standings.' The corresponding brief data_point says 'In 2025, Verstappen mounted a dramatic fightback in the second half of the season from a deficit of more than 100 points to the championship lead.' The draft conflates two separate claims: coming within two points (a verified claim) and the magnitude of the deficit (100+ points at one point vs. to the championship lead). More critically, the draft says 'Last season' without temporal clarity. The brief timestamps are 2026-08-20, making 'last season' 2025. The draft later says 'Verstappen's best results so far in 2026 are two second-place finishes,' placing the current season as 2026. This is internally consistent with the brief data, but the phrasing 'Last season' is imprecise given the source dates to August 2026.",
+     "The draft states 'The extension comes as Red Bull navigates a difficult transition under new regulations for cars and engines introduced this season.' The brief data_point says 'Red Bull has had a difficult start to the era of new regulations for cars and engines introduced for this season.' The draft's phrasing is acceptable paraphrase, but taken together with the Verstappen 2026 results claim, this confirms the story is set in August 2026 mid-season, which the draft does not make explicit for the reader unfamiliar with F1 calendar. This is not a direct accuracy breach but creates ambiguity about timing."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "Vita Vea, Buccaneers agree to $30 million extension after trade request",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Vea's leverage during camp, exercised through his refusal to participate and his demand for a trade, produced new money from a team built to compete now.' The brief's bear_case notes 'The provided source text is truncated and does not contain the full article body, leaving details about contract terms, length, signing incentives, and context for the hold-in or trade request unverified from the source itself.' The draft's claim that Vea 'exercised' leverage and that it 'produced' new money requires causal inference (that the hold-in and trade request directly caused the extension offer) that is not present in the data_points. The brief data only confirm that a hold-in occurred, a trade request occurred, and an extension was signed. The causal narrative is inference, not fact from the brief.",
+     "The draft acknowledges in the third paragraph that 'The deal's specific terms, including the guarantee structure, length, and salary cap hit, remain unconfirmed from available reporting' and notes 'the full architecture of the agreement has not been disclosed publicly.' This is accurate reporting of what is unknown, but publishing a story whose body admits the source is truncated and the deal terms are unverified is a liability problem. The brief explicitly notes the source is truncated and unverified; the draft should not have been written at all, or should have been held pending full source retrieval."
+    ]
+   }
+  ]
  }
 ]
