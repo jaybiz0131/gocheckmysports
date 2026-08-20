@@ -177,7 +177,8 @@ def run(client=None):
     # anything autopilot would hold as a rehash never reaches the writer. A genuine
     # DEVELOPMENT of a published story is not a rehash and passes untouched.
     try:
-        from dedupe import classify_published, _headline_overlap, _corpus_on_disk
+        from dedupe import (classify_published, _headline_overlap,  # noqa: F401
+                            _corpus_on_disk, adds_nothing_new)
         # CONSERVATIVE BY CONSTRUCTION (the offline canary caught the loose version
         # matching an unrelated story): at this stage a candidate carries only a feed
         # snippet, and autopilot's own notes say a thin blurb makes the claim-signature
@@ -189,11 +190,30 @@ def run(client=None):
         _pub_titles = [str(p.get("title") or "") for p in _corpus_on_disk()]
         keep = []
         for s in stories:
-            rel, mtitle, _ = classify_published(str(s.get("headline") or ""),
-                                                str(s.get("key_fact") or s.get("snippet") or ""))
-            strong = (rel == "rehash" and mtitle
-                      and _headline_overlap(str(s.get("headline") or ""), str(mtitle)) >= 0.7)
-            if strong:
+            # THE EDITOR'S DEVELOPMENT DECLARATION OUTRANKS THIS GUARD (owner directive
+            # 2026-08-20). The editor prompt already tells the desk to rank a new chapter
+            # of an ongoing storyline with "updates" set to the story it develops, and
+            # autopilot honours that declaration. This guard did not, so a follow-up the
+            # editor had explicitly flagged as a development was dropped here, before it
+            # was ever written. That is the shape of the coverage the desk kept missing:
+            # the extension after the trade request, the proposal after the postponement,
+            # the missile response after the drills. Every one a chapter of a thread the
+            # desk owns and had already declared.
+            if s.get("updates"):
+                keep.append(s)
+                continue
+            # ADDS NOTHING = REHASH; ADDS ANYTHING = NEWS (same directive). The old test
+            # was the module's "rehash" verdict plus a 0.7 headline overlap, and on an
+            # ongoing thread headline overlap is high BY NATURE (same actors, same place),
+            # while the verdict is computed from a thin feed snippet the guard's own notes
+            # call unreliable. So developments were the class most likely to be dropped.
+            # The question that actually matters is whether this story says anything the
+            # desk has not already published, so that is the only question asked.
+            rep_title, _rep_slug = adds_nothing_new(
+                str(s.get("headline") or ""),
+                str(s.get("key_fact") or s.get("snippet") or ""))
+            if rep_title:
+                mtitle = rep_title
                 common.gh("notice", f"researcher: not briefing "
                           f"{str(s.get('headline'))[:60]!r}; the desk already published "
                           f"{str(mtitle)[:60]!r} (rehash, dropped before drafting)")

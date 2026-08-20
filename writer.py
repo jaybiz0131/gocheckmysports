@@ -24,7 +24,11 @@ DRAFTABLE = {"VERIFIED", "NEEDS-HUMAN-REVIEW"}
 # read: a headline and a snippet, nothing to write from. Deliberately far below the depth
 # gate's 2000-char "substantial" line, so this only ever catches a failed fetch, never a
 # genuinely short article.
-MIN_SOURCE_CHARS = 200
+# Lowered from 200 to 50 (owner directive 2026-08-20): at 200 a story sourced only
+# from a paywalled outlet was blocked outright, which fights the honesty valve in
+# writer.md ("a tight 120-word story from a thin brief is correct"). 50 catches
+# only a total fetch failure, which is the Maya Protocol case this gate is for.
+MIN_SOURCE_CHARS = 50
 
 NFA = "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice."
 

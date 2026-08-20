@@ -106,9 +106,15 @@ def _rehash_of(drafts, cid, story):
     skel = d.get("script_skeleton") or {}
     art = d.get("article_draft") or {}
     kf = skel.get("key_fact") or art.get("key_fact") or (story.get("snippet") or "")
-    verdict, _title, _slug = dedupe.classify_published(
+    # ADDS NOTHING = REHASH; ADDS ANYTHING = NEWS (owner directive 2026-08-20). This used
+    # to hold on the module's "rehash" verdict, which is NOVELTY_MIN=2: a follow-up
+    # carrying one new fact (a signed extension, a filed proposal, a death toll) was held
+    # as a duplicate of the story it developed. On a news desk that is the wrong trade.
+    # The exact-retelling case is still held, by the zero-novelty test below, and a
+    # development the editor declared with "updates" was already exempt at the call site.
+    rep_title, _rep_slug = dedupe.adds_nothing_new(
         _shipped_title(drafts, cid, story), kf)
-    return verdict == "rehash"
+    return bool(rep_title)
 
 
 def _claim_of(drafts, cid, story):

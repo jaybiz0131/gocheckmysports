@@ -281,7 +281,7 @@
   ],
   "cadence": "daily-brief",
   "lookback_hours": 44,
-  "top_n": 8,
+  "top_n": 12,
   "TOP_N_NOTE": "TOP_N RULING 2026-07-31: cut from 12 to 8 per slot. The desks were publishing ~184 articles a week between them while all article pages combined drew ~16 weekly views, so slots 9 to 12 were reaching nobody. Cutting the tail reduces per-run spend (fewer researcher, writer, and verifier calls), raises the average significance of what reaches the front page, and lowers exposure to search-engine scaled-content policies, which target high-volume automated publishing. Revisit when distribution catches up to the inventory; this is a quality-over-volume decision, not a cost-only one.",
   "budget": {
     "max_tokens_per_run": 400000,
@@ -685,5 +685,6 @@
         "note": "Newscast script handoff to the recording workflow."
       }
     }
-  }
+  },
+  "top_n_note": "Raised 8 -> 12 (owner directive 2026-08-20, 'we have to get the news out'). The editor ranks top_n stories per run and roughly half die at the approver, so 8 capped a run at about 4 published and pushed real news below the line: the day the desk missed an overnight missile barrage and a ballistic-missile launch it also ranked only 8 candidates. Budget headroom is real, a typical run costs $0.15-0.30 against a $1.50 fail-closed cap, and the cap still governs."
 }
