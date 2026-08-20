@@ -20,6 +20,12 @@ import common
 import llm as llmlib
 
 DRAFTABLE = {"VERIFIED", "NEEDS-HUMAN-REVIEW"}
+# A brief below this many characters of fetched source text is a story the desk could not
+# read: a headline and a snippet, nothing to write from. Deliberately far below the depth
+# gate's 2000-char "substantial" line, so this only ever catches a failed fetch, never a
+# genuinely short article.
+MIN_SOURCE_CHARS = 200
+
 NFA = "GoCheckMySports reports events. It never advises bets. Nothing here is betting or gambling advice."
 
 
@@ -164,6 +170,36 @@ def run(client=None):
                       f"would publish nothing. Remaining stories roll to the next slot.")
             break
         chunk = stories[i:i + chunk_size]
+        # NOTHING TO WRITE FROM (owner report 2026-08-20, the Maya Protocol case). The
+        # desk flagged an UNCOVERED EXPLOIT and a 5x kill streak on the SAME story in the
+        # same run: it was trying to cover a real $1.7M exploit and its own gates kept
+        # refusing the draft. Every rejection was correct and every one had one cause,
+        # visible in the brief: source_chars 0. The article body was never fetched (that
+        # CoinDesk URL still returns nothing to this desk), so the brief held a headline
+        # and a snippet, the writer filled the gaps because a story has to say something,
+        # and the approver killed it for smuggling. Seven paid draft-and-judge cycles
+        # bought nothing, and each one logged a kill that deepened a streak the writer's
+        # own breaker then acted on.
+        #
+        # A story the desk cannot READ is a SOURCING failure, not an editorial one. It is
+        # not drafted, not judged, and not recorded as a kill; it rolls to the next slot,
+        # where a working fetch drafts it normally. Replay is exempt: the canary fixtures
+        # carry source_chars 0 by design.
+        if client.mode != "replay":
+            kept = []
+            for s in chunk:
+                sc = (s.get("brief") or {}).get("source_chars")
+                if sc is not None and sc < MIN_SOURCE_CHARS:
+                    common.gh("warning",
+                              f"writer: NOT drafting '{str(s.get('headline'))[:60]}' "
+                              f"(only {sc} chars of source text fetched; the desk cannot "
+                              f"read this story, so drafting it would invent it. Sourcing "
+                              f"failure, not an editorial kill; it rolls to the next slot)")
+                else:
+                    kept.append(s)
+            chunk = kept
+            if not chunk:
+                continue
         # SPEND BREAKER (2026-08-17): a development the desk has failed to publish N
         # times running is not drafted again. It is not dropped, it is handed over: the
         # kill-streak digest carries it to a human who decides whether the gate is right

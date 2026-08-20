@@ -74,19 +74,42 @@ def bottom_line_lint(text):
     low = (text or "").lower()
     return [pat for pat in BOTTOM_LINE_LINT if re.search(pat, low)]
 
-# SPORTS-REGISTER ALLOWLIST (owner ruling 2026-08-03): this belt was copied from the
-# finance desk, where bare buy/sell/guaranteed are advice words. On this beat they are
-# ordinary reporting vocabulary: guaranteed contracts and guaranteed money are contract
-# facts, and teams buy and sell at the trade deadline. Three consecutive editions died
-# on exactly those words (2026-08-02 afternoon through 2026-08-03 morning, all three
-# quoted in the run logs) while the \|\| echo fail-open kept the jobs green. The intent
-# stands, no betting or financial advice to the reader, so the bans stay but carry
-# deterministic exceptions for player-market and contract contexts.
-ADVICE_LINT = [r"\byou should\b", r"\bgood entry\b",
-               r"\bwill (rally|crash|pump|dump|10x|moon)\b",
-               r"(?<!fully )\bguaranteed\b(?!\s+(?:contract|contracts|money|salary|salaries|deal|deals|year|years|base|rate|roster spot))",
-               r"\b(?:buy|sell)\b(?![-\s]+(?:low|high|out|off|side|window|mode))(?![^.]{0,45}\b(?:deadline|trade|trades|roster|contract|franchise|team|club|stake|ownership)\b)",
-               r"\btime to (buy|sell|enter|exit|bet)\b"]
+# ADVICE IS A CONSTRUCTION, NOT A VERB (owner report 2026-08-20). This belt was cloned
+# from the finance desk, where a bare "buy"/"sell" really is an advice word. Everywhere
+# else they are ordinary reporting vocabulary, and the bare rule kept killing correct
+# editions: three sports editions died on trade-deadline prose, and the 2026-08-20 run
+# lost all three ladder rungs on its own lead, "Barcelona signs Rodri from Manchester
+# City", because clubs buy and sell players. The previous fix bolted exemptions onto the
+# regex (low|high|out|off|side|window|mode, then deadline|trade|roster within 45 chars),
+# which is the tell that the rule itself was wrong for this beat: every exemption papered
+# over one instance and the next sentence found a new way through.
+#
+# What actually creates liability is telling the READER what to do, so that is what these
+# match: second person, imperatives, and urgency. Reporting that someone bought, sold,
+# or is expected to sell stays clean, which is the whole job of this desk.
+ADVICE_LINT = [
+    r"\byou should\b",
+    r"\byour (?:money|bankroll|bets?|picks?)\b",
+    r"\bgood entry\b",
+    r"\bwill (rally|crash|pump|dump|10x|moon)\b",
+    # "guaranteed" is contract vocabulary on this beat (guaranteed money, guaranteed at
+    # signing, $30M guaranteed), and the exemption list never kept up: 13 published
+    # stories still tripped it. Only the promise-of-outcome sense is advice.
+    r"\bguaranteed\s+(?:returns?|profits?|gains?|win|winner|payout|cash)\b",
+    # imperatives and urgency aimed at the reader
+    # "before"/"while" are ordinary temporal prose ("clubs sell before the deadline"),
+    # so urgency is limited to words that only appear when the reader is being told to act
+    r"\b(?:buy|sell|bet|wager|fade)\s+(?:now|today|tonight|immediately)\b",
+    r"\btime to (buy|sell|enter|exit|bet|fade)\b",
+    r"\b(?:you|readers|fans|bettors)\s+(?:should|ought to|need to|want to)\s+"
+    r"(?:buy|sell|bet|back|fade|take|avoid|grab)\b",
+    # THE REAL RISK ON THIS BEAT is tout language, which the finance version never covered
+    r"\block of the (?:day|week|night)\b",
+    r"\b(?:sure thing|can't miss|cannot miss|free money|easy money)\b",
+    r"\b(?:best|top|our|my) (?:bets?|picks?|plays?)\b",
+    r"\b(?:hammer|smash|pound) the (?:over|under|spread|moneyline|line)\b",
+    r"\bvalue (?:play|bet)\b",
+]
 
 
 def gather_stories(hours=36):
