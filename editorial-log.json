@@ -7583,5 +7583,27 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c358",
+    "headline": "Olivia Miles has 20 points, 7 assists before ankle injury as Minnesota Lynx beat Golden State 77-66",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions flag 'Whether Miles' injury occurred in the third or fourth quarter (snippet says midway through the fourth quarter, but the broader context is unclear).' This signals the quarter is unconfirmed. Draft states 'midway through the fourth quarter' as a direct fact without hedging, presenting an unconfirmed detail as settled. The brief itself expresses doubt on this point; the draft must reflect that uncertainty or avoid the specific timing."
+    ]
+   },
+   {
+    "id": "c259",
+    "headline": "Cavaliers acquire Peyton Watson in multi-team deal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'The Cleveland Cavaliers acquired Peyton Watson from the Denver Nuggets in a multi-team trade involving the Los Angeles Clippers and Washington Wizards' and 'The Cavaliers then signed Watson to a 4-year, $88 million contract.' The brief contains only one data_point with confidence 'reported': the qualifying offer figure. The trade structure, the signings, and Watson's involvement with the Cavaliers are stated as fact in the draft but are NOT in the brief's data_points. The brief explicitly flags these as open_questions: 'The source text was not fetched; no details are available on the specific teams involved beyond the headline mention' and 'No official confirmation from the Cavaliers, Nuggets, Clippers, or Wizards.' The writer has smuggled the headline into the body as confirmed fact when the brief itself does not contain these claims as verified data_points."
+    ]
+   }
+  ]
  }
 ]
