@@ -7605,5 +7605,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c060",
+    "headline": "Azzi Fudd Out for Season After Right Knee Surgery",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Azzi Fudd has a history of right knee injuries' as reported fact, but the brief's data_point uses the more cautious language 'has a long history of right knee injuries.' More critically, the brief's open_questions section explicitly flags that 'The source text provided is truncated and does not contain substantive reporting' beyond the headline. This indicates the sourced reporting is insufficient to verify even the basic claim. The writer presented a confidence-level claim ('history') from a source that the research team could not fully validate, creating compliance risk on injury/health claims that must trace to official reports or on-record statements."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "Yanks push past Orioles after foul call on Alonso blast",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state that 'The fetched page does not contain: the final score, what inning the call occurred, how many outs or runners were on base, how the call changed the game outcome.' The draft asserts 'The Yankees won the contest' and frames the call as outcome-decisive ('The outcome hinged on a replay judgment that turned a potential run into an out') without this confirmation in the brief's data_points. The draft manufactures narrative causality from an unconfirmed source.",
+     "The brief notes the source 'is corrupted or contains only CSS/font declarations and no substantive reporting content.' No data_points exist to support any factual claim in the draft. The writer has written a story from an unavailable source, violating the hard rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "Twins complete sweep of Braves, move into Wild Card position",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states: 'The source text provided is corrupted (font declarations and CSS formatting rather than article content). Specific game scores, run totals, player names, statistics, dates of games in the sweep, Twins' playoff standing position, and games-back differential cannot be extracted.' The draft presents the core claim as fact ('The Minnesota Twins completed a sweep of the Atlanta Braves, advancing their standing in the American League Wild Card race') but the brief contains zero data_points to support this. The writer smuggled a claim that the research brief itself marked as unextracted and unverified.",
+     "The draft states 'The sweep moves Minnesota into Wild Card position, according to MLB's reporting' but provides no sourced data point for this positioning claim in the brief.",
+     "The body acknowledges 'the specific dates, game scores, and final records from the games in the series are not available from the fetched source material,' which should have triggered a kill of the story, not a publication attempt with weak hedging."
+    ]
+   },
+   {
+    "id": "c194",
+    "headline": "Texans' Jayden Higgins ruled out for season with torn ACL",
+    "category": "compliance",
+    "reasons": [
+     "The brief open_questions explicitly state: 'No official team statement or medical confirmation in the source text\u2014only the snippet's word 'reportedly'.' and 'The source text provided is truncated (navigation markup only, no article body).' The draft presents a definitive medical verdict ('was ruled out for the 2026 season after tearing his ACL') as settled fact, when the brief itself indicates the source material is truncated and lacks official confirmation. A definitive injury and medical ruling without official team or medical statement verification violates the compliance line on health claims.",
+     "The draft does not hedge the medical claim ('ruled out', 'tearing his ACL') to match the brief's confidence level of 'reported' from a truncated source. The presentation reads as official confirmation rather than news reporting of an unconfirmed report."
+    ]
+   }
+  ]
  }
 ]
