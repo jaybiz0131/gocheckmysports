@@ -7647,5 +7647,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c179",
+    "headline": "Vita Vea, Buccaneers agree to $30 million extension after trade request",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the hard rule, every fact must trace to either a data_point in a brief or to the draft's own cited sources. The draft cites a single URL (CBS Sports) but the approver has no access to that source material to verify the facts: the $30 million figure, the trade request, the hold-out during training camp, or the claim that 'specific terms...have not been disclosed.' The draft cannot be approved without source verification or a research brief.",
+     "The draft's own statement\u2014'CBS Sports' source material does not provide the full architecture of the agreement'\u2014is a red flag. The writer is narrating absence from a source the approver cannot see. This invites the liability risk that the source actually does contain those details and the draft suppressed them, or that the source does not exist."
+    ]
+   },
+   {
+    "id": "c187",
+    "headline": "Texans lose second-year WR Jayden Higgins to season-ending ACL injury",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag states: 'The provided source text is a corrupted or partial fetch; the actual content describing the injury details, mechanism, and Higgins' role in the offense is not recoverable from the source material.' This is a sign the research is incomplete. The draft claims 'Higgins is described as one of quarterback C.J. Stroud's top young targets' and attributes it to CBS Sports, but the brief itself notes the source is corrupted and the actual content is not recoverable. The writer cannot ground this claim in verified source material.",
+     "The brief marks the story as 'thin: true' with only 910 source characters and unresolved open questions about whether the injury occurred in a practice or game, Higgins' draft year, and roster replacement plans. The draft presents these facts as settled when the brief indicates the source material does not support full detail. A story built on a corrupted source is not approvable."
+    ]
+   },
+   {
+    "id": "c085",
+    "headline": "Fifth FIFA vice-president turns against Infantino, citing loss of confidence",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag states: 'The provided source text is truncated and does not contain the full body of the letter or Csanyi's specific criticisms beyond the headline allegations.' The brief also notes 'source_chars: 269'\u2014an extremely limited source. The draft claims Csanyi cited 'the dismissal of FIFA Chief Operating Officer Kevin Lamour as the breaking point' but the brief marks as open: 'The timeline of when Kevin Lamour was dismissed and the stated reason for his removal.' The writer is treating as confirmed a detail that the brief explicitly flags as unverified.",
+     "The draft states 'The Guardian's reporting indicates the controversy is rooted in broader World Cup-related fallout and governance disputes,' but the brief lists as open: 'The specific World Cup incidents or decisions that triggered the broader leadership crisis.' The draft is paraphrasing generalized language as confirmed causation when the source material is truncated and insufficient to verify it."
+    ]
+   },
+   {
+    "id": "c148",
+    "headline": "Pacers move all local broadcasts to DAZN in second exclusive NBA deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the $8 million guarantee and 50-50 ad split to 'Sports Business Journal reporting cited by Awful Announcing,' but the brief identifies the source as Awful Announcing only. The draft introduces a secondary source (SBJ) not explicitly in the brief's data_points, creating an attribution chain that goes beyond the research provided.",
+     "The draft states Raines pulled people 'two months prior' and paraphrases the quote selectively, but omits the opening context from the brief's full quote: 'It's been a bit of a rollercoaster. It has been for everybody. Obviously, we've been talking to the other 12 [former Main Street] teams on a regular basis, and if there was an easy, quick, obvious solution, everybody would've picked that and announced a long time ago.' The brief quote includes 'Main Street' reference which the draft omits; the condensed paraphrase risks misrepresenting the strategic context.",
+     "The bottom_line states 'a $9 million annual gap' ($17M - $8M = $9M), but this assumes the ad revenue split will yield zero dollars in year one, which is not confirmed in the brief. The brief's bear_case notes ad revenue 'is not yet assured,' meaning the $9 million characterization of a 'gap' is inference beyond the brief's data, not a stated fact."
+    ]
+   }
+  ]
  }
 ]
