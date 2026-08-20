@@ -7468,5 +7468,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "Azzi Fudd to undergo right knee surgery, miss remainder of season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The injury represents another setback to a right knee that has troubled the player throughout her career,' presenting Fudd's prior knee injury history as established fact. However, the brief's data_point on this claim is marked 'reported' confidence only, and the open_questions explicitly flag 'Whether the injury is related to her prior history of right knee problems' as unresolved. The draft should either attribute this to the CBS Sports report inline or not state it as settled fact without caveating the connection."
+    ]
+   },
+   {
+    "id": "c243",
+    "headline": "Ravens center Danny Pinter carted off during joint practice with Vikings",
+    "category": "compliance",
+    "reasons": [
+     "The draft states Pinter 'appeared to get rolled up on and was seen wearing a brace on his right leg, according to The Athletic's Jeff Zrebiec' but attributes this observation only to Yahoo NFL in the sources list. The attribution inline is incomplete: it should specify that the brace detail comes from The Athletic/Zrebiec. More critically, the draft presents medical observation ('brace on his right leg') as established fact without noting that this is a visual observation from practice, not an official medical evaluation. The phrase 'suffering a knee injury' in the opening is stronger than the evidence supports at this stage\u2014the brief's open_questions explicitly flag that 'severity of the knee injury and expected medical evaluation has been completed' is unknown. The draft should soften the injury claim or note that official diagnosis is pending."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Verstappen extends Red Bull deal to 2030",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'He came within two points of losing the world title last year to McLaren's Lando Norris' but the brief data point says 'came within two points of beating McLaren's Lando Norris to the world title last season.' The draft inverts the phrasing in a way that obscures which driver won; a reader might infer Norris won by two points when the context suggests Verstappen won. The phrasing should match the source's clarity.",
+     "The draft claims 'Laurent Mekies as team principal last July, following former boss Christian Horner's departure' but the brief says Horner was 'sacked,' a material distinction in tone and causality that the draft softens to 'departure.' While 'departure' is not technically false, it does not match the brief's framing and may soften the context.",
+     "The draft introduces a claim about the Dutch Grand Prix timing: 'The announcement was timed to coincide with Verstappen's final home race this weekend before the Dutch Grand Prix at Zandvoort falls off the calendar' \u2014 this appears in the brief's open_questions as 'Will the Dutch Grand Prix's removal from the calendar affect the timing or significance of this announcement?' but is NOT in the data_points. This is a speculative framing that is smuggled into the draft without source support."
+    ]
+   },
+   {
+    "id": "c370",
+    "headline": "Toronto Tempo eliminated from WNBA Playoffs after loss to Mystics",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The specific score of the Tempo-Mystics game, the identities of the other two eliminated teams, and the number of teams still competing for remaining playoff spots were not disclosed in available reporting' violates the no-narrating-absence rule. The writer may not restate open_questions as prose facts. This reads as restating unreported information, which is an accuracy violation. The brief's open_questions belong in research, not in the draft as narrative gaps."
+    ]
+   }
+  ]
  }
 ]
