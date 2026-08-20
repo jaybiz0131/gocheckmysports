@@ -7508,5 +7508,29 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Verstappen extends Red Bull contract to 2030",
+    "category": "accuracy",
+    "reasons": [
+     "Draft quotes Verstappen saying 'To continue this journey with the same team that I have been with my whole career is really special and something I have always wanted to do,' but the brief lists a different quote: 'We have the best people and I'm excited to keep working together with everyone to get back to the top again.' The draft has substituted an alternative quote from the brief's data_points without flagging it as a different statement, creating confusion about which words Verstappen actually spoke on record.",
+     "Draft states Verstappen told BBC Sport about valuing continuity and working with Mekies, but the draft's paraphrasing ('Verstappen told BBC Sport that he values continuity') blends multiple distinct quotes from the brief without clear attribution to each. The quote 'Getting to work with Laurent now for over a year has also been great, I see a clear vision he has for the team' appears in the brief but the draft presents it as a direct quote without the source attribution inline to BBC Sport, making the sourcing implicit rather than explicit.",
+     "Draft introduces a quote from Mekies\u2014'The decision to continue our journey together is rooted in the trust Max and the team have built over many years, as well as Max's confidence in our people, our culture and our vision for the future'\u2014but this quote does not appear verbatim in the draft as presented; instead the draft paraphrases Mekies's statement. The brief lists this as a direct quote from Mekies, so the draft's paraphrase is acceptable, but the draft later includes a nearly identical sentence without clearly signaling it comes from Mekies, risking reader confusion about attribution."
+    ]
+   },
+   {
+    "id": "c260",
+    "headline": "Buccaneers and Vita Vea agree to $30 million extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'ESPN's Adam Schefter reported the extension agreement on Wednesday, according to Yahoo NFL's coverage.' This presents Schefter as the original source, but the brief's data_point attributes the report to Yahoo NFL (the secondary outlet). The draft should either attribute directly to Schefter with proper sourcing in the brief, or clarify the attribution chain. As written, it misrepresents the reporting hierarchy."
+    ]
+   }
+  ]
  }
 ]
