@@ -7722,5 +7722,60 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-21",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "James Harden returns to Cavaliers on three-year, $97 million deal",
+    "category": "accuracy",
+    "reasons": [
+     "The brief identifies a critical problem in its own open_questions: 'The provided source text from CBS Sports is corrupted navigation markup and does not contain substantive contract or transaction details.' This signals the sources themselves are compromised.",
+     "The brief notes the Yahoo source is the only substantive one available, yet the draft cites both Yahoo and CBS Sports as if both are reliable. The CBS Sports URL in the draft appears to be a college football page ('college-football/news/nfl-players-enter-college-football-transfer-portal'), which is inconsistent with an NBA contract story.",
+     "The draft states 'Harden was instrumental in the Cavaliers' run to the Eastern Conference Finals, per the same reporting' but the brief data_point says 'Harden was a key piece that helped the Cavaliers reach the NBA Eastern Conference Finals' (reported, Yahoo). The phrase 'per the same reporting' appears to attribute this to 'Yahoo NBA reporting' from the previous sentence, but the phrasing creates ambiguity about whether this comes from the Harden signing reporting or from separate source material.",
+     "The draft repeats the contract terms verbatim at the end ('The contract terms carry a total value of $97 million over three years, according to Yahoo NBA's reporting dated August 20, 2026') which is redundant and suggests padding rather than synthesis."
+    ]
+   },
+   {
+    "id": "c117",
+    "headline": "Marte placed on injured list after management meeting",
+    "category": "compliance",
+    "reasons": [
+     "Draft states 'Details about the specific injury that prompted the placement... were not available in the team's official announcement' and 'The source documentation confirms only the roster move itself, not the medical details or return timeline.' This is explicitly narrating absence\u2014restating what was NOT reported. The brief's open_questions note the injury details were not in source text, but the hard rule forbids narrating this absence in prose. A sentence that says 'details were not available' is itself an unverifiable claim about what should or should not exist.",
+     "The brief confidence label 'announced-not-verified' must survive in prose; the draft does not mark the move as unverified, merely notes missing details, which is a different (and prohibited) framing."
+    ]
+   },
+   {
+    "id": "c121",
+    "headline": "Jacob deGrom reaches 2,000 career strikeouts",
+    "category": "compliance",
+    "reasons": [
+     "Draft narrates absence: 'Details about the specific game in which deGrom achieved the mark, his performance in that outing, the opposing team, the date... were not available in the official announcement.' This violates the hard rule against narrating what was not reported.",
+     "The brief confidence label 'announced-not-verified' must survive in prose as uncertainty, not as a list of missing details.",
+     "Similar compliance violation in bottom_line: 'The source confirms the milestone itself but does not provide the game context or deGrom's performance details in that appearance.' Again narrating absence rather than reporting what is known."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "Giants-Dolphins joint practice erupts in all-out melee, multiple players removed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains factual claims not present in the brief. The brief's two data_points state only that 'A series of fights broke out between the two teams, leading to an all-out melee' and 'Multiple players were removed from the joint practice.' The draft adds: 'Joint practices, conducted during the NFL preseason to sharpen conditioning and competitive readiness, occasionally spark physical confrontations when players from different organizations collide at intensity.' This is contextual narration not in the brief\u2014it is the writer editorializing about why joint practices exist and what happens in them generally, not reporting what happened in this specific incident.",
+     "The draft states 'The incident raises the possibility of NFL discipline for both teams, though no official statement on potential sanctions has been reported.' This claim is not in the brief's data_points. The brief's bear_case is empty and open_questions exist, meaning the writer is forbidden from narrating absence or speculation about discipline. This sentence speculates about future NFL action not confirmed in reporting."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "Bengals-Bears joint practice: Burrow in rare scuffle, Bears defense dominant over Williams",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_point for Lawrence states he 'is making his presence felt in Cincinnati' as a pass rush presence, but the draft claims 'Dexter Lawrence, acquired by Cincinnati in the offseason' without attribution to the CBS Sports source. The acquisition fact itself is not in the brief's data_points\u2014only his current performance is. This is smuggled information outside the research.",
+     "The draft presents 'Williams' struggles against Chicago's defense underscore the adjustment required for a rookie quarterback' as analytical interpretation, but the brief's corresponding data_point says the Bears defense 'terrorized' Williams. The word 'dominated' in the draft title matches the brief, but the body softens this to 'struggles' and 'underscore the adjustment,' which is a rewrite of the reported claim without attribution to CBS Sports in that specific sentence.",
+     "The phrase 'Burrow's uncharacteristic involvement in a physical altercation suggests the intensity level of the practice' treats speculation ('suggests') as fact. The brief marks the scuffle as 'reported' confidence and notes as an open_question 'Why is Burrow's involvement in the scuffle considered rare for him?'\u2014meaning the 'rare' claim exists in the brief, but the causal inference ('suggests intensity level') does not."
+    ]
+   }
+  ]
  }
 ]
