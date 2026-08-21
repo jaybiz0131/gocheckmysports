@@ -7690,5 +7690,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-21",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c129",
+    "headline": "Mariners call up top pitching prospect Kade Anderson for Saturday start vs. Cubs",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly states: 'The fetched source text is malformed (contains only CSS and font declarations with no article content). No facts about the call-up timing, Anderson's ranking, the Cubs matchup, or the Mariners' roster context are recoverable from the provided source_text.' The draft asserts Anderson is 'ranked as baseball's top pitching prospect' and describes a 'Saturday start against the Chicago Cubs' with no recoverable source support. All core facts are smuggled; the brief contains zero data_points to back the draft.",
+     "The hard rule is violated: 'no fact exists outside the brief.' The draft's factual claims about Anderson's ranking and the Cubs matchup exist nowhere in the brief."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "UEFA and Concacaf in talks on combined Nations League tournament",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions state: 'The fetched source text is truncated and does not contain substantive reporting beyond headline-level claims. Details on the timeline, specific confederate votes or resolutions, tournament format, competitive structure, or financial terms are missing.' The draft asserts the confederations are 'seeking to challenge FIFA leadership under Gianni Infantino' and describes this as 'a coordinated move by the two confederations to challenge FIFA leadership.' However, the brief data_point says 'The confederations are seeking to oust Gianni Infantino' with confidence 'reported' from a truncated source. The draft's phrasing ('challenge FIFA leadership') is softer than the brief's data point ('oust'), but the claim itself relies on a source that is admittedly truncated with no substantive reporting. The draft should not present this interpretation as settled fact from a compromised source.",
+     "The draft states 'The Guardian's reporting does not provide details on...' and 'It is unclear whether FIFA has formally responded...' These sentences narrate absence and open_questions rather than facts from the brief, violating the rule against restating open_questions as prose. The draft should not remind readers of what was not reported."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Cardinals score six in ninth on dropped final out, account for 10 runs in wild inning",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line states 'The story's open questions include the final score, which Reds player made the error, the specific play situation, and who drove in the winning run.' This violates the no-narration-of-absence rule: the writer cannot describe what the brief's open_questions contain as though it is reporting omissions in the published source. This is restating gaps rather than reporting facts. The bottom_line should look forward to what to watch, not restate what the brief says remains unknown."
+    ]
+   }
+  ]
  }
 ]
