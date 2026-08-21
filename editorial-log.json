@@ -7777,5 +7777,31 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-21",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c088",
+    "headline": "Max Fried on IL with elbow bone bruise; Boone offers update on Yankees ace",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly flags in open_questions: 'The provided Sporting News source text is truncated and does not contain the full article or Boone's specific update or quotes about Fried's recovery timeline. The exact nature of Boone's 'hopeful' update and the specific return timeline he discussed are not present in the available source material.'",
+     "Draft presents as definite fact: 'Yankees manager Aaron Boone has addressed the injury and Fried's status, providing comment on the pitcher's outlook.' The brief confirms Boone provided comment, but the actual substance of that comment (what Boone said, what the 'hopeful' outlook entails) is not in the provided source text.",
+     "Draft states 'Boone's public update signals an effort to manage expectations and provide clarity on next steps, though the specific return timeline and recovery details remain limited in available reporting.' This is acceptable caution language, but the earlier sentence 'Boone has addressed the injury and Fried's status, providing comment' risks overstating what is actually documented in the truncated sources.",
+     "Core problem: Brief is marked 'thin: true' with missing source material. The draft should either wait for full sources or substantially more constrain what it claims about Boone's statement. As written, it presents a sourced comment (Boone's update) without the actual content of that comment being in the brief's data_points."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Root begins second captaincy with innings victory over Pakistan",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the approval mandate, 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft claims 'Joe Root returned to the England captain's role,' 'steering his team to an innings victory against Pakistan in the opening Test at Headingley,' and that 'Root described the performance as outstanding' \u2014 all attributed to 'BBC Sport reporting on August 21.' However, the single cited source is a video URL with no article text provided to verify these claims. The draft presents specific factual assertions (an innings victory, Root's captaincy return, a specific quote) that cannot be verified against the source material because that material is not available for review. This violates the hard rule that facts must trace to research.",
+     "The story is extremely thin (only two sentences of body) and the claims are unverified against the source. Without a research brief and without accessible source text, the desk cannot confirm the victory margin, the venue, the quote, or even the match outcome."
+    ]
+   }
+  ]
  }
 ]
