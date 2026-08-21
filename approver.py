@@ -100,6 +100,78 @@ def append_editorial_log(date, mode, approvals, drafts):
     json.dump(log[-200:], open(LOG_PATH, "w", encoding="utf-8"), indent=1)
 
 
+def _repair_rejects(obj, pairs, drafts):
+    """Cut the sentences the approver named and publish the rest. No model call.
+
+    THE STORY IS NOT THE SENTENCE (owner directive 2026-08-21). The desk was losing whole
+    correct stories to one loose clause, over and over: a Verstappen contract extension
+    killed 7 times over a phrasing inversion in a sentence about last season, a Yoshida IL
+    placement killed 4 times over one ambiguous clause about what the club had not
+    confirmed, a Rodri transfer killed over a currency conversion in a 2019 aside. The news
+    in each was right and the desk published nothing, run after run, until the spend
+    breaker parked the development for good.
+
+    Asking a model to rewrite (the rescue path below) trades one error surface for another:
+    a fresh draft can smuggle a fresh mistake, which is exactly what the kill streaks show.
+    Deleting the named sentence cannot invent anything. So this runs FIRST and is purely
+    mechanical: the offending text is matched verbatim in the body, cut, and what remains
+    is published if it still stands as a story.
+
+    Refuses to repair when the damage is structural rather than incidental: nothing matched
+    verbatim, the lead paragraph is the problem (the story's own premise is wrong), or too
+    little body survives. Those are the rejections that should stand.
+    """
+    MIN_WORDS_AFTER = 90
+    by_id = {a["id"]: a for a in obj["approvals"]}
+    pair_by_id = {p["id"]: p for p in pairs}
+    draft_by_id = {d["id"]: d for d in drafts.get("drafts", [])}
+    repaired = 0
+    for a in [x for x in obj["approvals"] if x.get("decision") == "REJECT"]:
+        bad = [str(t).strip() for t in (a.get("offending_text") or []) if str(t).strip()]
+        pid = a["id"]
+        draft = draft_by_id.get(pid)
+        pair = pair_by_id.get(pid)
+        if not bad or not draft or not pair:
+            continue
+        art = draft.get("article_draft") or {}
+        body = str(art.get("body") or "")
+        if not body:
+            continue
+        paras = [p for p in body.split("\n") if p.strip()]
+        if not paras:
+            continue
+        lead = paras[0]
+        if any(t in lead for t in bad):
+            common.gh("notice", f"approver: NOT repairing {pid}; the objection is in the "
+                                f"lead, so the story's own premise is what failed")
+            continue
+        new_body, cut = body, 0
+        for t in bad:
+            if t in new_body:
+                new_body = new_body.replace(t, "")
+                cut += 1
+        if not cut:
+            continue  # the quote was a paraphrase, not the draft's own words
+        new_body = "\n".join(p.strip() for p in new_body.split("\n") if p.strip())
+        if len(new_body.split()) < MIN_WORDS_AFTER:
+            common.gh("notice", f"approver: NOT repairing {pid}; too little of the story "
+                                f"survives the cut ({len(new_body.split())} words)")
+            continue
+        art["body"] = new_body
+        draft["article_draft"] = art
+        pair["draft"] = art
+        by_id[pid].update({"decision": "APPROVE", "repaired": True,
+                           "repair_note": f"cut {cut} sentence(s) the approver named"})
+        by_id[pid].pop("category", None)
+        repaired += 1
+        common.gh("notice", f"approver: REPAIRED {pid} by cutting {cut} sentence(s) the "
+                            f"approver objected to; the rest of the story publishes "
+                            f"('{str(pair.get('draft', {}).get('title'))[:60]}')")
+    if repaired:
+        common.write_out("drafts.json", drafts)
+    return repaired
+
+
 def _rescue_rejects(client, obj, pairs, drafts):
     """Redraft each REJECTED story once against the approver's stated objection, then
     re-judge. Mutates obj["approvals"] in place. Returns the number of drafts that were
@@ -206,6 +278,13 @@ def run(client=None):
     # attempt, deliberately. A second would be grinding the gate rather than fixing the
     # copy, and the cross-run spend breaker already handles a development that cannot be
     # written correctly at all.
+    # CUT THE BAD SENTENCE BEFORE PAYING TO REWRITE THE STORY (2026-08-21). Deterministic
+    # repair runs first: it cannot invent anything, and it saves the common case where one
+    # incidental clause failed an otherwise-correct story. Whatever it cannot repair still
+    # gets the one corrective redraft below.
+    repaired = _repair_rejects(obj, pairs, drafts)
+    if repaired:
+        print(f"approver: {repaired} draft(s) repaired by cutting the objected sentences")
     rescued = _rescue_rejects(client, obj, pairs, drafts)
     if rescued:
         print(f"approver: {rescued} draft(s) corrected on the approver's own objection "
