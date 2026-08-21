@@ -266,6 +266,11 @@ def adds_nothing_new(title, key_fact, body=None, corpus=None, within_days=21):
     Returns (title, slug) of the story it repeats, or (None, None).
     """
     cand = {"title": title or "", "key_fact": key_fact or "", "body": body or ""}
+    # NO SIGNATURE, NO VERDICT (2026-08-21). See _unjudgeable below: an empty claim
+    # signature made every loosely-matched story look like a retelling, and held real
+    # follow-ups on the desk's own threads.
+    if not _claim_signature(cand):
+        return None, None
     for origin in (corpus if corpus is not None else _corpus_on_disk()):
         if origin.get("example") or str(origin.get("id") or "").startswith("wrap-"):
             continue
@@ -278,3 +283,18 @@ def adds_nothing_new(title, key_fact, body=None, corpus=None, within_days=21):
         if not novel:
             return origin.get("title"), origin.get("slug")
     return None, None
+
+
+def _unjudgeable(title, key_fact, body=None):
+    """True when there is nothing here to measure novelty WITH.
+
+    An empty claim signature makes `novel` trivially empty, which this function would
+    otherwise report as "says nothing new" -- the strongest possible verdict drawn from
+    the weakest possible evidence. It is not hypothetical: with an empty key_fact, the
+    Buccaneers-Vea extension was held against the trade-request story it resolves, which
+    is precisely the follow-up the desk was criticised for missing. dupe_audit's own notes
+    warned about this ("a thin blurb yields a claim signature too small to match
+    anything"). No signature means no verdict, and no verdict means publish.
+    """
+    return not _claim_signature({"title": title or "", "key_fact": key_fact or "",
+                                 "body": body or ""})
