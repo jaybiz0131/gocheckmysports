@@ -7819,5 +7819,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-22",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c056",
+    "headline": "Nick Chubb retires after 8 NFL seasons, four Pro Bowl selections",
+    "category": "accuracy",
+    "reasons": [
+     "The draft narrates the absence of information using language that violates the no-fabricated-absence rule. Sentences like 'The specifics of which injuries ended his career and the precise timeline of when they occurred remain unreported in available sources' and 'Chubb's official statement, if provided, has not been detailed in the account' and 'Whether his team attempted to facilitate a return or medical staff involvement in the decision is also not addressed in the reporting' are restating open_questions as gaps, not reporting facts. The brief forbids this: a writer cannot tell a story about what was not reported. These sentences should be cut entirely; they add no fact and violate the hard rule that no story narrates its own absence."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Sex toys thrown on court during WNBA games on consecutive nights",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Los Angeles Sparks' 124-88 loss to the Atlanta Dream on Thursday' but the brief data_point says 'The Atlanta Dream's 124-88 victory at the Los Angeles Sparks on Thursday.' The score is correct but the framing is reversed: it should read as a Sparks loss (which it does), but the narrative structure in the draft says the Sparks lost, then later adds that Chicago won 73-70, creating asymmetric detail that could confuse. More critically, the brief's data_point on the LA incident says 'was stopped in the third quarter' but does not explicitly confirm the object was a sex toy at that venue like the Chicago incident; the draft conflates the two incidents' object types. The brief distinguishes: Chicago had 'multiple sex toys' with 'a green object' that landed; LA had 'another object' at the Sparks game. The draft should not assume both were sex toys without brief support."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Mariners call up prospect Kade Anderson for MLB debut",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Anderson enters the majors after establishing himself as one of the organization's top pitching prospects in the minor leagues.' This is paraphrase that cannot be verified: the brief explicitly notes the source is unreadable ('unreadable' implied by thin=true and open_questions asking for age, handedness, ERA). The brief does not contain a data_point asserting Anderson's prospect status or ranking; it appears only in the angle and open_questions. The draft thus smuggles a characterization not in the brief's confirmed data.",
+     "Draft states 'Kade Anderson is calling up pitcher Kade Anderson to make his major league debut this weekend'\u2014correct fact. But the brief's data_points do not establish his age (22), handedness (left-handed), or 1.06 ERA: those appear only in the angle, which is editorial interpretation, not reportable data. The draft should not narrate minor league credentials not confirmed in the data_points.",
+     "The draft reads as a complete prospect-debut story when the brief explicitly flags the source as thin and unreadable, leaving open_questions about Anderson's basic biographical details. This violates the rule that facts go back to research, not to the writer's knowledge or the angle's gloss."
+    ]
+   }
+  ]
  }
 ]
