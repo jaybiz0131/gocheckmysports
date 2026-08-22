@@ -7884,5 +7884,59 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-22",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c149",
+    "headline": "Falcons QB Michael Penix Jr. cleared for 11-on-11 work after ACL recovery",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Michael Penix Jr., the Falcons' first-round quarterback, has been cleared to participate in full-contact 11-on-11 drills' but provides no research brief to verify this fact. The drafting rule states 'no fact exists outside the brief.' With no brief provided, every factual claim must trace to the cited sources (Yahoo NFL, Sporting News), which the approver cannot access to verify. The draft also references 'an ACL injury he sustained last season' with no brief data point to confirm this injury, its timing, or its status.",
+     "The draft states Penix 'had been limited in his offseason activities while managing the injury rehabilitation' but this detail does not appear in any provided research brief and cannot be verified against cited sources by the approver.",
+     "The claim that 'The Falcons brought Penix in as a top prospect at the position' is presented as fact but lacks a data point in the brief to support it."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Yankees' Giancarlo Stanton out since April 24 with recurring calf strains",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Giancarlo Stanton has not appeared in a game since April 24, sidelined by multiple calf strains' with no research brief to verify the specific date, the injury type, or recurrence status. With no brief provided, every factual claim must trace to cited sources (CBS Sports, Sporting News), which the approver cannot access to independently verify.",
+     "The draft states calf strains 'recur in the same area' and refers to 'recurring nature of the injury' but no research brief confirms this is a recurring injury versus initial reporting language. Without a brief data point marking the recurrence as confirmed versus reported/announced-not-verified, the certainty of presentation cannot be validated.",
+     "The draft asserts 'Stanton's absence has forced the Yankees to adjust their offensive approach without one of their most productive hitters' as fact, but this editorial inference is not grounded in a brief data point."
+    ]
+   },
+   {
+    "id": "c173",
+    "headline": "REJECTED: No brief provided",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The hard rule is: no fact exists outside the brief. Without a brief, facts cannot be traced to data_points, and the draft itself is not a valid replacement for a brief. The draft body is a meta-commentary on the approval process, not a news story. This must return to research for brief construction before it can be drafted."
+    ]
+   },
+   {
+    "id": "c163",
+    "headline": "Ravens WR Rashod Bateman arrested on family violence charges from June incident",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'arrested on family violence charges' but the brief contains zero data_points confirming the specific charge type. The brief's core_claim repeats 'family violence charges' but provides no data_point validating this language appears in the CBS Sports source itself.",
+     "The draft states 'Bateman, 26, is set to enter his sixth NFL season with Baltimore in 2026' which appears in the brief as two separate data_points marked 'reported', but the draft then adds 'Family violence charges carry potential weight under the NFL's personal conduct policy, which can trigger league investigation and discipline independent of criminal proceedings.' This is interpretive commentary about policy, not a reported fact from the brief, and introduces legal/regulatory claims not sourced to the brief's data_points.",
+     "The draft's second paragraph ('CBS Sports reported the arrest but did not detail the specific charges...') is factually accurate but reads as the writer narrating the *absence* of information, which violates the instruction: 'the writer is forbidden from narrating absence, and a sentence that does (restating open_questions, \"the absence of\", \"remains unreported\") is category accuracy.'"
+    ]
+   },
+   {
+    "id": "c170",
+    "headline": "DeMar DeRozan signs with Nuggets on one-year deal",
+    "category": "accuracy",
+    "reasons": [
+     "The $3.9 million contract figure and one-year term are presented as fact in the draft, but the brief's open_questions explicitly state: 'No verification of the $3.9 million figure or one-year term from primary sources.' The Yahoo Sports source is cited but the brief indicates the source text does not contain these contract details.",
+     "The draft states 'according to Yahoo Sports' for both the signing and the contract terms, but the brief notes the CBS Sports source is 'truncated/corrupted' and the Yahoo source text is only 919 characters\u2014insufficient to verify a contract figure with confidence. No data_point in the brief confirms the $3.9 million or one-year specifics.",
+     "The brief marks confidence as 'reported' only for the general free agency claim, not for the contract terms. Presenting unverified contract details as Yahoo's reporting when the brief itself flags them as unconfirmed is smuggling information not supported by the research."
+    ]
+   }
+  ]
  }
 ]
