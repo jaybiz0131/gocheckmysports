@@ -8038,5 +8038,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-23",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Australia defeats Bangladesh by innings and 51 runs as Starc takes 10 wickets in second Test",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites a Guardian URL with publication date August 23, 2026, but no research brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The URL provided is the only source given, but the approver cannot verify the URL's content against the draft claims without access to that source. The factual claims (Starc's 10 wickets, Australia's innings-and-51-run victory, the specific scores, Cummins' 3 for 10, the match finishing in two days) cannot be confirmed to originate from the cited source material by the approver. Without a research brief to anchor these facts, and with no way to verify the Guardian article independently, every numerical claim and match detail is unverifiable.",
+     "The draft presents specific match details (Australia 210, Bangladesh 64 and 95, Starc 10 wickets, Cummins 3/10, match in two days) as established fact with only a single URL attribution. Without independent verification that the URL exists or contains these figures, the entire factual foundation is unsecured."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "Aces' No. 2 seed bid faces uncertainty after A'ja Wilson injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites a Sporting News article as the source for an A'ja Wilson injury, but no research brief was provided to verify the facts against. The approval instructions state: 'Trace every number, name, date, score, contract figure, and factual claim in the draft back to a data_point in the brief.' With no brief, the core facts\u2014that Wilson has an injury, that it 'emerged late in the stretch run,' that it complicates playoff seeding\u2014cannot be verified against research work. The draft also states 'The Aces have not issued a public statement' and 'the specific nature of the injury require confirmation,' which amounts to reporting absence as fact rather than citing what the source actually said. Without a brief to anchor the facts, this draft is unverifiable."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Ohtani reported progressing in pitching return after injuries",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states: 'The source text provided is severely truncated and consists almost entirely of CSS font declarations and styling code; the actual article content is not included.' The brief lists four open_questions, all of which flag the absence of verifiable content: no specific dates, no injury details, no timeline, no medical clearances, no quotes. The draft makes confident claims ('Ohtani has progressed to facing live hitters') that cannot be traced to actual article text per the brief's own assessment. The draft presents bicep and knee injuries as fact when the brief notes 'No details on the nature of the bicep and knee issues or whether both injuries required rehabilitation.' The instructions are explicit: facts must trace to the brief's data_points or be rejected. This brief has no usable data_points, and the source itself is incomplete."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Arozarena records first-pitch home run and walk-off homer",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states: 'The source text provided is truncated and contains only page metadata and navigation HTML; the actual article body with details on the first-pitch home run, walk-off homer, the opponent, the game date, and any quotes is not included.' The draft claims 'The dual achievement places Arozarena in a three-member group of batters in MLB history to accomplish both feats,' but the brief's open_questions explicitly ask: 'No confirmation of the exact number of batters in MLB history with both a first-pitch home run and a walk-off homer, or the names of the other two.' This is a specific factual claim presented as settled fact when the source material does not contain it. The draft also states the opponent 'are not available in the source material,' which is accurate to the brief, but then presents the broader claims (three-member group, both feats) without the underlying verification that must be in the source. The source is too truncated to verify any of the core claims."
+    ]
+   },
+   {
+    "id": "c157",
+    "headline": "Nick Chubb retires after 8 NFL seasons",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is explicitly marked 'thin: true' and contains only three bare data_points with no detail on injuries, timeline, team context, or Chubb's statement. The open_questions explicitly note the source is 'truncated/malformed' with no details available. A three-sentence draft built on a malformed source that the research brief itself flags as insufficient is unreliable. The desk cannot publish a retirement story\u2014a career-ending announcement\u2014with this little corroboration or detail. This story has no margin for error and the brief admits the source cannot support it."
+    ]
+   }
+  ]
  }
 ]
