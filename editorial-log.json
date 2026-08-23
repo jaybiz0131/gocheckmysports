@@ -7938,5 +7938,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-23",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c161",
+    "headline": "Patriots React to 'Very Tough Situation' After Ja'Quinden Jackson Injury in Eagles Preseason Game",
+    "category": "compliance",
+    "reasons": [
+     "The draft speculates beyond the official record about the injury. The brief's data_point states only that Jackson 'left the game in an ambulance after a collision on the opening kickoff' with confidence='reported'. The draft then narrates uncertainty ('The specifics of Jackson's injury, including its nature and severity, remain unreleased. No official injury report or diagnosis from either the Eagles or the Patriots has been made public.') which violates the rule against narrating absence and speculation about a player's medical state. The brief correctly flags these as open_questions; the draft should not state them as unreported facts. The statement 'The specifics of Jackson's injury, including its nature and severity, remain unreleased' is also restating open_questions, a prohibited pattern.",
+     "The phrase 'prompted a response from the Patriots front office, who characterized the incident as a very tough situation' attributes a statement to the Patriots but provides no source or quote. The brief does not include a data_point confirming what the Patriots said publicly or privately. This is a fact smuggled beyond the brief."
+    ]
+   },
+   {
+    "id": "c168",
+    "headline": "Four-time Pro Bowl RB Nick Chubb announces retirement after 8 NFL seasons",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Multiple lower-body injuries prompted the decision to end his career' as a factual claim, but the brief lists this as an open question: 'The specific lower-body injuries cited are not detailed in the source text.' The source material apparently does not specify which injuries or confirm that multiple lower-body injuries were the explicit reason for retirement; the writer has elevated an announced fact to explanatory detail that is not in the brief.",
+     "The draft presents the injury claim as settled fact in the opening paragraph without the hedge language required when source material is thin on causal detail. The brief confirms thin=true and source_chars=720, indicating minimal source material; the writer should not have asserted the injury connection with such certainty."
+    ]
+   },
+   {
+    "id": "c177",
+    "headline": "NBA ownership shakeup: Marc Stad purchases majority stake in Timberwolves and Lynx",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule stated in the approver instructions: 'no fact exists outside the brief.' The draft body itself acknowledges this constraint correctly, but the presence of a draft without a brief violates the fundamental requirement that every fact must trace to a data_point in a research brief before publication. The draft cannot proceed.",
+     "The story has no cited sources and no verified data points to ground any claim about the transaction."
+    ]
+   }
+  ]
  }
 ]
