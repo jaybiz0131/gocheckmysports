@@ -7971,5 +7971,72 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-23",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Mitchell Starc rips through Bangladesh as Australia dominates second Test",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Mitchell Starc disassembled Bangladesh's batting order for the second time in two days at Mackay, taking 10 wickets' and 'Bangladesh was held to 64 in their first innings and 95 in their second.' No brief exists for this story, so these facts cannot be traced to any research data point. The writer's hard rule is that no fact exists outside the brief. A missing brief means all facts must be independently verified against the cited source, but the draft does not provide the reader with enough information to verify these claims\u2014it attributes only the Cummins figure to Guardian Sport.",
+     "The phrase 'for the second time in two days' is ambiguous and cannot be verified without the brief. If this means Starc took 10 wickets across both innings (5 + 5), the draft should state it clearly. If it means something else, it is unclear."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "Arozarena hits walk-off homer, adds defensive highlight in single game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft instructs the reader to 'consult the MLB.com report' for specific details on opponent, final score, game date, and the sequence of plays. This violates the core editorial principle: GoCheckMySports reports facts; it does not punt readers to sources to find the news. The brief contains no opponent name, date, score, or sequence details\u2014only that Arozarena hit 2 home runs including a walk-off and made a defensive play. Both data points are marked 'announced-not-verified,' meaning the draft must reflect this uncertainty, but instead presents them as established fact. The explicit instruction to readers to 'consult the report' for basic facts that should appear in the story itself is an editorial failure, not a stylistic one.",
+     "The draft does not meet the minimum threshold of reporting: it confirms events occurred but refuses to report the elementary details that answer 'when, where, against whom, and what was the score.' This reads as placeholder copy, not a finished draft."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Cease carries no-hitter into seventh in Blue Jays victory over Yankees",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions state that the source is malformed and contains 'only CSS font declarations and no game narrative or statistics.' The brief explicitly states that 'No verifiable facts about the game result, final score, Cease's statistics, innings pitched, hits allowed, strikeouts, or the outcome can be extracted from the provided source material.' The draft presents specific factual claims (Cease carried a no-hitter into the seventh, Blue Jays defeated Yankees on August 22, 2026, game was in AL pennant race) that cannot be verified from the source. The core claim itself is in the brief, but the brief flags that the source contains no data to support it. A draft built on unverified facts violates the hard rule that facts must trace to the brief's data_points, and the brief contains zero data_points."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Zolani Tete, former world boxing champion, dies at 38",
+    "category": "compliance",
+    "reasons": [
+     "The brief's open_questions state that 'circumstances of the shooting (manner, apparent cause, self-inflicted vs. third party, ongoing investigation) are not available in the source material' and 'Whether the death is under police investigation or considered closed is not stated in the available source text.' The draft states 'The circumstances surrounding the shooting and the status of any investigation remain unclear from available reporting at this time,' which is a sentence that narrates the absence of information rather than reporting facts. This violates the rule against narrating absence: the writer is forbidden from restating open_questions or reporting what remains unreported. This framing invites speculation about sensitive details of a death and appears to hedge rather than report."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Fils reaches first Masters 1000 final after defeating Cobolli",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Fils will face his opponent in Sunday's championship match' but does not identify who that opponent is. The brief's data_points include a claim that 'Jessica Pegula reached the women's final by defeating Swiatek' (reported confidence), but the draft never names Pegula or any opponent for Fils. The sentence is incomplete and misleading: a reader cannot know who Fils will face.",
+     "The bottom_line says 'how the French player performs in the championship stage' but never states who his opponent is, leaving the sentence vague and uninformative given the brief data confirms an opponent exists."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Manchester City agree \u20ac100m deal for Lille's Ayyoub Bouaddi",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal was worth '\u20ac95 million in base fees plus \u20ac5 million in potential add-ons' (total \u20ac100 million), which traces correctly to the brief. However, the draft then converts this to pounds sterling in the opening sentence ('\u20ac100m deal') without a conversion figure. The brief's data_point explicitly states '\u20ac95m (\u00a381.4m)' showing a specific conversion rate was available in the source. The draft's failure to provide a pound conversion for the \u20ac100m total is incomplete and potentially misleading, especially since the draft later cites City's spending at 'nearly \u00a3200 million' in pounds. The reader cannot verify the total without a conversion.",
+     "The Elliot Anderson figure is attributed only as 'Per The Guardian's reporting' in a clause about his signing, but this claim is not in the body as a separate fact\u2014it appears only in the context of 'the club's earlier signing of Elliot Anderson for \u00a3116 million formed part of the aggressive midfield reshaping.' This phrasing suggests The Guardian confirmed the Anderson figure, which is technically reported in the brief, but the attribution is weak and embedded. The sentence should clearly attribute the \u00a3116m figure inline to The Guardian to match the standard for all other figures in the draft."
+    ]
+   },
+   {
+    "id": "c081",
+    "headline": "Jos\u00e9 Mourinho wins opening La Liga match in Real Madrid return",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly flag that 'the source text provided is heavily obscured by CSS code and does not contain the full article body' and that 'specific details about the match...cannot be verified from the fetched text.' The draft presents four factual claims (the 2-1 score, the 90th-minute goal, the 4,380-day calculation, and Mourinho's bench behavior with his attributed quote about being 'calmer') as reported fact, but the research record shows the source was not fully legible or verifiable. This violates the hard rule that facts must trace to verified data_points. The confidence label is 'reported' but the brief's own documentation of source corruption means these claims cannot be confirmed as accurately extracted.",
+     "The draft attributes Mourinho's calmness quote directly to The Guardian reporting, but the brief notes 'no quotes or detailed analysis from Mourinho or other sources are present in the legible portion of the source text.' A quote attributed to a source that did not legibly contain it is a factual liability."
+    ]
+   }
+  ]
  }
 ]
