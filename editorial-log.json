@@ -8283,5 +8283,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c122",
+    "headline": "Dana Brown and Houston Astros part ways, Jim Crane assumes temporary control",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions note that 'the actual article body is not present' in the fetched source and 'No substantive details about the separation (timeline, reason, circumstances, Crane's role, interim succession plan) can be extracted from the provided source.' The draft contains no data_points in the brief to anchor any of its claims. The core claim itself\u2014that Brown and Astros 'mutually agreed to part ways' with Crane 'assuming temporary control'\u2014cannot be verified against the brief's research. The rule is absolute: no fact exists outside the brief. This draft is smuggled reporting from a source the research team could not access.",
+     "The brief explicitly flags that substantive reporting does not exist in the retrieved source material, yet the draft presents the mutual agreement and Crane's temporary control as established fact with no hedging language or confidence label."
+    ]
+   },
+   {
+    "id": "c073",
+    "headline": "England stands down Brydon Carse from Pakistan Test squad following police incident",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions state: 'the fetched source text is truncated and contains mostly DOM/navigation markup. No details are available about: the nature of the police incident, what Carse was detained for, whether he was arrested or questioned, any statement from Carse or the ECB beyond the squad decision, the timeline for the investigation, or potential consequences beyond removal from the second Test squad.' The draft presents Carse being 'detained in police handcuffs' as an established fact, but the brief provides no data_point confirming the nature of police involvement or the circumstances. The brief's open_questions confirm those details are not in the source. The writer has smuggled reporting detail beyond what research could verify.",
+     "The draft states 'Carse was filmed by a member of the public while he was detained in police handcuffs outside a bar in Derby city centre' with no hedging or attribution to an unconfirmed source. This is a health/conduct claim about a player's body and a police incident that goes beyond what the brief's data_points explicitly carry."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "Phillies walk off Cardinals with six-run ninth inning",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Phillies came from behind in the final inning to secure the walk-off win' but the brief's angle explicitly claims they overcame 'a four-run deficit with two outs.' This specific factual claim about the deficit and circumstances is in the brief but omitted from the draft, and then the draft acknowledges the absence of these details rather than reporting them. The draft then compounds this by saying 'No additional details about the specific sequence of plays, the deficit they overcame, or individual player contributions are available from the source material'\u2014but the deficit IS in the brief's angle. The writer is narrating absence of information that exists in the research brief, violating the hard rule that no fact exists outside the brief."
+    ]
+   }
+  ]
  }
 ]
