@@ -8085,5 +8085,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "Enes Freedom ejected from Fever-Sky game after confrontation with Natasha Cloud",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state that 'the fetched source text is a navigation menu and does not contain the article body' and that 'the actual reporting on the ejection, the nature of the confrontation, the game date, the venue, and any official ejection rationale are not present in the provided source.' The draft presents the core claim as fact based on 'Sporting News reporting,' but the brief confirms the source does not contain the reported content. The draft violates the hard rule that no fact exists outside the brief, and the brief itself documents that the source does not support the claimed reporting.",
+     "The draft states facts came 'according to Sporting News reporting' when the brief's open_questions confirm the source text is a navigation menu without article body or reporting details. This is sourcing a claim to a source that does not contain it."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Phillies score six in ninth to walk off Cardinals, extend winning streak to nine",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'The source text provided is primarily CSS/font markup with no actual game narrative, play-by-play, or additional context beyond the headline.' The draft attributes all core claims ('scored six runs in the ninth inning,' 'walk off the St. Louis Cardinals,' 'extended their winning streak to nine games') to 'MLB.com reporting,' but the brief confirms the fetched source does not contain reporting\u2014only CSS/font markup. The draft violates the hard rule by sourcing facts to a source that does not contain them.",
+     "The draft cites 'MLB.com reporting' for specific game details when the brief documents the source is CSS markup without game narrative or context."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Dodgers sweep Pirates to extend winning streak to six games",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'The source text provided is primarily CSS/font markup with no actual game narrative, scores, or contextual details.' The draft attributes the core claims ('swept the Pittsburgh Pirates,' 'extending their winning streak to six games,' 'matching their season-high consecutive-win total') to 'MLB.com,' but the brief confirms the fetched source contains no game narrative, scores, or contextual details\u2014only CSS/font markup. The draft violates the hard rule by sourcing facts to a source that does not contain them.",
+     "The draft presents all three data points (sweep, six-game streak, season-high match) as established fact from MLB.com when the brief documents the source does not contain reporting."
+    ]
+   },
+   {
+    "id": "c125",
+    "headline": "Arozarena reaches 6th consecutive 20-20 season, hits leadoff home run",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag explicitly states: 'The source_text provided is mostly CSS/font-face markup with no narrative content; the actual article text is not present in the fetched material.' This means the core facts\u2014that Arozarena achieved his 6th consecutive 20-20 season and hit a leadoff home run\u2014cannot be verified from the source material. The data_points are marked 'reported' but the source itself did not deliver readable narrative content to confirm them.",
+     "The draft states 'The six consecutive 20-20 seasons place Arozarena among an elite group in MLB history' without citing which other players share this distinction or providing the basis for the 'elite group' claim. The brief notes that 'which players are in this historic company' cannot be verified from the source material.",
+     "Under the hard rule, no fact exists outside the brief. The brief itself marks the source as unverifiable (CSS markup only, no readable text), making these core claims impossible to trace back to readable source material."
+    ]
+   }
+  ]
  }
 ]
