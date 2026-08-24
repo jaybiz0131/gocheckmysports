@@ -8248,5 +8248,40 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c042",
+    "headline": "Ashton Jeanty injury update: Raiders RB sidelined after ankle incident",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The injury occurred after an awkward landing' but the brief's data_point specifies 'sprained his ankle after an awkward landing.' The draft removes the medical classification ('sprained') that is in the source, creating ambiguity about injury type.",
+     "The final paragraph 'Beyond Jeanty's situation, other running backs across the league face uncertain availability for Week 1, per CBS Sports. The specific players affected, their teams, and the nature of their health statuses remain unreported.' violates the rule against narrating absence. The brief lists this as an open_question, not a finding. The phrase 'remain unreported' is the writer restating an open question as though it is a reported fact, which is a hard accuracy violation."
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "Braves' 10.5-game lead shrinks to 3 games as Phillies surge in NL East stretch run",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains only three data points and presents them without temporal anchoring. The brief is marked 'thin': true, and the data itself lacks critical context: no current date is stated, no team records are provided, no win-loss counts are given, and no information about where in the season this occurs appears in the draft. A reader cannot assess whether a 3-game lead with 10 games left is different from a 3-game lead with 40 games left.",
+     "The draft claims 'the division title remains within reach for both teams' but provides no games-remaining figure, no playoff clinch scenarios, and no mathematical basis for this claim. This reads as editorializing rather than reporting the facts in the brief. The brief itself does not contain a data point supporting this editorial assertion.",
+     "The statement 'described by CBS Sports as red-hot in their current form' uses journalistic vagueness ('in their current form') that obscures what the source actually said and when. It is unclear whether CBS Sports was describing the Phillies' form at the moment of reporting or over a defined stretch."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Gauff wins Cincinnati Open title, enters US Open as two-time Grand Slam champion after career reset",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Gauff 'entered the US Open as defending champion' in the bottom_line, but the brief makes no claim that she is the defending champion. The brief only states she is 'a two-time Grand Slam champion.' The defending champion status is a factual claim not supported by any data_point in the brief.",
+     "The draft claims 'she went on to win her first Grand Slam title at the US Open three weeks later' after 2023 Cincinnati, but this is paraphrasing the brief's data point which says the same thing. However, the brief does not state whether she is currently the defending US Open champion (i.e., whether she won in 2025). This is a material gap: if she is not currently defending, the bottom_line is factually wrong.",
+     "The brief contains no bear_case items, which is correct per the approval guidelines. However, the open_questions reveal uncertainties about Gauff's career reset that are not acknowledged in the draft. The draft presents her confidence rebuild as a closed narrative without noting these open questions exist."
+    ]
+   }
+  ]
  }
 ]
