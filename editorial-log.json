@@ -8128,5 +8128,74 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c039",
+    "headline": "Astros and GM Dana Brown mutually agree to part ways",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains no data_points and the open_questions field states that the fetched source yielded no substantive facts, quotes, dates, context, or procedural detail. The draft presents multiple factual claims\u2014that Brown 'had served as the team's general manager' with 'responsibility for roster decisions and strategic direction'\u2014that do not appear in the research brief and cannot be verified from the source. The hard rule is that facts must trace to the brief; these biographical and contextual details are smuggled.",
+     "The draft claims the Astros 'sit below .500 and remain tied in the AL West standings' but the brief contains no data_points confirming these standings or seeding details. These are new facts not in the brief."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Browns name Deshaun Watson starter over Shedeur Sanders",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The approver instruction states: 'the writer's hard rule was: no fact exists outside the brief.' Without a brief, the draft cannot be verified against research. The approver cannot check whether the cited CBS Sports source actually contains the claims made (Watson named starter, missed entire 2025 season with Achilles injuries, competing with Shedeur Sanders, entering final year of contract). With no brief to trace facts to, the draft is unsalvageable under the approval framework."
+    ]
+   },
+   {
+    "id": "c086",
+    "headline": "Raiders RB Ashton Jeanty suffers sprained ankle in training camp",
+    "category": "compliance",
+    "reasons": [
+     "The draft makes a definitive medical diagnosis ('sprained ankle') and presents detailed clinical observations ('unable to put any weight on his right leg,' 'landed awkwardly') as fact. The brief's open_questions explicitly state: 'No official injury report, medical assessment timeline, severity classification, or estimated return date is available from the source' and 'No information on whether imaging (MRI, X-ray) was conducted or its results.' The diagnosis of 'sprain' and severity descriptors go beyond the official injury record and constitute speculation about the player's medical state. This violates the compliance rule: 'Injury and health claims must trace to official injury reports or on-record statements in the brief; speculation about a player's body or medical state beyond the official record is category compliance.'"
+    ]
+   },
+   {
+    "id": "c085",
+    "headline": "Yankees report Schmidt's Tommy John recovery on schedule",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Schmidt's progress remains aligned with the team's expectations' but brief contains only ONE data_point: that he 'underwent Tommy John Surgery last summer.' The claim that recovery is 'on schedule' or 'aligned with expectations' is not in the brief and cannot be sourced to the cited Sporting News piece.",
+     "Draft states 'recovery from Tommy John Surgery, which the pitcher underwent last summer' as if confirmed, but the brief lists this single data_point as the only evidence available. No Yankees statement about current progress is documented in the brief.",
+     "The core_claim in the brief says recovery is 'progressing on schedule,' but the brief's open_questions section explicitly asks 'What is the specific recovery timeline mentioned in the Yankees' update?' This indicates the source does not supply the timeline claim. The draft has smuggled this claim."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "Steelers activate Ramsey from PUP list, Iheanachor returns to practice",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The instruction states: 'The writer's hard rule was: no fact exists outside the brief.' With no brief, every fact in the draft must be verifiable within the cited source itself, and the approver cannot assess whether facts are smuggled without a research brief as the reference document.",
+     "The draft cites Yahoo Sports but the approver is not tasked with verifying claims against live URLs; the brief is the contract between writer and approver. Absence of a brief means the draft cannot be evaluated under the approval standard."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "ECB Opens Formal Investigation Into Carse Nightclub Incident",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instructions state 'the writer's hard rule was: no fact exists outside the brief.' With no brief, every factual claim must be verified against the cited source. The draft makes specific claims (ECB formally investigating, videos circulated, BBC Sport reporting) that cannot be checked against a research brief. Without a brief to trace against, the story cannot be approved under the desk's editorial framework.",
+     "The draft attributes facts to 'BBC Sport reporting' but provides no specific data points, quotes, or verifiable details from that source that can be validated. The absence of a brief means the approval process cannot function."
+    ]
+   },
+   {
+    "id": "c170",
+    "headline": "Bills Rally Around Oliver Following Son's Death",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag indicates critical details are missing: 'the son's name and age, the date of death, specific statements from the Bills organization, Josh Allen's defense of Oliver's privacy (mentioned in the headline), details of the media disclosure, and the nature of team support offered.' The brief explicitly states the source text is truncated and does not contain article body.",
+     "The draft claims 'The Buffalo Bills expressed support for defensive tackle Ed Oliver' and 'The organization's response reflects the NFL's broader practice' but the brief confirms those are the only verifiable data points. The draft then adds interpretive framing ('underscores how professional sports organizations navigate...') that goes beyond what the truncated source can support.",
+     "The phrase 'The specifics of the team's support and the circumstances surrounding the loss were not detailed in available reporting' is a sentence that narrates absence, which violates the rule against restating open_questions. This sentence should not be in the draft."
+    ]
+   }
+  ]
  }
 ]
