@@ -8197,5 +8197,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c043",
+    "headline": "Astros and GM Dana Brown part ways",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states facts about Dana Brown and the Astros parting ways on August 24, 2026, but the brief explicitly flags that the source is non-functional: 'The fetched source text from MLB.com is a CSS font-face declaration and stylesheet payload with no actual article content; the page body does not appear in the source_texts.' The writer has no actual source material to verify the core claim, the date, or any supporting detail. The rule is that facts must trace to research briefs or cited sources with readable content; a dead link with no retrievable article text is neither.",
+     "The brief lists the story as 'thin: true' with critically unverified open questions about whether the separation actually occurred and when. Publishing a story built on an inaccessible source violates the hard rule that facts come from research, not from hope that a URL works."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Browns name Deshaun Watson starting quarterback",
+    "category": "accuracy",
+    "reasons": [
+     "The brief field states: 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The approver has no research brief to verify the claims. The draft cites a single CBS Sports URL but the approver cannot verify that the source contains the claims made (Watson named starter, Achilles injuries, full 2025 season missed, final year of contract). Per the hard rule, a draft without a brief has zero authority to make factual claims unless the approver can independently verify the source\u2014which is outside scope. The desk's liability line is: no brief + no approver source access = rejection.",
+     "Specifically: 'Watson missed the entire 2025 season recovering from Achilles injuries' is stated as fact with no brief data point backing it. 'Enters the final year of his contract' is a contract claim with no supporting brief or verifiable source text provided to the approver."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Clark scores 37 points to lead Fever to franchise-record 25th win and playoff clinch",
+    "category": "accuracy",
+    "reasons": [
+     "Draft cites Yahoo Sports as sole source but provides no URL to verify claims. The hard rule is: no fact exists outside the brief. Without a research brief AND without a verifiable source URL, the approver cannot confirm that Clark's 37 points, 8 three-pointers, the 25-win franchise record, the playoff clinch, or the opponent (Chicago Sky vs. Chicago Sky\u2014note: the team is the Chicago Sky, not 'Sky') originate from the cited outlet. The Yahoo Sports link provided is a placeholder or malformed and does not allow verification.",
+     "The draft asserts a 'franchise record' for 25 wins without a brief to confirm this is accurate to Indiana's WNBA history. This is a factual claim that requires verification against the source.",
+     "No confirmation exists in the submitted material that the playoff berth was clinched by this game, or that it occurred 'with time remaining in the regular season' as the bottom_line claims."
+    ]
+   },
+   {
+    "id": "c087",
+    "headline": "STORY HELD: No research brief",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a holding note, not a reportable story. It contains a factual claim ('Jalen Ramsey activated off IR') in the sources URL that is not substantiated anywhere in the body. The draft is written as a meta-commentary on process rather than reporting. Per the hard rule, no fact exists outside the brief; this draft has neither brief nor verified facts, only a placeholder source URL. The draft should not be submitted for approval in this form\u2014it should be returned to research."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Former world snooker champion Dott found guilty of child sexual abuse",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Dott 'won the World Snooker Championship in 2006' but the brief's data_point 16 says Dott 'defeated Peter Ebdon to win his sole world title at The Crucible in Sheffield in 2006.' The word 'sole' is critical; the draft omits this qualifier and does not indicate Dott has won only once, which is material context for understanding his career stature. The brief distinguishes him as a one-time champion, not a multiple-time winner.",
+     "The draft includes detailed graphic testimony about sexual abuse (stomach-kissing incident, specific acts described as amounting to rape, shower molestation) that, while sourced to trial testimony in the brief, is presented in extensive narrative form that goes beyond what a sports news outlet should contain. However, the primary accuracy issue is that the draft does not acknowledge the bear_case that Dott 'denied both charges during trial and stated he had never acted inappropriately with anyone' until the opening paragraph states it as a general denial. The bear_case is mentioned but the magnitude of his defense (he denied everything categorically) deserves more balanced placement; currently it appears as a single sentence early on while pages of accusations follow, creating liability for a conviction-narrative tone that could be challenged on balance."
+    ]
+   }
+  ]
  }
 ]
