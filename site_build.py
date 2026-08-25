@@ -45,6 +45,116 @@ DESK_LINE = "The daily sports desk that checks the story before it runs."   # se
 FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmysports.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmysports.com"         # canonical origin for canonical/og:url/sitemap
+
+# RETIRED URLS keep working (ported from the news chassis 2026-08-25). When the desk
+# publishes the same development more than once and the duplicates are merged, the
+# surviving story takes the reporting and the retired slugs 301 to it via _redirects.
+# Never delete a published URL outright: someone linked it, and a 404 punishes the
+# reader for our filing error. The retired story's content JSON is deleted (so no page
+# renders and the redirect actually fires: Netlify does not shadow existing files) and
+# its slug maps here. Populated 2026-08-25 from the family duplicate audit, every
+# cluster adversarially verified before this map was written.
+RETIRED_ARTICLES = {
+    "111-consecutive-games-zero-errors-wilson-breaks-mlb-shortstop-record":
+        "111-games-zero-errors-wilson-sets-mlb-record-at-shortstop",
+    "49ers-receiver-pearsall-undergoes-knee-surgery-eyes-2027-return":
+        "49ers-wr-ricky-pearsall-undergoes-knee-surgery-targets-nine-month-recovery",
+    "49ers-wr-pearsall-has-knee-surgery-targets-9-month-recovery":
+        "49ers-wr-ricky-pearsall-undergoes-knee-surgery-targets-nine-month-recovery",
+    "bengals-shemar-stewart-hyperextended-knee-on-day-1-of-training-camp":
+        "bengals-shemar-stewart-carted-off-day-1-with-hyperextended-knee",
+    "bezos-led-consortium-acquires-38-stake-in-liverpool-fc-from-fenway-sports-group":
+        "consortium-led-by-bhatia-including-bezos-and-saverin-acquires-38-of-liverpool-fc",
+    "blue-jackets-sign-sillinger-to-three-year-extension":
+        "blue-jackets-sillinger-avoid-arbitration-with-three-year-13-875m-deal",
+    "boston-celtics-agree-to-three-year-15-million-extension-with-forward-jordan-walsh":
+        "celtics-extend-walsh-to-3-year-15m-deal",
+    "caldwell-pope-signs-with-76ers-after-grizzlies-buyout":
+        "caldwell-pope-joins-76ers-on-3-9-million-deal-after-grizzlies-buyout",
+    "cara-gardner-morey-exits-vancouver-goldeneyes-gm-role-to-coach":
+        "vancouver-goldeneyes-gm-cara-gardner-morey-steps-down-to-coach",
+    "celtics-sign-forward-jordan-walsh-to-three-year-15m-extension-through-2029-30":
+        "celtics-extend-walsh-to-3-year-15m-deal",
+    "eagles-linemen-ojomo-johnson-fight-at-camp":
+        "eagles-linemen-ojomo-and-johnson-scuffle-during-final-preseason-practice",
+    "england-drops-carse-from-pakistan-test-squad-as-investigation-begins":
+        "england-removes-carse-from-pakistan-test-squad-following-handcuffs-incident",
+    "ex-qb-hasselbeck-joins-study-seeking-first-living-cte-diagnosis":
+        "ex-qb-matt-hasselbeck-part-of-quest-for-living-diagnosis-of-cte",
+    "fifa-adviser-cordeiro-resigns-over-infantino-private-equity-plan":
+        "fifa-adviser-resigns-coo-accuses-infantino-of-deceiving-staff-on-private-equity-plan",
+    "fifa-defends-infantino-against-concerted-effort-to-oust-him":
+        "fifa-alleges-concerted-effort-to-undermine-infantino-amid-reelection-year-pressure",
+    "fifa-issues-statement-alleging-concerted-effort-to-undermine-infantino-after-severance-claim":
+        "fifa-alleges-concerted-effort-to-undermine-infantino-amid-reelection-year-pressure",
+    "former-fifa-council-member-isha-johansen-calls-on-gianni-infantino-to-step-down":
+        "former-fifa-council-member-isha-johansen-calls-on-infantino-to-step-down",
+    "former-fifa-council-member-johansen-calls-for-infantino-s-resignation":
+        "former-fifa-council-member-isha-johansen-calls-on-infantino-to-step-down",
+    "former-fifa-council-member-johansen-calls-for-infantino-to-step-down":
+        "former-fifa-council-member-isha-johansen-calls-on-infantino-to-step-down",
+    "jordan-fa-president-accuses-fifa-of-blackmail-over-infantino-support":
+        "jordan-fa-president-accuses-fifa-infantino-of-blackmail-over-world-cup-money",
+    "jordan-walsh-agrees-to-3-year-15m-extension-with-celtics":
+        "celtics-extend-walsh-to-3-year-15m-deal",
+    "joseph-parker-cleared-to-compete-as-provisional-suspension-lifted-final-sanction-pending":
+        "joseph-parker-cleared-to-compete-after-cocaine-test-final-sanction-pending",
+    "joseph-parker-cleared-to-fight-after-cocaine-test":
+        "joseph-parker-cleared-to-compete-after-cocaine-test-final-sanction-pending",
+    "liv-golf-vendors-report-unpaid-invoices-as-saudi-pif-funding-ends-this-month":
+        "liv-golf-vendors-report-unpaid-invoices-as-saudi-funding-ends",
+    "mahomes-cleared-for-full-camp-participation-reid-urges-caution-on-week-1-readiness":
+        "chiefs-patrick-mahomes-fully-cleared-for-training-camp-participation",
+    "mercury-acquire-five-time-all-star-plum-sparks-signal-formal-rebuild-after-contention-failure":
+        "kelsey-plum-traded-to-mercury-sparks-signal-reset-after-failed-contention-push",
+    "mosquera-marlins-prospect-suspended-80-games-for-positive-boldenone-test":
+        "marlins-mosquera-suspended-80-games-for-failed-drug-test",
+    "nfl-confirms-super-bowl-lxii-in-atlanta-for-february-13-2028-locking-17-game-schedule-through-2027":
+        "nfl-confirms-super-bowl-lxii-in-atlanta-for-february-13-2028-locks-17-game-schedule-through-2027",
+    "noah-lyles-wins-us-100m-championship-with-world-leading-9-79-seconds":
+        "lyles-wins-us-100m-championship-with-world-leading-9-79-seconds",
+    "ohio-state-jpmorganchase-reach-lucrative-jersey-patch-deal":
+        "ohio-state-signs-record-17m-jersey-patch-deal-with-jpmorganchase",
+    "ohio-state-signs-17m-annual-jersey-patch-deal-with-jpmorganchase":
+        "ohio-state-signs-record-17m-jersey-patch-deal-with-jpmorganchase",
+    "ohio-state-signs-record-17m-annual-jersey-patch-deal-with-jpmorganchase":
+        "ohio-state-signs-record-17m-jersey-patch-deal-with-jpmorganchase",
+    "ole-miss-sues-two-former-players-for-breach-of-revenue-sharing-contracts-after-lsu-transfers":
+        "ole-miss-sues-two-former-players-for-revenue-sharing-contract-breach",
+    "oregon-state-women-s-basketball-players-file-for-union-representation-under-state-law":
+        "oregon-state-women-s-basketball-players-file-union-petition-with-state-labor-board",
+    "panthers-te-mitchell-evans-carted-off-during-training-camp-with-ankle-injury":
+        "panthers-te-mitchell-evans-carted-off-at-training-camp-practice",
+    "panthers-tepper-invests-another-500m-into-stadium-renovation":
+        "panthers-owner-tepper-commits-additional-500-million-to-stadium-renovation-project",
+    "prosecutors-allege-witness-tampering-in-rozier-betting-case":
+        "federal-prosecutors-seek-incarceration-of-rozier-co-defendant-for-witness-tampering",
+    "ravens-madubuike-practices-for-first-time-in-10-months-cleared-from-pup-list":
+        "ravens-madubuike-practices-for-first-time-in-10-months-after-neck-injury",
+    "reusser-wins-tour-de-france-femmes-stage-four-time-trial-takes-yellow-jersey":
+        "reusser-wins-stage-four-time-trial-takes-yellow-jersey-at-tour-de-france-femmes",
+    "robinson-and-gibbs-hold-out-from-training-camp-in-contract-standoff":
+        "star-rbs-robinson-gibbs-appear-to-be-hold-ins-while-seeking-deals",
+    "running-backs-robinson-gibbs-hold-out-from-training-camp-while-seeking-new-contracts":
+        "star-rbs-robinson-gibbs-appear-to-be-hold-ins-while-seeking-deals",
+    "saints-bryan-bresee-feared-to-have-torn-acl-on-first-day-of-camp":
+        "sources-saints-bryan-bresee-feared-to-have-torn-acl",
+    "sec-commissioner-sankey-conference-focused-on-federal-legislation-not-ncaa-breakaway":
+        "sec-commissioner-sankey-conference-focused-on-federal-nil-legislation-not-ncaa-breakaway",
+    "sparks-trade-five-time-all-star-kelsey-plum-to-phoenix-mercury":
+        "kelsey-plum-traded-to-mercury-sparks-signal-reset-after-failed-contention-push",
+    "uefa-concacaf-afc-accuse-fifa-of-breach-of-trust-deception-over-world-cup-plan":
+        "three-major-soccer-confederations-formally-accuse-fifa-chief-of-deception",
+    "uefa-concacaf-afc-accuse-fifa-of-breach-of-trust-over-world-cup-privatization-plan":
+        "three-major-soccer-confederations-formally-accuse-fifa-chief-of-deception",
+    "uefa-concacaf-and-afc-formally-accuse-infantino-of-deception":
+        "three-major-soccer-confederations-formally-accuse-fifa-chief-of-deception",
+    "uefa-votes-unanimous-boycott-of-fifa-competitions-over-private-equity-world-cup-plan":
+        "uefa-concacaf-afc-unite-against-infantino-world-cup-private-equity-plan",
+    "wnba-faces-eligibility-test-after-cunningham-s-transgender-comments-spark-political-attention":
+        "wnba-faces-transgender-eligibility-row-after-cunningham-comments",
+}
+
 SHORT_NAME = "GoCheckMySports"                # home-screen label (manifest)
 THEME_COLOR = "#1F5E3F"                       # browser chrome + manifest
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
@@ -2111,10 +2221,13 @@ def build():
     w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
                     f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
     # /rss.xml is the address readers and aggregators try first; the desk publishes at
-    # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit). This desk has no
-    # retired-slug registry yet; when it merges its first duplicate pair, port the
-    # RETIRED_ARTICLES block from the crypto or news chassis ahead of the catch-all.
-    w("_redirects", "/rss.xml  /feed.xml  301\n/*  /404.html  404\n")
+    # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit). Retired duplicate
+    # slugs 301 to their surviving story, ahead of the catch-all (Netlify takes the
+    # first match).
+    redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
+                        f"/articles/{old}  /articles/{new}  301\n"
+                        for old, new in sorted(RETIRED_ARTICLES.items()))
+    w("_redirects", "/rss.xml  /feed.xml  301\n" + redirects + "/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03, chassis extension per the approved crypto
     # build): the composed front replaces the Latest tab at its own URL; back issues
     # under /edition/. Written LAST so the composed front wins the /news.html route.
