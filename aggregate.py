@@ -451,6 +451,10 @@ def same_event(a, b, cfg):
     return (inter / union) >= floor
 
 
+# Cross-outlet containment merge; see dedupe() for the measurement behind these numbers.
+CONTAIN_THR = 0.6
+CONTAIN_MIN_SHARED = 3
+
 def dedupe(items, cfg):
     """Greedy cluster of near-identical stories. Same URL, or headline-token Jaccard over the
     configured threshold, collapses into one cluster. The highest source_tier becomes the
@@ -474,7 +478,23 @@ def dedupe(items, cfg):
                 inter = len(it["_tokens"] & base)
                 union = len(it["_tokens"] | base) or 1
                 sim = inter / union
-            if same_url or sim >= thr or same_event(it, cl["members"][0], cfg):
+            contained = False
+            if len(it["_tokens"]) >= min_tok:
+                # CONTAINMENT ARM (owner directive 2026-08-25, measured on the crypto
+                # desk): Jaccard divides by the union, so one event filed by two outlets
+                # with headlines of different lengths never merges. Dividing by the
+                # SHORTER headline asks whether the smaller sits inside the larger. The
+                # shared-token floor stops a three-word headline from being trivially
+                # "contained" in a long one. This desk also has the entity matcher below;
+                # containment catches what entity matching misses.
+                for mem in cl["members"]:
+                    shared = it["_tokens"] & mem["_tokens"]
+                    if (len(shared) >= CONTAIN_MIN_SHARED
+                            and len(shared) / min(len(it["_tokens"]), len(mem["_tokens"]))
+                            >= CONTAIN_THR):
+                        contained = True
+                        break
+            if same_url or sim >= thr or contained or same_event(it, cl["members"][0], cfg):
                 cl["members"].append(it)
                 if it["url"]:
                     cl["urls"].add(it["url"])
