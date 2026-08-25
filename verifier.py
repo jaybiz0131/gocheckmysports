@@ -81,6 +81,43 @@ def gather_sources(story, mode):
     return checks
 
 
+
+def _with_siblings(story, clusters):
+    """The story enriched with URLs (and the richest feed_text) from OTHER clusters
+    covering the same event.
+
+    THE 12:36 DISPATCH RUN'S LESSON (2026-08-25): the editor ranked the day's stories
+    via their walled-outlet framing (CoinDesk 429, The Block 403, Cointelegraph
+    client-shell), while READABLE coverage of the SAME events from other configured
+    outlets sat in sibling clusters the verifier never tried, because cross-outlet
+    versions do not always merge in dedupe (headline styles differ). Result: VERIFIED
+    0 of 12 while verifiable text existed in intake. Same event, different outlet,
+    real fetch: that is corroboration, not a shortcut, and the verifier still judges
+    the claim against whatever text it actually reads.
+    """
+    urls = [u for u in (story.get("source_urls") or []) if u]
+    feed_text = ""
+    head = str(story.get("headline") or "")
+    try:
+        import dedupe as _dd
+        for c in clusters.values():
+            ft = str(c.get("feed_text") or "")
+            if c.get("id") == story.get("id"):
+                if len(ft) > len(feed_text):
+                    feed_text = ft
+                continue
+            if not _dd.same_event(head, "", str(c.get("headline") or ""), ""):
+                continue
+            for u in [c.get("url")] + [x.get("url") for x in (c.get("corroboration") or [])]:
+                if u and u.startswith("http") and u not in urls:
+                    urls.append(u)
+            if len(ft) > len(feed_text):
+                feed_text = ft
+    except Exception:
+        pass
+    return {**story, "source_urls": urls[:6], "feed_text": feed_text}
+
+
 def build_user(enriched):
     # The model sees the 1500-char excerpts, not the full extractions (cost discipline);
     # the full source_text rides only in out/source_texts.json for the researcher.
@@ -130,9 +167,7 @@ def run(client=None):
             "id": s["id"], "headline": s["headline"], "why_it_matters": s["why_it_matters"],
             "category": s.get("category", "other"), "confidence": s.get("confidence", "medium"),
             "source_urls": s.get("source_urls", []),
-            "source_checks": gather_sources(
-                {**s, "feed_text": _clusters.get(s["id"], {}).get("feed_text", "")},
-                client.mode),
+            "source_checks": gather_sources(_with_siblings(s, _clusters), client.mode),
         })
     # Persist the full extractions for the researcher (one fetch serves both stages).
     common.write_out("source_texts.json", {
