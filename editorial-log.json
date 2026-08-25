@@ -8315,5 +8315,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c062",
+    "headline": "San Francisco 49ers owner Jed York pleads no contest to criminal charges",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains highly sensitive personal material about an athlete/public figure\u2014arrest for prostitution-related charges, criminal tools charges, jail sentence\u2014presented in a way that could be interpreted as violating editorial boundaries around health, personal conduct, and ongoing legal matters.",
+     "The approval contract requires: 'Injury and health claims must trace to official injury reports or on-record statements in the brief; speculation about a player's body or medical state beyond the official record is category compliance. A definitive verdict on an ongoing investigation, or personal material about an athlete outside their sport, is also category compliance.'",
+     "This story is about personal criminal conduct wholly outside York's role as a sports franchise owner. The draft presents a conviction with minimal context or statement from the subject or the organization. While the brief does include this as a data_point, the brief itself notes it is 'thin' (true) and the source material is truncated ('does not contain substantive detail beyond the snippet; the full article text is not available'). The draft amplifies personal material from a truncated source without adequate sourcing detail, context, or organizational response, crossing the boundary into personal material beyond sport.",
+     "The draft lacks any statement from York, the 49ers, or the NFL\u2014all noted as absent in the brief's open_questions. Publishing a criminal conviction story about a major franchise owner with zero organizational response, no appeal information, and minimal sourcing detail creates compliance risk."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Vuelta stage three abandoned after hail in Pyrenees",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The hard rule is that no fact exists outside the brief. Every claim in the draft must trace to a data_point in an accompanying brief. Without a brief, the desk cannot verify that any fact in this draft\u2014the date, the location, the weather conditions, the decision to abandon, or the race status\u2014came from reportorial research rather than being improvised or paraphrased from an unvetted source. The draft cites a BBC Sport URL, but the approver cannot verify claims against source material; only against the research brief. This draft cannot be approved without a brief."
+    ]
+   },
+   {
+    "id": "c82",
+    "headline": "STORY CANNOT BE DRAFTED: SOURCE MATERIAL CORRUPTED",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body describes a corrupted source and explains why the story cannot be drafted, but this is a metadata/process statement, not a news story. The entire draft is a note about source failure, not a publishable article. A story without verifiable facts from a readable source cannot be published. The brief itself confirms source_text is corrupted with only CSS class definitions and no article content.",
+     "The story has no data_points in the brief to write from, and the draft itself acknowledges this by describing the source as unreadable. This is a hold, not a draft that can be approved or rejected on editorial merits\u2014it is a signal that the process broke before drafting could begin."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Rasmus ties Davis's LLWS strikeouts record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Pitcher Kinley Rasmus tied Mo'ne Davis's Little League World Series strikeouts record' as a fact, sourced to 'MLB.com reporting on August 25.' The brief confirms this claim is marked 'reported' confidence but the brief's open_questions section explicitly lists five critical unknowns: the specific strikeout total, the number of games over which Rasmus accumulated strikeouts, when and in which games Davis set the original record, the context of Rasmus's performance, and whether Rasmus surpassed the record in subsequent games. The draft presents the tie as settled fact without acknowledging that the actual numeric record, the scope of the achievement, and the ongoing status of the record are all unconfirmed. The bottom_line acknowledges these unknowns, but the body presents them as resolved.",
+     "The opening sentence attributes the claim to 'MLB.com reporting on August 25' but does not signal that critical details (the actual strikeout total, games, timeline) remain unconfirmed. A reader would understand from the body that the tie itself is confirmed; the brief's open_questions make clear that the substance of what was tied remains unreported."
+    ]
+   }
+  ]
  }
 ]
