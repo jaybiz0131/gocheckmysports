@@ -172,6 +172,15 @@ def run(client=None):
         enriched.append({
             "id": s["id"], "headline": s["headline"], "why_it_matters": s["why_it_matters"],
             "category": s.get("category", "other"), "confidence": s.get("confidence", "medium"),
+            # THE TIER RULE NEEDS THE TIER (owner directive 2026-08-25). The verifier is
+            # now told that one PRIMARY source is the strongest sourcing there is and one
+            # established outlet's own reporting is publishable with attribution, while a
+            # low-tier single source is not. It could not apply any of that: the enriched
+            # payload carried outlet NAMES but never the configured tier, so every source
+            # looked alike and everything single-outlet was routed to the review queue.
+            "source_tier": (_clusters.get(s["id"], {}) or {}).get("source_tier", "unknown"),
+            "corroborating_outlets": [x.get("name") for x in
+                                      ((_clusters.get(s["id"], {}) or {}).get("corroboration") or [])],
             "source_urls": s.get("source_urls", []),
             "source_checks": gather_sources(_with_siblings(s, _clusters), client.mode),
         })

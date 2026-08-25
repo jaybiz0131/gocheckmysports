@@ -247,14 +247,37 @@ def destyle(text):
     theoretical: three em dashes shipped on a sister site written as &mdash;, including one
     in an H2, and a lint that counted literal characters reported zero. A dash a reader sees
     is a dash whatever it is spelled as in the source, so the numeric and named entity forms
-    are normalised here too, before the literal pass runs on whatever they decode to."""
+    are normalised here too, before the literal pass runs on whatever they decode to.
+
+        NEVER PUNCTUATE TWICE, AND NEVER REWRITE A QUOTATION (owner audit 2026-08-25).
+    The old pass replaced every em dash with ", " unconditionally, so a dash that
+    already followed punctuation produced the published string "government. , and",
+    and a dash INSIDE a verbatim quotation was silently repunctuated, which changes
+    what a named person is quoted as saying. House style still bans the desk's own
+    dashes; a source's own words inside quotation marks are left exactly as spoken.
+    """
+    import re as _re
     s = str(text or "")
     for ent in ("&mdash;", "&#8212;", "&#x2014;", "&#X2014;"):
-        s = s.replace(" " + ent + " ", ", ").replace(ent, ", ")
+        s = s.replace(ent, "\u2014")
     for ent in ("&ndash;", "&#8211;", "&#x2013;", "&#X2013;"):
-        s = s.replace(" " + ent + " ", ", ").replace(ent, "-")
-    return (s.replace(" \u2014 ", ", ").replace("\u2014", ", ")
-            .replace(" \u2013 ", ", ").replace("\u2013", "-"))
+        s = s.replace(ent, "\u2013")
+
+    def _clean(seg):
+        # en dash between digits is a numeric range and stays a hyphen
+        seg = _re.sub(r"(?<=\d)\s*\u2013\s*(?=\d)", "-", seg)
+        seg = seg.replace("\u2013", "-")
+        # an em dash following punctuation needs no comma of its own
+        seg = _re.sub(r"(?<=[.,;:!?])\s*\u2014\s*", " ", seg)
+        # ...nor does one immediately before punctuation or at the end
+        seg = _re.sub(r"\s*\u2014\s*(?=[.,;:!?])", "", seg)
+        seg = _re.sub(r"\s*\u2014\s*$", "", seg)
+        seg = _re.sub(r"\s*\u2014\s*", ", ", seg)
+        return _re.sub(r",\s*,", ",", seg)
+
+    # split on double-quoted spans; odd indexes are quotations and are preserved
+    parts = _re.split(r'("[^"]*"|\u201c[^\u201d]*\u201d)', s)
+    return "".join(p if i % 2 else _clean(p) for i, p in enumerate(parts))
 
 
 def load_content():

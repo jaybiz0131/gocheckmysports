@@ -152,6 +152,45 @@ def distinct_publishers(refs):
     return len(out)
 
 
+
+def ldjson_article_body(html_body):
+    """The longest articleBody in any <script type="application/ld+json"> block, or ''.
+    Most news CMSes embed it server-side even when the visible HTML is a client-rendered
+    shell (ported from the news desk 2026-08-25). A malformed block is skipped."""
+    best = ""
+    for m in re.finditer(r"(?is)<script[^>]*type\s*=\s*[\"']application/ld\+json[\"'][^>]*>(.*?)</script>",
+                         html_body or ""):
+        try:
+            data = json.loads(m.group(1).strip())
+        except Exception:
+            continue
+        stack = [data]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, dict):
+                b = node.get("articleBody")
+                if isinstance(b, str) and len(b) > len(best):
+                    best = b
+                stack.extend(v for v in node.values() if isinstance(v, (dict, list)))
+            elif isinstance(node, list):
+                stack.extend(node)
+    return re.sub(r"\s+", " ", best).strip()
+
+
+def og_description(html_body):
+    """The page's own og:description / twitter:description, or ''. The publisher's own
+    one-line summary of their own story, served in the same response (owner audit
+    2026-08-25)."""
+    import html as _h
+    for pat in (r'<meta[^>]+property=["\']og:description["\'][^>]+content=["\']([^"\']{40,})',
+                r'<meta[^>]+content=["\']([^"\']{40,})["\'][^>]+property=["\']og:description["\']',
+                r'<meta[^>]+name=["\']twitter:description["\'][^>]+content=["\']([^"\']{40,})'):
+        m = re.search(pat, html_body or "", re.I)
+        if m:
+            return _h.unescape(m.group(1)).strip()
+    return ""
+
+
 def extract_article_text(html_body, cap=6000):
     """Readability-lite article extraction, stdlib only. Prefers the <article> block if the
     page has one, else collects <p> contents; strips tags/scripts, unescapes entities, and
@@ -175,11 +214,28 @@ def extract_article_text(html_body, cap=6000):
         # or it is not prose and returns empty (which the desk handles honestly).
         if len(text) > 400 and (text.count(". ") + text.count("! ") + text.count("? ")
                                 ) < max(3, len(text) // 400):
-            return ""
-        return text[:cap]
+            text = ""
+        return _thin_fallbacks(text, html_body)[:cap]
     out = []
     for p in paras:
         t = html_mod.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", p)).strip())
         if len(t) >= 40:  # boilerplate lines (menus, "Share this", bylines) run shorter
             out.append(t)
-    return "\n".join(out)[:cap]
+    return _thin_fallbacks("\n".join(out), html_body)[:cap]
+
+
+def _thin_fallbacks(text, html_body):
+    """Server-side text the markup pass missed: the page's own JSON-LD articleBody, then
+    its og:description. Both are the publisher's own words in the same response we already
+    fetched (owner audit 2026-08-25: MLB.com and CBSSports.com returned 200 with the full
+    story present and this extractor read ZERO chars, so the desk asserted what a readable
+    source 'did not contain'). A short honest fragment beats a confident false negative."""
+    if len(text) < 400:
+        ld = ldjson_article_body(html_body)
+        if len(ld) > len(text):
+            text = ld
+    if len(text) < 200:
+        og = og_description(html_body)
+        if len(og) > len(text):
+            text = og
+    return text
