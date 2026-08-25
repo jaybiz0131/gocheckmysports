@@ -61,7 +61,9 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-NAV = [("Home", "/index.html"), ("The Edition", "/news.html"),
+NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
+       ("NFL", "/sections/nfl.html"), ("Soccer", "/sections/soccer.html"),
+       ("MLB", "/sections/mlb.html"), ("NBA", "/sections/nba.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -1320,6 +1322,63 @@ def render_archive(items, dateline):
                  dateline, path="/archive.html")
 
 
+# ---- section hubs ------------------------------------------------------------
+
+# THE DESK'S LANES (owner decision 2026-08-25). Search Console showed 105 pages indexed,
+# zero clicks ever, and impressions scattered across unrelated topics: Google had no idea
+# what this site is about. The fix is a topical identity, and the honest version of that
+# is the lanes the desk ALREADY OWNS, measured across 325 published stories, not the lanes
+# it might wish it covered. Sports lanes are league-shaped because that is how sports
+# readers navigate; these four carry 25%, 23%, 11% and 12% of published stories.
+#
+# Deliberately additive and reversible: this changes how the existing corpus is ORGANISED,
+# not what the desk publishes. Narrowing the editorial mix is a bigger bet that should
+# follow evidence these hubs help, and unlike a hub, a narrowed archive cannot be undone.
+# (slug, page title, nav label, tags, blurb)
+SECTIONS = [
+    ("nfl", "NFL", "NFL", ("nfl",),
+     "Roster moves, injury reports and league business, sourced to official reports and "
+     "on-record statements."),
+    ("soccer", "Soccer", "Soccer", ("soccer",),
+     "Transfers, results and governance across the major competitions."),
+    ("mlb", "MLB", "MLB", ("mlb",),
+     "Trades, injuries and results, checked against official league data."),
+    ("nba", "NBA", "NBA", ("nba",),
+     "Signings, trades and results from the NBA and WNBA."),
+]
+
+
+def section_items(items, tags):
+    """Live stories in a lane, newest first. A story can appear in more than one lane;
+    that is honest, a court ruling about a wildfire evacuation belongs in both."""
+    want = set(tags)
+    return [i for i in items
+            if not i.get("example") and not i.get("superseded_by") and not _is_wrap(i)
+            and want & set(tags_for(i))]
+
+
+def render_section(slug, title, nav_label, tags, blurb, items, dateline):
+    live = section_items(items, tags)
+    if live:
+        inner = '<div class="grid">' + "".join(card(i) for i in live[:60]) + "</div>"
+        if len(live) > 60:
+            inner += (f'<p class="fine">Showing the 60 most recent of {len(live)} stories in '
+                      f'this section. <a href="/archive.html">The full archive</a> has the rest.</p>')
+    else:
+        inner = ('<div class="empty"><span class="k">Nothing here yet</span>'
+                 '<p style="margin:.6em 0 0">No published stories carry this section yet.</p></div>')
+    plain = title.replace("&amp;", "and")
+    body = f"""<main class="wrap"><h1 class="sr-only">{esc(plain)}</h1><section class="sec">
+    <div class="sec-head"><h2>{title}</h2><span class="bar"></span></div>
+    <p class="lede" style="margin:0 0 14px">{blurb}</p>
+    {inner}
+  </section></main>"""
+    # nav_label, not the page title: shell() marks the nav item whose label matches,
+    # so passing "Disasters and Weather" left the reader with no active-state anywhere
+    return shell(f"{plain} - {NAME}", blurb, nav_label, body, dateline,
+                 path=f"/sections/{slug}.html")
+
+
 # ---- static editorial pages --------------------------------------------------
 
 def render_method(items, dateline):
@@ -1900,6 +1959,9 @@ def build():
     w("index.html", render_home(items, dateline))
     w("news.html", render_news(items, dateline))
     w("archive.html", render_archive(items, dateline))
+    for _slug, _title, _nav, _tags, _blurb in SECTIONS:
+        w(f"sections/{_slug}.html",
+          render_section(_slug, _title, _nav, _tags, _blurb, items, dateline))
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
@@ -1946,7 +2008,7 @@ def build():
                               "type": "image/png"}]}, _mf, ensure_ascii=False, indent=1)
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/news.html",
+    locs = ["/", "/news.html"] + [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
     # SPLIT SITEMAP (2026-08-25). Search Console showed 207 of 369 submitted articles
