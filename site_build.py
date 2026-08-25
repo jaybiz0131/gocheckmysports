@@ -182,7 +182,13 @@ def tags_for(item):
     return [t[2] for t in scored[:3]]
 
 
-def related_stories(item, items, n=3):
+def related_stories(item, items, n=6):
+    # 6, not 3 (2026-08-25). Search Console showed the internal link graph inverted:
+    # boilerplate pages carried 100+ internal links each while articles carried 13 or
+    # fewer, and 207 of 369 sitemap articles were still uncrawled. This module is the
+    # desk's only article-to-article link source and it already reaches 96% of stories,
+    # so widening it from 3 to 6 is the cheapest available doubling of the links that
+    # actually point at content rather than at the masthead.
     """Stories sharing a topic tag, newest first. Turns a one-story visit into a session."""
     mine = set(tags_for(item))
     if not mine:
@@ -366,8 +372,11 @@ def trust_block():
 def footer(brand="site"):
     """One identity everywhere; the brand parameter is kept for the shared call sites."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
-                    [("About", "/about.html"), ("How we work", "/method.html"),
-                     ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
+                    # About and Archive live in the masthead nav; repeating them here gave
+                    # every page two links to each and helped invert the link graph. The
+                    # footer keeps what the nav does not carry.
+                    [("How we work", "/method.html"),
+                     ("Standards & corrections", "/standards.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmysports.com"),
                      ("RSS", "/feed.xml")])
@@ -1940,14 +1949,40 @@ def build():
     locs = ["/", "/news.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
-    locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
-    # the sitemap must name the SAME url the canonical does, or it advertises the
-    # non-canonical form and re-creates the duplicate it was meant to remove
-    urls = "\n".join(
-        f"  <url><loc>{ORIGIN}{esc(p[:-5] if p.endswith('.html') else p)}</loc></url>"
-        for p in locs)
-    w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
+    # SPLIT SITEMAP (2026-08-25). Search Console showed 207 of 369 submitted articles
+    # still uncrawled: a new domain gets a small crawl budget and a single flat sitemap
+    # spends it uniformly, so a story from six weeks ago competes with this morning's.
+    # A sitemapindex points at two children, and the priority file is small enough to be
+    # crawled whole. For a news desk RECENCY is the honest priority signal: the desk has
+    # no quality score, and inventing one to rank its own work would be a worse lie than
+    # a flat sitemap. Everything stays listed; only the ordering of attention changes.
+    arts = [it for it in items if not it.get("example")]
+    arts_sorted = sorted(arts, key=lambda i: i.get("published_utc") or i.get("date") or "",
+                         reverse=True)
+    PRIORITY_N = 30
+    prio_slugs = {i["slug"] for i in arts_sorted[:PRIORITY_N]}
+
+    def _clean(p):
+        return ORIGIN + (p[:-5] if p.endswith(".html") else p)
+
+    def _urlset(paths):
+        body = "\n".join(f"  <url><loc>{esc(_clean(p))}</loc></url>" for p in paths)
+        return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                + body + "\n</urlset>\n")
+
+    # priority: the hub pages a reader starts from, plus the newest N stories
+    prio = locs + [f"/articles/{i['slug']}.html" for i in arts_sorted[:PRIORITY_N]]
+    archive = [f"/articles/{i['slug']}.html" for i in arts_sorted[PRIORITY_N:]]
+    w("sitemap-priority.xml", _urlset(prio))
+    w("sitemap-archive.xml", _urlset(archive))
+    w("sitemap.xml",
+      '<?xml version="1.0" encoding="UTF-8"?>\n'
+      '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+      f'  <sitemap><loc>{ORIGIN}/sitemap-priority.xml</loc></sitemap>\n'
+      f'  <sitemap><loc>{ORIGIN}/sitemap-archive.xml</loc></sitemap>\n'
+      f'  <sitemap><loc>{ORIGIN}/news-sitemap.xml</loc></sitemap>\n'
+      '</sitemapindex>\n')
 
     # GOOGLE NEWS SITEMAP (2026-07-31): a standard sitemap tells crawlers a page exists;
     # this tells Google News a page is FRESH NEWS worth crawling now, and it is the entry
