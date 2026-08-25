@@ -95,7 +95,13 @@ def _with_siblings(story, clusters):
     real fetch: that is corroboration, not a shortcut, and the verifier still judges
     the claim against whatever text it actually reads.
     """
-    urls = [u for u in (story.get("source_urls") or []) if u]
+    # dedupe the story's OWN urls too: corroboration entries repeat the head url when
+    # outlets share a canonical link, and each repeat was a wasted paid fetch of a page
+    # already read (six identical fetches observed on one story).
+    urls = []
+    for u in (story.get("source_urls") or []):
+        if u and u not in urls:
+            urls.append(u)
     feed_text = ""
     head = str(story.get("headline") or "")
     try:
