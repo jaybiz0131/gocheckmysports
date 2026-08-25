@@ -8358,5 +8358,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c136",
+    "headline": "Astros, Dana Brown part ways; Crane takes interim control",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state that 'the source text provided is corrupted font-face CSS; no substantive reporting detail is available from the fetched page.' The draft presents facts from MLB.com as verified when the source material itself could not be reliably extracted. The brief marks the core facts as 'verified-on-chain' but the data_points for the AL West standing is marked only 'reported' and the brief indicates no substantive detail could be extracted to support even basic contextual claims.",
+     "The draft states 'No official statement or procedural detail about the interim arrangement or the reasons for the separation has been made available from the sources accessed'\u2014but this acknowledges the source was not properly parsed. Publishing facts from a source that could not be read violates the fundamental accuracy requirement."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "San Diego Padres introduce new owners Kwanza Jones and Jos\u00e9 E. Feliciano",
+    "category": "accuracy",
+    "reasons": [
+     "The core data_point is marked 'announced-not-verified' in the brief, but the draft presents the ownership claim without any hedge or qualification to signal that status. The draft should read 'announced' or include language like 'according to the announcement' or similar that surfaces the announced-not-verified confidence label. The first sentence reads as a settled fact when the brief indicates it is announced material pending verification.",
+     "The draft states facts came from MLB.com but does not qualify the confidence level of those facts. An 'announced-not-verified' claim presented without caveat becomes an accuracy problem."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Steelers and Joey Porter Jr. at impasse over contract; Cowboys among trade suitors",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Cornerback Joey Porter Jr. is holding in as he seeks a new contract with the Pittsburgh Steelers, according to CBS Sports.' This states Porter is currently holding in (present tense, ongoing action). The brief's data_point says 'has been holding in' (past perfect, indicating it occurred but timing unclear). The draft's framing of present-tense holding-in is a material difference from the brief's past-perfect phrasing and could mislead readers about whether this is an active, ongoing situation or a resolved one. The writer has added temporal certainty the brief does not carry.",
+     "The second paragraph reads: 'The specific contract terms or guarantees Porter is pursuing, the length of his hold-in, the timeline for resolution, and the Steelers' stated position on renegotiation or trade have not been disclosed.' This sentence violates the instruction against narrating absence. The brief's open_questions list these items as unknowns, but the draft should not editorialize about what 'has not been disclosed'\u2014that is the writer restating the absence of information, which is forbidden. The brief carries only what is reported; the draft invents a meta-claim about disclosure itself."
+    ]
+   }
+  ]
  }
 ]
