@@ -228,11 +228,15 @@ def tracking_match(story, rx):
     """True when a story is genuinely ABOUT a tracked storyline, not merely mentioning
     it (2026-07-27: the Severe weather chip landed on a Tour de France story whose dek
     mentioned a wildfire once). A title hit qualifies alone; otherwise two or more hits
-    across title+dek+key_fact. Module level so the canary can pin the regression."""
+    across title+key_fact. THE DEK DOES NOT QUALIFY (2026-08-25): it is where
+    comparative asides live, and two of them hijacked the Iran chip onto a Panama Canal
+    story whose dek compared canal traffic to the Strait of Hormuz. A storyline the
+    story is ABOUT shows up in the title or in key_fact, the central claim.
+    Module level so the canary can pin the regression."""
     title = story.get("title") or ""
     if rx.search(title):
         return True
-    text = " ".join([title, story.get("dek") or "", story.get("key_fact") or ""])
+    text = " ".join([title, story.get("key_fact") or ""])
     return len(rx.findall(text)) >= 2
 
 
@@ -1207,6 +1211,7 @@ def render_home(items, dateline):
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
     track_html = ""
     chips = []
+    _chip_slugs_used = set()
     try:
         watch = json.load(open(os.path.join(HERE, "config.json"),
                                encoding="utf-8")).get("narratives", {}).get("watchlist", [])
@@ -1221,7 +1226,17 @@ def render_home(items, dateline):
         cands = [i for i in live if not i.get("superseded_by") and _tracking_match(i, rx)]
         cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
         hit = cands[0] if cands else None
+        # ONE ARTICLE, ONE CHIP (2026-08-25): two labels on one story reads as a wiring
+        # error ("NFL training camp" and "NBA free agency" both landed on one Lions
+        # injury story). First storyline to claim an article keeps it; a later chip
+        # resolving to the same slug is dropped, and a dropped chip is honest where a
+        # mislabeled one is not.
+        if hit and hit.get("slug") in _chip_slugs_used:
+            print(f"tracking: chip {n.get('name')!r} skipped; its newest match "
+                  f"{hit.get('slug')!r} already carries another chip")
+            hit = None
         if hit:
+            _chip_slugs_used.add(hit.get("slug"))
             # BUILD GATE (owner directive 2026-07-27): a chip whose target does not
             # carry its storyline fails the build rather than shipping a mislink.
             if not _tracking_match(hit, rx) or hit.get("superseded_by"):

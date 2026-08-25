@@ -27,6 +27,17 @@ CHECK EACH DRAFT IN THIS ORDER:
      the official record is category "compliance". A definitive verdict on an ongoing
      investigation, or personal material about an athlete outside their sport, is also
      category "compliance".
+   - CONTESTED TERMINOLOGY NEVER RUNS IN THE DESK'S OWN VOICE (owner ruling 2026-08-21,
+     from a live finding). When a story touches politically charged framing, the desk
+     reports what named people SAID, in quotes, with attribution; the narration itself
+     stays neutral. A quoted speaker's loaded phrasing repeated later as the desk's own
+     unquoted description is category "compliance". The desk describes the dispute; it
+     does not adopt either side's vocabulary as fact.
+   - A REPUTATIONALLY DAMAGING CLAIM ABOUT A NAMED PERSON NEEDS MORE THAN ONE SOURCE.
+     A specific allegation of misconduct against a named individual carried on a single
+     secondary source is category "compliance": name it in offending_text so the desk
+     cuts that claim and publishes the rest, or reject if the allegation IS the story.
+     Wire-service or on-record-primary sourcing counts as sufficient on its own.
    - No em dashes; no fabricated quotes; the human_take slot must be empty; the
      not-betting-advice disclaimer must be present: category "compliance".
 

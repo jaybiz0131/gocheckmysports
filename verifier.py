@@ -36,14 +36,39 @@ def gather_sources(story, mode):
             checks.append({"url": url, "http_status": None, "source_text": "",
                            "text_excerpt": "(skipped: replay mode is offline)"})
         return checks
+    feed_text = str(story.get("feed_text") or "")
     for url in (story.get("source_urls", []) or [])[:3]:
         code, text = common.fetch_article_text(url)
-        if code == 200:
-            checks.append({"url": url, "http_status": code, "source_text": text,
-                           "text_excerpt": text[:1500]})
+        if code != 200:
+            text = ""
+        if len(text) < 200:
+            # THE LOG NAMES THE CAUSE (owner report 2026-08-25): one meta probe on the
+            # thin minority so the log carries status/final URL/content-type/bytes
+            # instead of the old two-word "0 chars" diagnostic.
+            m = common.fetch_page_meta(url)
+            diag = (f"status={m['status']} final={str(m['final_url'])[:120]} "
+                    f"ctype={str(m['content_type'])[:40]} bytes={m['bytes']} "
+                    f"extract={len(text)}")
+            common.gh("warning", f"source fetch thin: {diag} :: {url}")
         else:
-            checks.append({"url": url, "http_status": code, "source_text": "",
-                           "text_excerpt": text})
+            diag = f"status={code} extract={len(text)}"
+        checks.append({"url": url, "http_status": code,
+                       "source_text": text if len(text) >= 200 else "",
+                       "text_origin": "page", "fetch_meta": diag,
+                       "text_excerpt": (text[:1500] if text else f"(unreadable: {diag})")})
+    # PUBLISHER'S OWN FEED TEXT, ONLY WHEN NO PAGE COULD BE READ (owner report
+    # 2026-08-25): when every article page came back unreadable but the story's feed
+    # entry carries the publisher's own words, the desk verifies and briefs from those,
+    # labeled as exactly that. The page always wins when any page was readable, and the
+    # fallback never stacks on top of real text, so source_chars stays honest.
+    if checks and all(len(c.get("source_text") or "") < 300 for c in checks) \
+            and len(feed_text) >= 300:
+        checks.append({"url": (story.get("source_urls") or [""])[0], "http_status": None,
+                       "source_text": feed_text[:6000], "text_origin": "feed",
+                       "fetch_meta": "publisher feed text; no article page was readable",
+                       "text_excerpt": ("(no article page could be read; what follows is "
+                                        "the publisher's own feed text for this story) "
+                                        + feed_text)[:1500]})
     return checks
 
 
@@ -83,6 +108,11 @@ def run(client=None):
     cfg = common.load_config()
     editor = common.read_out("editor.json")
     ranked = editor["ranked"]
+    # the cluster carries the publisher's feed text for the fallback in gather_sources
+    try:
+        _clusters = {c.get("id"): c for c in common.read_out("items.json").get("clusters", [])}
+    except Exception:
+        _clusters = {}
     client = client or llmlib.Client(cfg)
     system = common.load_prompt("verifier.md")
     enriched = []
@@ -91,7 +121,9 @@ def run(client=None):
             "id": s["id"], "headline": s["headline"], "why_it_matters": s["why_it_matters"],
             "category": s.get("category", "other"), "confidence": s.get("confidence", "medium"),
             "source_urls": s.get("source_urls", []),
-            "source_checks": gather_sources(s, client.mode),
+            "source_checks": gather_sources(
+                {**s, "feed_text": _clusters.get(s["id"], {}).get("feed_text", "")},
+                client.mode),
         })
     # Persist the full extractions for the researcher (one fetch serves both stages).
     common.write_out("source_texts.json", {

@@ -262,7 +262,11 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 edition_check.py || true
+        id: edgap
+        run: |
+          breach=0
+          python3 edition_check.py || breach=$?
+          echo "breach=$breach" >> "$GITHUB_OUTPUT"
 
       # KILL-STREAK ALARM (owner ruling 2026-08-03, N=3): three consecutive approver
       # kills on one development with no publish files one digest issue quoting every
@@ -526,3 +530,15 @@ jobs:
               await github.rest.issues.create({ owner, repo, title, body });
             }
             core.setFailed(`Edition stage failed (${slot} ${date}); stories were unaffected.`);
+
+      # EDITION-GAP GATE (owner directive 2026-08-25): an abstained edition is as loud
+      # as a failed one. Crypto went dark for 42 hours behind green runs because wrap
+      # correctly abstained on zero stories every slot and only the gap counter noticed.
+      # Runs dead last so stories, the deploy probe, artifacts, the ping and the ledger
+      # all complete first; the gap issue itself is filed by edition_check.
+      - name: Fail the run if the edition gap breached
+        if: always() && steps.edgap.outputs.breach != '' && steps.edgap.outputs.breach != '0'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            core.setFailed("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");

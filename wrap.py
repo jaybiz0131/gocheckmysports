@@ -208,10 +208,13 @@ def check(client, obj, stories, boards, extras=None):
             "when two inputs differ because one is newer, the newer figure governs and "
             "citing it is correct. Respond ONLY with JSON: "
             '{"problems": [{"claim": "<the edition\'s exact words>", '
+            '"why": "<your reasoning, 1-3 sentences, written FIRST; decide from it: if '
+            'your own reasoning concludes the inputs support the claim, do not list '
+            'the item at all>", '
             '"kind": "absent"|"contradicted"|"advice"|"register", '
-            '"evidence": "<for contradicted: the conflicting input text QUOTED '
-            'VERBATIM, word for word; for absent: a short note; otherwise the '
-            'offending words>"}]}. '
+            '"evidence": "<for contradicted: ONLY the conflicting input text QUOTED '
+            'VERBATIM, word for word, with no commentary or reasoning of your own; '
+            'for absent: a short note; otherwise the offending words>"}]}. '
             "An edition with nothing wrong returns {\"problems\": []}. List ONLY "
             "problems; never list things the edition got right. If you are unsure "
             "whether a specific fact traces to the inputs, list it as a problem.\n\n"
@@ -284,10 +287,12 @@ def check(client, obj, stories, boards, extras=None):
             raise llmlib.LLMError("wrapcheck output missing 'problems' list")
         for p in o["problems"]:
             if not (isinstance(p, dict) and str(p.get("claim", "")).strip()
+                    and str(p.get("why", "")).strip()
                     and p.get("kind") in KINDS):
                 raise llmlib.LLMError(
                     f"wrapcheck: malformed problem item {str(p)[:120]!r}; every item "
-                    f"needs a non-empty 'claim' and a 'kind' from "
+                    f"needs a non-empty 'claim', a non-empty 'why' (your reasoning, "
+                    f"written before the verdict), and a 'kind' from "
                     f"absent/contradicted/advice/register")
         return o
     v = client.call_json("wrapcheck",
@@ -316,6 +321,29 @@ def check(client, obj, stories, boards, extras=None):
                 print(f"::notice::wrapcheck: dropped 'contradicted' item whose evidence "
                       f"contains the claim itself ({str(p.get('claim'))[:80]!r}); "
                       f"agreement is not a contradiction")
+                continue
+            # A SELF-REFUTING VERDICT DIES HERE, NOT THE EDITION (owner report
+            # 2026-08-25): a checker item affirmed a contradiction, reasoned its way out
+            # of it, and ENDED "so this is internally consistent with inputs provided",
+            # yet the edition died: the old filter read the START of the rationale and
+            # the adjudicator saw evidence[:400], which amputated the reversal at the
+            # end. The verdict of finished reasoning lives in its FINAL sentence, so
+            # that is what is read. Markers are explicit consistency ASSERTIONS only:
+            # "however"/"upon review" alone never trigger the drop, so a real catch
+            # whose final sentence still asserts the conflict survives untouched, and
+            # the NEG veto stops "NOT internally consistent" from matching.
+            rationale = str(p.get("why", "") or ev)
+            _sents = [x for x in re.split(r"(?<=[.!?])\s+", rationale.strip()) if x]
+            fs = " " + _norm(_sents[-1] if _sents else "") + " "
+            _NEG = (" not internally consistent ", " not consistent ", " inconsistent ",
+                    " cannot both be true ", " no longer consistent ")
+            _POS = (" internally consistent ", " not a contradiction ",
+                    " no contradiction ", " can both be true ", " this is consistent ",
+                    " is consistent with ")
+            if not any(t in fs for t in _NEG) and any(t in fs for t in _POS):
+                print(f"::notice::wrapcheck: dropped self-refuting 'contradicted' item "
+                      f"whose own reasoning ends by asserting consistency "
+                      f"({str(p.get('claim'))[:80]!r})")
                 continue
             if not any(w in inputs_text for w in _windows(ev)):
                 print(f"::notice::wrapcheck: 'contradicted' receipt is not a verbatim "
@@ -426,8 +454,13 @@ def check(client, obj, stories, boards, extras=None):
         if p["kind"] != "contradicted":
             kept.append(p)
             continue
+        _adj_ev = str(p.get("evidence", ""))
+        if not any(w in inputs_text for w in _windows(_adj_ev)):
+            # evidence that is not verbatim input text must never impersonate the input
+            # (owner report 2026-08-25): adjudicate against retrieved input excerpts
+            _adj_ev = " / ".join(_best_excerpts(str(p.get("claim", ""))))
         q = ("Two statements about the same event.\n"
-             f"INPUT SAYS: {str(p.get('evidence', ''))[:400]}\n"
+             f"INPUT SAYS: {_adj_ev[:600]}\n"
              f"EDITION SAYS: {str(p.get('claim', ''))[:400]}\n"
              "Could both be true at once (including when one merely rephrases, "
              "abbreviates, or rounds the other)? Respond ONLY with JSON: "
@@ -453,6 +486,7 @@ def check(client, obj, stories, boards, extras=None):
     v["problems"] = kept
     reasons = [f"{p['kind']}: {p['claim']}"
                + (f" [{p['evidence']}]" if str(p.get("evidence", "")).strip() else "")
+               + (f" ({p.get('why')})" if str(p.get("why", "")).strip() else "")
                for p in v["problems"]]
     return not v["problems"], reasons
 
@@ -559,8 +593,12 @@ def main():
 
     stories = gather_stories()
     if not stories:
-        print("wrap: no published stories in the window; a quiet-day edition needs at "
-              "least the boards, but with zero stories the desk stays silent (honest).")
+        # silent is honest, but it is now LOUD silent (owner directive 2026-08-25; the
+        # crypto desk's 42h dark spell was invisible because this was a bare print).
+        # edition_check counts the gap and fails the run once it breaches.
+        common.gh("warning", "wrap: no published stories in the window; the edition "
+                             "abstains this slot. If this repeats, the edition-gap gate "
+                             "will fail the run.")
         return 0
     # Desk boards were retired with the market modules; the edition synthesizes the desk's
     # own published stories, and the prompt treats absent boards as simply not citable.

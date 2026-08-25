@@ -51,7 +51,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, "config.json")
 OUT_DIR = os.path.join(HERE, "out")
 DEFAULT_OUT = os.path.join(OUT_DIR, "items.json")
-UA = "GoCheckMySports-Aggregator/1.0 (+news pipeline)"
+UA = "GoCheckMySports-Aggregator/1.0 (+news pipeline; +https://gocheckmysports.com)"
 
 STOPWORDS = set(("the a an and or of to in on for with at by from as is are be into over "
                  "after amid its it new news says say will has have how why what when who "
@@ -166,9 +166,17 @@ def parse_feed(xml_bytes, source_name, tier):
                 title = strip_html("".join(child.itertext()))
             elif t == "link":
                 link = (child.get("href") or child.text or "").strip()
-            elif t in ("description", "summary", "content"):
-                if not summary:
-                    summary = strip_html("".join(child.itertext()))
+            elif t in ("description", "summary", "content", "encoded"):
+                # KEEP THE LONGEST CANDIDATE, INCLUDING content:encoded (owner report
+                # 2026-08-25): many publishers now block article pages for non-browser
+                # clients while their own feed carries hundreds to thousands of chars of
+                # publisher-written text. First-tag-wins threw that text away; the
+                # longest candidate keeps it, and feed_text below carries it downstream
+                # so a desk that cannot read the page can still verify and brief from
+                # the publisher's own words.
+                cand = strip_html("".join(child.itertext()))
+                if len(cand) > len(summary):
+                    summary = cand
             elif t in ("pubdate", "published", "updated", "date"):
                 if not pub:
                     pub = (child.text or "").strip()
@@ -183,6 +191,7 @@ def parse_feed(xml_bytes, source_name, tier):
             "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
             "_ts": ts,
             "snippet": summary[:400],
+            "feed_text": summary[:6000],
         })
     return items
 
@@ -489,6 +498,7 @@ def dedupe(items, cfg):
             "url": head["url"],
             "timestamp": head["timestamp"],
             "snippet": head["snippet"],
+            "feed_text": max((m.get("feed_text") or "" for m in members), key=len),
             "corroboration": corro,
             "corroboration_count": len(corro),
         }

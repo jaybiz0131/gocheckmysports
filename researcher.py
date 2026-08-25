@@ -234,6 +234,37 @@ def run(client=None):
         print("researcher: 0 briefable stories after the rehash guard -> out/briefs.json")
         return obj
 
+    # PARKED MEANS PARKED (owner report 2026-08-25): the writer's spend breaker stops
+    # DRAFTING a development after 5 consecutive kills, but the researcher kept paying
+    # to brief it (a WIDE brief, no less) every slot, and the writer then refused the
+    # finished brief for free: roughly 28 developments across the desks cycling at two
+    # paid calls each, indefinitely. The breaker now applies where the first money is
+    # spent. A publish still un-parks automatically (the 2026-08-18 publish-break), and
+    # the kill-streak digest remains the human ruling queue.
+    if client.mode != "replay":
+        try:
+            import kill_streak as _ksb
+            kept = []
+            for s in stories:
+                stop, why = _ksb.stop_drafting(str(s.get("headline") or ""))
+                if stop:
+                    common.gh("notice", f"researcher: NOT briefing "
+                              f"{str(s.get('headline'))[:60]!r} ({why}; parked pending "
+                              f"the kill-streak digest ruling)")
+                else:
+                    kept.append(s)
+            stories = kept
+        except Exception as e:
+            common.gh("warning", f"researcher: spend breaker unavailable ({e})")
+        if not stories:
+            obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
+                   "briefed": 0,
+                   "note": "every remaining candidate is parked by the spend breaker",
+                   "budget": client.budget.summary()}}
+            common.write_out("briefs.json", obj)
+            print("researcher: 0 briefable stories after the spend breaker -> out/briefs.json")
+            return obj
+
     # WIDEN THE BRIEF ON A KILL STREAK (owner fix list 2026-08-18, item 2): the
     # dominant kill reason across all three desks is a draft carrying facts the brief
     # does not, and it repeats because attempt N+1 gets the same thin brief attempt N

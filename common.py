@@ -10,7 +10,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = os.path.join(HERE, "out")
 PROMPTS = os.path.join(HERE, "prompts")
 CONFIG = os.path.join(HERE, "config.json")
-UA = "GoCheckMySports/1.0 (+news pipeline)"
+UA = "GoCheckMySports/1.0 (+news pipeline; +https://gocheckmysports.com)"
 
 
 def gh(level, msg):
@@ -50,17 +50,46 @@ def fetch_text(url, timeout=25):
     return code, text
 
 
-def fetch_page(url, timeout=25):
-    """Fetch a URL and return (http_status, raw_html). Never raises; on failure returns
-    (None, error string)."""
+def fetch_page_meta(url, timeout=25):
+    """Fetch a URL and return the WHOLE story of the fetch, never raising:
+    {status, final_url, content_type, bytes, body, error}.
+
+    WHY THIS EXISTS (owner report 2026-08-25): "0 chars" had become the desks' entire
+    diagnostic. The blanket except below collapsed a 403 challenge, a paywall, a
+    JS-only shell, a redirect loop and a timeout into the same two words, and nobody
+    could fix what the log did not name. An HTTPError in particular carries the real
+    status and usually a challenge body; both are kept now.
+    """
+    meta = {"status": None, "final_url": url, "content_type": "", "bytes": 0,
+            "body": "", "error": ""}
     try:
         req = urllib.request.Request(url, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            code = r.getcode()
-            body = r.read(200000).decode("utf-8", "replace")
-        return code, body
+            raw = r.read(200000)
+            meta.update(status=r.getcode(), final_url=r.geturl() or url,
+                        content_type=r.headers.get("Content-Type", ""),
+                        bytes=len(raw), body=raw.decode("utf-8", "replace"))
+    except urllib.error.HTTPError as e:
+        try:
+            raw = e.read(200000)
+        except Exception:
+            raw = b""
+        meta.update(status=e.code, final_url=getattr(e, "url", url) or url,
+                    content_type=(e.headers.get("Content-Type", "") if e.headers else ""),
+                    bytes=len(raw), body=raw.decode("utf-8", "replace"),
+                    error=f"HTTP {e.code}")
     except Exception as e:
-        return None, f"fetch failed: {e}"
+        meta["error"] = f"fetch failed: {e}"
+    return meta
+
+
+def fetch_page(url, timeout=25):
+    """Fetch a URL and return (http_status, raw_html). Never raises; on failure returns
+    (None, error string). Thin wrapper over fetch_page_meta, kept for every caller."""
+    m = fetch_page_meta(url, timeout=timeout)
+    if m["status"] is not None:
+        return m["status"], m["body"] or m["error"]
+    return None, m["error"]
 
 
 def fetch_article_text(url, timeout=25):
@@ -139,6 +168,14 @@ def extract_article_text(html_body, cap=6000):
     if not paras and m is None:
         # No <p> tags at all (some CMSes): fall back to the naive strip of the whole page.
         text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body)).strip()
+        # PROSE HAS SENTENCES (owner report 2026-08-25): a JS/CSS shell stripped of tags
+        # can yield thousands of chars of selector soup, which then defeats every
+        # downstream length gate as if it were source text. Junk in means invented
+        # stories out, so a long no-<p> extraction must show minimal sentence density
+        # or it is not prose and returns empty (which the desk handles honestly).
+        if len(text) > 400 and (text.count(". ") + text.count("! ") + text.count("? ")
+                                ) < max(3, len(text) // 400):
+            return ""
         return text[:cap]
     out = []
     for p in paras:

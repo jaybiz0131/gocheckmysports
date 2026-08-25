@@ -119,8 +119,13 @@ def main():
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the gap. Read the wrap step's log for the gate it failed.")
         _flag_issue(msg)
-    else:
-        print(f"edition_check: OK, {msg}.")
+        # AN ABSTAINED EDITION IS AS LOUD AS A FAILED ONE (owner directive 2026-08-25):
+        # wrap declining with zero stories is correct behaviour, but three consecutive
+        # honest silences is an outage, and this counter is the only thing that sees
+        # it. Exit 3 so the workflow's dead-last gate can mark the run failed AFTER
+        # stories publish; the annotation and the issue above are unchanged.
+        return 3
+    print(f"edition_check: OK, {msg}.")
     return 0
 
 
