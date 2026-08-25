@@ -62,7 +62,14 @@ def gather_sources(story, mode):
         if len(text) >= 200:
             fetched_ok += 1
         checks.append({"url": url, "http_status": code,
-                       "source_text": text if len(text) >= 200 else "",
+                       # KEEP WHAT THE PUBLISHER GAVE US (owner audit 2026-08-25). This
+                       # discarded anything under 200 chars, which threw away the exact
+                       # og:description and JSON-LD text the extractor had just recovered
+                       # (97-147 chars of the publisher's own summary), so eight stories
+                       # a run still reached the writer as "0 chars of source text". The
+                       # writer's own floor decides what is too thin to write from; this
+                       # stage's job is to carry whatever was actually read.
+                       "source_text": text,
                        "text_origin": "page", "fetch_meta": diag,
                        "text_excerpt": (text[:1500] if text else f"(unreadable: {diag})")})
     # PUBLISHER'S OWN FEED TEXT, ONLY WHEN NO PAGE COULD BE READ (owner report
@@ -70,8 +77,8 @@ def gather_sources(story, mode):
     # entry carries the publisher's own words, the desk verifies and briefs from those,
     # labeled as exactly that. The page always wins when any page was readable, and the
     # fallback never stacks on top of real text, so source_chars stays honest.
-    if checks and all(len(c.get("source_text") or "") < 300 for c in checks) \
-            and len(feed_text) >= 300:
+    if checks and all(len(c.get("source_text") or "") < 200 for c in checks) \
+            and len(feed_text) >= 150:
         checks.append({"url": (story.get("source_urls") or [""])[0], "http_status": None,
                        "source_text": feed_text[:6000], "text_origin": "feed",
                        "fetch_meta": "publisher feed text; no article page was readable",
