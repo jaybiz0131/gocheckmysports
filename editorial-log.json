@@ -8476,5 +8476,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c025",
+    "headline": "At Least 25% of Ex-NFL Players Who Died 2016-2021 Had CTE, New Study Finds",
+    "category": "balance",
+    "reasons": [
+     "The brief explicitly flags open_questions about the study's sample size, methodologies, comparative context, and the NFL's official response. The draft contains zero counter-evidence, opposing viewpoint, or acknowledgment of what remains unknown about this study's scope and limitations. The draft presents the finding as settled fact without noting that critical methodological questions remain unanswered, and offers no space for the league's perspective or any limitation on the claims. A peer-reviewed study on a contested health topic warrants proportional representation of uncertainty and the existence of ongoing debate, especially when the brief's own open_questions highlight that baseline information (sample size, specific methods, comparative data) has not been disclosed.",
+     "The brief is marked thin=true, but the draft reads as a definitive health conclusion rather than a careful report of what one study found. The tone does not match the epistemic humility required when reporting a single peer-reviewed finding on a contested question, particularly on matters of medical causation and liability."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "PGA Tour Overhauls Tour Championship Starting 2028: Match Play, World Cup Format, Rotating Venues",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The new format will feature 32 players in the first week, divided into eight groups of four, each competing in three head-to-head matches. The top two players from each group advance to a second week of single-elimination bracket play across four days' - this means 16 players advance (8 groups \u00d7 2 top players). However, the brief's core_claim states 'sudden-death match play with 16 players competing in a single-elimination bracket,' and the data_point says 'The top two players from each group will advance to the second and final week, where the remaining 16 players will compete in a single-elimination bracket.' The draft's math is correct (32 \u2192 16), but the brief's core_claim language suggests 16 players total, not 32 in week one. The core_claim appears to conflate the two weeks. The draft's numbers match the detailed data_points, not the core_claim, so the draft is internally correct but the brief's core_claim is ambiguous. Since the data_points in the brief support the draft's 32-then-16 structure, this is acceptable.",
+     "The draft includes a data_point not found in the brief: 'Highly ranked, ultra-private clubs like Pine Valley (New Jersey), Cypress Point (California), and Seminole (Florida), as well as top-tier public resorts like Bandon Dunes (Oregon), have been in the rotation for the Walker Cup...' This appears in the brief's data_points as a reported claim. However, the draft never names these specific venues, so this is not smuggled into the narrative. No accuracy violation here.",
+     "The draft states 'the Tour Championship at rotating non-traditional venues will likely feature fewer fans and smaller corporate hospitality buildouts than East Lake's established infrastructure provides, potentially reducing revenue streams that the Atlanta course has developed over two decades.' The brief's bear_case says 'The Tour Championship will likely have fewer fans and smaller corporate hospitality buildouts at non-traditional rotating venues, potentially reducing revenue compared to East Lake's established infrastructure.' The draft adds 'that the Atlanta course has developed over two decades' - this is a reasonable inference from the brief's data point that East Lake has hosted since 2004 (22 years), but 'two decades' is a rough paraphrase that rounds to approximately correct. Not an accuracy violation but imprecise attribution."
+    ]
+   },
+   {
+    "id": "c254",
+    "headline": "Trail Blazers guard Shaedon Sharpe tears meniscus, to miss 6 months",
+    "category": "compliance",
+    "reasons": [
+     "Injury and health claims must trace to official injury reports or on-record statements per desk compliance rules. The draft presents a specific medical diagnosis (torn meniscus in right knee) and a definitive recovery timeline (six months, late February or early March return) as settled fact from a single secondary source (Yahoo NBA article). The brief's open_questions explicitly flag that 'No statement from the Trail Blazers organization or Sharpe himself is included in the fetched source text.' This is a single secondary source carrying a specific medical allegation about a named athlete's body without primary sourcing from the team or player. This violates the reputational and medical compliance line: a medical diagnosis needs team confirmation or official injury report sourcing, not wire-service secondary reporting alone."
+    ]
+   }
+  ]
  }
 ]
