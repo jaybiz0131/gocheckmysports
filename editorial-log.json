@@ -8432,5 +8432,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "England Captain Root Reacts Sharply to Carse Nightclub Incident",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (BBC Sport) but provides no link or article identifier that can be verified. The cited URL format is incomplete (c4g5z5p8w17o appears to be a fragment). Without access to the actual source material, facts cannot be verified: the specific quotes ('hacked off,' 'disappointed'), the nature of the incident, the nightclub location (Derby), and Root's status as captain cannot be confirmed.",
+     "The draft makes definitive claims about Carse's conduct ('an incident involving fast bowler Brydon Carse at a Derby nightclub') without providing any detail about what that incident was, sourced only to a URL that cannot be accessed for verification."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Dodgers vs. Braves series preview: Division leaders face off as both eye first-round playoff bye",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The draft cites only one source (a CBS Sports preview URL) but provides no verifiable facts from that source: the four-game lead, the playoff bye framing, the team positioning, and all narrative claims lack attribution to specific reporting. The draft reads as generalized sports commentary rather than reported news. Without a brief to validate facts and with a single source that is never actually quoted or specifically attributed inline, every factual claim in the body fails the traceability requirement.",
+     "The entire draft consists of unsourced interpretation and framing. Sentences like 'Los Angeles comes into the series with a four-game lead over Atlanta, according to CBS Sports' attribute direction but not substance; 'according to CBS Sports' is a hanging attribution that does not ground any specific fact. No score, date, team record, or concrete data point is cited to an actual quotation or on-record statement from the source."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Ukrainian star leaves LSU women's basketball team after signing of Russian recruit",
+    "category": "compliance",
+    "reasons": [
+     "The draft narrates causation between Koval's departure and Minaeva's signing as the desk's own framing, not as reported fact or named-speaker attribution. The brief's bear_case explicitly notes that Mulkey cited 'personal reasons' and requested privacy, stopping short of confirming any conflict. The draft's opening paragraph ('creating a stark moment of geopolitical tension within a college athletics program') adopts a politically charged interpretation without attribution; it should report what sources said the tension was, not declare the tension as fact in the narration.",
+     "The third paragraph ('The timing raises the question of causation') and fourth paragraph ('Whether Koval's decision was directly prompted by Minaeva's arrival...remains unclear from the available record') correctly hedge the causal claim, but the opening and second paragraphs present the geopolitical framing as settled desk description, not as an inference or a speaker's interpretation. The draft should attribute the 'geopolitical tension' framing to reporting or speakers, or excise it from the narration.",
+     "The draft's final two paragraphs use language like 'exposed a fault line' and 'the private reality of a player's choice to leave' that again adopt interpretive framing in the desk's own voice rather than as reported or attributed analysis. This violates the contested-terminology rule: the desk reports what speakers said about the situation; it does not narrate the situation's meaning as its own verdict."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Mystics vs. Mercury: Washington pushes for playoff seeding as Phoenix exits contention",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core claim and all 18 data points are about the Dallas Wings clinching the final WNBA playoff spot against Portland on August 25, 2026. The draft is entirely about the Washington Mystics vs. Phoenix Mercury matchup on the same date. The draft contains zero facts traceable to the brief.",
+     "The brief's open_questions explicitly flag a mismatch: 'The provided source text focuses on the Mystics vs. Mercury game, not the Fire vs. Wings game mentioned in the headline.' The writer appears to have drafted from a different game entirely than the research brief.",
+     "Every factual claim in the draft (Phoenix elimination, Bonner buyout, Mack's statistics, Mystics seeding chase, betting lines for Mystics-Mercury) is not present in the brief's data_points. The hard rule\u2014'no fact exists outside the brief'\u2014is violated throughout."
+    ]
+   }
+  ]
  }
 ]
