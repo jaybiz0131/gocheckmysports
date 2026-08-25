@@ -8391,5 +8391,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c115",
+    "headline": "WNBA Rules Enes Kanter Freedom Ineligible to Play",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft; the hard rule is that no fact exists outside the brief. The draft cites three sources (Front Office Sports, Awful Announcing, Yahoo Sports) but provides no link text or fetched content from those sources for the approver to verify against. Without a brief's data_points to trace the claims to, every fact in the draft is unverified.",
+     "The core claim\u2014'The WNBA has ruled Enes Kanter Freedom ineligible to play in the league'\u2014cannot be verified by the approver because no source material is available and no brief data_points exist.",
+     "The ejection detail ('ejection from a WNBA game on Sunday night after a courtside confrontation with player Natasha Cloud') is also unverified without brief support or accessible source text.",
+     "This is a procedurally orphaned story: the writer was required to anchor every fact to a brief; without a brief, the draft is unsalvageable."
+    ]
+   },
+   {
+    "id": "c158",
+    "headline": "Kwanza Jones and Jos\u00e9 E. Feliciano Introduced as New San Diego Padres Owners",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's confidence label 'announced-not-verified' for both core claims must be reflected in the prose. The draft presents the introduction and the 'We are all in' quote as settled fact without any hedging language ('stated,' 'according to MLB.com') that signals these are unverified announcements rather than independently confirmed events. This violates the hard rule that confidence labels must survive in prose."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Former world snooker champion Graeme Dott found guilty of child sexual abuse",
+    "category": "compliance",
+    "reasons": [
+     "This draft reports a criminal conviction involving child sexual abuse, which is sensitive personal material about an athlete outside their sport in a criminal legal context. The open_questions field in the brief explicitly states 'The provided source text is corrupted Guardian navigation JSON; the full conviction details, sentencing, specific charges, victim identities (beyond age/gender), any defense arguments, or procedural next steps are not present in the fetched source.' The brief identifies that critical details\u2014specific charges, sentencing, procedural next steps, and defense arguments\u2014are missing from the source material. A story based on incomplete source material for a serious criminal conviction creates substantial compliance and liability risk. The desk should not publish without full access to the original reporting and verification of all factual claims."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Vuelta a Espana stage three abandoned due to severe hail in Pyrenees",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this draft. Per the approval protocol, every fact in a draft must trace either to a data_point in a research brief OR the brief itself must be absent (in which case facts must be verifiable in the cited sources). The instruction states: 'the writer's hard rule was: no fact exists outside the brief.' With no brief supplied, the sources become the de facto brief, but the URLs provided cannot be verified as real or as containing the claims made. The BBC URL appears malformed (c1e5p00px33o is not a valid article identifier pattern), and the Guardian URL is dated 2026 (a future date), making both sources unverifiable. The draft cannot be approved without either a valid research brief or confirmation that the cited sources exist and contain these facts."
+    ]
+   }
+  ]
  }
 ]
