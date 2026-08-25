@@ -52,9 +52,7 @@ CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analyt
 DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
         "get the stories right and keep the facts honest. Scores are facts; stories get "
         "checked against their sources before they run. Never betting advice.")
-FAMILY_DESC = ("GoCheckMySports is sports, checked: a daily news desk that verifies every "
-               "story against official league data and on-record sources before it runs. "
-               "The score is a fact. The story gets checked. Never betting advice.")
+FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with live scores and the sourcing behind every story. No betting picks.")
 NFA = ("GoCheckMySports reports events. It never advises bets. Nothing here is betting or "
        "gambling advice.")
 YEAR = "2026"
@@ -455,7 +453,8 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          brand="site", og_type="website", schema_extra="", og_image=None):
+          brand="site", og_type="website", schema_extra="", og_image=None,
+          canonical_path=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
@@ -467,7 +466,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # og:url disagree with the URL people actually share. Both are fixed by naming the
     # form the site actually serves and links. If Pretty URLs is ever disabled, this must
     # revert with it, or every canonical will point at a 404.
-    url = ORIGIN + (path[:-5] if path.endswith(".html") else path)
+    # CANONICAL MAY POINT ELSEWHERE (crawl audit 2026-08-25): a composite page whose
+    # unique content already lives on its own URL should name that URL rather than
+    # compete with it. Everything else keeps the self-referential canonical.
+    _cp = canonical_path or path
+    url = ORIGIN + (_cp[:-5] if _cp.endswith(".html") else _cp)
     site_name = NAME
     # Home only: the hero band's poster is the LCP element (the video is preload="none"
     # by design), so hint the browser to fetch it first.
@@ -745,7 +748,10 @@ def render_article(item, all_items=None):
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
-         "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/"}},
+         # ONE PUBLISHER IDENTITY (crawl audit 2026-08-25): the article names the same
+         # @id the homepage Organization block defines, so a crawler resolves both to
+         # one entity instead of reading a fresh Organization on every page.
+         "publisher": {"@id": ORIGIN + "/#publisher"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Latest", "item": ORIGIN + "/news.html"},
             {"@type": "ListItem", "position": 2, "name": item.get("title"), "item": url}]}
@@ -1129,6 +1135,25 @@ def render_news(items, dateline):
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html")
 
 
+
+def home_schema():
+    """Organization + WebSite for the homepage.
+
+    Article pages have carried NewsArticle and BreadcrumbList since launch and /news now
+    carries CollectionPage, but the HOMEPAGE, the page a crawler reaches first and the one
+    that should establish who publishes everything else, emitted no structured data at all
+    (crawl audit 2026-08-25). The publisher block here is the same identity the article
+    schema names, so the two agree."""
+    org = {"@type": "NewsMediaOrganization", "@id": ORIGIN + "/#publisher",
+           "name": FAMILY, "url": ORIGIN + "/",
+           "logo": {"@type": "ImageObject", "url": ORIGIN + "/og-image.png"},
+           "description": FAMILY_DESC}
+    site = {"@type": "WebSite", "@id": ORIGIN + "/#website", "url": ORIGIN + "/",
+            "name": FAMILY, "publisher": {"@id": ORIGIN + "/#publisher"}}
+    return ('<script type="application/ld+json">'
+            + json.dumps({"@context": "https://schema.org", "@graph": [org, site]},
+                         ensure_ascii=False) + "</script>")
+
 def render_home(items, dateline):
     """The GoCheckMySports front door, built for the RETURNING reader: today's headlines,
     the editions, and the storylines the desk is tracking. The brand pitch lives below the
@@ -1294,7 +1319,7 @@ def render_home(items, dateline):
      hype stripped out. No hot takes dressed as facts, no paid promotion, and never betting
      advice. Everything here is free, and every source is linked.</p>
 </section></main>""" + newsletter()
-    return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/")
+    return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 
 
 def render_archive(items, dateline):

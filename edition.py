@@ -322,6 +322,11 @@ def _kicker(desk, d):
     return esc(k)
 
 
+
+def _latest_edition_path(all_days):
+    """The newest dated edition; nav points here now that /news is the news hub."""
+    return f"/edition/{all_days[0]}.html" if all_days else "/news.html"
+
 def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     ed, stories = select(items, day)
     lead = stories[0] if stories else None
@@ -351,7 +356,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     <span>{esc(desk["place"])}</span>
   </div>
   <nav class="ed-sections" aria-label="Sections">
-    <a href="/news.html"{' aria-current="page"' if canonical_path == "/news.html" else ""}>Front Page</a>
+    <a href="{_latest_edition_path(all_days)}"{' aria-current="page"' if canonical_path.startswith("/edition/") else ""}>The Edition</a>
     <a href="/archive.html">Back Issues</a>
   </nav>
 </header>"""
@@ -434,13 +439,27 @@ def build(items, w, desk=DESK, shell=None):
             return ("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
                     "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
                     f"<title>{esc(title)}</title></head><body>{body}</body></html>")
+        # THE EDITION'S ONLY ORIGINAL CONTENT IS ITS BRIEF, AND THE BRIEF HAS ITS OWN
+        # URL (crawl audit 2026-08-25, ported from crypto): most of an edition's body is
+        # verbatim paragraphs from the article pages it summarises, and the brief is
+        # already published at /articles/<brief-slug> and already sitemapped. So the
+        # composite names the brief as canonical instead of competing with it.
+        canon = f"/articles/{ed['slug']}.html" if ed and ed.get("slug") else path
         return shell(title,
-                     f"The composed daily edition of {desk['name']}: the desk's ranked "
-                     f"reporting and its brief, as one front page.",
+                     f"The composed daily edition of {desk['name']} for "
+                     f"{_human_date(day)}: the desk's ranked reporting and its brief, "
+                     f"as one front page.",
                      "The Edition", body, _human_date(day).upper(),
-                     path=path, brand="cronkite", og_type="website")
+                     path=path, brand="cronkite", og_type="website",
+                     canonical_path=canon)
 
-    w("news.html", page(days[0], "/news.html"))
+    # /news IS NOT THE EDITION (crawl audit 2026-08-25, ported from the crypto desk).
+    # This overwrote news.html with the newest edition AFTER site_build had already
+    # written the news hub there, so render_news was dead code and /news was a
+    # daily-changing duplicate of a stable dated twin, which is the shape Google reports
+    # as "crawled, currently not indexed". It is also why /news carried the Edition's
+    # title with the spaced brand while every other page used the joined one. The hub
+    # keeps /news; the editions keep their dated URLs; nav points at the newest.
     for d in days:
         w(f"edition/{d}.html", page(d, f"/edition/{d}.html"))
     return len(days)
