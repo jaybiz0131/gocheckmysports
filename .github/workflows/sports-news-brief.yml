@@ -67,7 +67,17 @@ jobs:
   brief:
     runs-on: ubuntu-latest
     steps:
+      # CHECK OUT THE BRANCH TIP, NOT THE TRIGGER SHA (duplicate root cause 2026-08-25).
+      # Bare checkout pins github.sha, the commit the run was SCHEDULED against. The
+      # publish jobs share a concurrency group so runs queue, and a queued run can start
+      # an hour after it was triggered: it then judges its duplicate guards against an
+      # hour-stale corpus, cannot see the story a sibling run just published, and the
+      # push step's rebase-retry lands the second copy without re-running any guard.
+      # That is how one CIA-Moscow story published twice 83 minutes apart. ref: main
+      # makes every run judge against the corpus as of run START, which with queueing
+      # is complete.
       - uses: actions/checkout@v7
+        with: { ref: main }
       - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
 
@@ -297,6 +307,18 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "brief: VERIFIED stories $(date -u +%Y-%m-%dT%H:%MZ)"
+            # LAST-LINE DUPLICATE SWEEP (2026-08-25). The guards upstream judge the
+            # corpus in this run's checkout; this judges the corpus as it exists NOW,
+            # after fetching whatever landed while the run worked. A zero-novelty twin
+            # of an already-published story is removed from the commit before it ships,
+            # loudly. Hygiene never blocks the news: a sweep crash publishes unswept.
+            git fetch origin main || true
+            python3 publish_sweep.py || echo "::warning::publish_sweep skipped (crashed)"
+            if [ -f out/sweep_dropped ]; then
+              git add -A site/content
+              git commit --amend --no-edit --allow-empty
+              rm -f out/sweep_dropped
+            fi
             # RACE-SAFE PUSH, ported from the crypto desk after it lost two runs on
             # this exact step. A sibling run can push while this one works (drifted
             # retries land in pairs), the push is rejected, and what happened next used
@@ -325,6 +347,14 @@ jobs:
                   git rebase --abort || true
                   exit 1
                 fi
+              fi
+              # a sibling landed mid-run and the rebase just merged it: sweep again
+              # against the now-complete corpus before retrying the push
+              python3 publish_sweep.py || true
+              if [ -f out/sweep_dropped ]; then
+                git add -A site/content
+                git commit --amend --no-edit --allow-empty
+                rm -f out/sweep_dropped
               fi
             done
             [ "$ok" = true ] || { echo "::error::push failed after 3 rebase-and-retry attempts"; exit 1; }
