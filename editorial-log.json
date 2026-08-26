@@ -8666,5 +8666,35 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c196",
+    "headline": "Ja'Marr Chase Hyperextension in Practice; Bengals Receiver Walks Off",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction is clear: 'no fact exists outside the brief.' The draft cites a single source (CBS Sports) but there is no brief to validate against, and a draft cannot be approved without a brief that authorizes its facts. The writer must go back to research; the desk does not approve stories without research backing."
+    ]
+   },
+   {
+    "id": "c168",
+    "headline": "Braves beat Dodgers 4-3 on Albies' eighth-inning single",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Braves came into the game as part of a season-ending 31-game stretch' but the brief data_point says 'The game was part of a season-ending 31-game stretch for the Braves.' The draft's phrasing is ambiguous\u2014it could mean the Braves are in the middle of a 31-game stretch, or it could mean something else. More critically, the brief's bear_case mentions 'The Braves' recent month had not been described as \"fun,\"' which is a contextual detail about struggles that survives in the brief but does not appear in the draft. However, the primary accuracy issue is that the draft does not trace all facts to the brief: the draft lacks attribution inline for the CBS Sports sourcing (the four-game lead is attributed only generically to 'CBS Sports' in text but should appear inline as from that outlet, per the desk standard). The bigger problem: the bottom_line contains a factual statement\u2014'The final division standings and games remaining after this result are not specified in the available reporting'\u2014that is NOT a claim from the brief. This is narration of absence, which the instructions forbid: 'the writer is forbidden from narrating absence, and a sentence that does (restating open_questions, \"the absence of\", \"remains unreported\") is category \"accuracy\".' The bottom_line also adds 'Check the official MLB standings for the current state of the race and the number of games each team has left to play,' which reads like a directive to the reader and muddies the forward-looking stakes of the story."
+    ]
+   },
+   {
+    "id": "c204",
+    "headline": "Study documents CTE in sample of deceased NFL players",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only ONE data_point: 'A study in the British Medical Journal published its findings on Aug. 25' with confidence 'reported'. The draft claims the study found CTE 'present in at least 25% of a sample of deceased NFL players' and 'examined players who died between 2016 and 2021.' These specific figures (25%, 2016-2021) do not appear in the brief's data_point list. The brief's core_claim does cite these figures, but core_claim is not a data_point\u2014it is the synthesis. The writer's hard rule is 'no fact exists outside the brief,' and facts must trace to data_points, not to the core_claim. The 25% figure and the 2016-2021 timeframe are SMUGGLED into the draft from outside the research brief's data_point record. The second sentence of the draft body ('The full methodology, sample size, and other specifics of the study are not detailed in available reporting') is also narration of absence, forbidden by the instructions."
+    ]
+   }
+  ]
  }
 ]
