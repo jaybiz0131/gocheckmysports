@@ -32,16 +32,25 @@ POLL_SECONDS = 30
 def just_published_urls():
     """Pages this run added: approved story slugs from out/published + today's edition."""
     urls = []
-    for p in glob.glob(os.path.join(HERE, "out", "published", "*.json")):
+    # PROBE WHAT INGEST WROTE, NOT WHAT A TITLE WOULD SLUGIFY TO (2026-08-25). When a
+    # story merges into an existing item, ingest keeps the ORIGINAL slug (the URL is a
+    # promise) while the title updates; re-deriving slug-from-title here then probes a
+    # URL that never existed and files a phantom "page not live" flag. Issue #44 flagged
+    # /articles/coinbase-launches-tokenized-stocks-on-base.html while the story was live
+    # the whole time at its real, longer slug. The content files on disk are the truth
+    # about what published this run, so they are what gets probed.
+    today_d = datetime.date.today().isoformat()
+    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
         try:
-            rec = json.load(open(p, encoding="utf-8"))
-            art = (rec.get("payload", {}) or {}).get("article", {}) or {}
-            title = art.get("title", "")
-            if title:
-                import site_build
-                urls.append(f"{ORIGIN}/articles/{site_build.slugify(title)}.html")
+            d = json.load(open(p, encoding="utf-8"))
         except Exception:
             continue
+        if d.get("example") or not d.get("slug"):
+            continue
+        if d.get("category") == "daily edition" or str(d.get("id", "")).startswith("wrap-"):
+            continue
+        if d.get("date") == today_d:
+            urls.append(f"{ORIGIN}/articles/{d['slug']}.html")
     today = datetime.date.today().isoformat()
     for slug in ("morning-brief", "afternoon-brief", "evening-brief"):
         if os.path.exists(os.path.join(HERE, "site", "content", f"{today}-{slug}.json")):
