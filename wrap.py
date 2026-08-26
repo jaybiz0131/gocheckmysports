@@ -314,6 +314,25 @@ def check(client, obj, stories, boards, extras=None):
     inputs_words = set(inputs_text.split())
     screened = []
     for p in v["problems"]:
+        if p["kind"] == "register":
+            # ATTRIBUTED NEWS IS NOT HYPE (2026-08-25). The register class exists to
+            # catch panic or promotion in the DESK'S OWN voice; the checker instead
+            # flagged "Iran's Economy Minister said Tehran should 'expect an attack'",
+            # a quoted, attributed statement, and the edition died twice for reporting
+            # the day's biggest story accurately. If the flagged words carry a
+            # quotation or an attribution cue, they are reporting; the check keeps its
+            # teeth for unattributed house-voice alarm, which the unattributed-voice
+            # belt also patrols.
+            _claim = str(p.get("claim", ""))
+            _ATTR = re.compile(r'\b(said|says|told|tells|according to|announced|'
+                               r'warned|stated|testified|wrote|posted|reported|'
+                               r'in a statement|on state television)\b', re.I)
+            if ('"' in _claim or '\u201c' in _claim or "\u2018" in _claim
+                    or _ATTR.search(_claim)):
+                print(f"::notice::wrapcheck: dropped 'register' item that is quoted or "
+                      f"attributed reporting, not house-voice hype "
+                      f"({_claim[:80]!r})")
+                continue
         if p["kind"] == "contradicted":
             ev = str(p.get("evidence", ""))
             nc, ne = _norm(p["claim"]), _norm(ev)
