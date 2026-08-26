@@ -8559,5 +8559,73 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "Chicago Sky Bans Enes Kanter Freedom From Wintrust Arena Indefinitely",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Enes Kanter Freedom is 'an 11-year NBA veteran,' but the brief data point says he 'last played in 2022.' This does not clarify whether he played for 11 years or whether 11 years have passed since his career began. The draft's use of present-tense 'is' combined with the career-span phrasing is ambiguous and potentially misleading about his active career length. The brief supports the fact of an 11-year career but the draft does not make clear when that career ended relative to now.",
+     "The draft opens with 'Following his removal from Sunday's game against the Indiana Fever, per Front Office Sports' but the brief data point marks that claim as only 'reported' confidence. More critically, the draft then characterizes the confrontation in detail ('she responded toward Freedom, who then stood up, raised his arms, and stepped forward') as though these are settled facts, when the bear_case explicitly notes that 'Fan Trista Smith told reporters after the game that Freedom did not say anything to initiate the altercation, contradicting Alter's account.' The draft presents Alter's account as straightforward narration without acknowledging the direct contradiction from Smith documented in the brief.",
+     "The draft says 'According to Alter's account, Kanter Freedom initiated conversation with Cloud during the game, which Alter characterized as trash talking' but then later narrates 'After Cloud made a layup in the third quarter, she responded toward Freedom, who then stood up, raised his arms, and stepped forward' without attribution. This second passage reads as the desk's own unquoted description of settled fact, when Alter's account is contested by Smith's contradictory statement in the bear_case. The desk cannot narrate a disputed account as fact; it must attribute or note the dispute."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Study Documents High CTE Prevalence Among Deceased NFL Players",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A study published in the British Medical Journal on August 25 found that at least one in four former NFL players who died between 2016 and 2021 had chronic traumatic encephalopathy (CTE), according to The Guardian.' However, this conflates two separate claims: the publication date of the study (which the brief does not confirm; the brief only says the article was published August 25, not the study itself) and the finding itself. The Guardian report on August 25 may be reporting on a study published at an earlier date or simultaneously, but the draft implies the BMJ study was published on August 25 without basis in the brief.",
+     "The draft's opening paragraph contains a statistic that does not align cleanly with the brief's data: the draft says 'Of 878 former players who died during that window, 235 donated their brains. Of those 235 donated brains, 215 showed signs of CTE.' The brief says '215 of 235 donated brains showed signs of CTE' (91%, per the draft's bottom_line). But the draft then says 'at least one in four former NFL players who died between 2016 and 2021 had CTE.' One in four of 878 is 220, not 215/235 (which is 91%). The draft is comparing two different denominators without explanation\u2014CTE cases per all deaths (1 in 4 of 878) versus CTE cases per donated brains (215 of 235). The brief does not reconcile these figures, and the draft presents both without clarifying the methodological gap: the 'one in four' figure assumes that the 643 players who did NOT donate brains had zero CTE, which is not stated in the brief and is epidemiologically implausible. This is smuggled reasoning not supported by the brief."
+    ]
+   },
+   {
+    "id": "c138",
+    "headline": "Braves Defeat Dodgers 4-3 in NL East Contest",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Braves had posted an eight-game winning streak earlier in the month but described the stretch as difficult overall.' The brief's data_point says 'The Braves had included a portion of an eight-game winning streak earlier in the month' and the bear_case says 'The Braves had struggled through most of the month despite the winning streak (described as 'not a fun month').' The draft mischaracterizes the temporal scope: the brief shows the struggling was the overall month narrative, not that they 'described the stretch as difficult'\u2014the phrase 'stretch' is ambiguous and conflates the winning streak with the monthly struggle, when the sources distinguish them.",
+     "The draft cites Yahoo Sports for Glasnow's performance and Scott's run, but the brief's open_questions flag indicates 'The sources do not identify' these details with certainty, and the brief marks confidence as 'reported' without confirming these specific details appear in the actual source texts. The draft presents unconfirmed granular details (which inning, which reliever, which player gave up which run) as fact when the brief itself notes the sources do not provide this precision."
+    ]
+   },
+   {
+    "id": "c141",
+    "headline": "Duran Walk-Off Grand Slam Lifts Red Sox Over Marlins in 11 Innings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Red Sox have developed a mindset centered on wanting to win each game decisively, a shift that followed a losing record to start the season.' The brief's data_point quotes the mindset as 'sick with the desire to win a ballgame, no matter what' and attributes it to the source. The draft paraphrases this into 'wanting to win each game decisively,' which shifts the meaning: 'no matter what' is a stronger, more desperate formulation than 'decisively.' Paraphrase is permitted, but this one changes the tone and specificity of a direct sentiment from an on-record source.",
+     "The brief's open_questions explicitly state 'The final score of the game is not stated in the provided source text' and 'The opposing pitcher on the mound for the walk-off is not identified.' The draft provides no final score, which is acceptable, but the bottom_line reads 'Duran's 11th-inning grand slam delivered a dramatic walk-off win' without stating the final score or context. More importantly, the brief warns the source text is thin (255 characters) and several key details are missing; the draft should reflect this thinness rather than narrating the moment as though full confirmation exists."
+    ]
+   },
+   {
+    "id": "c178",
+    "headline": "Caitlin Clark and Kelsey Mitchell combined for 67 points against Chicago",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The 67-point combined output marks a historic benchmark for two-player scoring in the league' as a standalone assertion in the body, but the brief's data_points do not provide context for what makes this 'historic'\u2014no prior record figure is given, no comparison to previous highs is offered in the sourced material. The brief itself marks this story as 'thin: true' with open_questions including 'What was the previous WNBA record for combined points by a duo, and which players held it?' This question being open means the draft cannot assert the record's historical significance without that baseline.",
+     "The draft also lacks any individual point totals for Clark and Mitchell, the final score, or the game date\u2014all of which are in the brief's open_questions list and suggest the sources do not provide complete information. A reader cannot verify the claim without these details, and the draft presents the record as fact without the data needed to establish it."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "PGA Tour transitions Tour Championship to two-week match-play format in 2028",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The approval rule states 'no fact exists outside the brief,' and the check instruction specifies that when no brief exists, 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cannot be approved without verification that its claims\u2014the two-week match-play format beginning in 2028, player support signaling, the World Cup-style framing\u2014are directly supported by the three URLs cited. Since this approver cannot access external URLs and the brief field explicitly notes 'no brief exists for this story,' the draft fails the foundational accuracy check: there is no research document to trace facts against, and the protocol forbids publication of facts that lack brief documentation."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Ja'Marr Chase injury scare: Bengals All-Pro goes down awkwardly in practice, OK after hyperextension",
+    "category": "accuracy",
+    "reasons": [
+     "Draft contains no research brief. The instruction requires that every fact trace to either a brief data_point or to the draft's own cited sources. The draft cites CBS Sports and Yahoo Sports URLs but provides no verifiable link to those specific reporting events. Without a brief and without access to verify the URLs resolve to articles about this incident, the core facts\u2014that Chase suffered a hyperextension, walked off under his own power, and confirmed he was fine\u2014cannot be confirmed to exist in the cited sources. The draft's claim that 'Chase confirmed he was fine after the incident, according to reporting from CBS Sports and Yahoo Sports' is unverifiable against the actual content of those sources as presented to the approver."
+    ]
+   }
+  ]
  }
 ]
