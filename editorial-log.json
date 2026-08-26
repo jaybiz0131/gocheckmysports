@@ -8509,5 +8509,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c046",
+    "headline": "Ja'Marr Chase Walks Off After Knee Hyperextension in Bengals Practice",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story, placing all facts under the rule that they must trace to the draft's own cited sources.",
+     "The draft cites two URLs (CBS Sports and Sporting News), but the actual reporting in those outlets cannot be verified as containing the specific claims made in the draft (knee hyperextension, walked off under own power, no major injury expected).",
+     "The draft makes a medical diagnosis ('knee hyperextension') and a prognosis ('no major injury is expected') without providing the source outlet's own attribution or qualifying language to indicate these came from official team statements, medical staff, or named sources.",
+     "The bottom_line contains a clinical inference ('minor hyperextension rather than a structural concern') that goes beyond what the draft itself attributes to any source.",
+     "Without access to the cited sources and without a brief to anchor claims, the desk cannot verify whether these medical characterizations are direct quotes from official sources, paraphrases of official statements, or the writer's own interpretation of reporting."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Klay Thompson, 36, joins Miami Heat after Dallas buyout",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to reporting from Yahoo NBA and The Sporting News,' but the sources list only one URL (Yahoo NBA).",
+     "The Sporting News is cited in the body as the source for Thompson's stats (69 games, 11.7 PPG, 38.3% from three, last 20+ PPG season in 2022-23) and for Heat's 10th-ranked 36.4% FG percentage, but no Sporting News URL is provided in the sources list.",
+     "The brief's data_points attribute all statistics to Yahoo NBA (single source), but the draft presents them as if sourced to The Sporting News, creating a sourcing mismatch.",
+     "The claim 'Thompson defended his Warriors legacy on Instagram after signing with the Heat, calling out critics who questioned his championship resume, according to Yahoo Sports' cites 'Yahoo Sports,' but the sources list only 'yahoo.com/nba' (Yahoo NBA); these are presented as separate outlets.",
+     "The draft does not attribute the 'redemption season' framing or the goal of a fifth championship to a named speaker or specific source within the body; it appears as paraphrase without clear attribution."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Sir Billy Boston, Rugby League Pioneer, Dies at 92",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the approval protocol, every fact in the draft must trace to either a data_point in a brief or to the draft's own cited sources. The draft cites BBC Sport and Guardian Sport as sources, but the hyperlinks provided appear to be generic or incomplete URLs that cannot be verified as carrying the specific claims made in the draft. The draft asserts 'Sir Billy Boston, the first rugby league player to receive a knighthood, has died at age 92' and 'Boston stands as one of the sport's defining figures, earning distinction rare among athletes in his era: a knighthood that recognized his contribution to rugby league both on and off the field.' Without a brief to anchor these claims and with unverifiable source URLs, these facts cannot be confirmed to exist in the cited reporting. The draft also makes a definitive claim about Boston being 'the first rugby league player to receive a knighthood'\u2014a historical claim that requires solid attribution, which the vague source citations do not provide."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "NOT PUBLISHABLE: c072 Held Pending Source Verification",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly documents that the source material is corrupted or incomplete: the open_questions state 'The provided source text is corrupted Guardian navigation JSON; the full conviction details, sentencing, specific charges, victim identities (beyond age/gender), any defense arguments, or procedural next steps are not present in the fetched source.'",
+     "The draft itself correctly identifies this hold as appropriate, but the story cannot be approved because the hard rule is that no fact exists outside the brief, and the brief itself acknowledges the source is incomplete.",
+     "For a criminal conviction story involving child sexual abuse\u2014a reputationally damaging claim about a named individual\u2014the brief identifies that sentencing outcome, specific charges beyond the bare verdict, and procedural next steps are missing from the source.",
+     "Publishing from incomplete source material on a serious criminal conviction violates liability standards and the verification requirement.",
+     "The draft's own hold notice is correct: this story must not proceed until source material is complete and readable."
+    ]
+   }
+  ]
  }
 ]
