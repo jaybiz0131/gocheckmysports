@@ -8627,5 +8627,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c187",
+    "headline": "Study in British Medical Journal documents CTE prevalence in deceased NFL players",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '215 showed signs of CTE' out of 235 brains. The brief's core_claim states 'at least 25%' but acknowledges that 'the precise figure is unknown' because the full article text was not fetched. The draft presents a specific number (215/235 = 91.5%) as fact when the brief explicitly flags this as missing information from an unfetched source. The writer has smuggled a precise figure that does not appear in the research brief.",
+     "The draft does not flag the methodological limitation that this is a sample of players who voluntarily donated brains (selection bias), though the bottom_line attempts to address this. However, the body text presents the 215/235 figure without the caveat that accompanies it in the bottom_line, creating internal inconsistency about whether this prevalence applies broadly or only to this sample."
+    ]
+   },
+   {
+    "id": "c179",
+    "headline": "Ja'Marr Chase clears evaluation after knee hyperextension at practice",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule ('no fact exists outside the brief'), every factual claim must trace to either a provided brief data_point or be rejected. The draft cites one source (cbssports.com), but the approver cannot verify the facts against a brief because none was provided. The draft contains specific factual claims about Chase's injury (hyperextension, walked off under own power, cleared evaluation, date of August 25) that cannot be checked against research work product. This story cannot be approved without a brief to trace facts against."
+    ]
+   },
+   {
+    "id": "c178",
+    "headline": "Commanders sign D.J. Humphries to address Tunsil's torn triceps",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Humphries is 'a former Pro Bowl left tackle,' but the brief contains no data point confirming Humphries' Pro Bowl status or that he played left tackle. The brief's open_questions explicitly note 'Humphries' position (left tackle confirmation) not explicitly stated.' The writer smuggled this detail outside the brief."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "HOLD: Story cannot be verified from available sources",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself acknowledges the story cannot be verified: 'The primary source for this story did not contain the reported announcement or supporting details.' The brief confirms this\u2014the data_points array is empty and open_questions document that the fetched source contains only fantasy football analysis, not the Watson announcement. The story lacks a verified primary source for its core claim. This is not a draft ready for approval; it is a verification failure that should be held or killed until the desk obtains a source that actually contains the Watson announcement."
+    ]
+   }
+  ]
  }
 ]
