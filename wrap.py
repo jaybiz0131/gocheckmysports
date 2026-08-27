@@ -368,6 +368,34 @@ def check(client, obj, stories, boards, extras=None):
                 print(f"::notice::wrapcheck: 'contradicted' receipt is not a verbatim "
                       f"input quote ({str(p.get('claim'))[:80]!r}); treating as "
                       f"paraphrase/board-derived evidence; adjudication decides")
+        # A SELF-REFUTING 'ABSENT' DIES HERE TOO (2026-08-27): the sibling desks
+        # each killed a good edition on 'absent' items whose own reasoning ENDED
+        # "The edition's claims match the data exactly" / "This statement is
+        # accurate." (sports run 668, crypto runs 165/896). Same final-sentence rule
+        # as the contradicted class: explicit support assertions only, with a
+        # negation veto, so a real absence whose reasoning merely mentions matching
+        # stays listed and still goes to adjudication.
+        if p["kind"] == "absent":
+            _rat = str(p.get("why", "") or p.get("evidence", ""))
+            _rs = [x for x in re.split(r"(?<=[.!?])\s+", _rat.strip()) if x]
+            _fsa = " " + " ".join(re.sub(r"[^a-z0-9]+", " ",
+                                          (_rs[-1] if _rs else "").lower()).split()) + " "
+            _NEGA = (" does not match ", " do not match ", " not supported ",
+                     " cannot be verified ", " not establish ", " conflicts ",
+                     " no match ", " not carried ", " not in the inputs ",
+                     " not a match ", " is absent ", " not accurate ", " inaccurate ")
+            _POSA = (" match the data exactly ", " matches the data exactly ",
+                     " match these figures exactly ", " matches these figures exactly ",
+                     " no problem ", " not a problem ", " confirmed correct ",
+                     " matches the edition ", " supported by the inputs ",
+                     " the inputs support ", " claims match ", " is correct ",
+                     " is accurate ", " statement is accurate ",
+                     " statements are accurate ", " claims are accurate ")
+            if not any(t in _fsa for t in _NEGA) and any(t in _fsa for t in _POSA):
+                print(f"::notice::wrapcheck: dropped self-refuting 'absent' item whose "
+                      f"own reasoning ends by asserting the inputs carry it "
+                      f"({str(p.get('claim'))[:80]!r})")
+                continue
         # ORDER-INDEPENDENT (owner report 2026-08-19). The sliding verbatim window could
         # not match reordered words, so "the Sept. 13 opener against Detroit" failed to
         # match the input's "the Sept. 13 Detroit opener" and a fact the inputs plainly
@@ -439,6 +467,28 @@ def check(client, obj, stories, boards, extras=None):
                        + ("..." if best_at + size < len(c) else ""))
         return out
 
+    def _date_legend(excerpts):
+        """Computed weekday facts for the adjudicator. The checker cannot compute
+        weekdays (the crypto desk's run 165 killed an edition for calling
+        2026-08-27 'Thursday' because the checker believed that date was a
+        Wednesday; it is a Thursday), and the calibration explicitly protects
+        weekday references consistent with an input dateline. Deterministic,
+        authoritative, and only for dates the excerpts actually carry."""
+        days = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                "Saturday", "Sunday")
+        seen, lines = set(), []
+        for ds in re.findall(r"\b20\d\d-\d\d-\d\d\b", " ".join(excerpts)):
+            if ds in seen:
+                continue
+            seen.add(ds)
+            try:
+                lines.append(f"{ds} is a "
+                             f"{days[datetime.date.fromisoformat(ds).weekday()]}")
+            except ValueError:
+                pass
+        return (("\nDATE FACTS (computed, authoritative): " + "; ".join(lines) + "\n")
+                if lines else "\n")
+
     kept = []
     for p in v["problems"]:
         if p["kind"] == "absent":
@@ -446,7 +496,8 @@ def check(client, obj, stories, boards, extras=None):
             q = ("A fact-checker says the EDITION STATEMENT below appears nowhere in the "
                  "permitted inputs. Here are the closest input excerpts.\n"
                  + "\n".join(f"INPUT EXCERPT {i+1}: {e}" for i, e in enumerate(ex))
-                 + f"\nEDITION STATEMENT: {str(p.get('claim', ''))[:400]}\n"
+                 + _date_legend(ex)
+                 + f"EDITION STATEMENT: {str(p.get('claim', ''))[:400]}\n"
                  "Do the excerpts carry this statement's substance (the same fact in any "
                  "format; dates and numbers count as the same fact in any format)? "
                  'Respond ONLY with JSON: {"supported": true|false, "why": "<one '
