@@ -319,7 +319,15 @@ def extract_json(text):
         stripped = stripped.split("\n", 1)[-1]
         if stripped.rstrip().endswith("```"):
             stripped = stripped.rstrip()[:-3]
-    for cand in (text, stripped):
+    # ILLEGAL \' ESCAPE REPAIR (2026-08-27, ported from the crypto desk): rescue
+    # models under a "quote exactly" instruction emit \' inside JSON strings, which
+    # is not a legal JSON escape, so every parser below failed and slots died. \'
+    # cannot occur in well-formed JSON, so rewriting it to a bare apostrophe is
+    # lossless on valid output and only ever repairs the invalid case.
+    cands = [text, stripped]
+    if "\\'" in text:
+        cands += [c.replace("\\'", "'") for c in (text, stripped)]
+    for cand in cands:
         for strict in (True, False):
             try:
                 return json.loads(cand, strict=strict)
