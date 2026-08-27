@@ -8779,5 +8779,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c171",
+    "headline": "DraftKings, FanDuel Renew NFL Partnerships After Resolving Genius Sports Dispute",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Watch for any future indication of whether Genius Sports' price increase flows into reduced profitability for the sportsbooks or translates into higher operating costs passed to bettors.' This is speculation about business consequences not contained in the brief. The brief's bear_case identifies only that 'Financial terms of the new deals were not disclosed, leaving open whether DraftKings and FanDuel accepted materially higher costs than their previous agreements, potentially reducing profitability on those partnerships.' The draft has extrapolated from the bear_case into a prediction about future observable outcomes (whether costs are 'passed to bettors') that goes beyond what the research supports. A bottom_line must look forward to what would validate or invalidate the story, not speculate about downstream consumer effects that no source addresses."
+    ]
+   },
+   {
+    "id": "c199",
+    "headline": "NFL Bars Players Returning to College From Signing With Teams During 2026 Season",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The approval standard requires that every fact in the draft trace to a data_point in the brief, or\u2014if no brief exists\u2014to the draft's own cited sources. The draft cites only CBS Sports but provides no URL or specific reporting detail that would allow verification. The claim 'Players who return to college are ineligible to sign with an NFL team during the 2026 season' cannot be traced: the CBS Sports link in the sources list is incomplete and unverifiable. The draft also contains speculative language ('remains unaddressed in available reporting') that signals the writer is aware of gaps in sourcing but published anyway. Without a brief and without a working source URL, this story cannot be fact-checked against any research record."
+    ]
+   },
+   {
+    "id": "c232",
+    "headline": "Big Ten enacts rule barring former NFL players from conference competition",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Big Ten has passed a rule preventing players with professional NFL experience from competing in conference games' as a settled fact, but the brief contains only a single thin data point: 'The Big Ten is taking a hard stance against ex-college players returning to league rosters,' sourced to one CBS Sports article. The draft elaborates significantly beyond what a single source can carry: it names the specific rule (barring former NFL players), describes the mechanism (preventing competition in conference games), and frames the intent (targeting recruitment), none of which are independently verified in the brief.",
+     "The brief is marked thin=true with only one substantive data point and 2,950 source characters. The draft expands this into three paragraphs of analysis and framing that go substantially beyond what a single secondary source can justify. The draft reads as inference and narrative elaboration on a thin factual foundation, which is a liability when the underlying reporting is this sparse.",
+     "The draft states 'By closing the conference to former NFL players, the Big Ten is attempting to establish a clear threshold' as though this is reported fact, but this is interpretation layered onto a single source that does not contain enough detail to support such framing."
+    ]
+   },
+   {
+    "id": "c212",
+    "headline": "Ja'Marr Chase injured during Bengals practice",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites a CBS Sports URL but provides no way for the approver to verify that the cited source actually supports the claims in the draft (injury during practice, walked off under own power, occurred during team activities). Without access to the source document or a research brief, the factual claims cannot be verified as required."
+    ]
+   },
+   {
+    "id": "c88",
+    "headline": "Jonathan Kuminga Signs With Timberwolves After Lakers Pursuit Ends",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'The contract details in the headline (two years, $13 million) do not appear in the source text; cannot confirm terms, annual value, opt-outs, or other contract mechanics.' The draft's second paragraph states 'The reported two-year, $13 million contract would accelerate Kuminga's path to free agency.' This fact is not in the brief's data_points; the brief confirms only that 'Jonathan Kuminga will sign with the Wolves, not the Lakers' (reported confidence). The contract terms are sourced to a Yahoo Sports URL, but the brief explicitly documents that those terms do not appear in that source. The draft has smuggled a fact\u2014the $13M/2-year structure\u2014that the research brief identified as unverifiable from the cited source. No other brief data point supports the contract numbers."
+    ]
+   }
+  ]
  }
 ]
