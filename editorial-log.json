@@ -8827,5 +8827,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c138",
+    "headline": "Hellebuyck confirms trade request from Winnipeg Jets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Hellebuyck as 'a forward' in the fourth paragraph: 'The forward's public statement removes any ambiguity about his intentions.' This is factually wrong; Hellebuyck is a goaltender, not a forward. The brief correctly identifies him as 'a three-time Vezina Trophy-winning goaltender' and all data points refer to him as a goaltender. This is a basic factual error about the player's position that would mislead readers.",
+     "The draft opens with 'Connor Hellebuyck, a three-time Vezina Trophy winner, publicly confirmed on Thursday that he requested a trade from the Winnipeg Jets several months ago, ending months of silence and forcing the organization to act before the start of training camp.' The phrase 'forcing the organization to act' is a narrative judgment not supported by the brief. The brief contains no data point stating or implying that the Jets are forced to act, only that the timing 'puts immediate pressure on the Jets' (in the bottom_line, which is the desk's assessment, not the source). A draft should not move editorial interpretation from the bottom_line into the news narrative as if it is a reported fact."
+    ]
+   },
+   {
+    "id": "c226",
+    "headline": "Jonathan Kuminga signs with Timberwolves on short-term deal",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story, so every fact must trace to the cited source. The draft cites only one source (CBS Sports), but provides no URL or specific article link. The approver cannot verify that the facts in the draft\u2014the two-year, $13 million contract figure, the claim that the Lakers offered more money, the structure preserving free agency after 2026-27, or that Kuminga prioritized flexibility\u2014actually appear in that source. Without a verifiable source document, the facts cannot be confirmed to exist in the brief's absence."
+    ]
+   },
+   {
+    "id": "c249",
+    "headline": "Big Ten and SEC move to bar ex-NFL players from rosters",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story, so every fact must trace to the cited source. The draft cites only one source (CBS Sports) with no URL or specific article link provided. The approver cannot verify that the facts in the draft\u2014that the Big Ten and SEC implemented such a policy, that they imposed coach suspensions and fines, that LSU drew scrutiny for the practice, or the characterization of this as a 'loophole'\u2014actually appear in that source document. Without a verifiable source URL, the facts cannot be confirmed to exist."
+    ]
+   },
+   {
+    "id": "c169",
+    "headline": "Schwarber becomes first to 40 home runs in 2026 MLB season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Schwarber hit a three-run shot off Mariners starter Bryan Woo in the second inning during the Phillies' 6-0 win at T-Mobile Park on Wednesday.' The brief identifies the source as truncated mid-sentence and notes that 'the exact date of the game (day of the week confirmation, full date) is not explicitly stated in the source text.' Claiming the game occurred 'on Wednesday' without that detail confirmed in the source introduces a fact not traced to the brief's data_points.",
+     "The brief explicitly marks itself as 'thin: true' with only 295 source_chars and notes the source text is 'truncated mid-sentence.' The brief's open_questions section documents that 'details on the specific elite company Schwarber joined, historical context for 40-homer milestones, or his prior 40-homer seasons are not present in the fetched text' and 'the exact date of the game is not explicitly stated in the source text.' The draft makes specific claims (day of week, the venue, the pitcher, the inning, the run count) that exceed what the brief can support from its truncated source.",
+     "The core facts (Schwarber first to 40, three-run shot, Bryan Woo, T-Mobile Park, 6-0 win) are present in the brief's data_points, but the day-of-week attribution ('Wednesday') is not confirmed in the brief's source documentation."
+    ]
+   }
+  ]
  }
 ]
