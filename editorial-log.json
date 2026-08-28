@@ -8956,5 +8956,31 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c048",
+    "headline": "Packers' Josh Jacobs Charged With Misdemeanor Battery, Criminal Damage Following May Arrest",
+    "category": "compliance",
+    "reasons": [
+     "The draft characterizes the incident as a 'domestic incident' and references 'allegations of a physical confrontation with his girlfriend,' but the brief's core claim and data points establish that police described the incident as 'a physical confrontation with his girlfriend'\u2014a reported fact, not an unverified allegation. The phrasing 'allegations of a physical confrontation' softens what the brief presents as police's official description of what occurred, introducing uncertainty where the source material does not.",
+     "More critically, the draft states 'police described the incident as a physical confrontation with his girlfriend' in the body, which is accurate to the brief. However, the opening paragraph's use of the term 'domestic incident' and later reference to 'allegations' creates an inconsistency: the brief treats the physical confrontation as an established fact reported by police; the draft's framing makes it sound speculative or contested.",
+     "The draft does not include a bear case, and the brief's bear_case array is empty, so this is correct. However, the reputational question arises: the story names Jacobs and ties him to specific criminal charges on a single secondary source (Yahoo Sports). While Yahoo Sports is wire-service equivalent, the charges themselves are official (Brown County DA announcement), so the single-source problem does not apply to the charges. The relationship description ('his girlfriend') comes from police-reported fact in the same source and does not require additional sourcing as a result.",
+     "The actual compliance problem: 'police described the incident as a physical confrontation with his girlfriend' is accurate, but then characterizing it as 'allegations of a physical confrontation' later introduces unnecessary hedging that misrepresents the brief's confidence in the reported fact."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Texas court grants restraining order against SEC pro-athlete ban",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites a single CBS Sports URL but provides no date or verification that the reported facts (restraining order granted August 27, SEC/Big Ten ban details, nature of the case) can be verified from that source. Without a research brief to anchor facts and only a single secondary source cited, the core claims about the court order, the specific rule being challenged, and the scope of the case cannot be verified as meeting GoCheckMySports accuracy standards.",
+     "The draft makes specific factual claims (Texas judge, SEC and NCAA named defendants, restraining order prevents enforcement, Big Ten and SEC both adopted rules, case involves 'collection of former college athletes') without being able to trace each to the cited source in real time. A story with no research brief and only one source URL provided is insufficiently sourced for publication."
+    ]
+   }
+  ]
  }
 ]
