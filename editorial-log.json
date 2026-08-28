@@ -9096,5 +9096,29 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c247",
+    "headline": "Waldrep and Schwellenbach to undergo surgery; Strider status unclear, Suarez shows progress",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks multiple key claims as 'announced-not-verified' confidence level: Waldrep's Tommy John surgery, that he will likely miss all of 2027, Schwellenbach's surgery details, and that both were ruled out for 2026. The draft presents all these claims in declarative prose without any qualification language (such as 'according to the team' or conditional phrasing) that would signal unconfirmed status. High-confidence claims about a player's injury and surgery require explicit attribution and confidence hedging when the source is announced-not-verified, not presented as settled fact.",
+     "The draft states 'Schwellenbach's elbow fracture originated from a freak accident last season' as established fact, but this is health speculation beyond official record. The brief's data_point says the fracture 'originated from a freak accident last season' is marked 'reported,' but characterizing an injury as a 'freak accident' goes beyond what an official injury report would contain and ventures into interpretation of a player's medical circumstances."
+    ]
+   },
+   {
+    "id": "c225",
+    "headline": "REJECTED: Insufficient Verification",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The draft itself is a meta-rejection explaining why it cannot be published, which is not a publishable article. The body contains editorial instruction rather than reportorial content.",
+     "Without a research brief and with zero verified sources cited in the sources array, this does not meet the hard rule that every fact must trace to a research brief data point or be independently sourced in the draft itself. The story cannot be evaluated against a brief because no brief exists."
+    ]
+   }
+  ]
  }
 ]
