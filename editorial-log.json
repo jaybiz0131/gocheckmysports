@@ -9054,5 +9054,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c043",
+    "headline": "Texas judge grants restraining order against SEC, challenging ban on former pro athletes returning to college",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story (brief field is a note stating 'no brief exists'). Per the hard rule, 'no fact exists outside the brief.' Without a brief to validate against, every factual claim in the draft must either: (a) be traced to an on-record primary source cited in the draft's sources list, or (b) trigger rejection. The draft cites only one source: 'https://www.cbssports.com/college-football/news/texas-judge-sec-former-pro-athletes/' but provides no detail about what that source actually says. The draft itself explicitly states 'The specifics of the court's reasoning, the names of the athletes involved, the scope of the restraining order, and how long it remains in effect are not detailed in available reporting on the order'\u2014which is a confession that the writer cannot verify the facts against source material. A draft that admits its own facts are unverified cannot be approved. The entire story rests on unconfirmed reporting with no brief anchor and no way to validate it."
+    ]
+   },
+   {
+    "id": "c045",
+    "headline": "NaLyssa Smith out for remainder of Aces regular season",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule, every fact must trace to either a brief's data_points or (when no brief exists) to the draft's own cited sources.",
+     "The draft cites only one source (CBS Sports link about injury timeline), but makes two additional factual claims unsupported by that source: (1) 'The Aces have won three of the last four WNBA titles' and (2) that Smith's absence is a 'significant setback to the team's championship defense.' Neither claim appears in the cited CBS Sports URL based on the sourcing provided.",
+     "The injury status itself ('will not play for remainder of regular season') traces to the cited source, but the contextual claims about the Aces' recent championship history and championship defense do not."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Russell, Dos Santos set world records at Zurich Diamond League",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Letzigrund Stadium in Zurich held a sell-out crowd of 25,000 in balmy weather conditions that favored the performances, per reporting from the Guardian Sport.' The brief's data_point for this claim says 'raucous sell-out crowd of 25,000 and still, balmy weather conditions'\u2014note the 'raucous' and 'still' qualifiers not present in the draft's paraphrase. More critically, the draft omits attribution of these details inline; it attributes only to 'the Guardian' at the end of the sentence, but the sentence conflates the crowd and weather as a single continuous claim when they may have different sourcing or emphasis.",
+     "More directly: the draft reports 'Mondo Duplantis won a historic pole vault competition at the same Zurich Diamond League meet, according to the Guardian,' but the brief explicitly flags as an open_question 'What was the specific nature of Duplantis's historic pole vault victory (new record, outstanding performance, unusual competitive format)?' The draft presents 'historic' as established fact when the brief marks it unresolved. This violates the confidence-label rule: the brief acknowledges the claim is reported but leaves the meaning of 'historic' open; the draft should reflect that uncertainty or name what made it historic."
+    ]
+   },
+   {
+    "id": "c208",
+    "headline": "Jonathan Kuminga Signs With Timberwolves, Chooses Short-Term Deal Over Larger Lakers Offer",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction is explicit: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (CBS Sports URL), but the approver cannot verify the facts against that URL without access to it. The draft is entirely unsourced within the approval process because the brief is absent and the source URL cannot be checked by the approver. Under the desk's hard rule 'no fact exists outside the brief,' and with no brief provided, every fact in this draft (the contract amount, the team, the decline of a Lakers offer, the deal length) is SMUGGLED. A story without a brief cannot be approved; the writer must return with a completed research brief that traces each fact to a source, or this story dies.",
+     "The entire draft lacks a brief. Without a research brief, there is no basis to verify that the CBS Sports URL actually contains these facts or that any other corroboration exists. The story is submitted incomplete."
+    ]
+   }
+  ]
  }
 ]
