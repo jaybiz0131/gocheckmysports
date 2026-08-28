@@ -9014,5 +9014,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c116",
+    "headline": "UNABLE TO DRAFT: No research brief provided",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a meta-statement about the absence of a brief, not a story. This is not a reportable piece of journalism; it is an internal workflow document. The instruction states the hard rule is 'no fact exists outside the brief.' In this case, no brief exists, which means no story can be written per desk protocol. The draft correctly identifies this constraint but should not be submitted as a draft for approval. This requires researcher intake before any draft can proceed."
+    ]
+   },
+   {
+    "id": "c44",
+    "headline": "HOLD FOR ADDITIONAL RESEARCH",
+    "category": "accuracy",
+    "reasons": [
+     "This draft is a meta-narrative (holding instruction) rather than a story draft. The brief itself is marked 'thin': true and contains only one data_point with 'reported' confidence and no specific details. The draft body correctly identifies the absence of primary sources, court records, judge name, case docket, exact language of the TRO, named plaintiffs, and timeline. The desk's own standard requires primary sources for legal stories. This is not a publishable story draft; it is an internal memo on why publication must be held. The instruction to return to research is correct, but the JSON structure expects a story draft, not a research hold memo. The piece cannot be judged against a brief when the draft itself is a rejection rationale, not an article body.",
+     "The fundamental problem: the brief contains insufficient data to support any story; the draft correctly refuses to publish on a single secondary source. This is appropriate editorial judgment, but the submission format is wrong\u2014this should have been routed to research, not to approval as a draft."
+    ]
+   },
+   {
+    "id": "c155",
+    "headline": "Astros win series in Bronx, claim 1-game AL West lead",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the Astros lost consecutive series to the Seattle Mariners, Los Angeles Angels, and Oakland A's' as a fact attributed to MLB.com. The brief's data_point says 'The Astros had a disappointing homestand the previous week in which they lost series against the Mariners, Angels, and A's' with confidence 'reported'. However, the brief itself notes in open_questions: 'The provided source text is truncated; the full article content is not available.' This is a red flag: the brief is marked 'thin: true' with only 286 source chars, indicating the source is incomplete. The draft presents as established fact ('lost consecutive series') what may not be fully verifiable from the truncated source. The specific claim about three consecutive series losses cannot be confirmed from an incomplete source text.",
+     "The draft presents the Dana Brown departure as settled fact ('General manager Dana Brown left his position in what the team described as a mutual decision') based on a truncated source that the brief itself notes may be incomplete. The brief's open_questions specifically flag: 'Timeline of Dana Brown's departure and any official reasoning beyond 'mutual decision' is not elaborated in the truncated text.' Publishing a fact from a truncated source when the research brief itself acknowledges truncation creates liability."
+    ]
+   },
+   {
+    "id": "c47",
+    "headline": "Story cannot be published: Source verification failed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a meta-rejection asserting source verification failure, not a story draft. The brief contains zero data_points and explicitly documents that all fetched URLs return unrelated content (Red Wings, Yankees, Shaq, Myles Garrett, Rams QB competition). The core_claim about Hellebuyck's trade request has no sourced verification in the brief. The story cannot proceed to publication because no verifiable primary source material exists to support the headline. The desk must return to research before any draft can be written."
+    ]
+   }
+  ]
  }
 ]
