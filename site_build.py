@@ -55,6 +55,15 @@ ORIGIN = "https://gocheckmysports.com"         # canonical origin for canonical/
 # its slug maps here. Populated 2026-08-25 from the family duplicate audit, every
 # cluster adversarially verified before this map was written.
 RETIRED_ARTICLES = {
+    # owner report 2026-08-28: one event told repeatedly across consecutive days
+    "mlb-proposes-compressing-free-agency-window-to-2-3-weeks-union-calls-it-a-player-rights-elimination":
+        "mlb-proposes-restricted-free-agency-window-and-month-long-transaction-freeze",
+    "mlb-proposes-transaction-reforms-to-reduce-roster-churn-in-cba-talks":
+        "mlb-proposes-restricted-free-agency-window-and-month-long-transaction-freeze",
+    "nfl-owners-unanimously-approve-9-612-billion-sale-of-seahawks-to-khosla-family":
+        "nfl-owners-unanimously-approve-9-612-billion-seahawks-sale-to-khosla-family",
+    "sky-fever-matchup-draws-3-31m-viewers-wnba-s-largest-regular-season-audience-in-29-years":
+        "fever-sky-game-draws-3-31-million-viewers-wnba-s-most-watched-regular-season-game-since-1997",
     "111-consecutive-games-zero-errors-wilson-breaks-mlb-shortstop-record":
         "111-games-zero-errors-wilson-sets-mlb-record-at-shortstop",
     "49ers-receiver-pearsall-undergoes-knee-surgery-eyes-2027-return":
