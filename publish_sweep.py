@@ -85,6 +85,33 @@ def main():
                        key=lambda kv: -len(json.dumps(kv[1].get("body") or ""))):
         title = str(d.get("title") or "")
         kf = str(d.get("key_fact") or "")
+        # TWO SIGNALS THAT NEED NO NOVELTY TEST AT ALL (owner report 2026-08-28). The
+        # novelty bar below is zero-new-facts, and a twin that differs by ONE throwaway
+        # token walks straight through it: the Seahawks sale published three times, and
+        # the third copy's only novel claim token was "29". Raising the bar to one token
+        # was measured against the live corpus and rejected, because it would also drop an
+        # Infantino-erosion story against a private-equity retreat and a Kanter ejection
+        # against his subsequent ban, which are different developments. These two are
+        # exact instead of statistical, so they cost nothing in false drops:
+        #
+        # 1. A SLUG THAT ALREADY EXISTS. Two content files with one slug render to one
+        #    URL, so the later silently overwrites the earlier at build and the feed emits
+        #    the same GUID twice, which is a real syndication fault in RSS readers. This
+        #    can never be legitimate, whatever the story says.
+        # 2. A HEADLINE THAT IS WORD-FOR-WORD THE ONE ALREADY PUBLISHED. Every such pair
+        #    in the live corpus is a true duplicate; a genuine follow-up writes a new
+        #    headline, because it has something new to say in it.
+        prior_slugs = {o.get("slug") for o in older if o.get("slug")} | \
+                      {k.get("slug") for k in kept if k.get("slug")}
+        if d.get("slug") in prior_slugs:
+            dropped.append((f, d.get("slug"), d.get("slug")))
+            continue
+        twin = next((o for o in older + kept
+                     if dedupe._headline_overlap(title, str(o.get("title") or "")) >= 0.98
+                     and _daygap(d.get("date"), o.get("date")) <= 1), None)
+        if twin is not None:
+            dropped.append((f, d.get("slug"), twin.get("slug")))
+            continue
         rep_t, rep_s = dedupe.adds_nothing_new(title, kf, corpus=older + kept)
         if rep_t:
             # A DROP DELETES A VERIFIED STORY, so the bar is higher than the autopilot
