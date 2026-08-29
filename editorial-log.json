@@ -1,11 +1,6 @@
 [
  {
   "date": "2026-07-21",
-  "approved": 8,
-  "rejected": []
- },
- {
-  "date": "2026-07-21",
   "approved": 9,
   "rejected": [
    {
@@ -9118,6 +9113,32 @@
      "The draft states 'Bob Lee, a quarterback who helped the Minnesota Vikings win the 1969 NFL championship' but the brief explicitly flags this as unconfirmed: the open_questions note states 'No biographical details, career statistics, or Hall of Fame status are confirmed in the fetched source text itself.' The draft presents his role in the 1969 championship as fact, not as reported but unconfirmed.",
      "The brief marks the core facts ('Bob Lee died August 17 in San Francisco' and 'The University of Pacific announced Bob Lee's death') as 'announced-not-verified' confidence level, meaning they should read with that qualification in prose. The draft states these as settled fact without attribution or hedge language.",
      "The draft says 'Lee was drafted by the Vikings in 1968' but the brief notes that 'No biographical details...are confirmed in the fetched source text itself.' This claim is presented as fact but is unconfirmed."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c261",
+    "headline": "Giants RB Tracy Exits Preseason Game With Apparent Neck Injury",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains speculative medical description beyond what the brief reports. The phrase 'seemingly compressing his neck in the collision' appears in both the draft and the brief, but the draft then adds interpretive language about injury severity that goes beyond Yahoo Sports reporting.",
+     "The draft states Tracy 'walked slowly to the locker room' but the brief only confirms he 'walked off the field slowly, under his own power.' The addition of 'slowly' to describe his gait is a detail not explicitly in the brief's data points and risks implying severity the source may not support.",
+     "More critically: The draft's second paragraph speculates about the mechanism of injury ('seemingly compressing his neck') in prose that reads as editorial interpretation of video or on-field observation. The brief marks this as 'reported,' but the language 'seemingly' signals uncertainty. The draft should either quote this directly or attribute it clearly to Yahoo Sports' description, not narrate it as fact.",
+     "The bottom line says 'Tracy's walking off the field under his own power suggests a less severe outcome than other transport methods'\u2014this is analytical inference about medical severity based on transport method, which crosses into speculation about injury outcome beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c235",
+    "headline": "Texas judge grants restraining order against SEC over former pro athlete eligibility",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites a CBS Sports URL that does not exist in the research materials provided. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected' when no brief exists. The URL https://www.cbssports.com/college-football/news/texas-judge-sec-former-pro-athletes/ cannot be verified as a real, accessible source within this review process, and the draft offers no alternative sourcing.",
+     "The draft makes factual claims (a federal judge granted a restraining order, it was in Texas, it involved the SEC, the NCAA, and former college athletes) that cannot be traced to any provided source document. The body explicitly punts all specifics to an external link, which means the desk has no way to verify any fact in the story against an actual source document."
     ]
    }
   ]
