@@ -1,29 +1,5 @@
 [
  {
-  "date": "2026-07-20",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c014",
-    "headline": "Spain Beat Argentina 1-0 to Win 2026 World Cup Final",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'A linked BBC match report, titled 'World Cup 2026 final - Spain 1-0 Argentina,' confirms the scoreline' but the brief's open_questions note explicitly states 'No details from the linked 'MATCH REPORT' article body were fetched, so broader match context (statistics, other chances, extra-time details) is unavailable in the sourced material.' The draft claims confirmation of something the brief flags as unfetched and unconfirmed.",
-     "The draft references venue as 'New York New Jersey Stadium' but the brief identifies a naming discrepancy: the why_it_matters reference calls it 'MetLife Stadium' while the sourced material says 'New York New Jersey Stadium.' The draft does not acknowledge this unresolved discrepancy despite the brief identifying it as open."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Chelsea Sign Morgan Rogers From Aston Villa in \u00a3117m Deal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The signing falls under manager Xabi Alonso, who oversees the deal per BBC Sport's reporting' but the brief data_point only confirms 'Xabi Alonso is the Chelsea manager overseeing the deal' \u2014 the phrasing 'falls under' and 'oversees the deal' are writer's interpretation beyond what the brief confirms. More critically, the brief's bear_case notes 'The fetched article text is largely site navigation/menu boilerplate and does not contain substantive analysis' \u2014 this suggests the source material is severely compromised and the writer cannot verify these claims actually appear in the BBC article text. The writer should have flagged this sourcing problem rather than presenting the facts as confirmed.",
-     "The draft claims 'It is one of three transfers this summer window valued at \u00a3100m or more, according to the same source, though the other two deals referenced are not named in the available reporting.' The brief open_questions explicitly notes 'The other two \u00a3100m-plus transfers referenced are not named in the available text,' indicating the source text does not actually list these other two deals \u2014 the writer is asserting the existence and count of transfers that are not in the brief's confirmed data and not detailed in the source material provided."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-21",
   "approved": 8,
   "rejected": []
@@ -9117,6 +9093,31 @@
     "reasons": [
      "No research brief was provided for this story. The draft itself is a meta-rejection explaining why it cannot be published, which is not a publishable article. The body contains editorial instruction rather than reportorial content.",
      "Without a research brief and with zero verified sources cited in the sources array, this does not meet the hard rule that every fact must trace to a research brief data point or be independently sourced in the draft itself. The story cannot be evaluated against a brief because no brief exists."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c182",
+    "headline": "Braves announce season-ending surgeries for pitchers Waldrep and Schwellenbach",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites a single Sporting News URL but provides no way to verify the facts against that source in this review. The specific claims about Tommy John surgery for Waldrep, elbow fracture surgery for Schwellenbach, their 2025 performance, and their unavailability in 2026 cannot be traced back to the source material provided in this review context.",
+     "The draft is built on unverifiable sourcing within this approval workflow. Without a brief or access to the cited source's actual content, no fact-checking can occur."
+    ]
+   },
+   {
+    "id": "c90",
+    "headline": "Former NFL QB Bob Lee dies at 81",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bob Lee, a quarterback who helped the Minnesota Vikings win the 1969 NFL championship' but the brief explicitly flags this as unconfirmed: the open_questions note states 'No biographical details, career statistics, or Hall of Fame status are confirmed in the fetched source text itself.' The draft presents his role in the 1969 championship as fact, not as reported but unconfirmed.",
+     "The brief marks the core facts ('Bob Lee died August 17 in San Francisco' and 'The University of Pacific announced Bob Lee's death') as 'announced-not-verified' confidence level, meaning they should read with that qualification in prose. The draft states these as settled fact without attribution or hedge language.",
+     "The draft says 'Lee was drafted by the Vikings in 1968' but the brief notes that 'No biographical details...are confirmed in the fetched source text itself.' This claim is presented as fact but is unconfirmed."
     ]
    }
   ]
