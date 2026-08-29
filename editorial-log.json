@@ -1,60 +1,5 @@
 [
  {
-  "date": "2026-07-21",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "Panthers' Moton sidelined indefinitely with blood clot in lung",
-    "category": "compliance",
-    "reasons": [
-     "The bottom_line states 'whether his cardiac-related diagnosis poses longer-term career considerations,' which speculates about medical and career implications beyond what the brief or ESPN reporting established. The brief marks all medical data as 'announced-not-verified' and contains no data point about long-term career risk or prognosis; this is speculation about Moton's body and medical state beyond the official record."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Rangers prospect Brody Bumila requires Tommy John surgery, second UCL procedure",
-    "category": "compliance",
-    "reasons": [
-     "The draft states 'Bumila disclosed the UCL damage to MLB teams prior to the draft, meaning the condition was known to scouts and decision-makers.' This is framed as settled fact, but the brief marks this claim as 'reported' confidence only. More critically, the brief's bear_case explicitly presents this as a countervailing point\u2014evidence the Rangers accepted known risk\u2014yet the draft presents it as simple factual narration within the injury narrative rather than as a meaningful counter-weight to the 'setback' framing in the angle. The bear_case did not survive as genuine balance.",
-     "The draft presents medical details about Bumila's body and injury trajectory (internal-brace surgery in 2025, further deterioration, Tommy John requirement) with clinical certainty. The brief marks the core injury claim as 'reported' but does not include independent medical verification in the data_points. The draft's confident medical narrative ('That less-invasive procedure did not prevent further damage, and additional deterioration identified before the draft now requires the more extensive Tommy John repair') reads as a settled medical assessment rather than as event reporting, crossing into speculative health commentary beyond the official record."
-    ]
-   },
-   {
-    "id": "c096",
-    "headline": "French Open offers players first Grand Slam revenue share",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'officials from Roland Garros made the revenue-sharing offer to Larry Scott, the players' representative, during talks at Wimbledon in early July 2026.' The brief data_point says 'The offer was made during talks at Wimbledon approximately a fortnight before the article publication (early July 2026).' The article timestamp is 2026-07-21; 'a fortnight before' would place the talks around early July, but the draft's phrasing 'during talks at Wimbledon in early July 2026' could read as the talks themselves occurring at Wimbledon during the tournament (which runs late June through early July). The timing is ambiguous in the source material, but the draft's wording risks misplacing the venue or timing of the talks. More critically: the brief is marked 'thin: true' with only 4 data_points and 154 source characters. The draft acknowledges in paragraph 3 that 'The specific percentage or dollar amount of the revenue to be shared, the scope of which players qualify for the arrangement, and the timeline for implementation remain unspecified.' This signals the writer knows the story is thin. A thin brief correctly produces a short, tight story\u2014but this draft's second paragraph and the entire third paragraph consist of empty admissions of what is not known, padding rather than reporting. The structure\u2014core fact, then immediate recitation of unknowns\u2014reads as story-filling rather than news judgment."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Georgia RB Dante Dowdell suffers serious injuries in ATV accident",
-    "category": "compliance",
-    "reasons": [
-     "The draft speculates about Dowdell's medical condition and injury severity without grounding claims in official medical statements or on-record detail from the brief. The phrase 'suffered serious injuries' appears in the headline and opening but the brief contains no data_point specifying what those injuries are, their severity assessment, or any medical authority's diagnosis. The brief itself marks this as thin (true) with open_questions explicitly including 'What specific injuries did Dowdell sustain' and 'What is the nature and severity of his condition'\u2014indicating these facts do not exist in the source material. Presenting 'serious injuries' as established fact when the source material does not confirm severity violates the compliance rule against speculating about a player's medical state beyond the official record."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Angels fire scout Justin Prinstein for allegedly recording Rockies coaches",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Prinstein was 'caught recording Colorado Rockies coaches' but the brief data_point says he was 'caught recording Rockies coaches'\u2014not specifically or only 'coaches.' The draft narrows the target claim without sourcing that narrowing to the brief. More critically, the brief's single substantive data_point ('Prinstein was caught recording Rockies coaches earlier this season') is marked 'reported' confidence, meaning the source confirmed it happened, but the draft then writes: 'what was recorded, under what circumstances, and whether MLB initiated an investigation remain unclear from available reporting.' This hedging contradicts the confidence label and suggests the fact itself is unconfirmed or murky, which it is not per the brief. The draft should either state the fact cleanly (as reported) or flag it as unconfirmed; it cannot do both without creating liability confusion. The open_questions section in the brief confirms none of those details exist in source material, so the draft's framing that the recording 'raises questions' is appropriate, but the initial claim must trace to the data_point's confidence level, not hedge it."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Tours form new alliance in latest blow to LIV Golf",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Rory McIlroy, Masters champion' but the brief does not establish that McIlroy is the current Masters champion. The brief only attributes a quote to him without confirming his Masters title status. This is new information not in the brief and introduces a factual claim that could be false if McIlroy did not win the most recent Masters."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-22",
   "approved": 6,
   "rejected": [
@@ -9142,6 +9087,47 @@
      "No brief exists for this story. The instruction states: 'the writer's hard rule was: no fact exists outside the brief.' Without a brief, every factual claim in the draft must be traceable to its cited sources. The draft cites only one source (CBS Sports) for all claims, but the approver cannot verify against a research brief whether those claims were actually reported by that source or whether the writer has smuggled facts beyond what the brief authorizes.",
      "The draft references 'an AFC team' without naming it ('The Seahawks and the AFC team in question will face each other in 2027'). This construction is evasive; if the brief did not name the team, the draft should not hint at it. If the brief did name it, the draft must name it too.",
      "The core transaction details (Khosla's ownership, $9.612 billion price, unanimous approval) cannot be verified against a brief because none exists. Without a brief, the draft is unsalvageable under the hard rule."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c44",
+    "headline": "Makar signs NHL-record $163.2M deal at $20.4M AAV with Colorado",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states: 'Makar, 27, will begin receiving salary under the extension in the 2027-28 season.' The brief data_point says 'The contract begins in the 2027\u201328 season' with confidence 'reported'. However, the brief also says Makar's full contract details are labeled 'announced-not-verified'. The draft presents a contract figure as fact without a confidence qualifier. The rule requires that claims marked 'announced-not-verified' or 'reported' must read that way in prose\u2014not presented as settled fact.",
+     "The entire contract narrative ($163.2M, $20.4M AAV, $18.8M signing bonus, eight years) is anchored to a claim labeled 'announced-not-verified', yet the draft narrates all figures as definite. This is a liability exposure: if the contract terms shift or are not finalized, the desk has published unverified numbers as fact."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "Waldrep, Schwellenbach to undergo season-ending elbow surgery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents both Waldrep and Schwellenbach's surgeries as fully announced and decided facts, but the brief marks both data points as 'announced-not-verified.' The draft language ('will undergo') reads as settled fact rather than announced-pending-verification. Per desk rules, confidence labels must survive in prose.",
+     "The draft describes the two pitchers as 'rotation anchors,' implying they are established, proven starters, but the brief provides no data about their tenure, performance history, or status within the rotation. This is new characterization not supported by the brief.",
+     "The brief's bear_case is empty, yet the draft contains no counter-evidence paragraph or alternative framing\u2014this is correct per the approval rules. However, the draft's bottom_line uses the phrase 'Watch whether the Braves' remaining starters can carry the team's playoff positioning or whether the rotation injuries prove costly'\u2014this language restates an open_question ('No detail on whether Waldrep or Schwellenbach had prior injury history or how they came to require season-ending surgery') as if it were settled, which violates the rule against narrating absence."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "Rays' new ballpark approved in county vote",
+    "category": "accuracy",
+    "reasons": [
+     "All four core facts (the $80M public funding, $2.36B total cost, 4-3 vote, and ownership group composition) are marked 'announced-not-verified' in the brief, but the draft presents them as settled fact without any qualification or hedge language. The wire rule requires that confidence labels survive into prose: unconfirmed claims must read as such. The phrase 'per MLB.com' is attribution, not confidence qualification. A reader has no signal that these figures come from an announcement that has not been independently verified."
+    ]
+   },
+   {
+    "id": "c234",
+    "headline": "Story rejected: no research brief provided",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The draft itself is a meta-rejection note, not a publishable article. Per GoCheckMySports standards, every factual claim must trace to a research brief with verified data points. This story cannot proceed without a brief containing core_claim, data_points with confidence labels, sources, and bear_case."
     ]
    }
   ]
