@@ -277,6 +277,9 @@ TAG_RULES = [
                      r"free agen\w*|contract\w*|extension\w*|transfer\w*|draft\w*|"
                      r"released|option\w* (?:exercised|declined)|call[- ]up)\b"),
     ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|training camp)\b"),
+    # WNBA IS NOT THE NBA (owner audit 2026-08-29): the nba pattern matches "wnba"
+    # outright, so every WNBA story filed under nba. Its own rule, ahead of it.
+    ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries)\b"),
     ("nba", r"\b(nba|wnba|finals mvp|triple-double)\b"),
     ("mlb", r"\b(mlb|world series|no-hitter|home run\w*|inning\w*|pitcher\w*)\b"),
     ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*)\b"),
@@ -290,13 +293,34 @@ TAG_RULES = [
 _TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
 
 
+# What a story is ABOUT lives in its headline; the body merely mentions things (owner
+# audit 2026-08-29). Scoring one flat bag of title-plus-body let incidental mentions
+# outvote the subject, and the tags went visibly wrong: obituaries of King Harald and
+# Tim Curry filed under "technology", Mladic and Kusama under "health", a WNBA injury
+# under "soccer", an NHL trade request under "nfl". A body hit still counts, it just
+# cannot outrank the headline: title, dek and key_fact carry the weight, and a tag that
+# appears ONLY in the body has to clear a real threshold before it labels the story.
+_HEAD_WEIGHT = 6
+_BODY_MIN = 2
+
+
 def tags_for(item):
     body = item.get("body") or []
-    text = " ".join([item.get("title") or "", item.get("dek") or "",
-                     item.get("key_fact") or ""] +
-                    [p if isinstance(p, str) else "" for p in body])
-    scored = [(len(rx.findall(text)), i, tag)
-              for i, (tag, rx) in enumerate(_TAG_RES) if rx.search(text)]
+    head = " ".join([item.get("title") or "", item.get("dek") or "",
+                     item.get("key_fact") or ""])
+    body_text = " ".join(p if isinstance(p, str) else "" for p in body)
+    scored = []
+    for i, (tag, rx) in enumerate(_TAG_RES):
+        h = len(rx.findall(head))
+        b = len(rx.findall(body_text))
+        if not h and b < _BODY_MIN:
+            continue          # a single passing mention is not what the story is about
+        # A HEADLINE HIT ALWAYS OUTRANKS BODY VOLUME. Capping the body's contribution
+        # below one headline hit is the whole point: an obituary whose body mentions the
+        # hospital nine times is still an obituary, and before this cap it filed as health.
+        score = h * _HEAD_WEIGHT + min(b, _HEAD_WEIGHT - 1)
+        if score:
+            scored.append((score, i, tag))
     scored.sort(key=lambda t: (-t[0], t[1]))
     return [t[2] for t in scored[:3]]
 
@@ -2233,6 +2257,18 @@ def build():
     # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit). Retired duplicate
     # slugs 301 to their surviving story, ahead of the catch-all (Netlify takes the
     # first match).
+    # A REDIRECT TO A 404 IS WORSE THAN NO REDIRECT (owner audit 2026-08-29, ported from
+    # the crypto desk where it shipped: a survivor slug transcribed from a truncated
+    # console listing left a 301 pointing at nothing for a day). Every survivor must
+    # actually render, and this fails the build loudly if one does not.
+    _rendered = {i.get("slug") for i in items if i.get("slug")}
+    _dangling = sorted(v for v in set(RETIRED_ARTICLES.values()) if v not in _rendered)
+    if _dangling:
+        for v in _dangling:
+            print(f"::error::RETIRED_ARTICLES points at a survivor that does not exist: "
+                  f"{v} (the retired URLs mapped to it would 301 into a 404)")
+        raise SystemExit(f"site: {len(_dangling)} dangling redirect target(s); fix "
+                         f"RETIRED_ARTICLES before shipping")
     redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))
