@@ -277,6 +277,91 @@
     "Open Championship",
     "claret jug"
    ]
+  },
+  {
+   "name": "College football regular season (weekly slate)",
+   "start": "2026-08-29",
+   "end": "2026-12-06",
+   "keywords": [
+    "college football",
+    "AP poll",
+    "top 25",
+    "upset",
+    "conference",
+    "rivalry",
+    "Big Ten",
+    "SEC",
+    "Big 12",
+    "ACC",
+    "transfer portal",
+    "NIL",
+    "eligibility",
+    "bowl eligibility",
+    "heisman"
+   ]
+  },
+  {
+   "name": "NFL regular season (weekly slate)",
+   "start": "2026-09-10",
+   "end": "2027-01-03",
+   "keywords": [
+    "NFL",
+    "week",
+    "injury report",
+    "waivers",
+    "practice squad",
+    "depth chart",
+    "playoff picture",
+    "standings",
+    "quarterback"
+   ]
+  },
+  {
+   "name": "NFL roster cutdown deadline (53-man)",
+   "start": "2026-08-30",
+   "end": "2026-09-01",
+   "keywords": [
+    "cutdown",
+    "roster cuts",
+    "53-man",
+    "waivers",
+    "practice squad",
+    "released"
+   ]
+  },
+  {
+   "name": "College football conference championship week",
+   "start": "2026-12-04",
+   "end": "2026-12-06",
+   "keywords": [
+    "conference championship",
+    "title game",
+    "Big Ten",
+    "SEC",
+    "Big 12",
+    "ACC"
+   ]
+  },
+  {
+   "name": "Heisman Trophy ceremony",
+   "start": "2026-12-12",
+   "end": "2026-12-13",
+   "keywords": [
+    "heisman",
+    "trophy",
+    "finalists"
+   ]
+  },
+  {
+   "name": "College football early signing period",
+   "start": "2026-12-16",
+   "end": "2026-12-18",
+   "keywords": [
+    "signing day",
+    "recruiting class",
+    "five-star",
+    "commit"
+   ]
   }
  ],
  "cadence": "daily-brief",
@@ -472,6 +557,31 @@
     "name": "Yahoo WNBA",
     "tier": "major",
     "url": "https://sports.yahoo.com/wnba/rss/"
+   },
+   {
+    "name": "Yahoo College Football",
+    "tier": "major",
+    "url": "https://sports.yahoo.com/college-football/rss/",
+    "note": "College football had ONE feed (CBS) against three NFL sources while the season opened (owner directive 2026-08-29). Sport-specific desk feed, same tier and shape as the Yahoo NFL/NBA/MLB feeds already carried."
+   },
+   {
+    "name": "ESPN College Football",
+    "tier": "major",
+    "url": "https://www.espn.com/espn/rss/ncf/news",
+    "note": "Carries the enforcement and eligibility reporting the other two miss: the SEC ex-pro eligibility ruling was on this feed and nowhere else the desk reads."
+   },
+   {
+    "name": "ESPN NFL",
+    "tier": "major",
+    "url": "https://www.espn.com/espn/rss/nfl/news",
+    "note": "Added alongside the college feeds for the season run-up: roster cutdowns, waivers and injury reporting land here first."
+   },
+   {
+    "name": "Google News: college football",
+    "tier": "mixed",
+    "url": "https://news.google.com/rss/search?q=%22college+football%22+OR+%22Big+Ten%22+OR+%22Big+12%22+OR+%22College+Football+Playoff%22+OR+%22transfer+portal%22+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "note": "DISCOVERY ONLY. Aggregator links are google.com redirects, so the corroboration rules still require a tiered, directly-citable outlet before anything publishes. Returned 96 football-relevant items of 100 when tested on opening weekend.",
+    "max_items": 12
    }
   ],
   "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",

@@ -104,7 +104,7 @@ def main():
         prior_slugs = {o.get("slug") for o in older if o.get("slug")} | \
                       {k.get("slug") for k in kept if k.get("slug")}
         if d.get("slug") in prior_slugs:
-            dropped.append((f, d.get("slug"), d.get("slug")))
+            dropped.append((f, d.get("slug"), "SLUG"))
             continue
         twin = next((o for o in older + kept
                      if dedupe._headline_overlap(title, str(o.get("title") or "")) >= 0.98
@@ -134,8 +134,13 @@ def main():
 
     for f, slug, rep in dropped:
         os.remove(f)
-        print(f"::warning::publish_sweep dropped zero-novelty twin '{slug}' "
-              f"(retells published '{rep}'); the survivor already carries this event")
+        if rep == "SLUG":
+            # naming the same slug on both sides read as "retells itself" in the log
+            print(f"::warning::publish_sweep dropped '{slug}': that URL is already "
+                  f"published, and two files on one slug collide into a single page")
+        else:
+            print(f"::warning::publish_sweep dropped zero-novelty twin '{slug}' "
+                  f"(retells published '{rep}'); the survivor already carries this event")
     if dropped:
         print(f"publish_sweep: dropped {len(dropped)} of {len(batch)} new stories as "
               f"exact retellings; re-run site_build before committing")

@@ -178,8 +178,14 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
+# NAV IS HAND-MAINTAINED AND SECTIONS IS NOT, which is how a lane can exist and be
+# unreachable: the news desk shipped an /archive nobody could click for weeks. College
+# Football joins here the same day it joins SECTIONS, and it sits next to NFL because
+# that is how a reader thinks about football season.
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
-       ("NFL", "/sections/nfl.html"), ("Soccer", "/sections/soccer.html"),
+       ("NFL", "/sections/nfl.html"),
+       ("College Football", "/sections/college-football.html"),
+       ("Soccer", "/sections/soccer.html"),
        ("MLB", "/sections/mlb.html"), ("NBA", "/sections/nba.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
@@ -276,7 +282,12 @@ TAG_RULES = [
     ("transactions", r"\b(trade[sd]?|traded|signing\w*|signed|waive[sd]?|waiver\w*|"
                      r"free agen\w*|contract\w*|extension\w*|transfer\w*|draft\w*|"
                      r"released|option\w* (?:exercised|declined)|call[- ]up)\b"),
-    ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|training camp)\b"),
+    # The NFL pattern knew five words, none of them the ones a season run-up is
+    # written in: cutdowns, waivers, the practice squad, the 53-man limit, IR.
+    ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|training camp|"
+            r"preseason|roster cutdown\w*|cutdown\w*|53-man|practice squad|"
+            r"waiver\w*|injured reserve|pup list|franchise tag|depth chart|"
+            r"snap count\w*)\b"),
     # WNBA IS NOT THE NBA (owner audit 2026-08-29): the nba pattern matches "wnba"
     # outright, so every WNBA story filed under nba. Its own rule, ahead of it.
     ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries)\b"),
@@ -285,8 +296,25 @@ TAG_RULES = [
     ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*)\b"),
     ("soccer", r"\b(premier league|champions league|la liga|serie a|bundesliga|mls|"
                r"fifa|uefa|world cup|soccer)\b"),
+    # SEASON VOCABULARY (owner directive 2026-08-29). The old pattern knew "ncaa",
+    # "college football" and "heisman" and little else, so opening weekend, every
+    # conference, the playoff, the portal and every school name were invisible to
+    # it. A desk covering the season has to recognise how the sport is written.
     ("college", r"\b(ncaa|college football|college basketball|march madness|"
-                r"heisman|bowl game\w*|nil deal\w*)\b"),
+                r"heisman|bowl game\w*|nil\b|transfer portal|"
+                r"college football playoff|cfp|big ten|big 12|big twelve|"
+                r"pac-?12|big east|mountain west|conference usa|sun belt|"
+                r"fbs|fcs|power (?:four|five)|group of five|bowl subdivision|"
+                r"redshirt|signing day|recruiting class|five-star|four-star|"
+                # SCHOOL NAMES ONLY WHERE THEY ARE UNAMBIGUOUS. Bare state names were
+                # tried and pulled in false positives immediately: a Tony Romo OWI arrest
+                # in "Wisconsin" and a Josh Jacobs charge whose body mentions "Alabama",
+                # neither of them college football stories. Ohio State and Notre Dame
+                # cannot mean anything else; Alabama, Georgia, Michigan and Oregon can,
+                # and the conference and portal terms already catch those stories anyway.
+                r"ohio state|notre dame|clemson|\blsu\b|auburn|florida state|"
+                r"penn state|\bucla\b|\busc\b|ole miss|texas a&m|"
+                r"student-?athlete\w*)\b|\b(?:SEC|ACC)\b"),
     ("scores-results", r"\b(final score\w*|won|beat\w*|defeat\w*|shutout|overtime|"
                        r"walk-off|clinch\w*|elimination|playoff\w*|postseason)\b"),
 ]
@@ -1513,7 +1541,27 @@ SECTIONS = [
      "Trades, injuries and results, checked against official league data."),
     ("nba", "NBA", "NBA", ("nba",),
      "Signings, trades and results from the NBA and WNBA."),
+    # COLLEGE FOOTBALL HAS ITS OWN LANE (owner directive 2026-08-29). The desk carried a
+    # college TAG but no section, so the sport with the largest audience in the American
+    # calendar had nowhere to live on the site while its season opened. The lane covers
+    # the year-round story too, not just Saturdays: eligibility rulings, the transfer
+    # portal, NIL and conference realignment are where this sport's real news happens.
+    ("college-football", "College Football", "College Football", ("college",),
+     "Games, eligibility rulings, the transfer portal, NIL and conference realignment, "
+     "sourced to official statements and the record."),
 ]
+
+
+# A LANE THE READER CANNOT CLICK DOES NOT EXIST (owner audit 2026-08-29). SECTIONS and
+# NAV are separate hand-maintained lists, which is exactly how the news desk shipped an
+# archive page nothing linked to. This fails the import rather than the deploy, so the
+# mismatch is caught the moment someone adds a lane and forgets the nav.
+_nav_hrefs = {h for _l, h in NAV}
+_unreachable = [slug for slug, *_rest in SECTIONS
+                if f"/sections/{slug}.html" not in _nav_hrefs]
+if _unreachable:
+    raise SystemExit("site_build: section(s) missing from NAV and therefore unreachable: "
+                     + ", ".join(_unreachable))
 
 
 def section_items(items, tags):
