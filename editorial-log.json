@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-07-21",
-  "approved": 9,
-  "rejected": [
-   {
-    "id": "c122",
-    "headline": "Kyle Bradish Extension: Source Material Insufficient",
-    "category": "accuracy",
-    "reasons": [
-     "The draft itself is a rejection memo, not a story. It states 'This story cannot proceed to draft without source material containing verified facts.' A draft that declares itself un-draftable should not be submitted as a draft. The brief correctly identifies the source as corrupted (thin: true, no data_points), but the writer's job is to flag this to the desk before submitting prose\u2014not to submit a meta-commentary in the draft slot. This is a process failure, not a story approval decision."
-    ]
-   },
-   {
-    "id": "c072",
-    "headline": "Proposed changes to Protect College Sports Act would allow conference expansion",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Revised language in the Protect College Sports Act would permit Power Four conference expansion' as a settled fact, but the brief data_point only confirms 'Power Four leagues would have a pathway to expand under the revised proposal, per negotiations' \u2014 this is reported language from ongoing negotiations, not finalized policy. The draft presents it with more certainty than the source warrants.",
-     "The draft acknowledges that 'The source reporting does not detail the specific restrictions or conditions' but then proceeds to treat the expansion permission as established fact. The brief's bear_case explicitly flags that 'the source text provided is truncated and does not contain the substantive reporting on the specific restrictions or conditions on Power Four expansion.' The draft should flag this as announced-not-verified or unconfirmed rather than stating it as direct fact."
-    ]
-   },
-   {
-    "id": "c082",
-    "headline": "Paige Bueckers ruled out for Liberty game after collision with Ogwumike, clears concussion protocol",
-    "category": "compliance",
-    "reasons": [
-     "Health/injury claim 'Bueckers tested negative for concussion' and 'cleared of concussion' are presented as definitive medical fact, but the brief data_point states only 'Bueckers avoided concussion in the collision' with confidence 'reported'\u2014a weaker formulation. The draft elevates this to a medical test result not confirmed in the brief's sourced material.",
-     "The draft states 'she was cleared of concussion' as settled fact, implying official medical clearance, but the brief does not confirm the mechanism or authority of that clearance. This exceeds the sourced reporting confidence level for a health/medical claim."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-21",
   "approved": 6,
   "rejected": [
    {
@@ -9139,6 +9107,41 @@
     "reasons": [
      "The draft cites a CBS Sports URL that does not exist in the research materials provided. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected' when no brief exists. The URL https://www.cbssports.com/college-football/news/texas-judge-sec-former-pro-athletes/ cannot be verified as a real, accessible source within this review process, and the draft offers no alternative sourcing.",
      "The draft makes factual claims (a federal judge granted a restraining order, it was in Texas, it involved the SEC, the NCAA, and former college athletes) that cannot be traced to any provided source document. The body explicitly punts all specifics to an external link, which means the desk has no way to verify any fact in the story against an actual source document."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c232",
+    "headline": "Story cannot be drafted: no research brief provided",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this submission. The draft's entire body consists of meta-narrative about the absence of a brief, not a story from the brief. Per the hard rule, 'no fact exists outside the brief.' With no brief to reference, and no cited sources verified against data_points, this draft cannot be approved for publication.",
+     "The draft is a desk communication, not a story. It must be returned to research for completion of a proper brief before resubmission."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "Angel Reese Suspended One Game for Eighth Technical Foul",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Angel Reese received a one-game suspension for accumulating an eighth technical foul' but the brief contains no data_point confirming the trigger (eighth technical) or the suspension length (one game). The brief's core_claim mirrors the draft's assertion, but the brief itself lists only 2 data_points, both about seeding standings, and 4 open_questions\u2014including 'What is the WNBA's written technical-foul suspension policy (at what accumulation threshold does a one-game suspension trigger)?' This indicates the suspension details were never confirmed in the source. The draft presents unconfirmed suspension mechanics as fact.",
+     "The draft contains no named source or official statement confirming the suspension, despite the brief's open_question asking 'Has the WNBA or the Atlanta Dream issued an official statement confirming the suspension or its length?' This signals the fact was never on-record-verified.",
+     "The draft opens with a suspension announcement as though it is established fact, but the brief flags it as thin (thin=true) with only 2 confirmed data_points. The story rests entirely on an unconfirmed claim."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "NFL Owners Approve $9.612 Billion Seahawks Sale to Venture Capitalist Vinod Khosla",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The instruction states: 'the writer's hard rule was: no fact exists outside the brief.' Without a brief, every factual claim in the draft must be traceable to its cited sources. The draft cites only one source (CBS Sports) for all claims, but the approver cannot verify against a research brief whether those claims were actually reported by that source or whether the writer has smuggled facts beyond what the brief authorizes.",
+     "The draft references 'an AFC team' without naming it ('The Seahawks and the AFC team in question will face each other in 2027'). This construction is evasive; if the brief did not name the team, the draft should not hint at it. If the brief did name it, the draft must name it too.",
+     "The core transaction details (Khosla's ownership, $9.612 billion price, unanimous approval) cannot be verified against a brief because none exists. Without a brief, the draft is unsalvageable under the hard rule."
     ]
    }
   ]
