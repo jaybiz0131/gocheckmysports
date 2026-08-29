@@ -33,6 +33,7 @@ USAGE
 """
 
 import inspect
+import glob
 import json
 import os
 import sys
@@ -153,12 +154,89 @@ def _one_definition_canary():
                f"which half runs is an accident of ordering.")
     return fails
 
+def _corpus_integrity_canary():
+    """Two data defects the event matcher structurally cannot see.
+
+    dedupe.py answers "is this the same STORY", which is the hard question and it
+    answers it well. These two are not that question, which is why they slipped
+    past every existing guard:
+
+      DUPLICATE SLUGS. Two content records naming the same slug write the same
+      file, and whichever builds last silently wins. The other story is gone with
+      no error, no log line and no missing page to notice. Five on this desk when
+      first measured, 2026-08-28.
+
+      CIRCULAR update_of. Two records each naming the other as the story it
+      updates, so neither is the origin. "Develops our earlier reporting" then
+      points in a loop, and dupe_audit's canonical suggestion has no earliest
+      match to anchor to.
+
+    Reported here rather than in dedupe.py because they are corpus hygiene, not
+    event similarity, and because dedupe.py is a synchronised chassis copy across
+    three repos: it should not grow a second responsibility.
+    """
+    fails = []
+    # BASELINED, and deliberately. This is a HARD GATE: adding it with a backlog
+    # of known defects would stop the desk publishing on the first run, which is
+    # exactly how a dated fixture took all three desks down for two days. So the
+    # defects that already existed when the check was written are recorded in
+    # corpus-baseline.json and reported without blocking, while anything NEW
+    # fails immediately. Clearing an entry from the baseline is how the backlog
+    # gets retired; the file should only ever shrink.
+    baseline = set()
+    _bl = os.path.join(HERE, "corpus-baseline.json")
+    if os.path.exists(_bl):
+        try:
+            baseline = set(json.load(open(_bl, encoding="utf-8")).get("known", []))
+        except Exception:
+            baseline = set()
+
+    def _report(key, msg):
+        if key in baseline:
+            gh("notice", "corpus (baselined, not blocking): " + msg)
+        else:
+            _check(False, fails, msg)
+
+    recs = []
+    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
+        try:
+            recs.append(json.load(open(p, encoding="utf-8")))
+        except Exception:
+            continue
+    live = [r for r in recs if r.get("slug") and not r.get("example")]
+
+    seen = {}
+    for r in live:
+        seen.setdefault(r["slug"], []).append(r)
+    dupes = sorted(s for s, v in seen.items() if len(v) > 1)
+    for slug in dupes:
+        _report("slug:" + slug,
+                "corpus: %d records share slug '%s' (one silently overwrites the other)"
+                % (len(seen[slug]), slug[:58]))
+
+    upd = {}
+    for r in live:
+        upd.setdefault(r["slug"], r.get("update_of") or "")
+    circular = sorted({tuple(sorted((s, u))) for s, u in upd.items()
+                       if u and upd.get(u) == s})
+    for a, b in circular:
+        _report("circular:%s|%s" % (a, b),
+                "corpus: circular update_of, '%s' and '%s' each update the other"
+                % (a[:34], b[:34]))
+    return fails
+
+
 def layer1_canary():
     fails = []
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
     fails.extend(_one_definition_canary())
+    # PORTED FROM THE NEWS DESK 2026-08-29: catches two classes that shipped
+    # on every desk and were invisible to every other check here, duplicate
+    # slugs (two files silently sharing one URL) and circular or
+    # self-referential update_of left behind by a retirement.
+    fails.extend(_corpus_integrity_canary())
     cfg = common.load_config()
 
     # config + models
