@@ -677,6 +677,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:image" content="{og_image or OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="{esc(NAME)} share card">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">

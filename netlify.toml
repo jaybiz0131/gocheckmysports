@@ -27,3 +27,20 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# SHARE CARDS ARE IMMUTABLE, SO LET THEM BE CACHED (2026-08-30). These live at the root
+# and under /og/, so neither was covered by the /assets/* rule above and both fell
+# through to the site default of "max-age=0, must-revalidate". Every link previewer
+# (iMessage, Slack, WhatsApp, Twitter) was therefore forced to re-fetch and revalidate
+# the card on every single share, and a previewer that does not get the image quickly
+# just renders the link with no card at all. The page card never changes between
+# redesigns and a per-article card never changes at all once its story is written.
+[[headers]]
+  for = "/og-image.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
