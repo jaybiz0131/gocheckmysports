@@ -1,78 +1,5 @@
 [
  {
-  "date": "2026-07-22",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c006",
-    "headline": "Red Sox tie franchise winning streak record with 15th straight win",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Tyler O'Neill added an RBI double for the Giants,' but the brief identifies O'Neill as a Baltimore Orioles player ('Tyler O'Neill had a sun-aided RBI double for Baltimore'). The draft incorrectly attributes him to the Giants.",
-     "The draft states Willson Contreras is a 'catcher' who checked on Bennett, but the brief identifies him as 'first baseman Willson Contreras.' These are different defensive positions and the draft contains the wrong position."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "Royals defeat Giants 5-4 as Perez ties franchise home run record",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly flags in open_questions that 'The exact home run number that ties the record (whether it was his 317th as suggested in the headline) is not confirmed in the provided source text.' The draft's title and prose assert a franchise record was tied, but the brief marks this claim as only 'reported' confidence and notes the exact details are unconfirmed. A reported-confidence claim about a record-tying home run presented without qualification or caveat in a headline is a liability risk given the brief's own uncertainty.",
-     "The brief is marked 'thin: true' with 'source_chars: 0', indicating minimal source material. The brief's open_questions identify missing context: which inning Perez hit the homer, who held the previous record, and broader career significance. The draft offers none of this and should either be rejected for insufficient sourcing or rewritten to reflect the thinness of the available information."
-    ]
-   },
-   {
-    "id": "c056",
-    "headline": "MLS opens tampering investigation into Inter Miami's Casemiro signing",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains only a single data_point: 'MLS says it is investigating allegations of tampering by Inter Miami after the club signed Brazil midfielder Casemiro.' The data_point is marked 'reported' confidence, not 'verified.' The draft presents this as settled fact ('Major League Soccer is investigating allegations') without hedging language appropriate to 'reported' confidence. When a brief marks a core claim as 'reported' rather than verified, the draft must reflect that sourcing difference.",
-     "The draft states 'No details on the specific tampering allegations, the timeline of Casemiro's move, or potential penalties have been disclosed'\u2014but this absence of detail should not be asserted as a fact in the prose when the brief itself contains minimal source material (source_chars: 317). This reads as padding rather than reporting."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "Royals' Bobby Witt Jr. placed on IL for first time in career",
-    "category": "accuracy",
-    "reasons": [
-     "Final sentence reads: 'The extent of Witt's absence remains unclear, as the brief does not specify an expected timeline for his return from the back tightness.' This is a meta-commentary on the brief itself, not a fact from the reporting. It breaks the fourth wall by directly referencing the brief as a source document rather than synthesizing information for readers. Remove or rephrase as forward-looking context."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "First-place Lynx get Collier back, but on minutes restriction",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Collier 'tearing three ligaments in her left ankle in Game 3 of the WNBA semifinals in September' but the brief claims this happened 'more than 10 months' before Wednesday's debut. If Wednesday is late July 2026, 'more than 10 months' prior would place the injury in late August 2025 or earlier, not September 2025. The timeline is internally contradictory and should be clarified to match the brief's 'more than 10 months' framing rather than naming a specific month without verification."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "SEC Commissioner Sankey: Conference focused on federal NIL legislation, not NCAA breakaway",
-    "category": "accuracy",
-    "reasons": [
-     "The phrase 'multiple sources confirmed to ESPN that there have been internal conversations about the SEC considering playing entirely conference games in all sports' is marked 'unconfirmed' in the brief but is presented as settled fact in the draft without any hedge or confidence marker. The brief explicitly flags this claim as 'unconfirmed'; the draft must signal that uncertainty to readers."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Former Man United, Real Madrid midfielder Casemiro joins Inter Miami",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Casemiro represented Brazil in the 2026 World Cup, reaching the round of 16 before losing 2-1 to Norway.' The brief data_point says he 'formed part of Brazil's 2026 World Cup roster, reaching the round of 16 before losing 2-1 to Norway.' The draft adds 'represented Brazil' and implies he played; the brief only confirms roster participation. A player can be on a World Cup roster without playing in a specific match. This distinction matters for factual accuracy and must not be smuggled in beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "2026 World Cup generated record betting handle in U.S. sportsbooks",
-    "category": "compliance",
-    "reasons": [
-     "The draft opens with 'U.S. sportsbooks reported record betting handle on the 2026 World Cup, with individual operators recording dramatic year-over-year increases from the 2022 tournament' and follows with specific percentage increases and comparative betting figures. This entire framing reads as a betting/wagering narrative emphasizing 'record' volume and growth\u2014language that could encourage or tout betting activity. While the draft includes the mandatory disclaimer at the bottom, the body repeatedly emphasizes record-breaking betting figures, largest liabilities, most-bet players, and odds without sufficient editorial distance. The phrase 'This World Cup will go down as the biggest betting event in American history, we're talking the equivalent of ten Super Bowls' is a direct quote from a sportsbook executive, but its placement and the surrounding narrative (650% increase, record handle) risks reading as a tout piece for the event's betting appeal rather than a neutral report on market activity. The brief itself notes the data is 'operator-reported' but the draft does not sufficiently establish that this is sportsbook marketing language, not verified market data."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-23",
   "approved": 6,
   "rejected": [
@@ -9082,6 +9009,40 @@
     "reasons": [
      "The draft states 'Coach Les Kiss remains unbeaten in his tenure, improving to four wins' but the brief's data_point clearly states 'Les Kiss remains unbeaten in his three Tests in charge.' The draft reports four wins when the brief specifies three tests.",
      "The draft's opening sentence claims the victory 'extend their winning streak to four matches' which is correct per the brief, but then later states 'Coach Les Kiss remains unbeaten in his tenure, improving to four wins.' These two statements are internally inconsistent: if the team won four matches and Kiss remained unbeaten in all his tenure matches, Kiss's record should match the four-match streak, not be a separate tally. The brief resolves this by saying Kiss is unbeaten in three Tests\u2014meaning he has coached in only three matches total, not four."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "William Jewell College running back MicahJo Barnett dies after medical emergency",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only one data_point (Barnett's rushing stats from last year), yet the draft narrates absence of information multiple times: 'The specific details of the medical emergency, the timeline of events during the game, and the underlying cause of his death have not been disclosed' and 'Critical information about medical response, whether an autopsy has been performed, and the team's official statement remain unavailable.' Per instructions, the writer is forbidden from narrating absence; restating open_questions as unconfirmed facts is a category accuracy violation. The draft should report only what the brief contains.",
+     "The core claim states Barnett 'died after suffering a medical emergency during the season opener,' but the draft adds 'on the field' without support in the brief's data_points or core_claim.",
+     "The brief is marked 'thin: true' with minimal sourcing (125 source characters). A story this thin cannot sustain narration of what is absent; it can only report what is known from the single CBS Sports report."
+    ]
+   },
+   {
+    "id": "c085",
+    "headline": "UNC defeats TCU 15-10 in Week 0 season opener in Ireland",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line in the draft reads 'UNC defeats TCU 15-10 in Week 0 upset in Dublin; Belichick's second-year team avenges previous year's 48-14 loss and marks strong season start.' This contains two major smuggled facts not present in the brief: (1) 'Belichick's second-year team' \u2014 no mention of Belichick or any coach in the brief's data_points or core claim; (2) 'previous year's 48-14 loss' \u2014 the brief clearly states the teams lost by 34 points (matching the draft body's '34-point loss'), not 48-14. The bottom_line contradicts the body and the brief.",
+     "The draft body states 'reversing a 34-point loss from the teams' 2025 opener' which aligns with brief data_point 'North Carolina lost the 2025 opener by 34 points.' But the bottom_line says '48-14 loss,' creating internal contradiction and factual error.",
+     "No mention of any coach (Belichick) appears in the brief. Attributing coaching staff or tenure decisions to a coach not named in the source material is a smuggled fact."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Cale Makar Becomes NHL's First $20M Per Year Player with Record Contract",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The instruction is that 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one URL (https://www.cbssports.com/nhl/news/cale-makar-colorado-avalanche-contract-record/), but the approver cannot verify the facts in the draft against that source without access to it. The hard rule is: 'no fact exists outside the brief.' Without a brief, the draft becomes unverifiable. All three key claims\u2014the contract value ($163.2M over 8 years), the per-year average ($20.4M), and the status as 'first $20M per year player'\u2014cannot be traced to the brief (which does not exist) and therefore cannot be verified against the sourcing standard the desk requires."
     ]
    }
   ]
