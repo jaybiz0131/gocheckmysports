@@ -4,78 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c031",
-    "headline": "Patrick Kane returns to Blackhawks on two-year contract",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Kane 'spent 16 seasons with the franchise' but the brief and sources say he was with the Blackhawks for 16 seasons before being traded in 2023. The draft then says 'Kane made the playoffs nine consecutive seasons and reached the conference finals five times' with the Blackhawks\u2014this is accurate to the brief. However, the discrepancy in how the 16-season tenure is characterized creates ambiguity about whether the draft is claiming all 16 seasons were pre-trade. The sentence 'Kane chose Chicago over what ESPN reported as competing interest from the Buffalo Sabres, his native state' is awkwardly phrased and potentially misleading: Buffalo is not Kane's native state (he is from Michigan), though the brief says 'his native state' referring to Buffalo as a homecoming. This attribute error requires rejection.",
-     "The draft attributes the $8M AAV contract details to ESPN in the opening but the brief marks this data point with confidence 'announced-not-verified,' which must be reflected in the prose as uncertain language. The draft reads the contract terms as settled fact ('signed a two-year contract... with... $8 million average annual value') without any hedge or attribution qualifier that signals the unverified status."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Garnacho Joins Aston Villa on Season-Long Loan from Chelsea",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Amadou Onana ruptured his anterior cruciate ligament (ACL) playing for Belgium at the World Cup,' but the brief's data_point says he suffered the injury 'playing for Belgium at the World Cup' without specifying which World Cup or timeframe. The phrasing in the draft treats this as a recent event ('was further tested by injury') in the context of current squad reshaping, but the brief provides no timestamp or clarity on when this occurred. This conflates an undated past injury with present squad depth concerns without sufficient sourcing clarity.",
-     "The draft presents Garnacho's appearance threshold as determinative ('based on the number of appearances he makes') without qualification. The brief acknowledges this is not disclosed ('The specific appearance threshold required to trigger Garnacho's permanent obligation has not been disclosed'). The draft should flag this as an unspecified term, not state it as settled fact."
-    ]
-   },
-   {
-    "id": "c055",
-    "headline": "Arsenal Sign Greece Forward Christos Tzolis from Club Brugge",
-    "category": "clarity",
-    "reasons": [
-     "The draft is inappropriately thin given the thinness of the brief itself. The brief is marked 'thin: true' with only 325 source characters and explicitly states in open_questions that 'the full details of Tzolis's career record, statistics, and performance at Club Brugge are not provided.' The draft acknowledges this gap in a meta-statement ('The sources confirm the transfer fee, contract length, and Tzolis's status as a Greece international, but do not provide detailed information about his record at Club Brugge...'), which is a liability red flag. A draft that admits its sources are inadequate should not run; the desk should either enrich the brief or kill the story. The draft reads as incomplete reporting, not editorial restraint."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Blue Jackets sign goaltender Jet Greaves to 3-year, $15M contract",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents contract details (3-year, $15M through 2028-29) and the GM quote as settled fact, but the brief marks all contract-related claims and the quote as 'announced-not-verified'\u2014a confidence level that should be signaled in prose to readers. The sentence 'The Columbus Blue Jackets announced a three-year, $15 million contract with goaltender Jet Greaves through the 2028-29 season, per general manager Don Waddell' reads as confirmed when the brief's confidence label requires hedging language.",
-     "The brief's open_questions flag the AAV breakdown and clause details as unknown; the draft does not acknowledge this uncertainty or signal to readers that only the headline terms were announced."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "TE Travis Vokolek retires due to neck injury suffered last season",
-    "category": "compliance",
-    "reasons": [
-     "The draft contains speculative characterization of Vokolek's medical condition beyond the on-record statement. The passage 'The injury occurred on a kickoff return during a game against the Indianapolis Colts in October. Vokolek was pushed by Colts linebacker Segun Olubi and went down awkwardly' reconstructs the mechanism of injury in narrative detail. The brief supports 'suffered his injury on a kickoff return' and 'pushed by Segun Olubi and went down awkwardly' as reported, but the framing ('went down awkwardly') reads as reconstruction rather than direct attribution and ventures into medical interpretation.",
-     "More critically, the closing paragraph\u2014'The retirement reflects the medical reality that some injuries, even to young players, can end careers suddenly and without warning. Vokolek's case underscores the physical toll that can result from a single play in professional football.'\u2014is thematic commentary and editorial interpretation not present in the brief. It reads as the writer's take, which violates the human_take=empty rule and the hard rule that facts stay in the brief. This is personal voice analysis, not reported fact."
-    ]
-   },
-   {
-    "id": "c130",
-    "headline": "Norway considers filing Fifa ethics complaint over Trump role in World Cup red card saga",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Trump 'called Fifa president Gianni Infantino to request a review of Balogun's red card' as fact. The brief confidence label is 'reported', not confirmed or verified. The draft should signal this is reported allegation, not settled fact, given the high-sensitivity political/governance claim.",
-     "The draft asserts 'The ban was subsequently cleared' as direct consequence of Trump's call. The brief lists these as separate reported claims without causal confirmation. The draft's sequencing implies causation that the source material does not establish.",
-     "The draft claims 'Folarin Balogun' is an 'England midfielder.' The brief only identifies him as 'England player' without position specification. The draft added a detail not in the brief.",
-     "The draft's final paragraph states 'remain unreported' for specifics of Trump's call and grounds for overturning the ban. This contradicts the paper's purpose: these are open_questions in the brief, not matters the writer should be characterizing as reporter failure. The framing suggests reportorial incompleteness rather than source limitation."
-    ]
-   },
-   {
-    "id": "c131",
-    "headline": "Maldini confirms crisis-hit Italy have held talks with Guardiola and Ancelotti",
-    "category": "accuracy",
-    "reasons": [
-     "The draft describes Guardiola as 'currently out of work' in the opening paragraph. The brief confidence label is 'reported', not verified. This is a claim about his employment status presented as settled fact without confidence qualifier or source attribution inline.",
-     "The draft states 'Ancelotti, by contrast, remains Brazil's manager' without inline attribution. While this is in the brief as reported, the opening sentence's framing ('Italy's football federation has held talks with Pep Guardiola, who is currently out of work, and Carlo Ancelotti, Brazil's sitting manager') presents both employment statuses as established fact. Given these are reported claims about current roles, attribution must be visible.",
-     "The draft claims 'Italy failed to qualify for the past three World Cups, marking an unprecedented stretch of absence for a nation that won the tournament in 1934 and 1938.' The brief confirms three-World-Cup failure, but the historical context (1934/1938 wins) is not in the brief data_points. This is smuggled historical fact.",
-     "The draft's final paragraph states 'The Guardian's reporting does not specify which candidate is favored...' This uses the brief's open_questions as draft content, which is acceptable framing, but the sentence 'the exact scope of remaining discussions is unclear' adds editorial characterization not grounded in the brief's claims or open_questions."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-23",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c023",
     "headline": "Barcelona's Frenkie de Jong set for months on sidelines with knee injury",
     "category": "accuracy",
@@ -9041,6 +8969,73 @@
     "category": "accuracy",
     "reasons": [
      "The brief note states: 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' This instruction means the draft must be checked against its own URLs. The draft cites only one source (Front Office Sports) but provides no way for a reader or fact-checker to verify that the source actually contains the claims made: the 5-2 vote count, the $876 million public contribution figure, the $2.36 billion ballpark cost, the Thursday Tampa city council approval, or the Friday county commission vote. Without access to the source text itself to verify these facts, and without a brief to confirm them, the draft cannot be approved. A fact-checker cannot trace the claims."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c043",
+    "headline": "Colts WR Keenan Allen arrested on DUI charge hours after preseason debut",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites Yahoo NFL and CBS Sports URLs but provides no inline attribution within the body text itself. The critical facts\u2014that Allen was arrested on DUI charges, that it occurred hours after his preseason debut, that he signed a one-year contract less than two weeks prior, that he spent 12 seasons with the Chargers and one season with the Bears\u2014are stated as bald assertions without inline attribution to either URL. The draft violates the desk's hard rule that facts must be traceable to sources, and without a brief to anchor verification, the URLs alone do not constitute sufficient inline sourcing. Additionally, the opening sentence attributes to 'Yahoo NFL and CBS Sports' but does not link the specific claims to specific sources inline, making verification impossible for the desk."
+    ]
+   },
+   {
+    "id": "c100",
+    "headline": "HOLD: Avalanche Cale Makar contract \u2014 brief required",
+    "category": "accuracy",
+    "reasons": [
+     "This entry is a 'hold' message, not a draft awaiting approval. It explicitly states 'No research brief exists for story c100' and correctly identifies that the draft cannot be completed without a brief. The desk's rule is clear: every fact must trace to a brief data_point or be rejected. A hold message is not a story and should not be submitted for approval; it is a request for research to complete the brief before drafting proceeds. Resubmit as a draft once research has delivered the brief."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "Rays' $2.36B Ballpark Gets Final Approval in Tampa",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (Front Office Sports), but provides multiple specific factual claims: (1) the vote was 5-2, (2) $876 million in public funding, (3) $2.36 billion total project cost, (4) the county vote occurred on Friday, (5) the city vote occurred on Thursday. Without a brief, these facts cannot be verified against research data_points, and a single secondary source URL is insufficient to verify all these specific figures and dates without access to the actual article content."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Pete Crow-Armstrong hits three home runs in Cubs win over Reds",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the approval contract, every fact in the draft must trace to either a data_point in a brief or to the draft's own cited sources. The draft cites CBS Sports and Yahoo MLB URLs but provides no brief to verify against. The approver cannot verify that these URLs actually contain the claims about Crow-Armstrong's three-homer game, his August statistics, or his MVP positioning without the brief's data_points as the authoritative record. The instruction is explicit: 'no fact exists outside the brief.' With no brief, the story cannot be approved.",
+     "The draft makes factual claims (three home runs, 17-5 score, August 29 date, 'historic output', MVP conversation) that cannot be traced to a research brief, making verification impossible by the desk's workflow."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "Ohtani withheld from Sunday start as pitching return timeline remains unclear",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's third data_point is truncated ('The Dodgers kept a possible Sunday pitching start on the [text cuts off - source incomplete]'). The draft states 'Ohtani will not pitch Sunday' as a definitive fact, but the brief's source text is incomplete and does not contain the full claim needed to verify this assertion.",
+     "The brief characterizes the injury as 'lingering knee soreness,' but the draft does not use that phrasing. Instead, it paraphrases as 'lingering knee soreness,' which is acceptable; however, the brief's data_point quotes Roberts as saying Ohtani is 'not 100%,' while the draft paraphrases this as 'not at full strength.' These are close enough, but the incomplete third data_point makes the core lead claim (Sunday non-start) unverifiable.",
+     "A thin brief with truncated source material cannot support a news story on the desk's liability line. The brief itself flags 'source_chars: 288' and 'thin: true,' indicating the research is incomplete. The approver cannot approve a draft when the brief it was written from is admittedly truncated."
+    ]
+   },
+   {
+    "id": "c087",
+    "headline": "North Carolina defeats TCU 15-10 in Week 0 Dublin game, holds offense to 312 yards and scoreless stretch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states TCU 'scored 48 points' in the prior matchup ('the 48-14 loss the Tar Heels suffered'), but the brief's data_point says 'TCU defeated North Carolina 49 points to the Tar Heels in Chapel Hill.' These are contradictory figures (48 vs. 49). The brief is the source of record; the draft introduces a fact (48-14) that does not match the brief (49 points).",
+     "The brief does not provide the score of the prior game as a specific margin or final score with North Carolina's points; it only states TCU scored '49 points' relative to the Tar Heels. The draft's use of '48-14' cannot be confirmed from the brief and represents smuggled information.",
+     "The draft includes details about 'Edge rusher Melkart Abou Jaoude and defensive back Kaleb Cost' as 'among the usual defensive contributors,' but the brief's corresponding data_point says they were 'among the usual defensive suspects.' The draft's language ('contributors') differs materially from the brief's language ('suspects'), and the context in the draft suggests they played in THIS game, whereas the brief is ambiguous about whether they played or were merely named. If they didn't play, the draft misleads."
+    ]
+   },
+   {
+    "id": "c175",
+    "headline": "MLB suspends Guardians prospect in age and identity falsification case",
+    "category": "accuracy",
+    "reasons": [
+     "The draft is unsalvageable. The brief contains only one data_point with extremely thin sourcing ('source_chars': 108, 'thin': true). The data_point is: 'Great lengths were taken to make a young Dominican prospect appear several years younger than his actual age,' attributed to CBS Sports. However, the draft makes specific claims ('MLB suspended,' 'Cleveland Guardians prospect,' 'elaborate scheme to falsify age and identity documents') that go beyond the single data_point in the brief. The brief itself labels this story as 'thin' and flags eight open_questions, including the prospect's name, the length of suspension, and which documents were falsified. The draft presents conclusions (suspension happened, identity falsification occurred) that may or may not be in the CBS Sports article, but the brief provides no specific data_points to verify those claims. The brief's bottom_line itself requests 'Primary sourcing from MLB or the Guardians' to clarify the terms and scope\u2014indicating the current source is insufficient. Publishing this draft would violate the hard rule that facts exist only in the brief, and the brief does not contain enough verified information to support the draft's claims."
     ]
    }
   ]
