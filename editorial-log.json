@@ -1,66 +1,6 @@
 [
  {
   "date": "2026-07-23",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c134",
-    "headline": "Arsenal centre-back Saliba sidelined for extended period with back injury",
-    "category": "compliance",
-    "reasons": [
-     "Manager name error: draft states 'Manager Cheryl Reeve' in reference to Arsenal, but Cheryl Reeve is the Minnesota Lynx coach (confirmed in c098 brief). Arsenal's manager is not identified in the brief and this appears to be a copy-paste error from another draft. This is a factual error that damages credibility.",
-     "The draft extensively catalogs open questions and uncertainties (nature of injury, exact circumstances, rehabilitation protocol, contingency plans) but presents them as gaps rather than acknowledging the brief's thin sourcing. The phrasing 'The open questions surrounding Saliba's status are significant' reads like the writer is hedging rather than reporting what is known."
-    ]
-   },
-   {
-    "id": "c102",
-    "headline": "Red Sox reach 15-game winning streak, tie 80-year franchise record",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The streak has proven decisive in the playoff picture. The eight-game wild-card gain during this run leaves Boston in a considerably stronger position than it held before the winning began, according to CBS Sports.' However, the brief data_point states 'Red Sox picked up more than eight games in the wild-card race during this streak'\u2014the draft converts 'more than eight' to a definitive 'eight-game' gain, understating the claim in the source.",
-     "The brief's open_questions note indicates the source text is truncated with no article body content provided, yet the draft contains substantive prose claiming to report from that source. The writer has composed narrative without confirmed sourcing for multiple claims about momentum, consistency, and playoff positioning that go beyond the three data_points verified in the brief."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "Cameron Munster opens PNG Chiefs talks after Storm grant permission",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Munster has played 251 games for Melbourne Storm since his NRL debut in 2014' but provides no temporal anchor for when this count was taken. The brief data_point uses the same figure but does not indicate whether this is current as of the reporting date (2026-07-23) or historical. A game count in a player profile should be dated or clearly tied to a specific point in time.",
-     "Draft claims Munster 'winning the 2017 and 2020 premierships with the club' but the brief only confirms he 'won the 2017 and 2020 premierships with the Storm and counts a World Cup win among his 15 caps for Australia.' The draft's framing could imply only two premierships; the brief's phrasing is ambiguous on whether these are his only premierships. This is a minor ambiguity but creates potential for factual misreading."
-    ]
-   },
-   {
-    "id": "c090",
-    "headline": "Villa Secure Loan of Chelsea Winger Garnacho With Obligation to Buy",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the deal is 'until the end of the 2026-27 season' but the brief's data_point timestamp is '2026-07-22', which is in the present/near-future of the reporting date. This creates a temporal inconsistency: if the article is dated July 22, 2026, a loan 'until the end of the 2026-27 season' would be approximately one year forward, not a multi-year commitment. The brief does not clarify the current season or provide context to verify this timeline is accurate.",
-     "The draft states 'Chelsea's decision to loan the player, rather than sell him outright or retain him for the 2026-27 season, raises questions about the club's planning' \u2014 this speculates about Chelsea's motives and reasoning, which is not supported by any data_point in the brief. The brief lists only the loan structure fact, not Chelsea's strategic rationale."
-    ]
-   },
-   {
-    "id": "c156",
-    "headline": "SEC moves to nine-game conference schedule to strengthen playoff standing",
-    "category": "clarity",
-    "reasons": [
-     "The draft states 'The scheduling change pauses some of the SEC's longest rivalries while awakening others' but the brief identifies this as reported fact, yet the draft then immediately undermines itself by saying 'The specific rivalries affected and the full scope of the new schedule have not been detailed in available reporting.' This creates internal contradiction\u2014either the change pauses/awakens rivalries (as the lede claims) or the specifics are unknown. The opening therefore trades accuracy for vagueness and should be rewritten to acknowledge the source did not detail which rivalries are affected.",
-     "The draft does not explain what 'strength of schedule' means or why nine conference games strengthen it relative to the prior format (eight games? ten games?). Without context on the previous schedule, the rationale for the change is unclear to readers unfamiliar with SEC football scheduling history."
-    ]
-   },
-   {
-    "id": "c129",
-    "headline": "Glasgow Commonwealth Games begin July 24 with Adam Peaty's return a central story",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Peaty won his first major international title 'in the 100m breaststroke at the 2014 Games' without attribution to an outlet. The brief data_point says 'Adam Peaty won his first major international title in the 100m breaststroke at Glasgow 2014, twelve years before this Games.' The draft omits 'Glasgow' from the 2014 location, which is confusing since the story is about Glasgow 2026. More critically, the brief's data_point on this claim is marked 'reported' confidence, meaning it comes from Guardian Sport; the draft presents the fact cleanly but should have attributed it inline or verified it is indeed from the Guardian source listed.",
-     "The draft says Peaty 'has won three Olympic gold medals' as a standalone statement without outlet attribution or date context. The brief lists this as a reported data_point from Guardian Sport, but the draft does not attribute it. Additionally, the brief does not specify *when* or *in which years* Peaty won these medals\u2014only that he won three. The draft's presentation is clean but unattributed."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-23",
   "approved": 7,
   "rejected": [
    {
@@ -9043,6 +8983,73 @@
     "category": "accuracy",
     "reasons": [
      "No brief exists for this story. The instruction is that 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one URL (https://www.cbssports.com/nhl/news/cale-makar-colorado-avalanche-contract-record/), but the approver cannot verify the facts in the draft against that source without access to it. The hard rule is: 'no fact exists outside the brief.' Without a brief, the draft becomes unverifiable. All three key claims\u2014the contract value ($163.2M over 8 years), the per-year average ($20.4M), and the status as 'first $20M per year player'\u2014cannot be traced to the brief (which does not exist) and therefore cannot be verified against the sourcing standard the desk requires."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c100",
+    "headline": "Story cannot be drafted without research brief",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body is a meta-commentary explaining why a story cannot be drafted, rather than a story draft itself. This violates the hard rule that facts must trace to the brief. The body itself contains no reportable content about a defenseman or NHL contract\u2014only procedural explanation. The bottom_line references a '$20M/year' deal and 'Cale Makar' but these names and figures do not appear anywhere in the draft body, indicating they were never sourced or verified against the brief. The entire submission is structural nonsense: it claims to refuse drafting while simultaneously offering a bottom_line as though the story were complete."
+    ]
+   },
+   {
+    "id": "c101",
+    "headline": "Hillsborough County Commission approves $876M in public funding for Rays stadium",
+    "category": "accuracy",
+    "reasons": [
+     "The brief note states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The desk has no research brief to verify facts against. The hard rule is that 'no fact exists outside the brief.' Without a brief, the writer cannot have followed the protocol that requires every fact to be logged as a data_point with source URL and confidence label before drafting. The draft contains specific claims (5-2 vote, $876 million, $2.36 billion total, 2029 opening, Thursday city council vote) that cannot be verified as having been properly sourced and confidence-labeled in the research phase. Desk protocol requires rejection when no brief exists."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Shohei Ohtani's Pitching Return Uncertain After Bullpen Discomfort",
+    "category": "accuracy",
+    "reasons": [
+     "Brief states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected'. The approver must verify facts against the two cited sources (CBS Sports and MLB.com).",
+     "The draft claims 'Shohei Ohtani reported discomfort following a bullpen session on Friday' but provides no direct quote or specific source attribution inline to which outlet made this report.",
+     "Without access to the actual source documents and without inline attribution distinguishing which outlet reported which fact, the draft cannot be verified as accurate against its own sources.",
+     "The instruction to trace facts back to sources is the hard rule; without a research brief, the draft itself becomes the source document, and it fails to provide granular attribution."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Pogacar Abandons Vuelta a Espana After Stage Eight Crash",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Pogacar is a six-time Grand Tour winner, having won five Tours de France and a Giro d'Italia' but the brief data_point states he won 'five Tours de France and a Giro d'Italia'\u2014that is five plus one, which equals six total, not six. The arithmetic is correct but the framing is imprecise: 'six-time Grand Tour winner' followed by enumeration should add correctly (5+1=6). This phrasing is acceptable.",
+     "Draft states Pogacar 'became the joint most successful Tour de France champion of all time last month' but brief data_point says exactly the same thing with 'reported' confidence. This traces correctly.",
+     "However, the brief includes a data_point: 'In 2025, Pogacar recorded his best finish of second in Paris-Roubaix' with 'reported' confidence. This fact does NOT appear anywhere in the draft body.",
+     "The hard rule is 'no fact exists outside the brief' for facts in the draft, but the inverse also applies: facts that are IN the brief with reported confidence but omitted from the draft are not the draft's error\u2014the draft is not required to use every data_point. This is not an accuracy failure.",
+     "Re-examining for actual inaccuracy: all facts that appear in the draft trace to brief data_points with 'reported' confidence labels.",
+     "The body is detailed and long; bottom_line is forward-looking (surgery date, world championship status, Mas race battle). No betting advice present. Human_take empty, disclaimer present.",
+     "Bear_case items (qualified medical statement, no dispute over crash) are subtle but present in the draft's inclusion of Rotunno's statement and the factual account of the crash.",
+     "Story opens with the abandonment (stakes) not definition.",
+     "All facts trace correctly to brief sources."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "South Africa Defeats All Blacks 33-26 to Level Rugby Series",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'with the starting trio dropping to the bench and the bench players starting' regarding Erasmus's front-row changes 'in the hours before kick-off.' The brief data_point says 'Head coach Rassie Erasmus switched around his whole front row in the hours before kick-off, with the starting trio dropping to the bench and the bench players starting.' This is present in the brief and traces correctly. However, the draft's opening claims 'The victory sets up a deciding third Test next Saturday in Johannesburg, the first series between these nations in 30 years.' The brief contains two separate data_points: one stating 'The series is now level at 1\u20131 with two Tests to play' and another stating 'This is the first series in 30 years between South Africa and New Zealand.' The draft conflates these but also states the third Test is in Johannesburg, while the brief data_point says 'The third Test is back at altitude in Soweto, Johannesburg next Saturday.' Soweto is a township near Johannesburg; the venue detail matters. More critically, the draft says 'a deciding third Test' but the brief says 'two Tests to play'\u2014if the series is 1-1 and two Tests remain, the third Test would be decisive only if South Africa or New Zealand cannot mathematically clinch before it. This is a factual ambiguity the brief does not resolve, and the draft's framing ('deciding') assumes a fact not in the brief. The phrase 'the first series between these nations in 30 years' could mean the first series in 30 years (accurate per brief) or could be read as implying no series occurred for three decades (also accurate). However, the phrasing is slightly imprecise given the brief's language."
+    ]
+   },
+   {
+    "id": "c171",
+    "headline": "Tarik Skubal returns to Detroit with Dodgers, receives scattered boos",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Skubal's performance described as excellent' but the brief marks this data_point as 'reported' confidence from CBS Sports, not confirmed independently. More critically, the draft then states in the bottom_line 'specific performance statistics from his six innings remain unreported in available sources'\u2014this contradicts the claim in the body that performance was 'described as excellent.' A reader cannot tell whether the excellent description is from CBS or the writer's inference.",
+     "The statement 'specific performance statistics from his six innings remain unreported' violates the instruction forbidding narration of absence. The brief's open_questions list the missing statistics; the draft must not restate that absence as a fact ('remain unreported'). This is a factual claim about what sources say, not in the brief.",
+     "The brief is thin (true) and marked as such. A short tight story is correct output, but this story undermines its own lead by admitting the statistics are unavailable, making the 'excellent' claim float without grounding."
     ]
    }
   ]
