@@ -1,54 +1,5 @@
 [
  {
-  "date": "2026-07-23",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c025",
-    "headline": "Raiders sign No. 1 pick Fernando Mendoza to four-year, $57.27M fully guaranteed rookie contract",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'Mendoza is the first quarterback the Raiders have selected first overall since JaMarcus Russell in 2007, confirmed in official team reporting' conflates two different facts: the brief says Mendoza is 'the first player the Raiders drafted first overall since JaMarcus Russell in 2007,' not the first quarterback. The brief data point reads 'Mendoza is the first player the Raiders drafted first overall since JaMarcus Russell in 2007' with 'reported' confidence\u2014the writer added the word 'quarterback' and added 'confirmed in official team reporting,' neither of which appear in the brief or source confidence label."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "Barcelona's Frenkie de Jong set for months on sidelines with knee injury",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states de Jong is 29 years old, but the brief data_point says 'De Jong is 29 years old' with confidence 'reported'. This creates an immediate factual issue: if the brief says he is 29, the draft cannot present this as current fact without context. More critically, the brief's core_claim and angle reference the injury raising 'questions about whether he prioritized World Cup play over club safety, which De Jong himself addressed in a statement.' The draft includes de Jong's rebuttal ('It's difficult for me to see people questioning my relationship and commitment to the club because of false reports') but buries it in the middle of the treatment discussion rather than surfacing the bear_case early. The bear_case items\u2014that claims about prioritizing country over club exist and that initial medical assessments seemed reassuring\u2014are present but undershadowed by the injury timeline narrative. The draft should foreground the controversy De Jong is responding to, not treat his statement as a supporting detail.",
-     "The draft refers to 'Karim Adeyemi from Borussia Dortmund and Anthony Gordon as summer signings' in a single clause that obscures sourcing and order. The brief data_points clarify that Adeyemi became Barcelona's 'second signing of the summer on Thursday' and Anthony Gordon was their 'first signing of the summer,' implying a sequence. The draft's phrasing ('added attackers Karim Adeyemi from Borussia Dortmund and Anthony Gordon as summer signings') is not false but compresses distinct actions into one sentence without temporal clarity, potentially misleading readers about the sequence and timing of the two signings."
-    ]
-   },
-   {
-    "id": "c096",
-    "headline": "Texas five-star cornerback commit John Meredith III reclassifies to 2026 class",
-    "category": "accuracy",
-    "reasons": [
-     "The brief is marked 'thin: true' with only 3 data_points and 1,156 source characters. The draft accurately reports those three facts (five-star commitment, reclassification to 2026, fall enrollment, transfer ruling), but then adds the sentence: 'Meredith's reclassification accelerates his arrival on campus, though the specific terms of the transfer ruling and its exact effect on his eligibility remain unclear from available reporting.' This sentence acknowledges opacity, but the phrase 'from available reporting' smuggles an editorial judgment that the source does not explicitly state. The brief's open_questions section itemizes exactly what is missing (the specific ruling, the ranking, who requested the move, Sarkisian's role), which means the writer knew the brief was thin. The sentence reads as the writer patching a gap rather than reporting what the brief contained. A thin brief should produce a short, tight story; adding interpretive sentences about what 'remains unclear' is not a substitute for source material."
-    ]
-   },
-   {
-    "id": "c127",
-    "headline": "Carapaz wins stage 18 as virus spreads through Pogacar's team in Tour de France",
-    "category": "compliance",
-    "reasons": [
-     "Health/illness claim about team members requires official confirmation or on-record statements. The draft states 'Teammates Wellens and Vermeersch struggled during the stage itself, their performance impacted by the outbreak' and 'Team rider McNulty abandoned the race' as direct consequences of illness without clarifying whether these are confirmed medical diagnoses or attributions. Speculation about a player's medical state beyond the official record violates compliance standards. The draft should either attribute these claims directly to The Guardian's reporting with qualification language, or note that the connection between illness and performance is inferred rather than confirmed."
-    ]
-   },
-   {
-    "id": "c174",
-    "headline": "Mark Cuban's Harbinger Sports Partners Acquires Stake in Vegas Athletics",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Williams said the investment is 'not being made to help get construction costs across the finish line' and emphasizes 'Fisher definitely doesn't need our money. We're not coming to bail anyone out by any means.' However, the brief includes a separate data point: 'Williams: \"All of the money required to build the stadium has already been committed two years ago\"' \u2014 a quote that appears in the brief but is completely absent from the draft. This omission is material because it directly supports the claim about financing and should be included to fully represent what Williams said on the topic.",
-     "The draft omits Williams's statement that the new stadium 'is going to be the best ballpark ever built in the history of Major League Baseball,' which is in the brief as a reported claim and would be relevant context for the investment narrative.",
-     "The draft omits Williams's characterization of the ballpark location as 'in the best location you can build a ballpark,' referencing Las Vegas' 30-40 million annual tourists, which is in the brief and supports the market-opportunity framing."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-24",
   "approved": 6,
   "rejected": [
@@ -8992,6 +8943,62 @@
     "category": "accuracy",
     "reasons": [
      "The draft includes a substantial claim about the bear_case that does not appear in the data_points and cannot be verified against the brief's single source. Specifically, the statement 'The league and union remain in discussions on injury insurance mechanics, salary-cap credit structures, and participation limits' in the bottom_line is a forward-looking summary of open_questions, not a reported fact from the source. More critically, the draft states 'The resolution proposed limiting Olympic participation to one player per NFL team on a single country's roster, though the union and league are still working out whether that constraint will hold in the final agreement.' The brief's bear_case includes 'The league and union have a sometimes-combative history,' per the source, indicating past friction could complicate final agreement on terms\u2014but this claim does NOT appear in the draft body at all. The draft fails to surface the bear_case, which is a balance failure. Additionally, the draft includes detail about Justin Jefferson attending 'the owners' resolution announcement in May 2025' at an unspecified location, while the brief's data_point specifies the event was 'held at a hotel next to the Vikings' training facility in Eagan, Minnesota'\u2014a detail the draft omits but the brief contains, suggesting the writer did not fully trace that passage. The draft also includes 'The NFL has also launched professional flag football leagues for men and women, established a youth flag football tournament, promoted growth of the non-tackle sport at high school and collegiate levels' without attribution to the source within the sentence itself, creating an inline attribution gap even though the brief's data_points back these claims."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c042",
+    "headline": "Josh Jacobs placed on commissioner's exempt list after facing charges",
+    "category": "compliance",
+    "reasons": [
+     "The draft reports an allegation of misconduct (battery and criminal damage to property charges) against a named individual (Josh Jacobs) based on a single secondary source (CBS Sports). Per desk liability rules, a reputationally damaging claim about a named person requires more than one source. The charges themselves are a serious allegation and must be either sourced to a primary/wire-service report or rejected entirely. The brief notes confidence as 'reported' but the single CBS Sports attribution is insufficient to carry this allegation in publication."
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "Colts WR Keenan Allen arrested on DWI charges",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The hard rule is: no fact exists outside the brief. Without a brief to trace facts back to, the approver cannot verify that every claim in the draft is supported by the brief. Additionally, the draft makes serious allegations of criminal conduct (DWI arrest, and implicitly reckless or unsafe behavior) against a named athlete. This is a reputationally damaging claim that requires corroboration from multiple independent sources or primary/wire-service sourcing. The draft cites only CBS Sports and Front Office Sports\u2014both secondary outlets reporting the same incident\u2014which is insufficient. The personal/legal nature of the allegation combined with single-source attribution violates compliance liability rules."
+    ]
+   },
+   {
+    "id": "c064",
+    "headline": "Hrgovic stuns Itauma with ninth-round TKO for vacant IBF heavyweight title",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction is absolute: 'the writer's hard rule was: no fact exists outside the brief.' With no brief provided, every fact in the draft must be traced to the single cited source (CBS Sports URL). The draft makes specific claims\u2014Hrgovic trailed on all scorecards through eight rounds, Itauma's corner threw in the towel in the ninth, Itauma was favored decisively through the middle rounds\u2014that cannot be verified against the brief because no brief exists to establish whether the writer drew these from the source or interpolated them. Without a brief to anchor verification, the story cannot be approved under the desk's hard rule on fact sourcing."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Memphis defeats UNLV 27-21 on the road in Huff's debut",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Memphis as entering 'its schedule' and forming 'a foundation-setting result for a team navigating a new coaching era,' but the brief marks this story as 'thin' with only 4 data points and explicitly notes open_questions about the specific scoring sequence, third-quarter score, and who scored decisive points. The draft claims the game 'shapes how the program enters its schedule' as though this is a broader season statement, but the brief contains no data points about Memphis's full schedule, playoff contention, or season trajectory. This claim goes beyond what the brief supports.",
+     "The draft's opening paragraph states 'The Tigers' comeback demonstrated poise in a road environment early in the season,' but the brief contains no data point about 'demonstrating poise' or what the comeback revealed about team character. This is editorial interpretation not grounded in reported fact.",
+     "The angle in the brief describes this as 'A convincing road win in Week 0' that 'establishes Memphis as an early playoff contender,' but the draft contains no mention of playoff contention, and the angle itself is editorial framing not supported by data points. The draft should not adopt angle language as fact."
+    ]
+   },
+   {
+    "id": "c179",
+    "headline": "Pete Crow-Armstrong hits three homers in Cubs victory over Reds",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (CBS Sports) but makes multiple specific factual claims that cannot be verified against that single URL without access to the full article content. The draft claims: (1) Crow-Armstrong hit three home runs in a single game 'for the first time in his career'; (2) the Cubs defeated the Reds '17-5'; (3) this occurred 'during a stretch in August'; (4) CBS Sports characterized this as 'historic.' Without a brief to anchor these facts and without the ability to verify them against the cited source, the draft violates the hard rule: 'no fact exists outside the brief.' In the absence of a brief, the draft must be rejected because its facts cannot be traced to verified research."
+    ]
+   },
+   {
+    "id": "c185",
+    "headline": "William Jewell College running back MicahJo Barnett dies after medical emergency",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly marks the source material as incomplete/truncated ('The source text is incomplete (truncated); critical details about the incident, cause of death, and response are missing') and indicates 'thin': true. The draft states as settled fact that Barnett 'died following a medical emergency during the season opener,' but the brief's open_questions note that 'The timing and location of the incident during the season opener are not detailed' in the source text. The draft presents as confirmed a detail (the timing\u2014'during the season opener') that the brief identifies as unspecified in the truncated source. This violates the accuracy rule: facts may not assert specificity the brief does not carry."
     ]
    }
   ]
