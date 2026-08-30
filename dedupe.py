@@ -137,6 +137,15 @@ _OUTLETS = {
     "blockworks", "blockonomi", "beacon", "reuters", "bloomberg", "forbes", "fortune",
     "cnbc", "messari", "nansen", "arkham", "lookonchain", "protos", "beincrypto",
     "cryptoslate", "dlnews", "axios", "wsj", "techcrunch", "coinshares",
+    # GENERAL-NEWS OUTLETS (2026-08-30). This list shipped to the news and sports desks
+    # as the crypto chassis copy, so on those desks "CBS", "Guardian" and "NBC" counted
+    # as NOVEL CLAIM TOKENS: attributing a story to a different outlet made it read as
+    # new reporting, and that is one of the token classes that republished the same
+    # event under a second URL. Attribution is not news on any desk.
+    "cbs", "cbsnews", "guardian", "theguardian", "nbc", "nbcnews", "abc", "abcnews",
+    "npr", "bbc", "fox", "foxnews", "cnn", "ap", "associated", "politico", "hill",
+    "thehill", "nytimes", "nyt", "washingtonpost", "wapo", "espn", "athletic",
+    "yahoo", "sportico", "sportsnet", "tsn", "skysports",
 }
 
 

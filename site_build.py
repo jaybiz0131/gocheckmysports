@@ -1986,6 +1986,207 @@ def mark_superseded(content_dir, old_slug, new_slug):
 
 # ---- ingest approved payloads -----------------------------------------------
 
+
+# ---- one event, one URL (ported from the crypto desk, root-cause fix 2026-08-30) ----
+#
+# WHY THE DUPLICATES KEPT COMING BACK despite every guard added in August: all of those
+# guards block a retelling that adds NOTHING, and a real newsroom's second telling almost
+# always adds SOMETHING: a fuller figure, one more source, the afternoon's extra detail.
+# On this desk such a story passed every gate BY DESIGN and minted a second URL for the
+# same event. The crypto desk has had the missing piece since mid-August, which is exactly
+# why its duplicate rate collapsed while this desk kept accumulating them: a same-event
+# retelling MERGES INTO THE EXISTING URL instead of becoming a new page. This is that
+# piece, ported with every scar it earned there:
+#   - same_event alone is a candidate filter, never the verdict: it once paired a Kalshi
+#     lawsuit with a Tether earnings report, and later a BankChain alliance with a Roman
+#     Storm retrial. Merging also requires _same_storyline, real content overlap on a
+#     shared subject.
+#   - a better-sourced retelling REPLACES the prose (leaving the thinner telling standing
+#     is how an overstatement outlives its own correction); an equal-or-weaker retelling
+#     only contributes its sources.
+#   - on an upgrade the citations REPLACE rather than union: the displaced sources were
+#     verified against text that no longer exists on the page.
+
+_STORY_STOP = {"the", "a", "an", "and", "or", "of", "to", "for", "in", "on", "with",
+               "from", "as", "at", "its", "it", "that", "this", "after", "over", "amid",
+               "says", "said", "new", "first", "report", "reports",
+               # A DATE IS NOT A SUBJECT (2026-08-30). On the general-news corpus the
+               # ported storyline test merged "Yayoi Kusama dies at 97" into "King
+               # Harald V dies at 89": their ONLY shared capitalized token was
+               # "August", from the datelines in both key facts, and with a shared
+               # "name" in hand the 0.22 overlap floor was reachable on "dies"/"died"
+               # alone. Months, weekdays and the day's other furniture words carry no
+               # subject identity, and neither do the verbs of dying, which every
+               # obituary shares by construction.
+               "january", "february", "march", "april", "may", "june", "july",
+               "august", "september", "october", "november", "december",
+               "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
+               "sunday", "today", "yesterday", "tomorrow", "week", "month", "year",
+               "dies", "died", "dead", "death", "age", "aged", "his", "her", "their",
+               "officials", "authorities", "federal", "state", "u.s", "u.s.", "us",
+               # league acronyms are beats, not events: "MLB" was the only shared name
+               # between a Cardinals game story and a Tommy John obituary
+               "mlb", "nfl", "nba", "nhl", "wnba", "ncaa"}
+
+
+def _content_words(*texts):
+    out = set()
+    for t in texts:
+        out |= {w for w in re.findall(r"[a-z][a-z0-9.]{2,}", (t or "").lower())
+                if w not in _STORY_STOP}
+    return out
+
+
+def _proper_nouns(*texts):
+    out = set()
+    for t in texts:
+        out |= {w.lower() for w in re.findall(r"\b[A-Z][A-Za-z0-9&.-]{2,}", t or "")
+                if w.lower() not in _STORY_STOP}
+    return out
+
+
+def _same_storyline(a, b, names_floor=0.22):
+    """True when two stories visibly share a subject, by their own words."""
+    at, bt = a.get("title") or "", b.get("title") or ""
+    ak, bk = a.get("key_fact") or "", b.get("key_fact") or ""
+    aw, bw = _content_words(at, ak), _content_words(bt, bk)
+    if not aw or not bw:
+        return False
+    overlap = len(aw & bw) / min(len(aw), len(bw))
+    shared_names = _proper_nouns(at, ak) & _proper_nouns(bt, bk)
+    return overlap >= 0.55 or (bool(shared_names) and overlap >= names_floor)
+
+
+def _parse_utc_item(item):
+    from datetime import datetime, timezone
+    for fmt, val in (("%Y-%m-%dT%H:%M:%SZ", item.get("published_utc") or ""),
+                     ("%Y-%m-%d", item.get("date") or "")):
+        try:
+            return datetime.strptime(val, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+    return None
+
+
+# 36 hours, wider than crypto's 24: this desk's leak table runs on consecutive-day
+# retellings (Kassebaum, TikTok, the South Korea exercises, Bald Range, all one day
+# apart), and a morning retelling of last evening's story is the same event here.
+# Beyond 36h a second story is follow-up territory and belongs to the update chain.
+DEDUPE_WINDOW_H = 36
+
+
+def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
+    """(path, story) of an already-published story covering this same event, or
+    (None, None). Runs at ingest, the moment content actually enters the site, so it
+    also catches anything that reached site/content without passing autopilot."""
+    import glob as _glob
+    import dedupe
+    when = _parse_utc_item(item)
+    if not when:
+        return None, None
+    for path in sorted(_glob.glob(os.path.join(content or CONTENT, "*.json"))):
+        if os.path.basename(path).startswith("_"):
+            continue
+        try:
+            other = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        if other.get("example") or other.get("slug") == item.get("slug"):
+            continue
+        if str(other.get("id") or "").startswith("wrap-") or \
+                other.get("category") == "daily edition":
+            continue
+        other_when = _parse_utc_item(other)
+        if not other_when or abs((when - other_when).total_seconds()) > window_h * 3600:
+            continue
+        if not dedupe.same_event(other.get("title", ""), other.get("key_fact", ""),
+                                 item.get("title", ""), item.get("key_fact", "")):
+            continue
+        if not _same_storyline(item, other, 0.22):
+            continue
+        # THREE TIERS AND AN ESCAPE, measured on this desk's own leaked pairs
+        # (2026-08-30). fwd = what the newcomer adds over the published story;
+        # rev = what the published story says that the newcomer does NOT cover.
+        #   fwd < NOVELTY_MIN: the newcomer adds nothing -> merge, published prose
+        #     stands, its sources join. (the Kassebaum second obit: fwd 0)
+        #   rev < NOVELTY_MIN: the published story is fully covered by the newcomer,
+        #     a superset retelling -> merge, the newcomer's prose replaces. (the
+        #     Venezuela and TikTok pairs: rev 0. This is the tier every August guard
+        #     lacked: equal sources, added facts, same event, and it minted a URL.)
+        #   more sources: a corroborated reframing replaces even when rev > 0,
+        #     because the overstated claims it corrects are exactly the ones it does
+        #     not repeat. (crypto's Solana-halt correction class)
+        #   both add things the other lacks -> two genuine developments of one
+        #     storyline -> NOT merged; the caller chains update_of instead, so the
+        #     pair renders as a lineage rather than as two orphan pages. (the
+        #     mail-ballot rulings: rev 2)
+        _sig_item = dedupe._claim_signature(item) - dedupe._OUTLETS
+        _sig_other = dedupe._claim_signature(other) - dedupe._OUTLETS
+        fwd = len(_sig_item - dedupe._covered_signature(other))
+        rev = len(_sig_other - dedupe._covered_signature(item))
+        # NO SIGNATURE, NO VERDICT (dedupe's own 2026-08-21 rule, which this code
+        # bypassed on its first test): an empty claim signature makes its novelty count
+        # zero VACUOUSLY, and the second mail-ballot ruling, whose distinctive tokens
+        # are all stopworded away, read as "adds nothing" and would have merged into a
+        # different ruling. A tier only speaks when its signature actually exists.
+        # A RETELLING KEEPS THE HEADLINE'S SUBJECT; A REACTION SHIFTS IT (2026-08-30).
+        # "Trump announces an EU trade investigation" fully covers "EU fines Google",
+        # so the coverage tiers read the reaction as a superset retelling and would
+        # have replaced the fine story with the reaction. Every one of the 73 verified
+        # August leaks was a near-same-headline pair (overlap 0.45 to 1.0), so merge
+        # additionally requires the headlines to agree; a pair that shares the event
+        # but not the headline is a lineage and chains instead.
+        _hov = dedupe._headline_overlap(item.get("title") or "", other.get("title") or "")
+        _mode = "merge" if _hov >= 0.45 else "chain"
+        if _sig_item and fwd < dedupe.NOVELTY_MIN:
+            return path, other, _mode
+        if _sig_other and rev < dedupe.NOVELTY_MIN:
+            return path, other, _mode
+        if len(item.get("sources") or []) > len(other.get("sources") or []):
+            return path, other, _mode
+        return path, other, "chain"
+    return None, None, None
+
+
+def merge_into_existing(path, prior, incoming):
+    """Fold a same-event retelling into the story already published, keeping its URL."""
+    import dedupe as _dd
+    _rev = len(_dd._claim_signature(prior)
+               - _dd._covered_signature(incoming) - _dd._OUTLETS)
+    # the newcomer's words win when it out-sources the original OR fully covers it
+    # (a superset retelling); a thinner echo only contributes its sources
+    upgraded = (len(incoming.get("sources") or []) > len(prior.get("sources") or [])
+                or (_rev < _dd.NOVELTY_MIN
+                    and len(json.dumps(incoming.get("body") or ""))
+                    > len(json.dumps(prior.get("body") or ""))))
+    if upgraded:
+        old_title = prior.get("title", "")
+        for f in ("title", "dek", "key_fact", "body", "bottom_line", "boundary",
+                  "standfirst", "lead", "verdict"):
+            if f in incoming:
+                prior[f] = incoming[f]
+        prior["consolidated"] = (
+            "This story was updated in place with a better-sourced account of the same "
+            f"event, carrying {len(incoming.get('sources') or [])} sources against the "
+            f"original {len(prior.get('sources') or [])}. The earlier version was "
+            f"headlined \u201c{old_title}\u201d. The URL and publication time are "
+            "unchanged.")
+        prior["superseded_sources"] = prior.get("sources") or []
+        prior["sources"] = incoming.get("sources") or []
+    else:
+        seen = {(s.get("url") or "").strip() for s in (prior.get("sources") or [])}
+        for src in (incoming.get("sources") or []):
+            u = (src.get("url") or "").strip()
+            if u and u not in seen:
+                prior.setdefault("sources", []).append(src)
+                seen.add(u)
+    prior["updated_utc"] = incoming.get("published_utc") or prior.get("published_utc")
+    prior.setdefault("merged_from", []).append({
+        "id": incoming.get("id"), "title": incoming.get("title"),
+        "published_utc": incoming.get("published_utc")})
+    json.dump(prior, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+
+
 def ingest():
     """Promote approved payloads (out/published/*.json from publish.py) into committed content."""
     if not os.path.isdir(PUBLISHED):
@@ -2028,7 +2229,7 @@ def ingest():
                                        encoding="utf-8"))
     except Exception:
         pass
-    n = 0
+    n, merged = 0, 0
     for fn in sorted(os.listdir(PUBLISHED)):
         if not fn.endswith(".json"):
             continue
@@ -2044,10 +2245,24 @@ def ingest():
         # the writer model sometimes slips a process note about the review status into the
         # copy ("Note: flagged for human review."); the article is the finished story only,
         # so any such sentence is stripped from every published field at the door
+        # THE READER GETS THE NEWS, NEVER THE NEWSROOM'S NOTES (quality audit
+        # 2026-08-30: on the crypto desk roughly half the sampled stories narrated
+        # their own research gaps in the body, "Decrypt does not specify...",
+        # "remains unreported in available coverage", and the sports desk shipped a
+        # literal empty clause, "Awful Announcing reports that ." left behind by a
+        # sentence repair). Both classes are process residue, mechanical to detect,
+        # and cutting a whole sentence cannot invent anything.
         note = re.compile(r"(?:Note:\s*)?[^.!?]*(?:flagged for|pending)\s+human\s+review[^.!?]*[.!?]?\s*"
-                          r"|[^.!?]*human review before publication[^.!?]*[.!?]?\s*", re.I)
+                          r"|[^.!?]*human review before publication[^.!?]*[.!?]?\s*"
+                          r"|[^.!?]*(?:do(?:es)? not (?:specify|state|say|disclose|name)"
+                          r"|not (?:specified|disclosed|named|stated) in"
+                          r"|remains? unreported|unavailable in (?:the )?available"
+                          r"|available (?:coverage|reporting) does not"
+                          r"|could not be independently)[^.!?]*[.!?]?\s*", re.I)
+        dangling = re.compile(r"[^.!?]*\b(?:reports?|said|says|stated|writes?|notes?)"
+                              r"\s+that\s*[.!?](?=\s|$)", re.I)
         def scrub(text):
-            return note.sub("", destyle(text)).strip()
+            return dangling.sub("", note.sub("", destyle(text))).strip()
         paras = [scrub(p) for p in paras]
         paras = [p for p in paras if p]
         item = {
@@ -2103,6 +2318,24 @@ def ingest():
         # for a house-style rule that has never applied to quoted material anyway.
         if boundary.is_complete(art.get("boundary")):
             item["boundary"] = {f: str(art["boundary"][f]) for f in boundary.FIELDS}
+        # ONE EVENT, ONE URL: a same-event retelling folds into the published story
+        # instead of minting a second address (see the port block above for why the
+        # August guards could never do this job).
+        prior_path, prior, mode = same_event_on_disk(item)
+        if prior_path and mode == "merge":
+            merge_into_existing(prior_path, prior, item)
+            print(f"  MERGED {rec.get('id')} into {os.path.basename(prior_path)} "
+                  f"(same event within {DEDUPE_WINDOW_H}h; no second story created)")
+            merged += 1
+            continue
+        if prior_path and mode == "chain" and not item.get("update_of"):
+            # two genuine developments of one storyline: publish, but as a LINEAGE.
+            # The editor is supposed to declare this and usually does not (measured:
+            # most same-storyline follow-ups shipped with no update_of at all), so
+            # ingest declares it deterministically from what is actually on disk.
+            item["update_of"] = prior.get("slug")
+            print(f"  CHAINED {rec.get('id')} as update of {prior.get('slug')[:56]} "
+                  f"(same storyline, distinct development)")
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         if item.get("update_of"):

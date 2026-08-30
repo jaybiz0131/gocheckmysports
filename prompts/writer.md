@@ -58,8 +58,23 @@ model call and a rejected draft costs the whole story, so obey these exactly):
   as more emerges", "the open questions include". The reader gets the story, never the
   desk's notes about the story.
 - The brief's open_questions and thin spots are RESEARCH ARTIFACTS, not content. They
-  may inform which concrete thing the bottom_line says to watch, but they are never
-  restated, listed, or alluded to in the body or the bottom_line.
+  may inform which concrete thing the bottom_line points the reader at next, but they
+  are never restated, listed, or alluded to in the body or the bottom_line.
+  VARY THE BOTTOM LINE'S CONSTRUCTION (quality audit 2026-08-30: eight or nine of ten
+  sampled bottom lines opened with the same "Watch whether..." formula, because an
+  earlier version of this very instruction taught it). Never open with "Watch". Write
+  it as the specific consequence, deadline, or unresolved question this story leaves:
+  a date something takes effect, the decision still pending, the number that would
+  confirm or kill the premise. If your bottom line would fit any other story on the
+  desk today, it is a template, not a bottom line.
+  DATES ARE ABSOLUTE. "Thursday", "last month" and "next week" rot on a permanent
+  page: a reader landing in three weeks cannot resolve them. Name the date ("August
+  28") in titles and body alike; a weekday alone is never enough in a title.
+  NEVER NARRATE YOUR OWN REPORTING GAPS. "The source does not specify...", "remains
+  unreported in available coverage" and their siblings are the newsroom's notes, not
+  the news; the publish pipeline deletes such sentences outright, so writing them
+  only shortens your story. If a fact is missing, write the story that stands without
+  it.
 - A data_point whose confidence is "reported" is one outlet's account, not an
   institutional act. The sentence that uses it carries the attribution AND keeps the
   verb at the outlet: "Cointelegraph reports the Commission is moving to block",
