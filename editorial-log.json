@@ -1,74 +1,6 @@
 [
  {
   "date": "2026-07-24",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c013",
-    "headline": "LeBron James signs with 76ers on 2-year, $8M deal, calls it his final free agency decision",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states '76ers lost to the eventual champion New York Knicks 4-2 in the second round' but brief data_point says they 'lost to the eventual champion New York Knicks 4-0 in the second round.' The draft contains a factual error (4-2 vs 4-0) not present in the brief.",
-     "Draft quotes James saying 'I've played here, for obviously 23 years, a lot more when I was in the Eastern Conference' but brief establishes James is beginning his 24th season (core_claim: '24-season NBA veteran'), making '23 years' accurate only if this quote predates the 2026-27 season announcement. The brief data_point for this quote does not clarify the timing or context of when he said it relative to his announcement, creating ambiguity the draft should have resolved or flagged.",
-     "Draft statement 'The Eastern Conference now includes Donovan Mitchell with the Cavaliers and Giannis Antetokounmpo with the Miami Heat, both of whom heavily pursued James' misrepresents the brief. The brief data_point says both 'heavily pursued James,' but does not state that either are newly with those teams or that this is a recent acquisition relevant to James' decision. The phrasing 'now includes' implies recent roster moves that are not supported by the brief."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "Commonwealth Games 2026 opens in Glasgow with day-one medal action",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'England won the first gold medal of the Games on the opening day' but the brief's open_questions explicitly state: 'Which event produced England's first gold medal is not specified in the readable portions of the source.' This fact cannot be traced to readable content in the brief's data_points.",
-     "The brief notes that the source text is 'almost entirely composed of styling and layout CSS; no substantive reporting content beyond the headline and snippet is readable.' The draft presents specific facts (Lauren Mackie's result, day-one sports list) as though they were verified, when the brief marks the source as unreliable beyond its headline. A thin brief with CSS-only source material should not support a confidently factual draft.",
-     "The data_point about 'Ramsay-Peaty competed on day one' is included in the brief but never appears in the draft body. The open_questions note that 'Ramsay-Peaty's specific event, result, and performance details are not available in the fetched text.' The draft does not acknowledge this gap or the thinness of the source."
-    ]
-   },
-   {
-    "id": "c061",
-    "headline": "IOC refuses to investigate Infantino, citing FIFA autonomy and ethics scope limits",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Times reported that the committee chair, Mohammad Al Kamali, took the decision alone, according to ESPN' but the source attribution is broken. ESPN is cited as the source for this claim in the brief's data_point, yet the draft attributes the fact to 'The Times' via ESPN. This is a misrepresentation of the sourcing chain that obscures where the information originated and creates liability if The Times did not report this detail or ESPN's attribution was imprecise.",
-     "The draft describes UEFA's statement as 'unpreceded, incomprehensible and unjustifiable' but the brief's data_point quotes it as 'unprecedented, incomprehensible and unjustifiable.' The word 'unpreceded' appears in the draft body; this is a factual error (misspelling of 'unprecedented') that changes the word's meaning and must be corrected before publication."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Belgium name Van Bommel to replace Rudi Garcia as manager",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Van Bommel did not previously hold a formal position with Belgium' in the final paragraph, but this claim does not appear in the research brief's data_points. The brief contains no information about whether Van Bommel held any prior formal position with Belgium, making this a smuggled assertion not sourced to the research."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "Enzo Maresca: It's a 'privilege' to succeed Pep Guardiola at Man City",
-    "category": "clarity",
-    "reasons": [
-     "The draft states Maresca is '49' years old but the research brief provides no data_point confirming his age. The brief establishes his name, role, and background but does not include his age in any confidence-labeled data_point, meaning this figure is asserted without research foundation.",
-     "The draft claims Rodri 'played a key role in Spain's World Cup success' but does not specify which World Cup year. The brief confirms this claim (data_point 9) but the draft's phrasing is vague about the temporal reference; given the fictional 2026 timeline of the story, clarity on whether this refers to 2026 or an earlier tournament is needed for readers to understand the context."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Pakistan batter Abdullah Fazal ruled out of West Indies, England Tests with lower-back injury",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Imam-ul-Haq, who missed the Bangladesh Test while Fazal and Azan Awais opened together' but the brief data point says 'Imam-ul-Haq, who missed Pakistan's most recent Test against Bangladesh with Azan Awais and Fazal opening together.' The draft omits the critical fact that Azan Awais and Fazal opened together (it reads as though only Fazal opened), which changes the meaning of the squad composition and the reason Imam-ul-Haq was absent. This is a factual misstatement of the opening pair composition."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Paralympics cycling medalist Schrager banned 2 years for doping",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Schrager is 'a 2024 Paris Paralympics medalist in track pursuit' but does not specify the medal color. The brief data point confirms she is 'a 2024 Paris Paralympics medalist in track pursuit' without specifying the medal type. The headline calls her a 'silver medalist' but the body later clarifies only that she took 'silvers in time trial and road race at the 2024 para-cycling worlds in Zurich'\u2014not Paris. The draft never specifies what medal she won in track pursuit at Paris 2024, creating ambiguity. The bottom_line itself flags this gap ('the sources do not provide detail on...clarify the exact event at Paris 2024 where she won her silver medal'), which indicates the writer recognized the brief was incomplete on this point. Since the draft does not specify the medal type for the Paris track pursuit event, it leaves a factual gap that should have been resolved before approval or the claim should be softened."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-24",
   "approved": 3,
   "rejected": [
    {
@@ -9028,6 +8960,75 @@
     "category": "accuracy",
     "reasons": [
      "The draft states Beckham Jr. reunites with 'head coach John Harbaugh' with the Giants. The brief data_points confirm Harbaugh is the Giants head coach and that Beckham Jr. reunites with him. However, the draft does NOT state Beckham Jr. played for Harbaugh before. The brief only says they 'reunite'\u2014it does not establish prior history or explain the basis of reunion. The draft reads as fact that Harbaugh and Beckham Jr. have a prior relationship, which is NOT in the brief's data_points. This is smuggled information: the writer assumed or added context that the source (and brief) do not provide. The brief's open_questions note: 'No statements from Harbaugh, Beckham Jr., or the Giants organization are included in the source text,' which suggests the source does not provide context for the reunion claim. The 'reunites' phrasing in the brief's core_claim and data_point is paraphrased from the source, but the draft should not present reunion as established fact without explaining when/where they previously worked together."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Djokovic exits US Open in first round, ranked No. 5 falls to Navone on August 31",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story, so all facts must trace to the draft's cited source (BBC Sport URL). The draft contains specific factual claims that cannot be verified against the provided source material: the match duration is not stated in the BBC article link provided, Djokovic's emotional state ('emotionally affected') is not confirmed in available reporting, and the claim that this was his 'first first-round exit at the tournament' cannot be verified from the source. The draft also states 'The specifics of his condition and the match duration are not detailed in the available reporting'\u2014this is a narration of absence, which violates the rule against narrating what sources do not contain. If the duration and condition details are truly absent from the source, they should not appear in the draft at all."
+    ]
+   },
+   {
+    "id": "c179",
+    "headline": "Josh Jacobs placed on commissioner's exempt list after charges",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Packers acquired Kaleb Johnson, selected by Pittsburgh in the third round of the 2025 NFL Draft out of Iowa, in a move that brought depth to the backfield.' The brief data_point confirms Johnson was 'selected by Pittsburgh in the third round of the 2025 NFL Draft out of Iowa,' but does not contain any information about the Packers acquiring him or the trade/transaction. The draft has smuggled a fact not present in the research brief.",
+     "The brief's open_questions explicitly list unresolved details ('What are the specific charges against Jacobs and what are the two misdemeanors alleged?' and 'What is the timeline for the legal proceedings?'), yet the draft presents the core facts as settled. However, the greater liability is the unpresented acquisition claim."
+    ]
+   },
+   {
+    "id": "c133",
+    "headline": "Max Scherzer passes Gaylord Perry for 9th all-time strikeouts on August 30",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Max Scherzer recorded his 3,535th career strikeout on August 30, 2026' but the brief's data_point states 'With that strikeout, Scherzer surpassed Gaylord Perry's 3,534 strikeouts to reach 3,535 for 9th all-time.' This is factually consistent. However, the draft identifies Scherzer as 'the Mariners' lead running back'\u2014this is a category error. The brief data_points make clear Scherzer is a pitcher playing against the Mariners, not a running back for them. This appears to be a draft construction error, but it is a fundamental accuracy failure.",
+     "Additional critical error: The draft states 'Scherzer reached the milestone by striking out 10 batters in a game against the Mariners' without stating Scherzer's team affiliation. The brief does not specify which team Scherzer plays for, leaving it unconfirmed in the source material. The draft must not assume or inject team identity not in the brief."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Jonathan Owens Included in Colts' 53-Man Roster on August 30",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes personal relationship details (meeting on Raya in 2020, engagement in 2022, marriage in 2023, shared home in Spring, Texas) that appear in the brief's data_points but are not sports-relevant to a roster cutdown story and constitute personal material about an athlete outside their sport, which violates compliance rules. More critically, the draft refers to Owens' spouse by context (mentioning the 2024 Summer Games, three gold medals, one silver medal, attending the Colts preseason game) without naming Simone Biles, making the identity inference necessary but the framing indirect.",
+     "The draft states the brief's core_claim is about 'J.J. McCarthy and Anthony Richardson remaining on their respective rosters,' but this story contains zero information about either quarterback. The angle in the brief signals a roster cutdown story about quarterback prospects, but the draft pivots entirely to Jonathan Owens without acknowledging the mismatch or delivering on the core story the brief identifies.",
+     "The bottom_line claims Owens' 'nine-year tenure in the league' provides 'foundation' going forward, but this is predictive and prescriptive language not supported by the reporting\u2014the brief only confirms his inclusion in the roster, not any affirmative statement about his role or strategic value."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Lionel Messi Announces Retirement from Argentina National Team",
+    "category": "accuracy",
+    "reasons": [
+     "The brief field states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites a single BBC Sport URL but the actual facts in the draft (Messi's exact quoted statements: 'hurt' and 'the time has come') cannot be verified against the URL provided, which cannot be inspected here. The statement structure violates the hard rule that every fact must trace to either a provided brief data_point or a cited source that can be checked.",
+     "The bottom_line violates accuracy rules by explicitly narrating absence: 'The federation and national team's response to the retirement, along with details about the timing and circumstances surrounding the decision, remain unreported in available coverage as of August 31.' This is a sentence restating open_questions/gaps, which the approval rules forbid: the writer is forbidden from narrating absence."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Pakistan drops seven players and releases head coach after England Test series loss",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule, every fact must trace to either a research brief data_point or the draft's own cited sources. The draft cites BBC Sport but provides no link. The approver cannot verify that BBC Sport reported the specific claims: seven players dropped, five uncapped players called up, head coach released. Without a brief or verifiable source URL, the factual claims cannot be traced and the story cannot be approved.",
+     "The draft makes multiple specific factual claims (seven players dropped, five uncapped players, head coach released) that require verification against the cited source, but the source URL is not provided in a form that can be checked. The absence of a brief and the inaccessibility of the source create an unverifiable chain of custody for the facts."
+    ]
+   },
+   {
+    "id": "c251",
+    "headline": "Kelsey Plum out for rest of 2026 WNBA season with lower leg injury",
+    "category": "accuracy",
+    "reasons": [
+     "Critical team mismatch: The brief's core_claim states Kelsey Plum plays for the Las Vegas Sparks and her season 'ends after five games.' However, the first data_point in the brief claims: 'Kelsey Plum's WNBA season with the Mercury ends after just five games due to a leg injury.' Mercury and Sparks are different teams. The draft correctly names the Sparks, but the brief's own data contradicts its core_claim. This unresolved contradiction in the source material means the approver cannot certify which team is correct.",
+     "The draft states Plum 'will miss the remainder of the 2026 WNBA season due to a lower leg injury' and 'ends her campaign after five games,' but the brief's open_questions note that 'No official statement from the Las Vegas Sparks organization is present in the source texts.' The draft presents the shutdown and five-game count as settled fact, but the brief signals the sourcing is incomplete and the decision may not be officially confirmed by the team. An unconfirmed injury decision presented as definitive is an accuracy failure on a health/compliance claim."
     ]
    }
   ]
