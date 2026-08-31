@@ -1,54 +1,6 @@
 [
  {
   "date": "2026-07-24",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c125",
-    "headline": "Pogacar Wins Alpe d'Huez Stage, Extends Tour Lead Beyond Seven Minutes",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Pogacar is the defending champion's triumph on cycling's most iconic climb' and 'his path to a record-equalling fifth Tour title,' but the brief's data_points do not include any claim about Pogacar pursuing a 'fifth Tour title.' The brief confirms he is the 'defending Tour champion' but does not provide the source material to support the specific claim about a 'record-equalling fifth' title\u2014this appears to be writer inference not grounded in the brief.",
-     "The draft claims 'His attack from 12 kilometers out proved decisive' but this specific detail does not appear in any data_point in the brief. The brief does not specify the distance from which Pogacar attacked."
-    ]
-   },
-   {
-    "id": "c031",
-    "headline": "Paralympics cycling medalist Schrager banned 2 years for doping",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'At the 2024 para-cycling worlds in Zurich, she took silver medals in both time trial and road race events on the road.' The brief data_point says 'On the road, Schrager took silvers in time trial and road race at the 2024 para-cycling worlds in Zurich.' The draft's phrasing 'events on the road' is unclear and potentially contradictory\u2014it is unclear whether these were track or road events. The brief does not clarify whether these are track or road world championships medals vs. the Paris 2024 track pursuit silver. This ambiguity creates factual confusion that the draft should resolve, not compound."
-    ]
-   },
-   {
-    "id": "c089",
-    "headline": "Caitlin Clark meets Barack Obama at WNBA All-Star Weekend",
-    "category": "balance",
-    "reasons": [
-     "The brief is explicitly marked 'thin: true' with only two data_points, and the open_questions reveal substantial gaps: what are the specific controversies, what did Clark say in response, which All-Stars attended, what else did Obama say. The draft acknowledges these gaps by stating 'the specific nature of those controversies is not detailed in the available reporting,' but this admission of thinness, combined with the lack of any bear_case material and the speculative bottom_line asking readers to 'watch for further comment,' makes the story read as incomplete reporting dressed as journalism. A thin brief can produce a tight, honest story, but this draft uses vagueness as scaffolding rather than acknowledging the limits of what was actually reported. The story should either be rejected to allow for deeper reporting, or rewritten to make clear that the actual facts are: a meeting happened, Obama said one sentence. The current framing ('signals visibility of recent WNBA turmoil at the highest political levels') overstates what a single meeting and one sentence support."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Liga Femenil Rebrands to BBVA, Restructures Season Format",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the rebrand is to 'Liga Femenil BBVA' but the brief's data_point for this claim is marked 'announced-not-verified' confidence. The draft presents this as settled fact without qualification or language signaling it has not been independently verified. The draft should acknowledge the announced status."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "Commonwealth Games 2026 begins with Scott gold in Glasgow",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Scotland's Duncan Scott won gold in swimming' but the brief does not specify which swimming event(s) Scott won gold in. The open_questions explicitly flag 'Which swimming event(s) Duncan Scott won gold in' as unresolved. The draft presents a complete fact where the brief only confirms a partial one.",
-     "The brief's open_questions note 'Identity of Swan who claimed first gold of Games, as referenced in snippet'\u2014this suggests the source material contains information not fully captured in the data_points. The draft does not acknowledge this ambiguity or flag incomplete reporting, presenting day-one results as settled when the brief itself marks key details as under-reported."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-24",
   "approved": 4,
   "rejected": [
    {
@@ -9011,6 +8963,68 @@
     "reasons": [
      "The draft states 'A'ja Wilson and Kelsey Plum were withdrawn from Team USA's FIBA World Cup roster due to health reasons, according to CBS Sports reporting.' However, the brief's core_claim and data_points do not specify that CBS Sports is the source for the withdrawal due to health reasons. The brief lists only three data_points, none of which explicitly confirm CBS Sports as the source for the health-reason claim. The draft attributes the health-reason withdrawal to CBS Sports without verification that CBS Sports made this specific claim in the provided sources.",
      "The brief's open_questions explicitly state: 'The specific nature of the health reasons cited for Wilson and Plum's withdrawal is not detailed in the provided source texts.' and 'No official statement from USA Basketball, Wilson, or Plum is included in the fetched sources.' The draft presents the withdrawal as fact without acknowledging the thinness of the sourcing or the lack of official confirmation, which is inconsistent with the brief's transparency about what is and is not verified."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Djokovic exits US Open first round to Navone (August 31)",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per the instruction: 'the writer's hard rule was: no fact exists outside the brief.' The draft cites BBC Sport as its sole source, but no research brief was provided. The approver cannot verify that the facts in the draft (Djokovic's seeding, Navone's ranking, the date, Djokovic's age, the 'visible emotion,' the framing about age) all trace to the BBC source or whether any have been added by the writer outside the research.",
+     "Without a brief to check against, the draft cannot be verified as adhering to the desk's core rule that all facts come from research, not from the writer's own synthesis or interpretation. The story must be rejected because the approval workflow cannot be completed."
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Colts receiver Allen arrested on DWI charges (August 30)",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.'",
+     "Draft cites only one source: CBS Sports article. However, the draft also attributes claims to 'Front Office Sports reporting' in the second paragraph ('according to CBS Sports and Front Office Sports reporting'), but Front Office Sports does not appear in the sources list.",
+     "The claim 'He was signed to a one-year deal with Indianapolis less than two weeks before the arrest' is attributed to 'CBS Sports and Front Office Sports' but Front Office Sports is not in the sources array, violating the hard rule that facts must be traceable to cited sources.",
+     "Without a brief and without all sources cited, the factual claims cannot be verified as coming from the stated outlets."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "Packers RB Jacobs placed on commissioner's exempt list (August 30)",
+    "category": "compliance",
+    "reasons": [
+     "No brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.'",
+     "This draft contains a reputationally damaging claim about a named individual (Josh Jacobs) regarding 'alleged domestic abuse' and misdemeanor charges. The approval rule states: 'A REPUTATIONALLY DAMAGING CLAIM ABOUT A NAMED PERSON NEEDS MORE THAN ONE SOURCE.'",
+     "The draft cites only one source: Front Office Sports. A specific allegation of misconduct (domestic abuse charges) against a named individual carried on a single secondary source violates the liability line.",
+     "The allegation is not merely reported as fact; it is central to the story. Without a second source or an on-record primary statement, this claim cannot run."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Messi retires from Argentina international duty",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites BBC Sport as a source, but without access to verify the cited URL content, the approval process cannot confirm that the facts in the draft (announcement date of August 31, the quote about the decision 'hurt', the 207 appearances figure, the 2022 World Cup victory, the 36-year drought claim) actually appear in that BBC Sport article. The draft also contains a sentence ('The exact details surrounding the timing and circumstances of Messi's decision remain unreported in the available coverage') that violates the rule against narrating absence: the writer is forbidden from stating what remains unreported."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Pakistan drops seven players, releases head coach after England series loss",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites BBC Sport as a source but without access to verify the cited URL content, the approval process cannot confirm the facts asserted (that Pakistan dropped seven players, called up five uncapped players, released the head coach, or that the reporting date was August 31). The draft also contains a sentence that violates the rule against narrating absence: 'The identity of the departing head coach, the names of the dropped players, the uncapped players entering the squad, and the rationale offered by Pakistan cricket leadership remain unreported in the available coverage.' Writers are forbidden from stating what remains unreported."
+    ]
+   },
+   {
+    "id": "c257",
+    "headline": "Cale Makar Signs 8-Year Extension, Becomes NHL's Highest-Paid Player",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Makar is 'the highest-paid player in NHL history on an annual basis' but does not include the annual salary figure ($20.4M per year) or total value ($163.2M) that appears in the brief's core_claim and angle. The brief's open_questions note that the exact annual salary and total contract value 'do not appear in the fetched source texts' and 'cannot be independently verified from the provided sources.' The writer smuggled a contract value assertion (highest-paid) without the supporting numbers that would allow readers to verify it or that appeared in the brief's angle. The brief itself flags this as unverified; the draft presents it as settled fact without qualification.",
+     "The core_claim specifies '$163.2 million' and '$20.4 million per year'\u2014these are the data that make the 'highest-paid' claim meaningful and falsifiable. Their omission from the draft, combined with the brief's red flag about source verification, means the draft is presenting unconfirmed information as reported fact."
     ]
    }
   ]
