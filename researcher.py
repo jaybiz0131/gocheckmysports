@@ -158,6 +158,11 @@ def run(client=None):
     verifier = common.read_out("verifier.json")
     stories = select(editor, verifier)
     client = client or llmlib.Client(cfg)
+    # Deliberate drops (rehash, parked) recorded here and carried in _meta so the writer
+    # can honor them. Its snippet fallback was built for a researcher FAILURE; resurrecting
+    # a deliberately dropped story produces a briefless draft the approver must kill
+    # (2026-08-31 queue: three kills, all reading "no research brief was provided").
+    dropped = []
 
     if not stories:
         obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
@@ -214,6 +219,9 @@ def run(client=None):
                 str(s.get("key_fact") or s.get("snippet") or ""))
             if rep_title:
                 mtitle = rep_title
+                dropped.append({"id": s.get("id"), "headline": s.get("headline"),
+                                "reason": f"rehash: the desk already published "
+                                          f"{str(mtitle)[:80]!r}"})
                 common.gh("notice", f"researcher: not briefing "
                           f"{str(s.get('headline'))[:60]!r}; the desk already published "
                           f"{str(mtitle)[:60]!r} (rehash, dropped before drafting)")
@@ -229,7 +237,7 @@ def run(client=None):
     if not stories:
         obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
                "briefed": 0, "note": "every candidate was an already-published rehash",
-               "budget": client.budget.summary()}}
+               "dropped": dropped, "budget": client.budget.summary()}}
         common.write_out("briefs.json", obj)
         print("researcher: 0 briefable stories after the rehash guard -> out/briefs.json")
         return obj
@@ -248,6 +256,8 @@ def run(client=None):
             for s in stories:
                 stop, why = _ksb.stop_drafting(str(s.get("headline") or ""))
                 if stop:
+                    dropped.append({"id": s.get("id"), "headline": s.get("headline"),
+                                    "reason": f"parked: {why}"})
                     common.gh("notice", f"researcher: NOT briefing "
                               f"{str(s.get('headline'))[:60]!r} ({why}; parked pending "
                               f"the kill-streak digest ruling)")
@@ -260,7 +270,7 @@ def run(client=None):
             obj = {"briefs": [], "_meta": {"stage": "3.5-researcher", "mode": client.mode,
                    "briefed": 0,
                    "note": "every remaining candidate is parked by the spend breaker",
-                   "budget": client.budget.summary()}}
+                   "dropped": dropped, "budget": client.budget.summary()}}
             common.write_out("briefs.json", obj)
             print("researcher: 0 briefable stories after the spend breaker -> out/briefs.json")
             return obj
@@ -310,7 +320,7 @@ def run(client=None):
     thin = sum(1 for b in obj["briefs"] if b.get("thin"))
     obj["_meta"] = {"stage": "3.5-researcher", "mode": client.mode,
                     "briefed": len(obj["briefs"]), "thin": thin,
-                    "budget": client.budget.summary()}
+                    "dropped": dropped, "budget": client.budget.summary()}
     path = common.write_out("briefs.json", obj)
     print(f"researcher: briefed {len(obj['briefs'])} stories ({thin} thin) -> {path} "
           f"[mode={client.mode}]")

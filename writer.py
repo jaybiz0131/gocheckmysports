@@ -12,6 +12,7 @@ USAGE
   DESK_LLM_MODE=replay python3 writer.py
 """
 
+import datetime
 import json
 import sys
 
@@ -40,9 +41,16 @@ def select(editor, verifier):
     # and the bear case pulled deliberately. The old snippet-only source_material was why
     # early articles ran 30-80 words: the writer was honest but starving.
     briefs = {}
+    dropped = {}
     try:
-        for b in common.read_out("briefs.json").get("briefs", []):
+        _bj = common.read_out("briefs.json")
+        for b in _bj.get("briefs", []):
             briefs[b.get("id")] = b
+        # Deliberate researcher drops (rehash, parked). The snippet fallback below exists
+        # for a researcher FAILURE; a deliberate drop honored here stays dropped, instead
+        # of resurfacing as a briefless draft the approver must kill (2026-08-31 queue).
+        for d in (_bj.get("_meta") or {}).get("dropped", []):
+            dropped[d.get("id")] = d.get("reason") or "dropped by the researcher"
     except Exception:
         pass
     clusters = {}
@@ -56,9 +64,22 @@ def select(editor, verifier):
         v = by_verdict.get(s["id"])
         if not v or v["verdict"] not in DRAFTABLE:
             continue
+        if s["id"] in dropped:
+            common.gh("notice", f"writer: not drafting {str(s.get('headline'))[:60]!r} "
+                      f"({dropped[s['id']]})")
+            continue
         story = {**s, "verdict": v["verdict"]}
         b = briefs.get(s["id"])
         if b:
+            # Boundary rule 4 (boundary.py): a boundary that cannot be confirmed from a
+            # primary source does not publish; silence beats an inverted claim. Applied
+            # here, where the money is spent, instead of as a structural kill at the
+            # approver. The kill-streak digest remains the human override lane.
+            if b.get("boundary_required") and b.get("boundary_ok") is not True:
+                common.gh("notice", f"writer: not drafting {str(s.get('headline'))[:60]!r} "
+                          f"(boundary-class story, boundary unconfirmed: "
+                          f"{'; '.join(b.get('boundary_reasons') or ['no block'])[:160]})")
+                continue
             story["brief"] = b
         else:
             # No brief (researcher stage skipped/failed for this story): fall back to the
@@ -244,8 +265,18 @@ def run(client=None):
                                    + "\n".join(lines) + "\n")
         except Exception as e:
             common.gh("warning", f"writer: kill-streak carry-forward unavailable ({e})")
+        # The drafting date, stated outright. Without it the model infers "today" from the
+        # input datelines: the 2026-08-31 queue drafted a Tuesday primary in the past tense
+        # the Monday before it, and dated a flood "Saturday, August 31" (a Monday).
+        _now = datetime.datetime.now(datetime.timezone.utc)
+        dateline = (f"drafting_date: {_now.strftime('%A')}, {_now.date().isoformat()} "
+                    f"(this is today; an event scheduled after this date has not happened "
+                    f"and must be written as upcoming, never as completed; a 'Live "
+                    f"Results' or 'Live Updates' source page is a container, not evidence "
+                    f"an event concluded; any weekday named beside a date must be that "
+                    f"date's actual weekday)\n")
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
-                "left empty.\n" + objections + "\n"
+                "left empty.\n" + dateline + objections + "\n"
                 + "Stories:\n" + json.dumps(chunk, indent=2))
         part = client.call_json("writer", system, user,
                                 validate=lambda o: validate(o, chunk))

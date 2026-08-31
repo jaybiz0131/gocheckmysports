@@ -21,8 +21,10 @@ USAGE
   DESK_LLM_MODE=replay python3 approver.py
 """
 
+import datetime
 import json
 import os
+import re
 import sys
 
 import common
@@ -98,6 +100,59 @@ def append_editorial_log(date, mode, approvals, drafts):
             log = []
     log.append(entry)
     json.dump(log[-200:], open(LOG_PATH, "w", encoding="utf-8"), indent=1)
+
+
+_WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+_MONTHS = {m: i + 1 for i, m in enumerate(
+    ("January", "February", "March", "April", "May", "June", "July",
+     "August", "September", "October", "November", "December"))}
+for _full, _n in list(_MONTHS.items()):
+    _MONTHS[_full[:3]] = _n
+_MONTHS["Sept"] = 9
+_DATE_RE = re.compile(
+    r"\b(" + "|".join(_WEEKDAYS) + r"),?\s+"
+    r"(" + "|".join(sorted(_MONTHS, key=len, reverse=True)) + r")\.?\s+"
+    r"(\d{1,2})(?:,?\s+(\d{4}))?\b")
+
+
+def _weekday_date_conflicts(draft, default_year):
+    """DETERMINISTIC weekday-vs-date lint. The 2026-08-31 queue approved a draft dating a
+    flood 'Saturday, August 31, 2026'; August 31 was a Monday, and no model gate noticed
+    because both halves read as fluent English. A named weekday beside a calendar date is
+    checkable arithmetic, so it is checked here, not judged."""
+    text = " ".join(str(draft.get(f) or "") for f in ("title", "body", "bottom_line"))
+    out = []
+    for m in _DATE_RE.finditer(text):
+        wd, mon, day, year = m.group(1), m.group(2), int(m.group(3)), m.group(4)
+        try:
+            d = datetime.date(int(year) if year else default_year,
+                              _MONTHS[mon.rstrip(".")], day)
+        except (ValueError, KeyError):
+            continue
+        actual = d.strftime("%A")
+        if actual != wd:
+            out.append(f"the draft dates {mon} {day}, {d.year} as a {wd}; "
+                       f"{mon} {day}, {d.year} is a {actual}")
+    return out
+
+
+def _lint_weekday_dates(obj, pairs):
+    """Flip any draft carrying an impossible weekday+date combination to REJECT (accuracy)
+    with the precise finding, BEFORE the repair/rescue passes run, so the existing
+    machinery gets its one shot at cutting or correcting the sentence."""
+    default_year = datetime.date.today().year
+    drafts_by_id = {p["id"]: p["draft"] for p in pairs}
+    flipped = 0
+    for a in obj["approvals"]:
+        conflicts = _weekday_date_conflicts(drafts_by_id.get(a["id"]) or {}, default_year)
+        if not conflicts:
+            continue
+        a.setdefault("reasons", []).extend(conflicts)
+        if a["decision"] == "APPROVE":
+            a["decision"] = "REJECT"
+            a["category"] = "accuracy"
+            flipped += 1
+    return flipped
 
 
 def _repair_rejects(obj, pairs, drafts):
@@ -257,8 +312,13 @@ def run(client=None):
     approvals = []
     for i in range(0, len(pairs), chunk_size):
         chunk = pairs[i:i + chunk_size]
+        _now = datetime.datetime.now(datetime.timezone.utc)
         user = ("Judge each draft against its research brief. Decision + categorized "
-                "reason each.\n\nDrafts with briefs:\n" + json.dumps(chunk, indent=1))
+                "reason each.\n"
+                f"Today is {_now.strftime('%A')}, {_now.date().isoformat()}. A draft that "
+                "reports an event dated after today as having already happened is an "
+                "accuracy REJECT; scheduled events are written as upcoming."
+                "\n\nDrafts with briefs:\n" + json.dumps(chunk, indent=1))
         part = client.call_json("approver", system, user,
                                 validate=lambda o: validate(o, chunk))
         approvals.extend(part["approvals"])
@@ -282,6 +342,9 @@ def run(client=None):
     # repair runs first: it cannot invent anything, and it saves the common case where one
     # incidental clause failed an otherwise-correct story. Whatever it cannot repair still
     # gets the one corrective redraft below.
+    linted = _lint_weekday_dates(obj, pairs)
+    if linted:
+        print(f"approver: {linted} approval(s) flipped to REJECT by the weekday-date lint")
     repaired = _repair_rejects(obj, pairs, drafts)
     if repaired:
         print(f"approver: {repaired} draft(s) repaired by cutting the objected sentences")

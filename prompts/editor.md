@@ -29,6 +29,10 @@ JOB 1 - STRIP THE SHILL. Reject items that are paid promotion or bait disguised 
 - Unsourced trade rumors: a single low-tier source, no primary confirmation, hype framing.
 - Engagement-bait hot takes and urgency vocabulary ("don't miss", "you won't believe",
   GOAT-debate superlatives manufactured for clicks).
+- Container pages are not stories: a headline beginning "Live Results:", "Live Updates:",
+  "Live:", or "Live blog" is an outlet's rolling coverage page, not an event. Never rank
+  it. If the underlying event has already happened, rank the event's own reporting; if it
+  has not happened yet, there is nothing to rank.
 The deterministic pre-pass already flagged the obvious ones; treat its shill_flags as a
 signal, not gospel. You MAY overrule it up (an official league release that merely uses a
 superlative is real news) or down (a clean-looking item that is really a press release).
