@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-07-24",
-  "approved": 8,
-  "rejected": [
-   {
-    "id": "c047",
-    "headline": "Patrick Kane returns to Blackhawks on two-year contract",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Kane 'spent 16 seasons with the franchise before being traded to the New York Rangers in 2023' but the brief says Kane was 'traded to the New York Rangers in 2023 as Chicago entered a rebuild' without specifying he completed exactly 16 seasons. The draft's precise tenure claim ('16 seasons') is not explicitly confirmed in any data_point; the brief's data_point says 'Kane is 37 years old and was drafted first overall by the Blackhawks in 2007' but does not state the exact number of seasons played before the 2023 trade. This is a smuggled fact\u2014the writer inferred tenure length from age and draft year rather than finding it in the brief's documented sources.",
-     "The draft states 'Kane entered his 20th NHL season' but the brief's data_point says 'Kane is entering his 20th NHL season' with confidence 'reported.' The tense shift from 'entering' (future) to 'entered' (past) changes the temporal claim without explicit source confirmation that the season has already begun as of publication. This conflates announced future status with current fact."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "More than 20 NFL coaches tell ESPN Rooney Rule has become a mockery",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Graham collapsed to his knees crying in his garage after the Jacksonville experience, saying \"It just made me think, like, Damn, I haven't done enough.\"' but this claim does not appear in the body of the draft. The brief contains this data_point marked 'reported', but the draft never includes this detail\u2014a fact in the brief that should have been included if the brief intended it for publication.",
-     "Draft omits the critical bear_case detail that Graham himself said in May 2026 'I wouldn't be here in Pittsburgh without that experience'\u2014the exact sentence the draft does use. However, the draft presents Graham's quote as acknowledgment that 'communication could have been better' without the full context from the brief that he also expressed gratitude for the outcome. The quote in the draft reads 'acknowledged the communication \"could have been better\" but said he was \"glad it worked out for Liam [Coen], and I wouldn't be here in Pittsburgh without that experience.\"' This is accurate to the brief's data_point, so no accuracy violation here."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "WNBA stakeholders tell ESPN Engelbert may not be right person to lead league",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Nine months after Minnesota Lynx guard Napheesa Collier voiced concerns with leadership publicly, sources leaguewide told ESPN that Engelbert has failed to develop sufficient relationship equity' but the brief data_point says 'Nine months after Napheesa Collier's comments voicing concerns with leadership' without specifying that these comments were made publicly. The draft adds the qualifier 'publicly' which is not in the brief and changes the factual claim about the nature of Collier's comments.",
-     "Draft claims multiple team sources 'find it curious Engelbert has not prioritized developing a closer relationship with Indiana Fever guard Caitlin Clark, the league's most high-profile player' but the brief says 'Multiple team sources told ESPN they find it curious Engelbert hasn't prioritized developing a closer relationship with Indiana Fever guard Caitlin Clark.' The draft uses 'has not' (present perfect) whereas brief uses 'hasn't' (contraction of same)\u2014this is acceptable paraphrase, but the factual issue is whether the brief actually says this is 'curious' or merely that sources 'find it curious.' The brief does say 'find it curious,' so this is accurate."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "Spain coach de la Fuente condemns Argentina conduct after World Cup final",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Nahuel Molina attacked Rodri' and 'Leandro Paredes attacked Eric Garc\u00eda' as direct facts from the source. The brief marks these as 'reported' confidence but the open_questions note indicates the source text is truncated and the specific nature of these 'attacks' (physical contact vs. verbal confrontation) is unclear. The draft presents allegations of 'attack' as settled fact without qualifying that the nature of the alleged aggression remains unclear from available reporting, which contradicts the draft's own acknowledgment in the penultimate paragraph that 'the specific nature of the attacks...remain unclear.' This is internally inconsistent and under-attributes the uncertainty present in the source."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-24",
   "approved": 7,
   "rejected": [
    {
@@ -8996,6 +8955,74 @@
      "The draft is structured as a Penn State season preview focused on October/November matchups, not a Week Zero recap. This represents a fundamental angle misalignment with the brief.",
      "The brief's open_questions explicitly flag that the source content does not specify which programs are the '4 biggest losers' and what their specific results were. The draft ignores Week Zero losers entirely and pivots to a different story.",
      "No actual Week Zero outcomes appear in the draft body except the vague reference to Penn State's AP ranking."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c105",
+    "headline": "Keenan Allen arrested on DWI charges in Indianapolis",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The approval protocol requires every fact in a draft to trace to a data_point in the brief, or to be rejected as smuggled. Without a brief, the draft cannot be validated against the desk's research standard. The writer's hard rule\u2014no fact exists outside the brief\u2014cannot be enforced.",
+     "The draft contains claims that cannot be verified against research: 'six-time Pro Bowler,' 'signed a one-year contract with the Colts less than two weeks before the arrest,' 'preseason debut with the team,' 'revamped wide receiver room alongside Alec Pierce and Josh Downs.' The CBS Sports URL is cited but no brief data_points exist to confirm these details against.",
+     "The bottom_line references 'Week 1' status and 'receiving depth' without briefed open_questions or bear_case to anchor these forward-looking claims."
+    ]
+   },
+   {
+    "id": "c134",
+    "headline": "Cura\u00e7ao Wins 2026 Little League World Series Championship",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cura\u00e7ao overcame an early deficit through an offensive breakout that allowed the team to capture the championship,' but the brief's data_point for this claim carries confidence label 'reported,' not 'verified-on-chain.' The draft presents this as settled narrative fact without any hedge or attribution that would signal the unconfirmed status. The specifics of the early deficit and offensive breakout are marked as open questions in the brief, meaning they were not definitively documented in the source reporting. The draft narrates a causal sequence ('overcame...through') that exceeds what the brief confirms.",
+     "The draft is extremely thin (only 63 words in body) for a major sports championship story. While thin stories are acceptable if the brief itself is thin, this brief has 3 data points and is marked 'thin: false,' meaning the source material supports more depth. The open_questions section lists several factual gaps (magnitude of deficit, which players, when was first championship) that should signal to the writer that the story cannot be told at this level of abstraction without violating the rule that no fact exists outside the brief. The draft's vague language ('overcame...through an offensive breakout') reads as speculation dressed as narrative, not as reporting constrained by available facts."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Heliot Ramos homers in first game as Yankee, August 31",
+    "category": "accuracy",
+    "reasons": [
+     "Brief is marked 'thin: true' with only one data point (Ramos' homer, confidence 'reported') and multiple open_questions noting incomplete source material.",
+     "Draft body contains zero substantive detail beyond the single reported fact; it does not communicate the thinness or sourcing limitations.",
+     "Bottom line references 'the significance of Ramos' immediate offensive output and its bearing on the Yankees' postseason positioning,' but the brief provides no data on postseason implications, game score, or other offensive context.",
+     "The core_claim in the brief mentions 'dominant offensive performance' by the Yankees, but the draft does not report this; the omission is not a paraphrase choice but reflects missing information from the source.",
+     "Brief open_questions explicitly note that 'the final score of 16-1 and game context described in the headline are not present in the fetched text'\u2014indicating the story cannot be adequately grounded without that context, which the draft fails to supply."
+    ]
+   },
+   {
+    "id": "c166",
+    "headline": "TCU drops 15-10 to North Carolina in first game without Hoover",
+    "category": "accuracy",
+    "reasons": [
+     "Draft asserts 'The Frogs' passing game struggled in the loss, according to Sporting News reporting on August 30.' The brief's corresponding data point states 'TCU's passing game struggled in the game' with confidence 'reported'\u2014not verified-on-chain, meaning the claim is sourced secondhand.",
+     "Draft does not flag this as reported/unverified; it presents the claim as a settled fact attributed to Sporting News, blurring the confidence level of the underlying statement.",
+     "Brief's open_questions explicitly state 'No specific statistics on TCU's passing performance (completion percentage, yards, interceptions, sacks) are provided in the source texts'\u2014confirming the 'struggled' claim is impression-based, not data-grounded.",
+     "By publishing 'struggled' without qualification (no stats, no comparison to baseline, no quote), the draft overstates the evidentiary support and may mislead readers about the depth of reporting."
+    ]
+   },
+   {
+    "id": "c193",
+    "headline": "William Jewell Running Back MicahJo Barnett Dies After Medical Emergency",
+    "category": "compliance",
+    "reasons": [
+     "The draft claims Barnett 'died after suffering a medical emergency during the Cardinals' season opener' with attribution to CBS Sports, but the brief's open_questions explicitly state: 'The date of the season opener is not provided in the source text' and 'The nature of the medical emergency is not specified in the source text; the cause of death is not disclosed.' The draft presents the death as occurring 'during' the season opener with confidence, when the brief confirms the source does not establish timing or circumstances of the medical event.",
+     "This is a reputationally sensitive story about a named individual's death. The brief flags that source text is 'severely incomplete\u2014only a single sentence appears in the provided material, suggesting the full CBS article was not retrieved.' A death story this thin, with only one source and unverified medical/temporal details, cannot run without additional reporting or explicit caveating of what remains unknown.",
+     "The draft states 'CBS Sports is the sole source currently carrying details of this incident' but then presents details (timing, causation framing) that the brief explicitly notes are not in that sole source."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "Cardinals Rookie JJ Wetherholt Placed on Injured List with Right Wrist Tendinitis",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per the approval rules, every fact in the draft must trace to either a data_point in the brief or, in the absence of a brief, to the draft's own cited sources. The CBS Sports URL provided in the draft is not accessible for verification, and no brief data_points exist to validate the claims.",
+     "The draft asserts Wetherholt 'was placed on the injured list with right wrist tendinitis,' that he 'had been playing through discomfort for weeks prior,' that this impacts a 'competitive National League Rookie of the Year race,' and that it affects 'the team's roster depth' in a 'stretch run'\u2014none of which can be verified without access to the source or a research brief.",
+     "The hard rule is: no fact exists outside the brief. A draft without a brief must be treated as having no verified data foundation; the writer cannot be trusted to vet their own sources at the approval stage."
     ]
    }
   ]
