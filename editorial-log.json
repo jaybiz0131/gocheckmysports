@@ -1,57 +1,6 @@
 [
  {
   "date": "2026-07-24",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c173",
-    "headline": "Mendoza signs $57.27M rookie deal with Raiders while Pavia waived by Ravens",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Mendoza's Instagram quote: 'I'm so excited to be a part of the family, and I can't wait to get to work.' The brief marks this claim as 'announced-not-verified' confidence level. The draft presents it as a direct fact without hedging language (e.g., 'Mendoza said in a post, per Front Office Sports' without any qualifier that the quote itself remains unverified). An announced-not-verified claim must read with appropriate uncertainty markers in the prose.",
-     "The draft states the Raiders 'have not won a playoff game since the 2002 season' and 'hold two winning records in the 23 years since their run to Super Bowl XXXVII.' These claims appear in the brief as 'reported' confidence but the mathematical claim about 'two winning records in 23 years' requires verification against the 'won just once in the postseason since 2017' claim in the same paragraph\u2014the narrative could create reader confusion about whether these statements are consistent or sourced separately."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "Duke-Michigan game cancelled over broadcast rights; Texas Tech replaces Wolverines",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'noted by sources as the best guard in the portal this spring' regarding John Blackwell, but the brief data_point says 'John Blackwell, the best guard in the portal this spring' without attribution to 'sources.' The phrasing change introduces a sourcing claim not present in the brief.",
-     "The draft attributes 'All-America forward JT Toppin, who suffered a torn ACL in February, is expected to suit up next season, per ESPN's reporting' but the brief confidence label is 'reported' without explicit 'per ESPN' attribution in the original claim. The inline attribution to ESPN appears added without verification it exists in the source material at that specificity."
-    ]
-   },
-   {
-    "id": "c112",
-    "headline": "Jurgen Klopp unveiled as Germany head coach",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Jurgen Klopp was appointed as Germany's new head coach' and attributes this to 'CBS Sports,' but the brief lists the source as 'https://www.cbssports.com/soccer/news/jurgen-klopp-unveiled-new-germany-coach/' with confidence 'reported'\u2014the source URL uses 'unveiled' not 'appointed,' and the draft should match the source language or use a neutral paraphrase.",
-     "The brief's angle explicitly mentions Klopp's willingness to walk away if media intrude on his family's privacy\u2014'establishing immediate boundaries as he attempts to restore German football's prestige'\u2014but this substantive claim does not appear anywhere in the draft body, despite being part of the core narrative.",
-     "The draft claims 'another World Cup disappointment' without specifying what that disappointment was (failed qualification vs. poor tournament result). The brief's open_questions flag this ambiguity: 'What were the specific circumstances of Germany's World Cup disappointment that prompted the coaching change?' The draft does not resolve it."
-    ]
-   },
-   {
-    "id": "c066",
-    "headline": "Para-cyclist Schrager handed two-year ban for failed drug test",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Schrager has maintained her position, saying the NADP panel confirmed she did not intentionally use Ligandrol and that she had proved inadvertent environmental contamination was to blame.' This contradicts the brief's bear_case and the tribunal finding itself: the brief clearly states the panel 'found that while Schrager had not intentionally used a banned substance, she had not proved that it was inadvertent environmental contamination.' The draft misrepresents what the tribunal concluded. Schrager's claim that she 'proved' contamination is marked 'announced-not-verified' in the brief\u2014meaning it is her statement, not the tribunal's verdict\u2014and the draft does not signal this distinction, presenting her assertion as fact.",
-     "The draft's paragraph beginning 'However, the National Anti-Doping Panel' correctly states the tribunal's actual finding, but then immediately follows with a paragraph stating Schrager 'has maintained her position, saying the NADP panel confirmed' she proved contamination. These two paragraphs directly contradict each other and create reader confusion about what the tribunal actually ruled. The second statement should be clearly attributed to Schrager's claim (not verified) rather than presented as a maintained position of fact."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "Argentina behaviour after World Cup final was 'intolerable', says De la Fuente",
-    "category": "compliance",
-    "reasons": [
-     "The draft states 'The World Cup final took place on Sunday, relative to the reporting date of July 24, in New York.' This is a definitive statement about a major sporting event presented as fact from reporting. The brief marks this claim with 'reported' confidence, but the draft's use of 'relative to the reporting date' is awkward framing of an unverified temporal detail. More critically, the draft presents allegations of specific attacks ('Molina attacking Rodri and Paredes attacking Eric Garc\u00eda') as reported fact without qualification. The brief marks this as 'reported' but the draft does not note that these are allegations under investigation\u2014this reads as settled fact about players' conduct, which is a compliance violation when the underlying investigation is ongoing and unresolved."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-24",
   "approved": 5,
   "rejected": [
    {
@@ -9023,6 +8972,62 @@
      "No brief exists for this story. Per the approval rules, every fact in the draft must trace to either a data_point in the brief or, in the absence of a brief, to the draft's own cited sources. The CBS Sports URL provided in the draft is not accessible for verification, and no brief data_points exist to validate the claims.",
      "The draft asserts Wetherholt 'was placed on the injured list with right wrist tendinitis,' that he 'had been playing through discomfort for weeks prior,' that this impacts a 'competitive National League Rookie of the Year race,' and that it affects 'the team's roster depth' in a 'stretch run'\u2014none of which can be verified without access to the source or a research brief.",
      "The hard rule is: no fact exists outside the brief. A draft without a brief must be treated as having no verified data foundation; the writer cannot be trusted to vet their own sources at the approval stage."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Messi retires from Argentina, international career complete",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites BBC Sport and Guardian Sport URLs but those links cannot be verified by the approval process. Without either a research brief with data_points or verifiable access to the cited sources, factual claims in the draft cannot be authenticated. Specifically: the August 31 retirement announcement date, the quoted statement from Messi about the decision 'hurting', the claim that the 2022 victory 'broke a 36-year drought for the nation', and the characterization of Messi as 'one of the central figures in Argentina's World Cup triumph' all require source verification that cannot occur in this evaluation context."
+    ]
+   },
+   {
+    "id": "c046",
+    "headline": "NFL roster cuts: McCarthy and Richardson retained despite recent struggles",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' and contains only three data_points covering: five crowded QB rooms, unique Vikings/Colts situations, and a new Rams pass-rush pairing. The draft does not substantiate the core claim with specifics. The brief's open_questions explicitly flag: 'Which specific teams retained McCarthy and Richardson, and what were their stated reasons for keeping them?' and 'What struggles have McCarthy and Richardson experienced, and over what timeframe?' The draft asserts McCarthy and Richardson were 'retained despite recent on-field struggles' but provides no details of what those struggles were, when they occurred, or why the teams chose retention over cuts. The core_claim in the brief says they 'were retained' but the draft body does not explain the factual basis\u2014preseason performance, camp reports, coach statements, or otherwise. The sentence 'Both the Vikings and Colts, the teams with which McCarthy and Richardson are aligned, occupy unique quarterback situations per the same reporting' is vague attribution that does not clarify what those unique situations are or how they led to retention decisions. The draft reads as a shell that acknowledges retention without reporting the actual news (reasons, struggles, context) that would make retention newsworthy."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Pakistan drops seven players, releases head coach after England series loss",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites BBC Sport and The Guardian as sources but provides no research brief to verify against. Without a brief, the approval rule requires all facts to trace to cited sources OR to a research brief. The draft names 'seven players,' 'five uncapped players,' 'head coach' as specific facts but the URLs provided are not accessible for verification within this system. The instruction states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The factual claims (number of dropped players, number of uncapped players called up, head coach released, date of August 31, 2026) cannot be verified against accessible source material in this review process.",
+     "The draft states 'The dropped players and the identity of the released head coach were confirmed in coverage by both BBC Sport and the Guardian on August 31, 2026' but does not name either the dropped players or the head coach, which undermines the assertion that these facts are confirmed and accessible."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "WNBA enters 16-day FIBA break with playoff field set, September 17 return",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the final four games of the regular season will not alter the playoff field or determine playoff seeding' in the bottom_line. The brief's data_points confirm the playoff field is set, but contain no data_point confirming that the remaining four games cannot alter playoff seeding. The brief does not address whether seeding is locked or remains in flux. This claim goes beyond the brief and cannot be verified.",
+     "The bottom_line makes a definitive claim about playoff seeding that is not supported by any data_point in the brief. The brief confirms the playoff field is set, but seeding implications are not addressed in the provided sources."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "HELD: Research Brief Required",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the desk's hard rule, 'no fact exists outside the brief.' Without a brief containing data_points with source attribution and confidence labels, every factual claim in the draft cannot be traced to verified research. The draft body itself is a meta-statement about the absence of a brief, not a publishable story. A story cannot be published when there is no evidence structure to back it."
+    ]
+   },
+   {
+    "id": "c175",
+    "headline": "Odell Beckham Jr. earns spot on Giants 53-man roster",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Beckham Jr. reunites with 'head coach John Harbaugh' with the Giants. The brief data_points confirm Harbaugh is the Giants head coach and that Beckham Jr. reunites with him. However, the draft does NOT state Beckham Jr. played for Harbaugh before. The brief only says they 'reunite'\u2014it does not establish prior history or explain the basis of reunion. The draft reads as fact that Harbaugh and Beckham Jr. have a prior relationship, which is NOT in the brief's data_points. This is smuggled information: the writer assumed or added context that the source (and brief) do not provide. The brief's open_questions note: 'No statements from Harbaugh, Beckham Jr., or the Giants organization are included in the source text,' which suggests the source does not provide context for the reunion claim. The 'reunites' phrasing in the brief's core_claim and data_point is paraphrased from the source, but the draft should not present reunion as established fact without explaining when/where they previously worked together."
     ]
    }
   ]
