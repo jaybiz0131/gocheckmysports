@@ -681,6 +681,10 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:image:alt" content="{esc(NAME)} share card">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
+<meta name="twitter:image:alt" content="{esc(NAME)} share card">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta property="og:locale" content="en_US">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
