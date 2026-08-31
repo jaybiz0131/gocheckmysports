@@ -35,6 +35,9 @@ WHAT IT REPORTS, and why it is a COUNT and not a verdict
 WHAT IT DELIBERATELY DOES NOT FLAG
   - Editions (wrap-*): a daily edition summarises the day's stories. That is its job.
   - A story already linked to another by update_of: a declared follow-up is not a duplicate.
+    (But a declared follow-up whose headline nearly repeats its origin's is listed
+    separately as a chained retelling, because that link is also where a retelling
+    mis-filed as a development hides from this scan.)
   - Anything already retired into a canonical (site_build.RETIRED_ARTICLES), because a merged
     duplicate would otherwise be reported forever.
 
@@ -139,15 +142,62 @@ def clusters(items=None, within_days=WITHIN_DAYS):
             # desk said the same thing twice. The threshold is the guard's own NOVELTY_MIN,
             # which is the line the live gate already draws between a retelling and a
             # development, and the count is printed so the editor can see how close it sat.
-            novel = (dedupe._claim_signature(story)
-                     - dedupe._covered_signature(origin) - dedupe._OUTLETS)
+            # BOTH DIRECTIONS, OR THE AUDIT IS BLIND TO HALF THE CLASS (family audit
+            # 2026-08-31). Forward novelty alone misses the superset retelling: the
+            # newcomer covers everything the origin said and pads a token or two, so fwd
+            # clears NOVELTY_MIN while rev sits at zero. The live Deribit pair scored
+            # fwd 2, rev 0 and never appeared in this report. So the measure is
+            # min(fwd, rev), and a direction only speaks when its claim signature
+            # actually exists (dedupe's own 2026-08-21 no-signature-no-verdict rule:
+            # an empty signature makes its count zero vacuously).
+            sig_story = dedupe._claim_signature(story) - dedupe._OUTLETS
+            sig_origin = dedupe._claim_signature(origin) - dedupe._OUTLETS
+            directions = []
+            if sig_story:
+                directions.append(
+                    ("fwd", sorted(sig_story - dedupe._covered_signature(origin))))
+            if sig_origin:
+                directions.append(
+                    ("rev", sorted(sig_origin - dedupe._covered_signature(story))))
+            if not directions:
+                continue
+            direction, novel = min(directions, key=lambda d: len(d[1]))
             if best is None or len(novel) < best[0]:
-                best = (len(novel), origin, sorted(novel))
+                best = (len(novel), origin, novel, direction)
         if best is None or best[0] >= dedupe.NOVELTY_MIN:
             continue
-        out.append({"novel": best[0], "novel_tokens": best[2],
+        out.append({"novel": best[0], "novel_tokens": best[2], "direction": best[3],
                     "stories": sorted([best[1], story], key=_completeness, reverse=True)})
     out.sort(key=lambda g: (g["novel"], g["stories"][0].get("date") or ""))
+    return out
+
+
+def chained_retellings(items=None, overlap_min=0.7):
+    """update_of-linked pairs whose headlines agree so strongly the declared follow-up
+    reads as the same story told again.
+
+    The duplicate scan above exempts a chained pair on purpose: a declared development is
+    not a duplicate. That exemption is also where a retelling MIS-FILED as a development
+    hides, and it hid three of them across the family desks (the news Ratcliffe same-day
+    pair among them). A follow-up that keeps nearly the whole headline is asserting the
+    same subject and the same event in the desk's own words, so it gets its own advisory
+    list for the editor. Overlap 0.7, not the merge gate's 0.45: a chain was declared by
+    someone, so only near-repetition earns a second look."""
+    items = items if items is not None else _load()
+    retired = _retired()
+    items = [d for d in items
+             if d.get("slug") not in retired and dedupe.is_coverage(d)]
+    by_slug = {d.get("slug"): d for d in items}
+    out = []
+    for story in items:
+        origin = by_slug.get(story.get("update_of") or "")
+        if not origin:
+            continue
+        hov = dedupe._headline_overlap(origin.get("title") or "",
+                                       story.get("title") or "")
+        if hov >= overlap_min:
+            out.append({"overlap": hov, "origin": origin, "story": story})
+    out.sort(key=lambda g: -g["overlap"])
     return out
 
 
@@ -164,28 +214,42 @@ def main():
     within = (int(argv[argv.index("--within-days") + 1])
               if "--within-days" in argv else WITHIN_DAYS)
     found = clusters(within_days=within)
+    chained = chained_retellings()
     total = len(_load())
     if not found:
         print(f"dupe_audit: no duplicate clusters across {total} published stories "
               f"(window {within} days, cross-day).")
-        return 0
-    extra = sum(len(g["stories"]) - 1 for g in found)
-    exact = sum(1 for g in found if g["novel"] == 0)
-    common.gh("warning",
-              f"dupe_audit: {len(found)} cluster(s) covering {extra} redundant "
-              f"stor{'y' if extra == 1 else 'ies'} of {total}. {exact} added NOTHING new; the "
-              f"rest added fewer than {dedupe.NOVELTY_MIN} new facts. Advisory: the "
-              f"editor decides whether each is a duplicate or a development.")
-    for g in found:
-        pairing = g["stories"]
-        print(f"\n  {pairing[0].get('date')}  [{g['novel']} new fact(s)"
-              f"{': ' + ', '.join(g['novel_tokens']) if g['novel_tokens'] else ''}]"
-              f"  suggested canonical first:")
-        for i, d in enumerate(pairing):
-            srcs, words = _completeness(d)
-            print(f"    {'CANON' if i == 0 else '     '} {d.get('slug', '')[:70]}")
-            print(f"          {words}w, {srcs} source(s), {d.get('published_utc') or d.get('date')}")
-    print(f"\ndupe_audit: {len(found)} cluster(s), {extra} redundant (advisory; nothing changed)")
+    else:
+        extra = sum(len(g["stories"]) - 1 for g in found)
+        exact = sum(1 for g in found if g["novel"] == 0)
+        common.gh("warning",
+                  f"dupe_audit: {len(found)} cluster(s) covering {extra} redundant "
+                  f"stor{'y' if extra == 1 else 'ies'} of {total}. {exact} added NOTHING new; the "
+                  f"rest added fewer than {dedupe.NOVELTY_MIN} new facts. Advisory: the "
+                  f"editor decides whether each is a duplicate or a development.")
+        for g in found:
+            pairing = g["stories"]
+            # fwd: the later story added this little; rev: the earlier story holds this
+            # little the later one does not cover (a superset retelling)
+            side = "later adds" if g["direction"] == "fwd" else "origin keeps only"
+            print(f"\n  {pairing[0].get('date')}  [{side} {g['novel']} fact(s)"
+                  f"{': ' + ', '.join(g['novel_tokens']) if g['novel_tokens'] else ''}]"
+                  f"  suggested canonical first:")
+            for i, d in enumerate(pairing):
+                srcs, words = _completeness(d)
+                print(f"    {'CANON' if i == 0 else '     '} {d.get('slug', '')[:70]}")
+                print(f"          {words}w, {srcs} source(s), {d.get('published_utc') or d.get('date')}")
+    if chained:
+        print(f"\nCHAINED RETELLINGS (advisory): {len(chained)} update_of-linked pair(s) "
+              f"with headline overlap >= 0.7; a declared follow-up this similar is "
+              f"usually the same story told again:")
+        for g in chained:
+            print(f"    {g['overlap']:.2f}  {g['story'].get('slug', '')[:70]}")
+            print(f"          retells {g['origin'].get('slug', '')[:70]}")
+    if found:
+        extra = sum(len(g["stories"]) - 1 for g in found)
+        print(f"\ndupe_audit: {len(found)} cluster(s), {extra} redundant "
+              f"(advisory; nothing changed)")
     return 0
 
 

@@ -124,6 +124,10 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .sb-note{font-family:var(--mono);font-size:10px;color:var(--faint);flex:none;
   max-width:130px;line-height:1.4;text-align:right}
 @media (max-width:640px){.sb-note{display:none}}
+/* stale tripwire fired: frozen 'live' cards must not keep the green live treatment */
+.sb-frozen .sb-game.live{border-color:var(--line)}
+.sb-frozen .sb-game.live .sb-team,.sb-frozen .sb-game.live .sb-score{color:var(--muted)}
+.sb-frozen .sb-game.live .sb-status{color:var(--faint);font-weight:400}
 
 /* ---- anchor desk strip (home only) ----------------------------------------- */
 .desk{border-bottom:1px solid var(--line)}

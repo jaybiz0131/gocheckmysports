@@ -168,7 +168,13 @@ def main():
         for l in leagues:
             keep = max(2, int(MAX_GAMES * len(l["games"]) / total))
             l["games"] = l["games"][:keep]
-    out = {"generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "leagues": leagues}
+    # stale_after_utc: the snapshot's own freshness policy, read by the build-time
+    # guard in site_build.scores_strip() so the demote threshold lives in data, not
+    # in a second hardcoded constant (2026-08-31: a bake older than this must not
+    # render 'in' games as live).
+    out = {"generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "stale_after_utc": (now + datetime.timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "leagues": leagues}
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)

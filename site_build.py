@@ -60,6 +60,14 @@ RETIRED_ARTICLES = {
         "mlb-proposes-restricted-free-agency-window-and-month-long-transaction-freeze",
     "mlb-proposes-transaction-reforms-to-reduce-roster-churn-in-cba-talks":
         "mlb-proposes-restricted-free-agency-window-and-month-long-transaction-freeze",
+    # family desk audit 2026-08-31: pre-fix same-event retellings (all published before
+    # the 2026-08-30 merge port landed), each verified against the cluster inventory
+    "red-sox-activate-anthony-story-from-il-for-yankees-series-finale":
+        "red-sox-activate-anthony-and-story-from-injured-list-for-stretch-run",
+    "study-finds-chronic-traumatic-encephalopathy-in-vast-majority-of-deceased-nfl-players-studied":
+        "bmj-study-documents-high-cte-prevalence-among-deceased-nfl-players",
+    "scheffler-wins-fedex-st-jude-championship-by-eight-shots-to-open-playoffs":
+        "scheffler-dominates-fedex-st-jude-championship-with-eight-shot-victory",
     "nfl-owners-unanimously-approve-9-612-billion-sale-of-seahawks-to-khosla-family":
         "nfl-owners-unanimously-approve-9-612-billion-seahawks-sale-to-khosla-family",
     "sky-fever-matchup-draws-3-31m-viewers-wnba-s-largest-regular-season-audience-in-29-years":
@@ -1074,64 +1082,102 @@ _CLIENT_FEEDS = {
 }
 
 SCORES_AGE_JS = (
-    # DATA-AGE TRIPWIRE (owner directive 2026-07-28): the strip's "as of" line is a
-    # promise. The client refresh (every 2 minutes) rewrites it to the real refresh
-    # time on success; if the committed snapshot is older than 3 hours AND no refresh
-    # has landed, the widget says so itself rather than asserting a stale time.
+    # DATA-AGE TRIPWIRE (owner directive 2026-07-28; teeth 2026-08-31): the strip's
+    # "as of" line is a promise. The client refresh (on load, on tab return, and on a
+    # 2-minute interval) rewrites it to the real refresh time, but ONLY when a feed
+    # actually matched a baked card (SCORES_JS gates the event on that now); if the
+    # committed snapshot is older than 3 hours AND no such refresh has landed, the
+    # widget says so itself AND the strip goes sb-frozen so its 'live' cards lose the
+    # green live styling instead of impersonating games in progress.
     '<script>(function(){var n=document.getElementById("sb-note");if(!n)return;'
+    'var s=document.getElementById("scores-strip");'
     'function two(x){return(x<10?"0":"")+x}'
     'function mark(d,live){var t=two(d.getUTCHours())+":"+two(d.getUTCMinutes());'
     'n.textContent="League data, not news \u00b7 as of "+t+" UTC"+(live?"":"");}'
     'var g=Date.parse(n.getAttribute("data-generated")||"");'
     'function stale(){n.textContent="League data, not news \u00b7 last update may be "+'
-    '"delayed; scores below may not be current";n.classList.add("sb-stale")}'
+    '"delayed; scores below may not be current";n.classList.add("sb-stale");'
+    'if(s)s.classList.add("sb-frozen")}'
     'if(!isNaN(g)&&Date.now()-g>108e5)stale();'
-    'window.addEventListener("gcm:scores-refreshed",function(){mark(new Date(),1)});'
+    'window.addEventListener("gcm:scores-refreshed",function(){mark(new Date(),1);'
+    'n.classList.remove("sb-stale");if(s)s.classList.remove("sb-frozen")});'
     '})();</script>')
 
 
+# The client refresh (2026-08-31 rebuild after the frozen-'Bot 6' audit):
+#   - fetches ride a yesterday..today date range (StatsAPI startDate/endDate, ESPN
+#     dates=) so a game baked before midnight can still resolve to its Final; the
+#     bare URLs return only today's slate, which could never match yesterday's cards;
+#   - the gcm:scores-refreshed event fires ONLY when a feed matched at least one
+#     baked card; a parseable feed matching nothing is staleness, not freshness;
+#   - orphan retirement: a baked live card whose eid the league's own feed no longer
+#     carries can never resolve, so it loses the live class and says so;
+#   - a real 2-minute interval polls alongside load and tab-return (the 120000ms
+#     check in refresh() is the shared throttle).
 SCORES_JS = (
     '<script>(function(){var s=document.getElementById("scores-strip");'
-    'if(!s||!window.fetch)return;var urls=[];'
-    'try{urls=JSON.parse(s.getAttribute("data-feeds")||"[]")}catch(e){return}'
+    'if(!s||!window.fetch)return;var feeds=[];'
+    'try{feeds=JSON.parse(s.getAttribute("data-feeds")||"[]")}catch(e){return}'
     'var last=0;'
+    'function two(x){return(x<10?"0":"")+x}'
+    'function iso(d){return d.getUTCFullYear()+"-"+two(d.getUTCMonth()+1)+"-"+two(d.getUTCDate())}'
     'function apply(eid,as,hs,det,state){'
     'var g=s.querySelector(\'[data-eid="\'+eid+\'"]\');'
-    'if(!g||as==null||hs==null||state==="pre")return;'
+    'if(!g)return 0;'
+    'if(as==null||hs==null||state==="pre")return 1;'
     'var rows=g.querySelectorAll(".sb-row"),st=g.querySelector(".sb-status");'
-    'if(rows.length<2)return;'
+    'if(rows.length<2)return 1;'
     'rows[0].querySelector(".sb-score").textContent=as;'
     'rows[1].querySelector(".sb-score").textContent=hs;'
     'if(det&&st)st.textContent=det;'
     'g.classList.toggle("live",state==="in");'
     'if(state==="post"){var a=+as,h=+hs;'
-    'rows[0].classList.toggle("win",a>h);rows[1].classList.toggle("win",h>a)}}'
+    'rows[0].classList.toggle("win",a>h);rows[1].classList.toggle("win",h>a)}'
+    'return 1}'
+    'function retire(lg,seen){'
+    's.querySelectorAll(\'.sb-game.live[data-lg="\'+lg+\'"]\').forEach(function(g){'
+    'if(seen[g.getAttribute("data-eid")])return;'
+    'g.classList.remove("live");'
+    'var st=g.querySelector(".sb-status");'
+    'if(st)st.textContent="Updated earlier"})}'
     'function refresh(){var n=Date.now();if(n-last<120000)return;last=n;'
+    'var today=new Date(),yest=new Date(n-864e5);'
     'var ok=function(){try{window.dispatchEvent(new Event("gcm:scores-refreshed"))}catch(e){}};'
-    'urls.forEach(function(u){fetch(u).then(function(r){return r.json()})'
-    '.then(function(d){ok();if(d&&d.events){d.events.forEach(function(ev){'
+    'feeds.forEach(function(f){var lg=f[0],u=f[1];'
+    'u+=u.indexOf("statsapi")>-1?"&startDate="+iso(yest)+"&endDate="+iso(today):'
+    '(u.indexOf("?")>-1?"&":"?")+"dates="+iso(yest).replace(/-/g,"")+"-"+iso(today).replace(/-/g,"");'
+    'fetch(u).then(function(r){return r.json()})'
+    '.then(function(d){var seen={},got=0;'
+    'if(d&&d.events){d.events.forEach(function(ev){'
     'var c=(ev.competitions||[{}])[0],sides={};'
     '(c.competitors||[]).forEach(function(x){sides[x.homeAway]=x});'
     'var st=(ev.status||{}).type||{};'
-    'apply(String(ev.id),(sides.away||{}).score,(sides.home||{}).score,'
+    'seen[String(ev.id)]=1;'
+    'got+=apply(String(ev.id),(sides.away||{}).score,(sides.home||{}).score,'
     'st.state==="post"?"Final":(st.state==="in"?(st.shortDetail||"Live"):null),st.state)})}'
     'else if(d&&d.dates){d.dates.forEach(function(day){(day.games||[]).forEach(function(g){'
     'var t=g.teams||{},ls=g.linescore||{},ab=(g.status||{}).abstractGameState,'
     'state=ab==="Live"?"in":ab==="Final"?"post":"pre",'
     'det=state==="post"?"Final":state==="in"?((ls.isTopInning?"Top ":"Bot ")+'
     '(ls.currentInning||"")):null;'
-    'apply(String(g.gamePk),(t.away||{}).score,(t.home||{}).score,det,state)})})}'
+    'seen[String(g.gamePk)]=1;'
+    'got+=apply(String(g.gamePk),(t.away||{}).score,(t.home||{}).score,det,state)})})}'
+    'else return;'
+    'retire(lg,seen);'
+    'if(got)ok()'
     '}).catch(function(){})})}'
     'refresh();document.addEventListener("visibilitychange",function(){'
-    'if(document.visibilityState==="visible")refresh()})})()</script>')
+    'if(document.visibilityState==="visible")refresh()});'
+    'setInterval(refresh,120000)})()</script>')
 
 
 def scores_strip():
     """The live layer, scoreboard edition (owner call 2026-07-21: game cards, not a
     stock-style ticker). Baked from site/data/scores.json (scores_pulse.py; fail-open).
     League data, not news: it never passes the editorial pipeline and says so. Empty or
-    missing snapshot = no bar, no dead chrome. One client fetch on load (CORS verified
-    on both feeds) updates the cards in place; baked values stand on any failure.
+    missing snapshot = no bar, no dead chrome. Client fetches (load, tab return,
+    2-minute interval; CORS verified on both feeds) update the cards in place; baked
+    values stand on any failure.
     Nothing self-moves, so WCAG 2.2.2 never triggers; the rail is keyboard-scrollable."""
     try:
         snap = json.load(open(SCORES_PATH, encoding="utf-8"))
@@ -1140,11 +1186,35 @@ def scores_strip():
     leagues = [l for l in snap.get("leagues", []) if l.get("games")]
     if not leagues:
         return ""
+    # BUILD-TIME FAIL-CLOSED GUARD (2026-08-31; the Bottom Line guard's rule applied
+    # to the strip: a stalled pipeline can never showcase an old inning as current).
+    # scores_pulse.py runs before every build, so a stale snapshot here means the
+    # fetch just failed and every 'in' state is a frozen inning, not a live game
+    # ('Bot 6' stood on the live page 13 hours after the game ended). Past the
+    # snapshot's own stale_after_utc hint (generated_utc + 3h when absent) live
+    # cards demote to plain 'as of' cards; past 24h the strip does not render.
+    now = _build_now()
+    gen_raw = snap.get("generated_utc") or ""
+    try:
+        gen = datetime.datetime.fromisoformat(gen_raw.replace("Z", "+00:00"))
+    except ValueError:
+        gen = None
+    if gen is None or (now - gen).total_seconds() > 24 * 3600:
+        return ""
+    try:
+        stale_after = datetime.datetime.fromisoformat(
+            (snap.get("stale_after_utc") or "").replace("Z", "+00:00"))
+    except ValueError:
+        stale_after = gen + datetime.timedelta(hours=3)
+    demote_live = now > stale_after
+    stamp = esc(gen_raw[11:16])
     cards, feeds = [], []
     for l in leagues:
         feed = _CLIENT_FEEDS.get(l.get("league", ""))
         if feed:
-            feeds.append(feed)
+            # [league, url] pairs: the client needs to know WHICH league a feed
+            # covers so it only retires orphaned live cards from that league
+            feeds.append([l.get("league", ""), feed])
         # ALWAYS label the league (2026-08-17). This was conditional on more than one
         # league having games, so in a month where only MLB is playing the strip rendered
         # as bare abbreviations and a start time ("TB DET 6:40 PM ET") with nothing saying
@@ -1163,14 +1233,25 @@ def scores_strip():
                 a_win = " win" if a_s > h_s else ""
                 h_win = " win" if h_s > a_s else ""
             live_cls = " live" if state == "in" else ""
+            detail = str(g.get("detail", ""))
+            if state == "in" and demote_live:
+                # a frozen inning is not a live game: the card keeps its last scores
+                # but loses the live treatment and says when they were taken
+                live_cls = ""
+                detail = f"as of {gen_raw[11:16]} UTC"
             cards.append(
-                f'<span class="sb-game{live_cls}" data-eid="{esc(str(g.get("eid", "")))}">'
+                f'<span class="sb-game{live_cls}" data-eid="{esc(str(g.get("eid", "")))}" '
+                f'data-lg="{esc(l.get("league", ""))}">'
                 f'<span class="sb-row{a_win}"><span class="sb-team">{aw}</span>'
                 f'<span class="sb-score">{a_txt}</span></span>'
                 f'<span class="sb-row{h_win}"><span class="sb-team">{hm}</span>'
                 f'<span class="sb-score">{h_txt}</span></span>'
-                f'<span class="sb-status">{esc(str(g.get("detail", "")))}</span></span>')
-    stamp = esc((snap.get("generated_utc") or "")[11:16])
+                f'<span class="sb-status">{esc(detail)}</span></span>')
+    # a snapshot from a previous day says so: bare 'as of 01:45 UTC' read as
+    # this-morning when the bake was 13 hours old (2026-08-31)
+    gen_date, build_date = gen_raw[:10], now.date().isoformat()
+    note_when = (f"{esc(fmt_date(gen_date))}, {stamp}" if gen_date != build_date
+                 else stamp)
     return (f'<section class="scorebar" aria-label="Today\'s scores">'
             f'<div class="wrap"><span class="sb-lab">Scores</span>'
             f'<div class="sb-rail" tabindex="0" role="group" '
@@ -1179,7 +1260,7 @@ def scores_strip():
             f'{"".join(cards)}</div>'
             f'<span class="sb-note" id="sb-note" '
             f'data-generated="{esc(snap.get("generated_utc") or "")}">'
-            f'League data, not news &middot; as of {stamp} UTC'
+            f'League data, not news &middot; as of {note_when} UTC'
             f'</span></div></section>') + SCORES_JS + SCORES_AGE_JS
 
 
@@ -2097,11 +2178,20 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
             other = json.load(open(path, encoding="utf-8"))
         except Exception:
             continue
-        if other.get("example") or other.get("slug") == item.get("slug"):
+        if other.get("example"):
             continue
         if str(other.get("id") or "").startswith("wrap-") or \
                 other.get("category") == "daily edition":
             continue
+        if other.get("slug") == item.get("slug"):
+            # skip-self ONLY for the item's own dated file (re-ingest). The same slug
+            # in a DIFFERENT dated file is the strongest duplicate signal there is:
+            # article URLs carry no date, so both files collide at one address and
+            # whichever globs last silently wins the page (three live pairs on the
+            # news desk shipped through exactly this bypass, 2026-08-31 audit).
+            if os.path.basename(path) == f"{item.get('date')}-{item.get('slug')}.json":
+                continue
+            return path, other, "merge"
         other_when = _parse_utc_item(other)
         if not other_when or abs((when - other_when).total_seconds()) > window_h * 3600:
             continue
