@@ -1,41 +1,19 @@
 {
-  "_note": "THE WEEK'S KNOWN MAJOR EVENTS, hand-updated weekly by the owner or the working session (owner directive 2026-07-27: the desk covered Spence-Tszyu but missed Joshua's KO the same night; aggregation is reactive, this file makes it aware). Same shape as config event_calendar. event_coverage.py flags any active entry with no matching published story. REFRESHED 2026-07-31: the MLB deadline is Monday Aug 3 at 6pm ET (not the traditional Jul 31), and it is the highest-traffic sports window of the next four days.",
+  "_note": "THE WEEK'S KNOWN MAJOR EVENTS, hand-updated weekly by the owner or the working session (owner directive 2026-07-27: the desk covered Spence-Tszyu but missed Joshua's KO the same night; aggregation is reactive, this file makes it aware). Same shape as config event_calendar. event_coverage.py flags any active entry with no matching published story, and now also warns when this file itself goes stale. REFRESHED 2026-08-31: the US Open fortnight is on (main draw started Sunday Aug 30, a day earlier than the seasonal calendar had it); this card carries the on-court keywords the calendar entry lacks.",
   "events": [
     {
-      "name": "MLB trade deadline week (deadline Monday Aug 3, 6pm ET)",
-      "start": "2026-07-30",
-      "end": "2026-08-04",
+      "name": "US Open tennis fortnight (main draw Aug 30 to Sep 13, Flushing Meadows)",
+      "start": "2026-08-30",
+      "end": "2026-09-13",
       "keywords": [
-        "trade deadline",
-        "deadline deal",
-        "traded",
-        "acquired",
-        "dealt",
-        "sell-off",
-        "waiver"
-      ]
-    },
-    {
-      "name": "NFL training camp week 2 (injuries and depth charts)",
-      "start": "2026-07-31",
-      "end": "2026-08-07",
-      "keywords": [
-        "training camp",
-        "pup list",
-        "torn",
-        "strain",
-        "depth chart",
-        "holdout"
-      ]
-    },
-    {
-      "name": "NFL Hall of Fame Game and enshrinement weekend",
-      "start": "2026-08-06",
-      "end": "2026-08-09",
-      "keywords": [
-        "hall of fame",
-        "canton",
-        "enshrinement"
+        "US Open",
+        "Flushing Meadows",
+        "first round",
+        "upset",
+        "Alcaraz",
+        "Sabalenka",
+        "Djokovic",
+        "Gauff"
       ]
     }
   ]

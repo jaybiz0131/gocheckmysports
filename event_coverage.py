@@ -22,6 +22,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     from editor import active_events
+    # THE NET MUST NOT ROT SILENTLY (2026-08-31 audit: event-week.json sat unrefreshed
+    # for a month, so the one-off-event safety net built after the Joshua miss was
+    # inert for US Open Day 1). Deterministic date math, fail-open: warn only.
+    try:
+        week = json.load(open(os.path.join(HERE, "event-week.json"), encoding="utf-8"))
+        newest = max((e.get("end") or "" for e in week.get("events", [])), default="")
+        days_past = (datetime.datetime.now(datetime.timezone.utc).date()
+                     - datetime.date.fromisoformat(newest)).days if newest else None
+        if newest == "" or days_past > 7:
+            print(f"::warning::event coverage: event-week.json is STALE (newest event "
+                  f"ends {newest or 'never: no events'}); the weekly refresh has "
+                  f"lapsed and one-off events are invisible to the desk")
+    except Exception as e:
+        print(f"::warning::event coverage: could not check event-week.json "
+              f"freshness ({e})")
     events = active_events()
     if not events:
         print("event coverage: no calendar events active today")
