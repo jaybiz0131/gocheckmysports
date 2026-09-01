@@ -425,6 +425,60 @@ def tracking_match(story, rx):
     return len(rx.findall(text)) >= 2
 
 
+# ---- coverage hubs (consolidation program 2026-09-01) ------------------------
+# Search Console keeps declining to crawl the article long tail: a new domain gets a
+# small crawl budget and commodity sports news decays fast, so most chapter URLs are
+# never worth a crawl on their own. The evergreen layer Search Console DOES reward is
+# one stable URL per storyline, so every watchlist narrative with enough published
+# chapters gets a /coverage/ hub that accumulates them, newest first. Reader-facing
+# label for the layer: "Full coverage".
+
+HUB_MIN_STORIES = 3
+
+
+def _watchlist():
+    try:
+        return json.load(open(os.path.join(HERE, "config.json"),
+                              encoding="utf-8")).get("narratives", {}).get("watchlist", [])
+    except Exception:
+        return []
+
+
+def narrative_rx(narrative):
+    kws = narrative.get("keywords") or []
+    if not kws:
+        return None
+    return re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
+
+
+def narrative_slug(name):
+    return re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-")
+
+
+def coverage_hubs(items):
+    """The storylines that have earned a hub: HUB_MIN_STORIES or more published stories
+    genuinely ABOUT the narrative (tracking_match, the same bar the Tracking chips use),
+    newest first. Superseded and example stories are excluded, and so are the wraps,
+    for the same reason the chips exclude them: an edition mentions every storyline of
+    its day without being about any of them."""
+    hubs = []
+    for n in _watchlist():
+        rx = narrative_rx(n)
+        if rx is None:
+            continue
+        stories = [i for i in items
+                   if not i.get("example") and not i.get("superseded_by")
+                   and not _is_wrap(i) and tracking_match(i, rx)]
+        if len(stories) < HUB_MIN_STORIES:
+            continue
+        stories.sort(key=lambda i: i.get("published_utc") or i.get("date") or "",
+                     reverse=True)
+        name = n.get("name") or ""
+        hubs.append({"name": name, "slug": narrative_slug(name), "rx": rx,
+                     "stories": stories})
+    return hubs
+
+
 def destyle(text):
     """House style: no em/en dashes in site copy (model drafts sometimes use them).
 
@@ -809,7 +863,7 @@ def share_row(url, title):
 </script>"""
 
 
-def render_article(item, all_items=None):
+def render_article(item, all_items=None, hubs=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
@@ -883,6 +937,17 @@ def render_article(item, all_items=None):
                      f'Independent coverage of the same development, found by search; '
                      f'not this story\'s sources.</p>')
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol>{note}</div>'
+    # Full coverage: a chapter of a hub-worthy storyline points the reader (and the
+    # crawler) at the storyline's stable /coverage/ URL, above the related-stories
+    # module. Two at most; a story is rarely honestly ABOUT more than two storylines.
+    cov_html = ""
+    if not item.get("example") and not item.get("superseded_by") and not _is_wrap(item):
+        mine = [h for h in (hubs or []) if tracking_match(item, h["rx"])][:2]
+        if mine:
+            cov_html = ('<div class="tracking"><span class="lab">Full coverage</span>'
+                        + "".join(f'<a class="chip" href="/coverage/{esc(h["slug"])}.html">'
+                                  f'{esc(h["name"])}</a>' for h in mine)
+                        + '</div>')
     rel_html = ""
     for rel in related_stories(item, all_items or []):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
@@ -914,6 +979,7 @@ def render_article(item, all_items=None):
     {share_row(ORIGIN + f"/articles/{item['slug']}", item.get("title") or "")}
     {trail}
     {src_html}
+    {cov_html}
     {rel_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
@@ -1526,20 +1592,24 @@ def render_home(items, dateline):
                          f'<div class="edition-strip">{"".join(ed_cards)}</div>')
 
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
+    # HUB FIRST (consolidation 2026-09-01): a storyline that has earned a /coverage/ hub
+    # sends its chip there instead, the stable URL, and the hub shows the newest chapter
+    # first anyway. Storylines without a hub keep the newest-chapter behavior unchanged.
     track_html = ""
     chips = []
     _chip_slugs_used = set()
-    try:
-        watch = json.load(open(os.path.join(HERE, "config.json"),
-                               encoding="utf-8")).get("narratives", {}).get("watchlist", [])
-    except Exception:
-        watch = []
+    watch = _watchlist()
+    _hub_by_name = {h["name"]: h for h in coverage_hubs(items)}
     _tracking_match = tracking_match
     for n in watch:
-        kws = n.get("keywords") or []
-        if not kws:
+        rx = narrative_rx(n)
+        if rx is None:
             continue
-        rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
+        hub = _hub_by_name.get(n.get("name", ""))
+        if hub:
+            chips.append(f'<a class="chip" href="/coverage/{esc(hub["slug"])}.html">'
+                         f'{esc(n.get("name", ""))}</a>')
+            continue
         cands = [i for i in live if not i.get("superseded_by") and _tracking_match(i, rx)]
         cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
         hit = cands[0] if cands else None
@@ -1597,8 +1667,19 @@ def render_archive(items, dateline):
     else:
         inner = ('<div class="empty"><span class="k">Archive is empty</span>'
                  '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
+    # Full coverage: the hub layer, listed compactly ahead of the day-by-day listing so
+    # a researcher chasing one storyline never has to walk the whole archive for it.
+    hubs = coverage_hubs(items)
+    hub_html = ""
+    if hubs:
+        hub_html = ('<div class="sec-head"><h2>Full coverage</h2><span class="bar"></span></div>'
+                    '<div class="tracking">'
+                    + "".join(f'<a class="chip" href="/coverage/{esc(h["slug"])}.html">'
+                              f'{esc(h["name"])}</a>' for h in hubs)
+                    + '</div>')
     body = f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports archive</h1><section class="sec">
-    <div class="sec-head"><h2>Archive</h2><span class="bar"></span></div>
+    {hub_html}
+    <div class="sec-head"{' style="margin-top:22px"' if hub_html else ''}><h2>Archive</h2><span class="bar"></span></div>
     {inner}
   </section></main>"""
     return shell(f"Archive - {NAME}", "Every published GoCheckMySports story.", "Archive", body,
@@ -1680,6 +1761,34 @@ def render_section(slug, title, nav_label, tags, blurb, items, dateline):
     # so passing "Disasters and Weather" left the reader with no active-state anywhere
     return shell(f"{plain} - {NAME}", blurb, nav_label, body, dateline,
                  path=f"/sections/{slug}.html")
+
+
+def _name_mid_sentence(name):
+    # "League discipline" reads as "league discipline" inside a sentence; a name led by
+    # an acronym ("NFL training camp") or carrying a proper noun ("World Cup aftermath")
+    # keeps its caps
+    first = (name.split() or [""])[0]
+    if name[:1].isupper() and not first.isupper() and not any(c.isupper() for c in name[1:]):
+        return name[0].lower() + name[1:]
+    return name
+
+
+def render_coverage_hub(hub, dateline):
+    """One /coverage/ page per hub-worthy storyline: every published chapter, newest
+    first, on a stable URL. This is the evergreen page the aging sitemap consolidates
+    crawl attention into; the section pages organize by league, this layer organizes by
+    storyline."""
+    name = hub["name"]
+    intro = (f"Every story the desk has published on {_name_mid_sentence(name)}, "
+             f"newest first. This page updates with each new development.")
+    inner = '<div class="grid">' + "".join(card(i) for i in hub["stories"]) + "</div>"
+    body = f"""<main class="wrap"><h1 class="sr-only">{esc(name)}</h1><section class="sec">
+    <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span></div>
+    <p class="lede" style="margin:0 0 14px">{esc(intro)}</p>
+    {inner}
+  </section></main>"""
+    return shell(f"{name}: full coverage - {NAME}", intro, "Full coverage", body, dateline,
+                 path=f"/coverage/{hub['slug']}.html")
 
 
 # ---- static editorial pages --------------------------------------------------
@@ -2501,12 +2610,18 @@ def build():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8").write(html)
 
+    # computed once and shared: the home chips, the article Full coverage links, the
+    # /coverage/ pages themselves and the priority sitemap all read the same set
+    site_hubs = coverage_hubs(items)
+
     w("index.html", render_home(items, dateline))
     w("news.html", render_news(items, dateline))
     w("archive.html", render_archive(items, dateline))
     for _slug, _title, _nav, _tags, _blurb in SECTIONS:
         w(f"sections/{_slug}.html",
           render_section(_slug, _title, _nav, _tags, _blurb, items, dateline))
+    for _hub in site_hubs:
+        w(f"coverage/{_hub['slug']}.html", render_coverage_hub(_hub, dateline))
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
@@ -2516,7 +2631,8 @@ def build():
     w("thanks.html", render_thanks(dateline))
     for it in items:
         _render_og_card(it)  # build-time per-article share card (fail-open) -> PUBLISH/og/
-        w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
+        w(os.path.join("articles", f"{it['slug']}.html"),
+          render_article(it, all_items=items, hubs=site_hubs))
     w("bottom-line.html", render_bottom_line_history(items, dateline))
     w("feed.xml", render_feed(items))
 
@@ -2567,7 +2683,6 @@ def build():
     arts_sorted = sorted(arts, key=lambda i: i.get("published_utc") or i.get("date") or "",
                          reverse=True)
     PRIORITY_N = 30
-    prio_slugs = {i["slug"] for i in arts_sorted[:PRIORITY_N]}
 
     def _clean(p):
         return ORIGIN + (p[:-5] if p.endswith(".html") else p)
@@ -2578,11 +2693,42 @@ def build():
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                 + body + "\n</urlset>\n")
 
-    # priority: the hub pages a reader starts from, plus the newest N stories
-    prio = locs + [f"/articles/{i['slug']}.html" for i in arts_sorted[:PRIORITY_N]]
-    archive = [f"/articles/{i['slug']}.html" for i in arts_sorted[PRIORITY_N:]]
+    # SITEMAP AGING (consolidation 2026-09-01). The split bought the newest stories a
+    # crawled-whole priority file; Search Console still declined the long tail behind it.
+    # So the sitemap now stops advertising what a crawler will not spend budget on:
+    # superseded stories leave both tiers (their replacements are already listed), and a
+    # story older than 60 days on the build clock leaves the sitemap entirely. Aged-out
+    # pages stay live, linked and redirect-protected; they are just no longer offered
+    # for crawl. The /coverage/ hubs ride the priority tier because they are the
+    # evergreen layer the aging tail consolidates into.
+    _smap_now = _build_now()
+
+    def _age_days(it):
+        try:
+            when = datetime.datetime.fromisoformat(
+                (it.get("published_utc") or it.get("date") or "").replace("Z", "+00:00"))
+        except ValueError:
+            return 0.0        # an unparseable date stays advertised (fail-open)
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=datetime.timezone.utc)
+        return (_smap_now - when).total_seconds() / 86400.0
+
+    n_superseded = sum(1 for i in arts_sorted if i.get("superseded_by"))
+    eligible = [i for i in arts_sorted if not i.get("superseded_by")]
+    prio_arts = eligible[:PRIORITY_N]
+    tail = eligible[PRIORITY_N:]
+    archive_arts = [i for i in tail if _age_days(i) <= 60]
+    n_aged_out = len(tail) - len(archive_arts)
+
+    # priority: the hub pages a reader starts from, the coverage hubs, the newest N stories
+    hub_paths = [f"/coverage/{h['slug']}.html" for h in site_hubs]
+    prio = locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
+    archive = [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
+    print(f"sitemap: priority {len(prio)} ({len(hub_paths)} hubs), "
+          f"archive {len(archive)}, aged out {n_aged_out}, "
+          f"superseded excluded {n_superseded}")
     w("sitemap.xml",
       '<?xml version="1.0" encoding="UTF-8"?>\n'
       '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
