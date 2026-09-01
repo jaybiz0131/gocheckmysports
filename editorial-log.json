@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-25",
-  "approved": 8,
-  "rejected": [
-   {
-    "id": "c029",
-    "headline": "LeBron James Signs With 76ers, Ending Month-Long Free-Agency Drama",
-    "category": "compliance",
-    "reasons": [
-     "The bottom_line contains an off-topic sentence about a Slovenian cyclist's Tour stage that has no connection to the LeBron James story. This appears to be copy-pasted from a different draft (c002) and creates liability through incoherence and potential reader confusion about what story this is.",
-     "The bottom_line also uses the hedge phrase 'only time will tell' ('The 20th stage of the Slovenian cyclist's Tour will tell us...') which violates the instruction that bottom_lines must avoid 'only time will tell' formulations."
-    ]
-   },
-   {
-    "id": "c056",
-    "headline": "Norris Claims Hungary Pole, First of 2026 Season",
-    "category": "accuracy",
-    "reasons": [
-     "The open_questions in the brief note that 'The exact margin of victory (0.012 seconds cited in headline) does not appear in the provided source texts,' yet the draft's headline claims 'Norris Claims Hungary Pole, First of 2026 Season' without the margin. More critically, the draft states facts ('pole position,' 'Lewis Hamilton finished second,' 'Kimi Antonelli qualified fourth') that cannot be verified against the brief's data_points because the sources were not made available to check them. The brief itself flags that qualifying margins and full grid order 'are not detailed in the available reporting,' meaning the story is built on sources the desk cannot audit.",
-     "The brief is marked 'thin: true' with only 2,349 source characters and four basic data_points. The draft adds interpretive framing ('a break in Mercedes' dominant qualifying streak this year') that expands on the brief's claim about 'Mercedes dominance in qualifying this year' without citing where that dominance is documented in the provided materials."
-    ]
-   },
-   {
-    "id": "c107",
-    "headline": "Azzi Fudd wins WNBA 3-point shooting contest at All-Star Weekend",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains a self-referential sentence ('The brief does not provide Fudd's winning score...') that belongs in a research note, not published copy. This sentence breaks the fourth wall and should be removed before publication.",
-     "More critically, this sentence acknowledges gaps in the reporting that should prompt the writer to either fill them from the source or remove claims that cannot be substantiated. The presence of this meta-commentary suggests the draft is incomplete or the writer is signaling uncertainty about sourcing."
-    ]
-   },
-   {
-    "id": "c109",
-    "headline": "Michael Kim shoots 59 at 3M Open, joins exclusive PGA Tour club",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly flags in open_questions that 'leaderboard position details, Kim's exact score through 36 holes, Scheffler's Round 2 score, and whether Kim had the sole lead or shared it are not provided in the source text.' The draft states 'Kim's performance gave him the lead after 36 holes' with no qualification that this is reported, unconfirmed, or shared. The brief notes source_chars=920 and marked thin=true, indicating minimal source content. The draft should either attribute this claim inline to CBS Sports or omit it entirely, as the brief warns the source text does not provide leaderboard context.",
-     "The brief also notes 'Round 1 scores and full leaderboard context are not available in the provided source.' The draft does not reference these gaps, presenting Kim's lead as fact without caveat despite the brief's warning that these details are absent from the source."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
   "approved": 5,
   "rejected": [
    {
@@ -9021,6 +8979,52 @@
     "reasons": [
      "The draft states Djokovic lost to 'world No. 49 Navone' and that it was 'a five-set match,' but the brief explicitly flags in open_questions that 'The source does not identify the opponent or confirm the match was against world No. 49 Navone' and 'The source does not confirm the match was a five-set marathon or provide the final score.' These details are not in the source material and are smuggled into the draft.",
      "The draft states Djokovic is '37 years old' but the brief notes in open_questions that 'The source does not state Djokovic's current age explicitly (only the headline claims 37).' The age is stated as fact in the body when it is only in the headline of the source, not confirmed in the text."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c120",
+    "headline": "Cowser's Game-Ending Catch Lifts Orioles to .500 for First Time Since April",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Cowser made 'a defensive play' and describes it as a 'catch,' but the source URL title specifies it was a 'game-ending home run robbery.' The draft obscures the specific nature of the play (a robbery of a home run) by using vague language like 'defensive play' and later admitting 'The specific details of the defensive sequence were not available in the source material.' This is false\u2014the source title itself contains the key detail. The draft must either state it was a home run robbery or reject the story as too thin.",
+     "The draft says the play 'secured an Orioles victory,' but does not state this was the final play of the game or provide any score or context. The source URL says 'game-ending,' which the draft should reflect directly.",
+     "The date of today (2026-09-01) matches the timestamp, but the draft does not state when the game occurred. Given the instruction that scheduled events after today are written as upcoming, and this appears to be a completed game on today's date, the tense is correct, but the complete absence of date/time context in the body is a clarity gap that compounds the accuracy issue."
+    ]
+   },
+   {
+    "id": "c266",
+    "headline": "UCLA Fires Athletic Director Martin Jarmond, Replaces Him With Lakers Executive Tim Harris",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'UCLA fired athletic director Martin Jarmond on September 1 after six years in the role.' The brief data_point says 'Martin Jarmond was fired on Monday.' Today is Tuesday, September 1, 2026. 'Monday' would be August 31, 2026, not September 1. The draft changes the date from Monday (August 31) to 'September 1' without reconciling the discrepancy. The brief's confidence is 'reported,' so the source (Yahoo) must be checked, but the draft rewrites the date without noting the change.",
+     "The draft states: 'Harris is taking the position on a pro bono basis.' This is correct per the brief. However, later the draft says: 'Harris left the Lakers in February 2026, four months after Los Angeles Dodgers owner Mark Walter purchased the franchise.' If Walter purchased in February 2026, then four months prior would be October 2025. The math doesn't align: 'four months after' a February purchase is June, not February. The brief says 'Harris left the NBA franchise in February' and separately 'Harris left the Lakers four months after the Buss family sold it.' This means the sale happened in October 2025 (four months before February 2026). The draft's phrasing 'left in February 2026, four months after' is confusing and potentially inaccurate\u2014it should say the sale occurred four months BEFORE he left, or specify October 2025 as the sale date.",
+     "The draft mentions 'UCLA also hired Bob Chesney as head football coach in early December from James Madison.' The brief says 'Bob Chesney arrived in early December from James Madison.' The draft's use of past tense 'hired' and placement in a final paragraph referencing 'last season' NCAA championships is grammatically awkward and temporally unclear. If Chesney arrived in early December 2025, the story (dated Sept 1, 2026) is reporting this in past tense correctly, but the sentence structure buries the timeline. More critically, the brief does not specify WHICH December; if it is December 2025, then it should be clear this was nine months ago, not recent. The lack of year is an accuracy gap."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Alcaraz advances to US Open second round after four-month injury absence",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the match as a completed past event: 'advanced to the second round with a 6-4, 6-4, 6-4 victory' and 'marked his first competitive match since his extended absence.' Today is Tuesday, 2026-09-01. The US Open is typically held in late August/early September. The BBC timestamp on the brief is 2026-09-01T08:39:42Z, suggesting the match occurred on or before today. The draft must verify whether this match has already happened or is scheduled for today/later. If it is scheduled as upcoming, the tense is wrong and the story reads as false reportage. If it occurred today morning (09-01), the tense is acceptable. The brief does not clarify match timing beyond the source timestamp; the draft cannot treat a same-day or future match as a completed past event without certainty the event has concluded.",
+     "More fundamentally: the brief is extremely thin (only 5 data_points, all basic facts; no context, no analysis, no bear case, open_questions notes the brief lacks specifics on injury type, preparation, trajectory). A draft this sparse on a comeback story reads as placeholder reportage rather than substantive coverage. The draft adds no detail beyond the brief's five facts and offers generic forward-looking statements ('will continue to test,' 'will reveal') that amount to narrating absence, which is forbidden."
+    ]
+   },
+   {
+    "id": "c186",
+    "headline": "LSU and SEC head to federal court Thursday, September 4 in escalating legal dispute",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a hearing scheduled for 'Thursday, September 4,' but today is Tuesday, 2026-09-01. September 4, 2026 is indeed a Thursday. However, the title states 'Thursday, September 4' as if it is imminent and certain. The brief's core claim and data_points use language 'scheduled for Thursday' (reported), confirming the hearing is upcoming, not past. The draft correctly treats it as future-scheduled, so tense is acceptable.",
+     "However, the core liability: the draft is built on a brief marked 'thin: true' with only 4 data_points, all skeletal, and open_questions that explicitly list 'The specific trigger or legal claim underlying the LSU-SEC dispute' and 'What rule or regulation LSU is alleged to have violated' as unknown. The draft's opening paragraph ('The dispute carries significant consequences: possible game forfeiture and potential conference expulsion hang in the balance') presents stakes without any context on what the dispute IS. The second paragraph then admits ('The reporting does not specify the underlying legal claim... The sources also do not detail the SEC's stated position or defense') that the story has no substance. This is a story structured to look like journalism while admitting it is incomplete reporting. The draft would read as a rumor-launch piece if the hearing changed or was postponed. A thin brief with open core questions should either be rejected outright or reframed as a 'watch this space' stub; this draft tries to have stakes without stakes.",
+     "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday",
+     "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday"
     ]
    }
   ]
