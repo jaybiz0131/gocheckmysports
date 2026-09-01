@@ -4,44 +4,6 @@
   "approved": 8,
   "rejected": [
    {
-    "id": "c093",
-    "headline": "Elena Delle Donne returns to All-Star Weekend competition",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Delle Donne 'reflected on WNBA growth' in the opening paragraph and later develops this as a major theme ('what specific dimensions of WNBA growth Delle Donne was reflecting on'). The brief's data_points contain only the quote 'You just keep your head down, keep working and trust in the process'\u2014which is generic motivational language with no connection to WNBA growth. The draft smuggles in a claim about what the quote addresses that does not appear in the brief. The quote itself does not mention league growth, and the brief's open_questions confirm this is unresolved ('What specific WNBA growth did Delle Donne reflect on'). The draft presents as fact something marked open/unconfirmed in the research."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Abdukodir Khusanov extends Manchester City contract through 2031",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'which opens at home against Bournemouth on August 23' but this is presented as a future event without qualification. The brief's data point is dated 2026-07-25, and this article appears to be set in July 2026, making August 23 a scheduled fixture, not a confirmed fact. More critically, the draft should signal that this is a scheduled match subject to change, not a verified occurrence. The confidence label 'reported' in the brief covers the announcement, not the assumption that the match will occur as scheduled."
-    ]
-   },
-   {
-    "id": "c039",
-    "headline": "Chiefs' Patrick Mahomes fully cleared for training camp after knee surgery",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Dr. Dan Cooper' cleared Mahomes, but the brief identifies Dr. Dan Cooper as 'the Dallas Cowboys' head team physician,' not the Chiefs' medical staff. The draft conflates clearance from 'the Kansas City Chiefs' medical staff and Dr. Dan Cooper' without clarifying his actual role or affiliation. The brief data_point says he 'performed the surgery,' not that he provided clearance; this appears to be a distinction the writer failed to preserve from the brief's separate claims about surgery and clearance."
-    ]
-   },
-   {
-    "id": "c132",
-    "headline": "Ryan Fox wins The Open Championship at Royal Birkdale",
-    "category": "accuracy",
-    "reasons": [
-     "The draft omits the core angle from the brief entirely. The brief's angle centers on Fox stepping 'out of his famous sporting father's shadow' and breaking 'a documented pattern where offspring of legendary athletes struggle to replicate their parents' success.' The draft acknowledges this context exists ('Additional details on...Fox's family sporting background are not available') but then reports nothing about it. The brief's data_points confirm Fox is from New Zealand and that a victory occurred; however, the angle\u2014the family narrative that frames the achievement\u2014was in the source material according to the brief's open_questions, which state 'Details of Fox's father's sporting achievements and legacy are not elaborated in the provided source text,' implying they were mentioned. The draft should either report the family context from the source or explicitly state it was not found; instead, it acknowledges its existence while omitting it, suggesting the writer was aware of the angle but chose not to pursue it. This is a failure to represent what the brief indicated was available."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
-  "approved": 8,
-  "rejected": [
-   {
     "id": "c103",
     "headline": "WNBA players raise concerns about Commissioner Engelbert at All-Star Weekend",
     "category": "accuracy",
@@ -9005,6 +8967,56 @@
     "reasons": [
      "The brief's core claim states Makar is 'the highest-paid player in NHL history,' a critical data point marked as 'reported' confidence. The draft completely omits this fact. The brief lists it as a core element of the angle; its absence is a material factual gap.",
      "The brief's open_questions section flags that 'The exact dollar amount of the extension (stated in headline as $163.2M/$20.4M/yr) does not appear in any of the provided source texts; verify this figure independently.' The draft's title and body make no mention of contract value, which is correct per the brief's instruction\u2014but this means the story's news hook (record-breaking deal) cannot be established from the sources provided. The story reads as incomplete rather than verified."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c065",
+    "headline": "Alcaraz defeats Safiullin 6-4, 6-4, 6-4 in US Open return, August 31",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Alcaraz has not played since April' which matches the brief data point. However, the draft then claims 'marking his return to singles competition after 139 days away'\u2014the brief's data point on this says 'Alcaraz's injury layoff was more than four and a half months,' which is approximately 135+ days, not precisely 139 days. The 139-day figure is stated as fact in the title and opening but is not in the brief's data points. This is a smuggled number not verified by the research.",
+     "The draft includes a specific match sequence ('In one representative sequence at 5-4, 30-15 in the first set, Alcaraz executed a wide serve and responded to Safiullin's dipping backhand return with a half-volley winner') that traces to the brief data point. However, the draft then states 'The clean victory in the opening round arrives without clear indications of lingering physical limitation.' This is a conclusion about absence of physical limitation not supported by the brief. The brief's open_questions explicitly ask 'No direct quote from Alcaraz about how his wrist felt during the match or confidence in his recovery.' The draft presents as settled fact what the brief identifies as unreported."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Sabalenka advances in US Open title defense, August 31",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The approval protocol requires that every fact in a draft either trace to a data point in the brief OR, when no brief exists, trace to a cited source. The draft cites only one URL (https://www.bbc.co.uk/sport/tennis/articles/c4gm3pzl7ypo). The desk cannot verify that the BBC article confirms (1) Sabalenka defeated Camila Osorio, (2) the match was first-round, (3) the date was August 31, or (4) BBC characterized it as 'tricky.' Without a brief, the writer has no research chain to establish. The story cannot be approved without evidence that every claim was verified against the cited source, and the absence of a brief means no audit trail exists."
+    ]
+   },
+   {
+    "id": "c191",
+    "headline": "Josh Jacobs placed on commissioner's exempt list after misdemeanor charges",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Jacobs's placement on the exempt list as a factual statement ('was placed') when the brief data_point explicitly marks this claim with confidence='announced-not-verified'. This is a liability problem: the claim has not been independently verified beyond the announcement. Draft language should reflect that uncertainty (e.g., 'was announced to be placed' or 'according to the league announcement').",
+     "The offending opening sentence treats an unverified announcement as settled fact, creating reputational and compliance risk if the placement is reversed or challenged before publication."
+    ]
+   },
+   {
+    "id": "c244",
+    "headline": "Cale Makar signs eight-year extension with Avalanche through 2034-35",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Makar is 'the highest-paid player in NHL history' and the headline references an eight-year extension through 2034-35, but the brief explicitly flags in open_questions that 'The exact annual average value (AAV) is stated in the headline as $163.2M over eight years, but this figure does not appear in the provided source texts; confirmation needed from official NHL or team source.' The draft presents a contract value/ranking claim that the brief marks as unconfirmed against the actual source texts.",
+     "The brief contains no data_point that specifies the contract value or AAV; the brief's data_points confirm only the term (eight years, through 2034-35) and the status as 'highest-paid' in general terms, but the open_question reveals the sources do not support the specific compensation figure. The draft should not present this as settled fact without confirmation of the AAV and its comparison to other players."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "STORY REJECTED: Research Brief Required",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the hard rule of the desk (no fact exists outside the brief), every factual claim in the draft must trace to a data_point in the research brief. Without a research brief, no facts can be authenticated or approved for publication.",
+     "The draft itself is a rejection notice, not a story. Resubmission with a complete research brief (core_claim, angle, data_points with source_url and confidence labels, bear_case, open_questions) is required before any draft can be evaluated."
     ]
    }
   ]
