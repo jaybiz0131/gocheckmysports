@@ -1,71 +1,6 @@
 [
  {
   "date": "2026-07-25",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "Alabama NIL content director arrested in human trafficking sting",
-    "category": "compliance",
-    "reasons": [
-     "The title frames the arrest as part of a 'human trafficking sting' when the brief and body clearly state Suttles was arrested for 'solicitation of prostitution'\u2014a distinct charge. The operation targeted human trafficking, but Suttles' specific charge does not equate to human trafficking involvement. This mischaracterization conflates the operation's purpose with the individual's alleged crime and risks legal exposure by implying a connection not established in the brief.",
-     "The body states 'The incident implicates NIL infrastructure...in serious legal and reputational exposure' and 'raises questions about institutional oversight, vetting practices, and safeguards.' These are editorial opinion/analysis statements that exceed the factual record in the brief and read as speculation about institutional failure rather than reporting on what the brief supports."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "Norris Takes First 2026 Pole at Hungary as Penalties Reshuffle Grid",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Lewis Hamilton, the defending champion' but the brief's open_questions flag uncertainty: 'Whether Hamilton is the defending champion of the 2025 season or another designation.' This claim is not solidly confirmed in the brief and should not appear as settled fact.",
-     "The draft states 'Kimi Antonelli, the current championship leader' but the brief's open_questions flag uncertainty: 'Antonelli's current points standing and whether he is leading the championship.' This claim is not confirmed in the brief and should not appear as settled fact."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "Wildfires Force Tour Final Stage Shortening as Pogacar Closes In on Fifth Title",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Pogacar is 'positioned to claim a record-equalling fifth Tour de France title' but the brief data_points only confirm he is 'a four-time Tour de France victor.' The claim that a fifth would be 'record-equalling' is new information not in the brief and requires verification of the all-time record.",
-     "The draft claims 'Pogacar holds what The Guardian describes as a huge lead after Alpe d'Huez' but this paraphrases a brief data_point that simply states 'Pogacar holds a huge lead after Alpe d'Huez' with no attribution to The Guardian. The in-line attribution is inaccurate to the source structure."
-    ]
-   },
-   {
-    "id": "c099",
-    "headline": "2026 WNBA All-Star Game in Chicago",
-    "category": "clarity",
-    "reasons": [
-     "The draft itself declares in the bottom_line that it cannot move to publication and is missing critical information (date, time, TV channel, rosters, etc.). A draft that explicitly states it is incomplete should not be submitted for approval. The writer has punted rather than completed the work. The brief is thin (thin=true, only 2 data_points), which means the correct output is a tight, focused story on what exists\u2014not a confession of incompleteness in the bottom_line slot."
-    ]
-   },
-   {
-    "id": "c084",
-    "headline": "McColgan to miss Glasgow Games defence after foot fracture",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims McColgan 'will miss the 2026 Commonwealth Games' without qualification, but the brief data does not state this explicitly\u2014it only states she will miss the '10,000m defence.' The draft generalizes her absence to the entire Games, while the brief is narrower (the 10,000m event specifically). Additionally, the brief's core_claim specifies 'insufficient recovery from a foot fracture' but the draft states 'will miss\u2026due to insufficient recovery' without attribution or source confirmation that this reason has been officially stated. The bottom_line acknowledges the timeline and exact diagnosis are unaddressed, yet the draft presents the injury as the decisive cause without that clarity in the source material."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "Patriots offer Gonzalez record cornerback contract; negotiations ongoing",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Gonzalez is 'entering his fourth season in the NFL,' but the brief data_point says he was 'selected No. 17 overall in the 2023 NFL draft.' A 2023 draft pick would be entering his fourth season in 2026, which is factually consistent with the brief's timestamp of 2026-07-25. However, the brief also states 'he has two years remaining on his contract,' which contradicts a fourth-season player's typical contract structure. The draft does not reconcile this inconsistency and relies on the brief's internal contradiction. More critically, the draft claims 'Trent McDuffie of the Los Angeles Rams' holds the record, but the brief does not specify McDuffie's team. This fact (Rams) is smuggled into the draft without brief support."
-    ]
-   },
-   {
-    "id": "c129",
-    "headline": "Commonwealth Games day two: McColgan withdraws; Australia leads netball",
-    "category": "accuracy",
-    "reasons": [
-     "The draft introduces information not present in the brief: it states 'Cameron McEvoy, the reigning Olympic champion at 50 meters, finished second in his heat on day two.' The brief's data_point confirms McEvoy is 'the reigning Olympic champion at 50m' and 'finished second in his heat,' but the draft adds the descriptor 'on day two,' which is not explicitly stated in the brief data_point and constitutes a temporal claim not sourced to the research brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
   "approved": 6,
   "rejected": [
    {
@@ -9025,6 +8960,77 @@
      "However, the core liability: the draft is built on a brief marked 'thin: true' with only 4 data_points, all skeletal, and open_questions that explicitly list 'The specific trigger or legal claim underlying the LSU-SEC dispute' and 'What rule or regulation LSU is alleged to have violated' as unknown. The draft's opening paragraph ('The dispute carries significant consequences: possible game forfeiture and potential conference expulsion hang in the balance') presents stakes without any context on what the dispute IS. The second paragraph then admits ('The reporting does not specify the underlying legal claim... The sources also do not detail the SEC's stated position or defense') that the story has no substance. This is a story structured to look like journalism while admitting it is incomplete reporting. The draft would read as a rumor-launch piece if the hearing changed or was postponed. A thin brief with open core questions should either be rejected outright or reframed as a 'watch this space' stub; this draft tries to have stakes without stakes.",
      "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday",
      "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c128",
+    "headline": "Cowser's defensive play lifts Orioles to .500",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim as 'announced-not-verified' confidence, meaning the game-ending home run robbery itself has not been independently verified. The draft presents this as settled fact without any hedging language or confidence marker. The draft should indicate that the play is reported/announced but not yet verified by independent sources.",
+     "The draft reports no game date, final score, inning, or batter details\u2014all of which are verifiable facts that should appear if the story is to be complete. The brief identifies these as open questions due to source text truncation. The draft cannot safely run without establishing when the game occurred, because readers need to know if this is a current event or a historical reference."
+    ]
+   },
+   {
+    "id": "c269",
+    "headline": "UCLA fires athletic director Martin Jarmond, replaces him with Tim Harris from Lakers",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 1, 2026 as a Monday; September 1, 2026 is a Tuesday",
+     "the draft dates September 6, 2026 as a Saturday; September 6, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Cubs hit nine homers in win vs. Brewers, cap record August with 62",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Alex Bregman hit his third home run of the game, which came off Brewers position player Andrew Vaughn.' This is contradictory and misleading: the brief confirms Bregman hit three homers and that Vaughn was a position player who pitched, but the phrasing 'which came off Brewers position player Andrew Vaughn' suggests Vaughn threw only Bregman's third home run, when the brief does not specify which of Bregman's three homers came off Vaughn. This conflates multiple facts and creates a false impression of specificity.",
+     "The draft attributes the nine-homer game and 62-homer August record to 'MLB.com' twice, but does not specify which game or date beyond 'Monday night.' The brief's open_questions note that 'The date of the game is given only as Monday night without a specific date.' Today is Tuesday, September 2, 2026. The draft states the game happened 'on Monday night,' which would be September 1, 2026\u2014yesterday. This is correct timing, but the attribution and dateline are unclear enough that a reader cannot verify the claim independently. The opening 'on Monday night, according to MLB.com' does not link to a specific URL or article, creating ambiguity about source verification."
+    ]
+   },
+   {
+    "id": "c203",
+    "headline": "Packers GM: Micah Parsons \"pretty close\" to returning after four-game absence",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Gutekunst stated at a press conference on Tuesday, September 2,' but today is Tuesday, September 2, 2026 (the date provided in the preamble). A press conference scheduled for today has not yet occurred as of the approval timestamp. The brief data_point timestamp is '2026-09-01T14:45:00Z' (September 1 at 2:45 p.m. UTC), which is in the past, so the event appears to have occurred on Monday, September 1, not Tuesday, September 2. The draft has the date wrong: the press conference was on Monday, not Tuesday.",
+     "The draft's bottom_line states 'Parsons is eligible to return in Week 5 at the earliest,' but the brief says he will 'miss the first four games' and Gutekunst said he would be 'pretty close' after that period. 'After the first four games' means Week 5 is the earliest, which the draft states correctly, but this is inference from the brief, not a new fact. However, the draft then adds 'with the Cowboys game in Week 6 as his self-stated target,' which is correct per the brief, and the bottom_line reads forward appropriately.",
+     "the draft dates September 2, 2026 as a Tuesday; September 2, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c62",
+    "headline": "Clark Sets Three WNBA Records as Fever Beat Sun (August 31)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The specific records Clark set were not detailed in available reporting' and 'did not specify which statistical categories or benchmarks were involved.' This amounts to narrating the absence of information from the source, which violates the accuracy rule: the writer is forbidden from explaining what the brief does not contain. The brief itself flags this as an open_question ('What are the three specific WNBA records Clark set in the game?'), confirming the source material does not provide the detail. The story should either report the records if the source supplies them, or not run. Running it to confess the source is incomplete is not a fix."
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "Red Sox activate Story and Anthony from injured list; duo fuels walk-off win vs. Mariners",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Story and Anthony combined for the winning play in the extras, providing an immediate impact for Boston.' The brief's data point says 'Story and Anthony combined for a walk-off win versus the Mariners in extras' but does not specify they combined for THE winning play itself\u2014it only states both contributed. The phrase 'combined for the winning play' is a specific factual claim (that their actions together produced the final out/run) that goes beyond what the brief supports. The brief acknowledges the source text is truncated and full game details are missing.",
+     "The draft states this as fact without hedging, but the brief's open_questions explicitly flag that 'the specific roles of Story and Anthony in the winning play' are not provided in the source."
+    ]
+   },
+   {
+    "id": "c26",
+    "headline": "Djokovic loses US Open first round to Navone; questions rise about Grand Slam future at 37",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains a substantive counter-claim: BBC explicitly cautioned that Djokovic has 'made a fool of those who have doubted him before,' citing his documented 2018 comeback pattern, and that predictions of decline warrant skepticism based on his record.",
+     "The draft does report this counter-claim in the third paragraph ('BBC Sport cautioned that Djokovic has \"made a fool of those who have doubted him before...\"'), but places it at the very end of the body after the narrative has already framed the first-round loss as raising serious questions about his Grand Slam future.",
+     "The structure and emphasis make the skepticism about decline predictions feel like a weak coda rather than a genuine alternative framing to the 'questions rise about Grand Slam future' headline and lead. A reader finishing the first two paragraphs would form the impression that Djokovic's decline is the dominant story; the bear case arrives too late to meaningfully balance that framing.",
+     "The headline itself ('questions rise about Grand Slam future at 37') does not signal the internal challenge to that framing, and the body's lead sentence reinforces decline-focused narrative before the counter-evidence appears."
     ]
    }
   ]
