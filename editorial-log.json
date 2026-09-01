@@ -1,43 +1,5 @@
 [
  {
-  "date": "2026-07-25",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c009",
-    "headline": "Perez breaks Brett's Kansas City franchise home-run record",
-    "category": "accuracy",
-    "reasons": [
-     "Core claim in brief states Brett's record was 317, but draft states it was 194. The brief's own open_questions flag acknowledges ambiguity about Brett's final franchise total. The draft presents 194 as Brett's franchise record without qualification, but the brief data_point explicitly notes '194 homers (not 317 as stated in core claim revision needed).' This is a critical factual discrepancy that was not resolved before drafting. The title 'breaks Brett's Kansas City franchise home-run record' is undermined by the body stating Perez passed '194 homers'\u2014readers will be confused about what the actual record was."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Alabama NIL director arrested in human trafficking operation",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents allegations and charges as settled fact without adequate qualification of legal status. Suttles is alleged to have paid $100 for sexual activity (reported, not adjudicated), yet the draft states this as though confirmed. The headline 'arrested in human trafficking operation' and the framing throughout treats the allegations as established fact rather than pending legal proceedings. The brief itself flags open_questions about 'specific charges Suttles faces beyond solicitation' and whether he has 'made any statement or plea,' indicating the legal posture is unresolved. A reader could interpret this as reporting guilt before any trial or plea. The bottom_line attempts to hedge with 'pending legal proceedings,' but the body has already crossed that line. This creates liability exposure if charges are dropped or dramatically different facts emerge in court."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Ankalaev dominates Guskov in five-round stoppage, positions for title talk",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ankalaev said he would take an \"angry\" approach into the bout after sitting with the disappointment of his loss to Pereira for nine months' in the bear_case data_point, but this claim does not appear in the draft body. More critically, the draft contains the claim 'Ankalaev said through an interpreter: \"I was out for a long time, now I'm back and I'm going to start my hunt for the thing I lost,\"' which is paraphrased as 'Ankalaev said through an interpreter after the win, \"I was out for a long time, now I'm back and I'm going to start my hunt for the thing I lost,\" per ESPN'\u2014this exact quote appears in the brief data_points. However, the draft also includes a separate quote: '\"He wasn\u2019t engaging in the striking. I was trying to find him but he kept getting away. I\u2019ve said this before, when a striker comes out against me in a fight, I have to go hunt and find them,\"' which is in the brief but the draft does not clearly attribute it as Ankalaev's post-fight statement versus pre-fight commentary, creating ambiguity about timing and context that could mislead readers about when this statement was made."
-    ]
-   },
-   {
-    "id": "c97",
-    "headline": "Story cannot be drafted due to insufficient source material",
-    "category": "accuracy",
-    "reasons": [
-     "Draft body states 'the fetched CBS Sports source page does not contain substantive details' but the brief shows data_points is empty ([]). The draft is narrating research failure rather than reporting a story. The core_claim is too thin to support article prose: only that 'CBS Sports published a guide' with no facts, figures, dates, times, venues, or broadcast details extracted. A story cannot be written from a failed research fetch; this should be returned to research before drafting begins, not submitted as a draft."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-26",
   "approved": 6,
   "rejected": [
@@ -9038,6 +9000,53 @@
     "reasons": [
      "The draft states that Scheffler 'has earned more than $130 million in his PGA Tour career, according to CBS Sports, surpassing Tiger Woods on the all-time earnings list.' The brief's single data_point confirms Scheffler earned 'more than $130 million' (confidence: 'reported'). However, the draft presents the claim that Scheffler 'surpassing Tiger Woods on the all-time earnings list' as fact. The brief's core_claim does include 'surpassing Tiger Woods on the all-time money list,' but this claim is not backed by a separate data_point with a source attribution in the brief. The core_claim is a synthesis, and the only sourced data_point is the $130 million figure. The draft attributes the earnings figure to CBS Sports but does not separately confirm that the comparison to Woods is sourced. The draft cannot add the Woods-comparison claim without explicit data_point sourcing.",
      "The brief is marked 'thin: true' with only one data_point. The draft adds the comparative claim (surpassing Woods) without it appearing as a separate, sourced data_point in the brief, violating the rule that no fact exists outside the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c212",
+    "headline": "SEC escalates legal action against LSU with federal court hearing set for September 4",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'federal court hearing scheduled for September 4' but today is Tuesday, September 1, 2026. September 4 is Thursday (three days away), which is future tense, yet the draft's title uses 'escalates legal action against LSU with federal court hearing set for September 4' phrasing that is appropriate for a future event. However, the body states 'with a federal court hearing scheduled for September 4 that could result in game forfeiture, expulsion, or other sanctions before the Clemson game in Week 1' as fact. The brief's core_claim says 'federal court hearing Thursday' without specifying the date. The draft correctly presents this as scheduled/upcoming (not as having occurred), so this is not a date error. However, the core problem is that the draft introduces multiple unsubstantiated claims not in the brief: 'game forfeiture, expulsion, or other sanctions before the Clemson game in Week 1' and 'Clemson game in Week 1' are not in any data_point. The brief's single data_point says 'possible forfeiture of games, a legal challenge in federal court and even expulsion' but does not mention the Clemson game or Week 1 timing as a constraint. The draft smuggles in the Clemson game reference without brief support.",
+     "The draft states the hearing 'could result in game forfeiture, expulsion, or other sanctions before the Clemson game in Week 1' but the brief does not establish that the Clemson game is the temporal boundary for these sanctions. This is new factual assertion not in the brief.",
+     "The second paragraph of the draft begins 'The specifics of the alleged violations are not detailed in available reporting' and lists multiple unknowns. This violates the rule against narrating absence: the writer is forbidden from narrating what is unreported as a way to pad a thin story. The open_questions in the brief should not be rewritten as narrative statements in the draft."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "England women chase record 282 to beat Ireland in ODI series opener",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'England scored 283-4 in 38.1 overs, completing the pursuit with 11.5 overs remaining' but this arithmetic does not appear in any data_point in the brief. The brief says 'England won with 11.5 overs to spare' (separate data_point) but does not calculate or state the overs bowled. The draft infers 38.1 overs from 11.5 overs remaining (50 - 11.5 = 38.5, close to 38.1) but this calculation is not in the brief. It is a smuggled inference.",
+     "The draft states 'Rebecca Stokell scored 54 not out' but the brief's data_point says 'Rebecca Stokell scored 54 not out off 48 balls.' The draft omits the ball count. More critically, the draft later states 'Ireland posted 281-5 in 50 overs, led by Gaby Lewis (Ireland's captain) with 69 off 89 balls and Amy Hunter with 62 off 90 balls. Lewis and Hunter combined for a 136-run second-wicket partnership. Rebecca Stokell scored 54 not out, and Murray took 3-58 for Ireland.' This sentence structure implies Stokell's 54 not out was part of Ireland's 281-5 final total and is sequenced as a batting contribution, but provides no context for when/where in the order Stokell batted. The brief data_point is silent on Stokell's position in the batting order or partnership context. The draft presents batting detail (54 not out) as a narrative contribution to Ireland's total without brief support for how it integrated into the team's innings.",
+     "The draft states 'Ireland's bowling lacked threat and fielding was sloppy in the middle overs without Bell and Ecclestone contributing to England's defense.' This sentence is grammatically confused and factually backwards: Bell and Ecclestone are England players (rested), not Ireland players. The brief's bear_case says 'England's bowlers lacked threat in the middle overs without Lauren Bell and Sophie Ecclestone' but the draft attributes this to Ireland's bowling. This reverses a key bear_case claim.",
+     "The draft states 'Murray took 3-58 for Ireland' but the brief lists this as a data_point without naming which Murray or providing any context. The draft asserts this as fact without attribution or explanation of who Murray is (pace bowler? Ireland cricketer?)."
+    ]
+   },
+   {
+    "id": "c139",
+    "headline": "Orioles hold on at Coors Field as Cowser makes game-ending catch, September 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Colton Cowser made a game-ending catch in the bottom of the ninth inning with runners on base' but the brief's open_questions explicitly flag that the inning, runners on base, score, and play details are not available in the source. The draft presents details as fact when the brief documents they are unknown.",
+     "The brief notes 'the source text is severely truncated and does not contain the play details or final score,' yet the draft narrates specific circumstances (ninth inning, runners on base) as established fact rather than as unavailable information.",
+     "The bottom_line acknowledges the details are 'not available in the reporting,' directly contradicting the body's presentation of those same details as confirmed."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Packers GM confirms Musgrave expected to play in 2026 but will begin on PUP list",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's own open_questions state: 'The fetched source text for the primary URL contains only a question fragment... and does not carry the substantive reporting described in the snippet; the actual details of Musgrave's injury, PUP list placement, and timeline come only from the snippet text, not from retrieved source material.' This means the draft is built on unverified secondary-source data, not primary reporting.",
+     "The brief documents that 'No official Packers statement, injury report, or league documentation was provided in the source texts to independently verify the PUP list status or the four-game minimum.' The draft presents these as confirmed facts despite lack of independent verification in the primary source.",
+     "The boundary_ok field is explicitly false with reasoning that the 'at least the first four games' language does not appear verbatim in the source, yet the draft body includes this claim as fact."
     ]
    }
   ]
