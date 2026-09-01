@@ -4,37 +4,6 @@
   "approved": 8,
   "rejected": [
    {
-    "id": "c103",
-    "headline": "WNBA players raise concerns about Commissioner Engelbert at All-Star Weekend",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Players voiced concerns about their relationship with Commissioner Cathy Engelbert during WNBA All-Star Weekend in Chicago, according to CBS Sports' reporting.' However, the brief contains only one data_point: 'Players spoke about their relationship with Commissioner Cathy Engelbert at WNBA All-Star Weekend in Chicago.' The data_point does not attribute this reporting to CBS Sports or specify what 'spoke about' means. The draft presents this as a confirmed report from CBS Sports when the brief's single data_point is thin and does not establish attribution clearly enough to support the phrasing 'according to CBS Sports' reporting.' Additionally, the brief is marked 'thin: true' with only one data_point and no detail on what concerns were actually voiced, making the draft's confident framing a liability\u2014it reads as though a substantive story exists when the brief shows only a rumor or unconfirmed claim."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "Former NFL Guard Jordan Devey Dies at 38; Family Confirms Suicide",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents the family's suspicion of CTE as a medical statement without sufficient attribution or clarity that this is unconfirmed speculation. The sentence 'his mother believes he suffered from CTE' crosses into health/medical claim territory about a deceased person's condition; the brief explicitly flags this as an open question ('No statement from medical professionals or officials confirming...') and the draft should have more clearly signaled the speculative nature and family attribution. The phrase 'the family believed he suffered from CTE' in the next sentence helps, but the opener reads too definitive for an unverified medical claim about a sensitive matter."
-    ]
-   },
-   {
-    "id": "c140",
-    "headline": "Waratahs claim third consecutive Super W title with 34-17 win over Drua in Fiji",
-    "category": "accuracy",
-    "reasons": [
-     "The brief includes a data_point claiming 'The Waratahs produced a scintillating performance that defied their detractors' (confidence: reported), but the draft never references this claim or any criticism/doubt the Waratahs faced prior to the grand final. The draft instead uses the softer language 'Waratahs vindicate themselves against doubters' in the angle but does not bring this into the body prose, leaving the reported fact unrepresented.",
-     "The draft states the venue 'offered no competitive advantage to the hosts' and claims Drua 'were unable to leverage their minor-premiership status or home-ground setting,' but the brief contains no data_point supporting this narrative interpretation. The draft is editorializing beyond the reported facts."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
-  "approved": 8,
-  "rejected": [
-   {
     "id": "c029",
     "headline": "LeBron James Signs With 76ers, Ending Month-Long Free-Agency Drama",
     "category": "compliance",
@@ -9017,6 +8986,41 @@
     "reasons": [
      "No research brief was provided for this story. Per the hard rule of the desk (no fact exists outside the brief), every factual claim in the draft must trace to a data_point in the research brief. Without a research brief, no facts can be authenticated or approved for publication.",
      "The draft itself is a rejection notice, not a story. Resubmission with a complete research brief (core_claim, angle, data_points with source_url and confidence labels, bear_case, open_questions) is required before any draft can be evaluated."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c119",
+    "headline": "Cubs Set NL Monthly Home-Run Record with 62 in August",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Alex Bregman 'hit multiple home runs' in a nine-homer game, but the brief data_point specifies only that 'Alex Bregman hit his third home run in the game.' The draft inflates the claim beyond what the brief supports; the brief does not say how many total homers Bregman hit, only that one was his third.",
+     "The phrase 'a nine-homer game in which Alex Bregman hit multiple home runs' reads as though Bregman hit multiple of those nine, which is not confirmed by the brief. The brief states one of Bregman's homers came off Vaughn (position player), and separately that Bregman hit his third; the draft conflates these into unsupported multiplicity."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Alcaraz Returns in US Open First Round After Four-Month Absence, August 31",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states 'August 31' but today is Tuesday, 2026-09-01. A match on August 31 is a past event and should be reported as completed (which it is). However, the instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' This draft reports an event dated BEFORE today (August 31 vs. today September 1), so it is correct to report it as completed. No accuracy violation on the date direction.",
+     "The draft body states the match 'marked Alcaraz's first competitive appearance since April, ending a four-month absence' which traces to the brief data_points: 'The match was Alcaraz's first since April' and 'Alcaraz was absent with a four-month injury lay-off.' Both are reported confidence.",
+     "Score 6-4, 6-4, 6-4 traces to brief with 'verified-on-chain' confidence.",
+     "Wrist injury is mentioned in draft body ('due to a wrist injury') but the brief's open_questions note 'The specific nature of the wrist injury is not stated in the sources.' The draft says the injury was a 'wrist injury' which is more specific than the sources confirm. The brief does not explicitly state the injury type in any data_point\u2014it only says 'four-month absence' and lists as an open question that 'The specific nature of the wrist injury is not stated.' This is a SMUGGLED FACT: the draft claims a wrist injury when the brief never confirms the injury type."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Djokovic loses US Open first round to Navone",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Djokovic lost to 'world No. 49 Navone' and that it was 'a five-set match,' but the brief explicitly flags in open_questions that 'The source does not identify the opponent or confirm the match was against world No. 49 Navone' and 'The source does not confirm the match was a five-set marathon or provide the final score.' These details are not in the source material and are smuggled into the draft.",
+     "The draft states Djokovic is '37 years old' but the brief notes in open_questions that 'The source does not state Djokovic's current age explicitly (only the headline claims 37).' The age is stated as fact in the body when it is only in the headline of the source, not confirmed in the text."
     ]
    }
   ]
