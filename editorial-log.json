@@ -1,54 +1,6 @@
 [
  {
   "date": "2026-07-25",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c101",
-    "headline": "Azzi Fudd wins WNBA 3-point shooting contest, challenges Steph Curry",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Fudd challenged Steph Curry to a rematch' but the brief's data_point says she challenged him to a 'rematch' (in quotes), which implies prior context. The brief's open_question explicitly asks 'What prior interaction between Fudd and Curry does the 'rematch' language reference?' This context is missing from both the brief and the draft\u2014the brief itself does not establish whether there was a prior match. The draft presents the challenge as fact without acknowledging this ambiguity, creating a potential accuracy problem: a 'rematch' presupposes a first match that is not confirmed in the research."
-    ]
-   },
-   {
-    "id": "c103",
-    "headline": "Michael Kim shoots 59 at 3M Open, world No. 1 falls off pace",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Kim's 59 is the 15th sub-60 round in PGA Tour history,' but the brief's data_point says only 'Michael Kim's 59 joins a historic club of PGA Tour golfers to achieve a sub-60 round' without specifying the number 15. The brief's open_questions note: 'No confirmation of the exact number of sub-60 rounds in PGA Tour history or details about prior 59-shooters is provided in the provided source text.' The writer has smuggled in the specific ordinal ranking (15th) from outside the brief.",
-     "The draft refers to 'the world No. 1' without naming the player. While the brief data_point confirms the world No. 1 fell out of the top 10, the draft's vagueness ('the world's top-ranked player can mount a comeback') in the bottom_line lacks attribution and clarity about who this refers to, creating potential factual ambiguity."
-    ]
-   },
-   {
-    "id": "c040",
-    "headline": "Mahomes cleared for full camp participation after ACL, LCL surgery",
-    "category": "accuracy",
-    "reasons": [
-     "Dr. Dan Cooper is described as 'the Dallas Cowboys' head team physician who performed the ACL and LCL repair surgery.' The brief states he 'performed Mahomes' ACL and LCL repair surgery' but does not specify his role or affiliation with Dallas. Attributing a specific title and team affiliation ('Dallas Cowboys' head team physician') that is not in the brief data_points is a smuggled fact; the writer cannot infer professional affiliations beyond what the source reports."
-    ]
-   },
-   {
-    "id": "c162",
-    "headline": "Austin FC academy under police, FBI investigation over sexual abuse allegations",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents allegations of 'sexual abuse within the club's youth system' and states 'Multiple players in Austin FC's youth academy are under investigation' without clarifying the nature of the abuse. The brief's core claim specifies 'youth-on-youth sexual abuse,' a material distinction that must appear in the prose given the sensitivity of child safeguarding allegations. Presenting an unqualified 'sexual abuse' claim risks mischaracterizing the nature of the investigation and misleading readers about institutional accountability vs. peer misconduct."
-    ]
-   },
-   {
-    "id": "c136",
-    "headline": "Premier League transfer window snapshot: early deals and unfilled needs",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Arsenal, the defending champion under Mikel Arteta, has seen Leandro Trossard depart during the window' and 'Norwich City has brought in Christos Tzolis for 24 million pounds.' While these claims appear in the brief's data_points, the brief itself notes the source material is 'primarily navigation markup and template code with no substantive content about Premier League transfer business.' The core_claim explicitly states the source cannot be verified as substantive reporting. Publishing factual claims sourced only to a page that is navigation markup, not reporting, is a serious accuracy violation.",
-     "The brief marks confidence as 'reported' but flags the source as containing no substantive content\u2014a contradiction that indicates the data_points themselves may not derive from actual reporting but rather from metadata or incomplete source capture. A draft should not be published when the research brief itself indicates the underlying source material is compromised."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
   "approved": 8,
   "rejected": [
    {
@@ -8992,6 +8944,67 @@
      "The draft makes multiple specific factual claims: (1) Josh Jacobs was placed on commissioner's exempt list by the NFL, (2) the placement occurred 'Sunday' (implied Aug 31, 2026), (3) it was triggered by 'misdemeanor charges related to alleged domestic abuse', (4) the 53-player roster deadline was 6 p.m. ET, (5) Jacobs plays for the Packers. None of these can be traced to a research brief.",
      "This is a reputationally damaging claim about a named person (domestic abuse allegations). Per the desk's rule, such a claim requires more than one source or on-record primary sourcing. A single secondary source (Front Office Sports) is insufficient for allegations of misconduct against a named individual.",
      "The story cannot proceed without a research brief and without additional sourcing on the misconduct allegation itself."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c071",
+    "headline": "Djokovic loses first US Open first round; Williams falls to Kenin after latest tournament start on August 31",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line states 'Djokovic's Friday first-round exit at the US Open' but the match occurred on August 31, which is a Sunday, not Friday. This is a factual error not present in the brief.",
+     "The bottom_line refers to 'a second consecutive tournament loss to unranked qualifiers,' but the brief confirms Navone is ranked No. 49, not unranked. This contradicts both the draft body and the brief's own data_points."
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Hrgovic defeats favored Itauma by ninth-round TKO to claim heavyweight title on August 29",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Filip Hrgovic defeated favored Moses Itauma by ninth-round TKO on August 29' and 'to claim the vacant IBF heavyweight title,' but the brief's open_questions explicitly note: 'Was this fight for a world title, and if so, which sanctioning body or belts were on the line? The snippet says vacant IBF heavyweight title but the provided source text does not confirm this detail.' The writer smuggled in the IBF title claim without source confirmation.",
+     "The draft reports Itauma 'had compiled stoppage wins over Mariusz Wach, Dillian Whyte, and Jermaine Franklin' and that 'Yahoo Sports notes those opponents were past their prime or overmatched.' This characterization is editorial interpretation (the bear_case notes) presented as factual reporting. The brief's data_points state only that 'Itauma had stoppage wins over Mariusz Wach, Dillian Whyte, and Jermaine Franklin prior to the Hrgovic fight' with no annotation about whether those opponents were past prime. The phrase 'but Yahoo Sports notes' falsely attributes editorial judgment to the source."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Josh Jacobs Placed on Commissioner's Exempt List",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (Front Office Sports), but critical factual claims\u2014specifically the nature of the 'misdemeanor charges related to alleged domestic abuse'\u2014cannot be verified against the source URL provided. The draft makes a reputationally damaging allegation against a named individual (Josh Jacobs) regarding domestic abuse without a verifiable secondary source or on-record primary statement in the source material. Per the liability rule: 'A reputationally damaging claim about a named person needs more than one source. A specific allegation of misconduct against a named individual carried on a single secondary source is category compliance.' Without the brief to confirm what the Front Office Sports article actually contains, and with only one source cited for a serious personal allegation, this story cannot be approved.",
+     "The draft presents the charge as 'misdemeanor charges related to alleged domestic abuse' without attribution inline to the sourcing document or confirmation that the source contains this specific language. A single secondary source carrying a personal misconduct allegation is insufficient."
+    ]
+   },
+   {
+    "id": "c265",
+    "headline": "Reese sets WNBA single-season double-double record in Dream's win over Lynx, August 31",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Reese recorded her 29th double-double of the season on August 31, breaking the WNBA single-season record,' but the brief's data_point says 'Angel Reese set a new WNBA record with her 29th double-double this season' with confidence 'verified-on-chain.' The draft does not make clear that 29 is the new record total itself, not the number of double-doubles before the record-breaking one. This phrasing is ambiguous enough to be misleading: it reads as if the 29th event broke the record, when the brief confirms that reaching 29 total IS the record.",
+     "The draft states 'Reese's record-breaking double-double surpassed the previous single-season mark' without naming or identifying what that previous mark was. The bottom_line signals this is an open question ('The identity of the previous single-season record holder and the exact margin by which Reese surpassed it can be confirmed'), so the draft should not present the surpassing as settled fact without that context\u2014it reads as filling in a gap the brief leaves open."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "LSU's Kiffin awaits Thursday court ruling on former NFL players before following SEC orders",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'A Louisiana judge has cleared a path for select players to gain an extra year of eligibility' but the brief's data_point is 'A Louisiana judge cleared the path for select players to gain an extra year of eligibility'\u2014nearly identical. However, this is presented as settled fact in the draft's opening, when the brief itself lists as an open question 'What does 'extra year of eligibility' mean under the Louisiana judge's ruling\u2014does it apply only to Wright and Harris or to a broader class of players?' The draft treats this as established and clear; the brief signals it remains unresolved.",
+     "The draft refers to 'select players' and the core claim names 'Dae'Quan Wright and Zxavian Harris,' but the brief's open_questions ask 'What is Zxavian Harris's professional background, and when was he signed by LSU?' This indicates Harris's details were not solidified at writing. The draft does not mention Harris by name at all in the body, only Wright\u2014which understates the scope claimed in the brief's core claim.",
+     "The draft states 'SEC Commissioner Greg Sankey initially offered a strong statement opposing the signings, though the conference later changed course and allowed Wright to play as of the report's writing' but this conflates the brief's bear_case description ('SEC Commissioner Greg Sankey issued a strong statement opposing LSU's signings, though the conference later changed course and allowed Wright to play') with narrative certainty. The brief marks this 'reported' confidence, and the open_questions ask 'Has the court hearing already occurred, and if so, what was the ruling?'\u2014signaling timeline uncertainty. The draft's framing ('initially...though later changed') imposes a sequence that may not hold if the hearing outcome changes the status."
+    ]
+   },
+   {
+    "id": "c250",
+    "headline": "Cale Makar signs eight-year extension with Colorado Avalanche through 2034-35",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core claim states Makar is 'the highest-paid player in NHL history,' a critical data point marked as 'reported' confidence. The draft completely omits this fact. The brief lists it as a core element of the angle; its absence is a material factual gap.",
+     "The brief's open_questions section flags that 'The exact dollar amount of the extension (stated in headline as $163.2M/$20.4M/yr) does not appear in any of the provided source texts; verify this figure independently.' The draft's title and body make no mention of contract value, which is correct per the brief's instruction\u2014but this means the story's news hook (record-breaking deal) cannot be established from the sources provided. The story reads as incomplete rather than verified."
     ]
    }
   ]
