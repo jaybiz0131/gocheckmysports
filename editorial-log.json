@@ -1,62 +1,6 @@
 [
  {
   "date": "2026-07-25",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c175",
-    "headline": "2026 WNBA All-Star Game held in Chicago",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The 2026 WNBA All-Star Game took place on July 25 in Chicago, per Yahoo Sports' reporting' but the brief's open_questions explicitly note that 'The source text fetched is corrupted or incomplete and contains only navigation menu markup; the actual roster and lineup details are not present in the provided source material.' The writer has presented the date and location as confirmed fact when the brief indicates the source was corrupted and unusable. This violates the hard rule that no fact exists outside the brief\u2014the brief itself flags that the source did not deliver verifiable information."
-    ]
-   },
-   {
-    "id": "c040",
-    "headline": "Kraft confirms record offer to Gonzalez: highest-paid cornerback ever, franchise history",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'On the first play of full-team drills, Maye threw an incompletion to Brown in man coverage against Gonzalez.' The brief data_point says 'Maye threw an incompletion to Gonzalez covering receiver A.J. Brown in man coverage'\u2014meaning Gonzalez was covering Brown, not that Maye threw to Brown. The draft reverses the coverage assignment and misidentifies the receiver."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Spencer Jones agrees to $12M offer sheet with Thunder; Nuggets have match option through Sunday",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Jones is ready to move on, the reporting indicates' as a characterization of his intent to leave Denver. The brief lists this as a data_point ('Jones is ready to move on from Denver after two seasons') marked 'reported,' but the phrasing in the draft\u2014'is ready to move on'\u2014suggests internal motivation or player preference rather than what the source actually reports. The brief's open_questions explicitly flag 'The circumstances of why Jones is ready to leave after two seasons are not explained beyond the Nuggets' tax situation,' indicating the source does not establish Jones' own readiness or desire. This claim goes beyond the brief's evidence and reads as an inference about player intent not supported by the reporting cited."
-    ]
-   },
-   {
-    "id": "c039",
-    "headline": "49ers coach Kyle Shanahan limited in camp after July 14 car crash; breaks nose, ribs, hand; severe concussion",
-    "category": "compliance",
-    "reasons": [
-     "The draft opens with a health/injury claim\u2014'suffered multiple significant injuries in a car crash' and detailed medical information (fractured ribs, broken nose, hand, severe concussion, 40+ stitches)\u2014presented as settled fact. The brief's data_points show the source is ESPN reporting, not an official medical statement or on-record diagnosis from Shanahan, the 49ers, or medical professionals. The draft presents medical determinations ('broke his nose, three ribs, and his hand,' 'severe concussion') as factual verdicts without attribution to medical records or official injury reports. Per compliance rules, health/injury claims must trace to official injury reports or on-record statements; speculation or third-party characterization of a player's medical state beyond the official record violates the standard. The details of Shanahan's injuries should either be attributed inline to the source's reporting (e.g., 'per ESPN's reporting, Shanahan broke...') or flagged as reported-but-unverified if the source itself does not cite medical professionals."
-    ]
-   },
-   {
-    "id": "c139",
-    "headline": "Scotland's Eilish McColgan pulls out in latest blow for Commonwealth Games",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states McColgan 'announced on Saturday' but the brief data_point specifies the Guardian reported on July 25 (Saturday). The draft does not clarify that the withdrawal announcement itself occurred on Saturday vs. the Guardian's reporting date being Saturday. The distinction matters for accuracy: the draft should either specify 'announced Saturday, reported by The Guardian on July 25' or rely only on The Guardian's reporting date.",
-     "The draft claims 'The specific reason for McColgan's withdrawal was not disclosed in the reported announcement' but this is editorializing about absence of information rather than reporting what was disclosed. The brief's open_question identifies this as unknown, not as a fact to state in prose. The sentence reads as the writer filling a gap, not tracing to the brief."
-    ]
-   },
-   {
-    "id": "c168",
-    "headline": "Messi can skip All-Star Game after grueling World Cup, says MLS",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Messi will not be required to play in next week's All-Star Game' and later says 'Messi's exemption' as though a decision has been made. The brief's open_question explicitly flags: 'Will Messi definitely skip the All-Star Game, or is participation still under discussion between his club and the league?' The draft presents a policy exemption as a definitive personal decision about Messi's participation. The correct framing is that an agreement exists; whether Messi will invoke it is still open.",
-     "The draft claims the agreement 'specifies that upon a player's exit from World Cup competition, clubs would have individual conversations about All-Star Game participation rather than enforcing mandatory league play.' This level of specificity about what the agreement 'specifies' is not in the brief's data_point, which says clubs 'would have individual conversations' but does not detail the full scope or structure of the agreement. The draft is overspecifying from a thin source."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
   "approved": 7,
   "rejected": [
    {
@@ -9031,6 +8975,69 @@
      "The draft does report this counter-claim in the third paragraph ('BBC Sport cautioned that Djokovic has \"made a fool of those who have doubted him before...\"'), but places it at the very end of the body after the narrative has already framed the first-round loss as raising serious questions about his Grand Slam future.",
      "The structure and emphasis make the skepticism about decline predictions feel like a weak coda rather than a genuine alternative framing to the 'questions rise about Grand Slam future' headline and lead. A reader finishing the first two paragraphs would form the impression that Djokovic's decline is the dominant story; the bear case arrives too late to meaningfully balance that framing.",
      "The headline itself ('questions rise about Grand Slam future at 37') does not signal the internal challenge to that framing, and the body's lead sentence reinforces decline-focused narrative before the counter-evidence appears."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c098",
+    "headline": "Stan Kroenke to acquire Los Angeles Angels from Moreno",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Stan Kroenke, through his holding company Kroenke Sports and Entertainment, has agreed to purchase the Los Angeles Angels' in the present perfect tense, treating the agreement as a settled fact. However, the brief's data_point for this claim is marked 'announced-not-verified,' meaning the announcement has been made but the underlying facts have not been independently confirmed. The draft must signal this uncertainty per the hard rule on confidence labels.",
+     "The draft also reports 'has purchased' in the title ('Stan Kroenke to acquire Los Angeles Angels from Moreno') which uses future tense correctly, but the body immediately contradicts this by saying 'has agreed to purchase,' conflating announcement with completion. The brief is explicit: this is an 'announced' deal pending closing in early 2027, not a completed purchase."
+    ]
+   },
+   {
+    "id": "c165",
+    "headline": "Cowser Home Run Robbery Wins Game for Orioles in 9th at Coors Field",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line references 'the 2026 FIBA World Cup break' in baseball context. FIBA is the International Basketball Federation and governs basketball, not baseball. The MLB does not have a 'FIBA World Cup break.' This is a factual error that does not trace to the brief. The brief does not mention a FIBA World Cup break in relation to the Orioles' remaining games; it only states 'Baltimore faces four remaining games after the 2026 FIBA World Cup break,' which appears to be copied from the draft. However, since the brief itself contains this error, the question is whether the draft perpetuates an error from the brief. The brief is the source document; if it contains an error, the draft faithfully reproduces it. But this is an accuracy problem either way: a FIBA World Cup in 2026 would be a basketball event, and MLB would not have a break for it. This is a factual inaccuracy about the calendar/sport that must be rejected."
+    ]
+   },
+   {
+    "id": "c185",
+    "headline": "Odell Beckham Jr. makes Giants 53-man roster after year away",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Beckham Jr. 'reunited with head coach John Harbaugh with the Giants,' but this claim does not appear in the brief's data_points. The brief lists five data_points, and Harbaugh's role or reunion is not among them. The writer has smuggled a fact not in the research brief.",
+     "This is a material factual claim (connection between player and coach) that requires source verification. The instruction is absolute: no fact exists outside the brief, and the writer never patches sourcing."
+    ]
+   },
+   {
+    "id": "c215",
+    "headline": "SEC announces legal challenge to Louisiana court ruling on former NFL players",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only ONE data_point: 'The conference plans to defend its right to punish coaches and schools for playing players who have signed pro contracts.' This is extremely thin sourcing (120 source characters).",
+     "The draft's opening sentence states 'The SEC announced it will legally challenge a Louisiana court order'\u2014but the brief's single data_point says only that the conference 'plans to defend its right.' 'Announce a legal challenge' is a stronger, more specific claim than 'plans to defend its right,' and the leap from 'defend' to 'will legally challenge' is not supported by the data_point as written.",
+     "The draft elaborates on the SEC's strategy, the nature of the dispute, and legal positioning in ways that exceed what the single, thin data_point carries. The writer has inferred and expanded beyond the research.",
+     "The brief lists six open_questions and identifies the source as extremely thin (thin: true). A draft this detailed from a 120-character source is unreliable."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Dabo Swinney criticizes NFL players joining college rosters, calls state of sport 'embarrassing'",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_point states: 'A court hearing is scheduled for Thursday that could determine if LSU can roster players who were on NFL teams this summer.' The draft states: 'A court hearing is scheduled for Friday, September 5, that could determine whether LSU can keep players who were on NFL rosters during the summer.' Thursday is September 4, 2026, not Friday, September 5. This is a direct factual error: the brief says Thursday, the draft says Friday. The brief's timestamp is 2026-09-01, so Thursday from that date would be September 4. Friday would be September 5. The draft is internally inconsistent with its own attribution\u2014it says 'Friday, September 5' but September 5, 2026 is actually a Friday (today is Tuesday, Sept 1; +4 days = Friday Sept 5). However, the brief explicitly says 'Thursday.' The draft contradicts the brief.",
+     "The draft also states Clemson-LSU open the season 'on Saturday, September 6' but the brief data_point says 'Clemson and LSU play each other to kick off the season on Saturday, Sept. 5.' This is a date mismatch: brief says Sept. 5, draft says Sept. 6. If today is Tuesday Sept 1, then Sept 5 is Friday and Sept 6 is Saturday. The brief says 'Saturday, Sept. 5' which would be incorrect (Sept 5 is Friday), but the draft must match the brief's data_point regardless of the calendar inconsistency in the brief itself.",
+     "the draft dates September 6, 2026 as a Saturday; September 6, 2026 is a Sunday",
+     "the draft dates September 5, 2026 as a Friday; September 5, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c204",
+    "headline": "Scottie Scheffler passes Tiger Woods on PGA Tour all-time earnings list with $130 million milestone",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Scheffler 'has earned more than $130 million in his PGA Tour career, according to CBS Sports, surpassing Tiger Woods on the all-time earnings list.' The brief's single data_point confirms Scheffler earned 'more than $130 million' (confidence: 'reported'). However, the draft presents the claim that Scheffler 'surpassing Tiger Woods on the all-time earnings list' as fact. The brief's core_claim does include 'surpassing Tiger Woods on the all-time money list,' but this claim is not backed by a separate data_point with a source attribution in the brief. The core_claim is a synthesis, and the only sourced data_point is the $130 million figure. The draft attributes the earnings figure to CBS Sports but does not separately confirm that the comparison to Woods is sourced. The draft cannot add the Woods-comparison claim without explicit data_point sourcing.",
+     "The brief is marked 'thin: true' with only one data_point. The draft adds the comparative claim (surpassing Woods) without it appearing as a separate, sourced data_point in the brief, violating the rule that no fact exists outside the brief."
     ]
    }
   ]
