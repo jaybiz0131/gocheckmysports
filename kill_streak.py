@@ -66,6 +66,28 @@ def _published(since_date=""):
     return out
 
 
+# A REFUSAL IS NOT A KILL (family audit 2026-09-02). When the writer was handed a
+# story with no usable brief it wrote its refusal AS the draft ("STORY REJECTED: Research
+# Brief Required", "STORY CANNOT BE DRAFTED: No brief supplied for ..."), the approver
+# killed that, and the ledger recorded a kill under the refusal's title. The streak
+# alarm then rang on developments named "STORY REJECTED: Research Brief Required" (6x on
+# the sports desk), and the spend breaker parked real stories behind them. The writer
+# no longer emits these (writer.validate drops them as sourcing failures); the ledger
+# reader ignores any that are still in the log.
+REFUSAL_RE = None
+
+
+def is_refusal_title(title):
+    global REFUSAL_RE
+    if REFUSAL_RE is None:
+        import re
+        REFUSAL_RE = re.compile(
+            r"^\s*(?:story\s+(?:rejected|cannot\s+be\s+drafted|not\s+drafted|withheld)|"
+            r"cannot\s+draft|no\s+(?:research\s+)?brief|draft\s+(?:refused|withheld)|"
+            r"unable\s+to\s+draft|insufficient\s+(?:brief|source))\b", re.I)
+    return bool(REFUSAL_RE.search(str(title or "")))
+
+
 def _recent_kills():
     import datetime
     cutoff = (datetime.date.today() - datetime.timedelta(days=RECENT_DAYS)).isoformat()
@@ -75,7 +97,7 @@ def _recent_kills():
         if d < cutoff:
             continue
         for r in e.get("rejected") or []:
-            if r.get("headline"):
+            if r.get("headline") and not is_refusal_title(r["headline"]):
                 kills.append({"date": d, "headline": r["headline"],
                               "category": r.get("category", "?"),
                               "reasons": [str(x) for x in (r.get("reasons") or [])]})
@@ -276,8 +298,12 @@ def main():
         print("kill_streak: no unbroken kill streaks at threshold "
               f"{STREAK_N} in the last {RECENT_DAYS} days.")
         return 0
+    # ADVISORY, SO A WARNING (family audit 2026-09-02): this check "never blocks
+    # anything" by its own charter, yet it annotated every run with one ::error:: per
+    # live streak, six to ten red lines on green runs, and the owner read every run as
+    # failed. The digest issue below is the alarm; the annotation is the pointer to it.
     for g in hits:
-        common.gh("error",
+        common.gh("warning",
                   f"kill_streak: '{g[-1]['headline'][:70]}' killed {len(g)}x "
                   f"consecutively ({g[0]['date']}..{g[-1]['date']}) with no publish; "
                   f"the desk is abandoning a development it owns.")

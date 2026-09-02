@@ -70,6 +70,17 @@ def append():
         "pinged": os.environ.get("PINGED") == "true",
         "run": os.environ.get("RUN_ID", ""),
     }
+    # the edition's outcome for the slot (family audit 2026-09-02): synthesis, a
+    # sentence-repaired synthesis, the digest floor, skip, abstain, or failed, so the
+    # ledger answers "how often does the synthesis actually clear" as a lookup
+    try:
+        _ws = json.load(open(os.path.join(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__))), "out", "wrap-status.json"), encoding="utf-8"))
+        row["wrap"] = _ws.get("mode", "")
+        if _ws.get("repairs"):
+            row["wrap_repairs"] = len(_ws["repairs"])
+    except Exception:
+        pass
     number = month_issue_number(repo, token, now.strftime("%Y-%m"))
     call(f"{API}/repos/{repo}/issues/{number}/comments", token, {"body": json.dumps(row)})
     print(f"ops ledger: appended to issue #{number}: {json.dumps(row)}")

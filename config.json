@@ -568,19 +568,22 @@
     "name": "ESPN College Football",
     "tier": "major",
     "url": "https://www.espn.com/espn/rss/ncf/news",
-    "note": "Carries the enforcement and eligibility reporting the other two miss: the SEC ex-pro eligibility ruling was on this feed and nowhere else the desk reads."
+    "note": "Carries the enforcement and eligibility reporting the other two miss: the SEC ex-pro eligibility ruling was on this feed and nowhere else the desk reads. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
+    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=40"
    },
    {
     "name": "ESPN NFL",
     "tier": "major",
     "url": "https://www.espn.com/espn/rss/nfl/news",
-    "note": "Added alongside the college feeds for the season run-up: roster cutdowns, waivers and injury reporting land here first."
+    "note": "Added alongside the college feeds for the season run-up: roster cutdowns, waivers and injury reporting land here first. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
+    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=40"
    },
    {
     "name": "ESPN Tennis",
     "tier": "major",
     "url": "https://www.espn.com/espn/rss/tennis/news",
-    "note": "Dedicated slam lane (2026-08-31 audit: US Open Day 1 ranked out because tennis had no feed of its own and competed through the general lanes on the busiest weekend of the calendar). Live-verified serving items under the desk UA before wiring."
+    "note": "Dedicated slam lane (2026-08-31 audit: US Open Day 1 ranked out because tennis had no feed of its own and competed through the general lanes on the busiest weekend of the calendar). Live-verified serving items under the desk UA before wiring. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
+    "fallback_api": "https://now.core.api.espn.com/v1/sports/news?sport=tennis&limit=40"
    },
    {
     "name": "Google News: college football",
@@ -802,5 +805,9 @@
    }
   }
  },
- "top_n_note": "Raised 8 -> 12 (owner directive 2026-08-20, 'we have to get the news out'). The editor ranks top_n stories per run and roughly half die at the approver, so 8 capped a run at about 4 published and pushed real news below the line: the day the desk missed an overnight missile barrage and a ballistic-missile launch it also ranked only 8 candidates. Budget headroom is real, a typical run costs $0.15-0.30 against a $1.50 fail-closed cap, and the cap still governs."
+ "top_n_note": "Raised 8 -> 12 (owner directive 2026-08-20, 'we have to get the news out'). The editor ranks top_n stories per run and roughly half die at the approver, so 8 capped a run at about 4 published and pushed real news below the line: the day the desk missed an overnight missile barrage and a ballistic-missile launch it also ranked only 8 candidates. Budget headroom is real, a typical run costs $0.15-0.30 against a $1.50 fail-closed cap, and the cap still governs.",
+ "edition": {
+  "fallback_digest": true,
+  "note": "EDITION FLOOR (family audit 2026-09-02): when the synthesis fails its gates after the deterministic sentence cuts and the Sonnet rescue, wrap.py publishes a plain digest built only from the desk's own published, verified stories (edition_repair.digest_edition) so the slot is served, the recovery net stops re-firing the whole pipeline, and the reader gets the day's verified news. Set false to restore fail-closed-to-silence."
+ }
 }

@@ -334,6 +334,7 @@ def layer1_canary():
     fails.extend(_dedupe_guard_canary())
     fails.extend(_boundary_canary())
     fails.extend(_merge_state_canary())
+    fails.extend(_edition_repair_canary())
 
     # fail-closed canaries
     fails.extend(_failclosed_canaries(cfg))
@@ -624,6 +625,58 @@ def _dedupe_guard_canary():
            "dedupe: main() is judging the editor's headline again rather than the writer's "
            "title; the string checked must be the string shipped")
     return fails
+
+def _edition_repair_canary():
+    """The edition floor (family audit 2026-09-02): sentence-grain cuts of what the
+    trace checker flagged, belt repairs at the same grain, and the digest built only
+    from published stories. Each must refuse when it would damage the product."""
+    import edition_repair as er
+    import wrap as wrapmod
+    fails = []
+    body = ("The first paragraph carries a real fact from the inputs. It also carries "
+            "an invented figure of 412 goals that no input supports. A third sentence "
+            "closes the paragraph honestly.\n\n"
+            + "The second paragraph is long enough to keep the body over the floor once a "
+              "sentence is cut, so the repair is legal rather than refused. " * 6)
+    obj = {"hook_title": "A day of results and one invented number", "dek": "A dek.",
+           "key_takeaway": "k", "body": body,
+           "bottom_line": "The theme was results. The checkpoints are Friday's slate."}
+    new, cuts = er.excise_claims(
+        obj, ["It also carries an invented figure of 412 goals that no input supports."])
+    _check(new is not None and cuts == 1 and "412 goals" not in new["body"], fails,
+           "edition repair: a flagged sentence was not cut cleanly")
+    _check(er.excise_claims(obj, ["a claim that appears nowhere in this edition"])[0] is None,
+           fails, "edition repair: an unlocatable claim must refuse the cut")
+    _check(er.excise_claims(obj, ["The theme was results.",
+                                  "The checkpoints are Friday's slate."])[0] is None,
+           fails, "edition repair: hollowing out The Bottom Line must refuse")
+    short = dict(obj, body="One short paragraph with the invented figure of 412 goals. Two.")
+    _check(er.excise_claims(short, ["invented figure of 412 goals"])[0] is None, fails,
+           "edition repair: a cut that leaves the body under the floor must refuse")
+
+    def belts(o):
+        return wrapmod.belts(str(o.get("body", "")), str(o.get("dek", "")),
+                                     str(o.get("bottom_line", "")))
+    dirty = dict(obj, bottom_line=obj["bottom_line"] + " The favorite is poised to rally.")
+    _check(belts(dirty), fails, "edition repair: the lane belt did not fire on the fixture")
+    fixed, _ = er.belt_repair(dirty, belts, er.sentence_probe(belts))
+    _check(fixed is not None and not belts(fixed) and "poised" not in fixed["bottom_line"],
+           fails, "edition repair: a lane violation was not cut at sentence grain")
+
+    stories = [{"title": f"Story {i} headline", "summary": "A verified summary sentence. "
+                "Another sentence with a number, 12.", "key_fact": f"Key fact {i}.",
+                "first_paragraphs": ["First paragraph of the story, verified and published."],
+                "bottom_line": "The next checkpoint is the filing deadline on September 9.",
+                "date": "2026-09-0" + str(1 + i % 2), "url": f"/articles/s{i}.html"}
+               for i in range(6)]
+    dg = er.digest_edition(stories, belts, wrapmod.bottom_line_lint)
+    _check(dg is not None and dg.get("digest") is True and not belts(dg)
+           and er.word_count(dg["body"]) >= er.MIN_BODY_WORDS, fails,
+           "edition repair: the digest floor did not build a belts-clean edition")
+    _check(er.digest_edition([], belts, wrapmod.bottom_line_lint) is None, fails,
+           "edition repair: a digest with no stories must be None")
+    return fails
+
 
 def _merge_state_canary():
     """Lock the resolution rules for the file(s) two overlapping publishes always collide on.

@@ -77,13 +77,22 @@ def gather_sources(story, mode):
     # entry carries the publisher's own words, the desk verifies and briefs from those,
     # labeled as exactly that. The page always wins when any page was readable, and the
     # fallback never stacks on top of real text, so source_chars stays honest.
-    if checks and all(len(c.get("source_text") or "") < 200 for c in checks) \
-            and len(feed_text) >= 150:
+    # THIN, NOT ONLY EMPTY (family audit 2026-09-02). The fallback fired only when
+    # EVERY page was unreadable, so one 130-char og:description from a client-rendered
+    # shell counted as "a page was read" and the publisher's 2,000-char feed text was
+    # thrown away; the brief was built from 130 chars, the writer starved, the approver
+    # killed. When what was read totals under READABLE_FLOOR, the feed text rides too,
+    # labeled as exactly what it is, and source_chars counts it honestly.
+    READABLE_FLOOR = 1200
+    _read = sum(len(c.get("source_text") or "") for c in checks)
+    if checks and _read < READABLE_FLOOR and len(feed_text) >= 150 \
+            and not any(feed_text[:200] in (c.get("source_text") or "") for c in checks):
         checks.append({"url": (story.get("source_urls") or [""])[0], "http_status": None,
                        "source_text": feed_text[:6000], "text_origin": "feed",
-                       "fetch_meta": "publisher feed text; no article page was readable",
-                       "text_excerpt": ("(no article page could be read; what follows is "
-                                        "the publisher's own feed text for this story) "
+                       "fetch_meta": "publisher feed text; the article pages read thin or unreadable",
+                       "text_excerpt": ("(the article pages read thin or could not be read; "
+                                        "what follows is the publisher's own feed text for "
+                                        "this story) "
                                         + feed_text)[:1500]})
     return checks
 

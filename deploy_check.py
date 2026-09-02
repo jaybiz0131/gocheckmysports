@@ -25,7 +25,7 @@ import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ORIGIN = "https://gocheckmysports.com"
-TIMEOUT_MIN = 8
+TIMEOUT_MIN = 12   # 8 -> 12 (family audit 2026-09-02): a queued free-tier Netlify build is not a failed deploy; a red run over a slow CDN is noise
 POLL_SECONDS = 30
 
 

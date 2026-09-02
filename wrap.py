@@ -35,6 +35,7 @@ import re
 import sys
 
 import common
+import edition_repair
 import llm as llmlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -225,7 +226,13 @@ def check(client, obj, stories, boards, extras=None, edition_date=None):
             '"kind": "absent"|"contradicted"|"advice"|"register", '
             '"evidence": "<for contradicted: ONLY the conflicting input text QUOTED '
             'VERBATIM, word for word, with no commentary or reasoning of your own; '
-            'for absent: a short note; otherwise the offending words>"}]}. '
+            'for absent: a short note; otherwise the offending words>", '
+            '"stands": <true|false: your verdict on THIS item alone, decided AFTER '
+            'writing why. false whenever your own reasoning concludes the inputs '
+            'support, carry, or permit the claim, including characterization, '
+            'synthesis, or a through-line built from facts the inputs carry; true '
+            'only when a specific fact is genuinely missing or contradicted, or the '
+            'language is advice or hype in the desk\'s own voice>}]}. '
             "An edition with nothing wrong returns {\"problems\": []}. List ONLY "
             "problems; never list things the edition got right. If you are unsure "
             "whether a specific fact traces to the inputs, list it as a problem.\n"
@@ -329,6 +336,19 @@ def check(client, obj, stories, boards, extras=None, edition_date=None):
     inputs_words = set(inputs_text.split())
     screened = []
     for p in v["problems"]:
+        # THE ITEM'S OWN VERDICT COMES FIRST (family audit 2026-09-02). Every phrase
+        # list below was written after a slot died on a self-refuting item ("this is
+        # supported paraphrase", "all cited facts align with source material",
+        # "permitted under connecting and synthesizing"), and every new wording got
+        # past them. The checker now writes its reasoning and THEN says whether the
+        # item stands; an item the checker itself withdraws is dropped here, before
+        # any word list, and the lists stay as the backstop for a checker that
+        # forgets the field.
+        _st = p.get("stands", True)
+        if _st is False or str(_st).strip().lower() == "false":
+            print(f"::notice::wrapcheck: dropped item the checker itself withdrew "
+                  f"(stands=false: {str(p.get('claim'))[:80]!r})")
+            continue
         if p["kind"] == "register":
             # ATTRIBUTED NEWS IS NOT HYPE (2026-08-25). The register class exists to
             # catch panic or promotion in the DESK'S OWN voice; the checker instead
@@ -530,6 +550,12 @@ def check(client, obj, stories, boards, extras=None, edition_date=None):
                  + f"EDITION STATEMENT: {str(p.get('claim', ''))[:400]}\n"
                  "Do the excerpts carry this statement's substance (the same fact in any "
                  "format; dates and numbers count as the same fact in any format)? "
+                 "Synthesis is permitted in this edition: if the statement is a "
+                 "characterization, a through-line, or an interpretation built from "
+                 "facts the excerpts carry, rather than a NEW specific fact (a new "
+                 "number, name, date, event, or outcome), answer supported=true. Answer "
+                 "supported=false ONLY when the statement asserts a specific checkable "
+                 "fact the excerpts do not carry. "
                  'Respond ONLY with JSON: {"supported": true|false, "why": "<one '
                  'sentence>"}.')
             def _abs_shape(o):
@@ -588,6 +614,9 @@ def check(client, obj, stories, boards, extras=None, edition_date=None):
                + (f" [{p['evidence']}]" if str(p.get("evidence", "")).strip() else "")
                + (f" ({p.get('why')})" if str(p.get("why", "")).strip() else "")
                for p in v["problems"]]
+    # the surviving claims ride along verbatim so main() can cut exactly those
+    # sentences (edition_repair.excise_claims) instead of losing the slot
+    check.last_claims = [str(p.get("claim") or "") for p in v["problems"]]
     return not v["problems"], reasons
 
 
@@ -660,9 +689,30 @@ def main():
             now = now - datetime.timedelta(hours=now.hour + 1)
     elif cron in CRON_SLOT:
         edition = CRON_SLOT[cron]
-        # an evening cron that drifts past midnight still belongs to its own day
-        if edition == "evening" and now.hour < 5:
+        # A cron that drifts past midnight still belongs to its OWN day, for ALL three
+        # slots, judged by the cron's own scheduled hour (ported from the crypto desk
+        # 2026-09-02; it had never reached this desk): a fire earlier in the day than
+        # the cron's hour can only mean the fire wrapped past midnight (crons never
+        # fire early). The old evening-only <05:00 anchor missed both halves of this:
+        # a midday cron firing at 01:26 published the NEXT day's afternoon brief 15
+        # hours early (consuming the real slot), and an evening cron firing at 06:52
+        # targeted the next day's evening. The evening brief still publishes onto its
+        # own day; a wrapped morning or midday fire is a slot whose day has ENDED, so
+        # it stands down instead of writing itself onto the next day.
+        try:
+            cron_hour = int(cron.split()[1])
+        except (IndexError, ValueError):
+            cron_hour = None
+        if cron_hour is not None and now.hour < cron_hour:
             now = now - datetime.timedelta(hours=now.hour + 1)
+            if edition != "evening":
+                print(f"wrap: cron {cron!r} fired past midnight; the {edition} slot's "
+                      f"own day ({now.date().isoformat()}) has ended -> skip")
+                common.write_out("wrap-status.json", {"edition": edition,
+                                                      "date": now.date().isoformat(),
+                                                      "mode": "skip",
+                                                      "reasons": ["cron wrapped past midnight"]})
+                return 0
     elif now.hour < 5:
         edition = "evening"
         now = now - datetime.timedelta(hours=now.hour + 1)  # anchor date to the slot's day
@@ -689,6 +739,8 @@ def main():
     final_path = os.path.join(CONTENT, f"{date}-{EDITIONS[edition]['slug']}.json")
     refreshing = os.path.exists(final_path)
     if not dry and refreshing and not breaking:
+        common.write_out("wrap-status.json", {"edition": edition, "date": date,
+                                              "mode": "skip", "reasons": ["already served"]})
         print(f"wrap: {EDITIONS[edition]['name']} already published today -> skip"); return 0
 
     stories = gather_stories()
@@ -699,6 +751,9 @@ def main():
         common.gh("warning", "wrap: no published stories in the window; the edition "
                              "abstains this slot. If this repeats, the edition-gap gate "
                              "will fail the run.")
+        common.write_out("wrap-status.json", {"edition": edition, "date": date,
+                                              "mode": "abstain",
+                                              "reasons": ["no published stories in window"]})
         return 0
     # Desk boards were retired with the market modules; the edition synthesizes the desk's
     # own published stories, and the prompt treats absent boards as simply not citable.
@@ -720,6 +775,14 @@ def main():
     cfg = common.load_config()
     client = llmlib.Client(cfg)
     system = common.load_prompt("wrap.md")
+    # one outcome record per slot (out/wrap-status.json): mode synthesis|digest|failed,
+    # the repairs applied, and the reasons; the ops ledger and the workflow read it
+    status = {"edition": edition, "date": date, "mode": "synthesis", "repairs": [],
+              "reasons": []}
+
+    def _belts_fn(o):
+        return belts(str(o.get("body", "")), str(o.get("dek", "")),
+                     str(o.get("bottom_line", "")))
     # TELL THE WRITER WHAT DAY IT IS (2026-08-31: the sibling desks' Sunday Aug 30
     # morning briefs said 'Friday' because the model inferred 'today' from the input
     # stories' own datelines, and a slow weekend window is dominated by Friday
@@ -755,40 +818,106 @@ def main():
         probs = belts(str(o.get("body", "")), str(o.get("dek", "")),
                       str(o.get("bottom_line", "")))
         if probs:
+            # THE EDITION IS NOT THE SENTENCE (family audit 2026-09-02): a belt hit is
+            # cut at sentence grain before a paid rung is spent restating it. The cut
+            # cannot invent anything; a belt the cut cannot clear still climbs the
+            # ladder exactly as before.
+            repaired, cut = edition_repair.belt_repair(
+                o, _belts_fn, edition_repair.sentence_probe(_belts_fn))
+            if repaired is not None:
+                print(f"::notice::wrap: repaired a belt failure by cutting {cut} "
+                      f"sentence(s) ({'; '.join(probs)[:160]})")
+                status["repairs"].append(f"belt: cut {cut} sentence(s)")
+                o.update(repaired)
+                probs = []
+        if probs:
             raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
         return o
 
-    obj = client.call_json("wrap", system, user, validate=wrap_shape)
-    # Independent trace check (needs the inputs, so it lives outside the ladder): one
-    # corrective retry through the full ladder, then fail closed.
-    for attempt in (1, 2):
-        ok, reasons = (True, [])
-        if client.mode == "live":
-            ok, reasons = check(client, obj, stories, boards or {}, edition_date=date)
-        if ok:
-            break
-        if attempt == 2:
-            common.gh("error", f"wrap: edition failed its trace check twice "
-                      f"({'; '.join(reasons[:4])}) -> NOT published (stories unaffected)")
-            common.write_out("wrap-rejected.json", {"edition": edition, "obj": obj,
-                                                    "reasons": reasons})
+    # THE FLOOR UNDER THE GUARANTEED EDITION (family audit 2026-09-02). Between Aug 25
+    # and Sep 2 the three desks filed 40+ "Edition stage failed" issues, and the run
+    # logs showed the trace checker withdrawing its own objections in its reasoning
+    # while the slot died anyway, after a Haiku attempt and a Sonnet rescue. The
+    # order is now: synthesis -> deterministic sentence cuts of exactly what the
+    # checker flagged -> the Sonnet rescue -> cuts again -> a plain digest of the
+    # desk's own published stories. Every rung after the first is deterministic or
+    # already-verified text, so nothing below the synthesis can invent a fact, and
+    # the slot is served, which also stops the watcher re-firing the whole story
+    # pipeline every 30 minutes for a slot the stories already filled.
+    def _trace(o):
+        if client.mode != "live":
+            return True, [], []
+        ok_, reasons_ = check(client, o, stories, boards or {}, edition_date=date)
+        return ok_, reasons_, list(getattr(check, "last_claims", []) or [])
+
+    obj, failure = None, ""
+    try:
+        cand = client.call_json("wrap", system, user, validate=wrap_shape)
+        for attempt in (1, 2):
+            ok, reasons, claims = _trace(cand)
+            if ok:
+                obj = cand
+                break
+            # cut first when the damage is small (a few sentences); a rescue rewrite
+            # trades one error surface for another, which the kill streaks proved
+            if attempt == 2 or len(claims) <= 3:
+                repaired, cut = edition_repair.excise_claims(cand, claims)
+                if repaired is not None:
+                    common.gh("notice", f"wrap: repaired the edition by cutting {cut} "
+                                        f"sentence(s) the trace check flagged; the rest "
+                                        f"publishes ({'; '.join(reasons)[:200]})")
+                    status["repairs"].append(f"trace: cut {cut} sentence(s) on attempt {attempt}")
+                    obj = repaired
+                    break
+                print(f"::notice::wrap: could not repair by cutting ({cut})")
+            if attempt == 2:
+                failure = f"trace check failed twice ({'; '.join(reasons[:4])})"
+                status["reasons"] = reasons
+                common.write_out("wrap-rejected.json", {"edition": edition, "obj": cand,
+                                                        "reasons": reasons})
+                break
+            # the corrective rewrite runs on the rescue model (stage wraprescue, Sonnet):
+            # three same-day editions died on legit catches with Haiku retrying Haiku
+            cand = client.call_json("wraprescue", system, user
+                                    + "\n\nYour previous attempt failed the fact-trace "
+                                      "check; fix exactly these and return the full "
+                                      "JSON again:\n- " + "\n- ".join(reasons),
+                                    validate=wrap_shape)
+    except llmlib.LLMError as e:
+        failure = f"model stage failed: {e}"
+        status["reasons"] = [str(e)]
+
+    if obj is None:
+        status["mode"] = "digest"
+        fallback = (cfg.get("edition") or {}).get("fallback_digest", True)
+        dg = edition_repair.digest_edition(stories, _belts_fn, bottom_line_lint) \
+            if fallback else None
+        if dg is None:
+            status["mode"] = "failed"
+            common.write_out("wrap-status.json", status)
+            common.gh("error", f"wrap: {failure} and no digest could be built -> NOT "
+                               f"published (stories unaffected)")
             return 1
-        # the corrective rewrite runs on the rescue model (stage wraprescue, Sonnet):
-        # three same-day editions died on legit catches with Haiku retrying Haiku
-        obj = client.call_json("wraprescue", system, user
-                               + "\n\nYour previous attempt failed the fact-trace check; "
-                                 "fix exactly these and return the full JSON again:\n- "
-                               + "\n- ".join(reasons), validate=wrap_shape)
+        common.gh("warning", f"wrap: synthesis did not clear its gates ({failure[:300]}); "
+                             f"publishing the digest edition built from the desk's own "
+                             f"published stories so the slot is served. Read "
+                             f"out/wrap-rejected.json for the rejected synthesis.")
+        obj = dg
 
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    if obj.get("digest"):
+        item["digest"] = True
+    status["words"] = len(" ".join(item["body"]).split())
     if dry:
         common.write_out("wrap-preview.json", item)
+        common.write_out("wrap-status.json", status)
         print(f"wrap: DRY RUN {EDITIONS[edition]['name']} "
               f"({len(' '.join(item['body']).split())} words, {len(stories)} input stories) "
               f"-> out/wrap-preview.json")
         return 0
     json.dump(item, open(final_path, "w", encoding="utf-8"), indent=2)
-    print(f"wrap: published {EDITIONS[edition]['name']} "
+    common.write_out("wrap-status.json", status)
+    print(f"wrap: published {EDITIONS[edition]['name']} [{status['mode']}] "
           f"({len(' '.join(item['body']).split())} words) -> {os.path.relpath(final_path)} "
           f"[budget {client.budget.summary()}]")
     return 0

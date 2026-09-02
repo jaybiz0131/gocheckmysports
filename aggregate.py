@@ -38,6 +38,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 import urllib.parse
 from datetime import datetime, timezone, timedelta
@@ -224,12 +225,32 @@ def espn_api_fallback(f):
     return items
 
 
-def fetch(url, is_json=False):
+def fetch(url, is_json=False, retries=2):
+    """One feed fetch, with a short retry ladder (family audit 2026-09-02): a feed
+    that answers 503 or times out once was skipped for the whole run, and Google News
+    returned 503 on three feeds in one run (news desk, 2026-09-01), so a transient
+    blip cost the desk an entire discovery lane for that slot. 429/5xx/timeouts retry
+    twice with backoff; every other 4xx is final (a moved or dead feed)."""
+    import time as _t
     req = urllib.request.Request(url, headers={
-        "User-Agent": UA, "Accept": "application/json" if is_json else "application/rss+xml, application/xml, text/xml, */*"})
-    with urllib.request.urlopen(req, timeout=45) as resp:
-        data = resp.read()
-    return json.loads(data) if is_json else data
+        "User-Agent": UA,
+        "Accept": "application/json" if is_json else "application/rss+xml, application/xml, text/xml, */*",
+        "Accept-Language": "en-US,en;q=0.9"})
+    delay = 3.0
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as resp:
+                data = resp.read()
+            return json.loads(data) if is_json else data
+        except urllib.error.HTTPError as e:
+            if e.code not in (408, 429, 500, 502, 503, 504, 520, 521, 522, 524) \
+                    or attempt == retries:
+                raise
+        except (urllib.error.URLError, TimeoutError, OSError):
+            if attempt == retries:
+                raise
+        _t.sleep(delay)
+        delay *= 2
 
 
 def gather_rss(cfg, fixture=None):

@@ -92,7 +92,35 @@ def select(editor, verifier):
                     x.get("name", "") for x in (c.get("corroboration") or [])[:6]],
             }
         out.append(story)
+    # PUBLISHABLE STORIES ARE DRAFTED FIRST (family audit 2026-09-02). The budget
+    # breaker below stops drafting when the approver would starve, and the drafting
+    # order was the editor's rank, so a highly-ranked NEEDS-HUMAN-REVIEW story (which
+    # autopilot can never publish; it waits in a queue for a human) could consume the
+    # budget a lower-ranked VERIFIED story needed. Same set, same rank order within
+    # each group; VERIFIED simply goes first.
+    out.sort(key=lambda s: 0 if s.get("verdict") == "VERIFIED" else 1)
     return out
+
+
+def _is_refusal(draft):
+    """A 'draft' that is really the writer declining to write (see validate)."""
+    art = draft.get("article_draft") or {}
+    skel = draft.get("script_skeleton") or {}
+    title = str(art.get("title") or skel.get("headline") or "")
+    try:
+        from kill_streak import is_refusal_title
+        if is_refusal_title(title):
+            return True
+    except Exception:
+        pass
+    body = str(art.get("body") or "")
+    body = " ".join(body) if isinstance(body, list) else body
+    low = body.lower()
+    short = len(low.split()) < 80
+    return short and ("brief" in low) and any(
+        t in low for t in ("cannot be drafted", "cannot draft", "no research brief",
+                           "no brief", "brief was not", "brief is required",
+                           "brief required", "not provided", "insufficient"))
 
 
 def validate(obj, stories):
@@ -108,6 +136,22 @@ def validate(obj, stories):
         print(f"::warning::writer: dropped draft(s) with invented id(s): {alien} "
               f"(ids come only from the input)")
         obj["drafts"] = [d for d in obj["drafts"] if d.get("id") in ids]
+    # A REFUSAL IS NOT A DRAFT (family audit 2026-09-02). Handed a story with an empty
+    # or unusable brief, the writer sometimes returned its refusal AS the draft ("STORY
+    # REJECTED: Research Brief Required", "STORY CANNOT BE DRAFTED: No brief supplied
+    # for ..."). That went to the approver, was killed, and the kill was ledgered under
+    # the refusal's title: the sports desk's kill-streak digest carried "STORY REJECTED:
+    # Research Brief Required, killed 6x". A refusal is a sourcing failure: dropped here,
+    # never judged, never a kill; the story rolls to the next slot like a failed fetch.
+    refused = [d for d in obj["drafts"] if _is_refusal(d)]
+    if refused:
+        for d in refused:
+            common.gh("warning", f"writer: dropped a refusal returned as a draft for "
+                                 f"{d.get('id')} ({str((d.get('article_draft') or {}).get('title'))[:70]!r}); "
+                                 f"sourcing failure, not an editorial kill; it rolls to the next slot")
+        obj["drafts"] = [d for d in obj["drafts"] if d not in refused]
+        if stories and not obj["drafts"]:
+            return obj   # every draft was a refusal: nothing to judge, nothing to retry
     if stories and not obj["drafts"]:
         raise llmlib.LLMError(f"writer returned no drafts with valid ids "
                               f"(invented: {alien})" if alien else
@@ -214,6 +258,19 @@ def run(client=None):
             kept = []
             for s in chunk:
                 sc = (s.get("brief") or {}).get("source_chars")
+                _b = s.get("brief") or {}
+                if _b and not (_b.get("data_points") or []):
+                    # AN EMPTY BRIEF IS A RESEARCH FAILURE, NOT A WRITING JOB (family
+                    # audit 2026-09-02): the writer's universe of facts is the brief,
+                    # so a brief with zero data points can only yield a refusal or an
+                    # invention, and the approver killed both ("data_points array is
+                    # empty (length 0)", 54 source chars). Not drafted, not a kill.
+                    common.gh("warning",
+                              f"writer: NOT drafting '{str(s.get('headline'))[:60]}' "
+                              f"(the research brief carries no data points; nothing to "
+                              f"write from. Research failure, not an editorial kill; it "
+                              f"rolls to the next slot)")
+                    continue
                 if sc is not None and sc < MIN_SOURCE_CHARS:
                     common.gh("warning",
                               f"writer: NOT drafting '{str(s.get('headline'))[:60]}' "

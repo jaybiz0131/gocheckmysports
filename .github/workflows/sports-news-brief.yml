@@ -88,7 +88,26 @@ jobs:
         run: pip install --quiet Pillow || true
 
       - name: Offline canary (hard gate, blocks a mis-wired pipeline)
-        run: python3 verify_pipeline.py canary
+        # QUIET CANARY (family audit 2026-09-02). The canary deliberately exercises
+        # the fail-closed paths: publish refusing a replay-mode approval, the contract
+        # ladder climbing on 'nonsense'/'x'/'y', the editor missing 'ranked'. Each of
+        # those prints a ::error:: or ::warning:: line, and as workflow commands they
+        # became ANNOTATIONS on every run: a green run carried "publish: approval
+        # file is mode=replay ... Refusing to publish" and "editor: model output was
+        # not parseable JSON" at the top of its summary, which is how a real failure
+        # learned to hide in plain sight. stop-commands turns the canary's output
+        # into plain log lines for the duration of the step; a canary FAILURE still
+        # fails the step (non-zero exit) exactly as before.
+        run: |
+          token="canary-$RANDOM$RANDOM$RANDOM"
+          echo "::stop-commands::$token"
+          rc=0
+          python3 verify_pipeline.py canary || rc=$?
+          echo "::$token::"
+          if [ "$rc" != "0" ]; then
+            echo "::error::Offline canary FAILED (exit $rc): the pipeline is mis-wired; read the step log above. Nothing runs live until it passes."
+          fi
+          exit $rc
 
       - name: Detect whether the API key is configured
         id: key
@@ -259,6 +278,20 @@ jobs:
             echo "::error::daily edition failed its gates (exit $rc); stories publish normally and the final step will mark this run FAILED"
           fi
 
+
+      # THE OTHER HALF OF THE EDITION FLAG (family audit 2026-09-02): the step below
+      # opens "Edition stage failed" issues, the watcher opens "Missed edition", and
+      # edition_check opens "Edition gap"; nothing closed them, so the tracker held
+      # one stale issue per failed slot (25 on the crypto desk). A served slot
+      # closes them all with a note naming this run. Observability only.
+      - name: Clear the edition flags once an edition is served
+        if: always() && steps.wrap.outputs.rc == '0'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 scripts/close_edition_flags.py || true
 
       # THE MONITORING BELT, PROPAGATED (owner ruling 2026-08-03, fix 5: gates built on
       # the crypto desk over three weeks never reached this one; two of three desks ran
@@ -472,6 +505,8 @@ jobs:
             out/review_queue/
             out/approval_template.json
             out/run_report.json
+            out/wrap-status.json
+            out/wrap-rejected.json
           if-no-files-found: warn
 
       # A Netlify rebuild keeps the site fresh (datelines, feed) without committing data.

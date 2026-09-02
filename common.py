@@ -50,9 +50,40 @@ def fetch_text(url, timeout=25):
     return code, text
 
 
-def fetch_page_meta(url, timeout=25):
+# THE FETCH LAYER IS THE CONTENT LAYER (family audit 2026-09-02). The verifier's rule
+# is absolute: a source the desk could not READ can never be VERIFIED, and a story that
+# is not VERIFIED never auto-publishes. So every fetch that fails for a mechanical reason
+# is a story lost, and the run logs were full of mechanical reasons: CoinDesk answering
+# 429 to the sixth request in ten seconds, Google News 503 on three feeds in one run,
+# 200-byte challenge stubs, a 200KB read cap that cut PBS pages before their prose
+# closed. Three fixes, all honest (the desk's own UA, no disguises):
+#   - per-host spacing: at least HOST_GAP seconds between requests to one host, so a
+#     run reading twelve stories from one outlet is a polite reader, not a burst;
+#   - retry: 429 and 5xx and timeouts get two more tries with backoff (and Retry-After
+#     when the server names it); 4xx other than 429 are final, as before;
+#   - the headers a browser sends with every request (Accept, Accept-Language), which
+#     several CDNs require before they will serve the article markup at all.
+HOST_GAP = 1.2
+RETRY_STATUSES = {429, 500, 502, 503, 504, 520, 521, 522, 524}
+_LAST_HIT = {}
+
+
+def _polite_wait(url):
+    import time as _t
+    from urllib.parse import urlparse
+    host = (urlparse(url or "").netloc or "").lower()
+    if not host:
+        return
+    last = _LAST_HIT.get(host)
+    now = _t.monotonic()
+    if last is not None and now - last < HOST_GAP:
+        _t.sleep(HOST_GAP - (now - last))
+    _LAST_HIT[host] = _t.monotonic()
+
+
+def fetch_page_meta(url, timeout=25, retries=2):
     """Fetch a URL and return the WHOLE story of the fetch, never raising:
-    {status, final_url, content_type, bytes, body, error}.
+    {status, final_url, content_type, bytes, body, error, attempts}.
 
     WHY THIS EXISTS (owner report 2026-08-25): "0 chars" had become the desks' entire
     diagnostic. The blanket except below collapsed a 403 challenge, a paywall, a
@@ -60,26 +91,54 @@ def fetch_page_meta(url, timeout=25):
     could fix what the log did not name. An HTTPError in particular carries the real
     status and usually a challenge body; both are kept now.
     """
+    import time as _t
     meta = {"status": None, "final_url": url, "content_type": "", "bytes": 0,
-            "body": "", "error": ""}
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            raw = r.read(200000)
-            meta.update(status=r.getcode(), final_url=r.geturl() or url,
-                        content_type=r.headers.get("Content-Type", ""),
-                        bytes=len(raw), body=raw.decode("utf-8", "replace"))
-    except urllib.error.HTTPError as e:
+            "body": "", "error": "", "attempts": 0}
+    headers = {
+        "User-Agent": UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+    delay = 3.0
+    for attempt in range(retries + 1):
+        meta["attempts"] = attempt + 1
+        _polite_wait(url)
+        retry_after = None
         try:
-            raw = e.read(200000)
-        except Exception:
-            raw = b""
-        meta.update(status=e.code, final_url=getattr(e, "url", url) or url,
-                    content_type=(e.headers.get("Content-Type", "") if e.headers else ""),
-                    bytes=len(raw), body=raw.decode("utf-8", "replace"),
-                    error=f"HTTP {e.code}")
-    except Exception as e:
-        meta["error"] = f"fetch failed: {e}"
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                # 600KB, not 200KB (Kyiv-strike audit 2026-08-31): a live PBS NewsHour
+                # article runs ~262KB with its first closing </p> past byte 221,560,
+                # so the old cap cut every PBS page before its prose closed.
+                raw = r.read(600000)
+                meta.update(status=r.getcode(), final_url=r.geturl() or url,
+                            content_type=r.headers.get("Content-Type", ""),
+                            bytes=len(raw), body=raw.decode("utf-8", "replace"),
+                            error="")
+            return meta
+        except urllib.error.HTTPError as e:
+            try:
+                raw = e.read(200000)
+            except Exception:
+                raw = b""
+            meta.update(status=e.code, final_url=getattr(e, "url", url) or url,
+                        content_type=(e.headers.get("Content-Type", "") if e.headers else ""),
+                        bytes=len(raw), body=raw.decode("utf-8", "replace"),
+                        error=f"HTTP {e.code}")
+            if e.code not in RETRY_STATUSES:
+                return meta
+            try:
+                retry_after = float((e.headers or {}).get("Retry-After") or 0) or None
+            except (TypeError, ValueError):
+                retry_after = None
+        except Exception as e:
+            meta["error"] = f"fetch failed: {e}"
+        if attempt < retries:
+            wait = min(15.0, retry_after or delay)
+            print(f"  fetch: {meta.get('error') or 'error'} on {url[:80]}; retry "
+                  f"{attempt + 1}/{retries} in {wait:.0f}s")
+            _t.sleep(wait)
+            delay *= 2
     return meta
 
 
@@ -224,6 +283,41 @@ def extract_article_text(html_body, cap=6000):
     return _thin_fallbacks("\n".join(out), html_body)[:cap]
 
 
+def next_data_text(html_body, cap=6000):
+    """Prose embedded in a Next.js page's __NEXT_DATA__ JSON, or ''. Client-rendered
+    outlets (Decrypt, and the class that returns 200 with 130 extractable chars) ship
+    the article body inside this script block for hydration: the publisher's own text,
+    in the same response, invisible to a <p> scan. Strings that read as prose (long,
+    with sentences) are collected in document order; a malformed block yields ''."""
+    m = re.search(r'(?is)<script[^>]*id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+                  html_body or "")
+    if not m:
+        return ""
+    try:
+        data = json.loads(m.group(1).strip())
+    except Exception:
+        return ""
+    out, seen = [], set()
+    stack = [data]
+    while stack and sum(len(x) for x in out) < cap * 2:
+        node = stack.pop(0)
+        if isinstance(node, dict):
+            stack.extend(v for v in node.values() if isinstance(v, (dict, list, str)))
+        elif isinstance(node, list):
+            stack.extend(v for v in node if isinstance(v, (dict, list, str)))
+        elif isinstance(node, str) and len(node) >= 120:
+            t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", node)).strip()
+            if (t.count(". ") + t.count("? ") + t.count("! ") + (1 if t.endswith(".") else 0)) < 2:
+                continue
+            if "{" in t[:5] or t.lower().startswith(("http", "//")):
+                continue
+            if t in seen:
+                continue
+            seen.add(t)
+            out.append(t)
+    return "\n".join(out)[:cap]
+
+
 def _thin_fallbacks(text, html_body):
     """Server-side text the markup pass missed: the page's own JSON-LD articleBody, then
     its og:description. Both are the publisher's own words in the same response we already
@@ -234,6 +328,10 @@ def _thin_fallbacks(text, html_body):
         ld = ldjson_article_body(html_body)
         if len(ld) > len(text):
             text = ld
+    if len(text) < 400:
+        nd = next_data_text(html_body)
+        if len(nd) > len(text):
+            text = nd
     if len(text) < 200:
         og = og_description(html_body)
         if len(og) > len(text):

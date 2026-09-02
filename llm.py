@@ -264,10 +264,20 @@ class Client:
                                 f"return the same JSON more tersely")
         return text
 
-    def _post_with_retry(self, stage, req, attempts=4):
-        delay = 2
+    def _post_with_retry(self, stage, req, attempts=5):
+        """POST with backoff. Retryable: 429 (rate limit), 408, every 5xx including 529
+        (overloaded), and transport errors. Other 4xx are our fault and fail closed at once.
+
+        FIVE ATTEMPTS, 45 SECONDS OF PATIENCE (family audit 2026-09-02): the old
+        ladder was four tries at 2/4/8s, fourteen seconds end to end, and an overloaded
+        API answers 529 for longer than that. Every such window cost a whole stage, and
+        a failed stage costs the whole run (fail-closed), stories and edition both. A
+        run that waits a minute publishes; one that gives up in fourteen seconds does
+        not. Retry-After is honored when the server names it."""
+        delay = 3.0
         last = None
         for i in range(attempts):
+            retry_after = None
             try:
                 # claude-fable-5 thinks before answering (always on) and hard calls can run
                 # minutes; a short timeout would fail perfectly healthy requests.
@@ -276,14 +286,21 @@ class Client:
             except urllib.error.HTTPError as e:
                 code = e.code
                 detail = e.read().decode("utf-8", "replace")[:300]
-                # 4xx (except 429) are our fault: do not retry, fail closed immediately.
-                if code != 429 and 400 <= code < 500:
+                # 4xx (except 408/429) are our fault: do not retry, fail closed immediately.
+                if code not in (408, 429) and 400 <= code < 500:
                     raise LLMError(f"{stage}: HTTP {code} from Anthropic API -> failing closed: {detail}")
                 last = LLMError(f"{stage}: HTTP {code} from Anthropic API: {detail}")
+                try:
+                    retry_after = float((e.headers or {}).get("retry-after") or 0) or None
+                except (TypeError, ValueError):
+                    retry_after = None
             except Exception as e:
                 last = LLMError(f"{stage}: request failed: {e}")
             if i < attempts - 1:
-                time.sleep(delay)
+                wait = min(60.0, retry_after or delay)
+                print(f"::notice::{stage}: API call failed ({str(last)[:120]}); "
+                      f"retry {i + 1}/{attempts - 1} in {wait:.0f}s")
+                time.sleep(wait)
                 delay *= 2
         raise last
 
