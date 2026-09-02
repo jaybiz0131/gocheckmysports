@@ -1,58 +1,6 @@
 [
  {
   "date": "2026-07-26",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c003",
-    "headline": "Norris wins Hungarian Grand Prix in upgraded McLaren",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Norris achieved pole position with a strong qualifying performance' but the brief's open_questions section asks 'Did Lando Norris start from pole position or did grid penalties affect his starting position?' indicating pole position status was not confirmed in the source reporting. This fact is smuggled into the draft without brief support.",
-     "The draft claims 'Kimi Antonelli, the championship leader, ended fourth' but the brief's data point states 'Kimi Antonelli (title leader) finished in fourth place' only at confidence level 'verified-on-chain', not 'reported'. However, the more critical issue is that the opening of the draft introduces Antonelli as 'the championship leader' without any prior context, when the championship points gap is only revealed later. This creates a factual sequencing problem.",
-     "The draft states the upgraded McLaren is contested 'for the championship' but the brief does not establish that McLaren as a team is actively fighting for the constructor's championship or that this is the angle of competition being discussed. The angle focuses on Norris breaking his winless streak and delivering McLaren a victory, not necessarily that McLaren is championship-contending as an entity."
-    ]
-   },
-   {
-    "id": "c042",
-    "headline": "Caldwell-Pope to sign $3.9M deal with 76ers after Grizzlies buyout",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Caldwell-Pope 'will sign a one-year deal worth $3.9 million with the Philadelphia 76ers' as a definite future fact, but the brief's open_questions include 'Has Caldwell-Pope cleared waivers yet, or is the signing contingent on that process completing?' This indicates the signing is not yet finalized and contingent on waiver clearance. The draft presents announced terms as certain when the brief flags them as unconfirmed pending procedural completion.",
-     "The draft characterizes the timing as 'one day after the 76ers acquired LeBron James' but the brief's data_point states 'The Philadelphia 76ers signed LeBron James one day before acquiring Caldwell-Pope'\u2014a directional contradiction. The brief says James was signed first, then Caldwell-Pope acquired a day later (James then Caldwell-Pope), but the draft reads it as Caldwell-Pope signing after James (suggesting James acquisition happened first). This is a factual inversion that changes the narrative sequencing."
-    ]
-   },
-   {
-    "id": "c063",
-    "headline": "Errol Spence Jr announces retirement after losing to Tim Tszyu in Sydney",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The specific timeline of his three-year comeback bid, the circumstances and scoring margin of the Tszyu loss, and the timing and context of his retirement announcement are not detailed in available reporting.' This is meta-commentary about the brief's gaps, not a factual claim about the story. The sentence breaks the fourth wall and signals to readers that the writer lacks information\u2014a liability problem. Either report what is known from BBC Sport or do not publish. The draft should not advertise its own incompleteness.",
-     "The brief lists multiple open_questions ('When exactly did Spence Jr announce his retirement decision', 'How long had Spence Jr been attempting his comeback', 'What were the specific circumstances or scoring margin') but the draft does not address whether these were answered by BBC Sport or remain unknown. If BBC reported answers to any of these, they belong in the draft. If none are answered, the draft is too thin even for a brief brief\u2014it reads as a rumor confirmation, not reportage."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "Red Sox acquire Mead from Nationals in trade graded C and A- respectively; early deadline deal highlights swing-mechanics debate",
-    "category": "accuracy",
-    "reasons": [
-     "Early's OPS+ is stated as 126, but the brief does not specify whether this is a pitcher's offensive statistic or an error in the source data. Pitchers do not typically receive OPS+ ratings in standard baseball analysis. The draft should clarify or correct this metric or remove it if it cannot be verified from the brief.",
-     "The phrase 'Early, the pitcher heading to Washington, was a consensus top-50-75 prospect entering the season with a 126 OPS+' conflates pitcher prospect ranking with a hitting metric. This reading suggests Early was graded as a prospect hitter, which is contradictory. The brief confirms Early as a pitcher (LHP) but does not provide clarity on what the 126 figure represents in a pitching context."
-    ]
-   },
-   {
-    "id": "c117",
-    "headline": "Jordan Devey, former NFL guard and Super Bowl XLIX champion, dies at 38",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Devey 'played seven NFL seasons across five teams' as a guard, but the brief's data_point only confirms he 'played seven NFL seasons with five teams' without specifying his position. The draft asserts he was a 'guard' in the headline and opening sentence, but the brief does not provide this positional detail\u2014it only identifies him as a 'former NFL guard' in the core_claim. The position claim in the headline must be verified in the brief's data_points; it is not present in the source material provided.",
-     "The draft states 'His family confirmed that he died by suicide, according to reporting by CBS Sports on July 26' but does not specify the year. While context suggests 2026, the date is incomplete and ambiguous without a year."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
   "approved": 4,
   "rejected": [
    {
@@ -9015,6 +8963,56 @@
     "category": "accuracy",
     "reasons": [
      "Draft states 'The BBC announced on September 1, 2026 that it is canceling Ski Sunday' as a completed past action. Today is Wednesday, 2026-09-02. September 1, 2026 was yesterday, so the announcement has occurred and can be reported in past tense. However, the draft opens with a date-specific statement ('announced on September 1, 2026') that is not in the brief. The brief's data point says 'The cancellation announcement was made on Tuesday' (confidence: reported), which is a relative temporal reference, not an absolute date. The draft smuggles the absolute date 'September 1, 2026' without brief support. While The Guardian URL contains '/2026/sep/01/', URLs are not data points and the brief does not contain a data_point claiming the announcement date was September 1, 2026\u2014only that it was Tuesday. This is a fact smuggled outside the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c113",
+    "headline": "LA Rams owner Kroenke reaches agreement to buy Angels",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the acquisition price is unknown, but the brief's angle explicitly references '$4 billion acquisition.' The brief's open_questions section notes 'The exact purchase price is referenced as $4 billion in the story header but does not appear in the fetched source text; this figure cannot be verified from the provided sources.' The writer was instructed that no fact exists outside the brief. The $4 billion figure exists in the brief's angle but not in the data_points or verifiable sources, creating an accuracy gap. The draft correctly omits this unverified figure, but the brief itself contains an internal contradiction that makes this story unapprove-able as written: the angle claims a '$4 billion acquisition' but the data_points do not support it."
+    ]
+   },
+   {
+    "id": "c160",
+    "headline": "Cardinals overwhelm Dodgers 13-8 on September 2 with five-home-run offensive display",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as already having happened on September 2, but today's date is Wednesday, September 2, 2026. The timestamp in the brief data_points is '2026-09-02T07:34:58Z', which means the game occurred today (or the report was filed today). The issue is that the instruction states 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The inverse applies: an event that occurred today or is still ongoing must not be written in simple past tense as a completed, settled result without clarification of timing. The confidence label is 'verified-on-chain' (a real-time score), which suggests this may be an active or just-concluded game. The draft treats it as a completed historical event without temporal precision, creating potential inaccuracy about when this occurred relative to publication time."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Massachusetts Gaming Commission reviews Bill Simmons proxy betting admission; FanDuel voids bets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces a specific detail\u2014'his daughter's boyfriend'\u2014that does not appear in the brief's data_points. The brief states 'his daughter's boyfriend' in the core_claim, but this is never sourced or confirmed in any data_point. The data_points refer only to an unnamed third party ('Hank' in the direct quote from Simmons), making the family relationship an unverified elaboration smuggled into the draft.",
+     "The draft attributes the family detail to the podcast conversation, but the brief's data_points never confirm that Simmons identified this person as his daughter's boyfriend on air; only that Simmons identified him as 'Hank' and described the arrangement. Introducing unconfirmed biographical relationship details about a named person is accuracy risk and compliance risk."
+    ]
+   },
+   {
+    "id": "c110",
+    "headline": "Diggins shut down for 2026 season; cites Sky facility delays as frustration",
+    "category": "compliance",
+    "reasons": [
+     "The draft reports a future event (facility tour 'next week' and expectation to 'use the practice facility next year') as Diggins's statement about expectations, but the brief's data_point frames this as Diggins's own assertion: 'Diggins said the team is touring the facility next week.' On today's date (Wednesday, 2026-09-02), 'next week' is unconfirmed future time. The draft correctly quotes Diggins's expectation, but the sourcing and framing remain as reported, so this is not an accuracy error.",
+     "The draft contains speculative causation not established in the brief: 'her frustration with the team's delayed $60 million practice facility\u2014promised ready by season start but postponed until after the season ends\u2014underscores infrastructure failures that may be compounding the team's injury crisis.' The brief's open_questions explicitly note: 'Did the lack of dedicated practice facility materially contribute to Diggins's knee injury, or was it a pre-existing condition exacerbated by limited training options\u2014the sources do not establish causation, only correlation with league-leading injury rates.' The draft's title and opening framing adopt causation ('cites Sky facility delays as frustration') without presenting Diggins's own words or the brief's caveat that causation is unestablished.",
+     "The title 'Diggins shut down for 2026 season; cites Sky facility delays as frustration' presents the facility delays as a causal or primary explanatory factor when the brief and Diggins's own qualified responses indicate the knee injury predated the facility problem and Diggins explicitly said construction delays and circumstances 'could be out of organizational control.' The framing is misleading: facility delays are Diggins's stated frustration, not the reason for her shut-down. A reader would infer from the title that facility delays caused the injury."
+    ]
+   },
+   {
+    "id": "c26",
+    "headline": "Monfils wins on 40th birthday, becomes oldest US Open winner since Connors in 1992",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports match occurred on September 2, 2026. Today is Wednesday, September 2, 2026. The match result is being reported as a completed event (past tense, 'defeated', 'made Monfils'), but per the instruction that 'a draft that reports an event dated after today as having already happened is an accuracy REJECT', this creates ambiguity: if the match occurred earlier today (before the current time), it is reportable as past; if it occurs later today, it must be framed as upcoming. The BBC timestamp in the brief shows '2 September 2026, 04:41 BST', which is early morning UK time on September 2. Without confirmation that today's current time is after 04:41 BST UK time (which would be roughly 11:41 PM ET on September 1 or very early morning ET on September 2), the draft treats a same-day or future event as completed. This is an accuracy violation unless the desk can confirm current time is after match completion.",
+     "The draft frames this as a past result when the event's temporal placement relative to publication time is unclear. A same-day event reported before verification of completion time creates liability."
     ]
    }
   ]
