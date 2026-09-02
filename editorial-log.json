@@ -1,71 +1,6 @@
 [
  {
   "date": "2026-07-26",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c161",
-    "headline": "LeBron to Sixers, But Contract Unsigned; Team Faces Cap Squeeze",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Sixers acquired Jaylen Brown on July 1' but the brief data_point says 'The Sixers traded for Jaylen Brown on July 1.' The word 'traded' is materially different from 'acquired'\u2014the brief specifies the transactional mechanism (a trade), while the draft obscures it. This is a fact that should trace exactly to the brief.",
-     "The draft introduces 'VJ Edgecombe' as part of the core roster in the bottom_line discussion but VJ Edgecombe does not appear anywhere in the brief's data_points or body. This is smuggled information not present in the research."
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "Athletics' Star Catcher Langeliers Suffers Torn Meniscus",
-    "category": "compliance",
-    "reasons": [
-     "The draft states Langeliers 'could miss the remainder of the 2026 season if he undergoes surgery' and later 'would mark a season-ending outcome if he proceeds with the procedure.' This is speculative medical projection about a future surgical outcome. The brief confirms the injury and the possibility of surgery, but the draft presents a definitive causal chain (surgery \u2192 missing rest of season) that reads as medical prediction rather than reported fact. The open_questions in the brief ask 'Has Langeliers decided whether to undergo surgery?' and 'What is the specific recovery timeline if he elects surgery?'\u2014indicating these are unknowns. The draft should not assert a season-ending outcome as fact when the decision and timeline remain unconfirmed."
-    ]
-   },
-   {
-    "id": "c100",
-    "headline": "WNBA to launch replay center in 2027",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the facility will 'use the NBA's existing infrastructure,' but the brief data_point says it will use 'the NBA's facility as part of a major officiating overhaul'\u2014a subtle but material difference. The brief's open_question explicitly asks 'Will the replay center use the NBA's existing facility or be a separate operation co-located with the NBA?', indicating this detail is unresolved and should not be stated as fact in the draft.",
-     "The draft characterizes the quote as made 'before the All-Star Game on Saturday,' but the brief data_point says the quote was made 'before Saturday's All-Star Game'\u2014these are consistent, but the draft should verify the timing matches the brief exactly. More critically, the brief marks this quote as 'announced-not-verified,' but the draft presents it as a settled statement without any qualification of uncertainty."
-    ]
-   },
-   {
-    "id": "c093",
-    "headline": "Caitlin Clark calls off-court discourse 'emotionally exhausting'",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Clark's comment coincides with what the Fever organization has publicly emphasized: a team-wide focus on competitive goals' and 'That alignment between the player's personal preference and the organization's stated direction suggests internal unity on redirecting energy toward winning.' None of this Fever organizational statement or emphasis appears in the brief's data_points. The brief's open_questions include 'Did any Fever leadership or teammates comment on the team's desire to focus on winning?'\u2014indicating no such statement was confirmed. The draft smuggled a claim about organizational positioning that was not in the research.",
-     "The draft introduces narrative about 'internal unity' and organizational alignment without any source material in the brief supporting it. This is inference presented as fact."
-    ]
-   },
-   {
-    "id": "c123",
-    "headline": "Jordan Devey dies at 38: Family confirms suicide",
-    "category": "compliance",
-    "reasons": [
-     "The brief is marked 'thin: true' with only four data points and no bear_case. The draft appropriately handles a sensitive suicide reporting topic with care and includes the 988 crisis line in the bottom_line. However, the open_questions reveal critical gaps: 'When exactly did Devey die (the article does not provide a specific date)?' The draft never provides a specific date of death, which is a material fact for news. The brief itself admits the source article lacks this detail, but a responsible draft should either obtain clarification on timing or explicitly note the absence rather than leave it unaddressed."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Scotland's Reuben Ward wins first men's all-around gymnastics gold at Commonwealth Games",
-    "category": "accuracy",
-    "reasons": [
-     "The brief data_point states Gabriel Langton 'suffered a horror fall during the men's team event,' but the draft softens this to 'Gabriel Langton, also competing for the English team, suffered a fall during the men's team event, per ESPN.' The word 'horror' in the source claim is material to the severity and context; the draft omitted it without justification. More critically, the open_questions note: 'What specific details are known about Gabriel Langton's fall and his current condition after being hospitalized?' This suggests Langton was hospitalized, but the draft contains zero mention of hospitalization or any injury outcome beyond 'a fall.' A fact about hospitalization that appears in open_questions but not in the data_points themselves creates ambiguity, but the draft's silence on Langton's status and any hospitalization is incomplete relative to what the brief signals as relevant context."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Spence Jr to retire after losing comeback fight",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Spence Jr. will retire from boxing following this loss' as a definitive future commitment, but the brief's confidence label on this claim is only 'reported'\u2014meaning it is sourced from BBC but not independently verified or officially confirmed by Spence Jr. himself. The prose should signal uncertainty (e.g., 'Spence Jr. announced he will retire' or 'reports indicate Spence Jr. intends to retire') rather than present it as settled fact. The open_questions note that 'official confirmation of retirement announcement method' is not available in the fetched source, confirming the claim lacks the certainty the draft implies."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
   "approved": 8,
   "rejected": [
    {
@@ -9013,6 +8948,44 @@
     "reasons": [
      "Draft reports match occurred on September 2, 2026. Today is Wednesday, September 2, 2026. The match result is being reported as a completed event (past tense, 'defeated', 'made Monfils'), but per the instruction that 'a draft that reports an event dated after today as having already happened is an accuracy REJECT', this creates ambiguity: if the match occurred earlier today (before the current time), it is reportable as past; if it occurs later today, it must be framed as upcoming. The BBC timestamp in the brief shows '2 September 2026, 04:41 BST', which is early morning UK time on September 2. Without confirmation that today's current time is after 04:41 BST UK time (which would be roughly 11:41 PM ET on September 1 or very early morning ET on September 2), the draft treats a same-day or future event as completed. This is an accuracy violation unless the desk can confirm current time is after match completion.",
      "The draft frames this as a past result when the event's temporal placement relative to publication time is unclear. A same-day event reported before verification of completion time creates liability."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c56",
+    "headline": "MLB and MLBPA in labor negotiations as December lockout threat looms",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_points array is empty (length 0). The draft reports 'MLB and the Major League Baseball Players Association are in ongoing labor negotiations, according to CBS Sports' and 'A potential work stoppage is threatened in December.' These are factual claims with no supporting data_point in the brief to trace them to.",
+     "The brief's open_questions explicitly state 'The source text provided is incomplete' with only 54 source_chars, indicating the source fetch failed or was truncated. The draft was written from an incomplete brief with no substantive data to build on.",
+     "The rule is: 'no fact exists outside the brief.' The draft contains multiple factual assertions (negotiations ongoing, December lockout threat, that these affect 2026-27 offseason and 2027 season start) that cannot be traced to any data_point because none exist.",
+     "The brief itself flags that 'No specific date for the December lockout threat' and 'No MLBPA response or counter-proposals stated' are open questions, yet the draft proceeds as though these are established facts."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Kroenke Acquires Angels, Inherits Struggling Regional Sports Network and Stadium Stalemate",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal is valued at $4 billion, but this figure does not appear anywhere in the brief's data_points. The core_claim mentions '$4 billion\u2014a record MLB valuation' but this is not carried forward in any of the data_points provided to the writer. The writer smuggled in a major factual claim (the deal value) that was not in the research brief they were supposed to write from.",
+     "The draft omits critical context about the deal value being a record. The brief's core_claim explicitly states this is 'a record MLB valuation\u2014a record MLB valuation\u2014and surpassing the recently closed $3.9 billion deal for the Padres,' but the draft never mentions the Padres comparison or that this is a record-breaking figure. This is a significant factual omission that undermines the story's news value."
+    ]
+   },
+   {
+    "id": "c153",
+    "headline": "HOLD FOR RESEARCH: Luzardo/Phillies game story incomplete",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself is a meta-rejection announcing insufficient research, not a publishable story. It violates the hard rule that drafts do not exist outside the brief's data_points.",
+     "The brief contains only two isolated data_points (Wheeler's runner-up finishes, S\u00e1nchez's runner-up finish) and no information about Luzardo's pitching line, game score, Phillies' record, playoff standing, or winning streak\u2014all core facts needed to support a headline about Luzardo's performance and the Phillies' position.",
+     "The brief's own open_questions section documents the absence: 'What was Luzardo's specific performance...What was the final game score...What is Philadelphia's current record...How many consecutive wins...'",
+     "The draft body is editorial commentary about research failure, not a story built from the brief. This is the wrong submission form entirely.",
+     "Cannot be salvaged by cutting sentences because the entire submission is a meta-commentary rather than a drafted article."
     ]
    }
   ]
