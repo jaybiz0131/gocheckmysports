@@ -4,65 +4,6 @@
   "approved": 6,
   "rejected": [
    {
-    "id": "c129",
-    "headline": "Joshua survives two first-round knockdowns to stop Prenga in round two",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions section explicitly notes that the source text was 'truncated/corrupted and contains only CSS markup; no substantive article text was available.' This indicates the research brief itself is incomplete and unreliable. The draft violates the hard rule that 'no fact exists outside the brief' by proceeding from a compromised brief. The writer cannot verify claims traced to a source that was not actually read.",
-     "The brief is marked 'thin': true, indicating sparse data_points (only 6), yet the draft presents claims as established fact. With a corrupted source, the confidence labels and underlying facts cannot be trusted as verified."
-    ]
-   },
-   {
-    "id": "c131",
-    "headline": "Tour de France final stage cut to 89km as wildfires force schedule change",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Pogacar 'stands on the verge of winning his fifth Tour de France title, which would equal a record' but also states he is 'a four-time Tour champion.' These claims are internally contradictory: a four-time champion winning a fifth would be his fifth title, not tying a record. The brief data_point says 'Pogacar is likely to win his fifth Tour de France title, which would equal a record'\u2014meaning five wins ties the record, not exceeds it. The draft's language ('fifth...which would equal') is correct per the brief, but the earlier claim that he is a 'four-time Tour champion' undermines the fifth-title framing. Per brief confidence labeling, the fifth-title claim is 'reported' but the draft's opening framing ('verge of winning his fifth') combined with 'four-time champion' creates factual confusion that the brief does not contain.",
-     "The brief's open_questions flag that 'the source text provided was truncated/corrupted and contains only CSS markup; no substantive article text was available.' This is a critical red flag: the writer has no reliable source material to verify facts beyond the data_points listed. The draft asserts specific details ('stage will start on the Champs-\u00c9lys\u00e9es and include two laps of the avenue') that are in the data_points but the underlying source integrity is compromised. While paraphrase of the data_points survives, the brief itself signals the source is unreliable."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Red Sox acquire Mead from Nationals for Early in first major deadline trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mead, 25, has hit .254/.352/.500 with 17 home runs in 87 games while taking over the Nationals' full-time third-base job.' However, the brief does not specify Mead's position as 'full-time third-base job'\u2014it only says he 'has played first base, second base, third base and designated hitter this season.' The draft adds the qualifier 'full-time' and specifies third base as the primary assignment, which is not in the brief.",
-     "The draft claims 'Mead was once a top-30 prospect in baseball and was traded by Philadelphia to Tampa Bay for Cristopher S\u00e1nchez before the White Sox designated him for assignment.' The brief's data_point only says Mead 'was traded by Philadelphia to Tampa Bay for Cristopher S\u00e1nchez' and is silent on the order of events (whether Philly-to-TB preceded the White Sox DFA). The draft asserts sequence ('before the White Sox') that is not confirmed in the brief.",
-     "The draft states Early 'throws a mid-90s fastball with above-average stuff and high intellect, per the outlet, with a slider and changeup proving particularly effective.' The brief says Early 'throws a mid-90s fastball' (reported) and separately 'has above-average stuff and high intellect, with a slider and changeup proving particularly effective' (reported). The draft's prose combines these into a single descriptor in a way that subtly shifts the emphasis; more importantly, the phrase 'per the outlet' is imprecise\u2014multiple claims are being attributed to one source in a single clause, when the brief treats them as individual data_points from the same source. This is minor paraphrase liberty but acceptable. However, re-reading: the draft says 'throws a mid-90s fastball with above-average stuff'\u2014'with' suggests fastball plus stuff are one compound descriptor. The brief separates them. Not a major error but blurs the line."
-    ]
-   },
-   {
-    "id": "c133",
-    "headline": "Norris takes Hungarian GP pole; Hamilton and Antonelli penalized",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Lewis Hamilton, a seven-time world champion' but the brief data_point lists Hamilton as 'a seven-time champion' without the year context. More critically, the draft does not trace the claim that Hamilton is a 'seven-time world champion'\u2014this is a factual statement about his career total that goes beyond what the brief supports. The brief only confirms he received a three-place grid penalty; his championship count is asserted without brief support.",
-     "The draft introduces 'Antonelli' without a first name in the body ('Antonelli also received a three-place grid penalty'), but the brief's open_questions explicitly notes 'The source does not specify Antonelli's first name or identify him further.' The draft should either provide the first name or flag the identity as unclear; presenting him without identifying detail when the brief documents this as an open gap is a factual credibility issue."
-    ]
-   },
-   {
-    "id": "c145",
-    "headline": "Jordan Devey, former Patriots offensive lineman and Super Bowl winner, dies at 38",
-    "category": "compliance",
-    "reasons": [
-     "The draft reports on a suicide without adequate sourcing or caution language. The brief notes in open_questions that 'Whether official authorities have confirmed the cause of death is not stated in the provided source text.' The draft presents the GoFundMe statement as the source of death confirmation ('a GoFundMe page started for his wife, Linsey, and their four young children stated that Devey took his own life') but does not flag this as uncorroborated by official authorities or clearly attribute it as coming from a crowdfunding page rather than law enforcement or medical examiners. Suicide reporting requires heightened care; this draft does not meet that standard."
-    ]
-   },
-   {
-    "id": "c130",
-    "headline": "Liverpool beats Sunderland 4-2 in Iraola debut; Gomez injury highlights defensive depth concern",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'forcing Liverpool to form a central defense with two teenagers' but the brief's open_questions explicitly note 'What are the names of the two teenagers who formed the central defence after Gomez's exit?' This indicates the brief does not contain the names or verification of which specific players filled those positions. The draft presents this as fact without the sourcing to back it. Additionally, the draft says Gomez 'hobbled off' in the opening 10 minutes, but the brief says he was injured 'in the opening 10 minutes'\u2014'hobbled' is an interpretive characterization not present in the brief's data_point. The injury nature and severity are listed as open_questions in the brief, meaning the draft should not characterize it beyond what the source explicitly states."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
-  "approved": 6,
-  "rejected": [
-   {
     "id": "c038",
     "headline": "Tszyu defeats Spence Jr. by unanimous decision in Sydney; Spence retires",
     "category": "accuracy",
@@ -9047,6 +8988,48 @@
      "The brief's own open_questions state: 'The fetched source text for the primary URL contains only a question fragment... and does not carry the substantive reporting described in the snippet; the actual details of Musgrave's injury, PUP list placement, and timeline come only from the snippet text, not from retrieved source material.' This means the draft is built on unverified secondary-source data, not primary reporting.",
      "The brief documents that 'No official Packers statement, injury report, or league documentation was provided in the source texts to independently verify the PUP list status or the four-game minimum.' The draft presents these as confirmed facts despite lack of independent verification in the primary source.",
      "The boundary_ok field is explicitly false with reasoning that the 'at least the first four games' language does not appear verbatim in the source, yet the draft body includes this claim as fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c050",
+    "headline": "Diggins out for remainder of 2026 WNBA season with knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The Chicago Sky have shut down Skylar Diggins' as an action taken by the team. Brief data_point says 'The Chicago Sky announced that Diggins will not return' (passive announcement phrasing). The draft's active voice 'shut down' implies a unilateral team decision, but the brief explicitly states the decision came 'after communication among Diggins, her representatives, and the Sky.' The draft's framing softens this collaborative nature.",
+     "More critically: the brief's confidence label is 'reported' on all three data_points, yet the draft presents the decision as settled fact without hedging language appropriate to a single secondary source reporting on a joint decision. The brief's open_question explicitly flags: 'No official statement from the Chicago Sky organization is included in the source texts; the reporting paraphrases their announcement.' The draft does not acknowledge this paraphrase limitation."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Odell Beckham Jr. makes Giants roster after missing 2025 season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Dart 'took the starting job ahead of Week 4 in his rookie year,' but the brief's data point says he 'took the starting job away from Russell Wilson ahead of Week 4 in his rookie season.' The draft omits the crucial detail that Wilson was the incumbent he displaced, materially altering the context of the transition.",
+     "The draft does not include the bear_case item about Beckham's 'tumultuous departure following a fantastic career in New York,' which is material context for understanding this reunion and was explicitly in the brief. The brief's open_questions also flag that the exact timing and circumstances of Beckham's signing are not stated, yet the draft presents the signing as complete fact without acknowledging this uncertainty.",
+     "The open_questions in the brief note: 'No jersey number is mentioned in the provided source text; the headline claims he reclaims iconic No. 13 jersey but this is not confirmed in the fetched source text.' The draft does not claim a jersey number, so this is not violated, but it signals the source material is thinner than it appears."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Alcaraz Returns From Four-Month Layoff, Defeats Safiullin at US Open",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point states Alcaraz defeated Safiullin in the SECOND round, but the draft title and opening sentence state it was the FIRST ROUND. The draft's claim contradicts the verified-on-chain source material in the brief."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Insurance company placed Kalshi trades worth up to $3 million on LSU's season, matching Lane Kiffin's bonus",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to CBS Sports' as though CBS Sports is the originating source of the reporting, when CBS Sports is the only source cited and the brief does not establish whether CBS Sports conducted independent reporting or is itself reporting from another outlet. The phrase 'per CBS Sports' reporting' in the second paragraph compounds this by presenting CBS Sports as the direct observer of the trades rather than as the reporting outlet that surfaced the story.",
+     "The draft's third paragraph explicitly catalogs what CBS Sports' reporting does not specify (insurer name, exact nature of trades, dates, relationship, regulatory status). This recitation of open questions violates the rule forbidding the narration of absence: the desk does not restate what 'remains unreported' or what a report 'does not specify' in its own voice. The brief lists these as open_questions; the draft should not narrate them as gaps in the news itself."
     ]
    }
   ]
