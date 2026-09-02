@@ -1,44 +1,5 @@
 [
  {
-  "date": "2026-07-26",
-  "approved": 8,
-  "rejected": [
-   {
-    "id": "c109",
-    "headline": "WNBA to launch replay center in 2027 at NBA facility",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Commissioner Engelbert's quote as a direct statement: '\"This is one of the most significant investments we've ever made in our basketball operations,\" Engelbert stated, per CBS Sports.' However, the brief marks this data point with confidence 'announced-not-verified', meaning it is an announced claim that has not been independently verified. The draft presents it as settled fact without acknowledging the unverified status. The quote must either be attributed as announced but not verified, or removed entirely."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Misiorowski strikes out first 7 Rockies, sets Brewers record",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In the second inning, TJ Rumfield, Kyle Karros, and Cole Carrigg all struck out' but the brief's data_point 20 claims 'In the fourth inning, Jake McCarthy, Mickey Moniak, and Hunter Goodman all struck out again.' The draft does not reference this fourth-inning strikeout sequence at all, creating a gap in the narrative of the 11 strikeouts claimed.",
-     "The draft narrative breaks down chronologically. It lists seven strikeouts (McCarthy, Moniak, Goodman, Rumfield, Karros, Carrigg, Castro), then says Troy Johnston ended the streak in the third inning with a flyout, then says Edouard Julien struck out 'one inning later' (fourth inning) for the 11th strikeout. But the brief indicates three more batters (McCarthy, Moniak, Goodman again) struck out in the fourth inning, which would be inconsistent with 'one inning later' and would total 10 strikeouts before Julien, not 11. The math and sequence in the draft does not reconcile with all 19 data_points provided in the brief."
-    ]
-   },
-   {
-    "id": "c029",
-    "headline": "Cavs sign former lottery pick Hezonja to one-year deal",
-    "category": "accuracy",
-    "reasons": [
-     "Final sentence states 'This marks Hezonja's sixth season in the league,' but the brief data_point claims 'Hezonja is entering his sixth season in the league.' The draft presents this as a completed fact (past tense, 'marks') when the brief indicates future tense (entering). If he last played in 2019-20 and is now signing in 2026, this would be his return after a gap, not his sixth season played. The accuracy of whether this is his sixth season total or sixth season of competition is smuggled beyond the brief's claim."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Scotland's Ward claims men's all-around gymnastics gold at Commonwealth Games",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states that Felix Dolci 'scored 14.5 on the high bar' as part of his silver-medal performance. The brief data_point says Dolci 'claimed silver' and 'recovered from two falls on the pommel to score 14.5 on the high bar.' The 14.5 is Dolci's score on one apparatus (high bar), not a complete justification of his medal position. The draft places this single apparatus score mid-sentence about his overall silver, which reads as though 14.5 was his determining element, when the brief does not provide his total all-around score. This is a partial fact presented without full context from the brief."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-27",
   "approved": 7,
   "rejected": [
@@ -8986,6 +8947,61 @@
      "The brief's own open_questions section documents the absence: 'What was Luzardo's specific performance...What was the final game score...What is Philadelphia's current record...How many consecutive wins...'",
      "The draft body is editorial commentary about research failure, not a story built from the brief. This is the wrong submission form entirely.",
      "Cannot be salvaged by cutting sentences because the entire submission is a meta-commentary rather than a drafted article."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Acu\u00f1a reaches 200 home runs and 200 stolen bases in 904 games, fewest in MLB history",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Earlier in the same game, Acu\u00f1a also stole his 200th career base' but the brief data_point says 'Acu\u00f1a also had a stolen base earlier in the game, his 20th of the season and 225th of his career.' The draft conflates the stolen base with reaching 200\u2014but the brief shows Acu\u00f1a has 225 career stolen bases, not 200. The brief's open_questions note that neither Kittle nor Bosa is officially confirmed, but here the core claim about the stolen base count contradicts the draft's presentation.",
+     "The draft reports this as 'his 200th career base' when the brief data explicitly says '225th of his career overall.' This is a factual error that smuggles a new number not in the brief."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "Amazon Prime Video Expands NHL Local Streaming to Six Teams, Including St. Louis Blues",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Alcaraz defeated Safiullin in the 'second-round match' but the brief and all data_points consistently identify this as a 'first-round match.' The brief core_claim says 'first round,' and data_point 1 says 'first-round match.' This is a material factual error about tournament progression."
+    ]
+   },
+   {
+    "id": "c139",
+    "headline": "WTGL Women's Golf League Secures Multiyear Media Deal With ESPN and ION",
+    "category": "balance",
+    "reasons": [
+     "The brief contains a substantive bear_case with two items: (1) exact financial terms not disclosed, limiting transparency on commercial value, and (2) WTGL's talent lineup not finalized, with ESPN cautioning to expect 'probably some differences' from TGL. The draft mentions both facts but frames them neutrally without a dedicated counter-evidence or challenge paragraph that surfaces why these gaps matter to the story. The bear_case items are buried as passing details ('Exact financial terms for both ION and ESPN's portions of the deal were not disclosed' and 'WTGL's talent lineup has not been finalized') rather than presented as substantive concerns about the deal's maturity or production readiness. A reader finishes this draft believing the deal is locked and strong; the bear_case suggests the opposite\u2014that it is incomplete and contingent."
+    ]
+   },
+   {
+    "id": "c290",
+    "headline": "Devils Acquire Forward Luke Evangelista From Predators (September 2)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the trade occurred 'on Tuesday night' but today is Wednesday, September 2. A trade on Tuesday night (September 1) reported on September 2 should be described as recent or past-tense correctly, but the phrasing 'on Tuesday night' in a draft dated September 2 is acceptable for a same-reporting-cycle event. However, the draft includes 'Mehta grew up in Wyckoff and went to Ramapo HS and was previously the Devils' director of hockey analytics' in the second reference brief data point, which does NOT appear in the draft body\u2014this is not a smuggled fact, so no rejection here.",
+     "CRITICAL ACCURACY FAILURE: The draft describes the Devils' goaltending as 'currently carrying 36-year-old Jake Allen, 25-year-old Nico Daws, and 34-year-old David Rittich.' The brief's corresponding data point labels Daws as 'unproven' and Rittich as 'uninspiring,' but the draft omits these adjectives and presents only ages. More critically, the brief describes these as 'unproven' and 'uninspiring'\u2014loaded language from the source that should either appear with attribution or be neutralized. The draft drops the characterizations entirely, which is acceptable editorial tightening. However, the final sentence of the draft states: 'Connor Hellebuyck, the Winnipeg Jets' star goalie and fellow gold medalist with Jack Hughes, recently confirmed his trade request.' The brief data point says 'recently publicly confirmed his trade request,' which is reported. This is accurate and traces. No liability breach here.",
+     "The draft's reference to Mehta's background (Wyckoff, Ramapo HS, director of analytics) appears in the brief but NOT in the draft body\u2014the draft omits this detail, which is editorial choice, not smuggling.",
+     "Re-examination: The only factual issue is whether 'Tuesday night' is correct for the trade date. The source timestamp is 2026-09-02T01:38:29Z (early Wednesday morning, September 2). A trade announced at 01:38 on Wednesday would have occurred Tuesday night, so the phrasing is correct.",
+     "ACTUAL FAILURE: The draft's bottom line states 'the team's goaltending remains unresolved entering training camp,' but the brief does not provide information on training camp dates or whether goaltending is 'unresolved' vs. merely thin. This reads as editorial inference beyond the brief's data, not a direct liability issue, but it pushes the story into speculative territory ('remains unresolved' implies a problem that has NOT been resolved\u2014but the brief only describes the current roster, not a status of resolution/non-resolution). The bottom line also says 'The market for elite goalies will determine whether Mehta's roster construction can compete'\u2014this is predictive speculation not in the brief.",
+     "However, on closer read: the bear_case explicitly states 'Goaltending remains a concern,' so the bottom line's invocation of 'goaltending remains unresolved' is paraphrasing the brief's own bear_case. This is within bounds. The second sentence of the bottom line ('The market for elite goalies will determine whether Mehta's roster construction can compete') is editorial speculation NOT in the brief\u2014it predicts future contingencies not grounded in reported facts. This is not a direct accuracy error (no fact stated falsely) but it violates the hard rule that no material beyond the brief appears in the story. Reject."
+    ]
+   },
+   {
+    "id": "c105",
+    "headline": "2026 FIBA Women's World Cup Begins September 4 in Berlin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with a hard claim: 'The 2026 FIBA Women's World Cup begins September 4 in Berlin with 16 nations competing for the title.' Today is Wednesday, September 2, 2026. September 4 is a future date (Friday). The phrasing 'begins September 4' correctly anticipates the event; this is not an accuracy failure on tense.",
+     "CRITICAL ACCURACY FAILURE: The brief's sixth data point states: 'The gap between Team USA and international competition is virtually nonexistent.' The draft does NOT include this claim. Instead, the draft says: 'International competition in women's basketball has begun to narrow historically wide margins between the USA and other national programs, though the full roster compositions and tournament bracket remain to be detailed as the tournament approaches.' This paraphrase softens the claim (narrowing margins \u2260 gap virtually nonexistent) and introduces hedging language ('begun to narrow') not in the source. More critically, the draft then says 'though the full roster compositions and tournament bracket remain to be detailed as the tournament approaches'\u2014but the brief notes in open_questions that 'The fetched source text from Yahoo Sports contains only a bare header; the full rosters and team-by-team details are not in the provided source text.' The draft is NARRATING ABSENCE, explicitly stating that rosters and bracket 'remain to be detailed.' The approval instructions state: 'A sentence that does [narrate absence, like 'the absence of', 'remains unreported'] is category 'accuracy'.' The offending sentence does exactly this.",
+     "ADDITIONAL ACCURACY ISSUE: The draft claims the USA 'has not lost a World Cup game since 2006,' which traces to the brief. However, the brief's open_questions note that 'The fetched source text from Yahoo Sports contains only a bare header; the full rosters and team-by-team details are not in the provided source text' and 'The other two fetched URLs (CBS Sports fantasy football articles) are about NFL 2026, not FIBA basketball, and do not pertain to this story.' This signals that the source material provided to the brief was incomplete or corrupted. The draft cites Yahoo Sports as the source for all claims, but the brief itself notes the source was inadequate. This is a sourcing/verification problem: the draft should not run claims from a source the brief acknowledges was incomplete.",
+     "The brief is marked 'thin': true, meaning the source material was thin. The draft should be tight and proportionate to that thinness, but instead it narrates the absence of information, which violates the accuracy rule against narrating absence."
     ]
    }
   ]
