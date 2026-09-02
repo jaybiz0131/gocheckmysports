@@ -1,62 +1,6 @@
 [
  {
   "date": "2026-07-26",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c150",
-    "headline": "The 4 big winners from WNBA All-Star Weekend",
-    "category": "accuracy",
-    "reasons": [
-     "The draft acknowledges in its own bottom_line that 'The headline and two names are insufficient to report on the All-Star Weekend's outcomes' and 'Without those facts, no reader-facing story is possible.' This is a self-aware admission that the story has no reportable content. The draft body does not identify what made Fudd and Malonga 'big winners'\u2014no performances, statistics, or outcomes are cited. The brief's open_questions confirm the source material was corrupted and the article body was never retrieved, making it impossible to trace any editorial claim to actual reporting."
-    ]
-   },
-   {
-    "id": "c044",
-    "headline": "Caldwell-Pope Joins 76ers After Grizzlies Buyout",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Caldwell-Pope is 6 feet 5 inches tall' in the second paragraph, but this fact does not appear in the research brief's data_points. The brief contains 16 data_points about Caldwell-Pope's contract, injury, statistics, and championship history, but does not include his height. This is a smuggled fact outside the brief."
-    ]
-   },
-   {
-    "id": "c051",
-    "headline": "Blue Jackets Sign Sillinger to Three-Year Deal Avoiding Arbitration",
-    "category": "accuracy",
-    "reasons": [
-     "The core_claim data_point in the brief is marked 'announced-not-verified' (confidence label), indicating the contract terms have not been independently verified. The draft presents the three-year, $13.875 million figure as settled fact without any hedging language or confidence qualifier. Per instructions, a brief claim marked 'announced-not-verified' must read that way in the prose. The draft should signal uncertainty about the contract figures."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "Tour de France 2026 final stage shortened to 89km; flooding forces route change",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Romero guided Spurs to Europa League success last year' but this fact does not appear in the brief's data_points. The brief contains no data_point about Tottenham's Europa League success or any trophy won. This is a smuggled fact not traceable to the research.",
-     "The draft states 'helped Argentina reach a second straight World Cup final earlier this month' but the brief's corresponding data_point says 'second straight World Cup final earlier this month' without the temporal qualifier that would make 'earlier this month' verifiable. The brief does not confirm the timing claimed in the draft."
-    ]
-   },
-   {
-    "id": "c28",
-    "headline": "Inter Milan enters talks with Tottenham over potential signing of captain Cristian Romero",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Romero guided Spurs to Europa League success last year' but the brief's data_point claims 'Romero guided Tottenham to Europa League success last year.' The draft presents this as established fact matching the brief, but the brief marks this as 'reported' confidence only. More critically, the brief does not provide independent verification of this claim\u2014it is reported by ESPN but the draft's framing ('guided Spurs') reads as settled historical fact rather than reported assertion.",
-     "The draft includes the Ausilo quote with attribution to 'Sky Italy' but the brief sources this through 'ESPN (via Sky Italy),' creating a chain-of-custody issue. The draft presents it as a direct quote from Sky Italy reporting when it is actually ESPN's report of a Sky Italy quote, a meaningful distinction for accuracy."
-    ]
-   },
-   {
-    "id": "c117",
-    "headline": "Former NFL guard Jordan Devey dies at 38; family says he died by suicide",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions note that 'The source text provided is truncated and does not contain the full article content, including the family statement or additional context beyond the headline and snippet.' The draft states 'His family stated he died by suicide' but the brief does not contain the full family statement in its data_points\u2014only that 'The family's statement addressed suicide as the cause of death' without the actual statement text. The writer has asserted a direct quote or claim ('his family stated') that exceeds what the truncated source materials in the brief actually provide. This is smuggled information not fully backed by the research brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
   "approved": 7,
   "rejected": [
    {
@@ -9029,6 +8973,48 @@
     "category": "accuracy",
     "reasons": [
      "The brief contains a data point claiming 'In 2025, when President Trump began his second term, Vasquez alleges the Warriors began rolling back their diversity, equity, and inclusion commitments' (marked 'reported' confidence). This claim does not appear anywhere in the draft body. The draft states only that 'The timing corresponds with the Warriors' broader elimination of diversity initiatives, according to the complaint' without any reference to Trump, his term, or causation. The writer omitted a material factual claim from the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c115",
+    "headline": "Stan Kroenke Reaches Agreement to Buy Angels, Ending Moreno's 23-Year Tenure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '$4 billion purchase' in the angle (per brief), but the draft body never mentions the purchase price at all. The bottom_line correctly notes 'The specific purchase price and terms of the agreement have not been disclosed in available reporting,' which contradicts the brief's angle. The brief's open_questions explicitly flag that '$4 billion' does not appear in the source material. The draft cannot cite a price it does not carry in the body, and the brief confirms the source does not support it."
+    ]
+   },
+   {
+    "id": "c147",
+    "headline": "Luzardo leads Phillies to sixth consecutive win",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cristopher S\u00e1nchez, who was runner-up for the award in 2025 and possibly in the current 2026 season' but the brief data_point marked 'reported' confidence says 'possibly in the current 2026 season'\u2014a speculative claim about an ongoing award race. The draft presents this mixed-confidence claim without qualification; a 'possibly' assertion cannot be paraphrased as settled fact in prose without losing its epistemic hedging.",
+     "The core_claim in the brief specifies 'moving them into sole possession of the top National League Wild Card spot' but the draft completely omits this central claim\u2014it states they are in a 'critical stretch' without reporting their actual Wild Card standing or how this win affected their position.",
+     "The brief's open_questions flag that 'the full game recap with final score, inning line, strikeout/walk totals, and confirmation of the Phillies' Wild Card standing is not available'\u2014meaning the brief itself lacks the data to report standing. The draft should not have attempted to deliver what the brief cannot support; instead it soft-pedals into 'playoff positioning' language that suggests knowledge the brief does not contain."
+    ]
+   },
+   {
+    "id": "c154",
+    "headline": "Twins score 10 in sixth inning, defeat Tigers 15-2 on September 2",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Minnesota plays Detroit again in the series' as forward-looking content in the bottom_line, but the brief provides no information about whether another game is scheduled or when. This introduces a fact not in the brief.",
+     "The brief's open_questions flag explicitly notes incompleteness: 'The MLB.com source text provided is incomplete (cuts off mid-sentence)' and the thin flag is set to true. A thin brief with incomplete sources produces a valid short story, but only if it sticks strictly to what the sources provide.",
+     "The brief itself warns that 'details about Detroit's pitching performance and specific hitting performance by individual Twins players are not provided in the sources'\u2014which means the draft cannot responsibly project forward about what the matchup 'reflects' without inventing analysis beyond the brief."
+    ]
+   },
+   {
+    "id": "c80",
+    "headline": "BBC cancels Ski Sunday winter sports show after nearly 50 years on air",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The BBC announced on September 1, 2026 that it is canceling Ski Sunday' as a completed past action. Today is Wednesday, 2026-09-02. September 1, 2026 was yesterday, so the announcement has occurred and can be reported in past tense. However, the draft opens with a date-specific statement ('announced on September 1, 2026') that is not in the brief. The brief's data point says 'The cancellation announcement was made on Tuesday' (confidence: reported), which is a relative temporal reference, not an absolute date. The draft smuggles the absolute date 'September 1, 2026' without brief support. While The Guardian URL contains '/2026/sep/01/', URLs are not data points and the brief does not contain a data_point claiming the announcement date was September 1, 2026\u2014only that it was Tuesday. This is a fact smuggled outside the brief."
     ]
    }
   ]
