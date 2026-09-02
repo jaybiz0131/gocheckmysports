@@ -4,65 +4,6 @@
   "approved": 6,
   "rejected": [
    {
-    "id": "c038",
-    "headline": "Tszyu defeats Spence Jr. by unanimous decision in Sydney; Spence retires",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Spence Jr. announced his retirement 'immediately following the loss,' but the brief does not confirm the timing of the retirement announcement\u2014only that it occurred. The word 'immediately' adds temporal specificity not present in the brief data.",
-     "The draft claims 'Spence Jr., the storied former champion' but the brief does not verify Spence's championship status or Hall of Fame caliber in the data_points. The draft later calls him 'a Hall of Fame-caliber opponent,' which is editorializing beyond the brief's factual scope.",
-     "The final data_point in the brief states 'The loss to Tszyu marks Spence Jr.'s second successive loss, with the prior loss separated by three years,' but this claim is never woven into the draft narrative. This is material context about Spence's recent record that was available and should appear if included in the brief."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Joshua survives early knockdowns to beat Prenga; Fury stops Wach; November fight locked in but venue remains in dispute",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Joshua's first round 'was described as \"one of, if not the worst, round of Joshua's career. It was chaotic, un-organised and simply sloppy.\"' and that Joshua 'was penetrated all too easy from a variety of Prenga approaches.' These are paraphrased quotes attributed to unnamed 'observers' and 'sources,' but the brief lists these as data_points from ESPN with 'reported' confidence. The draft presents them as observer commentary without clear attribution to the ESPN reporting, creating ambiguity about sourcing and potentially laundering unnamed analysis as reported fact."
-    ]
-   },
-   {
-    "id": "c049",
-    "headline": "Cole Sillinger Avoids Arbitration With Three-Year Blue Jackets Extension",
-    "category": "accuracy",
-    "reasons": [
-     "The contract value is marked 'announced-not-verified' in the brief but presented as settled fact in the draft without any qualifier or hedge language. The draft states definitively '$13.875 million contract extension' and '$4.625 million' average annual value without indicating the confidence level is lower than reported facts. This confidence label must survive in prose."
-    ]
-   },
-   {
-    "id": "c131",
-    "headline": "Norris Takes Hungarian GP Pole by Razor Margin as Penalties Reshape Grid",
-    "category": "balance",
-    "reasons": [
-     "The draft reports Norris is 'the defending world champion' and 'defending his championship title' based on a single Guardian article about a qualifying session at the Hungarian GP. This framing suggests the championship status is active and current, but the brief does not establish whether Norris actually holds the championship heading into this race or if it is a historical designation. No bear_case exists in the brief to contextualize this claim, and the bottom_line asks readers to watch 'whether Norris can convert pole into a race win under competitive pressure'\u2014language that treats the championship defense as live stakes when the brief supplies no evidence of current championship standing. The draft reads as though it is touting Norris' chances without sufficient evidentiary support for the stakes framing."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "Pogacar positioned for Tour de France victory as final stage shortened by wildfires",
-    "category": "accuracy",
-    "reasons": [
-     "Claim 'Pogacar, a four-time Tour de France victor, will claim a fifth title' appears in the draft but the brief data_point states only that 'Tadej Pogacar is a four-time Tour de France victor.' The draft asserts he will win a fifth title (future/definitive outcome), but the brief contains no data_point confirming he is on the verge of winning or will win. The draft also later states 'Pogacar is poised to win' and 'Pogacar's path to his fifth Tour title is clear'\u2014these are predictive framings not present in the brief's facts.",
-     "Claim 'His margin after the Alpe d'Huez stage proved decisive enough' describes the magnitude of his lead as decisive, but the brief data_point only states 'Pogacar holds a huge lead after Alpe d'Huez' (unquantified). The draft inflates this by asserting the lead is large enough to 'withstand the altered final day,' a conclusion not supported by the brief.",
-     "The bottom_line states 'Pogacar's path to his fifth Tour title is clear' as a certainty, but the brief contains no data confirming he will win\u2014only that he holds a lead. This crosses from reporting into prediction/betting frame."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "F1 confirms Bahrain Grand Prix relocated to Malaysia in October as geopolitical fallout reshapes calendar",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case explicitly flags: 'The new event is subject to final agreements and sign-off, including the approval of the World Motor Sport Council\u2014confirmation is not yet complete.' The draft states in the body 'The new event is subject to final agreements and approval by the World Motor Sport Council, so confirmation is not yet complete, per ESPN,' but this hedge is buried mid-article and contradicts the opening sentence: 'Formula 1 has confirmed that the 2026 Bahrain Grand Prix will be held October 2 through 4.' The lead uses 'has confirmed,' which presents the decision as final, while the bear_case and later prose signal it is not. This is a material balance failure: the headline and lede claim confirmation; the body admits it is conditional.",
-     "The draft includes a lengthy paragraph about Kimi Antonelli potentially becoming 'the first Italian world champion since Alberto Ascari in 1953' tied to Domenicali's Italian heritage and Imola's position as a potential finale. While this data point appears in the brief, it is tangential speculation that inflates the story with personal/contextual material that distracts from the core fact (calendar relocation subject to approval). This reads as an attempt to add narrative texture beyond what the news warrants and pulls focus from the bear_case (conditional approval) that should dominate the framing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
-  "approved": 6,
-  "rejected": [
-   {
     "id": "c150",
     "headline": "The 4 big winners from WNBA All-Star Weekend",
     "category": "accuracy",
@@ -9030,6 +8971,64 @@
     "reasons": [
      "The draft states 'according to CBS Sports' as though CBS Sports is the originating source of the reporting, when CBS Sports is the only source cited and the brief does not establish whether CBS Sports conducted independent reporting or is itself reporting from another outlet. The phrase 'per CBS Sports' reporting' in the second paragraph compounds this by presenting CBS Sports as the direct observer of the trades rather than as the reporting outlet that surfaced the story.",
      "The draft's third paragraph explicitly catalogs what CBS Sports' reporting does not specify (insurer name, exact nature of trades, dates, relationship, regulatory status). This recitation of open questions violates the rule forbidding the narration of absence: the desk does not restate what 'remains unreported' or what a report 'does not specify' in its own voice. The brief lists these as open_questions; the draft should not narrate them as gaps in the news itself."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c109",
+    "headline": "Massachusetts Gaming Commission Reviews Simmons Proxy Betting Admission",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the podcast episode as occurring 'On Monday, September 1, 2026,' but today's date is Wednesday, September 2, 2026. The brief timestamp shows 2026-09-01, confirming the episode aired on September 1. However, the draft then states 'On Tuesday evening, Simmons addressed the matter on his podcast,' which would place that follow-up on September 2 (today). The brief includes the Tuesday quote but does not confirm the date as 'Tuesday evening' of the current day. Since today IS Wednesday, September 2, and the instruction specifies that 'A draft that reports an event dated after today as having already happened is an accuracy REJECT,' the framing of the Tuesday episode as a past event is correct. However, the draft attributes a quote in the second paragraph\u2014'A week later, called him up, ran it back. We did some more.'\u2014to Simmons, but this quote appears in the brief as data_point claim but is paraphrased differently. The actual quote in the brief reads: 'A week later, called him up, ran it back. We did some more.' This is accurate. The core issue: The draft opens with 'On Monday, September 1, 2026, Simmons described the arrangement' but the brief's timestamp is 2026-09-01T18:42:45Z, which is consistent. The subsequent 'On Tuesday evening' reference is also consistent with today being Wednesday. No accuracy failure here on timing. Re-examining: all podcast comments trace to the brief. The article is factually sound on dates.",
+     "the draft dates September 1, 2026 as a Monday; September 1, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c12",
+    "headline": "Gauff's serve rebounds in US Open first-round win",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a redundant/contradictory sentence: 'The fourth seed at Flushing Meadows this year is seeded fourth.' This is not an accuracy error per se (the fact is in the brief), but it appears the writer meant to cut one of these identical clauses and failed to do so. This is a clarity/polish error, not accuracy.",
+     "More critically: the draft states 'Last year, Gauff exited in the fourth round after her serving mechanics collapsed.' The brief's data_point says 'Last year Gauff suffered a fourth-round exit at the US Open.' Both are consistent and traceable.",
+     "The draft says 'She was photographed hitting serves in the rain on the practice courts, an image that came to define her tournament struggles.' The brief says 'Last year, Gauff was seen hitting serves in the rain on the US Open practice courts, which became the defining image of her struggles.' The draft's phrasing ('came to define her tournament struggles') is a fair paraphrase of the brief's 'defining image of her struggles' and traces correctly.",
+     "All other facts (age 22, two-time major, Sonmez match 6-3 6-4, Gavin MacMillan hire, Sabalenka precedent, Cincinnati double faults, the risk of tweaking technique, serve-to-love hold in set 1, second-set escape, all quoted material) trace to the brief.",
+     "The bear_case states that tweaking technique was 'always going to be a risk,' and the draft does acknowledge this: 'Tweaking technique heading into the US Open, where Gauff receives frenzied attention, was acknowledged as a risk.' This is balanced.",
+     "The bottom_line is forward-looking and does not summarize.",
+     "No betting advice is present; not_financial_advice disclaimer is in place.",
+     "However, the opening contains the awkward redundancy that should be cut for clarity."
+    ]
+   },
+   {
+    "id": "c198",
+    "headline": "Aaron Donald misses Monday practice; Rams uncertain of Week 1 availability",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Rams have not confirmed Donald's availability for Week 1' but the brief does not contain this claim. The brief only states 'Donald's Week 1 status remains unclear'\u2014a factual observation that differs materially from an assertion about what the Rams have or have not confirmed. The draft smuggles a statement about Rams organizational action that is not supported by the brief's data points.",
+     "The draft contains the phrase 'far from game shape as a returning superstar' which appears to be a paraphrase of the brief's data point 'far from game shape,' but the phrase 'as a returning superstar' is editorializing not present in the source brief and reads as the writer's voice overlaid on the reporting.",
+     "The brief is marked 'thin: true' with only 4 data points and 185 source characters. The draft expands beyond what the brief supports and includes interpretive flourishes ('immediate readiness for the 2026 season is in question,' 'raising doubts about the timing of his return') that go beyond the brief's facts."
+    ]
+   },
+   {
+    "id": "c66",
+    "headline": "Brandon McCoy Jr. to miss entire 2026-27 season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body states 'due to injury' but the brief's data_points do not specify the nature of the injury beyond 'due to injury.' However, the open_questions section explicitly notes: 'The specific nature of McCoy Jr.'s injury (e.g., ACL, other ligament damage) is not stated in the fetched source text, despite the headline referencing an ACL injury.' This indicates the source does not confirm the specific nature of the injury.",
+     "The draft is extremely thin (only two sentences of body) and relies entirely on one underfetched source. The brief's open_questions reveal gaps in what the source actually says versus what may have been in a headline: the specific injury type, whether it occurred during exhibition play, and return eligibility are all unconfirmed by the fetched source text. The writer should not report 'due to injury' as settled when the source itself is incomplete.",
+     "The brief marks this story 'thin: true' with only 3 data points and 610 source characters, indicating the research does not support a full story. A two-sentence draft on an incomplete source is a liability risk: if the injury details change or the source is incomplete, the desk has nothing substantive to stand on."
+    ]
+   },
+   {
+    "id": "c105",
+    "headline": "Ex-Warriors Employees Sue Over Retaliation, Discrimination Claims",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains a data point claiming 'In 2025, when President Trump began his second term, Vasquez alleges the Warriors began rolling back their diversity, equity, and inclusion commitments' (marked 'reported' confidence). This claim does not appear anywhere in the draft body. The draft states only that 'The timing corresponds with the Warriors' broader elimination of diversity initiatives, according to the complaint' without any reference to Trump, his term, or causation. The writer omitted a material factual claim from the brief."
     ]
    }
   ]
