@@ -2176,7 +2176,42 @@ def _subject_words(t):
     return _title_words(t) - GENERIC_TITLE_WORDS
 
 
-def supersede_ok(old_title, new_title, old=None, new=None):
+# A word this desk uses all season names a recurring actor, not a story. Computed from
+# the corpus so it stays current without anyone maintaining it: a subject word carried by
+# 2% or more of published titles (and by at least 4 of them, so a young corpus does not
+# flag its whole vocabulary) cannot on its own establish that two stories are one event.
+RECURRING_MIN_SHARE = 0.02
+RECURRING_MIN_COUNT = 4
+_RECURRING_CACHE = {}
+
+
+def _recurring_subjects(content_dir):
+    hit = _RECURRING_CACHE.get(content_dir)
+    if hit is not None:
+        return hit
+    counts, n = {}, 0
+    for fn in sorted(os.listdir(content_dir)) if os.path.isdir(content_dir or "") else []:
+        if not fn.endswith(".json") or fn.startswith("_"):
+            continue
+        try:
+            d = json.load(open(os.path.join(content_dir, fn), encoding="utf-8"))
+        except Exception:
+            continue
+        if d.get("example") or str(d.get("id") or "").startswith("wrap-"):
+            continue
+        t = d.get("title") or ""
+        if not t:
+            continue
+        n += 1
+        for w in _subject_words(t):
+            counts[w] = counts.get(w, 0) + 1
+    out = frozenset(w for w, k in counts.items()
+                    if k >= RECURRING_MIN_COUNT and n and k / n >= RECURRING_MIN_SHARE)
+    _RECURRING_CACHE[content_dir] = out
+    return out
+
+
+def supersede_ok(old_title, new_title, old=None, new=None, content_dir=None):
     """True when the new story may RETIRE the old one from every listing page.
 
     Retirement is the strong claim: it makes the old page unreachable except by its
@@ -2201,6 +2236,15 @@ def supersede_ok(old_title, new_title, old=None, new=None):
     if len(shared) / min(len(a), len(b)) >= 0.34:
         return True
     if old is not None and new is not None:
+        # THE DEDUPE BRANCH NEEDS A REAL SUBJECT, NOT A REGULAR CAST MEMBER. dedupe called
+        # the Clippers and Daktronics stories one event; it will do the same for two
+        # unrelated FIFA rulings or two unrelated Trump stories, because on this chassis
+        # same_event is grep-class too. So the shared word that carries this branch has to
+        # be one that actually distinguishes the pair. If every word they share is one the
+        # desk prints all season, the pair links as a lineage instead of one deleting the
+        # other, and both stay reachable.
+        if not (shared - _recurring_subjects(content_dir or CONTENT)):
+            return False
         try:
             import dedupe
             return bool(dedupe.same_event(old_title, old.get("key_fact", ""),
@@ -2240,7 +2284,7 @@ def find_superseded(title, declared_title, content_dir, hours=96, item=None):
             continue
         t = d.get("title") or ""
         if declared_title and t.strip() == declared_title.strip():
-            if supersede_ok(t, title, d, item):
+            if supersede_ok(t, title, d, item, content_dir):
                 return d.get("slug"), "supersede"
             print(f"::warning::supersede: the editor declared this story an update of "
                   f"{(d.get('slug') or '')[:60]!r}, but the two share no subject; "
