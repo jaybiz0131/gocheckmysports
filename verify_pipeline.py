@@ -926,6 +926,17 @@ def _contract_ladder_canary(cfg):
         evening = _dt.datetime(2026, 7, 15, 23, 50, tzinfo=_dt.timezone.utc)
         _check(watcher.missed_slot(evening, td) == "evening-brief", fails,
                "watcher recovery: missed evening slot not detected")
+        # (g) the evening window crosses midnight (2026-09-03): a 00:17 tick recovers
+        # yesterday's missing evening, dated to yesterday, and the closed-window audit
+        # does not call it permanently missed until the window ends at 05:00
+        after_midnight = _dt.datetime(2026, 7, 16, 0, 17, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(after_midnight, td) == "evening-brief", fails,
+               "watcher recovery: yesterday's missed evening not recovered after midnight")
+        _check("2026-07-15-evening-brief" not in watcher.missed_windows(after_midnight, td),
+               fails, "missed-edition audit: flagged an evening still inside its recovery window")
+        open(os.path.join(td, "2026-07-15-evening-brief.json"), "w").write("{}")
+        _check(watcher.missed_slot(after_midnight, td) is None, fails,
+               "watcher recovery: fired after midnight despite yesterday's evening existing")
 
     # THE BOTTOM LINE lane gate (owner directive 2026-07-15): the signature element's
     # own guardrail must block directional/predictive language and pass clean synthesis.

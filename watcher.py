@@ -69,21 +69,36 @@ SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     # the few ticks that DO fire land inside it).
     ("morning-brief", 10 * 60 + 45, 14 * 60),        # cron 09:40; recover 10:45-14:00
     ("afternoon-brief", 16 * 60 + 45, 20 * 60),      # cron 15:38; recover 16:45-20:00
-    ("evening-brief", 23 * 60 + 48, 24 * 60),        # cron 23:38; recover 23:48-24:00
+    # THE EVENING WINDOW CROSSES MIDNIGHT (ported from the crypto desk 2026-09-03, the
+    # first night after the hardening landed): with ticks at :17 and :47, a window of
+    # 23:48-24:00 contains NO tick (23:47 is before the deadline, 00:17 is after the
+    # end), so the evening slot could never self-heal on this desk, and on 2026-09-02
+    # GitHub's scheduler never fired the 23:38 cron at all. The window now runs to
+    # 05:00 the next morning; wrap.py already dates a SLOT_NAME=evening-brief fire
+    # before 05:00 to the previous day, and missed_slot below checks that day's file.
+    ("evening-brief", 23 * 60 + 48, 29 * 60),        # cron 23:38; recover 23:48-05:00(+1d)
     # (the run itself takes ~5-8 min; a still-running 23:38 slot at 23:48 just queues a
     # duplicate behind the publish lock and the one-edition-per-day guard skips it)
 )
 
 
 def missed_slot(now=None, content_dir=None):
-    """Return the edition slug of a missed slot, or None. Pure function for the canary."""
+    """Return the edition slug of a missed slot, or None. Pure function for the canary.
+
+    The edition file is keyed to the SLOT'S OWN day, not now.date(): a window that
+    crosses midnight (evening) checks the previous day's file, matching how wrap.py
+    dates the recovered edition."""
     now = now or datetime.datetime.now(datetime.timezone.utc)
     content_dir = content_dir or os.path.join(HERE, "site", "content")
     minutes = now.hour * 60 + now.minute
-    today = now.date().isoformat()
     for slug, deadline, window_end in SLOT_DEADLINES:
-        if deadline <= minutes < window_end and not os.path.exists(
-                os.path.join(content_dir, f"{today}-{slug}.json")):
+        slot_day, m = now.date(), minutes
+        if window_end > 24 * 60 and minutes < window_end - 24 * 60:
+            # in the wrapped hours of a cross-midnight window, the slot's day is
+            # yesterday and the clock reads as hour 24+
+            slot_day, m = slot_day - datetime.timedelta(days=1), minutes + 24 * 60
+        if deadline <= m < window_end and not os.path.exists(
+                os.path.join(content_dir, f"{slot_day.isoformat()}-{slug}.json")):
             return slug
     return None
 
@@ -102,7 +117,9 @@ def missed_windows(now=None, content_dir=None):
         if minutes >= window_end and not os.path.exists(
                 os.path.join(content_dir, f"{today}-{slug}.json")):
             missed.append(f"{today}-{slug}")
-    if minutes < 14 * 60:
+    # yesterday's evening is permanently missed only once its cross-midnight recovery
+    # window has closed (05:00 UTC); before that the watcher is still trying
+    if 5 * 60 <= minutes < 14 * 60:
         yday = (now.date() - datetime.timedelta(days=1)).isoformat()
         if not os.path.exists(os.path.join(content_dir, f"{yday}-evening-brief.json")):
             missed.append(f"{yday}-evening-brief")

@@ -565,32 +565,18 @@
     "note": "College football had ONE feed (CBS) against three NFL sources while the season opened (owner directive 2026-08-29). Sport-specific desk feed, same tier and shape as the Yahoo NFL/NBA/MLB feeds already carried."
    },
    {
-    "name": "ESPN College Football",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/ncf/news",
-    "note": "Carries the enforcement and eligibility reporting the other two miss: the SEC ex-pro eligibility ruling was on this feed and nowhere else the desk reads. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=40"
-   },
-   {
-    "name": "ESPN NFL",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/nfl/news",
-    "note": "Added alongside the college feeds for the season run-up: roster cutdowns, waivers and injury reporting land here first. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
-    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=40"
-   },
-   {
-    "name": "ESPN Tennis",
-    "tier": "major",
-    "url": "https://www.espn.com/espn/rss/tennis/news",
-    "note": "Dedicated slam lane (2026-08-31 audit: US Open Day 1 ranked out because tennis had no feed of its own and competed through the general lanes on the busiest weekend of the calendar). Live-verified serving items under the desk UA before wiring. FALLBACK WIRED 2026-09-02 (family audit): the RSS host answers GitHub runner IPs with HTTP 202 bot challenges (feed check #31, three failed feeds every run since 2026-08-29), so the matching ESPN JSON news endpoint is configured as fallback_api, which aggregate.espn_api_fallback already supports. If the feed check keeps reporting both dead, retire the entry.",
-    "fallback_api": "https://now.core.api.espn.com/v1/sports/news?sport=tennis&limit=40"
-   },
-   {
     "name": "Google News: college football",
     "tier": "mixed",
     "url": "https://news.google.com/rss/search?q=%22college+football%22+OR+%22Big+Ten%22+OR+%22Big+12%22+OR+%22College+Football+Playoff%22+OR+%22transfer+portal%22+when:2d&hl=en-US&gl=US&ceid=US:en",
     "note": "DISCOVERY ONLY. Aggregator links are google.com redirects, so the corroboration rules still require a tiered, directly-citable outlet before anything publishes. Returned 96 football-relevant items of 100 when tested on opening weekend.",
     "max_items": 12
+   },
+   {
+    "name": "Google News: tennis and the slams",
+    "tier": "mixed",
+    "url": "https://news.google.com/rss/search?q=tennis+OR+%22US+Open%22+OR+Wimbledon+OR+%22Australian+Open%22+OR+%22Roland+Garros%22+OR+ATP+OR+WTA+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "note": "DISCOVERY ONLY (2026-09-03). Replaces the ESPN Tennis lane: ESPN's RSS answers runner IPs with 202 bot challenges and its news API answered the wired fallback with 403 on the first post-fix run, so all three ESPN entries were retired again (they were re-added 2026-08-29 without a fallback and failed every run since). Aggregator links are google.com redirects, so the corroboration rules still require a tiered, directly-citable outlet before anything publishes; this lane exists so a slam day is never invisible to the editor.",
+    "max_items": 10
    }
   ],
   "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
@@ -639,7 +625,7 @@
    ]
   },
   "max_items_per_feed": 40,
-  "espn_note": "ESPN REMOVED 2026-08-18 (owner fix list item 3): the RSS hosts answer every GitHub runner IP with HTTP 202 bot challenges and the site.api fallback now 403s from runners too, so both tiers were dead from CI and every scheduled run lost them. Replaced with per-league CBS Sports + Yahoo feeds, each live-verified feed-shaped under the desk's own UA before wiring. If ESPN's posture changes or the desk gets a non-datacenter egress, the old entries are in git history."
+  "espn_note": "ESPN RETIRED AGAIN 2026-09-03 (family audit follow-up): the three feeds re-added 2026-08-29 failed every scheduled run (HTTP 202 bot challenge on the RSS host, feed check #31), and the site.api/now.core fallbacks wired 2026-09-02 answered 403 from the runner on the first post-fix run. Both tiers are dead from CI. NFL and college football stay covered by the CBS and Yahoo per-league feeds plus the Google News college lane; tennis by the Google News slam lane above. If the desk ever gets a non-datacenter egress, the entries are in git history."
  },
  "narratives": {
   "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
