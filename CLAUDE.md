@@ -138,6 +138,35 @@ that single token carried the whole floor. Month, weekday and slot names
 title template, ask what it does to every matcher keyed on title words: a token every
 story carries is a token that matches everything.
 
+**A recurring actor is not a subject either, and this is now the general rule.** The date
+stamp was one instance. `supersede_ok`'s dedupe branch needs only ONE shared subject word,
+and `same_event` is grep-class, so any word the desk prints all season carries it: `fifa`
+and `infantino` are each in 4.6% of sports titles, `trump` in 13.3% of news titles. Cost
+measured after the month fix: five consecutive chapters of the FIFA governance storyline
+hidden behind each other, a 9/11 trial-date ruling hidden behind a different ruling by the
+same judge, and an Alcaraz US Open match hidden behind an unrelated Sabalenka match whose
+only shared word was `round`.
+
+**The rule, demonstrated three times on this chassis: any matcher that can be satisfied by
+a single shared token needs a floor, and the floor should be measured from the corpus, not
+kept by hand.** The three are `consistency.RECURRING_ACTORS` (crypto), the month-name trap,
+and this. A hand-kept list is stale in both directions: it gains a name only after someone
+notices, and carries it long after anyone cares. Frequency in the desk's own titles is the
+same judgement, measured, and it maintains itself.
+
+`site_build._recurring_subjects(content_dir)` is that table, about twenty lines, cached per
+directory: subject words carried by 2% or more of published titles, minimum 4, so a young
+corpus does not flag its whole vocabulary. It gives each desk its own regular cast with
+nothing to maintain. **It is reusable, and the obvious next user is `dedupe.same_event`
+itself**, which is the machinery behind P2: `same_event` called the Clippers and Daktronics
+stories one event, and it will keep doing that for any pair sharing one recurring name.
+Sharpening it there fixes the cause rather than one caller.
+
+A note on measuring against a snapshot: the sandbox corpus this was verified against was
+about ten stories behind live, which is why the live run found six on sports where the
+sandbox found five. Expect drift, and read the names the dry run prints rather than only
+the count.
+
 Verified against both corpora: 47 of 55 sports chains and 65 of 79 news chains still
 retire, exactly the wrong ones stop. Canary passes on both desks and both sites build
 clean.
