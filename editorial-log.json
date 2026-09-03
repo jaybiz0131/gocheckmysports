@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 8,
-  "rejected": [
-   {
-    "id": "c027",
-    "headline": "Sources: No real progress in Mayfield, Buccaneers contract talks",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mike Evans said his agent would not continue negotiations once the season arrived,' but the brief data point says 'In 2023, former Buccaneers wide receiver Mike Evans said that he and his agent would not continue negotiations once the season arrived.' The draft omits the 2023 timestamp, creating potential confusion about which season is being referenced since Mayfield's situation is current (July 2026). More critically, the subsequent sentence claims 'Evans played out the season, and the two sides reached an agreement on a two-year deal in 2024'\u2014but the brief states this agreement was reached 'in 2024,' not that Evans played out 2023 and signed in 2024. The chronology is muddled and could mislead readers about the timeline of Evans' contract situation.",
-     "The draft claims 'Evans subsequently left for free agency and is now with the San Francisco 49ers,' but the brief data point says 'Mike Evans is now with the San Francisco 49ers, whom he signed with in free agency in 2026.' The draft's phrasing is imprecise: it does not clarify that Evans signed with SF in 2026 (current year), which is the critical detail that proves the Buccaneers' willingness to let star players walk. The omission weakens the precedent argument."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Mancini returns as Italy coach after Pirlo candidacy derailed by Russian betting ties",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Mancini resigned 'more than three years after his resignation in August 2023,' which is mathematically impossible and internally contradictory. The brief confirms he resigned in August 2023, making the return approximately 3 years later, not 'more than three years.'",
-     "The draft claims Mancini 'joins the Italian federation during a period of internal turmoil following the withdrawal of preferred candidate Andrea Pirlo due to undisclosed ties to Russian betting firm Fonbet,' but the brief data_point states Pirlo's ties were disclosed (he 'became a global ambassador of Fonbet in October 2025'), not undisclosed. The brief says the ties were not previously disclosed to Malag\u00f2, but they were known facts once discovered\u2014not 'undisclosed ties.' This conflates discovery-timing with the nature of the ties themselves.",
-     "The draft says Mancini was 'dismissed' in 2023, but the brief and data_points consistently state he 'resigned.' These are materially different facts."
-    ]
-   },
-   {
-    "id": "c108",
-    "headline": "Zidane named France head coach through 2030",
-    "category": "accuracy",
-    "reasons": [
-     "Title misspells 'Zinedine' as 'Zidane'. The brief's core_claim and all data_points refer to 'Zinedine Zidane'; the title contains a factual error that cannot be traced to the brief."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "Steelers' Aaron Rodgers reaffirms 2026 as final season: 'Zero doubt'",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Rodgers 'reported to his 22nd NFL training camp on Tuesday' but provides no verification this is actually his 22nd camp. The brief's data_point says 'Aaron Rodgers reported to his 22nd NFL training camp on Tuesday morning' but that claim itself is sourced to ESPN without independent confirmation of the count. This is a factual assertion about a specific number that should either be verified independently or marked with appropriate confidence language if it is announced-not-verified.",
-     "Draft includes the quote 'Since he was 50 years old and I was 10, we were kind of like trying to get used to the dynamic of everything' attributed implicitly to Metcalf discussing Rodgers joining the team, but this quote does not appear in the provided brief data_points and appears to be fabricated or improperly sourced. The brief does not contain this quote."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 7,
   "rejected": [
    {
@@ -8895,6 +8853,48 @@
     "reasons": [
      "The first data point in the brief is labeled 'announced-not-verified' confidence, indicating the Wild's announcement has not been independently verified. The draft presents this as a definitive statement ('The Minnesota Wild announced...a multiyear exclusive local streaming agreement with Prime Video') without any qualifying language or hedging that signals the unconfirmed status. Per the instructions, 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.'",
      "The draft states 'The Wild announced pricing information for streaming during the 2026-27 season' as fact, but the brief's corresponding data point says 'The Wild announced pricing information for streaming the team's games during the 2026-27 season' with confidence 'reported.' However, the bottom_line explicitly states 'Specifics on subscription pricing...remain to be confirmed,' which directly contradicts the draft's confident assertion that pricing was announced. The draft must align with either the brief's claim or the bottom_line's acknowledgment of uncertainty; as written, it creates internal inconsistency and overstates what was announced."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-03",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c102",
+    "headline": "Georgia Attorney General Urges SEC to Consider Suspending LSU Over Former NFL Players (September 3, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the judge hearing is 'one day before' but today is Thursday, September 3, 2026. The draft says 'The statement comes one day before a state court judge in Baton Rouge is expected to rule on the eligibility of two athletes' and later states 'State judge William Jorden will hear arguments on Thursday from the SEC and LSU.' If today is Thursday and the hearing is on Thursday, it is happening today, not 'one day before.' This is a temporal accuracy error.",
+     "The draft states 'Judge Jorden ruled on Friday that the SEC could not enforce its new rule blocking eligibility' but if today is Thursday, September 3, 2026, then 'Friday' would be September 4, 2026\u2014a date in the future. The draft is describing a future ruling as though it has already occurred, which violates the hard rule that events dated after today cannot be reported as having already happened."
+    ]
+   },
+   {
+    "id": "c50",
+    "headline": "Liberty's Sabally ruled out for 2026 season after June 23 concussion",
+    "category": "accuracy",
+    "reasons": [
+     "Draft headline and opening paragraph state Sabally suffered a concussion on 'June 23' and is 'ruled out for the remainder of the 2026 WNBA season,' but today's date is September 3, 2026. If the June 23 injury occurred in 2026, the ruling would have been made months ago, not 'Thursday' (today). The brief's data_point states the ruling date as 'first_seen' without explicit timestamp, creating ambiguity, but the draft's phrasing ('is ruled out for the remainder of the 2026 WNBA season') in present tense combined with 'Thursday' in the bottom line ('announced Thursday with four regular-season games left') implies a current/recent announcement. However, if we are in September 2026 and the regular season has four games remaining, and Sabally suffered the injury June 23, 2026, then the ruling would have come substantially earlier than today. The brief does not provide a ruling announcement date, only that the injury occurred on June 23. The draft conflates the injury date with an implied current-date ruling announcement without explicit sourcing of when the ruling was actually made, creating a temporal accuracy problem.",
+     "The bottom line states 'The timing of the ruling, announced Thursday with four regular-season games left' \u2014 this presumes the announcement occurred today (Thursday, Sept 3), yet if the injury was June 23 and we are now Sept 3, a season-ending ruling made today would be extraordinarily late (over two months post-injury with only 4 games left). This reads as false or misleading temporal framing without explicit confirmation from the brief that the ruling was announced today rather than weeks/months earlier."
+    ]
+   },
+   {
+    "id": "c2",
+    "headline": "Wong takes 5-33 as England beat Ireland by six wickets to seal series on September 3",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the match as having occurred on September 3 (today's date per the scenario), using past tense throughout ('took', 'claimed', 'defeated', 'sealed'). The title and opening sentence treat a scheduled future event as completed fact. Today is Thursday, 2026-09-03; the match date in the brief is 2026-09-03. This violates the hard rule: a draft that reports an event dated after today (or on today, if the event is scheduled for later in the day) as having already happened is an accuracy REJECT. The story should use future or conditional tense, or wait for confirmed post-match reporting.",
+     "The brief's core_claim and data_points are all marked with today's timestamp (2026-09-03), but none carry 'verified-on-chain' confidence for the match result itself\u2014only for individual statistics like Wong's figures, India's total, and player performances. The claim 'England defeated Ireland by six wickets' is not independently verified in the brief; it depends on the match having been played. The brief's data_points suggest reporting from news outlets, but the core event outcome (the match result) appears to be announced/reported, not yet verified as completed."
+    ]
+   },
+   {
+    "id": "c148",
+    "headline": "Acu\u00f1a Jr. reaches 200 HRs and 200 SBs fastest in MLB history on September 2",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports events dated September 2 in past tense as already occurred. Today is September 3. However, the brief's core_claim and data_points all carry timestamp 2026-09-02, and the confidence label on the core milestone claim is 'announced-not-verified', not 'verified-on-chain'. The story treats 'Ronald Acu\u00f1a Jr. became the fastest player in MLB history to reach 200 home runs and 200 stolen bases' as settled fact, but the brief itself marks this claim as 'announced-not-verified', meaning it has been announced by MLB but not yet independently verified. The draft must signal this uncertainty in its prose or the claim cannot run as the lead.",
+     "The brief's bear_case notes 'The reporting does not specify the nature of his injuries or their impact on his production' and open_questions ask 'What specific injuries have interrupted Acu\u00f1a's season.' The draft states flatly 'injury-interrupted season' multiple times without qualification. This is speculative beyond the brief's confirmed data and should either be removed or attributed to a source explicitly."
     ]
    }
   ]
