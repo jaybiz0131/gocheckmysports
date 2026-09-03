@@ -22,9 +22,10 @@ a live notify-only check that never blocks a run.
     Any deviation -> ::error:: + exit 1.
 
   LAYER 2  live source check (NOTIFY-ONLY, exit 3 on content mismatch, never blocks a run).
-    Fetches each configured RSS feed and asserts HTTP 200 + looks-like-a-feed. A broken feed
-    -> ::error:: + exit 3 (CI marks it failed / opens an issue) but never blocks. A network
-    error -> ::warning:: only.
+    Fetches each configured RSS feed and asserts HTTP 200 + looks-like-a-feed + at least one
+    item on two reads (a valid channel serving zero items is a dead lane that reads as
+    healthy). A broken feed -> ::error:: + exit 3 (CI marks it failed / opens an issue) but
+    never blocks. A network error -> ::warning:: only.
 
 USAGE
   python3 verify_pipeline.py canary     # Layer 1 only (exit 0 pass / 1 fail)
@@ -36,6 +37,7 @@ import inspect
 import glob
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -995,6 +997,14 @@ def _failclosed_canaries(cfg):
 
 # ---- Layer 2 -----------------------------------------------------------------
 
+def _entry_count(body):
+    """Count RSS <item> / Atom <entry> elements in a lowercased feed body. Regex, not
+    ElementTree: this check must never throw on a malformed document, and a feed that
+    uses a namespace prefix it never declares hard-fails a real parse (see
+    aggregate._declare_missing_namespaces) while still carrying readable items."""
+    return len(re.findall(r"<(?:[a-z0-9_.-]+:)?(?:item|entry)[\s/>]", body))
+
+
 def layer2_sources():
     cfg = common.load_config()
     fails = []
@@ -1004,7 +1014,11 @@ def layer2_sources():
             req = urllib.request.Request(url, headers={"User-Agent": common.UA})
             with urllib.request.urlopen(req, timeout=30) as r:
                 code = r.getcode()
-                head = r.read(2000).decode("utf-8", "replace").lower()
+                # Read the WHOLE body, not the first 2000 bytes: the shape check below
+                # still only needs the head, but the item count added after it needs the
+                # channel. These are ~25 small feeds, so the full read costs nothing.
+                body = r.read().decode("utf-8", "replace").lower()
+                head = body[:2000]
         except Exception as e:
             gh("warning", f"sources: '{name}' fetch failed ({url}): {e} -- soft warning only, NOT failing")
             continue
@@ -1044,7 +1058,30 @@ def layer2_sources():
             fails.append({"feed": name, "url": url,
                           "status": "HTTP 200 but not feed-shaped", "fallback": "n/a"})
         else:
-            print(f"LAYER 2 sources: OK '{name}' -> HTTP 200, feed-shaped.")
+            # A feed-shaped body is not a working feed: a channel can be perfectly valid
+            # and carry ZERO items, and the shape check above calls that healthy forever.
+            # On 2026-09-03 all four Google News lanes served 0 items in production (12
+            # each an hour earlier) and this layer reported nothing wrong. Same two
+            # attempts as the fallback probe above, and for the same reason: an empty read
+            # is usually a transient miss, and one empty read is not a dead feed.
+            n_items = _entry_count(body)
+            if n_items == 0:
+                # Second attempt (the read above was the first), same 3 second pause.
+                time.sleep(3)
+                try:
+                    rreq = urllib.request.Request(url, headers={"User-Agent": common.UA})
+                    with urllib.request.urlopen(rreq, timeout=30) as rr:
+                        if rr.getcode() == 200:
+                            n_items = _entry_count(
+                                rr.read().decode("utf-8", "replace").lower())
+                except Exception:
+                    pass
+            if n_items == 0:
+                gh("error", f"sources: '{name}' served a feed with zero items on two reads: {url}")
+                fails.append({"feed": name, "url": url,
+                              "status": "HTTP 200 but zero items", "fallback": "n/a"})
+            else:
+                print(f"LAYER 2 sources: OK '{name}' -> HTTP 200, feed-shaped.")
     if fails:
         # Machine-readable failure list: the verify workflow's flag issue names the
         # feeds from this file instead of sending the owner into the run logs.
