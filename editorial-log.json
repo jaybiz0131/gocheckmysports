@@ -1,45 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 8,
-  "rejected": [
-   {
-    "id": "c101",
-    "headline": "Daniel Jones says he will participate fully in Colts training camp",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'An Achilles injury typically requires extended rehabilitation' but provides no source or data point in the brief to support this claim about recovery timelines. The brief's open_questions note that 'What was the exact date Jones suffered the Achilles tear during the 2025 season?' is unknown, yet the draft treats the injury as settled fact without timeline detail. More critically, the draft asserts Jones 'expects to participate in full-team drills' but the brief data_point says only 'Jones said he expects to participate in full-team drills when training camp opens Wednesday'\u2014a distinction, but the draft omits that this is Jones's unverified declaration without official Colts medical clearance, which is a material fact given the brief's emphasis that 'Did the Colts medical staff issue an official clearance statement, or is this declaration from Jones alone?' is an open question. The draft reads as Jones's claim presented as readiness without sufficient qualification of uncertainty."
-    ]
-   },
-   {
-    "id": "c129",
-    "headline": "Chelsea explore moves for Danny Welbeck and Jordan Henderson",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Chelsea manager Xabi Alonso is overseeing the pursuit' but the brief lists 'Chelsea manager is Xabi Alonso' as a reported fact from the source. The draft presents this as established fact when it should be attributed inline to The Guardian reporting, as all other claims are. More critically, the draft does not explicitly attribute Alonso's involvement to the source material\u2014it reads as the writer's inference rather than reported fact."
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "LeBron James Joins 76ers on Two-Year, $8 Million Veteran's Minimum",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Gansey 'shares Ohio roots with James that date to high school basketball two decades ago' and was 'runner-up in the 2001 Ohio Mr. Basketball award to James, who won the honor three times before bypassing college to enter the NBA draft.' However, the brief data_point says Gansey 'joined the Cavaliers in 2011 and had worked as their general manager since 2022'\u2014a GM appointment in 2022 contradicts the claimed high school connection and does not establish Gansey's career or basketball background. The draft does not trace Gansey's actual role or when he became a basketball figure; it imports a personal biographical narrative ('knew LeBron since high school,' Ohio Mr. Basketball runner-up) that does not appear in the brief data_points and cannot be verified from the single ESPN source provided.",
-     "The draft includes a Gansey quote: 'I have had the pleasure of knowing LeBron since high school and have seen the high-level impact he's produced at every stop of his basketball journey. He is a consummate professional, the ultimate competitor and a tireless worker. But he is also an incredible person with natural leadership traits, a family man, and someone who possesses unwavering commitment to community and those around him.' This quote is attributed to 'ESPN' in the body, but the corresponding brief data_point shows a different Gansey quote: 'There is no doubt LeBron is one of the greatest players to ever play the game of basketball and there are no words to measure the impact he'll have on this organization.' The draft fabricated or misattributed a quote; only the brief's quoted Gansey statement is supported by source."
-    ]
-   },
-   {
-    "id": "c105",
-    "headline": "Son of Chiefs offensive coordinator arrested in Virginia shooting incident",
-    "category": "accuracy",
-    "reasons": [
-     "The headline states 'Son of Chiefs offensive coordinator arrested in Virginia shooting incident' but the body says 'The status and condition of Eric Bieniemy's wife, who was shot according to the story's headline, is not addressed in the available reporting.' This is contradictory: the headline claims the wife was shot, but the brief contains no data_point confirming anyone was shot. The brief only confirms 'Elijah Zion Bieniemy of Ashburn faces multiple charges' in connection with a shooting incident\u2014not that the shooting occurred or that anyone was hit. The draft smuggles in a fact (wife was shot) that does not appear in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 5,
   "rejected": [
    {
@@ -8928,6 +8889,29 @@
      "The draft reports the game as occurring on 'September 3' in the title and opening sentence, but the brief's data_points are timestamped 2026-09-03T04:58:00Z, and the brief's open_questions note: 'The MLB.com source does not provide the exact date of Wednesday's game; only CBS Sports context suggests it occurred on or around September 3.' The draft presents a game dated after today (2026-09-03) as having already happened without establishing that it did. The brief itself contains uncertainty about the game's date.",
      "The draft states Vel\u00e1zquez 'drilled a two-run single to center field off lefty reliever Sean Newcomb' but the brief data_point says 'Vel\u00e1zquez came off lefty reliever Sean Newcomb with an exit velocity of 107 mph' without specifying the pitcher was the one who gave up the hit. The draft conflates exit velocity attribution with pitcher identification in a way the brief does not clearly support.",
      "The draft uses 'clinched' language ('clinched the season series against Chicago at 4-2') which presents as definitive, but the brief's data_point says 'The Astros won two of the first three games of the series to improve to 4-2 against the White Sox this year' \u2014 a record of 4-2 with games remaining is not a clinch without confirmation that no further games in the series are scheduled. The brief's core_claim uses 'clinch' but only if that claim is itself sourced; here the brief's supporting data does not confirm series closure."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-03",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c079",
+    "headline": "The Athletic Releases Internal Report on Russini-Vrabel Relationship and Editorial Standards",
+    "category": "compliance",
+    "reasons": [
+     "The draft attributes a damaging personal claim about a named individual (Vrabel's counseling during the offseason, implied relationship details, time away from the Patriots during the Draft) to a secondary source (Awful Announcing's report on an internal investigation) without independent verification. The specific allegation about Vrabel taking time away and attending counseling is a reputationally sensitive claim that requires more than one source or on-record primary sourcing. The brief itself marks these items as 'reported' confidence but they are personal/behavioral claims about a named person tied to an ongoing personal matter. The sentence 'Vrabel took time away from the Patriots during the NFL Draft' and 'Vrabel has said he went to counseling during the offseason' should not appear without direct attribution to Vrabel's own statements or independent corroboration.",
+     "The Scoop City podcast statement in the draft includes an editorial interpretation ('It's now unclear whether The Athletic would have had the access to Vrabel for this interview had she disclosed their relationship') that is not present in the brief's data_points. This is speculative editorializing attributed to Scoop City but appears to go beyond what the brief confirms Scoop City said."
+    ]
+   },
+   {
+    "id": "c235",
+    "headline": "Devils acquire winger Luke Evangelista from Predators, September 2",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the trade as having occurred on 'September 2' (past tense: 'traded for', 'acquiring'). The brief timestamp shows 2026-09-02T15:26:09Z, and today is 2026-09-03. However, the draft title says 'September 2' which is the date the event occurred. The problem: the draft body uses past tense throughout ('traded for', 'acquiring', 'logged', 'comes as part of') reporting an event that by today's date (Thursday 2026-09-03) did occur in the past. This is correct. However, the draft contains multiple data points not present in the brief: Anthony Mantha's contract details (two-year, $9.5 million), his goal/assist totals (33 goals, 31 assists), the Markstrom trade details (Rodrigues, Boqvist, Steeves names), Markstrom's cap hit ($6 million through two years), and goalkeeper ages/names (Jake Allen 36, Nico Daws 25, David Rittich 34) all appear in the draft but were not in the research brief's core data points. Wait\u2014checking again: these ARE in the brief's data_points list (items 16-19 cover Mantha; item 18 covers Markstrom trade; item 21 covers goalies). All facts trace. The brief's bear_case is empty, which is correct per the instructions (no counter-evidence required when bear_case is empty). The open_questions about conditions and Avalanche confirmation are not contradicted by the draft's conditional explanation. Re-reading the conditional clause in the draft: 'if the Avalanche's 2027 first-rounder isn't transferred to Toronto, or if the 2028 first-rounder ranks in the top 10'\u2014the brief data point says 'if the Avs' 2027 first-rounder isn't transferred to the Maple Leafs, or if the 2028 first-rounder is in the top 10.' These match. The draft also includes material not in the brief: Jack Hughes described as 'American gold-medal hero' context is in the brief as data point 20 ('Jack Hughes is an American gold-medal hero'), and Connor Hellebuyck references in data points 22-23 do NOT appear in the draft, so the draft correctly omits those unrelated tangents. Actually, re-examining: data points 20, 22, 23 (Jack Hughes gold medal, Hellebuyck references) appear in the brief but NOT in the draft, which is appropriate editorial discretion. No smuggled facts detected. However: the draft says Evangelista 'is entering the final year of a two-year, $6 million contract'\u2014the brief says 'is entering the last season of a two-year, $6 million contract.' These are synonymous. The core issue: all major facts trace to brief data points. The story is accurate against the brief."
     ]
    }
   ]
