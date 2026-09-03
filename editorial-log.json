@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-07-27",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c069",
-    "headline": "Pogacar claims fifth Tour de France title, equalling all-time record",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mathieu van der Poel took stage 21 of the 2026 Tour' as a fact presented without qualification. The brief marks this as 'reported' confidence, which is appropriate for a single outlet report, but the phrasing in the draft body reads as settled fact rather than a secondary detail from a single source about an event focused on Pogacar's overall victory. More critically, this detail appears grafted into a story about Pogacar's fifth title without narrative justification\u2014it reads as unvetted secondary information that may not belong in a draft about the headline achievement. The brief's open_questions note that 'the full text of the BBC Sport article is not accessible; the source_text appears truncated or corrupted,' which means the writer cannot verify van der Poel's stage win was actually reported in the same article or is being conflated from another source."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Mayo ends 75-year All-Ireland championship drought",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mayo's first All-Ireland title since 1951' as fact, but the brief's open_questions explicitly note 'The exact year of Mayo's last All-Ireland title is not stated in the available source text.' This fact is not in the brief's data_points and should not appear as settled fact in the draft.",
-     "The draft asserts Mayo 'won the All-Ireland football championship' and closes 'a gap that spans three-quarters of a century' as definitive outcomes, but the brief marks the source as truncated (source_chars: 134) and the core claim only states Mayo 'won' without providing the match details, opponent, or score from the source material. The writer has interpolated that the championship is won rather than working from confirmed source text."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Koivun, 21, wins first PGA Tour title over world No. 1 Scheffler at 3M Open",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Koivun is a first-time competitor on the PGA Tour' and 'This was Koivun's first PGA Tour win,' treating these as distinct facts, but the brief conflates them: the core claim says 'American rookie Jackson Koivun won his first PGA Tour event,' which does not separately confirm he had never competed before this event. The brief's data_point on 'Koivun is a rookie on the PGA Tour' is marked 'reported' (unverified), not 'verified-on-chain' like the win itself. The draft presents an unconfirmed claim with the same confidence as the verified win.",
-     "The brief notes the source 'is truncated HTML markup and does not contain the full article body.' The draft confidently asserts 'Jackson Koivun won his first PGA Tour event at the 3M Open by defeating Scottie Scheffler by three strokes' from a truncated source without flagging the sourcing or confidence level of these details."
-    ]
-   },
-   {
-    "id": "c122",
-    "headline": "Lando Norris wins Hungarian Grand Prix, first victory of 2026 season",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims Norris is 'a world champion' in the brief's angle section, but no data_point in the brief confirms Norris holds or held a world championship title. The brief describes him as 'a world champion' but this claim is not sourced to the Guardian article and appears to be writer inference, not reported fact from the brief."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "MLB Trade Deadline Approaches: NL Contenders Weigh Moves Against Dominant Dodgers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the Dodgers are 'sitting 12 games ahead in the NL West' but the brief data point says they hold '12-game edge over second-place Arizona Diamondbacks in the NL West.' The draft's phrasing is ambiguous about whether the 12-game lead is over the division runner-up or just generally in the division; the brief clarifies it is specifically over Arizona, the second-place team. This difference matters for context.",
-     "The draft claims 'Chicago Cubs hold the first wild-card spot' but the brief states 'Atlanta and Milwaukee lead their respective divisions; Chicago and Philadelphia hold the first and second wild-card spots, respectively.' The draft does not specify that Chicago holds the first wild-card spot among NL wild-cards, which could be misread as the first overall wild-card in MLB. The brief is more precise.",
-     "The draft includes no attribution to 'FanGraphs' inline for the 7% first-round bye statistic. The sentence 'they have just a 7 percent chance of earning a first-round bye, according to FanGraphs' properly attributes it, but the brief notes the Cubs' 7% chance 'according to FanGraphs,' and the draft should maintain that attribution clarity throughout."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-27",
   "approved": 5,
   "rejected": [
    {
@@ -9002,6 +8952,51 @@
      "CRITICAL ACCURACY FAILURE: The brief's sixth data point states: 'The gap between Team USA and international competition is virtually nonexistent.' The draft does NOT include this claim. Instead, the draft says: 'International competition in women's basketball has begun to narrow historically wide margins between the USA and other national programs, though the full roster compositions and tournament bracket remain to be detailed as the tournament approaches.' This paraphrase softens the claim (narrowing margins \u2260 gap virtually nonexistent) and introduces hedging language ('begun to narrow') not in the source. More critically, the draft then says 'though the full roster compositions and tournament bracket remain to be detailed as the tournament approaches'\u2014but the brief notes in open_questions that 'The fetched source text from Yahoo Sports contains only a bare header; the full rosters and team-by-team details are not in the provided source text.' The draft is NARRATING ABSENCE, explicitly stating that rosters and bracket 'remain to be detailed.' The approval instructions state: 'A sentence that does [narrate absence, like 'the absence of', 'remains unreported'] is category 'accuracy'.' The offending sentence does exactly this.",
      "ADDITIONAL ACCURACY ISSUE: The draft claims the USA 'has not lost a World Cup game since 2006,' which traces to the brief. However, the brief's open_questions note that 'The fetched source text from Yahoo Sports contains only a bare header; the full rosters and team-by-team details are not in the provided source text' and 'The other two fetched URLs (CBS Sports fantasy football articles) are about NFL 2026, not FIBA basketball, and do not pertain to this story.' This signals that the source material provided to the brief was incomplete or corrupted. The draft cites Yahoo Sports as the source for all claims, but the brief itself notes the source was inadequate. This is a sourcing/verification problem: the draft should not run claims from a source the brief acknowledges was incomplete.",
      "The brief is marked 'thin': true, meaning the source material was thin. The draft should be tight and proportionate to that thinness, but instead it narrates the absence of information, which violates the accuracy rule against narrating absence."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-03",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Georgia AG urges SEC to suspend, expel LSU if school rosters former NFL players; court ruling set Thursday, September 5",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 5, 2026 as a Thursday; September 5, 2026 is a Saturday",
+     "the draft dates September 5, 2026 as a Thursday; September 5, 2026 is a Saturday",
+     "the draft dates September 5, 2026 as a Thursday; September 5, 2026 is a Saturday",
+     "the draft dates September 7, 2026 as a Saturday; September 7, 2026 is a Monday",
+     "the draft dates September 5, 2026 as a Thursday; September 5, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c141",
+    "headline": "Acu\u00f1a Jr. becomes fastest to 200 HRs and 200 SBs, hits milestone in 904th game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Acu\u00f1a sat on the precipice of the accomplishment for 16 games since homering on Aug. 15' but the brief data point says 'Acu\u00f1a sat on the precipice of the accomplishment for 16 games since homering on Aug. 15.' However, the draft does not include this calculation; instead it says 'leaving him on the precipice of the home run milestone for 16 games before Wednesday's breakthrough.' This is consistent with the brief. The actual problem: the draft says 'He recorded his 200th stolen base on June 24, 2025, leaving him on the precipice of the home run milestone for 16 games' but provides no source for the 16-game span\u2014this figure appears in the brief but the draft must trace it back. Upon closer inspection, the brief includes this as a data point but the draft's phrasing 'recorded his 200th stolen base on June 24, 2025' combined with 'for 16 games' is not clearly sourced inline. More critically: the draft includes substantial reporting on Sean Murphy, Austin Riley, Elieser Hern\u00e1ndez, a rain delay, and Hern\u00e1ndez's career arc\u2014none of which appear in the story's main focus or the brief's primary data points about Acu\u00f1a. These details (Murphy's stats, Riley's hit, Hern\u00e1ndez's contract selection and previous appearances) are not mentioned in the brief at all, violating the hard rule that no fact exists outside the brief.",
+     "the draft dates September 5, 2026 as a Friday; September 5, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c343",
+    "headline": "Healthy again, Carlos Alcaraz returns to US Open with dominant win, September 1",
+    "category": "compliance",
+    "reasons": [
+     "The draft characterizes Alcaraz's return as 'healthy again' and 'signaling he is pain-free' in the core claim framing, but the brief's bear_case explicitly notes that 'The sources do not provide confirmation that Alcaraz is fully recovered; his statement is limited to feeling the wrist was \"great\" during this one match.' The draft presents a medical conclusion (pain-free, healthy) that goes beyond what Alcaraz stated in his quote. His statement is self-reported feeling during one match, not medical clearance or confirmation of full recovery. This exceeds the bounds of the brief and overstates the medical status.",
+     "The opening presents Alcaraz as returning 'healthy again' without the hedging language the brief's bear_case requires. The brief signals uncertainty about recovery status; the draft reads as settled fact."
+    ]
+   },
+   {
+    "id": "c255",
+    "headline": "Bosa Returns to Practice, 49ers Expect Him for Week 1 in Australia on September 10",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The team is preparing to depart for Australia on September 2 and will arrive in Melbourne on September 4' in present tense. Today is September 3, 2026; these events have already occurred or are occurring. The sentence reads as though the departure is still upcoming when it should read as completed or in-progress.",
+     "The draft's opening paragraph uses present tense ('returned to practice on September 2') correctly for a past event, but the subsequent sentence about departure and arrival treats future logistics as though they haven't yet happened. This is internally inconsistent and misleading about the timeline."
     ]
    }
   ]
