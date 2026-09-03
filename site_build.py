@@ -539,6 +539,21 @@ def load_content():
     # example) after the day's ranked stories
     items.sort(key=lambda c: (c.get("date", ""), -(c.get("rank") or 999), c.get("id", "")),
                reverse=True)
+    # A SUPERSEDE POINTER WITH NO TARGET RETIRES A STORY BEHIND NOTHING. Both desks carry
+    # one: the successor was held by story_shape_problems or folded into another file
+    # after the pointer had already been written, so the reader lost the story and got no
+    # replacement, and the article page offered a link to a 404. Fail-open at load: the
+    # story is live until something real supersedes it.
+    _live = {c.get("slug") for c in items if c.get("slug")}
+    for c in items:
+        s = c.get("superseded_by")
+        if s and s not in _live:
+            print(f"::warning::load_content: {(c.get('slug') or '?')[:60]} is marked "
+                  f"superseded by {s[:60]!r}, which is not published; keeping it live")
+            c.pop("superseded_by", None)
+        k = c.get("continued_by")
+        if k and k not in _live:
+            c.pop("continued_by", None)
     return items
 
 
@@ -879,6 +894,14 @@ def render_article(item, all_items=None, hubs=None):
         ribbon += (f'<div class="callout"><b>This story has been updated.</b> Read the '
                    f'latest version: <a href="/articles/{esc(item["superseded_by"])}.html">'
                    f'{esc(newer_title)}</a>.</div>')
+    if item.get("continued_by") and not item.get("superseded_by"):
+        later = next((i for i in (all_items or [])
+                      if i.get("slug") == item["continued_by"]), None)
+        later_title = later.get("title") if later else "our later story"
+        ribbon += (f'<div class="callout"><b>There is a later development.</b> This story '
+                   f'stands; the storyline continued in: '
+                   f'<a href="/articles/{esc(item["continued_by"])}.html">'
+                   f'{esc(later_title)}</a>.</div>')
     if item.get("update_of"):
         prev = next((i for i in (all_items or []) if i.get("slug") == item["update_of"]), None)
         prev_title = prev.get("title") if prev else "our earlier story"
@@ -2122,12 +2145,82 @@ def _title_words(t):
             for w in _re.findall(r"[a-z]{4,}", (t or "").lower())}
 
 
-def find_superseded(title, declared_title, content_dir, hours=96):
-    """The slug of an existing story this new one supersedes, or None. Two detectors:
-    the editor's explicit declaration (exact title match from its shelf: catches the
-    same event under a rewritten angle), and a deterministic word-overlap backstop
-    (>=70% of meaningful title words: catches near-identical republication that slips
-    past every model). Editions and examples are never superseded."""
+# Words that carry no subject. Two titles sharing only these share nothing: "trade"
+# paired a Toronto Tempo signing with a Yankees reliever, "game" and "wnba" paired a
+# spectator ban with an ejection, "after" paired a WNBA fine with an unrelated press
+# comment. All three retired a correct story. Month, weekday and slot names are here
+# for the same reason: titles on this desk carry a "(September 2)" date suffix, so
+# "september" was the ONLY shared word holding up the Clippers/Daktronics supersede,
+# the flagship case this patch exists to stop. A date stamp is not a subject.
+GENERIC_TITLE_WORDS = frozenset("""
+about after against amid among announce announced announces before being between
+called case cases change changes claim claims comment comments could deal deals
+decision decisions during first following found from group groups have holds into
+issue issues just latest league leave leaves major make makes month months more
+most move moves near need needs never next official officials only open opens
+order orders over part people plan plans police president press report reported
+reports return returns rules ruling said says second sets several since some
+start starts state states still take takes team teams that their them then there
+these they third this those three time times told took total under until update
+updates used using week weeks what when where which while will with without
+work works would year years game games season seasons player players coach
+coaches trade trades sign signs signed win wins loss losses
+january february march april june july august september october november december
+monday tuesday wednesday thursday friday saturday sunday
+morning afternoon evening night today tonight tomorrow yesterday weekend daily
+""".split())
+
+
+def _subject_words(t):
+    """Title words that actually name a subject."""
+    return _title_words(t) - GENERIC_TITLE_WORDS
+
+
+def supersede_ok(old_title, new_title, old=None, new=None):
+    """True when the new story may RETIRE the old one from every listing page.
+
+    Retirement is the strong claim: it makes the old page unreachable except by its
+    direct URL, forever. It is right for a replacement (one event, told better) and
+    wrong for a follow-up. So it needs evidence, and the failure mode is deliberately
+    benign: a pair that fails this still publishes and still cross-links as a lineage,
+    it just leaves both chapters reachable. Two live cross-linked pages is a small cost.
+    A correct story nobody can reach is the failure a reader actually notices.
+
+    Two ways to clear it, and BOTH require shared subject matter, which is the part the
+    old code had no notion of:
+      - the titles overlap on subject words by a third or more, or
+      - dedupe agrees the two are one event AND they share at least one subject word.
+    The second conjunct is what stops the Clippers case: dedupe called that pair one
+    event, and the titles share literally nothing."""
+    a, b = _subject_words(old_title), _subject_words(new_title)
+    if not a or not b:
+        return False
+    shared = a & b
+    if not shared:
+        return False
+    if len(shared) / min(len(a), len(b)) >= 0.34:
+        return True
+    if old is not None and new is not None:
+        try:
+            import dedupe
+            return bool(dedupe.same_event(old_title, old.get("key_fact", ""),
+                                          new_title, new.get("key_fact", "")))
+        except Exception:
+            return False
+    return False
+
+
+def find_superseded(title, declared_title, content_dir, hours=96, item=None):
+    """(slug, relation) for an existing story this new one follows, or (None, None).
+    relation is "supersede" (retire the old page) or "chain" (keep both, cross-linked).
+
+    Two detectors: the editor's explicit declaration (exact title match from its shelf:
+    catches the same event under a rewritten angle) and a deterministic word-overlap
+    backstop (>=70% of meaningful title words: catches near-identical republication that
+    slips past every model). A declaration that does not clear supersede_ok is not
+    discarded, it is DOWNGRADED to a chain: the editor saw a connection, and the honest
+    rendering of a connection the desk cannot verify is a link, not a deletion.
+    Editions and examples are never superseded."""
     import datetime as _dt
     cutoff = (_dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=hours)).isoformat()
     nw = _title_words(title)
@@ -2147,7 +2240,12 @@ def find_superseded(title, declared_title, content_dir, hours=96):
             continue
         t = d.get("title") or ""
         if declared_title and t.strip() == declared_title.strip():
-            return d.get("slug")
+            if supersede_ok(t, title, d, item):
+                return d.get("slug"), "supersede"
+            print(f"::warning::supersede: the editor declared this story an update of "
+                  f"{(d.get('slug') or '')[:60]!r}, but the two share no subject; "
+                  f"linking them as a lineage instead of retiring the earlier story")
+            return d.get("slug"), "chain"
         tw = _title_words(t)
         if nw and tw:
             overlap = len(nw & tw) / min(len(nw), len(tw))
@@ -2158,7 +2256,26 @@ def find_superseded(title, declared_title, content_dir, hours=96):
             same_day = (d.get("published_utc") or "")[:10] ==                 _dt.datetime.now(_dt.timezone.utc).date().isoformat()
             if overlap >= (0.5 if same_day else 0.7):
                 best = d.get("slug")
-    return best
+    return (best, "supersede") if best else (None, None)
+
+
+def mark_continued(content_dir, old_slug, new_slug):
+    """Point the earlier chapter forward WITHOUT retiring it. The counterpart to
+    mark_superseded for a lineage: both stories stay on every listing page, and a reader
+    who lands on the earlier one is told where the storyline went next."""
+    for fn in os.listdir(content_dir):
+        if not fn.endswith(".json"):
+            continue
+        p = os.path.join(content_dir, fn)
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        if d.get("slug") == old_slug:
+            d["continued_by"] = new_slug
+            json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
+            return True
+    return False
 
 
 def mark_superseded(content_dir, old_slug, new_slug):
@@ -2492,9 +2609,12 @@ def ingest():
             "sources_cited": len(srcs),
             "sources_live_checked": live,
         }
-        old_slug = find_superseded(title, updates_map.get(rec.get("id")), CONTENT)
+        old_slug, relation = find_superseded(
+            title, updates_map.get(rec.get("id")), CONTENT, item=item)
         if old_slug and old_slug != slug:
             item["update_of"] = old_slug
+        else:
+            relation = None
         # WHO ELSE REPORTED THIS (owner directive 2026-08-01). Recorded as coverage that
         # exists, never as this story's sources: Google News links are redirects, so they
         # never enter the sources list. Fail-soft and bounded to the handful of stories
@@ -2539,14 +2659,26 @@ def ingest():
             # most same-storyline follow-ups shipped with no update_of at all), so
             # ingest declares it deterministically from what is actually on disk.
             item["update_of"] = prior.get("slug")
+            relation = "chain"
             print(f"  CHAINED {rec.get('id')} as update of {prior.get('slug')[:56]} "
                   f"(same storyline, distinct development)")
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         if item.get("update_of"):
-            mark_superseded(CONTENT, item["update_of"], slug)
-            print(f"  ingested {rec.get('id')} as UPDATE of {item['update_of']} "
-                  f"-> {os.path.relpath(out)}")
+            # RETIREMENT IS FOR A REPLACEMENT, NOT A FOLLOW-UP. This branch used to call
+            # mark_superseded for every update_of, the chain above included, whose own
+            # comment asks for "a LINEAGE rather than two orphan pages". A lineage with
+            # its first chapter deleted is not a lineage. The strong claim now needs the
+            # strong evidence; everything else links and both chapters stay reachable.
+            if relation == "supersede":
+                mark_superseded(CONTENT, item["update_of"], slug)
+                print(f"  ingested {rec.get('id')} as UPDATE of {item['update_of']} "
+                      f"-> {os.path.relpath(out)}")
+            else:
+                mark_continued(CONTENT, item["update_of"], slug)
+                print(f"  ingested {rec.get('id')} as a LATER CHAPTER of "
+                      f"{item['update_of']} (both stay live) "
+                      f"-> {os.path.relpath(out)}")
         else:
             print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")
         n += 1
