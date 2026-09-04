@@ -1180,11 +1180,27 @@ def home_stack(items, now=None):
 # ---- the live layer (owner directive 2026-07-20) ----------------------------------
 
 SCORES_PATH = os.path.join(HERE, "site", "data", "scores.json")
+# WHICH LEAGUES THE BROWSER MAY REFRESH IN PLACE. Must stay in step with
+# scores_pulse.LEAGUES, but it is deliberately NOT the same list: SCORES_JS understands
+# exactly two payload shapes, ESPN's events[].competitions[].competitors and MLB's
+# dates[].games[]. Tennis is neither. ESPN hangs a tournament's matches off
+# events[].groupings[], so a tennis feed here would match no card, and worse, retire()
+# would then strip the live styling from every tennis card on the rail because none of
+# them appeared in the "seen" set. Baked values are correct and update every run; a
+# tennis card simply does not self-refresh between builds.
 _CLIENT_FEEDS = {
     "MLB": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&hydrate=team,linescore",
     "NFL": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+    "CFB": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
     "NBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
+    "WNBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard",
     "NHL": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
+    "EPL": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
+    "La Liga": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard",
+    "Serie A": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/scoreboard",
+    "Bundesliga": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/scoreboard",
+    "UCL": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard",
+    "MLS": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
 }
 
 SCORES_AGE_JS = (
