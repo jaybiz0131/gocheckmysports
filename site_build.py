@@ -195,6 +195,7 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("College Football", "/sections/college-football.html"),
        ("Soccer", "/sections/soccer.html"),
        ("MLB", "/sections/mlb.html"), ("NBA", "/sections/nba.html"),
+       ("Tennis", "/sections/tennis.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -304,6 +305,22 @@ TAG_RULES = [
     ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*)\b"),
     ("soccer", r"\b(premier league|champions league|la liga|serie a|bundesliga|mls|"
                r"fifa|uefa|world cup|soccer)\b"),
+    # TENNIS HAD NO RULE AT ALL (2026-09-04). Not a weak rule: no entry, so every tennis
+    # story tagged to nothing, which meant no section, no related-stories links and no
+    # way in except Latest and the archive. Measured on the corpus: 23 tennis stories,
+    # zero tags between them, during a slam the desk's own event calendar was tracking.
+    # "grand slam" is deliberately NOT here: on a desk that covers MLB it is a home run
+    # four times out of five. Nor is "tiebreak": the first cut of this rule carried it and
+    # promptly filed "Blue Jays Defeat Guardians, Secure Tiebreaker and Narrow Wild Card
+    # Gap" as tennis. Same trap as the month names, one line after warning about it. "us open" IS here and is the known collision, with golf's
+    # championship; this desk writes the tennis one without periods and golf's June major
+    # has never appeared in the corpus, but a golf rule would need to claim it back.
+    ("tennis", r"\b(tennis|us open|flushing meadows|wimbledon|roland garros|"
+               r"french open|australian open|atp|wta|straight sets|"
+               r"alcaraz|sabalenka|djokovic|swiatek|sinner|gauff|zverev|medvedev|"
+               r"auger-aliassime|rybakina|pegula|navarro|kyrgios|nadal|federer|"
+               r"raducanu|tiafoe|fritz|shelton|tsitsipas|musetti|draper|jabeur|"
+               r"azarenka|vondrousova|krejcikova|muchova|badosa|ostapenko)\b"),
     # SEASON VOCABULARY (owner directive 2026-08-29). The old pattern knew "ncaa",
     # "college football" and "heisman" and little else, so opening weekend, every
     # conference, the playoff, the portal and every school name were invisible to
@@ -1740,6 +1757,9 @@ SECTIONS = [
     ("college-football", "College Football", "College Football", ("college",),
      "Games, eligibility rulings, the transfer portal, NIL and conference realignment, "
      "sourced to official statements and the record."),
+    ("tennis", "Tennis", "Tennis", ("tennis",),
+     "Slam draws, tour results, injuries and the business of the sport, sourced to "
+     "official draws and on-record statements."),
 ]
 
 
