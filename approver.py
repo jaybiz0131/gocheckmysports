@@ -155,6 +155,155 @@ def _lint_weekday_dates(obj, pairs):
     return flipped
 
 
+# P6, LINT 1: A NUMBER THE BRIEF DOES NOT CARRY IS SMUGGLED. The 2026-09-02 audit found a
+# story about SEC press release 2026-81 that cited 2026-83 throughout. Both read as fluent
+# English and both are plausible identifiers, so no model gate can catch it by reading; the
+# only thing that can is asking whether the identifier appears in the sourced material at
+# all. This is the cheapest possible accuracy check and it is exact, not statistical.
+#
+# Deliberately narrow. It matches SHAPED identifiers only, the kind that name a specific
+# document, and never bare numbers: a draft is full of legitimate arithmetic (scores, dollar
+# amounts, ages, yardage) that the brief has no reason to restate.
+_IDENT_RES = [
+    re.compile(r"\b(20\d\d-\d{1,4})\b"),                     # SEC/agency release: 2026-81
+    re.compile(r"\b([Nn]o\.\s?\d{1,2}-\d{2,5})\b"),           # docket: No. 23-1234
+    re.compile(r"\b(\d{1,2}:\d{2}-[a-z]{2}-\d{3,6})\b"),       # case: 1:24-cv-01234
+    re.compile(r"\b([A-Z]{2,4}-\d{2,6})\b"),                   # agency file: HHS-1234
+]
+
+
+def _brief_haystack(brief):
+    """Everything the brief actually carries, flattened. An identifier is 'in the brief' if
+    it appears anywhere the desk sourced, including quoted source text."""
+    out = []
+
+    def walk(v):
+        if isinstance(v, str):
+            out.append(v)
+        elif isinstance(v, dict):
+            for x in v.values():
+                walk(x)
+        elif isinstance(v, list):
+            for x in v:
+                walk(x)
+    walk(brief)
+    return " ".join(out)
+
+
+def _smuggled_identifiers(draft, brief):
+    """Identifiers asserted by the draft that appear nowhere in its brief."""
+    text = " ".join(str(draft.get(f) or "") for f in ("title", "body", "bottom_line"))
+    if isinstance(draft.get("body"), list):
+        text = " ".join([str(draft.get("title") or "")]
+                        + [str(x) for x in draft["body"]]
+                        + [str(draft.get("bottom_line") or "")])
+    hay = _brief_haystack(brief)
+    if not hay.strip():
+        return []          # no brief to check against; the existing no-brief rule owns that
+    seen, out = set(), []
+    for rx in _IDENT_RES:
+        for m in rx.finditer(text):
+            ident = m.group(1)
+            key = ident.lower().replace(" ", "")
+            if key in seen:
+                continue
+            seen.add(key)
+            if key not in hay.lower().replace(" ", ""):
+                out.append(f"the draft cites identifier {ident!r}, which appears nowhere in "
+                           f"the brief or its sourced text")
+    return out
+
+
+# P6, LINT 2: A DRAFT THAT CONTRADICTS ITSELF. The same audit found an article stating one
+# quantity two different ways in consecutive sentences. Across stories the desk already has
+# this machinery; pointed at a single draft it is the same arithmetic.
+# THE SUFFIX TABLE MUST BE COMPLETE OR THE LINT INVENTS CONTRADICTIONS. The first cut
+# omitted a bare "B" and "T", so "$2.3B" parsed as two dollars and change, landed in the
+# same magnitude band as a "$0.41" elsewhere in the story, and reported a contradiction
+# between two figures that were three orders of magnitude apart. Measured on the live
+# crypto corpus: 3 false rejects out of 361, all of them this. Trillion is here for the
+# same reason, before a market-cap story finds it.
+_MONEY_RE = re.compile(
+    r"\$\s?(\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|thousand|bn|tn|[bmkt])?\b",
+    re.I)
+_SCALE = {"trillion": 1e12, "tn": 1e12, "t": 1e12,
+          "billion": 1e9, "bn": 1e9, "b": 1e9,
+          "million": 1e6, "m": 1e6,
+          "thousand": 1e3, "k": 1e3}
+
+
+def _money_values(text):
+    """Normalized USD magnitudes with the surface form that produced each."""
+    out = []
+    for m in _MONEY_RE.finditer(text or ""):
+        try:
+            n = float(m.group(1).replace(",", ""))
+        except ValueError:
+            continue
+        out.append((n * _SCALE.get((m.group(2) or "").lower(), 1.0), m.group(0).strip()))
+    return out
+
+
+def _intra_draft_contradictions(draft):
+    """The same subject quantity given two different values inside one draft.
+
+    ONLY THE HEADLINE FIGURE. Comparing every pair of numbers in a story reports a
+    contradiction every time a piece legitimately carries a $30M fine and a $57M contract,
+    which is most stories. The checkable claim is narrower: a figure asserted in the TITLE
+    is the story's headline quantity, and the body restating it as a different number is a
+    self-contradiction the reader sees without leaving the page."""
+    title_vals = _money_values(str(draft.get("title") or ""))
+    if not title_vals:
+        return []
+    body = draft.get("body")
+    body_text = " ".join(str(x) for x in body) if isinstance(body, list) else str(body or "")
+    body_text += " " + str(draft.get("bottom_line") or "")
+    body_vals = _money_values(body_text)
+    if not body_vals:
+        return []
+    out = []
+    for tval, tsurf in title_vals:
+        # Same order of magnitude means the body is talking about the same quantity rather
+        # than a different figure that happens to be in the story.
+        near = [(v, s) for v, s in body_vals if v and 0.2 <= v / tval <= 5.0]
+        if not near:
+            continue
+        if any(abs(v - tval) / tval <= 0.02 for v, _s in near):
+            continue                      # the body does restate the headline figure
+        # EXACTLY ONE COMPETING VALUE, OR IT IS NOT A CONTRADICTION. A self-contradiction
+        # is "the headline says X and the body says Y". A story carrying three different
+        # figures in the same magnitude band is a story about three quantities, which is
+        # ordinary reporting: "Stellar RWA quadruples to nearly $4B" legitimately discusses
+        # $3 billion and $6.36 billion alongside it. Measured on the live crypto corpus,
+        # this condition is the whole difference between 2 false rejects and 0.
+        distinct = sorted({round(v, 2) for v, _s in near})
+        if len(distinct) != 1:
+            continue
+        other = ", ".join(sorted({s for _v, s in near})[:3])
+        out.append(f"the headline says {tsurf} but the body states {other} for what "
+                   f"reads as the same figure, and never restates {tsurf}")
+    return out
+
+
+def _lint_accuracy(obj, pairs):
+    """Flip drafts failing a deterministic accuracy lint to REJECT, with the precise
+    finding, BEFORE repair/rescue, exactly as the weekday-date lint does."""
+    by_id = {p["id"]: p for p in pairs}
+    flipped = 0
+    for a in obj["approvals"]:
+        pair = by_id.get(a["id"]) or {}
+        draft, brief = pair.get("draft") or {}, pair.get("brief") or {}
+        findings = _smuggled_identifiers(draft, brief) + _intra_draft_contradictions(draft)
+        if not findings:
+            continue
+        a.setdefault("reasons", []).extend(findings)
+        if a["decision"] == "APPROVE":
+            a["decision"] = "REJECT"
+            a["category"] = "accuracy"
+            flipped += 1
+    return flipped
+
+
 def _repair_rejects(obj, pairs, drafts):
     """Cut the sentences the approver named and publish the rest. No model call.
 
@@ -345,6 +494,10 @@ def run(client=None):
     linted = _lint_weekday_dates(obj, pairs)
     if linted:
         print(f"approver: {linted} approval(s) flipped to REJECT by the weekday-date lint")
+    acc = _lint_accuracy(obj, pairs)
+    if acc:
+        print(f"approver: {acc} approval(s) flipped to REJECT by the accuracy lints "
+              f"(smuggled identifier / self-contradicting figure)")
     repaired = _repair_rejects(obj, pairs, drafts)
     if repaired:
         print(f"approver: {repaired} draft(s) repaired by cutting the objected sentences")
