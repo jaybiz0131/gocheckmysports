@@ -310,9 +310,22 @@ TAG_RULES = [
     # WNBA IS NOT THE NBA (owner audit 2026-08-29): the nba pattern matches "wnba"
     # outright, so every WNBA story filed under nba. Its own rule, ahead of it.
     ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries)\b"),
-    ("nba", r"\b(nba|wnba|finals mvp|triple-double)\b"),
-    ("mlb", r"\b(mlb|world series|no-hitter|home run\w*|inning\w*|pitcher\w*)\b"),
-    ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*)\b"),
+    # Club names, unambiguous only. Heat, Thunder, Jazz, Magic and Kings are ordinary
+    # words or a second team; Warriors, Lakers and the rest are not.
+    ("nba", r"\b(nba|wnba|finals mvp|triple-double|warriors|lakers|celtics|knicks|nets|"
+            r"bucks|nuggets|suns|mavericks|\bmavs\b|clippers|grizzlies|pelicans|spurs|"
+            r"timberwolves|trail blazers|raptors|hornets|pistons|pacers|cavaliers|"
+            r"\bcavs\b|wizards|76ers|sixers|bulls)\b"),
+    # "Athletics" is omitted on purpose: it is Oakland's club AND this desk's track lane.
+    # Giants, Cardinals and Rangers are each two teams in two sports.
+    ("mlb", r"\b(mlb|world series|no-hitter|home run\w*|inning\w*|pitcher\w*|yankees|"
+            r"\bmets\b|dodgers|red sox|\bcubs\b|astros|braves|phillies|padres|mariners|"
+            r"brewers|guardians|orioles|twins|tigers|angels|\breds\b|rockies|marlins|"
+            r"pirates|royals|white sox|blue jays|diamondbacks|\bdbacks\b)\b"),
+    ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*|canadiens|"
+            r"maple leafs|oilers|flames|canucks|senators|sabres|bruins|blackhawks|"
+            r"penguins|capitals|lightning|predators|\bblues\b|ducks|sharks|coyotes|"
+            r"golden knights|kraken|islanders|devils|flyers|red wings|avalanche)\b"),
     # Club names for the same reason. "Liverpool agrees to £120m deal for Barcola" and
     # "Chelsea fined £10m" carried no tag at all. Rangers is omitted deliberately: it is
     # a Glasgow club, a baseball club and a hockey club.
