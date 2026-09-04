@@ -62,8 +62,18 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
   font-size:clamp(13px,1.6vw,16px);text-align:right;max-width:230px}
 .mh-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);
   position:sticky;top:0;z-index:50}
-.mh-nav .wrap{display:flex;align-items:center;gap:26px;padding-top:10px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
+/* A RAIL THAT ENDS FLUSH READS AS THE END OF THE LIST. With ten lanes the rail always
+   overflows on a phone, and nobody scrolls a row that looks complete, so the right edge
+   carries a fade and the last chip keeps room to sit half-cut behind it. The fade is
+   painted on the nav, not the scroller, so it does not travel with the content. */
+.mh-nav{position:relative}
+.mh-nav .wrap{display:flex;align-items:center;gap:26px;padding-top:10px;padding-bottom:10px;
+  overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth;
+  padding-right:44px;overscroll-behavior-x:contain}
 .mh-nav .wrap::-webkit-scrollbar{display:none}
+.mh-nav::after{content:"";position:absolute;top:0;right:0;bottom:0;width:38px;
+  pointer-events:none;background:linear-gradient(to right,transparent,var(--card))}
+@media (prefers-reduced-motion:reduce){.mh-nav .wrap{scroll-behavior:auto}}
 .mh-nav a{font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:.02em;
   color:var(--muted);white-space:nowrap;text-transform:uppercase}
 .mh-nav a:hover,.mh-nav a.active{color:var(--ink);text-decoration:none}

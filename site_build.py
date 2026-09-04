@@ -190,12 +190,20 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 # unreachable: the news desk shipped an /archive nobody could click for weeks. College
 # Football joins here the same day it joins SECTIONS, and it sits next to NFL because
 # that is how a reader thinks about football season.
+# THE RAIL IS A CALENDAR, NOT AN ALPHABET (2026-09-04). Ordered by what is in season now,
+# so the lanes that matter this week are visible before a reader scrolls. Revisit the order
+# when the seasons turn; the list is the only place it is expressed.
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("NFL", "/sections/nfl.html"),
        ("College Football", "/sections/college-football.html"),
+       ("MLB", "/sections/mlb.html"),
        ("Soccer", "/sections/soccer.html"),
-       ("MLB", "/sections/mlb.html"), ("NBA", "/sections/nba.html"),
+       ("WNBA", "/sections/wnba.html"),
        ("Tennis", "/sections/tennis.html"),
+       ("NBA", "/sections/nba.html"),
+       ("College Basketball", "/sections/college-basketball.html"),
+       ("NHL", "/sections/nhl.html"),
+       ("More Sports", "/sections/more-sports.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -717,9 +725,16 @@ def load_content():
 def masthead(active, dateline, brand="site"):
     """One identity everywhere: GoCheckMySports is both the site and the desk. The brand
     parameter is kept for the shared call sites; every page renders the same masthead."""
+    # THE RAIL IS LANES, NOTHING ELSE (2026-09-04). Home, Latest, Archive and About are not
+    # sections; carrying them in the rail spent scroll width on navigation a reader already
+    # has in the wordmark and the footer, and pushed real lanes off the visible edge on a
+    # phone. Home is the wordmark, Latest sits beside it, and Archive and About moved into
+    # the footer in the same change: /archive was orphaned once already (owner audit
+    # 2026-08-29) by being linked from exactly one place, so it never leaves here without
+    # arriving somewhere else first.
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
-        for label, href in NAV)
+        for label, href in NAV if label not in NAV_UTILITY)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
@@ -742,7 +757,14 @@ if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"n
   </div>
   {brand_row}
 </div></header>
-<nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
+<nav class="mh-nav"><div class="wrap" id="lane-rail">{nav}</div></nav>
+<script>(function(){{var r=document.getElementById("lane-rail");if(!r)return;
+var a=r.querySelector("a.active");if(!a)return;
+/* A reader who lands on /sections/nhl.html must see where they are. The active chip can
+   sit past the fold of a rail this long, so bring it into view on load without moving
+   the page itself. */
+var want=a.offsetLeft-(r.clientWidth-a.offsetWidth)/2;
+r.scrollLeft=Math.max(0,Math.min(want,r.scrollWidth-r.clientWidth));}})();</script>"""
 
 
 def newsletter():
@@ -778,7 +800,8 @@ def footer(brand="site"):
                     # About and Archive live in the masthead nav; repeating them here gave
                     # every page two links to each and helped invert the link graph. The
                     # footer keeps what the nav does not carry.
-                    [("How we work", "/method.html"),
+                    [("Archive", "/archive.html"), ("About", "/about.html"),
+                     ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmysports.com"),
@@ -1908,12 +1931,31 @@ SECTIONS = [
     # calendar had nowhere to live on the site while its season opened. The lane covers
     # the year-round story too, not just Saturdays: eligibility rulings, the transfer
     # portal, NIL and conference realignment are where this sport's real news happens.
-    ("college-football", "College Football", "College Football", ("college",),
+    # College Football consumes the umbrella too, so governance, athletic directors, NIL
+    # and conference politics keep the home they already had. College Basketball consumes
+    # only its own tag, which is what stops a basketball story reaching the football front.
+    ("college-football", "College Football", "College Football",
+     ("college-football", "college"),
      "Games, eligibility rulings, the transfer portal, NIL and conference realignment, "
      "sourced to official statements and the record."),
+    ("college-basketball", "College Basketball", "College Basketball",
+     ("college-basketball",),
+     "The tournament, the polls and the portal, sourced to official brackets and "
+     "on-record statements."),
     ("tennis", "Tennis", "Tennis", ("tennis",),
      "Slam draws, tour results, injuries and the business of the sport, sourced to "
      "official draws and on-record statements."),
+    ("wnba", "WNBA", "WNBA", ("wnba",),
+     "Signings, trades, injuries and results across the league."),
+    ("nhl", "NHL", "NHL", ("nhl",),
+     "Trades, injuries and results, checked against official league data."),
+    # ONE LANE FOR THE SPORTS THAT CANNOT FILL ONE EACH. Golf, cycling, cricket, combat
+    # sports and athletics are each too thin for a nav slot and each strongly seasonal, so
+    # separately they would produce empty fronts out of season. Together they are a real
+    # section with year-round coverage.
+    ("more-sports", "More Sports", "More Sports",
+     ("combat sports", "golf", "cycling", "cricket", "athletics"),
+     "Boxing and MMA, golf, cycling, cricket and athletics."),
 ]
 
 
@@ -1921,6 +1963,10 @@ SECTIONS = [
 # NAV are separate hand-maintained lists, which is exactly how the news desk shipped an
 # archive page nothing linked to. This fails the import rather than the deploy, so the
 # mismatch is caught the moment someone adds a lane and forgets the nav.
+# Not lanes. Present in NAV so the unreachable-section guard still sees the whole map,
+# but filtered out of the rail; they render in the masthead and the footer instead.
+NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
+
 _nav_hrefs = {h for _l, h in NAV}
 _unreachable = [slug for slug, *_rest in SECTIONS
                 if f"/sections/{slug}.html" not in _nav_hrefs]
