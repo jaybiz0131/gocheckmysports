@@ -1,55 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "Sharks sign Macklin Celebrini to five-year, $94M extension, highest salary in NHL",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Celebrini 'set a Sharks franchise record with 115 points (45 goals, 70 assists) in 152 games' in his second season (2025-26), but the brief's data_point says he set the record 'in his second season' with 115 points without specifying games played in that season alone. The draft conflates career games (152 total) with second-season performance, creating ambiguity about whether 115 points came in 152 games total or in the 2025-26 season specifically. The brief does not clarify this arithmetic.",
-     "The draft claims Celebrini 'has delivered elite production in his first two seasons' but provides no data_point in the brief about first-season performance. Only second-season (2025-26) and career stats are cited in the brief.",
-     "The draft states 'The extension was announced by the team but has not been independently verified against league records' at the end, which appears to contradict the opening claim that the deal was confirmed by ESPN's reporting and GM Grier's announcement. This hedging language after definitive earlier statements creates ambiguity about confidence level and was not signaled in the brief's 'announced-not-verified' label where it should appear early and clearly in prose."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "NCAA suspends Tennessee LB Carter two games over agent-paid flight",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Penix 'required surgery, and opted to return to Tennessee for another year,' but the brief data_point says he 'required surgery, and decided to return to Tennessee for another season.' More critically, the draft does not establish that surgery occurred after he aggravated the foot injury post-draft\u2014it conflates timeline. The brief says 'aggravated it after declaring for the draft, required surgery, and decided to return,' which could mean surgery happened before or after the draft declaration. The draft's phrasing 'played through a foot injury late in the season, aggravated it after declaring for the draft, required surgery, and opted to return' suggests linear causality that is not confirmed in the brief. This is a smuggled inference about injury sequencing.",
-     "The draft describes Spillman as 'a freshman All-American who led the Vols with 81 tackles in 2025,' but Spillman is described as a 'sophomore' in the present context (Carter is returning for another year in 2026), meaning Spillman was a freshman in 2025. The brief data_point states 'Linebacker Edwin Spillman was a freshman All-American and led the Vols with 81 tackles in 2025,' which is correct. However, the draft's phrasing 'sophomore Edwin Spillman, a freshman All-American who led the Vols with 81 tackles in 2025' contains a logical problem: if he led the team in 2025 as a freshman, he is now a sophomore in 2026\u2014this is correct, but it reads awkwardly and could confuse. Actually, re-reading, the draft says 'sophomore Edwin Spillman, a freshman All-American' which is correct. This passes."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Infantino leverages funding deadline to win FIFA approval for $20B privatization plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Joshua Kushner is 'the brother of Jared Kushner,' but the brief data_point says he is 'the brother of Jared Kushner, the son-in-law of U.S. President Donald Trump.' The draft omits the relationship descriptor 'son-in-law of U.S. President Donald Trump.' This omission is material because it removes context about why Thrive Capital's backing might be politically charged\u2014the brief treats it as relevant enough to include. However, this is not a false claim, just incomplete context. More critically: the brief confidence label for the Kushner relationship is 'reported,' yet the draft presents it matter-of-factly. The brief does include the Trump relationship in the data_point itself, so inclusion was expected. The draft's omission is a loss of brief information, not a smuggled fact, so this is a clarity issue, not accuracy. Reconsidering: the draft nowhere states Jared is Trump's son-in-law; it only says Joshua is Jared's brother. The brief explicitly includes the Trump relationship in the data_point. The draft should have included it. This is not adding new fact; it is omitting reported fact from the brief. Accuracy issue: the draft incompletely reports a fact that the brief provides."
-    ]
-   },
-   {
-    "id": "c23",
-    "headline": "Eagles OLB Jonathan Greenard Placed on PUP With Pec Strain",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Last season, he had three sacks in 12 games before requiring season-ending shoulder surgery.' The brief's data point says 'Greenard had three sacks in 12 games last season' and separately 'Greenard was slowed by a shoulder injury in 2025 that ultimately required season-ending surgery.' The phrasing 'before requiring' implies the three sacks occurred before the surgery, but the brief shows the shoulder injury occurred in 2025 (last season) and the three sacks were recorded in 12 games during that same season. The causality and sequence are unclear and potentially misrepresent the timing. More critically, the draft later states 'The shoulder injury that required surgery in 2025 marks the second injury to affect Greenard in recent months'\u2014but the brief contains no data point establishing the shoulder surgery occurred in 2025 or confirming a sequence of two injuries. The brief only confirms a pec strain (current, pre-camp) and a shoulder injury (last season, requiring surgery). The claim about a 'second injury' in recent months and the assertion that shoulder surgery was in 2025 are not supported by the brief's data points."
-    ]
-   },
-   {
-    "id": "c156",
-    "headline": "Pochettino, US Soccer in Final Stages of New Contract Through 2030 World Cup",
-    "category": "accuracy",
-    "reasons": [
-     "The brief is marked 'thin: true' with only three data points and the open_questions note states 'The provided source text is truncated and does not contain substantive reporting beyond the headline and snippet; the full article content is unavailable.' The draft is very short (143 words), but the critical problem is that the brief itself contains insufficient detail to support the reportage. The draft relies entirely on a single source (Yahoo Sports snippet) that the brief acknowledges is incomplete. The desk's hard rule is 'no fact exists outside the brief.' The brief does not contain any substantive data beyond the three headline-level claims. The bottom_line correctly signals uncertainty ('Verification of the reported final-stages status awaits further reporting'), which is appropriate, but a story this thin from a truncated source with no supporting quotes, timeline, or context should not run. This is not a quality failure; it is an accuracy problem: the source material itself is too thin and unverified to support publication."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 6,
   "rejected": [
    {
@@ -8759,6 +8710,41 @@
     "category": "compliance",
     "reasons": [
      "The draft reports Felix Auger-Aliassime's medical condition ('dizzy and seeing spots') as direct fact without qualification. The brief marks this as 'reported' confidence from a quoted statement. The draft presents what Auger-Aliassime said he experienced, but then narrates 'Auger-Aliassime, a two-time US Open semi-finalist, fell to Karen Khachanov' followed by his quote about dizziness. This structure blurs the line between what he reported feeling and what actually caused the loss. The sentence 'After a set and a half, I just couldn't feel well and was dizzy and seeing spots and couldn't recover' is his subjective experience; the draft risks implying medical fact about an ongoing condition without medical professional attribution or confirmation beyond the player's self-report in the moment. This crosses into health/medical speculation about an athlete's body beyond official injury reports."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c86",
+    "headline": "Ben Simmons Agrees to One-Year, $3.5M Deal with Sacramento Kings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 30-year-old returns to the NBA after sitting out the entire 2025-26 season' and later 'Simmons' last NBA game came on April 29, 2025, during the Los Angeles Clippers' first-round playoff series against the Denver Nuggets.' If Simmons' last game was April 29, 2025, and he sat out 'the entire 2025-26 season,' the timeline is accurate. However, the draft then says 'After the Nets waived him in February 2025, Simmons signed with the Clippers and completed the 2024-25 season with them.' This creates a chronological problem: if he was waived in February 2025 and completed the 2024-25 season after that (which would be March-April 2025), the sequence is confusing but technically possible if 'completed the 2024-25 season' means he finished out that season after joining in February. The brief clarifies: 'Simmons' last NBA game came on April 29, 2025, during the Los Angeles Clippers' first-round playoff series.' So he DID play for the Clippers in the 2024-25 season. The draft's phrasing is awkward but not inaccurate.",
+     "The draft states 'won the 2017-18 NBA Rookie of the Year award before making the All-Star Game in each of the next three seasons.' The brief says he made All-Star in 'the next three seasons' (2018-19, 2019-20, 2020-21, presumably). The draft's phrasing is correct as written.",
+     "The bottom_line states 'the reasons for his year-long absence remain unreported.' However, the brief's open_questions explicitly list 'Why did Simmons sit out the entire 2025-26 season? Was this due to injury, personal choice, or another reason not stated in the sources?' The bottom_line is correctly noting that the reason is unreported, not making a claim the sources don't support. This is accurate."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "Kate Koval quits LSU women's basketball over signing of Russian player on August 23",
+    "category": "compliance",
+    "reasons": [
+     "The draft adopts contested political framing ('this war') as its own narrative voice when describing the Russia-Ukraine conflict, rather than maintaining neutrality and attributing loaded language to the speaker. The opening states 'citing coach Kim Mulkey's signing of 17-year-old Russian player Anna Minaeva as incompatible with her personal values' uses Koval's framing ('this war') as established desk fact. This violates the desk rule (2026-08-21) that politically charged framing must remain attributed to named speakers in quotes, not adopted by the narration.",
+     "The draft includes a reputationally damaging characterization of Kim Mulkey's business judgment ('the program signed a Russian player') but the brief's bear_case shows Mulkey's stated position that she 'cannot make a decision to not recruit somebody that can help our program because of a conflict between two countries.' The draft frames the signing as a binary moral choice rather than reporting what Mulkey said about her reasoning. The framing should attribute the moral weight to Koval's view, not report it as objective fact about the signing."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Katie Taylor Retires Saturday at Croke Park Before 80,000 in Irish Sellout",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the fight as occurring on 'Saturday' with the title stating 'Saturday at Croke Park' and the body stating 'will fight...on Saturday.' However, today is Friday, 2026-09-04. The next day is Saturday, 2026-09-05, not 2026-09-07 as stated in the bottom_line. The bottom_line contradicts the draft body by specifying 'Saturday, September 7,' which is two days away (Sunday). The scheduled event is being written inconsistently\u2014the body treats it as imminent (tomorrow) while the bottom_line places it on a Sunday. This is a factual error about the date of an upcoming event.",
+     "The brief's data_point on Westlife music involvement states: 'Music from Westlife, one of the nation's biggest pop groups, will be included in Taylor's farewell.' This data_point appears in the brief but does not appear anywhere in the draft body. The writer has omitted a confirmed detail from the brief without explanation.",
+     "the draft dates September 7, 2026 as a Saturday; September 7, 2026 is a Monday"
     ]
    }
   ]

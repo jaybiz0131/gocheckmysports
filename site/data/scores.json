@@ -1,7 +1,73 @@
 {
- "generated_utc": "2026-09-04T14:54:41Z",
- "stale_after_utc": "2026-09-04T17:54:41Z",
+ "generated_utc": "2026-09-04T15:18:01Z",
+ "stale_after_utc": "2026-09-04T18:18:01Z",
  "leagues": [
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "K. Rakhimova",
+     "home": "A. Sabalenka",
+     "away_score": 0,
+     "home_score": 1,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-04T15:05Z",
+     "eid": "182554"
+    },
+    {
+     "away": "S. Cirstea",
+     "home": "J. Paolini",
+     "away_score": 0,
+     "home_score": 1,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-04T15:10Z",
+     "eid": "182549"
+    },
+    {
+     "away": "E. Alexandrova",
+     "home": "M. Kostyuk",
+     "away_score": 0,
+     "home_score": 1,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-04T15:10Z",
+     "eid": "182564"
+    },
+    {
+     "away": "L. Fernandez",
+     "home": "J. Pegula",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "11:30 AM ET",
+     "start_utc": "2026-09-04T15:30Z",
+     "eid": "182545"
+    },
+    {
+     "away": "D. Shnaider",
+     "home": "T. Townsend",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "1:00 PM ET",
+     "start_utc": "2026-09-04T17:00Z",
+     "eid": "182565"
+    },
+    {
+     "away": "K. Muchova",
+     "home": "E. Navarro",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "2:30 PM ET",
+     "start_utc": "2026-09-04T18:30Z",
+     "eid": "182537"
+    }
+   ]
+  },
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
@@ -9,8 +75,8 @@
     {
      "away": "DET",
      "home": "CLE",
-     "away_score": null,
-     "home_score": null,
+     "away_score": 0,
+     "home_score": 0,
      "state": "pre",
      "detail": "2:10 PM ET",
      "start_utc": "2026-09-04T18:10:00Z",
@@ -277,72 +343,6 @@
      "detail": "5:00 PM ET",
      "start_utc": "2026-09-04T21:00Z",
      "eid": "182747"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "S. Cirstea",
-     "home": "J. Paolini",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "11:00 AM ET",
-     "start_utc": "2026-09-04T15:00Z",
-     "eid": "182549"
-    },
-    {
-     "away": "K. Rakhimova",
-     "home": "A. Sabalenka",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "11:00 AM ET",
-     "start_utc": "2026-09-04T15:00Z",
-     "eid": "182554"
-    },
-    {
-     "away": "E. Alexandrova",
-     "home": "M. Kostyuk",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "11:00 AM ET",
-     "start_utc": "2026-09-04T15:00Z",
-     "eid": "182564"
-    },
-    {
-     "away": "L. Fernandez",
-     "home": "J. Pegula",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "11:30 AM ET",
-     "start_utc": "2026-09-04T15:30Z",
-     "eid": "182545"
-    },
-    {
-     "away": "D. Shnaider",
-     "home": "T. Townsend",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "1:00 PM ET",
-     "start_utc": "2026-09-04T17:00Z",
-     "eid": "182565"
-    },
-    {
-     "away": "K. Muchova",
-     "home": "E. Navarro",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "2:30 PM ET",
-     "start_utc": "2026-09-04T18:30Z",
-     "eid": "182537"
     }
    ]
   }
