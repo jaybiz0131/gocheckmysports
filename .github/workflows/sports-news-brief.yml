@@ -131,20 +131,45 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+          SLOT_CRON: ${{ github.event.schedule }}
         run: |
           python3 - <<'PYEOF'
+          # THE CRON NAMES THE SLOT, NOT THE CLOCK (ported from the crypto desk
+          # 2026-09-04). GitHub has been delivering every cron on this desk 1.5 to 4 hours
+          # late all week, so a cron FOR one slot routinely arrives inside another slot's
+          # wall-clock window. The old wall-clock guard then checked the wrong file: the
+          # 09:40 morning cron delivered at 14:31 asked whether the AFTERNOON brief was
+          # published, and would have stood the run down over a slot it was not for,
+          # leaving the morning slot unserved with no second chance.
+          #
+          # It also disagreed with wrap.py, which has resolved the slot from CRON_SLOT
+          # since 2026-09-02. The guard decided whether to RUN from the clock while wrap
+          # decided what to COMPOSE from the cron, so the two could name different slots
+          # in the same run. This map is wrap.CRON_SLOT expressed in edition slugs; keep
+          # them in step.
           import datetime, os
           serve = "true"
           if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
               now = datetime.datetime.now(datetime.timezone.utc)
-              slug = ("morning-brief" if now.hour < 14 else
-                      "afternoon-brief" if now.hour < 20 else "evening-brief")
+              cron_slug = {"40 9 * * *": "morning-brief", "55 10 * * *": "morning-brief",
+                           "25 11 * * *": "morning-brief", "38 15 * * *": "afternoon-brief",
+                           "10 17 * * *": "afternoon-brief", "38 23 * * *": "evening-brief"}
+              slug = cron_slug.get((os.environ.get("SLOT_CRON") or "").strip())
+              day = now.date()
+              if slug is None:
+                  # a manual or watcher-fired run carries no slot cron; the clock is the
+                  # only thing left to ask
+                  slug = ("morning-brief" if now.hour < 14 else
+                          "afternoon-brief" if now.hour < 20 else "evening-brief")
+              elif slug == "evening-brief" and now.hour < 5:
+                  # an evening cron delivered past midnight still belongs to its own day
+                  day = day - datetime.timedelta(days=1)
               if os.path.exists(os.path.join("site", "content",
-                                             f"{now.date().isoformat()}-{slug}.json")):
+                                             f"{day.isoformat()}-{slug}.json")):
                   serve = "false"
-                  print(f"::notice::Slot guard: {slug} is already published today; "
-                        f"standing down before any model call (retry ticks are free "
-                        f"when the primary served the slot).")
+                  print(f"::notice::Slot guard: {slug} is already published for "
+                        f"{day.isoformat()}; standing down before any model call "
+                        f"(retry ticks are free when the primary served the slot).")
           open(os.environ["GITHUB_OUTPUT"], "a").write(f"serve={serve}\n")
           PYEOF
 
