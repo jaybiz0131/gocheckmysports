@@ -577,6 +577,27 @@
     "url": "https://news.google.com/rss/search?q=tennis+OR+%22US+Open%22+OR+Wimbledon+OR+%22Australian+Open%22+OR+%22Roland+Garros%22+OR+ATP+OR+WTA+when:2d&hl=en-US&gl=US&ceid=US:en",
     "note": "DISCOVERY ONLY (2026-09-03). Replaces the ESPN Tennis lane: ESPN's RSS answers runner IPs with 202 bot challenges and its news API answered the wired fallback with 403 on the first post-fix run, so all three ESPN entries were retired again (they were re-added 2026-08-29 without a fallback and failed every run since). Aggregator links are google.com redirects, so the corroboration rules still require a tiered, directly-citable outlet before anything publishes; this lane exists so a slam day is never invisible to the editor.",
     "max_items": 10
+   },
+   {
+    "name": "ESPN College Football",
+    "tier": "major",
+    "url": "https://www.espn.com/espn/rss/ncf/news",
+    "note": "RESTORED 2026-09-04. Retired 2026-09-03 as dead; it was not dead. The RSS host does answer datacenter IPs with an HTTP 202 bot challenge, which is real and unsolved, but the JSON fallback wired 2026-09-02 was returning 403 for one reason: the desk's branded User-Agent. ESPN's API tier allows generic HTTP client agents and rejects branded ones. common.ua_for now sends a generic client string to ESPN API hosts only. Proven from CI, not a laptop: the first scheduled run after the same fix landed in scores_pulse pulled 9 leagues and 29 games from site.api.espn.com on a GitHub runner. The RSS primary is still expected to fail from CI; espn_api_fallback is the working path.",
+    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=40"
+   },
+   {
+    "name": "ESPN NFL",
+    "tier": "major",
+    "url": "https://www.espn.com/espn/rss/nfl/news",
+    "note": "RESTORED 2026-09-04. Retired 2026-09-03 as dead; it was not dead. The RSS host does answer datacenter IPs with an HTTP 202 bot challenge, which is real and unsolved, but the JSON fallback wired 2026-09-02 was returning 403 for one reason: the desk's branded User-Agent. ESPN's API tier allows generic HTTP client agents and rejects branded ones. common.ua_for now sends a generic client string to ESPN API hosts only. Proven from CI, not a laptop: the first scheduled run after the same fix landed in scores_pulse pulled 9 leagues and 29 games from site.api.espn.com on a GitHub runner. The RSS primary is still expected to fail from CI; espn_api_fallback is the working path.",
+    "fallback_api": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=40"
+   },
+   {
+    "name": "ESPN Tennis",
+    "tier": "major",
+    "url": "https://www.espn.com/espn/rss/tennis/news",
+    "note": "RESTORED 2026-09-04. Retired 2026-09-03 as dead; it was not dead. The RSS host does answer datacenter IPs with an HTTP 202 bot challenge, which is real and unsolved, but the JSON fallback wired 2026-09-02 was returning 403 for one reason: the desk's branded User-Agent. ESPN's API tier allows generic HTTP client agents and rejects branded ones. common.ua_for now sends a generic client string to ESPN API hosts only. Proven from CI, not a laptop: the first scheduled run after the same fix landed in scores_pulse pulled 9 leagues and 29 games from site.api.espn.com on a GitHub runner. The RSS primary is still expected to fail from CI; espn_api_fallback is the working path.",
+    "fallback_api": "https://now.core.api.espn.com/v1/sports/news?sport=tennis&limit=40"
    }
   ],
   "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
@@ -625,7 +646,7 @@
    ]
   },
   "max_items_per_feed": 40,
-  "espn_note": "ESPN RETIRED AGAIN 2026-09-03 (family audit follow-up): the three feeds re-added 2026-08-29 failed every scheduled run (HTTP 202 bot challenge on the RSS host, feed check #31), and the site.api/now.core fallbacks wired 2026-09-02 answered 403 from the runner on the first post-fix run. Both tiers are dead from CI. NFL and college football stay covered by the CBS and Yahoo per-league feeds plus the Google News college lane; tennis by the Google News slam lane above. If the desk ever gets a non-datacenter egress, the entries are in git history."
+  "espn_note": "ESPN RESTORED 2026-09-04 after the User-Agent was identified as the cause of the 403s that got these feeds retired on 2026-09-03. Two separate failures had been read as one: the RSS hosts answer datacenter IPs with HTTP 202 bot challenges (IP-based, still unsolved, no User-Agent fixes it), while the site.api/now.core JSON tier answers 403 to any branded agent (UA-based, fixed by common.ua_for). Because only the second was ever the blocker on the fallback path, espn_api_fallback now serves these lanes from CI. If ESPN 403s again, test the agent before retiring anything."
  },
  "narratives": {
   "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",

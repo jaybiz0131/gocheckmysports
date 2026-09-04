@@ -12,6 +12,47 @@ PROMPTS = os.path.join(HERE, "prompts")
 CONFIG = os.path.join(HERE, "config.json")
 UA = "GoCheckMySports/1.0 (+news pipeline; +https://gocheckmysports.com)"
 
+# HOSTS THAT REJECT AN HONEST UA (2026-09-04). The desk identifies itself by name and
+# links its homepage, which is the right default and what most publishers want. ESPN's
+# edge does the opposite: it allows generic HTTP client agents (curl, python-requests,
+# Python-urllib, okhttp, Go-http-client) and answers 403 to anything branded, and also
+# to anything impersonating a browser. Measured 2026-09-04, same URL, same second:
+#
+#   GoCheckMySports-scores/1.0                            403
+#   GoCheckMySports/1.0 (+news pipeline; +https://...)    403
+#   Mozilla/5.0 (Macintosh; ...) Chrome/124.0             403
+#   Python-urllib/3                                       200
+#
+# This cost the desk more than a header. The scoreboard ran baseball-only through NFL
+# season, and on 2026-09-03 three working ESPN news feeds were retired as dead when the
+# only thing wrong with them was the name in this string. Proven from CI, not just a
+# laptop: the first scheduled run after the scores fix pulled 9 leagues and 29 games
+# from site.api.espn.com on a GitHub runner IP, so the 403 was never about the egress.
+#
+# This is a narrow exception, not a new policy. It names hosts, it is not a wildcard,
+# and the substitute is TRUE: these are Python urllib clients. The desk does not
+# impersonate a browser here or anywhere, and every other host still gets the name and
+# the link. ESPN's RSS hosts are a SEPARATE and still-unsolved problem: they answer
+# datacenter IPs with HTTP 202 bot challenges, which no User-Agent fixes.
+GENERIC_CLIENT_UA = "Python-urllib/3"
+UA_EXCEPTIONS = ("site.api.espn.com", "now.core.api.espn.com", "sports.core.api.espn.com")
+
+
+def ua_for(url, default=None):
+    """The User-Agent to send to this host.
+
+    Callers pass their OWN branded string as `default`, so each module keeps the identity
+    it already advertised everywhere except the listed hosts. Only the exception is
+    shared, not the name.
+    """
+    branded = default or UA
+    try:
+        from urllib.parse import urlparse
+        host = (urlparse(url).hostname or "").lower()
+    except Exception:
+        return branded
+    return GENERIC_CLIENT_UA if host in UA_EXCEPTIONS else branded
+
 
 def gh(level, msg):
     """GitHub Actions annotation, also readable in a plain terminal."""
@@ -95,7 +136,7 @@ def fetch_page_meta(url, timeout=25, retries=2):
     meta = {"status": None, "final_url": url, "content_type": "", "bytes": 0,
             "body": "", "error": "", "attempts": 0}
     headers = {
-        "User-Agent": UA,
+        "User-Agent": ua_for(url),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
     }
