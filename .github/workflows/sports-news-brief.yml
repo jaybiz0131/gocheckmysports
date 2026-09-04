@@ -39,7 +39,22 @@ on:
     - cron: "55 10 * * *"   # Morning retry
     - cron: "10 17 * * *"   # Midday retry
     - cron: "25 11 * * *"   # Second morning retry: the morning cycle must be live before 12:00 UTC
-  workflow_dispatch: {}
+  # AN EXTERNAL TRIGGER NEEDS TO NAME THE SLOT (2026-09-04). GitHub's scheduler has been
+  # delivering this workflow's crons 1.5 to 4 hours late every day this week, so the fix
+  # is a trigger that does not depend on it. A dispatch carries no schedule, so without
+  # these inputs the run falls back to the wall clock, which is the ambiguity the slot
+  # guard was just rewritten to remove. Firing with slot="afternoon-brief" makes the
+  # caller's intent explicit and both the guard and wrap.py honour it.
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Edition slug this run is for (morning-brief, afternoon-brief, evening-brief). Empty resolves from the clock."
+        type: string
+        default: ""
+      breaking:
+        description: "Breaking-news run (skips the slot guard)"
+        type: boolean
+        default: false
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:
     inputs:
@@ -132,6 +147,7 @@ jobs:
           EVENT: ${{ github.event_name }}
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
           SLOT_CRON: ${{ github.event.schedule }}
+          SLOT_NAME: ${{ inputs.slot }}
         run: |
           python3 - <<'PYEOF'
           # THE CRON NAMES THE SLOT, NOT THE CLOCK (ported from the crypto desk
@@ -154,7 +170,11 @@ jobs:
               cron_slug = {"40 9 * * *": "morning-brief", "55 10 * * *": "morning-brief",
                            "25 11 * * *": "morning-brief", "38 15 * * *": "afternoon-brief",
                            "10 17 * * *": "afternoon-brief", "38 23 * * *": "evening-brief"}
-              slug = cron_slug.get((os.environ.get("SLOT_CRON") or "").strip())
+              # SLOT_NAME outranks both, the same precedence wrap.py uses: a caller that
+              # names the slot knows something the cron and the clock do not, and an
+              # external trigger is exactly that caller.
+              named = (os.environ.get("SLOT_NAME") or "").strip()
+              slug = named or cron_slug.get((os.environ.get("SLOT_CRON") or "").strip())
               day = now.date()
               if slug is None:
                   # a manual or watcher-fired run carries no slot cron; the clock is the
