@@ -1,55 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c002",
-    "headline": "Aaron Rodgers: '2026 will be my last season, zero debate'",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Metcalf said 'He may not even get hit or touched this year and may say, \"Hey, let's go out there and do another one.\"' but the brief's bear_case describes this as Metcalf's public expression of skepticism without the direct quote appearing in the data_points. The draft presents this as a direct quote when the brief only confirms it as reported sentiment. The exact phrasing must come from the source or be paraphrased; presenting it as a quote without confirmation in the data_points violates the sourcing requirement.",
-     "The draft quotes Rodgers as saying 'No. Zero debate. Zero.' in response to Metcalf's skepticism, but the brief data_point (claim 9) only states Rodgers 'explicitly dismissed the idea he might return for another season' without providing the exact quote 'No. Zero debate. Zero.' in that specific context. The draft fabricates the quote-framing or conflates separate statements."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "UEFA formally rejects FIFA's $20 billion World Cup privatization proposal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Reuters reporting cited by ESPN suggests Infantino has been lined up to run the company as commissioner once his FIFA term expires.' However, the brief data_point attributes this to 'The Times report,' not Reuters. The draft misattributes the source of this claim."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Sources: No real progress in Mayfield, Buccaneers contract talks",
-    "category": "accuracy",
-    "reasons": [
-     "The claim that 'Evans subsequently signed with the San Francisco 49ers in free agency in 2026' appears in the draft as a settled fact, but the brief lists it as 'reported' confidence only. More critically, the draft presents this as straightforward biography when the brief's open_questions and bear_case suggest Evans' departure may have been causally related to contract frustration\u2014a connection the draft makes seem inevitable rather than speculative. The sentence reads as factual narrative of a completed transaction, but without verification from the source that Evans' stalled negotiations caused his departure, this conflates reported fact (he is now a 49er) with unreported causation (that the Bucs' negotiation pattern drove him out). The draft should either attribute the move more carefully or acknowledge uncertainty.",
-     "The draft states 'Sources said that Mayfield is not afraid of playing out the season under his current deal or playing under the franchise tag in 2027' but the brief marks this data point as 'unconfirmed.' The draft presents it as fact sourced to ESPN without flagging the confidence level, violating the hard rule that unconfirmed claims must read as such in prose."
-    ]
-   },
-   {
-    "id": "c096",
-    "headline": "Kyle Shanahan injured in car accident: 49ers coach to begin training camp in limited role",
-    "category": "compliance",
-    "reasons": [
-     "The draft makes definitive medical claims about an ongoing injury situation ('sustained three broken ribs, a broken nose, a broken hand, a concussion') based on a brief marked 'thin=true' with only 6 data points and a truncated source. The brief's open_questions explicitly note that source text is 'truncated and does not include details about expected recovery timeline.' This is speculation about a person's medical state beyond the official record. The writer has moved from 'reported injuries' to presenting a complete clinical inventory as fact without evidence the 49ers or Shanahan made official statement of all these injuries together. A health claim must trace to official injury reports or on-record statements; this reads as assembled medical detail. Category: compliance (health claims beyond official record)."
-    ]
-   },
-   {
-    "id": "c108",
-    "headline": "Zinedine Zidane appointed France coach on 2030 contract",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Zidane 'reportedly turned down all other offers to pursue only this role' in the body, but this claim does not appear in the brief's data_points. The brief's angle mentions this, but the open_questions explicitly state 'No verification of Zidane's quote about turning down every other offer.' The writer has smuggled an unverified claim into the draft as fact.",
-     "The draft is severely underbaked for a story of this magnitude. The brief lists only one data_point (contract through 2030) and flags the source as 'truncated' with critical details missing. The brief's open_questions identify missing key information: appointment date, official announcement, Zidane's statement, and prior manager transition details. The draft should not have proceeded without these facts in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 6,
   "rejected": [
    {
@@ -8895,6 +8846,49 @@
     "reasons": [
      "The draft reports events dated September 2 in past tense as already occurred. Today is September 3. However, the brief's core_claim and data_points all carry timestamp 2026-09-02, and the confidence label on the core milestone claim is 'announced-not-verified', not 'verified-on-chain'. The story treats 'Ronald Acu\u00f1a Jr. became the fastest player in MLB history to reach 200 home runs and 200 stolen bases' as settled fact, but the brief itself marks this claim as 'announced-not-verified', meaning it has been announced by MLB but not yet independently verified. The draft must signal this uncertainty in its prose or the claim cannot run as the lead.",
      "The brief's bear_case notes 'The reporting does not specify the nature of his injuries or their impact on his production' and open_questions ask 'What specific injuries have interrupted Acu\u00f1a's season.' The draft states flatly 'injury-interrupted season' multiple times without qualification. This is speculative beyond the brief's confirmed data and should either be removed or attributed to a source explicitly."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c106",
+    "headline": "NBA Fines Clippers $30M, Strips Five Picks, Bans Ballmer for Year Over Leonard Salary Cap Scheme (September 3, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the ruling occurred on 'September 3, 2026' in the title and reports it as a past event ('The NBA fined the Los Angeles Clippers'). Today is September 4, 2026. The event is dated September 3, which is in the past relative to today, so reporting it as completed is correct. However, the brief data point states 'There will be no appeal, as the league and union agreed to the punishments' (confidence: verified-on-chain), but the draft reports: 'The Clippers said they will challenge every aspect of the punishment in court.' These are directly contradictory. The draft cannot assert a legal challenge will happen if the brief states no appeal is possible because the league and union agreed.",
+     "The draft states the payments occurred 'between June 2020 and August 2021' and references a total of '$18 million' routed through four companies. The brief confirms this in data_point claiming 'The three companies also signed multimillion-dollar agreements with the Clippers' but specifies only three companies signed endorsement deals with Leonard (Boingo, Daktronics, and Lockton in the June timing), while Aspiration is mentioned separately. The draft's opening claims four companies were used to route payments, but the brief's detailed timeline shows email introductions over six days in early June 2020 to three companies (Boingo, Daktronics, Lockton), with Leonard signing deals the following month with two the same day, then a third within a month. Aspiration's role as an endorsement deal recipient is stated separately in the brief. The draft's claim that $18 million went through 'four companies' for endorsements may conflate the endorsement deals (three companies per the report language cited in the brief) with the separate sponsorship agreements the Clippers signed with all four companies."
+    ]
+   },
+   {
+    "id": "c105",
+    "headline": "Louisiana Court Rules for LSU on Former NFL Players; Georgia AG Calls for SEC Suspension (September 5, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The title states 'A Louisiana Court Rules for LSU on Former NFL Players' and the opening sentence reports 'A Louisiana state court ruled in favor of LSU on Thursday.' Today is Friday, September 4, 2026. If the ruling happened on Thursday (September 3), reporting it in past tense is correct. However, the brief contains contradictory data_points: one states 'A Baton Rouge, Louisiana, judge is set to rule on the eligibility of several athletes at a hearing on Thursday' (future tense, confidence: reported), another states 'The judge ruled on Friday that the SEC could not enforce its new rule' (past tense, confidence: reported), and a third states 'A final decision will be made at Thursday's hearing' (future tense, confidence: reported). The brief itself is internally inconsistent about whether the ruling has occurred. The draft reports it as a completed past event, but the brief's primary data_point frames it as a future event ('set to rule'). Without clarity on timing in the brief, the draft cannot safely assert the ruling has concluded.",
+     "The draft reports 'Just over 48 hours before LSU's Week 1 game against Clemson on Saturday' but today is Friday, September 4. If the game is Saturday, that is tomorrow, not 'just over 48 hours' from now (which would place it past midnight Sunday). The timeframe in the draft does not align with today's date."
+    ]
+   },
+   {
+    "id": "c115",
+    "headline": "Stan Kroenke to Acquire Los Angeles Angels for $4 Billion, Including ABTV Network and Stadium Challenge",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Sean Keys contributed an RBI single in the fourth inning off Tanner Bibee's sweeper' and 'Keys has hit 29 home runs across Double-A, Triple-A, and the big leagues in 2026, more than any other player in the Angels organization.' This information cannot be traced to the brief. The brief is about Stan Kroenke acquiring the Angels; it contains no data_point about Sean Keys, his statistics, or a game on September 3, 2026. The entire narrative about a Blue Jays-Guardians game on September 3 is absent from the brief entirely.",
+     "The draft opens with 'The Toronto Blue Jays defeated the Cleveland Guardians 6-3 on Thursday, September 3, per MLB.com reporting.' Today is Friday, 2026-09-04. September 3 is yesterday (a past event). The brief's core_claim and data_points are about a Yankees acquisition deal and related topics, not a completed Blue Jays game. The writer has written about the wrong story, or the brief is for a different story entirely.",
+     "The entire draft\u2014player statistics, game box score, manager quotes, tiebreaker records\u2014must trace to the brief. None of it does. The story cannot be salvaged by cutting sentences; the entire piece is built on facts not present in the research brief."
+    ]
+   },
+   {
+    "id": "c201",
+    "headline": "Amen Thompson signs five-year, $208 million extension with Houston Rockets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body makes no mention of Fred VanVleet missing the entire previous season, yet this appears as a data point in the brief. While the brief does not explicitly state where this fact fits in the narrative, its presence in the data_points indicates the research team considered it relevant enough to include. The absence of any context around VanVleet in the draft may represent incomplete reporting of available information, but more pressingly: the brief's open_questions section is empty and the bear_case is empty, which suggests the brief was considered complete. A data point included but not used is not itself an accuracy violation\u2014the writer is not obligated to use every data point. However, this signals the brief may be incomplete or the writer may have received unstable source material. The draft itself is not factually wrong, but the discrepancy between brief and draft execution is worth flagging.",
+     "The draft states Thompson 'averaged a career-high 18.3 points and 5.3 assists per game in the most recent season, per the reporting.' This traces to the brief. However, the brief contains a data point: 'Fred VanVleet missed the entire previous season' with no context. This appears to be either a data point from a different story accidentally included, or missing contextual framing. Since the VanVleet claim does not appear in the draft and is unrelated to Thompson's contract, this is not an accuracy failure in the draft itself, but it signals the brief may contain copied or misattributed material."
     ]
    }
   ]
