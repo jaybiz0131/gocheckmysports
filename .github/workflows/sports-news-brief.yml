@@ -163,7 +163,7 @@ jobs:
           # decided what to COMPOSE from the cron, so the two could name different slots
           # in the same run. This map is wrap.CRON_SLOT expressed in edition slugs; keep
           # them in step.
-          import datetime, os
+          import datetime, os, subprocess
           serve = "true"
           if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
               now = datetime.datetime.now(datetime.timezone.utc)
@@ -184,12 +184,41 @@ jobs:
               elif slug == "evening-brief" and now.hour < 5:
                   # an evening cron delivered past midnight still belongs to its own day
                   day = day - datetime.timedelta(days=1)
-              if os.path.exists(os.path.join("site", "content",
-                                             f"{day.isoformat()}-{slug}.json")):
+              # ASK ORIGIN, NOT THE CHECKOUT (2026-09-04). The guard read the working
+              # tree, and a run's tree is only as fresh as the moment it was created. A
+              # workflow_dispatch pins its SHA at dispatch time, and the publish lock can
+              # hold it behind an in-flight run for many minutes, so a queued run checked
+              # out a tree from BEFORE the slot was served and served it a second time.
+              # Observed live on this chassis: a dispatch pinned to dba1eb2 ran after the
+              # scheduled run had already pushed the afternoon edition, saw no edition in
+              # its own tree, and went on to draft. Same class as the P2 duplicate race,
+              # where the corpus guard compares against a checkout that has moved on.
+              #
+              # One network call before any model call. Fail-open on purpose: if origin
+              # cannot be reached the checkout is still a better answer than refusing to
+              # publish, which is the rule for every gate on this desk.
+              rel = os.path.join("site", "content", f"{day.isoformat()}-{slug}.json")
+              def _served_on_main(path):
+                  try:
+                      subprocess.run(["git", "fetch", "--depth=1", "origin", "main"],
+                                     check=True, capture_output=True, timeout=90)
+                      r = subprocess.run(["git", "cat-file", "-e", f"FETCH_HEAD:{path}"],
+                                         capture_output=True, timeout=30)
+                      return r.returncode == 0
+                  except Exception as e:
+                      print(f"::warning::Slot guard could not read origin/main ({e}); "
+                            f"falling back to this run's checkout, which may be stale.")
+                      return None
+              served = _served_on_main(rel)
+              where = "origin/main"
+              if served is None:
+                  served, where = os.path.exists(rel), "this run's checkout"
+              if served:
                   serve = "false"
                   print(f"::notice::Slot guard: {slug} is already published for "
-                        f"{day.isoformat()}; standing down before any model call "
-                        f"(retry ticks are free when the primary served the slot).")
+                        f"{day.isoformat()} (per {where}); standing down before any "
+                        f"model call (retry ticks are free when the primary served "
+                        f"the slot).")
           open(os.environ["GITHUB_OUTPUT"], "a").write(f"serve={serve}\n")
           PYEOF
 
