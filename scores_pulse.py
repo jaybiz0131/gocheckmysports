@@ -78,6 +78,11 @@ LEAGUES = [
     ("NFL", [("espn_team", ESPN_BASE + "football/nfl/scoreboard")]),
     ("CFB", [("espn_team", ESPN_BASE + "football/college-football/scoreboard")]),
     ("NBA", [("espn_team", ESPN_BASE + "basketball/nba/scoreboard")]),
+    # The rail gained College Basketball and More Sports, and a lane with no scoreboard
+    # looks dead out of season. The 30-hour window still does the real gating: these
+    # return a full future schedule in September and none of it is in window.
+    ("CBB", [("espn_team", ESPN_BASE + "basketball/mens-college-basketball/scoreboard")]),
+    ("WCBB", [("espn_team", ESPN_BASE + "basketball/womens-college-basketball/scoreboard")]),
     ("WNBA", [("espn_team", ESPN_BASE + "basketball/wnba/scoreboard")]),
     ("NHL", [("espn_team", ESPN_BASE + "hockey/nhl/scoreboard")]),
     ("EPL", [("espn_team", ESPN_BASE + "soccer/eng.1/scoreboard")]),
@@ -89,6 +94,7 @@ LEAGUES = [
     # Tennis is a tournament, not a fixture list: the scoreboard payload carries the event
     # and hangs the matches off groupings. Singles only, because ESPN sends doubles pairs
     # with no athlete names and two blank rows is not a score.
+    ("UFC", [("espn_mma", ESPN_BASE + "mma/ufc/scoreboard")]),
     ("ATP", [("espn_tennis_men", ESPN_BASE + "tennis/atp/scoreboard")]),
     ("WTA", [("espn_tennis_women", ESPN_BASE + "tennis/wta/scoreboard")]),
 ]
@@ -280,6 +286,37 @@ def gather_espn_tennis(now, url, draw):
     return games, "site.api.espn.com"
 
 
+def gather_espn_mma(now, url):
+    """A fight card is ONE event holding many bouts, and ESPN sends no homeAway and no
+    team abbreviation for either corner, so the team adapter would render two blank rows.
+    Fighters come from competitors[].athlete, same as tennis singles."""
+    games = []
+    board = fetch_json(url)
+    for ev in board.get("events", []):
+        for comp in ev.get("competitions") or []:
+            start = comp.get("date") or ev.get("date", "")
+            if not in_window(start, now):
+                continue
+            sides = comp.get("competitors") or []
+            if len(sides) != 2:
+                continue
+            a, b = _player_label(sides[0]), _player_label(sides[1])
+            if not a or not b:
+                continue
+            state, detail = _espn_status(comp, start)
+            # A decision has no score line; the winner flag is the result.
+            aw = sides[0].get("winner")
+            bw = sides[1].get("winner")
+            games.append({
+                "away": a, "home": b,
+                "away_score": (1 if aw else 0) if state == "post" and aw is not None else None,
+                "home_score": (1 if bw else 0) if state == "post" and bw is not None else None,
+                "state": state, "detail": detail,
+                "start_utc": start, "eid": str(comp.get("id", "")),
+            })
+    return games, "site.api.espn.com"
+
+
 def gather_tennis_men(now, url):
     return gather_espn_tennis(now, url, "Men's Singles")
 
@@ -291,6 +328,7 @@ def gather_tennis_women(now, url):
 ADAPTERS = {
     "mlb": gather_mlb,
     "espn_team": gather_espn_team,
+    "espn_mma": gather_espn_mma,
     "espn_tennis_men": gather_tennis_men,
     "espn_tennis_women": gather_tennis_women,
 }

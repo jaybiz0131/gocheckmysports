@@ -1348,12 +1348,16 @@ SCORES_PATH = os.path.join(HERE, "site", "data", "scores.json")
 # events[].groupings[], so a tennis feed here would match no card, and worse, retire()
 # would then strip the live styling from every tennis card on the rail because none of
 # them appeared in the "seen" set. Baked values are correct and update every run; a
-# tennis card simply does not self-refresh between builds.
+# tennis card simply does not self-refresh between builds. UFC is out for the same
+# reason: a fight card is one event holding many bouts, so events[].competitions[0] is
+# only ever the first fight.
 _CLIENT_FEEDS = {
     "MLB": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&hydrate=team,linescore",
     "NFL": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
     "CFB": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
     "NBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
+    "CBB": "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard",
+    "WCBB": "https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/scoreboard",
     "WNBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard",
     "NHL": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
     "EPL": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
