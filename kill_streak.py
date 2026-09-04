@@ -82,8 +82,15 @@ def is_refusal_title(title):
     if REFUSAL_RE is None:
         import re
         REFUSAL_RE = re.compile(
+            # "CANNOT PUBLISH: No Source Text Available" reached PUBLISH on the news desk
+            # 2026-08-15 and was still live three weeks later, on news.html with its own
+            # article page, because this pattern knew "cannot draft" but not "cannot
+            # publish". The brief says to extend this the moment a new refusal phrasing
+            # appears rather than let it ledger; the same phrasing also has to be caught
+            # before it becomes a story, which is writer._is_refusal calling this.
             r"^\s*(?:held\s*:|(?:story\s+(?:rejected|held|cannot\s+be\s+drafted|not\s+drafted|"
-            r"withheld)|cannot\s+draft|no\s+(?:research\s+)?brief|draft\s+(?:refused|withheld)|"
+            r"withheld)|cannot\s+(?:draft|publish|be\s+published)|no\s+(?:research\s+)?brief|"
+            r"no\s+source\s+text|draft\s+(?:refused|withheld)|"
             r"unable\s+to\s+draft|insufficient\s+(?:brief|source))\b)", re.I)
     return bool(REFUSAL_RE.search(str(title or "")))
 

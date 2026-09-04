@@ -293,18 +293,36 @@ TAG_RULES = [
                      r"released|option\w* (?:exercised|declined)|call[- ]up)\b"),
     # The NFL pattern knew five words, none of them the ones a season run-up is
     # written in: cutdowns, waivers, the practice squad, the 53-man limit, IR.
+    # CLUB NAMES, BECAUSE THAT IS HOW A STORY NAMES A TEAM (2026-09-04). "Vikings suspend
+    # Gerald Alexander", "Packers career rushing leader Ahman Green" and "Jets CB Stiggers
+    # hospitalized" all filed as nothing, because the pattern knew the sport's vocabulary
+    # and not its teams. UNAMBIGUOUS NAMES ONLY, the same rule the college lane already
+    # applies to schools: Cardinals, Giants, Panthers, Rangers, Kings and Jets are each
+    # two teams in two sports on this desk, so they stay out and their stories are caught
+    # by the vocabulary terms above.
     ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|training camp|"
             r"preseason|roster cutdown\w*|cutdown\w*|53-man|practice squad|"
             r"waiver\w*|injured reserve|pup list|franchise tag|depth chart|"
-            r"snap count\w*)\b"),
+            r"snap count\w*|packers|vikings|seahawks|buccaneers|bengals|browns|"
+            r"steelers|ravens|texans|colts|jaguars|titans|broncos|chiefs|chargers|"
+            r"cowboys|commanders|bears|lions|falcons|saints|49ers|dolphins|"
+            r"patriots|bills|eagles)\b"),
     # WNBA IS NOT THE NBA (owner audit 2026-08-29): the nba pattern matches "wnba"
     # outright, so every WNBA story filed under nba. Its own rule, ahead of it.
     ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries)\b"),
     ("nba", r"\b(nba|wnba|finals mvp|triple-double)\b"),
     ("mlb", r"\b(mlb|world series|no-hitter|home run\w*|inning\w*|pitcher\w*)\b"),
     ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*)\b"),
+    # Club names for the same reason. "Liverpool agrees to £120m deal for Barcola" and
+    # "Chelsea fined £10m" carried no tag at all. Rangers is omitted deliberately: it is
+    # a Glasgow club, a baseball club and a hockey club.
     ("soccer", r"\b(premier league|champions league|la liga|serie a|bundesliga|mls|"
-               r"fifa|uefa|world cup|soccer)\b"),
+               r"fifa|uefa|world cup|soccer|liverpool|chelsea|arsenal|tottenham|"
+               r"manchester united|man utd|manchester city|real madrid|barcelona|"
+               r"atletico madrid|bayern munich|juventus|ac milan|inter milan|"
+               r"borussia dortmund|paris saint-germain|\bpsg\b|west ham|everton|"
+               r"newcastle united|aston villa|derby county|celtic|ajax|benfica|"
+               r"english fa|national team)\b"),
     # TENNIS HAD NO RULE AT ALL (2026-09-04). Not a weak rule: no entry, so every tennis
     # story tagged to nothing, which meant no section, no related-stories links and no
     # way in except Latest and the archive. Measured on the corpus: 23 tennis stories,
@@ -340,6 +358,33 @@ TAG_RULES = [
                 r"ohio state|notre dame|clemson|\blsu\b|auburn|florida state|"
                 r"penn state|\bucla\b|\busc\b|ole miss|texas a&m|"
                 r"student-?athlete\w*)\b|\b(?:SEC|ACC)\b"),
+    # SPORTS THE DESK COVERS AND COULD NOT FILE (2026-09-04). 27 live stories carried no
+    # tag at all, so they reached no section and no related-stories link: golf, cycling,
+    # athletics, combat sports and cricket had no rule of any kind, exactly as tennis had
+    # none. Player surnames are deliberately sparse here; the events and governing bodies
+    # are what a story about these sports actually names.
+    ("golf", r"\b(golf|pga tour|liv golf|lpga|dp world tour|ryder cup|solheim cup|"
+             r"masters tournament|birdie\w*|bogey\w*|caddie\w*|tee time|"
+             r"the open championship)\b"),
+    ("cycling", r"\b(cycling|cyclist\w*|tour de france|vuelta|giro d'italia|giro|"
+                r"peloton|velodrome|\buci\b|time trial|general classification|"
+                r"volta a portugal)\b"),
+    # "Athletics" alone is the name of a baseball club, so the tag is keyed on the events
+    # and the governing body instead. Distances carry a unit so "800m" cannot match a
+    # transfer fee.
+    ("athletics", r"\b(track and field|world athletics|diamond league|commonwealth games|"
+                  r"\d{3,4}m (?:final|heat|race|title)|hurdles|heptathlon|decathlon|"
+                  r"steeplechase|shot put|pole vault|long jump|triple jump)\b"),
+    ("combat sports", r"\b(boxing|boxer\w*|\bufc\b|\bmma\b|\bwbo\b|\bwbc\b|\bwba\b|"
+                      r"\bibf\b|bellator|\bpfl\b|knockout|heavyweight|middleweight|"
+                      r"welterweight|featherweight|bantamweight|title fight|undisputed "
+                      r"champion|title defence|title defense)\b"),
+    # "bowler" is OUT: it matched "Pro Bowler" and filed a Jamal Adams signing as cricket.
+    # "innings" is out too, because the MLB rule owns it. Cricket has enough vocabulary
+    # that is only ever cricket, so the ambiguous batting and bowling words earn nothing.
+    ("cricket", r"\b(cricket\w*|\bt20\b|\bt10\b|\bodi\b|wicket\w*|\bipl\b|"
+                r"county championship|test series|test squad|test coach|run-scorer|"
+                r"the ashes)\b"),
     ("scores-results", r"\b(final score\w*|won|beat\w*|defeat\w*|shutout|overtime|"
                        r"walk-off|clinch\w*|elimination|playoff\w*|postseason)\b"),
 ]
@@ -357,7 +402,34 @@ _HEAD_WEIGHT = 6
 _BODY_MIN = 2
 
 
+# TAGS ARE PURE AND THEY ARE COMPUTED O(n^2) (2026-09-04). related_stories asks for the
+# tags of every candidate against every item, so a 483-story corpus makes ~233,000
+# tags_for calls in one build. At 3.5ms each that is fourteen minutes, and the build has
+# to finish inside Netlify's limit. The function is a pure read of fields that do not
+# change during a build, so it is memoised on the story's own id. This was found by the
+# build blowing past ten minutes right after the tag rules were widened: the quadratic
+# call pattern was always here, the longer patterns only made each call expensive enough
+# to notice.
+_TAGS_CACHE = {}
+
+
 def tags_for(item):
+    # SLUG, NOT ID. "id" is a per-run sequence number and it repeats: c001 appears 13
+    # times in the sports corpus, so keying on it served one story's tags to twelve
+    # others. Measured before it shipped: 231 of 483 stories got the wrong tags. A
+    # shallow key is not an identity, which is the rule this desk keeps relearning.
+    _ck = item.get("slug")
+    if _ck is not None:
+        _hit = _TAGS_CACHE.get(_ck)
+        if _hit is not None:
+            return _hit
+    _res = _tags_for_uncached(item)
+    if _ck is not None:
+        _TAGS_CACHE[_ck] = _res
+    return _res
+
+
+def _tags_for_uncached(item):
     body = item.get("body") or []
     head = " ".join([item.get("title") or "", item.get("dek") or "",
                      item.get("key_fact") or ""])
