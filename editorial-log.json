@@ -1,73 +1,5 @@
 [
  {
-  "date": "2026-07-28",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c148",
-    "headline": "Eagles and Jalen Carter agree to $152M extension, largest for defensive tackle",
-    "category": "accuracy",
-    "reasons": [
-     "Title and opening claim 'largest contract ever signed by a defensive tackle in NFL history' presents as definitive fact, but brief data_points show only 'reported' confidence and open_questions explicitly flag uncertainty: 'Whether this is claimed as the largest defensive tackle contract by total value, average annual value, or guarantees.' The draft should hedge this claim (e.g., 'reported to be' or 'agents claim') to match the brief's epistemic standing.",
-     "Draft states deal 'is reported to be the largest contract ever signed by a defensive tackle in NFL history' in paragraph one, then drops the hedge in the title and bottom_line ('locked in what is reported as the richest defensive tackle deal'). The title presents unhedged superlative as fact when source reports only a claim by agent representation."
-    ]
-   },
-   {
-    "id": "c156",
-    "headline": "Lions place Christian Mahogany on NFI list, release Jay Tufele",
-    "category": "compliance",
-    "reasons": [
-     "Draft states 'The specific nature of Mahogany's non-football injury' and treats the placement on NFI as a confirmed health/injury event, but NFI designation itself is a roster status unrelated to confirming the actual medical facts. The phrase 'non-football injury' describes the designation category, not the injury itself. The draft should not speculate about or frame his absence as an 'injury' when the brief and source only confirm the roster move designation. This crosses into medical/health speculation beyond the official record.",
-     "Opening paragraph reads 'removes a starting offensive lineman from the Lions' camp' which assumes Mahogany was in camp and was removed mid-camp. The brief and source only report the placement on NFI list; the draft infers timing and circumstance not present in the source material."
-    ]
-   },
-   {
-    "id": "c77",
-    "headline": "49ers head coach Kyle Shanahan injured in car accident on July 14",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions flag states: 'The source text provided is truncated/corrupted (contains only HTML boilerplate and navigation code); the full article content is unavailable.' This indicates the writer cannot have verified the facts claimed in the draft. The brief explicitly notes: 'Unable to confirm: specific details of the accident, timeline of recovery, official team statement on camp operations impact, Shanahan's own statement beyond responsibility acknowledgment, or any medical prognosis.' Yet the draft presents as confirmed fact that Shanahan 'sustained a broken nose, three broken ribs, a broken hand, a concussion, and 40+ stitches' and that 'Shanahan was injured in a car accident on July 14 and said the accident was his fault'\u2014facts that cannot be verified from the corrupted source. The data_points themselves are marked 'reported' but derive from an inaccessible article. No fact exists outside the brief; when the brief's source is compromised, the draft cannot stand."
-    ]
-   },
-   {
-    "id": "c111",
-    "headline": "FIFA announces plan to sell World Cup commercial rights to private investors for $20 billion",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's bear_case and open_questions explicitly state: 'The source text provided is truncated/corrupted (contains only CSS and HTML boilerplate); the full article body is unavailable, preventing extraction of the specific criticisms, UEFA statement content, the UK Prime Minister's position, European clubs' objections, FIFA's justification, or the mechanism and timeline of the proposed sale.' The draft claims 'UEFA released a strongly worded statement in response and indicated it could pursue legal action, per The Guardian's reporting' and 'The backlash reflects concerns that the sale would shift control of football's most prestigious competition from an international governing body to private capital'\u2014but these claims cannot be verified from a corrupted source text. The writer has no brief support for the specific content of UEFA's statement or the nature of the concerns cited. Facts must trace to verified research; a corrupted source means no facts can be established."
-    ]
-   },
-   {
-    "id": "c80",
-    "headline": "CBS Sports Lands Exclusive English Rights to Concacaf Champions Cup Through 2030",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CBS Sports has secured exclusive English-language broadcast rights to the Concacaf Champions Cup through 2030' and 'The rights cover 137 annual matches.' The brief marks both data points as 'announced-not-verified' confidence, but the draft presents them as settled facts without hedging language. Per instructions, confidence labels must survive: unconfirmed claims must read that way in prose. The draft should signal that this is an announced deal not yet independently verified."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Sebastian Berhalter Transfers to Middlesbrough from Vancouver Whitecaps",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Berhalter 'signed with the Whitecaps in February 2022 from Columbus Crew' but the brief does not contain this information. The brief only confirms he joined Vancouver in February 2022; the source club is not in the data_points.",
-     "The draft claims Berhalter 'made 167 appearances across all competitions, recording 20 goals and 34 assists during his tenure' at Vancouver. This statistic does not appear in the brief's data_points and is therefore smuggled.",
-     "The draft omits a critical data_point from the brief: 'Berhalter is the son of former USMNT coach Gregg.' This is a reported fact in the brief that should have been included for full context.",
-     "The draft paraphrases Berhalter's quote differently than the brief provides it. The brief contains: 'I've been watching the club closely over the last two years because of Aidan, and I kind of fell in love with the club, especially over the last year with the way they play and the way they fight.' The draft reads: 'I had been monitoring Middlesbrough closely over the past two years because of Morris's presence there. I kind of fell in love with the club, especially over the last year with the way they play and the way they fight.' The first part is substantially reworded when the brief provides exact language marked 'announced-not-verified'\u2014direct quotes should be used when available."
-    ]
-   },
-   {
-    "id": "c3",
-    "headline": "2026 NFL Training Camps Underway Across All 32 Teams",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'ESPN has launched notebooks for 14 teams that are in full training camp mode' but this claim does not appear in the brief's data_points. The brief core_claim and data say ESPN is covering camps across all 32 teams; no specific count of 14 notebooks is mentioned.",
-     "The draft reports 'Cincinnati Bengals work from Paycor Stadium' but the brief data_point specifies 'Paycor Stadium, Cincinnati, Ohio'\u2014a minor omission of location clarity, though this may not rise to smuggling. However, the draft's lack of attribution for facility locations (no inline source attribution) and the specificity of dozens of facility claims creates liability: every facility name, city, and location detail should be verifiable against the brief, and many are listed without confirmation of which teams' report dates came from which sources."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-29",
   "approved": 5,
   "rejected": [
@@ -8846,6 +8778,37 @@
     "reasons": [
      "The draft reports the game on September 4, 2026, and states 'This is the seventh season of Greg Schiano's second tour at Rutgers.' The brief confirms this is 'his seventh season,' but the draft does not specify when Schiano's second tour began. If his seventh season began in 2026 and today is September 4, 2026, the math places his first season of the second tour at 2020. However, this is an inference the draft makes without explicit sourcing, and the reader cannot verify the claim from the prose alone. More critically, the draft later states 'Chris Ash lost to Buffalo 42-13 on September 22, 2018, at home, a result that marked the beginning of the end of his tenure' \u2014 this is from the brief data point but the draft does not attribute it in a way that makes clear whether this characterization (that it 'marked the beginning of the end') is reporting what sources said or the writer's own interpretation. The brief data point says Ash 'lost to Buffalo 42-13 on September 22, 2018, at home, a result that marked the beginning of the end of his tenure' per the source, so the attribution chain is intact, but the phrasing reads as editorial rather than reported.",
      "The draft states 'President William Tate and athletics director Keli Zinn are SEC-affiliated executives, per the reporting' but the brief data point says they are 'LSU expats and SEC people.' The draft softens 'LSU expats' to 'SEC-affiliated executives,' which is a paraphrase but accurate. However, this is a minor inaccuracy in tone rather than substance and does not rise to rejection-level accuracy failure."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "UMass Defeats Rutgers 37-21 as 29.5-Point Underdog, Snaps 16-Game FBS Losing Streak",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c223",
+    "headline": "Colorado defeats Georgia Tech 14-13 on blocked field goal in Week 0 opener, September 4",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims the game occurred on 'Friday, September 4' in both title and body. Today is Friday, 2026-09-04. The brief correctly shows this as a completed event (timestamp 2026-09-04 in data_points). However, the phrase 'Week 0 college football opener' and the context of the brief require verification: a 'Week 0' game would typically occur before the standard college football season (which typically begins around late August/early September). The title and opening sentence present this as a completed event on today's date, which is accurate for Friday, but the description 'Week 0 opener' suggests this should be contextually labeled as the season's opening week rather than a past event. This passes the date rule. However, the bottom_line includes the problematic statement: 'The 14-13 result stands as the final score; the exact scoring details and key plays that led to the blocked field goals in the fourth quarter and the final attempt remain unspecified in available reporting.' This sentence admits that critical details remain absent from the brief, which violates the rule forbidding the desk from narrating absence or restating open_questions as though they are facts. The brief's open_questions explicitly ask for exact scoring details and key plays\u2014the bottom_line should not assert their absence as editorial content."
+    ]
+   },
+   {
+    "id": "c197",
+    "headline": "Amen Thompson signs 5-year, $208M rookie-scale extension with Rockets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a fact not present in the brief's data_points: 'The Rockets were able to sign Thompson for well under a max contract' appears in the draft as a standalone claim, but this statement relies on an inference about what a 'max contract' would be in 2026\u2014a figure not provided in the brief. The brief data_point says 'The Rockets were able to sign Thompson for well under a max contract,' but the brief does not provide the actual max salary figure, Thompson's percentage of max, or any comparative data. The draft presents this as established fact without qualification, but it is comparison-dependent and requires external knowledge not in the brief.",
+     "The bottom_line states: 'The contract's classification as a rookie-scale extension and the specific mechanics that allow this mechanism remain unreported in available sources.' This violates the rule against narrating absence. The brief lists this exact item in open_questions: 'The exact contract mechanism that classifies this as a rookie-scale extension rather than a standard extension.' The desk cannot write sentences that restate what the brief does not have as though that absence is newsworthy; the bottom_line should look forward (what the extension locks in, what it signals), not describe gaps in reporting."
     ]
    }
   ]
