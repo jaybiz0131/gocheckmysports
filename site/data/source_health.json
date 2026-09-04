@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-04T17:03:12Z",
+ "checked_utc": "2026-09-04T18:40:14Z",
  "sources": [
   {
    "name": "BBC Sport",
@@ -8,7 +8,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 74,
+   "items": 67,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -74,7 +74,7 @@
    "tier": "mixed",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 30,
+   "items": 28,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -270,9 +270,9 @@
    "kind": "rss",
    "url": "https://www.espn.com/espn/rss/ncf/news",
    "tier": "major",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 23,
+   "state": "CHALLENGED",
+   "detail": "HTTP 202 bot challenge",
+   "items": 0,
    "newest_age_h": null,
    "fallback": {
     "url": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=40",
@@ -288,9 +288,9 @@
    "kind": "rss",
    "url": "https://www.espn.com/espn/rss/nfl/news",
    "tier": "major",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 33,
+   "state": "CHALLENGED",
+   "detail": "HTTP 202 bot challenge",
+   "items": 0,
    "newest_age_h": null,
    "fallback": {
     "url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=40",
@@ -306,9 +306,9 @@
    "kind": "rss",
    "url": "https://www.espn.com/espn/rss/tennis/news",
    "tier": "major",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 14,
+   "state": "CHALLENGED",
+   "detail": "HTTP 202 bot challenge",
+   "items": 0,
    "newest_age_h": null,
    "fallback": {
     "url": "https://now.core.api.espn.com/v1/sports/news?sport=tennis&limit=40",
