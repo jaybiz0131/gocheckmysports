@@ -204,6 +204,9 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("College Basketball", "/sections/college-basketball.html"),
        ("NHL", "/sections/nhl.html"),
        ("More Sports", "/sections/more-sports.html"),
+       ("Scores", "/sections/scores.html"),
+       ("Injuries", "/sections/injuries.html"),
+       ("Transactions", "/sections/transactions.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -734,7 +737,7 @@ def masthead(active, dateline, brand="site"):
     # arriving somewhere else first.
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
-        for label, href in NAV if label not in NAV_UTILITY)
+        for label, href in NAV if label not in NAV_UTILITY and label not in NAV_CROSSCUT)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
@@ -1860,6 +1863,7 @@ def render_home(items, dateline):
     # The live layer rides above the fold, before the editorial page begins.
     body = scores_strip() + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: the latest verified sports news</h1><section class="page">
   {desk_html}
+  {crosscut_row(items)}
   {editions_html}
   {track_html}
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
@@ -1960,7 +1964,23 @@ SECTIONS = [
     ("more-sports", "More Sports", "More Sports",
      ("combat sports", "golf", "cycling", "cricket", "athletics"),
      "Boxing and MMA, golf, cycling, cricket and athletics."),
+    # THE SECOND AXIS (2026-09-04). These are story TYPES, not sports, and they are what
+    # guarantees no story is unreachable: 20 of the 24 stories that reached no lane are a
+    # result, an injury or a signing in a sport with no section of its own. They are real
+    # pages for that reason, and they are deliberately NOT in the lane rail, because two
+    # global rails on a phone is the clutter the rail work just removed. They surface as a
+    # compact row on the homepage and on every section front instead.
+    ("scores", "Scores &amp; Results", "Scores", ("scores-results",),
+     "Final scores and what they settled, checked against official league data."),
+    ("injuries", "Injuries", "Injuries", ("injuries",),
+     "Who is hurt, how long for, and what the club has actually confirmed."),
+    ("transactions", "Transactions", "Transactions", ("transactions",),
+     "Signings, trades, extensions and waivers across every league the desk covers."),
 ]
+
+# The second axis, kept out of the lane rail but present in NAV so the unreachable-section
+# guard still sees them. masthead() filters both this and NAV_UTILITY.
+NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 
 
 # A LANE THE READER CANNOT CLICK DOES NOT EXIST (owner audit 2026-08-29). SECTIONS and
@@ -1988,6 +2008,35 @@ def section_items(items, tags):
             and want & set(tags_for(i))]
 
 
+def crosscut_row(items, active=None):
+    """The second axis, as a compact row rather than a second global rail.
+
+    Every story on this desk is a result, an injury, a signing or none of those, and that
+    cut runs ACROSS the leagues rather than beside them. It is what guarantees the desk has
+    no unreachable stories: 20 of the 24 that reached no lane are a result, an injury or a
+    signing in a sport with no section of its own.
+
+    It is a row and not a rail on purpose. A second sticky rail is two rows of chrome above
+    the news on a phone, which is exactly the clutter the lane rail was cleaned up to avoid.
+    This renders inline, once, under the section head, and carries its own counts so a
+    reader can see there is something behind each link before spending a tap.
+    """
+    out = []
+    for slug, title, nav_label, tags, _blurb in SECTIONS:
+        if nav_label not in NAV_CROSSCUT:
+            continue
+        n = len(section_items(items, tags))
+        if not n:
+            continue
+        cls = " class=\"xc-on\"" if nav_label == active else ""
+        out.append(f'<a href="/sections/{slug}.html"{cls}>{esc(nav_label)}'
+                   f'<span class="xc-n">{n}</span></a>')
+    if not out:
+        return ""
+    return ('<nav class="xcut" aria-label="Across every league">'
+            '<span class="xc-lab">Across every league</span>' + "".join(out) + '</nav>')
+
+
 def render_section(slug, title, nav_label, tags, blurb, items, dateline):
     live = section_items(items, tags)
     if live:
@@ -2002,6 +2051,7 @@ def render_section(slug, title, nav_label, tags, blurb, items, dateline):
     body = f"""<main class="wrap"><h1 class="sr-only">{esc(plain)}</h1><section class="sec">
     <div class="sec-head"><h2>{title}</h2><span class="bar"></span></div>
     <p class="lede" style="margin:0 0 14px">{blurb}</p>
+    {crosscut_row(items, nav_label)}
     {inner}
   </section></main>"""
     # nav_label, not the page title: shell() marks the nav item whose label matches,
