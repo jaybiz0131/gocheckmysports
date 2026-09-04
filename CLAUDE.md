@@ -157,10 +157,20 @@ same judgement, measured, and it maintains itself.
 `site_build._recurring_subjects(content_dir)` is that table, about twenty lines, cached per
 directory: subject words carried by 2% or more of published titles, minimum 4, so a young
 corpus does not flag its whole vocabulary. It gives each desk its own regular cast with
-nothing to maintain. **It is reusable, and the obvious next user is `dedupe.same_event`
-itself**, which is the machinery behind P2: `same_event` called the Clippers and Daktronics
-stories one event, and it will keep doing that for any pair sharing one recurring name.
-Sharpening it there fixes the cause rather than one caller.
+nothing to maintain, and it is reusable.
+
+**Reusable, but MIND THE DIRECTION, because `same_event` is called by two callers that want
+opposite things.** `dedupe.same_event` returns True on >=70% headline overlap OR >=2 shared
+signature tokens. In `supersede_ok` a True RETIRES a story, so a false True costs a reader
+the story and a floor that makes True rarer is pure gain: that is the fix above. In `dedupe`
+a True BLOCKS A DUPLICATE, so the same floor would block fewer, and P2 is the complaint that
+duplicates already reach publish. Do not port the floor into `same_event` as a uniform
+tightening or P2 gets worse.
+
+What the table is good for on the dedupe side is weighting evidence, not raising a bar: two
+stories sharing only `trump` or `fifa` are weak evidence of anything, in EITHER direction,
+so that pair needs a second signal before it either retires or blocks. Same table, opposite
+use. Anything touching `same_event` must be measured against both callers before it ships.
 
 A note on measuring against a snapshot: the sandbox corpus this was verified against was
 about ten stories behind live, which is why the live run found six on sports where the
