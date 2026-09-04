@@ -1,80 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c171",
-    "headline": "Shane Hennen pleads guilty to wire fraud; faces 20 years, sentencing set for January 2027",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Hennen 'told the court he only participated in games in Manhattan' but the brief data point says he was 'aware of rigged poker games that took place on Long Island and in the Hamptons, but only participated in ones in Manhattan.' The draft's phrasing ('only participated') accurately reflects the brief, but the sentence structure creates ambiguity about what Hennen disclosed versus what prosecutors allege. More critically, the draft presents Hennen's own statement as fact without attribution to his testimony or defense position; a reader cannot distinguish between what prosecutors alleged and what Hennen claimed in court.",
-     "The draft states prosecutors 'allege Hennen participated in rigged poker matches that took place on Long Island, in the Hamptons, and in Manhattan' but then immediately says 'though Hennen told the court he only participated in games in Manhattan.' This is contradictory\u2014prosecutors allege he participated in all three locations; Hennen claims only Manhattan. The draft conflates these without clear attribution, making it read as though both are simultaneously true rather than competing accounts."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "2026 NFL training camps: Real-time coverage from all 32 teams",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Cleveland Browns operate out of CrossCountry Mortgage Campus in Berea, Ohio' but provides no rookie report date. The brief data_point specifies 'Cleveland Browns rookies reported July 23; veterans report July 28' \u2014 the draft omits the July 23 rookie date that appears in the source material, creating an incomplete fact trace.",
-     "The draft states 'The Los Angeles Chargers use The Bolt facility in El Segundo, California' but omits rookie (July 23) and veteran (July 28) report dates that are in the source data_points.",
-     "The draft mentions 'The New York Giants split operations between The Greenbrier Resort in White Sulphur Springs, West Virginia (rookies) and Quest Diagnostics Training Center in East Rutherford, New Jersey (veterans)' but omits the July 23 rookie and July 28 veteran report dates from the brief.",
-     "The draft lists 'Jacksonville's Jaguars are at Miller Electric Center' without the July 25 rookie and July 28 veteran dates present in the brief data.",
-     "The draft lists 'Tampa Bay's Buccaneers at AdventHealth Training Center' without the July 27 rookie and July 28 veteran dates present in the brief data.",
-     "The draft states 'Detroit's Lions work from Meijer Performance Center in Allen Park, Michigan' without the July 25 rookie and July 28 veteran dates in the brief.",
-     "The draft is missing Houston Texans entirely, which appears in the brief as 'Houston Texans rookies reported July 21; veterans report July 28' \u2014 a significant omission from a multi-team inventory piece.",
-     "The draft omits Washington Commanders entirely, despite the brief containing 'Washington Commanders rookies reported July 24; veterans report July 28; camp site is Commanders Park, Ashburn, Virginia.'"
-    ]
-   },
-   {
-    "id": "c172",
-    "headline": "WNBA All-Star Game viewership surges 44% with Caitlin Clark's return",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states '2024 All-Star Game, which featured the inaugural appearance of Caitlin Clark and Angel Reese, remains the all-time high at 3.44 million viewers.' The brief data_point says '2024's 3.44 million viewership was the All-Star game debut of the 2024 rookie class that featured Caitlin Clark and Angel Reese.' The draft incorrectly frames this as their 'inaugural appearance' at the All-Star Game when the brief and the context make clear they were 2024 rookies debuting; 'inaugural appearance' is ambiguous and potentially misleading about whether they had ever played in an All-Star game before.",
-     "The draft attributes the Clark quote to 'Front Office Sports' but the brief data_point says 'Caitlin Clark stated after Saturday's game (the 2026 All-Star Game)' without specifying which outlet reported the quote. The draft attributes it to a source it does not verify came from Front Office Sports rather than another outlet that covered the game.",
-     "The draft does not acknowledge the bear_case claim that 'The source notes the league may soon face issues that have plagued All-Star showcases in other major sports leagues, acknowledging sustainability risks despite current strong viewership.' While the draft mentions this in the final paragraph, it frames it as a forward-looking concern rather than incorporating the bear_case framing that current gains may not be sustainable \u2014 a substantive difference in emphasis that waters down the counterargument."
-    ]
-   },
-   {
-    "id": "c090",
-    "headline": "Red Sox Infielder Curtis Mead Fractures Wrist in Debut After Nationals Trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The specific assets Boston surrendered in the Nationals trade have not been detailed in available reports' and 'His performance trajectory prior to the injury...remain unaddressed in official statements.' These are speculative assertions about what is missing from reports, not facts from the brief. The brief contains only three data_points: that Mead was traded from Washington, that he was injured in his debut, and that the injury is a fractured wrist. The draft smuggles in editorial commentary about unreported information rather than sticking to what the brief establishes as known."
-    ]
-   },
-   {
-    "id": "c096",
-    "headline": "Draymond Green Re-Signs with Warriors for 15th Season",
-    "category": "accuracy",
-    "reasons": [
-     "The brief notes in open_questions that 'Green's specific comments explaining LeBron James' decision are not detailed in the provided source text' and 'The source text is truncated and does not contain the article body.' The draft asserts 'Green addressed LeBron James' decision to join the Philadelphia 76ers rather than pursue free agency with Golden State. However, the specific details of Green's commentary on James' choice are not detailed in available reports.' This presupposes Green made comments about LeBron that are knowable but unreported. The brief's single data_point is only that Green re-signed; there is no evidence in the brief that Green commented on LeBron at all. The draft invents a premise (that Green addressed this topic) that does not exist in the research."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Banda scores four in 27 minutes as Zambia defeat Egypt 6-0 in WAFCON opener",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Banda scored three goals in 27 minutes (a hat-trick)' but the brief data point says 'Banda scored three goals in 27 minutes (a hat-trick)' - the math does not align. If three goals were scored in 27 minutes total, and the draft lists a penalty in the 60th minute and a header in the 63rd minute as separate from the 27-minute hat-trick, then the 27-minute window cannot contain three of the four goals. The brief's data point on hat-trick timing must be clarified against the individual goal timestamps (60th min penalty, 63rd min header, 77th min finish) to determine if the draft's framing is accurate.",
-     "Draft claims 'Racheal Nachula...converted a penalty in the 25th minute' but the brief shows a data point listing Nachula as scoring from penalty in 25th minute. However, the draft also states 'Amira Mohamed gave away two penalties' (25th and 60th per the brief), and lists Nachula's penalty as one of them. The brief data point on Amira Mohamed says she gave away penalties leading to 25th and 60th-minute conversions, but does not explicitly state Nachula was the 25th-minute converter - this is a reasonable inference from context but should be verified against source."
-    ]
-   },
-   {
-    "id": "c173",
-    "headline": "NBA and MLB formally oppose CFTC prediction-market rules, demand greater league control",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Fourty-four state attorneys general' but the correct spelling is 'Forty-four.' This is a typographical error that must be corrected before publication.",
-     "Draft characterizes state attorneys general argument as 'grant the CFTC \"a virtual veto over state policies\"' but the brief data point quotes them saying the rules 'takes a sledgehammer to the States' historic power, giving the CFTC a virtual veto over state policies.' The draft omits the 'sledgehammer' language and reorders the quote, which risks misrepresenting the tone and emphasis of the original statement. The paraphrase 'grant...a virtual veto' is looser than the source warrant."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 7,
   "rejected": [
    {
@@ -8809,6 +8735,30 @@
     "reasons": [
      "The draft includes a fact not present in the brief's data_points: 'The Rockets were able to sign Thompson for well under a max contract' appears in the draft as a standalone claim, but this statement relies on an inference about what a 'max contract' would be in 2026\u2014a figure not provided in the brief. The brief data_point says 'The Rockets were able to sign Thompson for well under a max contract,' but the brief does not provide the actual max salary figure, Thompson's percentage of max, or any comparative data. The draft presents this as established fact without qualification, but it is comparison-dependent and requires external knowledge not in the brief.",
      "The bottom_line states: 'The contract's classification as a rookie-scale extension and the specific mechanics that allow this mechanism remain unreported in available sources.' This violates the rule against narrating absence. The brief lists this exact item in open_questions: 'The exact contract mechanism that classifies this as a rookie-scale extension rather than a standard extension.' The desk cannot write sentences that restate what the brief does not have as though that absence is newsworthy; the bottom_line should look forward (what the extension locks in, what it signals), not describe gaps in reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c131",
+    "headline": "Blue Jays Defeat Guardians, Secure Tiebreaker in Compressed AL Wild Card Race",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's paragraph about Guerrero's performance contains details that do not match the brief's data_points. The draft states 'Vladimir Guerrero Jr. contributed to the win with a sacrifice fly in the fifth inning that brought in Brett Bateman from third' but the brief data_point says 'In the fifth inning, Guerrero shot a sacrifice fly out to right field to bring in Brett Bateman from third.' More problematically, an earlier data_point states 'Vladimir Guerrero Jr. hit a three-run homer on Wednesday and finished with five RBIs' and a separate data_point says 'On Thursday, Guerrero flipped his bat on a walk in the fourth inning after battling back from an 0-2 count.' The draft says Guerrero 'contributed to the win with a sacrifice fly in the fifth inning' on Thursday but never mentions the three-run homer from Wednesday or the walk on Thursday. This omission is not an accuracy error by itself, but the draft's Schneider quote references the three-run homer ('It always helps when you hit a three-run homer after a mistake, too') without establishing that Guerrero hit one the day before.",
+     "The draft states Sean Keys 'added an RBI single in the fourth inning off Guardians pitcher Tanner Bibee' but the brief data_point specifies he hit this 'off Tanner Bibee's sweeper at the bottom of the zone'\u2014a detail about the pitch type. The draft paraphrases correctly but omits a detail. This is not an accuracy error (paraphrase is allowed), but the next sentence claims 'Keys has hit 29 home runs across Double-A, Triple-A, and the major leagues this season, more than any other player in the Toronto organization, per MLB.com,' which exactly matches the brief data_point. However, the brief data_point is listed under the c131 Blue Jays story, not the Clippers story. This appears to be data from the correct story, so this is not an error.",
+     "The draft's bottom_line states 'The Blue Jays' compressed schedule and multiple simultaneous tiebreaker battles mean that any single win or loss now carries playoff implications across multiple scenarios' but this is narrative interpretation, not a fact from the brief. The brief does not contain a data_point supporting the phrase 'compressed schedule'\u2014it mentions 'remaining games' for various tiebreakers but does not characterize the schedule as 'compressed.' The phrase 'multiple simultaneous tiebreaker battles' is supported by the tiebreaker data, but 'compressed schedule' is not."
+    ]
+   },
+   {
+    "id": "c29",
+    "headline": "Top seed Zverev reaches US Open third round in 4-hour 33-minute five-set match at 2:15 AM",
+    "category": "compliance",
+    "reasons": [
+     "The draft reports Felix Auger-Aliassime's medical condition ('dizzy and seeing spots') as direct fact without qualification. The brief marks this as 'reported' confidence from a quoted statement. The draft presents what Auger-Aliassime said he experienced, but then narrates 'Auger-Aliassime, a two-time US Open semi-finalist, fell to Karen Khachanov' followed by his quote about dizziness. This structure blurs the line between what he reported feeling and what actually caused the loss. The sentence 'After a set and a half, I just couldn't feel well and was dizzy and seeing spots and couldn't recover' is his subjective experience; the draft risks implying medical fact about an ongoing condition without medical professional attribution or confirmation beyond the player's self-report in the moment. This crosses into health/medical speculation about an athlete's body beyond official injury reports."
     ]
    }
   ]
