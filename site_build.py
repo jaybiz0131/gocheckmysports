@@ -300,16 +300,35 @@ TAG_RULES = [
     # applies to schools: Cardinals, Giants, Panthers, Rangers, Kings and Jets are each
     # two teams in two sports on this desk, so they stay out and their stories are caught
     # by the vocabulary terms above.
-    ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|training camp|"
-            r"preseason|roster cutdown\w*|cutdown\w*|53-man|practice squad|"
-            r"waiver\w*|injured reserve|pup list|franchise tag|depth chart|"
+    # SHARED SEASON VOCABULARY IS NOT A LEAGUE (2026-09-04). "training camp", "preseason",
+    # "waivers", "injured reserve" and "depth chart" are used by every league on this desk,
+    # and while they sat here they pulled other sports onto the NFL front: "Lakers open
+    # preseason against Suns" tagged nfl, "Yankees open training camp" tagged nfl,
+    # "Canadiens place defenseman on waivers" tagged nfl. Three of the five put nfl AHEAD
+    # of the correct league. Same doctrine as the month names and the recurring actors: a
+    # token every sport uses cannot identify one sport.
+    #
+    # Nothing is lost by removing them. "waivers" is already owned by transactions and
+    # "injured reserve" by injuries, so those stories keep their type tag; and the club
+    # names added earlier today carry the league, measured at 0 NFL orphans across 46
+    # headlines that name an NFL team. What stays here is NFL-only vocabulary: no other
+    # league has a 53-man limit, a practice squad, a franchise tag or a PUP list.
+    ("nfl", r"\b(nfl|super bowl|quarterback\w*|touchdown\w*|"
+            r"roster cutdown\w*|cutdown\w*|53-man|practice squad|"
+            r"pup list|franchise tag|"
             r"snap count\w*|packers|vikings|seahawks|buccaneers|bengals|browns|"
             r"steelers|ravens|texans|colts|jaguars|titans|broncos|chiefs|chargers|"
             r"cowboys|commanders|bears|lions|falcons|saints|49ers|dolphins|"
             r"patriots|bills|eagles)\b"),
     # WNBA IS NOT THE NBA (owner audit 2026-08-29): the nba pattern matches "wnba"
     # outright, so every WNBA story filed under nba. Its own rule, ahead of it.
-    ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries)\b"),
+    # City-qualified where the nickname is an ordinary word. Bare "sky" is Sky Sports and
+    # tagged two Premier League stories as WNBA; "storm" is weather and tagged a rain
+    # delay. Fever, Liberty, Aces, Lynx, Mercury, Sparks, Mystics and Valkyries are safe
+    # on their own.
+    ("wnba", r"\b(wnba|fever|liberty|aces|lynx|mercury|sparks|mystics|valkyries|"
+             r"atlanta dream|chicago sky|seattle storm|dallas wings|toronto tempo|"
+             r"connecticut sun)\b"),
     # Club names, unambiguous only. Heat, Thunder, Jazz, Magic and Kings are ordinary
     # words or a second team; Warriors, Lakers and the rest are not.
     ("nba", r"\b(nba|wnba|finals mvp|triple-double|warriors|lakers|celtics|knicks|nets|"
@@ -320,12 +339,17 @@ TAG_RULES = [
     # Giants, Cardinals and Rangers are each two teams in two sports.
     ("mlb", r"\b(mlb|world series|no-hitter|home run\w*|inning\w*|pitcher\w*|yankees|"
             r"\bmets\b|dodgers|red sox|\bcubs\b|astros|braves|phillies|padres|mariners|"
-            r"brewers|guardians|orioles|twins|tigers|angels|\breds\b|rockies|marlins|"
-            r"pirates|royals|white sox|blue jays|diamondbacks|\bdbacks\b)\b"),
+            r"brewers|guardians|orioles|twins|detroit tigers|angels|\breds\b|rockies|marlins|"
+            r"pirates|royals|white sox|blue jays|diamondbacks|\bdbacks\b|"
+            # league structure, unambiguous, and it covers a Detroit story now that bare
+            # "tigers" is gone (LSU, Auburn and Clemson are Tigers long before Detroit is)
+            r"american league|national league|al east|al central|al west|"
+            r"nl east|nl central|nl west|world series)\b"),
     ("nhl", r"\b(nhl|stanley cup|hat trick|power play|goalie\w*|goaltender\w*|canadiens|"
             r"maple leafs|oilers|flames|canucks|senators|sabres|bruins|blackhawks|"
             r"penguins|capitals|lightning|predators|\bblues\b|ducks|sharks|coyotes|"
-            r"golden knights|kraken|islanders|devils|flyers|red wings|avalanche)\b"),
+            r"golden knights|kraken|islanders|devils|flyers|red wings|avalanche|"
+            r"blue jackets)\b"),
     # Club names for the same reason. "Liverpool agrees to £120m deal for Barcola" and
     # "Chelsea fined £10m" carried no tag at all. Rangers is omitted deliberately: it is
     # a Glasgow club, a baseball club and a hockey club.
@@ -356,18 +380,29 @@ TAG_RULES = [
     # "college football" and "heisman" and little else, so opening weekend, every
     # conference, the playoff, the portal and every school name were invisible to
     # it. A desk covering the season has to recognise how the sport is written.
-    ("college", r"\b(ncaa|college football|college basketball|march madness|"
-                r"heisman|bowl game\w*|nil\b|transfer portal|"
-                r"college football playoff|cfp|big ten|big 12|big twelve|"
-                r"pac-?12|big east|mountain west|conference usa|sun belt|"
-                r"fbs|fcs|power (?:four|five)|group of five|bowl subdivision|"
-                r"redshirt|signing day|recruiting class|five-star|four-star|"
-                # SCHOOL NAMES ONLY WHERE THEY ARE UNAMBIGUOUS. Bare state names were
-                # tried and pulled in false positives immediately: a Tony Romo OWI arrest
-                # in "Wisconsin" and a Josh Jacobs charge whose body mentions "Alabama",
-                # neither of them college football stories. Ohio State and Notre Dame
-                # cannot mean anything else; Alabama, Georgia, Michigan and Oregon can,
-                # and the conference and portal terms already catch those stories anyway.
+    # SPLIT BY SPORT, WITH AN UMBRELLA THAT STAYS (2026-09-04). One college tag meant a
+    # basketball story reached the College Football front: "Duke opens as No. 2 in
+    # preseason college basketball poll" filed there and nowhere else. But a clean two-way
+    # split does not fit what this desk actually publishes. Measured on the live corpus:
+    # of 29 college stories, 15 are football-specific, ONE is basketball-specific, and 13
+    # carry no sport signal at all because they are governance, athletic directors, NIL,
+    # eligibility and conference politics.
+    #
+    # So the sport-specific vocabulary splits and the shared vocabulary keeps its own tag.
+    # A conference, a school name or the transfer portal does not name a sport, which is
+    # the same rule the NFL vocabulary just had to learn. The SECTION decides where the
+    # umbrella lands: College Football consumes college-football AND college, College
+    # Basketball consumes only its own, so a basketball story stops reaching the football
+    # front while governance keeps the home it already had.
+    ("college-football", r"\b(college football|heisman|bowl game\w*|"
+                         r"college football playoff|\bcfp\b|\bfbs\b|\bfcs\b|"
+                         r"bowl subdivision|signing day|gridiron)\b"),
+    ("college-basketball", r"\b(college basketball|march madness|final four|"
+                           r"ncaa tournament|selection sunday|\bthe big dance\b)\b"),
+    ("college", r"\b(ncaa|nil\b|transfer portal|"
+                r"big ten|big 12|big twelve|pac-?12|big east|mountain west|"
+                r"conference usa|sun belt|power (?:four|five)|group of five|"
+                r"redshirt|recruiting class|five-star|four-star|"
                 r"ohio state|notre dame|clemson|\blsu\b|auburn|florida state|"
                 r"penn state|\bucla\b|\busc\b|ole miss|texas a&m|"
                 r"student-?athlete\w*)\b|\b(?:SEC|ACC)\b"),
@@ -402,6 +437,11 @@ TAG_RULES = [
                        r"walk-off|clinch\w*|elimination|playoff\w*|postseason)\b"),
 ]
 _TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
+
+# The tags that name a SPORT rather than a story type. tags_for guarantees one of these a
+# slot when the story scored for any of them; see the reservation in tags_for.
+LEAGUE_TAGS = frozenset({"nfl", "college", "college-football", "college-basketball", "nba", "wnba", "mlb", "nhl", "soccer", "tennis",
+                         "golf", "cycling", "athletics", "combat sports", "cricket"})
 
 
 # What a story is ABOUT lives in its headline; the body merely mentions things (owner
@@ -460,7 +500,20 @@ def _tags_for_uncached(item):
         if score:
             scored.append((score, i, tag))
     scored.sort(key=lambda t: (-t[0], t[1]))
-    return [t[2] for t in scored[:3]]
+    top = [t[2] for t in scored[:3]]
+    # ONE SLOT IS RESERVED FOR THE LEAGUE (2026-09-04). Only three tags are kept and ties
+    # break by list position, and the two type rules (injuries, transactions) sit at
+    # positions 0 and 1. "Canadiens place defenseman on waivers" came back
+    # ['transactions', 'nfl', 'nhl'] with the real league THIRD, and one more type rule
+    # (fantasy, scores, anything) would have pushed NHL off the list and orphaned the
+    # story from every section page. The cap is fine; letting a story type outrank the
+    # sport it happened in is not. So if a league scored at all, it is guaranteed a slot,
+    # taking the place of the weakest non-league tag.
+    if not any(t in LEAGUE_TAGS for t in top):
+        best = next((t[2] for t in scored if t[2] in LEAGUE_TAGS), None)
+        if best is not None:
+            top = (top[:2] if len(top) >= 3 else top) + [best]
+    return top[:3]
 
 
 def related_stories(item, items, n=6):
