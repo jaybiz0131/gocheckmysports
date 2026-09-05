@@ -1,74 +1,5 @@
 [
  {
-  "date": "2026-07-29",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c023",
-    "headline": "Sources: Browns, Grant Delpit agree to 3-year, $48M extension",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Delpit signed a three-year, $48 million extension with $35 million guaranteed on Wednesday' but the brief shows the core claim as 'signed...on Wednesday' with both the extension amount and guaranteed money marked 'unconfirmed' in confidence labels. The draft presents unconfirmed figures as settled fact without qualification.",
-     "The brief's bear_case is empty and open_questions do not flag missing information about the extension structure, yet the draft presents deal terms with full certainty when the source material itself marks them unconfirmed."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "PGA Tour bans Trey Mullinax 6 months for doping violation",
-    "category": "compliance",
-    "reasons": [
-     "The brief marks Mullinax's statement 'My lack of knowledge is not an excuse...' and 'I have never taken any substance with the intention of gaining a competitive advantage' as 'announced-not-verified' in confidence label, yet the draft presents both as direct quotes without any qualifier or signal that the statement is unverified or player-provided.",
-     "Presenting an announced-but-unverified personal statement from a player under investigation as a direct quote without qualifier violates the rule that confidence labels must survive in prose. This crosses into potential health/disciplinary speculation territory by letting unverified claims stand unchallenged."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Bengals DE Shemar Stewart carted off with left leg injury on first day of camp",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Stewart 'recorded one sack in eight games' but the brief data_point says he 'totaled one sack in eight games' \u2014 minor paraphrase, acceptable. However, the draft includes no mention of Stewart being a 'former Texas A&M player,' which appears in the brief as a reported data_point. More critically: the draft does not trace the assertion that Cincinnati 'finished the 2025 season with a six-win record' to the brief. The brief states the team is 'coming off a six-win season and its third straight year without a playoff appearance' \u2014 the draft correctly cites this, but then adds context about 'its playoff drought to three straight years without an appearance' which extends the brief's claim slightly. The core issue: the draft speculates about 'durability questions' regarding Stewart in the bottom_line ('confirm of a minor injury would settle immediate concerns but leave a pattern of durability questions'), but the brief contains no bear_case or data supporting a pattern of durability concerns beyond one injury in the current camp. This is speculation beyond the brief."
-    ]
-   },
-   {
-    "id": "c038",
-    "headline": "Sharks sign Celebrini to five-year, $94M extension, setting NHL salary ceiling",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Celebrini's 115 points last season ranked third among teenagers in NHL history, behind Wayne Gretzky's 137 in 1979-80 and Sidney Crosby's 120 in 2006-07' but does not attribute this comparison to the source. More critically: the draft introduces facts not in the brief's data_points. The draft states Grier 'acquiring defenseman Darnell Nurse in a trade, signing defenseman Jacob Trouba and forward Mason Marchment, and selecting Swedish left winger Ivar Stenberg at No. 2 overall in the draft, along with defenseman Keaton Verhoeff at No. 9 and defenseman Ryan Lin at No. 21' \u2014 while the brief data mentions 'added three first-round picks this offseason headlined by Swedish left winger Ivar Stenberg at No. 2 overall, along with North Dakota defenseman Keaton Verhoeff at No. 9 and WHL Vancouver defenseman Ryan Lin at No. 21' and 'traded for defenseman Darnell Nurse and signed defenseman Jacob Trouba and forward Mason Marchment,' the draft adds the specific college/league identifiers ('North Dakota,' 'WHL Vancouver') that do not appear in the data_points themselves. This is not paraphrase of what is briefed; it is added detail from outside the brief."
-    ]
-   },
-   {
-    "id": "c098",
-    "headline": "Running Backs Robinson and Gibbs Hold Out From Training Camp Seeking Extensions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Robinson and Gibbs are holding out 'according to CBS Sports reporting' but the brief contains zero data_points\u2014no confirmation of which teams they play for, when hold-outs began, what terms are sought, or any official statements. The brief itself marks the core_claim as true but lists it under open_questions ('Which teams do Robinson and Gibbs play for?'), indicating the basic facts remain unconfirmed.",
-     "The draft presents the hold-out as established fact ('are staging hold-outs') despite the brief explicitly noting 'Neither player has issued a public statement confirming their status, nor have their teams released formal acknowledgment.' This is a smuggled fact: the hard rule requires all facts to come from data_points in the brief. The brief has none for this story.",
-     "The draft cites a CBS Sports URL but the brief shows only ESPN source infrastructure and explicitly lacks data_points. The writer has introduced sourcing and details not in the research brief."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Roberto Mancini Apologizes for Departure as Italy Rehires Euro 2021-Winning Coach",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mancini said the departure was 'completely my fault' due to a lack of communication with Gravina' in the third paragraph, but the data_point in the brief reads only 'Mancini said the departure resulted from a lack of communication with Gravina.' The phrase 'completely my fault' does not appear in the brief's quoted or paraphrased version and represents a new interpretation not in the source research.",
-     "The draft includes information about 'Marco Palestra' as a fullback in the available squad, but the brief lists 'Marco Palestra' with confidence 'reported.' No independent verification of this name or role exists in the output\u2014this requires checking against ESPN's actual reporting. The name is uncommon in Italian football and may be a transcription error in the brief itself, but the draft has committed to it as fact without the research supporting independent verification."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Tarik Skubal Reaches 1,000 Career Strikeouts in Potential Final Tigers Start",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Skubal is a two-time Cy Young Award winner' but no Cy Young Award claim appears in the brief's data_points. This fact is smuggled and cannot be verified against the research.",
-     "The draft references that Skubal 'pitched through the effects of experimental elbow surgery to remove a loose body from his pitching elbow, which he had six weeks prior.' The brief data_point says he 'returned just six weeks after' surgery, but the draft's phrasing ('which he had six weeks prior') is ambiguous and potentially misrepresents the timeline of when the surgery occurred versus when he returned.",
-     "The draft claims 'According to ESPN, he reached the mark in just 153 games, trailing only Hall of Famer Randy Johnson (152 games) among left-handers for the fastest path to 1,000.' The brief data_point states 'The only left-hander to have reached the 1,000 strikeout milestone in fewer games than Skubal was Hall of Famer Randy Johnson, who did so in 152 games, according to ESPN Research.' The draft's phrasing 'trailing only' is accurate to source, but the claim about Cy Young Awards appears nowhere in the brief and is a smuggled fact."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-30",
   "approved": 3,
   "rejected": [
@@ -8677,6 +8608,71 @@
     "reasons": [
      "The draft contains a factually incoherent error in the second paragraph: 'The Hurricanes entered as a defending national championship contender and ACC favorite facing a Chinese squad...' Caitlin Clark plays for Team USA in international FIBA competition, not 'The Hurricanes' (a college team name). This sentence is nonsensical and appears to be copy-pasted from a different sport/context without revision. It references ACC play (college) in the middle of a FIBA World Cup (international professional) story.",
      "The draft reports a completed game ('USA Defeats China 94-61') as fact but the brief confirms no game recap exists in the sources\u2014only preview material. The open_questions section of the brief explicitly asks 'What was the margin of victory and any other game-specific statistics beyond Clark's line,' indicating the sources did not contain final game data. The draft is written as a game result when the source material was pre-game content."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c99",
+    "headline": "Cathy Engelbert Steps Down as WNBA Commissioner at End of 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Engelbert became the WNBA's first commissioner when Silver hired her to the role in 2019,' but the brief's core_claim says she 'will retire as WNBA commissioner at the end of 2026, ending her tenure as the league's first commissioner since 2019.' The brief also contains a data_point stating 'Silver hired Engelbert to be the WNBA's first commissioner in 2019.' These sources do not clarify whether she was the first commissioner ever or the first since a prior structure. The draft's phrasing 'first commissioner' without qualification creates ambiguity about whether this is historically accurate or if the brief itself contains imprecise language. More critically, the draft includes a quote attributed to Engelbert: 'I retire knowing we have built something bigger, stronger and more enduring than we could have imagined.' This quote appears in the brief's data_points as a separate claim but is NOT used in the draft body shown. However, the draft does use other Engelbert quotes from the AP that ARE in the brief. The attribution and exact wording of the 'retire knowing' quote in brief data_point #7 does not appear verbatim in the draft, suggesting the writer may have access to source material beyond the brief. Since the rule is 'no fact exists outside the brief,' any quote not traceable to a data_point in the brief is smuggled."
+    ]
+   },
+   {
+    "id": "c47",
+    "headline": "Miami's Mensah and Toney Set Records in 45-6 Victory Over Stanford",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports that the game occurred on 'Saturday, September 4,' but today's date is Saturday, September 5, 2026. September 4, 2026, was Friday. The brief's data_points confirm the event timestamp as '2026-09-05' (September 5). The brief's core_claim states the event happened in the season opener; the timestamp places it on September 5. The draft incorrectly dates the game to September 4, which has already passed relative to today. This is a factual error in reporting a completed event. Additionally, the brief contains a data_point (#18) stating 'CBS Sports source reports Mensah totaled five touchdowns and 412 yards passing in his Miami debut,' but the draft reports '401 yards' (from ESPN). This is a discrepancy between sources in the brief itself\u2014ESPN says 401 yards, CBS says 412 yards. The draft chose ESPN's figure without acknowledging the discrepancy or noting that one source differs. Since both are in the brief as separate data_points, the writer should have either used the verified-on-chain ESPN figure or flagged the conflict.",
+     "the draft dates September 4, 2026 as a Saturday; September 4, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c68",
+    "headline": "Katie Taylor Prepares for Farewell Bout at Croke Park on Saturday, September 5",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the bout as occurring 'on Saturday, September 5,' which is today's date. The brief's core_claim and all data_points are timestamped 2026-09-05. However, the instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' This event is scheduled for today (Saturday, September 5). The draft uses past tense and language indicating the event has occurred or is occurring ('will defend,' 'will take place,' 'The crowd will number' are future tense, which is correct), but the opening 'Katie Taylor, the 40-year-old Irish super-lightweight champion and Olympic gold medallist, will defend her titles against unbeaten French champion Flora Pili on Saturday, September 5, at Croke Park in Dublin in what Taylor has announced as her final professional bout' reads as forward-looking, which is appropriate. However, the phrase 'The last time Croke Park hosted a boxing match was in 1972, when Muhammad Ali fought Alvin Lewis' is attributed via 'The Guardian's reporting' but the brief's data_point #16 attributes this to 'The Guardian (via Trevor McMahon).' The brief indicates this may be a quote or statement from McMahon, but the draft presents it as straight factual narration without attribution to McMahon. This is an attribution accuracy issue. Additionally, the draft says Taylor 'won an epic trilogy with Amanda Serrano' but the brief's data_point #15 simply states 'Taylor won an epic trilogy with Amanda Serrano'\u2014no source is provided for this claim in the data_point itself (the source_url field would clarify, but the instruction to trace facts applies). The statement is vague enough that it should carry clearer sourcing or qualification."
+    ]
+   },
+   {
+    "id": "c365",
+    "headline": "Williams sisters exit US Open doubles after losing final tiebreak to Chan, Joint on September 5",
+    "category": "accuracy",
+    "reasons": [
+     "All factual claims trace to the brief's data points: ages (44, 46), score (6-3, 6-7(6), 7-6(10-7)), opponents (Chan, Joint), 5-0 tiebreak collapse, 10-of-next-12-points comeback, the 2022 US Open first-round loss, Grand Slam singles/doubles records, Olympic medals, Cincinnati loss to Kostyuk/Stearns, Wimbledon loss to Joint, knee injury at Wimbledon, pullout from Wimbledon doubles, quotes from Joint and Rubin, media unavailability, and the 2009 French Open tiebreak comparison.",
+     "Confidence levels are respected: all claims are marked 'reported' or 'verified-on-chain' and are presented as reported without hedging language.",
+     "The bear_case items (squandered 5-0 lead, no reported health concerns beyond Wimbledon, first-set weakness) are woven into the narrative as context and explanation, satisfying balance requirements.",
+     "The bottom_line looks forward (their next moves, whether loss closes or opens their return) and avoids summary or false certainty.",
+     "No betting language, no em dashes, human_take is empty, not_financial_advice disclaimer present.",
+     "The brief notes that seeding (14th), crowd size (20,000), the night-session rarity, and specific media quotes are all provided and used appropriately.",
+     "the draft dates September 5, 2026 as a Friday; September 5, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c227",
+    "headline": "USA beats China 94-61 in FIBA Women's World Cup opener on September 4 in Berlin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'This victory marks the opening game of the U.S. quest for its fifth consecutive World Cup title.' However, the brief's data point reads: 'The Americans have won four consecutive World Cup titles.' These are not the same claim. Four consecutive titles won means they are now seeking their FIFTH title, which the draft correctly states. But the phrasing creates ambiguity about whether the brief says four or five titles.",
+     "More critically: The draft claims 'A'Ja Wilson withdrew from the 2026 World Cup squad due to injury management, and Napheesa Collier was willing to fill the role in the pursuit of the title, according to Yahoo Sports.' The brief's data point reads: 'Napheesa Collier is willing to do what it takes to help the squad win its fifth straight title in the world spectacle.' The phrase 'willing to fill the role' in the draft is a paraphrase that adds specificity not present in the brief. The brief says Collier is 'willing to do what it takes'\u2014this could mean many things. The draft interprets it as 'willing to fill [Wilson's] role,' which is a logical inference but not explicitly stated in the source material provided to the writer.",
+     "The draft's phrasing 'according to Yahoo Sports' is technically correct attribution, but the brief shows the Collier claim comes from a different Yahoo Sports article (obviously-not-role-napheesa-collier) than the game result article, and the writer has not attributed that secondary source distinctly."
+    ]
+   },
+   {
+    "id": "c82",
+    "headline": "Los Angeles Sparks hire Ariana Andonian as general manager, September 5",
+    "category": "clarity",
+    "reasons": [
+     "The brief is marked thin: true, with only three data_points and no bear_case. The draft is 114 words and appropriately tight for a thin brief. However, the draft violates the desk's standing instruction against narrating absence. The bottom_line states 'The Sparks have announced the hire but have not yet disclosed Andonian's prior title, experience, or a start date' and the body states 'the available public record provides no details on Andonian's tenure in Philadelphia, her specific responsibilities there, or her contract terms with Los Angeles.' These sentences directly violate the rule: the writer is forbidden from narrating the absence of information. Open questions in the brief should not appear in the draft as 'what we do not know.' The appropriate response to a thin brief is a short, factual story; restating gaps is an accuracy problem (category 'accuracy'), not a clarity problem, because it suggests information exists but was not reported, when in fact the brief simply does not carry it.",
+     "The narrative frame\u2014'Beyond her prior role with the Sixers, the available public record provides no details'\u2014implies that the public record is deficient or that further research was not done, rather than simply reporting what is known. This is a statement about research limitations, not reporting.",
+     "the draft dates September 5, 2026 as a Friday; September 5, 2026 is a Saturday"
     ]
    }
   ]
