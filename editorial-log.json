@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c015",
-    "headline": "Celebrini Signs Five-Year, $94M Extension as Highest-Paid NHL Player",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Celebrini had '70 goals, 108 assists' for 115 points, but the math is incorrect: 70 + 108 = 178, not 115. The brief data_point confirms '115 points (70 goals, 108 assists)' which is internally contradictory in the source itself, but the draft repeats this error without flagging it. The draft later correctly states '178 points (70 goals, 108 assists) in 152 games' for his career, creating internal inconsistency about whether last season was 115 or 178 points.",
-     "Draft states Celebrini 'finished with the second-most goals in Sharks history' but provides no number. Brief data_point specifies '45 goals' as second-most in franchise history. The draft's vague phrasing obscures whether this refers to last season or career, and leaves a quantifiable claim unattributed and potentially unverified."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Texans GM confirms 'productive' contract talks with QB Stroud",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In 2024, Stroud had 3,727 passing yards with 20 touchdowns and 12 interceptions in 17 games while being sacked 52 times, the second most in the league.' The brief data point specifies '52 times, the second most in the league during the 2024 campaign'\u2014the draft language implies this was the league-wide second-most across all time or without temporal boundary. This is a minor precision issue but the draft's phrasing is imprecise enough to warrant clarification that it refers specifically to the 2024 season, not historically.",
-     "The draft states 'Last season' three times in succession (referring to the most recent season before the article). However, the brief's core_claim and data_points reference events across multiple seasons (2023 rookie year, 2024, and 'last season'). The temporal framing 'last season' is ambiguous without explicit year reference in the draft\u2014readers cannot immediately determine which season is being referenced without counting backwards from context. While the brief provides specific years (2023, 2024), the draft collapses these into 'last season,' which creates potential confusion about timeline."
-    ]
-   },
-   {
-    "id": "c149",
-    "headline": "FIFA pursues World Cup equity sales amid governance questions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Infantino was elected FIFA president in February 2016' but the brief data_point specifies 'February 26, 2016.' The draft should include the specific date as provided in the source material.",
-     "The draft contains substantial original editorial framing ('raises questions about whether the organization's financial strategy reflects a departure from that reform commitment') that goes beyond the brief's angle and introduces analysis not supported by the single Guardian source cited. The brief marks this as a thin story with only one data point; the draft should reflect this thinness rather than expand interpretive claims.",
-     "The draft devotes multiple paragraphs to laying out unanswered questions ('The specifics of the equity sale...remain undisclosed,' 'Responses from national federations...have not been detailed,' etc.) but none of these open questions appear in the brief's open_questions list. This suggests the writer is introducing editorial uncertainty not grounded in the source research."
-    ]
-   },
-   {
-    "id": "c163",
-    "headline": "Twins GM Zoll confirms team will be active buyers at Aug. 3 deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Trade deadline is Monday at 5 p.m.' and 'the deadline is set for 5 p.m. on August 3' as fact, but the brief's data_point only confirms '5 p.m.' as the time\u2014it does not specify which day of the week or confirm August 3 is a Monday. The brief source timestamp is '2026-07-29', which would make August 3 a Saturday, not Monday. This is a factual error not supported by the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 4,
   "rejected": [
    {
@@ -8722,6 +8680,23 @@
     "reasons": [
      "Conflicting assist records within the draft and brief. The draft states: 'The Guardian and CBS Sports reporting confirm her assist total tied the record for most by a U.S. player in a World Cup game, matching Teresa Edwards' output from 1986.' However, the brief's data_points contain two separate claims: one says 'Clark's 11 assists were the most by a US player since Dawn Staley had 12 against Russia in 1998' (reported confidence), and another says 'Clark's 11 assists tied her for the most ever with Teresa Edwards, who had a dozen against China in 1986' (reported confidence). These are contradictory: Edwards' record cannot both be from 1986 (making Staley's 12 in 1998 more recent) and be the all-time record that Clark tied. The draft resolves this by picking one version (Edwards 1986), but the brief itself contains unresolved data contradicting the narrative the draft chose.",
      "The open_questions section of the brief explicitly flags this: 'The exact historical record for most assists by a US player in a World Cup game is unclear in the sources.' The draft should not have presented a single version as confirmed when the sources themselves are contradictory on the record."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c390",
+    "headline": "Nick Kyrgios cleared to return to tennis; ITIA rules positive cocaine test was out of competition",
+    "category": "compliance",
+    "reasons": [
+     "The draft reports an event dated after today as having already happened. Today is Saturday, 2026-09-05. The draft states: 'Nick Kyrgios is officially allowed to resume professional tennis starting Friday, September 5, after the International Tennis Integrity Agency cleared him to play.' September 5 is today (Friday is the day context, but the explicit date is Sept 5, which is today). The draft uses 'starting Friday, September 5' in present/future voice, which is correct. However, the first sentence also states 'Kyrgios is officially allowed to resume professional tennis starting Friday, September 5, after the International Tennis Integrity Agency cleared him to play'\u2014this reads as already cleared (past tense: 'cleared'). A rule violation is whether scheduled events are written as upcoming; the language here mixes past ('cleared') with future ('starting Friday'). The phrase 'is officially allowed to resume... starting Friday' is defensible as forward-looking, but the clause 'after the International Tennis Integrity Agency cleared him to play' uses past tense in a way that could mislead a reader into thinking the clearance already took effect. The brief data_point confirms 'Kyrgios is officially allowed to play again starting Friday' (confidence: reported). The opening sentence should read clearly as a future event. As written, it conflates the decision (past) with the effective date (future) in a way that could confuse the temporal frame.",
+     "More seriously: the draft includes personal speculation about Tsitsipas's knowledge that extends beyond the official record in a reputationally sensitive context. The draft states: 'When asked about Kyrgios's clearance this week at the US Open, Greek player Stefanos Tsitsipas indicated prior knowledge of the positive test.' This language ('indicated prior knowledge') is interpretation by the desk, not a direct quote or on-record statement. The brief states Tsitsipas 'said, per ESPN: \"Pretty much expected, to be honest. I am surprised it came so late, though.\" He added, \"I will just tell you the truth. I knew about all of this before any announcement was made, and when I saw it on social media, I was, like, \"Here we go.\" I kind of expected it, to be honest.\"' The brief's bear_case notes: 'Stefanos Tsitsipas indicated prior knowledge of Kyrgios's positive test and said he was \"not surprised,\" suggesting the positive result may reflect a known pattern of behavior rather than an isolated incident.' The draft then presents Tsitsipas's statements as fact but adds interpretive framing ('indicated prior knowledge') without attribution. The next paragraph uses his quoted words to imply familiarity with drug use ('when I saw it on social media, I was, like, \"Here we go.\" I kind of expected it'). The brief's open_questions include: 'The source does not clarify whether Kyrgios actually took the cocaine out of competition or merely tested positive on a sample collected out of competition.' Yet the draft does not flag this ambiguity. More critically, by presenting Tsitsipas's commentary without attribution for the 'prior knowledge' framing, and then using his statements about 'expecting it' to build a narrative of Kyrgios as a repeat offender, the draft risks presenting speculation about Kyrgios's personal history as settled fact. This is compliance risk: the desk cannot adopt Tsitsipas's insinuations as its own narration without explicit attribution, and cannot frame his comments as evidence of a pattern without editorial caution.",
+     "The draft's bottom_line states: 'whether he completes the required rehabilitation program and how the tennis world receives his return will test whether the lighter sanction is viewed as proportionate to a cocaine positive.' This language ('proportionate to a cocaine positive') risks editorializing on the appropriateness of the sanction. The brief's angle already notes the distinction and questions about testing rules, which is appropriate; but the bottom_line pivots to whether the sanction is 'proportionate,' which is a value judgment. The bottom_line should flag what would change the story (e.g., 'whether Kyrgios completes rehab, whether the tennis world challenges the lighter sanction, or whether WADA appeals the ITIA's out-of-competition classification'), not whether observers will view the punishment as fair. This is a tone issue at the boundary of compliance: it reads as the desk weighing in on whether a drug ban is adequate, rather than reporting what stakeholders will do next.",
+     "the draft dates September 5, 2026 as a Friday; September 5, 2026 is a Saturday"
     ]
    }
   ]
