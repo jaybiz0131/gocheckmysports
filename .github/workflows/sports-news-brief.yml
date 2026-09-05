@@ -399,6 +399,14 @@ jobs:
         if: always()
         run: python3 dupe_audit.py || true
 
+      # P2. Near-identical headlines that nobody declared an update. Advisory and
+      # exits 0: a publish_sweep drop deletes a VERIFIED story, so this reports
+      # until the separator has a record behind it. See twin_audit.py's header for
+      # the two candidate rules already rejected on live data.
+      - name: Twin audit (same event published twice?)
+        if: always()
+        run: python3 twin_audit.py --quiet || true
+
       # IS EVERY SOURCE ACTUALLY SERVING? Advisory, never a gate (source_health.py
       # always exits 0). The scoreboard ran baseball-only for days and three working
       # intake lanes were retired as dead, both because a permanent source failure and
