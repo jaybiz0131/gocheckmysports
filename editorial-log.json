@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 7,
-  "rejected": [
-   {
-    "id": "c085",
-    "headline": "Saints extend Chris Olave to four-year deal worth up to $132 million",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the contract is 'worth up to $132 million' but the brief confidence label is 'announced-not-verified', not 'reported'. The draft must signal this uncertainty in the prose (e.g., 'according to the team's announcement' or similar language that reflects unverified status) rather than presenting it as settled fact."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Cristina Ulbrich, wife of Falcons DC, dies from cancer",
-    "category": "compliance",
-    "reasons": [
-     "The draft contains personal and medical detail about a deceased individual's health status ('died from cancer') presented as established fact, but the brief marks the core claim as 'announced-not-verified' confidence level. This unverified medical claim about a private citizen's cause of death, combined with the sensitive personal nature of the reporting, crosses the compliance line for health claims without official verification. The draft should signal the announced status rather than present the cause as confirmed."
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "Twins defeat Royals 4-3 on Clemens walk-off grand slam in ninth",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Noah Cameron, who had held the Twins hitless through six innings, exited before the final sequence' but brief data_point says 'Noah Cameron pitched eight shutout innings with no hits allowed until the seventh inning.' The draft contradicts the brief on both the inning count (6 vs 8) and the timing of when the hit was allowed (before vs during his stint).",
-     "Draft omits key information from brief about Twins' draft history that was provided: 'The Twins made nine trades last summer and jettisoned 40% of the major league roster, including four high-leverage relievers' and owner Tom Pohlad's statement about not repeating cost-cutting moves. These facts are in the brief's data_points but absent from the draft without explanation.",
-     "Draft states GM Jeremy Zoll's focus is 'prioritizing adding to the roster, particularly in the bullpen, rather than subtracting' but omits the fuller context from the brief: Zoll said focus on 'improving the bullpen and they will be open to a variety of creative paths.' The draft's framing is incomplete relative to the sourced material."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Senate adjourns without vote on Protect College Sports Act",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Big Ten and SEC administrators held separate meetings Thursday and neither conference ultimately voted on whether to support the latest version of the legislation' without flagging the confidence level. The brief marks this claim as 'unconfirmed,' which must be reflected in the prose per the approval rule on confidence labels.",
-     "Draft presents the claim 'Big Ten and SEC administrators are concerned the current version of the bill does not provide enough legal cover to effectively enforce a salary cap' as settled fact without indicating it is marked 'unconfirmed' in the brief. This is a factual statement presented without the necessary hedging.",
-     "Draft states 'A Senate aide told ESPN there was \"technically still time\" for Senate Majority Leader John Thune to call the bill for a full vote early the following week' without flagging that this claim is marked 'unconfirmed' in the brief."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Red Sox say Curtis Mead has non-displaced wrist fracture",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Red Sox are described as baseball's hottest team' but the brief's corresponding data_point says 'The Red Sox, described as baseball's hottest team, sought to add offensive help to their lineup at the trade deadline.' The draft presents this characterization without attribution to the ESPN source, making it appear as the writer's own assessment rather than sourced reporting. Per the hard rule, facts must trace back to the brief with proper sourcing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 4,
   "rejected": [
    {
@@ -8590,6 +8540,77 @@
     "reasons": [
      "The brief explicitly flags this story as 'thin: true' and notes in open_questions that 'The source text does not contain any information about Gunner Stockton's three touchdown passes' and 'The source text does not contain any information about Nate Frazier's three rushing touchdowns.' The core_claim references these statistics but the brief itself indicates they are not present in the available source material. The draft should not proceed without these facts verified in source material.",
      "The bottom_line acknowledges the verification gap but the story leads with a score that is verified while implicitly treating game performance details as established when they are not sourced in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-07",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c045",
+    "headline": "USA defeats Italy 55-52 in Berlin on September 6 to advance to FIBA Women's World Cup quarterfinals",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 9, 2026 as a Monday; September 9, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "Red Sox place All-Star Rafaela on 10-day IL with right quad strain on September 6",
+    "category": "compliance",
+    "reasons": [
+     "The brief contains a data_point with confidence label 'announced-not-verified' for the core claim that the IL placement was 'retroactive to Thursday, making Rafaela eligible to return on September 13.' The draft states this as settled fact without any qualifier or attribution that acknowledges the 'announced-not-verified' status. Per the checker's mandate, 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.' The draft presents September 13 as a guaranteed fact rather than as an announced date pending medical verification.",
+     "The draft reports Rafaela's stat line (.282, 32 doubles, 3 triples, 16 home runs, 70 RBIs, 67 runs, .760 OPS in 135 games, 130 starts in center field) as settled fact. The brief lists these as separate data_points all with confidence 'reported,' not verified-on-chain. The writer should have signaled this is per the team/league's announcement, not independently verified. The phrasing 'He hit .282 with...' reads as established fact, but 'announced-not-verified' confidence on injury eligibility and related stats suggests these are official league announcements pending real-world confirmation.",
+     "The draft states 'The move makes Rafaela eligible to return on September 13' as a direct consequence, but the brief explicitly contains a bear_case item noting 'Chad Tracy explicitly cautioned that Rafaela \"has to go through running stuff next week, and you don't know how he's going to respond to that,\" indicating uncertainty about whether the September 13 return date will hold.' The draft presents the September 13 date as a definite outcome without the caveat that it is contingent on passing medical tests. This conflates an announced date with a guaranteed return."
+    ]
+   },
+   {
+    "id": "c166",
+    "headline": "Vikings re-sign Harrison Smith on one-year, $12.25M deal for 15th season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'GB&I went down 4-0 after the morning foursomes' but the brief data point says 'USA swept the morning foursomes to move 3.5 points away from a sixth consecutive victory.' A 4-0 sweep in foursomes means GB&I trailed 4-0, leaving them 3.5 points to make up (since they need 13.5 of 26 available points total to win, and 26 - 4 = 22 points remaining). The draft's phrasing 'GB&I trailed 4-0' is correct, but the brief's language 'USA swept the morning foursomes to move 3.5 points away from a sixth consecutive victory' means the USA was 3.5 points away from clinching, not GB&I. This creates ambiguity about whose perspective the 3.5-point figure represents.",
+     "The draft claims this is 'the largest comeback in Walker Cup history' but provides no data to support this comparison. The brief does not contain a data point asserting this is THE largest comeback; it only appears in the angle as narrative framing. The writer has stated a superlative not verified in the brief.",
+     "The draft states 'Jack Whaley, the US Amateur champion, defeated William Jennings by 8 and 7, the biggest winning margin ever for a GB&I player' \u2014 but the brief's data point says 'the biggest winning margin ever for a GB&I player,' not the biggest margin in all Walker Cup history. The draft's phrasing is ambiguous about whether this is GB&I-specific or tournament-wide, and the sourcing does not clarify which claim Whaley's status supports."
+    ]
+   },
+   {
+    "id": "c147",
+    "headline": "Big Ten's explanation for Michigan's controversial finish doesn't address NBC clock discrepancy",
+    "category": "compliance",
+    "reasons": [
+     "The draft reports that Josh Pate said officials 'wanted him to convey, in no uncertain terms, exactly how disgraceful they considered the Big Ten's response,' but this is marked in the brief as 'unconfirmed' confidence. The draft presents Pate's claim about what anonymous officials told him as though it is established fact, without flagging the unconfirmed nature. Any assertion of misconduct or malfeasance by named parties (the Big Ten) on the basis of unconfirmed anonymous-sourced allegations is a compliance failure.",
+     "The draft uses the term 'favor being extended' (quoting Pate) to suggest impropriety in the Big Ten's decision-making, but then repeats this framing later in the draft's own narration. The sentence 'the conference's actual behavior looked less like transparency and more like a favor being extended to a skeptical public' is Pate's characterization, presented as a quote. However, the draft's bottom line and surrounding text adopt this loaded framing as editorial voice without attribution, blending Pate's allegation of bias into the desk's own description of events."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Great Britain and Ireland defeat USA 13.5-12.5 to win Walker Cup for first time since 2015",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states GB&I won 'for the first time since 2015' in the opening, but then says in the bottom line 'for the first time in 11 years.' If 2015 was the last win and today is 2026, that is 11 years (2015 to 2026). However, the brief's data point states 'GB&I's last Walker Cup victory was in 2015' (reported confidence) AND a separate data point claims 'GB&I won for the first time in 11 years' (also reported confidence). These two data points are mathematically contradictory only if the current year in the brief is different from 2026, but the timestamp shows 2026-09-06. The discrepancy between the title ('since 2015') and bottom line ('in 11 years') is present in both the brief and the draft, suggesting the brief itself may contain an error. However, the writer's job is to identify and flag inconsistencies within the brief before publishing; presenting both claims without reconciliation is an accuracy failure.",
+     "The draft claims 'Jack Whaley, the US Amateur champion, defeated William Jennings by 8 and 7, the biggest winning margin ever for a GB&I player.' The brief data point says 'the biggest winning margin ever for a GB&I player,' which refers to GB&I players' individual records in the Walker Cup, not Whaley's status as US Amateur champion. The draft conflates Whaley's identity (US Amateur champ) with the margin record, implying causation or importance that the brief does not support. More critically, Whaley is a US player, yet the sentence structure makes it ambiguous whether 'the biggest winning margin ever for a GB&I player' means Whaley achieved this or that he was the opponent against which a GB&I record was set."
+    ]
+   },
+   {
+    "id": "c212",
+    "headline": "Acu\u00f1a's eighth-inning homer, Riley's ninth-inning triple lift Braves past Phillies 5-4 on September 6",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having occurred on 'September 6' but the brief's core_claim and data_points timestamp show the game was on Sunday, September 6, 2026. The draft title and body state the date as fact but the brief's open_questions explicitly note 'The sources do not provide the specific date of the game beyond \"Sunday,\" nor do they specify which Sunday in September 2026.' This is a factual claim (the specific date) that the brief marks as unconfirmed in its open_questions section. The draft should not present a date beyond what the brief supports.",
+     "The draft states 'The victory came on the back of a late-inning rally, with Ronald Acu\u00f1a Jr. tying the game in the eighth inning' but the brief data_point states Acu\u00f1a's three-run homer 'tying the game' in the eighth. However, the draft presents Acu\u00f1a as 'tying the game' when the brief's core_claim describes him as hitting a 'tying three-run homer'\u2014the terminology is consistent. The real issue is that the draft presents the game date as definitively September 6 when the brief itself flags this as an open question about which Sunday.",
+     "the draft dates September 8, 2026 as a Monday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c082",
+    "headline": "Oregon beats Boise State 34-27 on September 6, 2026, despite defensive line struggles in season opener",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Oregon was replacing both its offensive and defensive coordinator this offseason' but the brief data_point says 'Oregon was replacing both its offensive and defensive coordinator this offseason.' However, the brief's data_point on this topic actually states 'Oregon was replacing both its offensive and defensive coordinator this offseason' \u2014 this appears to reference both coordinators being replaced. But the body text of the draft later states 'the team also replaced its defensive coordinator this offseason' which is redundant phrasing if both were replaced. The core issue is that the brief data_point is ambiguous on whether both coordinators were replaced or just the defensive coordinator. The draft should clarify what the brief actually supports.",
+     "The draft introduces Arch Manning being 'out for redemption after struggling against the Buckeyes in last year's matchup' \u2014 this claim appears in the brief's data_points as 'Texas quarterback Arch Manning will be out for redemption after struggling against the Buckeyes in last year's matchup,' but this is NOT in the c082 brief at all. This appears to be a claim from a different brief (c276) that has been incorrectly included in the c082 draft. This is a completely unsupported fact in this story."
     ]
    }
   ]
