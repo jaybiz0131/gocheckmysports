@@ -4,46 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c005",
-    "headline": "Twins beat Royals 4-3 on Clemens walk-off grand slam in ninth",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The Royals had held a 3-1 lead at some point in the game before the Twins mounted their comeback.' This detail is not present in the brief. The brief contains only two data_points: the walk-off grand slam fact and the final score (4-3). The draft introduces new information about inning-by-inning scoring that does not trace to the research brief.",
-     "The brief explicitly lists as open_questions: 'What inning did the Royals score their 3 runs?' and 'What were the circumstances that led to bases being loaded with two outs?' The draft answers the second question ('bases loaded and two outs already recorded') without sourcing it to the brief, which means the writer is adding unreported details."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "AFC rejection of Infantino World Cup plan eliminates path to approval",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'AFC's 47 members, combined with Concacaf's 41 and UEFA's 55, oppose the World Cup privatization plan, totaling 143 member associations opposed.' However, the brief's data_point says only 'AFC's 47 members, combined with UEFA's 55 and Concacaf's 41, oppose the World Cup privatization plan, totaling 143 member associations opposed.' The draft introduced the specific number '47' for AFC members, which does not appear in the brief's data_points. The brief says 'bringing total opposition to 143 of FIFA's 211 member associations' in the core_claim but does not break down AFC's individual membership count.",
-     "The draft includes the claim 'Concacaf members, which include 2026 World Cup hosts the United States, Canada and Mexico, are losing confidence in Infantino.' This claim about 'losing confidence' is not in the brief. The brief only documents their rejection of the proposal and procedural concerns, not a broader loss of confidence in Infantino's leadership (which appears in the c031 brief but not in c030's brief)."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Robinson, Gibbs, Vea, and Tuipulotu hold in at NFL training camps",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Vita Vea's hold-in is motivated by a request for a trade' in paragraph 4, but this claim does not appear in the brief's data_points. The brief includes this as a data_point with 'reported' confidence, but the draft presents it as established fact without attribution or hedging, when the source should be cited inline to ESPN per the desk's attribution standard."
-    ]
-   },
-   {
-    "id": "c097",
-    "headline": "Saints sign Olave to four-year extension worth up to $132 million",
-    "category": "clarity",
-    "reasons": [
-     "The brief is marked 'thin: true' with only two data_points, yet the draft's bottom_line promises specificity ('The specific breakdown of guaranteed money, average annual value, and performance incentives remain unpublished') that reads as editorial analysis rather than a forward-looking statement grounded in the brief. The bottom_line should acknowledge the thinness of the story or signal what would validate/invalidate the market benchmark claim, not position unpublished details as a news development. A thin brief demands a tight, honest story; this one overstates the story's depth."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c031",
     "headline": "FIFA adviser Cordeiro resigns over Infantino private equity plan",
     "category": "balance",
@@ -8611,6 +8571,29 @@
     "reasons": [
      "The draft states 'Oregon was replacing both its offensive and defensive coordinator this offseason' but the brief data_point says 'Oregon was replacing both its offensive and defensive coordinator this offseason.' However, the brief's data_point on this topic actually states 'Oregon was replacing both its offensive and defensive coordinator this offseason' \u2014 this appears to reference both coordinators being replaced. But the body text of the draft later states 'the team also replaced its defensive coordinator this offseason' which is redundant phrasing if both were replaced. The core issue is that the brief data_point is ambiguous on whether both coordinators were replaced or just the defensive coordinator. The draft should clarify what the brief actually supports.",
      "The draft introduces Arch Manning being 'out for redemption after struggling against the Buckeyes in last year's matchup' \u2014 this claim appears in the brief's data_points as 'Texas quarterback Arch Manning will be out for redemption after struggling against the Buckeyes in last year's matchup,' but this is NOT in the c082 brief at all. This appears to be a claim from a different brief (c276) that has been incorrectly included in the c082 draft. This is a completely unsupported fact in this story."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-07",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c055",
+    "headline": "USA defeats Italy 55-52 in narrow FIBA World Cup group stage game; advances to quarterfinals",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 8, 2026 as a Monday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "Betts' homer, Tucker's catch lift Dodgers past Nationals to complete sweep",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bobby Miller...earned his first winning decision in the major leagues since August 29, 2024,' but this claim requires verification that Miller had not earned a winning decision in the 13 months between August 29, 2024, and the current date of September 7, 2026. The brief does not contain sufficient detail to confirm this is accurate; it only states he earned his first win 'since August 29, 2024,' which the brief itself carries, but the span is unusually long and the accuracy is unconfirmed beyond the brief's single reference.",
+     "More critically, the bottom_line states 'The Dodgers face their next test when they return to action on September 8 or 9,' but today is September 7, 2026, and the game just concluded. The wording 'September 8 or 9' is vague scheduling language that does not appear in the brief and adds uncertainty where the desk should have a known next game date from the source. The brief does not provide a next game date, making this forward-looking statement ungrounded in the research."
     ]
    }
   ]
