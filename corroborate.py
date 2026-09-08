@@ -32,6 +32,8 @@ import re
 import urllib.parse
 import urllib.request
 
+import common
+
 UA = "GoCheckMyNews-corroboration/1.0"
 GNEWS = "https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
@@ -99,7 +101,7 @@ def also_reported_by(title, our_source="", min_shared=3, max_outlets=6, timeout=
         if fetch is not None:
             raw = fetch(url)
         else:
-            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            req = urllib.request.Request(url, headers={"User-Agent": common.ua_for(url, UA)})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 raw = r.read().decode("utf-8", "ignore")
     except Exception:
