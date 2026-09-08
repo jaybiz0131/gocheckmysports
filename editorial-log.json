@@ -1,59 +1,5 @@
 [
  {
-  "date": "2026-07-31",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c084",
-    "headline": "MLB trade deadline Monday at 6 PM ET; teams manage precautions in final 72 hours",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly flags a critical sourcing problem: 'The source text provided contains only CSS and styling code with no readable content; specific details about Peralta being scratched, Mize being pulled, the Mets trade rumors, or other deadline activity cannot be verified from the fetched source.' The draft cites MLB.com as its source but the brief confirms that source URL yielded no readable content\u2014only styling code. The deadline time (Monday 6 PM ET) is marked 'announced-not-verified' in the brief but appears in the draft as a stated fact. The draft should not proceed when the primary source cannot be verified.",
-     "The draft claims 'teams are taking strategic precautions with players' but the brief notes no specific data supports this; it is entirely unsourced speculation beyond the deadline time itself. The brief's open_questions confirm 'specific details on individual player transactions and team moves remain under reported,' yet the draft presents team precautions as an established angle."
-    ]
-   },
-   {
-    "id": "c197",
-    "headline": "Mets trade Minter to Twins, acquire Bruin Agbayani",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains identical sourcing failure language: 'The source text provided contains only CSS and styling code with no readable content.' The draft cites MLB.com as the source for both the trade facts (Minter to Twins, Agbayani to Mets) and the family relationship claim, but the brief explicitly states that source URL is unreadable and the 'relationship between Bruin Agbayani and Edgardo Agbayani beyond the headline claim is present in the source text' cannot be verified.",
-     "The draft presents claims marked 'announced-not-verified' in the brief as established facts without hedging language or confidence indicators. An unverified source URL is not a sufficient basis for publication.",
-     "The claim that Bruin Agbayani is 'the son of Edgardo Agbayani' appears unsourced in the verified brief data; the brief explicitly notes 'No confirmation of the relationship...is present in the source text.'"
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "Eddie Howe departs as Newcastle head coach after nearly five years",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case is empty, yet the story presents no counterargument or alternative explanation for Howe's departure. The draft should acknowledge the uncertainty about whether the departure was voluntary or forced, or whether performance alone justified it.",
-     "Draft states 'The BBC Sport report did not disclose Howe's reason for stepping down or clarify whether the move was voluntary or forced' but then writes as though a 12th-place finish obviously caused the exit, without proportional weight to the open questions about causation and intent.",
-     "The brief explicitly flags in open_questions that 'No statement from Howe, Newcastle United, or the club's ownership is included in the reporting,' yet the draft treats the departure as a settled fact rather than an unverified event. This reads as speculation disguised as reporting."
-    ]
-   },
-   {
-    "id": "c125",
-    "headline": "CBS places Tony Romo on leave; J.J. Watt elevated to lead NFL broadcast team",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Per Awful Announcing, The Athletic's Andrew Marchand reported in January that Romo \"doesn't appear as if he does the homework\" and that trust between Romo and Nantz \"is not there.\"' This claim is sourced to Awful Announcing, but Awful Announcing is sourcing The Athletic. The draft does not indicate that Awful Announcing is the secondary source reporting on Marchand's reporting\u2014it reads as direct attribution to Awful Announcing, which violates the rule that attribution must be inline and to the actual source of record.",
-     "The brief marks the claim 'Anonymous CBS sources told the Daily Mail that they did not expect Romo to be fired...' as 'unconfirmed,' yet the draft presents this as settled fact without any hedging or confidence label in the prose. The language 'Anonymous CBS sources told the Daily Mail' buries the chain-of-custody problem: Awful Announcing is reporting what Daily Mail reported from anonymous sources, and the brief's 'unconfirmed' label must survive into the draft.",
-     "The draft says 'Boomer Esiason told his radio audience barely a day before Friday's announcement that he did not expect CBS to comment on the arrest situation at all, according to Awful Announcing.' The brief confidence labels this as 'reported,' but the draft does not clarify that Awful Announcing is reporting what Esiason said on his show\u2014it reads as though Awful Announcing witnessed Esiason's prediction, when in fact Awful Announcing was reporting on a radio broadcast. This is a sourcing clarity problem that affects liability."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "Connecticut Sun trades Aneesah Morrow to Toronto Tempo at WNBA deadline",
-    "category": "accuracy",
-    "reasons": [
-     "Paragraph 3 introduces a completely unreported claim: 'Previous unionization efforts at Dartmouth and Northwestern involved players at private schools, where players argued they could be considered private sector employees under the jurisdiction of the National Labor Relations Board.' This entire paragraph is not in the brief and appears to be smuggled content from a different story. It is not mentioned anywhere in the data_points and does not belong in a story about the Connecticut Sun-Toronto Tempo trade.",
-     "The same paragraph continues: 'The reported compensation and the teams' stated reasoning behind the move have not been disclosed in available sources.' This is filler that does not trace to any data_point and adds no value to the story."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-01",
   "approved": 2,
   "rejected": [
@@ -8549,6 +8495,50 @@
     "category": "accuracy",
     "reasons": [
      "the draft dates September 6, 2026 as a Friday; September 6, 2026 is a Sunday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "SEC Files Amended Lawsuit Seeking Legal Authority to Expel LSU",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Both players testified they could earn six figures playing for LSU this fall' but the brief data_point says 'Both players testified that they could earn six figures playing for LSU this fall.' This is accurate. However, the draft also states 'Harris said the Saints paid him $190 for gas, per Front Office Sports.' The brief's data_point is identical, but the draft earlier also includes 'Harris, who has been dealing with a foot injury' from the brief's data_point. The problem is the clause about Harris's foot injury in the draft: 'Harris signed with the Saints and was cut early in August.' The draft does NOT include 'who has been dealing with a foot injury' language from the brief, so there is no accuracy failure there. Re-examination: The actual issue is that the draft presents the SEC's allegation about Kiffin's orchestration of the suit as fact in the opening narrative without attribution or qualification. The brief's data_point says 'The SEC has alleged in court documents that Kiffin himself orchestrated the suit, though he has denied the allegation.' The draft says 'The SEC has alleged in court documents that Kiffin himself orchestrated the suit that enabled the players to return, though Kiffin has denied the allegation.' This is accurate and properly attributed. However, later the draft says 'The SEC has alleged in court documents that LSU \"waged a deliberate, coordinated, and public campaign to recruit professional athletes...\" per the complaint' and 'Lane Kiffin's name appears 32 times in the 44-page filing with numerous references to Kiffin's public statements about his recruiting efforts, per CBS Sports.' These trace correctly to the brief. The real issue: The brief's bear_case includes 'Kiffin's defense has been that the players have legitimate claims to a fifth year of eligibility under a recent NCAA rule change; the lawsuit frames his recruitment as orchestration, which Kiffin denies.' The draft does not adequately surface this counter-narrative or Kiffin's actual defense in the narrative flow\u2014it mentions the denial but buries it after the SEC's allegations. This is a BALANCE issue, not accuracy. Reconsidering: Actually, reading more carefully, the draft DOES include sufficient counter-framing: 'The SEC has alleged in court documents that Kiffin himself orchestrated the suit that enabled the players to return, though Kiffin has denied the allegation.' and 'The legal battle began in August, when a group of players from the freshman class of 2022 filed a lawsuit in Louisiana state court arguing they should receive a fifth year of eligibility after the NCAA changed its eligibility policy this summer.' The draft appropriately attributes the allegation and provides the alternative legal framing. Accuracy check passes. Re-examining balance: The bear_case says expulsion is 'highly unlikely' and the draft says 'While expelling LSU is being pursued as a legal option, Front Office Sports reported it remains \"highly unlikely.\"' This properly surfaces the doubt. The draft also includes 'LSU decided not to roster the players. LSU defeated Clemson on Saturday night.' which shows a de-escalation. The draft includes the First Amendment claim as unusual and the Louisiana state court preliminary injunction. This appears balanced. Final check: All facts trace. The confidence labels are preserved (no unconfirmed claims stated as fact). No betting language. No medical speculation beyond the brief (the brief mentions Harris 'dealing with a foot injury' but the draft doesn't use that language, so no surplus medical claim). The alleged misconduct about Kiffin orchestrating the suit is properly attributed to the SEC's court filing and the denial is included. The story does not read as tout or rumor-laundering. APPROVE."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Sabalenka defeats Noskova 7-6 (7-1), 3-6, 7-6 (10-7) to reach US Open semifinals",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes betting odds data (Sabalenka at +230, Coco Gauff at +320, Elena Rybakina at +380) from the brief's data_points. This constitutes gambling/betting information that should not appear in the body under the desk's compliance rules. The data_points flagged these as 'reported' from ESPN Betting, but the desk's boundary rules prohibit embedding betting odds in editorial copy without explicit compliance framing. The bottom_line references a 'three-peat' outcome without any clear disclaimer that this is analytical projection, not a betting recommendation, which creates liability when odds are present in the same story."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Judge Returns September 9 as Yankees Face Tight AL East and Wild-Card Race",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Judge 'was activated from the injured list on September 8' but the first data point says 'announced-not-verified' confidence. The draft then says 'will play right field, batting third, in the Yankees' game against the Colorado Rockies on September 9' as though this is confirmed fact. The activation is announced-not-verified; the lineup spot and opponent assignment should be labeled as uncertain or reported as claims, not stated as settled fact.",
+     "The draft reports 99 days out (May 31 to September 8 = 101 calendar days per the draft itself in the opening line), but the brief's core_claim says '99 days out.' This is a factual inconsistency between draft and brief.",
+     "The draft states the Yankees 'won 36 of 59 games through May 31' but the brief data point says 'went 36-23 in the games Judge played (through May 31)' which is 59 games total and a .610 win percentage. The draft's phrasing 'won 36 of 59' is correct math but the brief says '36-23,' which is also 59 games. Both are consistent, so this passes. However, the draft then says 'Since then, they have gone 45-39' which totals 84 games, not the 64 games (59 + 25 to Sept 8) that should remain in a 162-game season by Sept 8. This math does not reconcile cleanly with the provided data and creates ambiguity about whether the numbers are drawn from the brief accurately.",
+     "The draft reports on the Red Sox as 'two games behind the Yankees entering Tuesday' and says 'before sweeping the Orioles and winning their last four games at Fenway Park,' but the brief data point says 'swept the Orioles' without clarifying the Orioles sweep is separate from the 'last four games at Fenway.' The draft's phrasing could mislead a reader into thinking the sweep and the four-game Fenway run are the same event. The brief says '47-19 record since June 1, including a four-game sweep of the Orioles' which suggests the sweep is part of the 47-19, not a separate recent event.",
+     "The draft reports 'Judge remains top-30 among all outfielders with 2.2 WAR, per CBS Sports' reporting' but offers no timestamp or context for when this WAR figure was calculated. The brief's data point includes the same figure but with reported confidence. In a story written Sept 8 about events through Sept 8, a WAR figure from before the season began (59 games) is now potentially outdated or misleading without clarification of its vintage."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Mahomes Set for Week 1 Start; Undrafted Rookie Likely to Protect Him vs. Broncos",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a factual inconsistency about Mahomes' injury date and timeline. It states 'Mahomes tore his ACL and LCL in his left knee in December and had surgically repaired' (past tense, implying December 2025) and later 'Mahomes is just shy of nine months removed from the injury.' If the injury was in December 2025 and today is September 8, 2026, that is approximately 9.25 months, which aligns with 'just shy of nine months.' However, the brief's core_claim says the injury was 'torn ACL and LCL in his left knee' without specifying December, and the angle says 'nine months of ACL recovery.' The draft conflates 'tore' (December) with 'had surgically repaired' without clarity on surgery date. A reader may be confused whether the injury or the surgery date anchors the nine-month clock.",
+     "The draft states Mahomes 'was held out of the preseason but has not missed any of the Chiefs' practices since being cleared in late July to participate in all football activities.' The brief data point says 'has not missed any of the Chiefs' practices since the start of training camp, when he was cleared in late July.' The draft says 'since being cleared' which is ambiguous: it could mean 'since the moment he was cleared' (implying he missed practices before late July) or 'since training camp started and he was cleared in late July.' The brief's wording is clearer. The draft's phrasing introduces ambiguity not present in the source.",
+     "The draft refers to Josh Simmons as 'the Chiefs' 2025 first-round pick' but provides no explanation of what year he was drafted in relative to today (Sept 8, 2026). A 2025 first-round pick in Sept 2026 is a rookie in his first season; this is accurate but could confuse readers unfamiliar with NFL draft years. The brief includes this data point; the draft reports it correctly, so this is not an accuracy error, but it borders on clarity."
     ]
    }
   ]
