@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c087",
-    "headline": "UEFA's World Cup boycott threat forces reckoning on Infantino's privatization plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'selling a 20 percent stake in FIFA's competition subsidiary to private investors' but the brief's core_claim and data_points consistently describe this as Infantino's '$20 billion private equity plan' involving a 'stake controlling FIFA major competitions' or 'a stake in FIFA's competition subsidiary.' The draft's phrasing 'competition subsidiary' is vague and potentially misleading about scope; more critically, the brief never confirms the exact percentage (20%) for BBC Sport reporting\u2014that figure appears only in the data_point about 'selling a 20% stake' but the brief's angle and core claim describe it as a broader '$20 billion' scheme. The draft should either confirm the 20% figure or note uncertainty.",
-     "The draft attributes to BBC Sport the claim that 'The deadline for countries to accept FIFA's deal and receive $20 million (\u00a315 million) on Jan. 1 is Sept. 19,' but the brief data_point says 'The deadline for countries to accept FIFA's deal and receive $20 million' without the pound sterling conversion or the Jan. 1 payment date specificity. The draft adds specificity (\u00a315 million, Jan. 1 payment) not present in the brief's sourced claim."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Franco Baresi, AC Milan and Italy legend, dies at 66",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents a paraphrased Maldini quote: 'You protected me when I was a child, guided me as a teenager and inspired me as a man. You were the greatest footballer I've ever had the honour of playing alongside.' However, the brief lists this as one data point among three separate Maldini Instagram statements. The draft does not include the other two confirmed quotes from the brief: 'Today I feel the same way as I did whenever, for whatever reason, you couldn't take to the pitch alongside us: how will we manage without our Captain?' and 'You taught me to fight until my very last breath, what it means to be devoted to the shirt, and the value of being a true leader.' The draft selectively uses only one of three documented statements without indicating it is incomplete. This omission misrepresents the full scope of Maldini's public tribute."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "Deebo Samuel re-signs with 49ers on 1-year deal worth up to $7 million",
-    "category": "accuracy",
-    "reasons": [
-     "The bottom_line states that 'Samuel will likely work opposite and alongside veteran wideout Mike Evans in the 49ers' receiving rotation.' However, the brief data point on this claim is marked 'reported' and is phrased as a possibility: 'Samuel should get opportunities to work opposite and alongside veteran wideout Mike Evans.' The draft converts 'should get opportunities' into a more definitive 'will likely work,' hardening the speculative claim without confidence hedging.",
-     "The draft states the 49ers 'presumably including surgical procedures that would keep him out for an extended period' regarding Pearsall's knee situation. The brief labels this as 'reported,' but the word 'presumably' suggests writer inference rather than a reported fact. The original source claim in the brief says the 49ers were exploring 'all options' 'presumably including surgical procedures' \u2014 meaning the brief itself contains the presumption. However, the draft's retention of 'presumably' is acceptable since it matches the brief's language."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "SAFA Confirms Hugo Broos Exit as Bafana Bafana Head Coach",
-    "category": "accuracy",
-    "reasons": [
-     "The brief data_point for Jordaan's confirmation is labeled 'announced-not-verified' but the draft prose presents it as a straightforward fact without qualification. Per the hard rule, confidence labels must survive in the prose\u2014an 'announced-not-verified' claim should read with appropriate hedging (e.g., 'according to SAFA's statement' or similar attribution that signals the information is official but unconfirmed by independent verification).",
-     "The draft states Broos 'said his departure was irreversible' but attributes this only to 'Belgian publication Voetbalnieuws reporting after the World Cup.' The brief data_point shows this claim comes from ESPN, not directly from Voetbalnieuws. The attribution chain is muddled\u2014the draft should clarify whether ESPN reported Voetbalnieuws's reporting, or whether the original quote source is being properly traced."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 2,
   "rejected": [
    {
@@ -8570,5 +8529,57 @@
   "date": "2026-09-07",
   "approved": 5,
   "rejected": []
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c345",
+    "headline": "Alcaraz beats Paul 6-4, 6-3, 6-4 to reach US Open quarterfinals; faces Shelton on September 10",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Alcaraz faces eighth seed Ben Shelton, who defeated Stefanos Tsitsipas 6-2, 6-3, 6-4 in 1 hour and 51 minutes on Sunday.' This describes a past event as completed. However, today is Tuesday, 2026-09-08, and the brief timestamps show the match data from 2026-09-07 (Sunday). The phrasing is correct for a past event. However, the draft's title and opening state 'faces Shelton on September 10' (Tuesday night, which is today per the prompt context saying 'today is Tuesday, 2026-09-08'\u2014this is an internal inconsistency in the prompt's dating, but following the prompt's instruction that 'today is Tuesday, 2026-09-08', September 10 is two days in the future, not today). The draft correctly reports Shelton's past victory but then says the quarterfinal will be 'September 10.' Given today is 2026-09-08 (Tuesday), September 10 would be Thursday. The brief data point states 'The Shelton vs. Alcaraz quarterfinal will take place on Tuesday night' but does not specify the date; the draft assigns it to September 10, which contradicts the brief's indication it is 'Tuesday night' (which would be today, September 9, given the story was published on Sunday the 7th). This is an accuracy failure: the draft assigns a specific future date not confirmed in the brief.",
+     "The draft states Alcaraz has 'extended his Grand Slam winning streak to 18' but the brief's data point says he 'extended his Grand Slam winning streak to 18' with confidence 'reported.' However, this is not an accuracy problem with that claim itself. The real issue: the draft says 'Alcaraz and Shelton meet September 10 in a quarterfinal' but the brief only states the match will be 'Tuesday night'\u2014it does not provide the September 10 date. Assigning an unconfirmed future date to a scheduled event is an accuracy error.",
+     "The draft claims 'The winner moves toward a final in which an American (Shelton, Tiafoe, or Michelsen) could reach for the first US Open men's title by an American since 2003.' This claim does not appear in the brief's data points. The brief references that 'Patrick McEnroe said before the tournament 'I'm picking Big Ben...When is the next American going to win a major?' which suggests the drought, but does not give the year 2003 or confirm that is the last US Open win. This is a SMUGGLED fact."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Cowboys guard Tyler Smith to have thumb surgery, sidelined at least 4 games",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 9, 2026 as a Tuesday; September 9, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c303",
+    "headline": "Indiana running back Khobie Martin out until midseason with arm injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Martin 'will be sidelined until midseason' but then the bottom_line speculates 'putting his earliest involvement in late September or early October matchups.' Midseason in a college football season is typically weeks 7-8, which would be mid-to-late October, not late September or early October. The bottom_line contradicts the announced timeline from the brief and creates confusion about when Martin might return. More fundamentally, the bottom_line narrates an 'open_question' from the brief ('A precise return date is not given; only midseason is stated') by offering a specific calendar interpretation that the source does not provide.",
+     "The draft attributes reporting about Martin's Instagram story to ESPN, but a player's personal social media post is not a source ESPN reported\u2014ESPN reported that Martin appeared in such a post. The phrasing 'appeared in an Instagram story on Sunday with his right arm in a sling, according to ESPN's reporting' implies ESPN documented this, when ESPN reported that Martin documented it himself. This is a subtle but real distinction in source attribution."
+    ]
+   },
+   {
+    "id": "c173",
+    "headline": "Falcons name Tua Tagovailoa starting QB for Week 1 vs. Steelers, September 8",
+    "category": "accuracy",
+    "reasons": [
+     "The title states 'September 8' as the date of the Week 1 game, but today is Tuesday, September 8, 2026. The game is described as scheduled for 'Sunday' (Week 1), which would be September 13, 2026. The title presents a future event as though it has already occurred or is happening today. The body correctly refers to the game as occurring 'on September 8' per the quoted source, but this is a date mismatch: if today is Sept 8 and Week 1 is this coming Sunday, the game date in the title is wrong.",
+     "The draft states 'Penix Jr. did not appear in any preseason games. The official injury report lists him cleared for 11-on-11 team periods only in the final week of training camp.' This claim about the 'official injury report' is not directly attributed to an official source in the brief; it is paraphrased from ESPN reporting. The phrase 'The official injury report lists' suggests a direct document reference that is not present in the data_points, which only cite ESPN's characterization of his clearance status."
+    ]
+   },
+   {
+    "id": "c139",
+    "headline": "Padres-Diamondbacks September 25-27 series likely decides final Wild Card spot",
+    "category": "accuracy",
+    "reasons": [
+     "The title states 'Padres-Diamondbacks September 25-27 series likely decides final Wild Card spot' but does not include a reporting date or source indication that today is before Sept 25. Since today is Sept 8, 2026, the series is upcoming and correctly described in the body as future-tense. However, the title lacks clarity about the date context and reads ambiguously\u2014a reader could misread it as referring to a series that has already happened. The body correctly frames it as upcoming ('will likely be decided'), but the title should be explicit that this is a scheduled future series.",
+     "The draft states: 'The two teams have split their 10 games against each other this season, meaning the winner of the September 25-27 series will also win the head-to-head tiebreaker and secure the final postseason berth.' This conflates two separate facts from the brief: the 10-game split is confirmed, but the claim that 'the winner of the series will also win the head-to-head tiebreaker' is stated as definitive. The brief data_point says 'the winner of the Sept. 25-27 series wins the tiebreaker as well,' but this is only true if they remain tied in losses going into the series. The phrasing in the draft could mislead readers into thinking the series outcome automatically decides the tiebreaker regardless of standing, when the brief clearly indicates standing matters.",
+     "The draft uses the phrase 'essentially allow them to rest or focus on other concerns during the September 25-27 series' in describing a 4+ game lead. The word 'essentially' softens the meaning in a way that is not in the brief. The brief states either team 'could win enough games...which would essentially allow them to rest or focus on other concerns,' but the draft applies 'essentially' to the Padres' potential action, not to the outcome condition. Minor but imprecise."
+    ]
+   }
+  ]
  }
 ]
