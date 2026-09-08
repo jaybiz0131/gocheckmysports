@@ -1,68 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c014",
-    "headline": "FIFA Advances 64-Team World Cup Review on Compressed Timeline Amid Private Equity Backlash",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The 2026 men's World Cup, won by Spain earlier this month, was the first 48-team tournament.' This is a critical factual claim that appears nowhere in the brief's data_points. The brief confirms the 48-team format fact but provides no source confirmation that Spain won the 2026 World Cup, no tournament result, and no date verification. This fact is smuggled into the draft outside the research brief.",
-     "The draft claims 'a 64-team expansion had previously been rejected privately by senior FIFA figures' and attributes this to ESPN. The brief's data_point (confidence: 'reported') states only that 'A further expansion of the World Cup to 64 teams had previously been rejected privately by senior FIFA figures.' The characterization in the draft as a prior rejection lends weight to a narrative (that FIFA is reversing a settled decision) that the brief merely flags as reported but not independently verified. The confidence label 'reported' should survive in prose, not be buried."
-    ]
-   },
-   {
-    "id": "c120",
-    "headline": "Cordeiro Resigns as FIFA Adviser, Calling Privatization Plan 'Bad Deal for Football'",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Carlos Cordeiro, a senior adviser to FIFA president Gianni Infantino, resigned with immediate effect in protest of proposals to sell a stake in the World Cup, according to the Guardian.' The brief's sole source is the Guardian URL provided. However, the draft's claim that the resignation was 'in protest' goes beyond what the brief's data_point states: 'resigned with immediate effect in protest at proposals to sell a stake in the World Cup.' The paraphrase is acceptable, but the draft then adds attribution 'according to the Guardian,' which is appropriate.",
-     "The draft states '143 of FIFA's 211 member associations stand opposed to the $20 billion private equity scheme' (confidence: 'reported' in brief). This is presented as fact without a confidence hedge. The open_questions in the brief ask 'Of the 143 FIFA members opposed, how many are affiliated with UEFA, Concacaf, or AFC, and how many are independent member associations?'\u2014signaling uncertainty about the composition and potential inflation of this number. A 'reported' confidence label should appear in the prose.",
-     "The draft claims Cordeiro's resignation 'marks the first reported defection from the FIFA leadership on the privatization question.' This characterization (emphasis on 'first') is not in the brief's data_points. The brief does not confirm or deny whether other senior FIFA figures have resigned or opposed the plan; only Cordeiro is mentioned. This is a framing claim that smuggles interpretive weight beyond the source."
-    ]
-   },
-   {
-    "id": "c039",
-    "headline": "Four NFL Stars Hold Out Over Contracts as Training Camp Accelerates",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes a paragraph on Vita Vea that states: 'Gibbs completed a conditioning test Wednesday during which he experienced a back issue, and it remains unclear whether he will immediately return to full practice once a deal is signed.' This sentence appears in the Gibbs section but refers to Gibbs' back issue from the brief. However, the draft then later states about Vea: 'Coach Todd Bowles attributed Vea's absence to a back tweak sustained during Tuesday's conditioning test.' The brief data_point confirms Bowles' statement. But the draft then says 'Gibbs completed a conditioning test Wednesday during which he experienced a back issue' in the Gibbs paragraph\u2014this is mixing details. Re-reading: the Gibbs paragraph correctly attributes the back issue to Gibbs' Wednesday conditioning test per the brief. The error is not here on re-inspection.",
-     "The draft contains no data_point in the brief to support the claim that 'New Orleans Saints signed Chris Olave to a four-year extension on Thursday afternoon.' This fact appears in the brief's data_points with confidence label 'announced-not-verified' but does NOT appear in the draft at all. Actually, checking the draft again: Chris Olave is not mentioned. This is not an error.",
-     "The draft states about Tuipulotu: 'Thursday, he was dressed in helmet and jersey, went through individual drills, then worked off to the side with a trainer, suggesting possible movement in negotiations.' The brief's data_points say 'Tuipulotu wore a helmet and jersey Thursday and went through individual drills with the team before working off to the side with a trainer.' The draft adds interpretive language 'suggesting possible movement in negotiations' that is not in the brief. This is opinion/analysis smuggled in as fact."
-    ]
-   },
-   {
-    "id": "c053",
-    "headline": "Franco Baresi, AC Milan and Italy defender, dies at 66",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes a quote from Gianluigi Buffon ('recalled his debut for Parma competing against Baresi as a 17-year-old in 1995') that appears in the brief's data_points but is completely absent from the draft body. This is not a paraphrase issue\u2014the draft simply does not mention Buffon at all, which is acceptable. However, the draft DOES include substantial material not verified in the brief: the draft attributes specific quotes to Paolo Maldini, Cristian Chivu, and Giorgia Meloni, and names Giovanni Malago as 'head of the Italian football federation (FICG)'\u2014none of which appear in the draft's sourced content or the brief's data_points list. The brief lists these as reported data_points, but the draft's attribution of them is unverifiable against a single BBC Sport URL.",
-     "More critically: the draft states the 1994 World Cup final ended in 'a 0-0 draw, the first World Cup final to be decided by a shootout' and that 'Baresi missed the first penalty in the shootout, with Brazil winning 3-2.' The brief's data_point claims Brazil won '3-2' in the shootout. However, the historical record (which BBC Sport would have reported correctly) shows the 1994 final shootout was 3-2 to Brazil after Baresi's miss was the first Italian miss, not that Baresi's miss was '3-2'\u2014this conflates the final score with the sequence. The draft's phrasing 'Baresi missed the first penalty in the shootout, with Brazil winning 3-2' could mislead readers about the sequence of events and appears to misstate or oversimplify what the brief claims."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "Kody Clemens hits walk-off grand slam in ninth as Twins beat Royals 4-3",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Clemens is an 'outfielder,' but the brief does not specify Clemens' position. The brief data_points only confirm he hit a walk-off grand slam and the final score; position is not in the brief and constitutes smuggled information.",
-     "The draft claims this occurred 'during the MLB trade deadline period,' but the brief's angle mentions 'the MLB trade deadline period' as context. The specific date or confirmation that this game occurred during the deadline window is not in any data_point; the timestamp (2026-07-31) is metadata, not a verified fact the writer should assert as 'during the deadline period' without explicit confirmation in the brief."
-    ]
-   },
-   {
-    "id": "c052",
-    "headline": "UK PM Burnham calls Infantino 'wrong man' to lead FIFA as opposition swells",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'UK Prime Minister Andy Burnham' but the brief does not establish Burnham as the current Prime Minister\u2014it only identifies him as 'UK Prime Minister Andy Burnham' in the core_claim without confirmation of current office. This is a factual claim about political status that should either be verified in the brief or presented with appropriate qualification. The draft presents it as settled fact without attribution nuance.",
-     "The draft references 'Infantino's investment proposal' and 'a proposal that has drawn opposition' but the brief's open_questions explicitly note: 'What specific stakes in competitions Infantino's plan proposes to sell is not detailed in the source text.' The draft frames the proposal as concrete and actionable without acknowledging this unresolved detail, which creates a false impression of clarity on a central claim."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 3,
   "rejected": [
    {
@@ -8578,6 +8516,61 @@
      "The title states 'Padres-Diamondbacks September 25-27 series likely decides final Wild Card spot' but does not include a reporting date or source indication that today is before Sept 25. Since today is Sept 8, 2026, the series is upcoming and correctly described in the body as future-tense. However, the title lacks clarity about the date context and reads ambiguously\u2014a reader could misread it as referring to a series that has already happened. The body correctly frames it as upcoming ('will likely be decided'), but the title should be explicit that this is a scheduled future series.",
      "The draft states: 'The two teams have split their 10 games against each other this season, meaning the winner of the September 25-27 series will also win the head-to-head tiebreaker and secure the final postseason berth.' This conflates two separate facts from the brief: the 10-game split is confirmed, but the claim that 'the winner of the series will also win the head-to-head tiebreaker' is stated as definitive. The brief data_point says 'the winner of the Sept. 25-27 series wins the tiebreaker as well,' but this is only true if they remain tied in losses going into the series. The phrasing in the draft could mislead readers into thinking the series outcome automatically decides the tiebreaker regardless of standing, when the brief clearly indicates standing matters.",
      "The draft uses the phrase 'essentially allow them to rest or focus on other concerns during the September 25-27 series' in describing a 4+ game lead. The word 'essentially' softens the meaning in a way that is not in the brief. The brief states either team 'could win enough games...which would essentially allow them to rest or focus on other concerns,' but the draft applies 'essentially' to the Padres' potential action, not to the outcome condition. Minor but imprecise."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c132",
+    "headline": "Yankees Activate Aaron Judge, Expected to Play Tuesday vs. Rockies After Three-Month Injury Absence",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Judge's original injury occurred attempting to catch a pop fly on April 26 at Houston' but the brief data point says 'Judge's original injury occurred attempting to catch a pop fly on April 26 at Houston' per CBS Sports, and separately notes a 'diving catch attempt at Houston on April 26' per CBS Sports. The draft text says 'attempting to catch a pop fly' but the brief sources reference 'diving catch attempt.' More critically, the brief states Judge 'suffered the injury on a diving catch in late April' (CBS Sports) and separately 'Judge played through the injury for more than a month after a diving catch attempt at Houston on April 26' (CBS Sports), confirming the injury date and location. However, the draft's bottom_line contains an unsubstantiated claim: 'the Yankees have 19 games remaining and face an uphill climb in the AL East, needing to go 13-6 to 14-5 depending on Tampa Bay's results to win the division.' The brief data point says 'If Tampa goes 9-10 in its final 19 games, the Yankees must go 13-6 to win the AL East if they sweep the four games with the Rays, and 14-5 to win the AL East if they don't sweep.' The draft presents this as fact without the conditional framing ('If Tampa goes 9-10') that appears in the brief, making it an unqualified claim about what the Yankees must do rather than a conditional scenario.",
+     "the draft dates September 8, 2026 as a Monday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c341",
+    "headline": "Qualifier Zheng stuns Swiatek 7-5, 6-3 from 0-5 deficit to reach US Open quarterfinals on September 7",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the match occurred 'on September 7' but today is Tuesday, September 8, 2026. September 7 was yesterday (Monday). The draft's title and opening correctly identify this as a past event ('defeated'), but the brief timestamp shows '2026-09-07T23:11:53Z', confirming the match was on September 7. This is accurate for a Tuesday publication reporting a Monday match. No error here on the core event date.",
+     "The draft states 'In the second set, Zheng broke serve at 3-3, went up 4-3' but the brief data_point says 'In the second set, Zheng earned the first break to go up 4-3.' These align: breaking at 3-3 means the next game goes to 4-3. However, the draft then says she 'won the final four games' but the brief says she 'never looked back, winning the final four games.' The phrasing is equivalent.",
+     "The draft claims Zheng 'has surpassed Li Na for the most quarterfinal appearances at the US Open by any Chinese player in history, with three' but this is vague about whether this is Li Na's total or Zheng's total. The brief clarifies: 'Zheng has surpassed Li Na for most quarterfinal appearances at the US Open by any Chinese player in history, with three' \u2014 meaning Zheng now has three, surpassing Li Na's total. The draft's phrasing is grammatically ambiguous but contextually correct.",
+     "The draft states Zheng 'had spent 9 hours and 29 minutes on court\u2014more than any other woman in the draw' but does not note this is 'entering the quarterfinals,' while the brief explicitly says 'Entering the quarterfinals, Zheng had spent 9 hours and 29 minutes on court.' This omission is minor but the draft later says 'has accumulated more court time than any woman in the tournament,' which is accurate for the bottom_line.",
+     "The draft states the match was on 'Monday' but the brief timestamp is 2026-09-07, and today is Tuesday, 2026-09-08. September 7, 2026 is a Monday. The draft's body says 'on September 7' (correct) but the brief says it 'defeated Rybakina defeated Naomi Osaka 6-1, 6-4 on Monday,' referring to the Rybakina match. No contradiction; both are accurate."
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "Gauff defeats Jovic 6-1, 6-4 on September 8; extends unbeaten set streak to 20",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states the match occurred 'on September 8' and the draft body says 'on September 8 to reach the quarterfinals.' Today is Tuesday, September 8, 2026. A match played today (September 8) has not yet occurred; scheduled future events must be written as upcoming. The brief data_point says the match is 'verified-on-chain,' indicating it is a past event in the research, but the timestamp '2026-09-08T04:00:41Z' is consistent with an early-morning September 8 posting. The instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' Since today IS September 8 and the event occurred (timestamp shows it was reported on Sept 8 early morning, suggesting it happened Sept 7 evening or early Sept 8), the draft's use of past tense is technically correct IF the match occurred before the timestamp. However, the guidance on doubt suggests caution. The brief does not provide a match date in the data_points\u2014only the timestamp of reporting. A verified-on-chain confidence suggests the match is confirmed as completed. This is borderline but the timestamp date matching today's date creates ambiguity about whether this is a same-day report of a concluded match or a premature future-event report.",
+     "The brief states 'Rybakina's last major win was at the 2021 Australian Open' in the BBC data, but earlier data_points say 'Rybakina is 27 years old' and 'Elena Rybakina is second seed and defeated Naomi Osaka 6-1, 6-4.' The draft does not mention Rybakina's 2021 Australian Open win\u2014it says she is 'the reigning Australian Open champion,' which contradicts the brief data saying her last major was 2021. The draft says Rybakina is 'the reigning Australian Open champion,' implying the most recent (2026). The brief says 'her last major win was at the 2021 Australian Open,' which if accurate means she is NOT the reigning 2026 champion. The brief data_point on Rybakina says 'Rybakina, the reigning Australian Open champion' in c341, but in c075 the BBC data says 'Rybakina's last major win was at the 2021 Australian Open.' These two briefs conflict on Rybakina's status. In c075's brief, the data_point states 'Rybakina is the reigning Australian Open champion,' but another data_point from BBC says 'Rybakina's last major win was at the 2021 Australian Open.' This is an internal brief contradiction, not a draft error, but the draft must follow the brief it is written from. The c075 brief lists both claims. The draft claims Rybakina is 'the reigning Australian Open champion' which aligns with one data_point in the brief but contradicts another. The draft should not have used 'reigning' if the brief also contains '2021 Australian Open' as her last major."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Cowboys Guard Tyler Smith to Undergo Thumb Surgery; Out 4-6 Weeks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states surgery will occur on 'September 8, 2026' and that 'Head coach Brian Schottenheimer announced the decision on Monday, September 8, 2026.' However, today is Tuesday, 2026-09-08. The brief data_point says the surgery announcement was made Monday, and the core_claim says the surgery will occur on 'Tuesday, September 8, 2026.' The draft contradicts the brief by stating both the announcement and the surgery date as September 8, when September 8 is today (Tuesday). The surgery date should be tomorrow (Wednesday, September 9), not today.",
+     "The opening sentence presents the surgery date incorrectly relative to the current date. Since today is Tuesday, September 8, and the brief states the surgery is on Tuesday, the surgery must be occurring today, not as a future event. The draft narrates this as a scheduled future event with a specific date already assigned, but the chronology is muddled.",
+     "the draft dates September 8, 2026 as a Monday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c257",
+    "headline": "Big Ten Week 1: Blowouts and dominant starts mark conference kickoff",
+    "category": "accuracy",
+    "reasons": [
+     "The draft makes sweeping claims about 'blowouts,' 'dominant starts,' and 'wide margins of victory' that define Week 1, but the brief's open_questions explicitly state: 'No specific Big Ten game scores, matchups, or teams are named in the fetched source text.' The draft narrates a pattern across the conference without any specific game results, scores, or teams to support these generalizations. The brief is marked 'thin: true' with truncated source text containing no individual game results. The writer has fabricated specificity where the brief contains none.",
+     "The bottom_line deflects readers to 'official Big Ten and team sites' rather than forward-looking analysis or stakes, treating the absence of data as publishable content. A story this thin with no game details, scores, or named teams should not run; the desk cannot verify any claim in the body."
     ]
    }
   ]
