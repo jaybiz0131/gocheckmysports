@@ -82,6 +82,96 @@ def gap_hours(now=None, content=None):
     return (now - best[0]).total_seconds() / 3600, best[1]
 
 
+# HOW LATE, NOT JUST WHETHER (2026-09-08). This file counted the AGE of the newest
+# edition, which catches an outage and is blind to the failure the desk actually has:
+# every slot served, every slot hours late. Measured over 2026-09-05 to 09-07, the morning
+# brief published a median 194 minutes after its slot on this desk, so a "Morning Brief"
+# reached readers at 9am Eastern instead of 5:40am. Nothing in the pipeline reported that,
+# because nothing was measuring it.
+#
+# The cause is upstream and known: GitHub delivers this repo's crons a median 103 minutes
+# late and drops some outright. The fix is an external trigger. This is the instrument
+# that says whether the fix is working, and it will go quiet on its own when it is.
+PUNCTUAL_MIN = 45          # a slot within this of its target is on time
+PUNCTUAL_DAYS = 5
+
+
+def slot_targets():
+    """Edition slug -> (hour, minute) UTC, read from the workflow's OWN slot-guard map.
+
+    Deliberately not a hand-kept list here. The crons, wrap.CRON_SLOT and the guard have
+    drifted apart before, and a fourth copy would be a fourth thing to forget. The
+    earliest cron mapped to a slug is that slot's real target; the later ones are retries.
+    """
+    import re
+    wf_dir = os.path.join(HERE, ".github", "workflows")
+    try:
+        wf = next(os.path.join(wf_dir, f) for f in sorted(os.listdir(wf_dir))
+                  if "brief" in f and f.endswith(".yml"))
+        text = open(wf, encoding="utf-8").read()
+    except Exception:
+        return {}
+    out = {}
+    for cron, slug in re.findall(r'"(\d+ \d+ \* \* \*)":\s*"([a-z-]+)"', text):
+        m, h = cron.split()[0], cron.split()[1]
+        t = (int(h), int(m))
+        if slug not in out or t < out[slug]:
+            out[slug] = t
+    return out
+
+
+def punctuality(days=PUNCTUAL_DAYS, content=None):
+    """(date, slug, published_hhmm, minutes_late) for recent editions, newest first."""
+    targets = slot_targets()
+    if not targets:
+        return []
+    cutoff = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(days=days)).date().isoformat()
+    rows = []
+    for path in glob.glob(os.path.join(content or CONTENT, "*.json")):
+        base = os.path.basename(path)[:-len(".json")]
+        parts = base.split("-")
+        # "2026-09-07-morning-brief" -> date "2026-09-07", key "morning-brief"
+        if len(parts) != 5:
+            continue
+        date, key = "-".join(parts[:3]), "-".join(parts[3:])
+        if date < cutoff or key not in targets:
+            continue
+        try:
+            d = json.load(open(path, encoding="utf-8"))
+            when = datetime.datetime.fromisoformat(
+                (d.get("published_utc") or "").replace("Z", "+00:00"))
+        except Exception:
+            continue
+        h, m = targets[key]
+        tgt = when.replace(hour=h, minute=m, second=0, microsecond=0)
+        rows.append((date, key, when.strftime("%H:%M"),
+                     round((when - tgt).total_seconds() / 60)))
+    rows.sort(reverse=True)
+    return rows
+
+
+def report_punctuality():
+    """Advisory. Never blocks: a late edition is still an edition."""
+    rows = punctuality()
+    if len(rows) < 3:
+        return
+    late = sorted(abs(r[3]) for r in rows)
+    median = late[len(late) // 2]
+    worst = max(rows, key=lambda r: abs(r[3]))
+    on_time = sum(1 for r in rows if abs(r[3]) <= PUNCTUAL_MIN)
+    line = (f"{on_time} of {len(rows)} recent editions landed within {PUNCTUAL_MIN} min of "
+            f"their slot; median drift {median} min, worst {worst[0]} {worst[1]} at "
+            f"{worst[2]}Z ({worst[3]:+d} min)")
+    if median > PUNCTUAL_MIN:
+        common.gh("warning",
+                  f"edition_check: slots are being served LATE. {line}. The editions are "
+                  f"landing, so nothing here is lost; the trigger is what is late. If the "
+                  f"external trigger is running, this line is how you tell.")
+    else:
+        print(f"edition_check: punctuality OK, {line}.")
+
+
 def main():
     argv = sys.argv[1:]
     limit = (int(argv[argv.index("--max-age-hours") + 1])
@@ -119,6 +209,7 @@ def main():
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the gap. Read the wrap step's log for the gate it failed.")
         _flag_issue(msg)
+        report_punctuality()
         # AN ABSTAINED EDITION IS AS LOUD AS A FAILED ONE (owner directive 2026-08-25):
         # wrap declining with zero stories is correct behaviour, but three consecutive
         # honest silences is an outage, and this counter is the only thing that sees
@@ -126,6 +217,7 @@ def main():
         # stories publish; the annotation and the issue above are unchanged.
         return 3
     print(f"edition_check: OK, {msg}.")
+    report_punctuality()
     return 0
 
 
