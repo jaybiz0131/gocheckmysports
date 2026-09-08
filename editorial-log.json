@@ -4,59 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c110",
-    "headline": "FIFA Governance Crisis: Adviser Resigns Over World Cup Privatization Plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'senior adviser Cordeiro has resigned' but the brief does not name 'Cordeiro' as the adviser who resigned\u2014it only identifies the person as 'senior adviser' in the core_claim. The draft smuggles a name that does not appear in the brief's data_points.",
-     "The draft attributes the quote 'defying belief and imagination' to Cordeiro, but the brief's data_point credits this quote only to the source and does not explicitly confirm Cordeiro spoke it. The attribution conflates a characterization in the brief with a confirmed direct quote in the draft.",
-     "The draft states 'FIFA's chief operating officer has publicly issued a scathing rebuke' but names no COO and provides no quote. This is a fact asserted as settled when the brief's data_point only says a 'scathing rebuke' was issued; the draft elevates this without detail or attribution specificity."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "CBS Places Tony Romo on Indefinite Leave After OWI Arrest; J.J. Watt to Replace Him",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents medical/legal characterizations of Romo's condition ('failed to take a breathalyzer test', 'failed to take a breathalyzer test', 'performed poorly on standardized field sobriety tests') as settled fact without noting these remain alleged charges. The brief marks these as 'reported' confidence, not verified; the draft reads them as adjudicated.",
-     "The draft states 'CBS sources told the Daily Mail that the arrest is not expected to result in Romo's firing' \u2014 this is an unconfirmed anonymous-sourced claim presented as fact. The brief marks this data_point as 'unconfirmed' confidence; the draft presents it without hedging or confidence attribution, violating the rule that unconfirmed claims must read that way in prose.",
-     "Similarly, 'characterizing it as a \"lapse in judgment\"' and 'noted that Romo reached out to his bosses almost immediately after the arrest happened' are both marked 'unconfirmed' in the brief but appear in the draft as unqualified statements of fact.",
-     "The draft discusses ongoing legal jeopardy (charges, court date) and personal conduct (arrest, sobriety tests) in definitive language without the cautionary framing required for facts still subject to legal process. This crosses into compliance territory: an arrest allegation is not the same as a conviction or even a charged fact, and the draft conflates them."
-    ]
-   },
-   {
-    "id": "c137",
-    "headline": "Tucker Kraft cleared from PUP list less than nine months after ACL surgery",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Packers plan to ease Kraft back into action with all signs pointing toward his readiness for Week 1' but the brief marks this claim as 'reported' with no bear_case or open_question about the reliability of this assertion. The brief's open_questions explicitly state 'No information on whether Kraft has appeared in any preseason games or practice details that would support 'all signs point to Week 1 readiness.' This signals the source material does not actually contain evidence for the 'all signs' framing\u2014the writer has extrapolated or generalized beyond what the brief provided.",
-     "The draft presents 'all signs pointing toward his readiness for Week 1' as settled fact when the brief identifies this as thin sourcing (thin: true) with only 4 data_points total and missing critical medical/timeline details. The phrasing 'all signs point' overstates the certainty level available in the source material."
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "Eddie Howe steps down as Newcastle United head coach",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Howe 'stepped down' but the brief's open_questions explicitly note: 'The BBC source does not state whether Howe resigned voluntarily or was forced out by the club.' The word 'stepped down' implies voluntary resignation, but the brief warns that the source does not confirm this. The draft presents as fact what the brief identifies as unconfirmed\u2014whether the departure was a resignation or a dismissal.",
-     "The draft provides no information about why Howe left, yet the bottom_line raises questions about 'what triggered it' without the draft body having addressed any causes or context. This signals the draft may be speculating beyond the brief."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "Mudryk eligible to play after doping ban resolved through appeal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the interim president of the UCAA is 'Meryl Rivin, interim president of the UCAA and a Maryland women's basketball player,' but the brief data_point identifies the interim president as 'Oluchi Okananwa' (Maryland women's basketball player). The draft has the wrong name for this key figure."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c084",
     "headline": "MLB trade deadline Monday at 6 PM ET; teams manage precautions in final 72 hours",
     "category": "accuracy",
@@ -8571,6 +8518,37 @@
     "reasons": [
      "The draft makes sweeping claims about 'blowouts,' 'dominant starts,' and 'wide margins of victory' that define Week 1, but the brief's open_questions explicitly state: 'No specific Big Ten game scores, matchups, or teams are named in the fetched source text.' The draft narrates a pattern across the conference without any specific game results, scores, or teams to support these generalizations. The brief is marked 'thin: true' with truncated source text containing no individual game results. The writer has fabricated specificity where the brief contains none.",
      "The bottom_line deflects readers to 'official Big Ten and team sites' rather than forward-looking analysis or stakes, treating the absence of data as publishable content. A story this thin with no game details, scores, or named teams should not run; the desk cannot verify any claim in the body."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c061",
+    "headline": "Patriots Extend Gonzalez to $135M, Making Him NFL's Highest-Paid CB",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains multiple statements about Gonzalez that directly contradict the brief's data. The brief establishes Gonzalez as a cornerback ('Christian Gonzalez and cornerback' in core_claim, multiple CB references in data_points). However, the draft narrative contains factually inconsistent information: the opening correctly identifies him as a cornerback, but the draft then includes 'totaled four tackles and three passes defended in the Super Bowl LX loss to the Seahawks' and other defensive back stats that align with cornerback play. The core problem: the draft states 'Gonzalez was drafted 17th overall in 2023' which matches the brief, but this Gonzalez is a cornerback, not the NFL cornerback described in c124 (which was also wrong). More critically, the draft's statement 'He has played in 34 regular-season games total, starting all of them, and started four postseason games' appears in the body but the brief's corresponding data point says 'Gonzalez has played in 34 regular-season games, starting all of them, and has started four postseason games'\u2014the phrasing matches exactly. This draft is internally consistent with the brief on Gonzalez as a cornerback. However, the brief contains a data point stating Gonzalez is 'a three-time All-Pro and Pro Bowl cornerback' but the draft says Gonzalez 'is a three-time All-Pro and Pro Bowl cornerback'\u2014which is consistent. Re-examining: the actual liability issue is the brief's statement 'Gonzalez was the No. 17 pick in the 2023 NFL draft and has started every game he appeared in, compiling a record as a three-time All-Pro and Pro Bowl cornerback.' This appears in the draft as presented. The problem is that this Gonzalez should be an NFL cornerback drafted 2023, and the draft reports him correctly. However, there is a critical factual inconsistency: the draft states Gonzalez 'totaled four tackles and three passes defended in the Super Bowl LX loss to the Seahawks and notched an interception late in an AFC Championship Game victory over Denver.' The brief's data confirms these exact stats. The core accuracy issue is: the draft does not identify the date when Judge last played\u2014it says 'is expected to play in Tuesday's series opener' (future tense, correct for today 2026-09-08) but the brief says he 'suffered a right rib stress fracture that has kept him out since May 31.' This is a different story. Re-reading the c061 draft: all facts trace correctly to the brief. The only potential issue is whether the characterization of negotiations and the timing are accurate. Upon full review, the c061 draft is consistent with its brief."
+    ]
+   },
+   {
+    "id": "c363",
+    "headline": "Zheng Erases 5-0 First-Set Deficit to Stun Swiatek 7-5, 6-3 at US Open",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Rybakina defeated Naomi Osaka 6-1, 6-4 in the fourth round on September 8, per ESPN Tennis reporting.' Today is Tuesday, September 8, 2026. The brief's data point on this match has timestamp '2026-09-07T23:11:53Z' (September 7, late evening) and the match is reported as having already occurred ('defeated'). The draft correctly reports it as a completed event, which is appropriate given the late timestamp. However, the draft also says 'ranked 1-4 lifetime against Rybakina' in the bottom_line, which contradicts the brief's data point stating 'Zheng holds a 1-4 career record against Rybakina.' The phrasing 'ranked 1-4' is ambiguous\u2014it could be misread as Zheng's ranking, not her record. This is an accuracy issue in word choice that creates potential confusion.",
+     "The bottom_line contains 'ranked 1-4 lifetime against Rybakina' which is imprecise phrasing. The correct phrasing from the brief is 'Zheng holds a 1-4 career record against Rybakina.' The word 'ranked' should not be used for head-to-head records; 'ranked' refers to tour rankings. This is an accuracy error."
+    ]
+   },
+   {
+    "id": "c264",
+    "headline": "Sparks hire 31-year-old Ariana Andonian as new general manager on September 6",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 6, 2026 as a Friday; September 6, 2026 is a Sunday"
     ]
    }
   ]
