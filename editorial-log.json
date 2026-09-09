@@ -1,63 +1,6 @@
 [
  {
   "date": "2026-08-01",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c006",
-    "headline": "Brewers acquire catcher Bo Naylor from Guardians in four-player trade",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The Guardians received pitcher Craig Yoho, pitcher Codi Heuer, and outfielder Blake Perkins' but brief data_points show Heuer and Perkins were traded FROM the Brewers TO the Guardians; the draft correctly names the three players but reverses the direction of Heuer's trade. The draft then contradicts itself by later stating 'Heuer, 30, will join his sixth MLB organization after the trade,' implying movement to Cleveland, which is correct, but the opening sentence lists him as received by the Guardians without making the direction explicit\u2014this reads as if he was received from elsewhere, creating ambiguity that traces back to an accuracy error in the opening line."
-    ]
-   },
-   {
-    "id": "c084",
-    "headline": "Gardner-Johnson injured in Bills practice; Scourton out for season",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Nic Scourton is out for the season with a knee injury' and later 'Scourton's organization on rehabilitation timelines,' but the brief does not contain any data_point specifying which organization Scourton plays for. The open_questions explicitly ask 'What team does Nic Scourton play for?' indicating the brief acknowledged this information was missing. The draft treats Scourton's team affiliation as known or obvious, which violates the hard rule that no fact exists outside the brief.",
-     "Draft states 'Scourton's knee injury has been deemed season-ending' with confidence but the brief only states 'Nic Scourton is out for the season with a knee injury' at 'reported' confidence. The prose presents this as settled fact when the brief classifies it as merely reported, potentially understating uncertainty on an injury/health claim."
-    ]
-   },
-   {
-    "id": "c160",
-    "headline": "Twins-Orioles Kremer Trade Cannot Be Verified",
-    "category": "accuracy",
-    "reasons": [
-     "The draft correctly identifies that the source is corrupted and unreadable, but then proceeds to report the trade as fact in the title and opening sentence ('A report emerged that the Minnesota Twins acquired pitcher Dean Kremer from the Baltimore Orioles'). This presents an unverified claim as established reporting. The brief's open_questions explicitly state 'the trade details cannot be verified from the provided material.' The draft should not assert the trade occurred; it should acknowledge only that a report exists and cannot be verified, or reject the story entirely."
-    ]
-   },
-   {
-    "id": "c050",
-    "headline": "UEFA Issues No-Confidence Statement Against FIFA President Infantino",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes a statement to 'UK Prime Minister Andy Burnham' in the fourth paragraph. This is factually impossible: Andy Burnham is the Mayor of Greater Manchester, not the UK Prime Minister. No UK Prime Minister named Burnham exists in the brief's data_points or any credible record. The brief's data_point 9 states 'UK Prime Minister Andy Burnham' but this is an error in the brief itself; the writer has faithfully reproduced a false claim from corrupted source material. This is a hard accuracy failure and must be rejected. The draft should either omit this claim or flag it as potentially inaccurate pending source verification."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Five-time All-Pro DeAndre Hopkins hired as Georgia Tech assistant WR coach, preserves NFL playing status",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Hopkins 'has recorded 1,006 receptions for 13,295 yards and 85 touchdowns over his career,' but the brief's data_point 13 specifies he has '1,006 receptions (17th all time)' \u2014 the draft omits the ranking entirely, which is material context given the brief's explicit inclusion of it.",
-     "The draft also states earlier that Hopkins 'became the 18th player in NFL history to record 1,000 career receptions' in the Thanksgiving game, creating an internal contradiction: if he was 18th to reach 1,000, he cannot now hold 1,006 receptions as the 17th all-time (the 18th vs. 17th ranking is not explained in the sources, and the draft's failure to reconcile these two numbers is a factual accuracy problem)."
-    ]
-   },
-   {
-    "id": "c099",
-    "headline": "Sophie Cunningham says rallies over transgender sports stance do not distract Fever",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the Seattle supporters 'sat courtside at Climate Pledge Arena' holding signs, but the brief data_point 9 says they sat courtside 'at Climate Change Arena' \u2014 the draft corrects the arena name to the accurate one (Climate Pledge Arena), but the brief itself contains an apparent error ('Climate Change Arena' is not the Storm's venue). The draft should trace facts to the brief as written; if the brief contains a factual error, the draft cannot unilaterally correct it without noting the discrepancy or flagging the source.",
-     "The brief data_point 12 references 'IL26-638' as a statewide ballot initiative, but this claim does not appear in the draft body at all. The brief explicitly includes this data point with 'reported' confidence, but the draft omits it entirely, violating the hard rule that every fact in the brief must either appear in the draft or be consciously excluded (and exclusions should be justified if material)."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-01",
   "approved": 4,
   "rejected": [
    {
@@ -8520,6 +8463,39 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'Corbin Burnes was activated from the 60-day injured list on September 9' but today is September 9, 2026 (Wednesday). The brief data point says he was 'activated from the 60-day injured list on Tuesday,' and the timestamp is 2026-09-08T20:54:04Z. This means the activation occurred on Tuesday, September 8, not September 9. The draft reports a future or same-day event as definitively having happened on a specific date that conflicts with the brief's own sourcing timestamp."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-09",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c391",
+    "headline": "Sabalenka outlasts Noskova in tiebreak thriller to reach US Open semis",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Rybakina's match against Zheng on Wednesday will determine whether Sabalenka must win the tournament to hold the No. 1 ranking' in the bottom_line. Today is Wednesday, 2026-09-09. This is a scheduled future event written as though it is still to come, which is correct for the day of publication. However, the bottom_line incorrectly frames the Rybakina match outcome as something that will be determined on Wednesday when the current drafts all appear to report events from September 9 (today). The brief's data_point states 'Sabalenka's No. 1 ranking, which she has held for 99 consecutive weeks, faces jeopardy if No. 2-ranked Elena Rybakina defeats Zheng Qinwen on Wednesday to reach the semifinals'\u2014this indicates Rybakina's match is scheduled for Wednesday (today or pending). The draft body correctly uses future tense ('will face'), but the bottom_line's phrasing is ambiguous about timing relative to publication.",
+     "More critically: The brief notes in open_questions 'When exactly does Elena Rybakina play Zheng Qinwen, and what is the precise impact on Sabalenka's ranking math?' This indicates uncertainty about the exact timing. The draft presents the Rybakina match as determinative of ranking consequences but does not establish when Rybakina plays or whether that match has occurred yet. If Rybakina's match is today (Wednesday, 9/9) and the Sabalenka match also occurred today (9/9), the sequencing and causality are unclear."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Mayfield and Buccaneers Reach $165M Three-Year Contract Extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mayfield's deal was reached 'on Tuesday, September 8, 2026' but the task header specifies today is Wednesday, 2026-09-09. September 8 was yesterday, a past event. The draft correctly reports this as a past event (filed/agreed), so the tense is accurate. However, this requires verification: the brief's data_points are all timestamped '2026-09-08' which is consistent with yesterday being when the deal occurred. This is not an accuracy error\u2014the deal did happen on Tuesday.",
+     "The draft's bottom_line references 'Mayfield's production outside his 2024 breakout season, including what sources describe as a disappointing second half of 2025' but the brief's bear_case only states 'The other two years he has spent in Tampa Bay, however, have not been quite as fruitful' and 'a disappointing second half of the 2025 campaign.' The phrase 'including what sources describe as' is unattributed and does not appear in the brief's data_points or bear_case with attribution to any specific source. This is a paraphrase that narrates absence (sources do not describe this, the brief summarizes it), violating the rule against restating open_questions or absence.",
+     "The draft states the extension 'ties Mayfield for the third-highest-paid quarterback in the league, matching Joe Burrow, Josh Allen, Jordan Love, Trevor Lawrence, and Matthew Stafford' per CBS Sports. The brief confirms this data_point exists. However, the reader might infer that all six QBs are tied at exactly $55M/year. The brief's data_point says 'ties Mayfield for the third-highest-paid quarterback in the league' but does not confirm all six names are at identical AAV\u2014it only says he matches them. This is acceptable paraphrase; no accuracy failure here."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "MAC appeals to NCAA and CFP to recognize Western Michigan as winner over Michigan",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the score as 13-12 Michigan over Western Michigan, but the brief's data_points consistently state the game ended 13-12. However, Steinbrecher's quote in the brief data_point states: 'Had the prescribed protocol been followed and the program-feed clock been used, no additional time would have been restored, no additional play would have been awarded, and Western Michigan would have won the game 12-7.' This is a direct contradiction: if the additional play (the 47-yard touchdown pass) had not been awarded, the final score would have been 12-7, not 13-12. The draft presents the final score as 13-12 but does not clarify what the score would have been without the final play. The draft also states that Wright received a '$25,000 signing bonus' but this is smuggled from the c103 brief, not the c040 brief. The c040 brief makes no mention of Wright or Harris or any signing bonuses. This is a major accuracy failure: the draft includes entire passages about LSU/MAC conflict that belong in different stories."
     ]
    }
   ]
