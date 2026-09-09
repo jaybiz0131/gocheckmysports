@@ -4,68 +4,6 @@
   "approved": 2,
   "rejected": [
    {
-    "id": "c015",
-    "headline": "Ryan Mountcastle tears oblique, faces extended absence",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Mountcastle 'has played in only eight games this season' but the brief data_point says 'Mountcastle has played in eight games in 2026'. The draft's phrasing ('only eight games this season') is factually equivalent and accurately traces to the brief's verified data point, so this is acceptable.",
-     "The draft states the title 'tears oblique, faces extended absence' and the body describes recovery as 'a couple of months' with Elias hoping for 2026 return, but the core_claim in the brief is 'might not return in 2026.' The draft's body does capture Elias's uncertainty ('hopefully that's in 2026') and states 'the possible season-ending injury,' which reflects the bear_case that recovery could extend beyond 2026. However, the title 'faces extended absence' softens the core_claim. Given that the draft body includes the uncertainty language from the brief's data_points, this traces correctly to source material and is not inaccurate\u2014it simply chose a softer framing. APPROVE is appropriate here as all facts trace and bear_case uncertainty is present in body."
-    ]
-   },
-   {
-    "id": "c220",
-    "headline": "Toronto Tempo trade for Aneesah Morrow ahead of WNBA deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Kliundikova played for the Los Angeles Sparks from 2018 to 2019 before joining the WNBA ranks most recently' \u2014 this is contradictory and inaccurate. The brief data_point states 'Kliundikova played for the Los Angeles Sparks from 2018 to 2019' and separately that 'Kliundikova most recently suited up for the Minnesota Lynx last year.' The phrase 'before joining the WNBA ranks most recently' suggests she wasn't in the WNBA between 2019 and recently, but the brief shows she played for Minnesota. The sentence is confusing and misrepresents the timeline from the source material."
-    ]
-   },
-   {
-    "id": "c199",
-    "headline": "Giants suspend Bader's salary after scooter crash",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The incident worsened an existing left foot injury' but the brief's open_questions explicitly state 'The source does not clarify whether the scooter incident involved a pre-existing left foot injury or a new injury.' This is a factual assertion not supported by the brief's data_points.",
-     "The brief marks confidence as 'reported' (not verified), yet the draft presents the salary suspension as settled fact without qualification. The brief itself acknowledges 'details on the nature of the scooter crash, the extent of Bader's injury, the contract mechanisms enabling the salary suspension' are unavailable, but the draft omits this uncertainty.",
-     "The draft attributes the reporting to 'MLB.com' but provides no direct quote or specific detail that traces to actual source content. The brief notes the source is 'primarily CSS/font markup with no substantive article content,' meaning no verifiable facts exist beyond the bare claim that reporting occurred."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Tigers call up top prospect Max Clark for debut",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Clark is 'ranked No. 13 overall' and '21-year-old,' but the brief contains zero data_points with any facts\u2014the data_points array is empty. The brief's open_questions explicitly note 'The source text is corrupted (font-face CSS only); no article content is available.' The writer has smuggled the age and ranking into the draft without a source in the brief.",
-     "Draft claims the callup occurred 'in the final week before the trade deadline' as fact, but this detail does not appear in the brief's data_points or core_claim. The brief says open_questions include 'The specific date of the callup,' meaning this timing assertion is not verified in the research.",
-     "No facts in the draft trace to research; the brief provided zero usable data_points, and the draft presents multiple specifics (age, ranking, deadline timing) as if reported."
-    ]
-   },
-   {
-    "id": "c198",
-    "headline": "Caminero reaches 30 homers for second straight season",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims Caminero 'has hit his 30th home run' and marks it as achieving the milestone 'for the second consecutive season,' but the brief contains zero data_points\u2014the data_points array is empty. The brief's open_questions state 'The source text is corrupted (font-face CSS only); no article content is available.' No facts verify that Caminero actually reached 30 homers in 2026 or 2025.",
-     "Draft states this places him 'in select historical company' but the brief explicitly notes the source does not provide information on 'which other players occupy this historical company.' The draft has invented contextual color without research support.",
-     "The entire draft is built on facts that do not appear in the brief's data_points. The writer treated the core_claim (which itself is unverified due to corrupted source) as sufficient to generate a full narrative with analysis, violating the hard rule that facts go back to research."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Davis withdraws from Haney title bout over purse allocation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Top Rank, which secured the fight rights through purse bid, offered Davis $2.14 million' but the brief data_point says 'Top Rank, which represents Davis (15-0, 10 KOs), secured the rights to the Haney-Davis bout with an $8.55 million purse bid Thursday.' The brief does not state that Top Rank 'offered' Davis his purse; it states Top Rank secured the fight rights. The purse allocation came from the WBO's standard formula (75-25), not from Top Rank's offer. This conflates who negotiated the purse with who set the purse split.",
-     "The draft claims 'By declining the purse allocation, Davis (15-0, 10 KOs), a former WBO lightweight champion, forfeited his mandatory status' but the brief contains no data_point confirming Davis forfeited mandatory status. The brief's open_questions ask 'will he lose his mandatory challenger status or face sanctions?' indicating this outcome was not confirmed in the source. The draft presents an unconfirmed consequence as settled fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-01",
-  "approved": 2,
-  "rejected": [
-   {
     "id": "c006",
     "headline": "Brewers acquire catcher Bo Naylor from Guardians in four-player trade",
     "category": "accuracy",
@@ -8539,6 +8477,49 @@
      "The draft contains a factual inconsistency about Mahomes' injury date and timeline. It states 'Mahomes tore his ACL and LCL in his left knee in December and had surgically repaired' (past tense, implying December 2025) and later 'Mahomes is just shy of nine months removed from the injury.' If the injury was in December 2025 and today is September 8, 2026, that is approximately 9.25 months, which aligns with 'just shy of nine months.' However, the brief's core_claim says the injury was 'torn ACL and LCL in his left knee' without specifying December, and the angle says 'nine months of ACL recovery.' The draft conflates 'tore' (December) with 'had surgically repaired' without clarity on surgery date. A reader may be confused whether the injury or the surgery date anchors the nine-month clock.",
      "The draft states Mahomes 'was held out of the preseason but has not missed any of the Chiefs' practices since being cleared in late July to participate in all football activities.' The brief data point says 'has not missed any of the Chiefs' practices since the start of training camp, when he was cleared in late July.' The draft says 'since being cleared' which is ambiguous: it could mean 'since the moment he was cleared' (implying he missed practices before late July) or 'since training camp started and he was cleared in late July.' The brief's wording is clearer. The draft's phrasing introduces ambiguity not present in the source.",
      "The draft refers to Josh Simmons as 'the Chiefs' 2025 first-round pick' but provides no explanation of what year he was drafted in relative to today (Sept 8, 2026). A 2025 first-round pick in Sept 2026 is a rookie in his first season; this is accurate but could confuse readers unfamiliar with NFL draft years. The brief includes this data point; the draft reports it correctly, so this is not an accuracy error, but it borders on clarity."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-09",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c048",
+    "headline": "CFP opens 30-day window with ESPN on 24-team playoff expansion, decision by December 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 30-day window may begin as soon as Wednesday, September 10' but today is Wednesday, 2026-09-09. Wednesday September 10 is tomorrow, not 'as soon as' from today's perspective. This is imprecise and misleading timing language.",
+     "More critically: the draft reports the negotiating window as already triggered on 'Tuesday, September 8' at the opening, but then later hedges with 'may begin as soon as Wednesday.' The brief's open_questions explicitly note: 'The sources do not specify which day exactly the 30-day window began or will begin (the snippet says \"as soon as Wednesday\" but does not confirm start date).' The draft cannot report conflicting or unconfirmed timing as settled fact.",
+     "The phrase 'all bets are off' in the context 'If the rights return to the open market, \"all bets are off\" regarding media partner distribution' uses colloquial language that, while quoted, appears in a story about contract negotiation and could be misread in gambling context. The quote is attributed to Awful Announcing, but the phrasing remains close to betting language.",
+     "the draft dates September 10, 2026 as a Wednesday; September 10, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "Sabalenka Defeats Noskova 7\u20136 (1), 3\u20136, 7\u20136 (7) to Reach US Open Semifinals",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'Sabalenka finished with 46 winners to Sabalenka's 42 and 18 aces to Sabalenka's 12.' This is a transcription error in the draft itself and does not match the data_point. The data_point correctly states 'Noskova finished with 46 winners to Sabalenka's 42' and 'Noskova hit 18 aces to Sabalenka's 12.' The draft incorrectly attributes these stats to Sabalenka twice over. The opening body paragraph says 'Noskova, seeded sixth, finished with 46 winners to Sabalenka's 42 and 18 aces to Sabalenka's 12, per ESPN.' This is correct. However, the error does not appear in the final body text as published\u2014re-reading, the published draft correctly states 'Noskova, seeded sixth, finished with 46 winners to Sabalenka's 42 and 18 aces to Sabalenka's 12, per ESPN.' No error found on second read.",
+     "The draft references 'Sabalenka finished with 46% unreturned serves, including a statement second-serve ace to close out the tight tie-break set' from a data_point that says 'Sabalenka finished with 46% unreturned serves.' This is not in the data_points provided. The data_points do not include a metric of 'unreturned serves' or percentage thereof. The closest data_point is about specific aces (12 total) and the closing ace. This appears to be a statistic smuggled in from outside the brief.",
+     "The draft contains the claim 'Sabalenka changed her racket during the third set while trying to regain her touch.' This data_point is in the brief (data_point: 'Sabalenka changed her racket during the third set while trying to regain her touch'). However, the open_questions note: 'The exact nature of the racket change is not described\u2014why Sabalenka felt a change was necessary, or whether equipment issues contributed to her serve problems.' This is not a factual issue per se, but the claim is in the brief. This is acceptable."
+    ]
+   },
+   {
+    "id": "c361",
+    "headline": "Zheng Qinwen reaches US Open quarterfinals after elbow surgery and 14-month absence",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Zheng became the Olympic singles champion at Roland Garros, defeating Swiatek in the semifinal and Donna Vekic in the gold medal match with a straight-sets victory' but the brief data point says she 'claimed the Olympic singles title in 2024 by defeating Swiatek in the semifinal and Donna Vekic in the gold medal match' without specifying the location as Roland Garros or confirming straight sets. The 2024 Olympics were held in Paris but calling them 'Roland Garros' conflates the venue with the French Open tournament and is factually imprecise. More critically, the brief does not state the match was straight-sets, and adding that detail outside the brief is smuggled information."
+    ]
+   },
+   {
+    "id": "c218",
+    "headline": "Corbin Burnes activated from 60-day IL, throws 3 scoreless innings in first appearance since June 1, 2025",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Corbin Burnes was activated from the 60-day injured list on September 9' but today is September 9, 2026 (Wednesday). The brief data point says he was 'activated from the 60-day injured list on Tuesday,' and the timestamp is 2026-09-08T20:54:04Z. This means the activation occurred on Tuesday, September 8, not September 9. The draft reports a future or same-day event as definitively having happened on a specific date that conflicts with the brief's own sourcing timestamp."
     ]
    }
   ]
