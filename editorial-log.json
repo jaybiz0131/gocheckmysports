@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-02",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c163",
-    "headline": "Braves acquire outfielder Thomas and pitcher Falter from Royals",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The available source does not provide player statistics, contract details, or information on the prospects the Braves sent to Kansas City in return.' This is a meta-commentary about source limitations, not a factual claim about the trade itself. The brief's open_questions note confirms the source is truncated (CSS declarations only, no substantive data). The draft should either contain facts traced to the brief's data_points (there are none in this brief) or be rejected for insufficient sourced material. A draft that narrates its own evidentiary gaps rather than reporting facts is not compliant with the rule that facts come from research, not writer discovery. The entire body is a confession that reporting failed."
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "FIFA governance crisis deepens as major confederations turn against Infantino",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case identifies that UEFA is 'explicitly positioned as Infantino's fiercest critic,' suggesting pre-existing antagonism may drive removal calls rather than solely the private equity proposal, and that 'discontent may not be universal across all of FIFA's membership.' The draft does not surface this counterargument or acknowledge that UEFA's opposition may be historically rooted rather than purely reactive to this crisis. The framing reads as a wholesale collapse when the brief itself flags that consensus for removal is uncertain.",
-     "The draft states 'multiple confederations moved in near-unison' as evidence of crystallized broader concerns, but the brief's bear_case explicitly cautions that UEFA is 'far from the only unhappy federation'\u2014a qualifier that weakens the unanimity claim. This tension is not resolved in the prose, leaving the draft overconfident in the narrative of coordinated pressure."
-    ]
-   },
-   {
-    "id": "c090",
-    "headline": "NFL training camp injuries tracker: Latest updates on Ricky Pearsall, C.J. Gardner-Johnson and more",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly notes in open_questions: 'The fetched source text from CBS Sports is a navigation/structural fragment with no substantive injury content; details on Pearsall's PCL surgery, timeline, or Gardner-Johnson's specific injury and diagnosis are not present in the provided source material.' The draft presents Pearsall's 'season-ending PCL surgery' and Gardner-Johnson's injury as established facts, but these facts do not appear in the brief's data_points (which is empty). The writer has smuggled facts\u2014specific diagnoses and outcomes\u2014that are not present in the research provided.",
-     "The brief warns that 'No additional players or injuries beyond Pearsall and Gardner-Johnson are named in the fetched text,' yet the draft treats these as confirmed events without the source material to back them. A hard rule was violated: no fact exists outside the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
   "approved": 4,
   "rejected": [
    {
@@ -8443,6 +8411,54 @@
     "reasons": [
      "Draft states 'The injury concern is right high ankle eversion sprain' as fact in narrative voice, but brief data_point 4 marks this claim 'unconfirmed'. An unconfirmed diagnosis must be attributed or flagged as uncertain; presenting it as settled fact violates liability line on health/medical claims.",
      "Draft describes the injury mechanism and medical state definitively without acknowledging the unconfirmed status of the sprain type. The brief itself flags this as unconfirmed speculation, not official team diagnosis."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Seahawks beat Patriots 13-10 in Super Bowl LX rematch, 2026 season opener on September 10",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred on 'September 10' and uses past tense ('defeated', 'reopening') for an event dated today (Thursday, 2026-09-10). The approval instructions specify: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' Today IS September 10. The game either happened this morning (in which case the tense is correct but needs verification it has concluded) or is scheduled for later today/tonight (in which case it must be written as upcoming). The draft's title and opening paragraph treat it as a completed past event without temporal clarification.",
+     "The brief's data_points for the final interception carry conflicting information: one point says 'Josh Jobe intercepted Maye's pass in the endzone' but another says 'Julian Love picked off Patriots quarterback Maye.' The draft names only Josh Jobe, not Julian Love. This is an unresolved contradiction in the source material that the draft should not have written through without flagging the discrepancy.",
+     "The draft states 'marking only the second time all season he threw multiple interceptions\u2014the only other game was the Super Bowl.' This implies Maye has thrown multiple interceptions exactly twice this season (opener + Super Bowl). But the brief's confidence label is 'reported' not 'verified-on-chain,' and the phrasing 'marking only the second time all season' reads as a definitive statement when the brief labels it merely reported."
+    ]
+   },
+   {
+    "id": "c141",
+    "headline": "Dodgers call up prospect Josue De Paula for debut Friday, September 12, with Ohtani on injured list",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the debut will occur 'on Friday, September 12, in Miami' but today is Thursday, September 10, 2026. A scheduled event on September 12 (two days in the future) must be written as upcoming, not as a completed fact. The opening paragraph reads as though the promotion has already been decided and is imminent, which is correct, but sentences like 'The Los Angeles Dodgers called up 21-year-old prospect Josue De Paula from Double-A Tulsa to make his major league debut on Friday' use past tense 'called up' for a future event. This must be rewritten as 'The Los Angeles Dodgers have called up' or 'will call up' or 'announced they will call up.'",
+     "The draft reports: 'De Paula will see action at designated hitter and split time in the corner-outfield spots while Ohtani recovers.' The brief's corresponding data_point carries confidence label 'announced-not-verified,' meaning this assignment is not yet confirmed. The draft presents it as settled fact without hedging language.",
+     "The draft contains the sentence: 'Ohtani has been a four-time MVP and the league's top jersey seller who has prevented him from pitching in a game since early July, per Front Office Sports reporting.' This sentence is grammatically broken and semantically incoherent: 'the league's top jersey seller who has prevented him' is nonsensical. The brief's data_point says 'Ohtani has prevented Ohtani from pitching in a game since early July'\u2014which is itself apparently a transcription error in the brief (unclear if it means 'Ohtani's injuries have prevented him' or 'Ohtani has prevented himself'). The draft should not have written through this without clarifying the source's actual meaning.",
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday",
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c70",
+    "headline": "USA advances to FIBA Women's World Cup semifinals",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states in open_questions: 'The specific final score (108-56) stated in the headline does not appear in the fetched source text.' The core_claim in the brief cites a score (108-56) but flags it as unsourced in the actual fetched text.",
+     "The brief's angle notes: 'The provided source texts do not contain the specific match score or details about Hungary. The Yahoo snippet references Team USA advancing and all 12 players scoring, but the fetched source text only confirms advancement to semifinals.' This means the hard rule 'no fact exists outside the brief' is violated: the brief itself documents that the source does not carry the match details.",
+     "The draft contains only three sentences and makes three claims, all of which appear in the brief's data_points, but the brief is flagged as 'thin: true' because the sources do not support match details. The draft does not add information beyond the brief, but the brief itself is incomplete and unsourced on the central fact (the match and opponent).",
+     "The brief's open_questions reveal sourcing gaps that should have prevented publication of a story claiming USA advanced to semifinals without date, opponent details, or score verification."
+    ]
+   },
+   {
+    "id": "c260",
+    "headline": "Barry Melrose, Former NHL Coach and ESPN's Foundational Hockey Voice, Dies at 70",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Melrose's death as occurring on 'Wednesday' (September 10, 2026, the current date per the context). The brief's open_questions flag explicitly notes uncertainty about the exact date: 'the source states \"Wednesday\" but the first_seen timestamp is 2026-09-10; confirmation of whether that date is September 10, 2026 is not explicitly provided in the source text itself.' The draft presents this unconfirmed date as settled fact without hedging language. Per instructions: today is Thursday, 2026-09-10, so if Melrose died 'Wednesday' that would be September 9, 2026\u2014yesterday. The brief does not confirm this explicitly; the open_question signals the date remains unverified in the source. The draft should not state the death as having already occurred without confirmation of the actual date.",
+     "The ESPN statement in the draft (final data_point) is marked 'announced-not-verified' in the brief but presented in the draft as a direct quote without qualification or attribution phrasing that signals the unverified status. While quotes from organizations are permissible, the confidence label 'announced-not-verified' should influence how the claim is framed or contextualized in prose."
     ]
    }
   ]
