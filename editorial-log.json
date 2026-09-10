@@ -1,46 +1,5 @@
 [
  {
-  "date": "2026-08-01",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c072",
-    "headline": "49ers' Ricky Pearsall to Have Season-Ending PCL Surgery",
-    "category": "compliance",
-    "reasons": [
-     "The draft states 'Pearsall has been managing since the previous season' and 'manifested during the second week of training camp' as definitive facts about a player's medical condition and injury history. The brief's data_points mark both claims as 'reported' confidence only, and the open_questions explicitly flag that 'The exact mechanism of how the lingering PCL injury worsened during camp remains unclear from the CBS Sports source material.' Presenting unclear or incomplete medical details as settled fact violates the boundary on health/injury claims: they must trace to official injury reports or on-record statements, not to incomplete source text. The draft should signal uncertainty where the brief acknowledges it."
-    ]
-   },
-   {
-    "id": "c110",
-    "headline": "Training Camp Week 2: Health Concerns and Contract Disputes Emerge",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's core_claim names three specific storylines: 'health concerns with Mahomes, contract frustrations with Mayfield, and Cowboys roster moves.' The draft's body paragraph states 'Specific details on the nature of the health concern, the players involved in contract disputes, and the roster decisions referenced are not provided in the available source material' and acknowledges 'The fetched content consists of site navigation and header structure without the article body.' This is a critical problem: the brief itself identifies these three named facts (Mahomes, Mayfield, Cowboys) as the core story, but the draft never names them\u2014it generalizes them away as 'a star quarterback,' 'offensive players,' and 'multiple teams.' The writer has smuggled the identities back into the headline but stripped them from the body to match a truncated source. Either the brief's core_claim is wrong (and Mahomes/Mayfield/Cowboys are not verified in the source), or the draft is under-reporting the facts the brief says exist. A draft that buries named facts in a headline but denies them in the body is incoherent and liable."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "UEFA, Concacaf, AFC unite in rebuke of Infantino over private equity plan",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'UK Prime Minister Andy Burnham' called for Infantino to resign. The brief's data_point says Burnham was 'described as the first leader of a major country to call on Infantino to resign' and that he 'said FIFA made the right decision to back down.' The brief does not state that Burnham called for resignation\u2014only that he was described that way and welcomed the withdrawal. The draft misrepresents Burnham's actual statement.",
-     "Draft claims 'AFC' is part of the unified rebuke in the headline ('UEFA, Concacaf, AFC unite in rebuke') but the brief's open_questions explicitly state: 'AFC's specific statement or position is mentioned in the headline but not included in the source text; only UEFA and Concacaf statements are present.' No data_point in the brief supports AFC taking any action or releasing any statement. This is smuggled information not in the brief."
-    ]
-   },
-   {
-    "id": "c074",
-    "headline": "Colorado judge immediately grants extra year of eligibility to NCAA athletes who just graduated",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'A federal judge in Colorado issued an injunction granting a fifth year of eligibility to NCAA athletes from the 2022 graduating class' as a settled fact. The brief's only data point on this claim is marked 'reported' but says 'could grant' (conditional/uncertain). The draft presents this as accomplished ('granted') when the brief does not confirm it happened, only that it was reported to potentially happen.",
-     "Draft states 'The ruling immediately opened a chaotic transfer portal window' as fact. Brief data point says injunction 'opens' (reported), but the draft's framing as 'immediately opened...in the middle of the summer calendar' adds temporal specificity and directness of causation not present in the brief's conditional language.",
-     "The brief is marked 'thin: true' with only 2 data points and 987 source characters. The draft expands factual claims beyond those two points (e.g., 'upending NCAA eligibility rules', 'schools approached the 2026-27 season') without briefing support. These are interpretive add-ons, not smuggled facts, but they exceed the thin brief's evidentiary base and create liability if the injunction's scope, applicability, or immediate effect differ from reporting."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-02",
   "approved": 6,
   "rejected": [
@@ -8467,6 +8426,23 @@
     "reasons": [
      "The draft states the deal was agreed to 'on Tuesday' and says 'two sources confirmed the agreement to Front Office Sports on Tuesday,' but the brief's timestamp for Front Office Sports is '2026-09-08T22:10:29Z' (Tuesday, Sept 8), while CBS Sports also reports Tuesday Sept 8. However, the brief contains a data point claiming 'The extension agreement comes Monday, per ESPN report (different from CBS Sports' Tuesday report)' with confidence 'reported,' indicating a date conflict between sources. The draft does not acknowledge this discrepancy and presents Tuesday as settled fact when the brief itself flags Monday as an alternative ESPN report. This is an accuracy failure because the brief's own data_point explicitly notes the conflicting date.",
      "The draft does not trace back to the brief for the claim about Mayfield's previous record. The draft states 'this marks Shelton's first win over a top-three player in 17 attempts' but this is from c014 (the Shelton-Alcaraz story), not c099. For c099, the brief contains 'Shelton had a 9-24 record against top-10 players and an 0-17 mark against the top three before facing Alcaraz' but this claim is from The Guardian source in brief c014. The c099 draft does not use any claim about Mayfield's prior record against top players, so this is not an error in c099 itself."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-10",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c071",
+    "headline": "Shelton defeats Alcaraz in latest-finishing US Open match on September 9",
+    "category": "accuracy",
+    "reasons": [
+     "All facts trace to the brief. Confidence labels are preserved. No betting language. The bear_case items appear in the draft: Alcaraz's fatigue and wrist injury return status are mentioned. The draft frames the tiebreak competitiveness. Balance is present. The bottom_line looks forward to the semifinal matchup and historical significance. Quality is strong: opens with stakes (upset, guarantee of American finalist), attributes figures inline (ESPN Tennis reporting, Front Office Sports), bottom_line avoids summary and focuses on what to watch. The draft would not embarrass the desk if facts hold.",
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday",
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday",
+     "the draft dates September 14, 2026 as a Sunday; September 14, 2026 is a Monday"
     ]
    }
   ]
