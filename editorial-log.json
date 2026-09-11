@@ -4,47 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c148",
-    "headline": "Dodgers acquire two-time Cy Young winner Skubal from Tigers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Skubal is a 'two-time Cy Young Award winner,' but this fact does not appear in the research brief's data_points. The brief explicitly notes the source text is incomplete (contains only CSS font declarations) and substantive details cannot be extracted. The writer has introduced a biographical claim about Skubal's award history that is not verified in the provided source material.",
-     "The draft states the trade was 'completed on August 2, one day before the Monday 6pm ET deadline' but the brief contains no data_point confirming Monday is the deadline date or that August 2 was one day before it. This temporal framing is not sourced to the brief."
-    ]
-   },
-   {
-    "id": "c094",
-    "headline": "FIFA council members move to force emergency meeting, signaling potential challenge to Infantino",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Council members are demanding a review of the Balogun decision, though the specific nature of that decision and its full context cannot be detailed from available reporting.' This framing acknowledges the source is incomplete, but the writer has still presented the Balogun decision as a known fact that council members are reacting to. The brief flags that the source text is incomplete (HTML and CSS markup only) and that 'key details about the rebellion, the Balogun decision, specific council member complaints' cannot be confirmed from the fetched source. A fact presented as context for the EGM push, even with a hedge about detail, when the source itself is unverified and incomplete, crosses the line from summarizing uncertainty into introducing unconfirmed information.",
-     "The draft references 'the failure of a private equity plan' as established fact, but the brief's open_questions explicitly ask 'What is the private equity plan that failed, and how does it connect to the EGM push?' indicating this plan and its failure are not confirmed in the fetched source material. The writer has stated it as given rather than as something reported but unverified."
-    ]
-   },
-   {
-    "id": "c073",
-    "headline": "Sparks trade All-Star guard Plum to Mercury for picks and prospect",
-    "category": "accuracy",
-    "reasons": [
-     "Bottom line references 'groin injury' but the draft and brief consistently report a 'lower left leg injury' from June 21. This is a factual contradiction that introduces a new injury claim not in the brief."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Three-time Pro Bowl guard Andrus Peat retires after 11 NFL seasons",
-    "category": "accuracy",
-    "reasons": [
-     "Bottom line states 'Peat exits professional baseball' but the entire draft and brief are about NFL football, not baseball. This is a factual error that contradicts the core substance of the story.",
-     "The brief's angle explicitly mentions 'two Super Bowl championships' as part of Peat's career accomplishment, but this claim does not appear anywhere in the draft body and is not traced to the source. Either the draft must include this reported detail or it constitutes missing information from the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c152",
     "headline": "Dodgers acquire Skubal from Tigers",
     "category": "accuracy",
@@ -8459,6 +8418,49 @@
     "reasons": [
      "The draft reports Melrose's death as occurring on 'Wednesday' (September 10, 2026, the current date per the context). The brief's open_questions flag explicitly notes uncertainty about the exact date: 'the source states \"Wednesday\" but the first_seen timestamp is 2026-09-10; confirmation of whether that date is September 10, 2026 is not explicitly provided in the source text itself.' The draft presents this unconfirmed date as settled fact without hedging language. Per instructions: today is Thursday, 2026-09-10, so if Melrose died 'Wednesday' that would be September 9, 2026\u2014yesterday. The brief does not confirm this explicitly; the open_question signals the date remains unverified in the source. The draft should not state the death as having already occurred without confirmation of the actual date.",
      "The ESPN statement in the draft (final data_point) is marked 'announced-not-verified' in the brief but presented in the draft as a direct quote without qualification or attribution phrasing that signals the unverified status. While quotes from organizations are permissible, the confidence label 'announced-not-verified' should influence how the claim is framed or contextualized in prose."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c81",
+    "headline": "Ben Shelton stuns Carlos Alcaraz in 4-hour, 28-minute US Open marathon ending at 3:33 a.m., September 11",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the match ended 'September 11' and the opening sentence says 'Wednesday, September 11, 2026.' Today is Friday, September 11, 2026. The brief confirms the match ended 'at 3:33 a.m. ET Wednesday' and the timestamp on data points is '2026-09-09' (which is when the match occurred, finishing in the early morning of what would be reported as Wednesday). The issue: the draft says the match 'ended at 3:33 a.m. ET on Wednesday, September 11' but if today is Friday, September 11, then Wednesday would have been September 9. The match ended early morning September 10 (after Tuesday night play on September 9). The draft appears to have the date wrong. The brief data says timestamp '2026-09-09' for the match itself, meaning it occurred during the Tuesday-to-Wednesday night window. If today is Friday September 11, the match ended early Wednesday morning September 10, not 'Wednesday, September 11.' This is an accuracy error on the date.",
+     "The draft states 'Shelton's upset broke Alcaraz's 18-match Grand Slam winning streak' but the brief says 'Alcaraz had an 18-match winning streak in Grand Slam tournaments ended'\u2014same fact, clearly traced. However, the draft also says 'Shelton entered the match with an 0-17 record against the top three players'\u2014this is in the brief as verified. The draft says 'Alcaraz had won all three prior head-to-head meetings against Shelton'\u2014brief confirms '3-0 record against Shelton.' All major facts check out except the date issue.",
+     "the draft dates September 11, 2026 as a Wednesday; September 11, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c147",
+    "headline": "Dodgers call up prospect De Paula for debut Friday, September 13",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 13, 2026 as a Friday; September 13, 2026 is a Sunday",
+     "the draft dates September 13, 2026 as a Friday; September 13, 2026 is a Sunday",
+     "the draft dates September 13, 2026 as a Friday; September 13, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c160",
+    "headline": "Barry Melrose, NHL player, coach and ESPN analyst, dies at 70",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Melrose's death as a past event ('has died') but the research brief indicates the core claim is marked 'announced-not-verified' with a timestamp of 2026-09-10T01:05:48Z. Today is 2026-09-11 (Friday). The brief's open_questions explicitly state 'The sources do not specify the exact date of death beyond \"Wednesday\"', meaning the death is reported but not independently verified by the desk. The draft presents this unconfirmed report as settled fact without qualifying language."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Ex-NFL RB LeShon Johnson sentenced to 5 years in federal prison for dogfighting",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the sentencing occurred 'Thursday, September 11, 2026' but today is Friday, September 11, 2026. Thursday was September 10, 2026. This is an internal date contradiction\u2014the draft reports a future or same-day event as already having occurred with an incorrect day-of-week label. The brief's data point confirms sentencing was Thursday (2026-09-10) with timestamp 2026-09-10T22:05:28Z, but the draft incorrectly labels it 'Thursday, September 11, 2026' when September 11 is Friday.",
+     "the draft dates September 11, 2026 as a Thursday; September 11, 2026 is a Friday"
     ]
    }
   ]
