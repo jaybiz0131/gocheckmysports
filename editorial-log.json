@@ -4,65 +4,6 @@
   "approved": 2,
   "rejected": [
    {
-    "id": "c004",
-    "headline": "Rays Acquire Two-Time All-Star RHP Peralta From Mets for Trio of Prospects",
-    "category": "accuracy",
-    "reasons": [
-     "The opening paragraph attributes the trade announcement to 'sources who told ESPN's Jeff Passan on Sunday,' but the brief marks this as 'unconfirmed' confidence level. The draft should signal this sourcing uncertainty (e.g., 'according to sources' or 'sources told ESPN' rather than treating it as reported fact). The phrasing 'according to sources who told ESPN's Jeff Passan on Sunday' reads as if the deal is confirmed when the brief itself flags it as unconfirmed.",
-     "The brief's open_questions note that 'final league approval and logistics remain pending before Monday's deadline,' but the draft never acknowledges this pending/unconfirmed status in the body. A reader could infer the trade is done when it is sourced and awaiting approval."
-    ]
-   },
-   {
-    "id": "c082",
-    "headline": "White Sox Acquire Righty Castillo From Mariners in Four-Player Trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft admits in the second paragraph that 'the specific details of the four-player exchange, including the names of the prospects or players the Mariners received in return, the contract terms for Castillo, and the remaining roster implications for both teams, could not be verified from the available source materials.' This is a confession that the core deliverables of the story\u2014the names of all four players and contract details\u2014do not exist in the brief. The brief itself is marked 'thin: true' and contains only one data_point (that the trade happened). The draft should not run; the brief contains insufficient verified information to support publication."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "British PM Burnham calls for Infantino to step down as FIFA leader",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'British Prime Minister Andy Burnham' but the brief and source material do not clarify Burnham's actual role. Andy Burnham is the Mayor of Manchester, not Prime Minister. This is a factual error that does not trace to the brief and constitutes a serious accuracy failure.",
-     "The draft's claim about UEFA weighing in ('European soccer's governing body UEFA also weighed in on the controversy') is labeled 'unconfirmed' in the brief due to source truncation, but the draft presents it as settled fact without the confidence caveat required by the hard rule."
-    ]
-   },
-   {
-    "id": "c093",
-    "headline": "FIFA council members push for emergency meeting that could challenge Infantino",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims council members are 'demanding a review of the Balogun decision,' but the brief's data point reads 'Council members are demanding a review of the Balogun decision' with no further context provided in the source material. The draft presents this as fact when the brief itself flags the source as truncated and details are unavailable. The writer cannot establish what 'the Balogun decision' refers to from the provided source material.",
-     "The draft states this is 'the first time FIFA's own institutional machinery has been mobilized to potentially remove the organization's leader' as a definitive assertion, but the brief does not contain a data point confirming this is unprecedented or the first such attempt. This claim is smuggled beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c191",
-    "headline": "Kyler Murray delivers strongest training camp performance as Vikings evaluate QB competition",
-    "category": "accuracy",
-    "reasons": [
-     "Claim 'Hoskins was born during the 1950 Auckland Games' in body paragraph 3 is not present in the brief's data_points. The brief notes in open_questions that the source text is 'navigation and CSS markup rather than article content' with no verifiable details. This fact is smuggled outside the brief.",
-     "The draft asserts specific quotes from Hoskins ('It is incredible. I'm still pinching myself' and 'I never thought I'd win at my age. Never give up') as facts in paragraph 4, but the brief flags that 'no specific details about Murray's throws, McCarthy's errors, or the Vikings' reaction are present in the provided source text.' The draft is treating unverified source material as confirmed reporting."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "Louise Hoskins, 76, becomes oldest Commonwealth Games gold medallist in history",
-    "category": "accuracy",
-    "reasons": [
-     "Claim 'Hoskins was born during the 1950 Auckland Games' in paragraph 3 appears in the brief's data_points as reported, but the brief's open_questions explicitly state: 'The fetched source text is predominantly HTML markup and CSS; no additional narrative details...are present in the provided source.' This signals the source was not actually verified, yet the draft presents it as settled fact from Guardian Sport.",
-     "The draft attributes direct quotes to Hoskins in paragraph 4 ('It is incredible. I'm still pinching myself' and 'I never thought I'd win at my age. Never give up'), which appear in the brief's data_points. However, the brief's open_questions note that 'no additional narrative details...are present in the provided source text,' indicating these quotes could not be verified from the actual fetched content. Presenting unverified quotes as confirmed reporting is a breach of the accuracy rule."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
-  "approved": 2,
-  "rejected": [
-   {
     "id": "c129",
     "headline": "Skubal traded to Dodgers, scheduled to debut Tuesday vs. Cubs",
     "category": "accuracy",
@@ -8455,6 +8396,31 @@
      "Event dated September 10 correctly reported as past event (today is September 11).",
      "Human_take slot empty; not_financial_advice disclaimer present.",
      "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c209",
+    "headline": "U.S. attorney's office opens criminal investigation into Clippers, Ballmer, and Kawhi Leonard over salary-cap circumvention",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The U.S. attorney's office in the Eastern District of New York has opened a criminal investigation' but the brief's core_claim and data_point only say 'The U.S. Department of Justice has opened a criminal investigation' and 'The investigation is being conducted by the U.S. attorney's office in Brooklyn.' The brief does not specify 'Eastern District of New York' by that name in the opening claim data, though it is mentioned in one data_point. More critically, the draft later says 'The Brooklyn-based office' which contradicts the earlier specific naming and creates ambiguity about whether these are the same office. The initial attribution should match the brief's lead data_point exactly.",
+     "The draft reports 'the inquiry targets alleged salary-cap circumvention through third-party endorsement deals' but the brief data_points say prosecutors are 'examining whether Ballmer and other team executives facilitated endorsement agreements' - the draft's framing as 'targets alleged salary-cap circumvention through third-party endorsement deals' goes beyond what the brief's data supports; the brief says the matter is under examination, not that a target has been confirmed. This is subtle but material: 'targets alleged' reads as a conclusion rather than an ongoing investigation.",
+     "The draft references Chauncey Billups as 'Hall of Fame NBA guard' but the brief data_point only says 'Hall of Fame NBA guard Chauncey Billups has been charged in a case involving illegal gambling.' The 'Hall of Fame' designation, while factually accurate, is not in the brief and constitutes a smuggled fact; the writer added context not provided by research."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "Seattle Storm center Ezi Magbegor tears ACL at World Cup, out for 2026 WNBA season",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim as 'announced-not-verified' (confidence label), meaning the ACL diagnosis has been announced by a team or official source but not independently verified by medical professionals or a second source. The draft presents this as settled fact in the opening line ('Ezi Magbegor's season is over. The 27-year-old Seattle Storm center... will miss the remainder of both the World Cup and the 2026 WNBA season') without any qualifier that indicates this is an announced diagnosis rather than a confirmed medical finding. The confidence label 'announced-not-verified' must be reflected in the prose\u2014either by saying 'according to [source], Magbegor will miss' (already done) or by noting explicitly that the diagnosis is pending confirmation. The current opening reads as definitive when the brief's own confidence label requires hedging.",
+     "The draft states the injury 'occurred with six minutes remaining in the first quarter of Wednesday's 82-80 win against Italy.' However, today is Friday, 2026-09-11. 'Wednesday' would be 2026-09-09. The draft uses past tense for an event that occurred two days ago, which is correct. However, the draft should verify the day of the week or use a date. 'Wednesday' is acceptable if it aligns with the timestamp in the brief (2026-09-10T19:10:10Z suggests the brief was filed Thursday morning, reporting on a Wednesday game). This is technically correct but the dateline is ambiguous; if Wednesday was 09-09, the verb tense is correct. No error here upon closer reading."
     ]
    }
   ]
