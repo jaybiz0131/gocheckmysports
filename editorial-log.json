@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-08-02",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c138",
-    "headline": "Dodgers acquire Cy Young winner Skubal from Tigers",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly marks the core claim as 'announced-not-verified' confidence level, but the draft presents the acquisition as settled fact without any hedging language that conveys this uncertainty. The opening sentence 'The Los Angeles Dodgers have acquired pitcher Tarik Skubal from the Detroit Tigers, according to MLB.com' should read with language that signals the unverified status ('The Los Angeles Dodgers have announced the acquisition of...' or similar).",
-     "The draft claims Skubal 'is a Cy Young winner' as fact, but the brief provides no data point confirming this; it only appears in the core_claim as part of the headline. This is a new fact not traced to a data_point.",
-     "The draft states Skubal 'represents an ace-level addition' which is interpretive framing not present in the brief's data_points and goes beyond reporting the announced trade.",
-     "The entire second paragraph acknowledges what is NOT in sources but the first paragraph presents the acquisition as solid fact despite announced-not-verified status. This confidence mismatch violates the requirement that confidence labels must survive in prose."
-    ]
-   },
-   {
-    "id": "c031",
-    "headline": "Four NFL stars hold in over contracts as training camp enters final stretch",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Gibbs...holding in or holding out during the 2026 NFL training camp' and 'Four NFL stars hold in over contracts' in title. The brief consistently labels this a 'hold-in,' not 'holding in' or 'hold in.' This is a stylistic inconsistency with the source material, but more importantly, the opening sentence conflates 'holding in or holding out'\u2014two distinct concepts. The brief data_points specify all four are 'holding in' at their facilities; the draft's use of 'or holding out' introduces ambiguity about their status that the brief does not support.",
-     "Draft paragraph on Vita Vea states 'His absence is complicated by a legitimate back injury sustained during conditioning tests on Tuesday' but the brief data_point says the injury was 'sustained during the team's conditioning test Tuesday.' The shift from 'on Tuesday' to 'during conditioning tests on Tuesday' is minor, but the draft's phrasing is imprecise about timing relative to the narrative flow.",
-     "Draft states Bowles said the team is 'preparing for the season as if Vea will play.' The brief data_point says 'Coach Todd Bowles said they are preparing for the season as if Vea will play'\u2014this is accurate. However, the draft precedes this with 'His absence is complicated by a legitimate back injury,' which could be read as saying Vea is absent due to injury, when the brief's bear_case notes 'Vea's absence is partially explained by a legitimate back injury'\u2014meaning the trade request is the primary driver of the hold-in, and injury is secondary. The draft's structure misleads on causation."
-    ]
-   },
-   {
-    "id": "c094",
-    "headline": "FIFA council members attempt to force leadership challenge to Infantino",
-    "category": "balance",
-    "reasons": [
-     "Brief is marked 'thin: true' with only three data_points and an empty bear_case array. The draft acknowledges uncertainty extensively ('critical details remain unconfirmed,' 'not detailed in the available sourcing,' 'not named,' 'not specified'), which is appropriate caution. However, the draft then frames this as a substantive story about 'internal fracturing at FIFA' and 'mounting pressure on Infantino's authority' based on a single source (The Guardian) with no confirmation of how many council members are involved, who is leading the effort, or whether the petition meets any procedural threshold. The opening asserts the effort 'carries particular significance' and suggests it 'could develop into a leadership challenge'\u2014language that treats speculation as momentum. Given the thinness of the brief, a story this uncertain in outcome should either anchor harder to what is NOT known, or compress significantly. As written, it reads like rumor-laundering: The Guardian reported a council effort to call an EGM; the draft amplifies it into a 'rare formal challenge' and 'internal fracturing' without the reporting depth to sustain that frame. If the petition fails or is procedurally invalid, this draft would read as credulous."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "76-year-old Australian Louise Hoskins wins Commonwealth Games gold, breaks age record",
-    "category": "accuracy",
-    "reasons": [
-     "The claim 'She was born during the 1950 Auckland Commonwealth Games, meaning she has lived through 76 years of the Games' existence' is unsupported by the brief. The brief reports only that 'Hoskins was born during the 1950 Auckland Games'\u2014it does not validate the interpretive claim that this means she 'has lived through 76 years of the Games' existence.' This is a smuggled inference not present in the source material.",
-     "The entire paragraph beginning with 'The age ceiling for elite competition...' is unsourced speculation. It contains no claim from the brief and reads as the writer's own analysis, not reporting from The Guardian. This violates the hard rule that no fact exists outside the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
   "approved": 2,
   "rejected": [
    {
@@ -8453,6 +8409,52 @@
     "category": "accuracy",
     "reasons": [
      "the draft cites identifier '2012-2014', which appears nowhere in the brief or its sourced text"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c055",
+    "headline": "U.S. attorney's office opens criminal investigation into Clippers, Ballmer, Kawhi Leonard",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 11, 2026 as a Thursday; September 11, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c57",
+    "headline": "Patriots WR A.J. Brown suffers high ankle sprain, expected to miss four weeks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The Patriots will have their home opener on Sept. 20 against Aaron Rodgers and the Pittsburgh Steelers' but this contains a factual error not in the brief. The brief states: 'The Patriots will have their home opener on Sept. 20 against Aaron Rodgers and the Pittsburgh Steelers.' However, Aaron Rodgers does not play for Pittsburgh; he plays for the New York Jets. The brief itself has this error, but the writer has faithfully reproduced a false claim. More problematically, the draft also states the game 'is scheduled for September 20' in the bottom_line, which is correct as a future event from today (2026-09-11), but the body text uses past tense: 'The Patriots will have their home opener on Sept. 20 against Aaron Rodgers and the Pittsburgh Steelers' is future tense (correct), but the phrasing in context reads as scheduled event, not completed. The real problem: the brief contains a factual error (Rodgers/Steelers mismatch) that the writer reproduced. However, this contamination is in the source brief itself. The writer's job is to report what the brief says. But a claim this demonstrably false\u2014Aaron Rodgers on the Steelers\u2014signals the brief may have other unreliable information. This is a brief-sourced accuracy failure: the writer has no way to correct the brief's error and must report what it contains, but publishing false information that traces to a contaminated brief is still an accuracy problem for the desk."
+    ]
+   },
+   {
+    "id": "c185",
+    "headline": "Tagovailoa day-to-day with oblique strain; Week 1 status vs. Steelers uncertain",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2017-2019', which appears nowhere in the brief or its sourced text",
+     "the draft cites identifier '2020-2024', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "49ers rout Rams 27-7 in NFL's first Melbourne regular-season game, September 10",
+    "category": "accuracy",
+    "reasons": [
+     "All facts in the draft trace to verified data_points in the brief: the 27-7 score, 24-0 run, offensive yardage, Purdy's three TDs and comparison to Kaepernick, Evans' debut stats, Stafford's yardage/interception, Williams' TD, Rams' loss margin, travel timing and strategies, McVay's international record, recent head-to-head record.",
+     "Confidence labels preserved: reported claims remain attributed to sources; no unconfirmed claims presented as settled.",
+     "No betting or gambling language; disclaimer present.",
+     "Bear case included: McVay's 3-0 international record, Rams' recent 4-of-5 record vs SF, and 7-2 season-opener record all appear in draft to contextualize the upset.",
+     "Bottom line looks forward (Week 2 matchup, durability question) rather than summarizing.",
+     "Event dated September 10 correctly reported as past event (today is September 11).",
+     "Human_take slot empty; not_financial_advice disclaimer present.",
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
     ]
    }
   ]
