@@ -1,65 +1,5 @@
 [
  {
-  "date": "2026-08-02",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c129",
-    "headline": "Skubal traded to Dodgers, scheduled to debut Tuesday vs. Cubs",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states: 'The source_texts from both MLB.com and Yahoo Sports consist almost entirely of font declarations, CSS variables, and navigation boilerplate with no readable article content.' The core claim (Skubal traded to Dodgers, debut Tuesday vs. Cubs) and all factual details in the draft cannot be traced to actual source material\u2014they exist only as stated claims in the brief's open_questions, not as verified data_points. The draft presents unverified claims as settled fact.",
-     "The brief contains zero data_points and marks the brief as 'thin: true', indicating source material is degraded and unreadable. The draft should not have been written from this brief; every fact in it lacks evidentiary foundation."
-    ]
-   },
-   {
-    "id": "c147",
-    "headline": "Yankees acquire Garcia from Nationals; offensive surge meets roster complexity",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Jazz Chisholm Jr. 'started 78 games during the 2024 and 2025 seasons combined' at second base, but the corresponding brief data_point says he 'started 78 games at third base for the Yankees during the 2024 and 2025 seasons.' The draft changed the position from third base to second base, contradicting the sourced claim.",
-     "The draft presents the Paul Goldschmidt detail ('Ben Rice, an MVP candidate, and Paul Goldschmidt are splitting time between first base and designated hitter') as fact, but the brief's data_point qualifies this as uncertain: 'Ben Rice, an MVP candidate, is the only active player on the Yankees' roster with better outputs than Garcia in the key categories cited.' The Goldschmidt detail appears in the bear_case context of roster complications but is not confirmed as a data_point. The draft smuggles an unconfirmed roster fact into the narrative as settled reporting."
-    ]
-   },
-   {
-    "id": "c151",
-    "headline": "Blue Jays acquire Taillon from Cubs at deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The brief states: 'The fetched source text contains only CSS styling and font-face declarations with no actual content about the Taillon trade; the material facts (trade partners, date, prospect return, contract details, context) are not present in the provided source text.' The brief is marked 'thin: true' with zero data_points. The core claim (Taillon traded to Blue Jays) cannot be verified from the source material; it exists only as an unconfirmed headline in the brief. The draft should not have been written from a brief with no readable source material."
-    ]
-   },
-   {
-    "id": "c136",
-    "headline": "Rays acquire RHP Peralta from Mets in four-player trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the identities of the three prospects returned to the Mets are not detailed in the available sources,' but the brief itself confirms this is an open_question and the source text contains 'only CSS styling and font-face declarations with no actual narrative content.' The writer should not have proceeded to draft from a source that fetched no substantive content. The core trade fact ('four-player trade') is reported, but the entire draft is built on an unusable source.",
-     "The draft cites MLB.com as the source but acknowledges throughout that critical details are 'not detailed in the available sources' and 'remain unaddressed.' This signals the source was not adequately retrieved or parsed. A draft should not be filed when its own source material failed to load."
-    ]
-   },
-   {
-    "id": "c093",
-    "headline": "White Sox acquire pitcher Castillo from Mariners in four-player trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft acknowledges 'The four players involved in the transaction and their specific roles are not detailed in the available source material' and 'No information on contract terms, salary obligations, years of control, or the prospects returned to Seattle appears in the retrieved sources.' The brief confirms the same: the fetched MLB.com source 'contains only font and styling markup' with 'no substantive trade details.' A draft cannot proceed when its primary source failed to retrieve narrative content.",
-     "The core claim (Castillo trade) is reported-confidence in the brief, but the entire draft is an extended acknowledgment of source failure. Filing a draft that reads as 'here is what we don't know' rather than reporting what we do know is a misuse of the approval process."
-    ]
-   },
-   {
-    "id": "c101",
-    "headline": "European confederations plan withdrawal of Infantino re-election support",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Guardian reports that Infantino's reign is in severe peril after the privately backed scheme failed' but the brief's confidence label is 'reported', not verified. More critically, the draft presents this as established fact without attribution to The Guardian in that sentence; the phrase 'Infantino's reign is in severe peril' appears to editorialize beyond what the data_point claims ('Infantino's reign is in severe peril after the collapse of his privately backed scheme').",
-     "The draft claims 'The move follows the collapse of Infantino's private equity scheme designed to monetize portions of the World Cup' but the brief's data_point says 'a privately backed scheme to sell off chunks of the World Cup' \u2014 the draft's phrase 'monetize portions' is a paraphrase that subtly shifts the framing and should be attributed inline or pulled back to the brief's exact language.",
-     "The draft's opening paragraph states Infantino designed the scheme, but the brief only says it was 'his privately backed scheme' \u2014 the word 'designed' adds agency attribution not explicitly in the brief data_point."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-03",
   "approved": 3,
   "rejected": [
@@ -8421,6 +8361,37 @@
     "reasons": [
      "The brief marks the core claim as 'announced-not-verified' (confidence label), meaning the ACL diagnosis has been announced by a team or official source but not independently verified by medical professionals or a second source. The draft presents this as settled fact in the opening line ('Ezi Magbegor's season is over. The 27-year-old Seattle Storm center... will miss the remainder of both the World Cup and the 2026 WNBA season') without any qualifier that indicates this is an announced diagnosis rather than a confirmed medical finding. The confidence label 'announced-not-verified' must be reflected in the prose\u2014either by saying 'according to [source], Magbegor will miss' (already done) or by noting explicitly that the diagnosis is pending confirmation. The current opening reads as definitive when the brief's own confidence label requires hedging.",
      "The draft states the injury 'occurred with six minutes remaining in the first quarter of Wednesday's 82-80 win against Italy.' However, today is Friday, 2026-09-11. 'Wednesday' would be 2026-09-09. The draft uses past tense for an event that occurred two days ago, which is correct. However, the draft should verify the day of the week or use a date. 'Wednesday' is acceptable if it aligns with the timestamp in the brief (2026-09-10T19:10:10Z suggests the brief was filed Thursday morning, reporting on a Wednesday game). This is technically correct but the dateline is ambiguous; if Wednesday was 09-09, the verb tense is correct. No error here upon closer reading."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c100",
+    "headline": "After 12-year journey, OF Martin called up by Blue Jays; S\u00e1nchez designated for assignment",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2014-2021', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Pima County judge grants eligibility; Arizona RB Mahdi, LB Harris cleared for BYU",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Arizona RB Mahdi, LB Harris cleared for BYU' and states throughout that the players 'are expected to play' and 'are cleared to play against No. 15 BYU on Saturday.' The BYU game is scheduled for Saturday, September 13, 2026. Today is Friday, September 11, 2026. The temporary restraining order was granted Wednesday (September 9). The draft reports this as a completed event and settled fact ('are expected to play,' 'will travel,' present-tense 'are cleared'), but the game has not yet occurred. The story should be written prospectively about what is scheduled to happen, not as a fait accompli. The bottom_line compounds this by saying 'BYU enters Saturday as the ranked favorite' and 'Their return to the field depends on whether the TRO withstands any challenge,' which correctly treats Saturday as future, but the body prose contradicts this by using present and past tense as though the game is already set."
+    ]
+   },
+   {
+    "id": "c310",
+    "headline": "Senator Kennedy Calls SEC's LSU Expulsion Threat 'Bone Deep Down to the Marrow Stupid'",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Kennedy's remarks as occurring on 'Friday, September 11' and states 'Kennedy publicly attacked the SEC's threat to expel LSU from the conference on Friday, September 11.' Today's date is Friday, 2026-09-11. The brief's timestamp shows 2026-09-11T19:28:36Z, indicating the Yahoo article was published today. The draft presents these events as if they have already concluded (past tense: 'called,' 'said,' 'warned'), but if Kennedy's remarks are from today and being reported in real time, the framing should reflect that this is happening now or today, not a completed past event. The sentence 'Kennedy's Friday rebuke' reads as historical closure when the event is concurrent with publication.",
+     "The bottom_line states 'The SEC has not yet announced whether it will pursue any action against LSU beyond the expulsion threat' but this restates an open_question from the brief rather than deriving from a data_point. The brief's data_points confirm the SEC 'held its highly anticipated meeting Thursday without handing down any punishment,' but do not provide information about future SEC announcements or their timing. The bottom_line ventures beyond the brief's confirmed facts into speculation about what the SEC will or will not do."
     ]
    }
   ]
