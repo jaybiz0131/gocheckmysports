@@ -1,30 +1,30 @@
 {
- "generated_utc": "2026-09-11T00:25:16Z",
- "stale_after_utc": "2026-09-11T03:25:16Z",
+ "generated_utc": "2026-09-11T04:57:47Z",
+ "stale_after_utc": "2026-09-11T07:57:47Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "COL",
-     "home": "NYY",
-     "away_score": 1,
-     "home_score": 4,
-     "state": "in",
-     "detail": "Top 4",
-     "start_utc": "2026-09-10T23:05:00Z",
-     "eid": "823499"
-    },
-    {
      "away": "PIT",
      "home": "CWS",
-     "away_score": 0,
+     "away_score": 2,
      "home_score": 0,
-     "state": "in",
-     "detail": "Top 4",
+     "state": "post",
+     "detail": "Final",
      "start_utc": "2026-09-10T23:40:00Z",
      "eid": "824550"
+    },
+    {
+     "away": "COL",
+     "home": "NYY",
+     "away_score": 3,
+     "home_score": 10,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-10T23:05:00Z",
+     "eid": "823499"
     },
     {
      "away": "TEX",
@@ -59,19 +59,35 @@
    ]
   },
   {
-   "league": "CFB",
+   "league": "NFL",
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "FAMU",
-     "home": "MIA",
-     "away_score": 0,
-     "home_score": 14,
-     "state": "in",
-     "detail": "10:28 - 1st",
-     "start_utc": "2026-09-11T00:00Z",
-     "eid": "401858213"
+     "away": "SF",
+     "home": "LAR",
+     "away_score": 27,
+     "home_score": 7,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-11T00:35Z",
+     "eid": "401872657"
     },
+    {
+     "away": "NE",
+     "home": "SEA",
+     "away_score": 10,
+     "home_score": 13,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-10T00:20Z",
+     "eid": "401872656"
+    }
+   ]
+  },
+  {
+   "league": "CFB",
+   "source": "site.api.espn.com",
+   "games": [
     {
      "away": "VILL",
      "home": "LOU",
@@ -101,98 +117,16 @@
      "detail": "8:00 PM ET",
      "start_utc": "2026-09-12T00:00Z",
      "eid": "401856678"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "J. Pegula",
-     "home": "A. Sabalenka",
-     "away_score": 0,
-     "home_score": 2,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-10T23:15Z",
-     "eid": "182553"
     },
     {
-     "away": "A. Blinkova",
-     "home": "J. Riera",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "in",
-     "detail": "1st",
-     "start_utc": "2026-09-11T00:05Z",
-     "eid": "183643"
-    },
-    {
-     "away": "E. Rybakina",
-     "home": "C. Gauff",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "8:45 PM ET",
-     "start_utc": "2026-09-11T00:45Z",
-     "eid": "182551"
-    },
-    {
-     "away": "N. Noha Akugue",
-     "home": "A. Sobolieva",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "6:00 AM ET",
-     "start_utc": "2026-09-11T10:00Z",
-     "eid": "183602"
-    },
-    {
-     "away": "G. Maristany Zuleta De Reales",
-     "home": "C. Burel",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "7:00 AM ET",
-     "start_utc": "2026-09-11T11:00Z",
-     "eid": "183601"
-    },
-    {
-     "away": "M. Carle",
-     "home": "R. Dencheva",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "7:00 AM ET",
-     "start_utc": "2026-09-11T11:00Z",
-     "eid": "183556"
-    }
-   ]
-  },
-  {
-   "league": "NFL",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "SF",
-     "home": "LAR",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "8:35 PM ET",
-     "start_utc": "2026-09-11T00:35Z",
-     "eid": "401872657"
-    },
-    {
-     "away": "NE",
-     "home": "SEA",
-     "away_score": 10,
-     "home_score": 13,
+     "away": "FAMU",
+     "home": "MIA",
+     "away_score": 7,
+     "home_score": 77,
      "state": "post",
      "detail": "Final",
-     "start_utc": "2026-09-10T00:20Z",
-     "eid": "401872656"
+     "start_utc": "2026-09-11T00:00Z",
+     "eid": "401858213"
     }
    ]
   },
@@ -343,16 +277,72 @@
      "detail": "Final",
      "start_utc": "2026-09-10T00:00Z",
      "eid": "182772"
+    }
+   ]
+  },
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "N. Noha Akugue",
+     "home": "A. Sobolieva",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "6:00 AM ET",
+     "start_utc": "2026-09-11T10:00Z",
+     "eid": "183602"
     },
     {
-     "away": "A. Blockx",
-     "home": "K. Khachanov",
-     "away_score": 0,
-     "home_score": 3,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-09T21:05Z",
-     "eid": "182770"
+     "away": "G. Maristany Zuleta De Reales",
+     "home": "C. Burel",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 AM ET",
+     "start_utc": "2026-09-11T11:00Z",
+     "eid": "183601"
+    },
+    {
+     "away": "M. Carle",
+     "home": "R. Dencheva",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 AM ET",
+     "start_utc": "2026-09-11T11:00Z",
+     "eid": "183556"
+    },
+    {
+     "away": "E. Yaneva",
+     "home": "I. Burillo",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 AM ET",
+     "start_utc": "2026-09-11T11:00Z",
+     "eid": "183555"
+    },
+    {
+     "away": "L. Havlickova",
+     "home": "F. Ferro",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "8:30 AM ET",
+     "start_utc": "2026-09-11T12:30Z",
+     "eid": "183603"
+    },
+    {
+     "away": "A. Ibragimova",
+     "home": "A. Zantedeschi",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "8:30 AM ET",
+     "start_utc": "2026-09-11T12:30Z",
+     "eid": "183554"
     }
    ]
   }
@@ -467,14 +457,14 @@
    "league": "ATP",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 4,
-   "games_kept": 4
+   "games_seen": 3,
+   "games_kept": 3
   },
   {
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 36,
+   "games_seen": 31,
    "games_kept": 6
   }
  ]
