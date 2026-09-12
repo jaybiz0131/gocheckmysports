@@ -194,6 +194,7 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 # so the lanes that matter this week are visible before a reader scrolls. Revisit the order
 # when the seasons turn; the list is the only place it is expressed.
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
+       ("Worth Keeping", "/keepers.html"),
        ("NFL", "/sections/nfl.html"),
        ("College Football", "/sections/college-football.html"),
        ("MLB", "/sections/mlb.html"),
@@ -771,20 +772,17 @@ r.scrollLeft=Math.max(0,Math.min(want,r.scrollWidth-r.clientWidth));}})();</scri
 
 
 def newsletter():
-    return f"""<section class="news" aria-label="Newsletter signup"><div class="wrap">
-  <h2>Get the brief</h2>
-  <p>The day's real sports news, fact-checked against official league data, with the honest
-     take. No hot takes dressed as facts, no rumor mills. One email, on a cadence we can
-     actually keep.</p>
-  <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="company" action="/thanks.html">
-    <input type="hidden" name="form-name" value="newsletter">
-    <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
-    <button type="submit">Subscribe</button>
-  </form>
-  <p class="fine">Emails are stored by Netlify Forms and used only to send the newsletter.
-     Unsubscribe anytime. See our <a href="/privacy.html">privacy policy</a>. Never betting advice.</p>
-</div></section>"""
+    """NO EMAIL CAPTURE (family law, reaffirmed by directive v2 2026-09-12).
+
+    The desk collected addresses through Netlify Forms for a newsletter that was
+    never launched, which means it held personal data it had no use for and no
+    schedule to justify. The markup is gone rather than hidden: a form that is
+    display:none still posts if a crawler or a script reaches it.
+
+    Returns empty so every historical call site is a no-op. If a newsletter is
+    ever deliberately approved, rebuild this from the approval, not from here.
+    """
+    return ""
 
 
 def trust_block():
@@ -1679,7 +1677,7 @@ def render_news(items, dateline):
     # the promise strip and the newsletter read as the footer beats, never above the
     # journalism; the desk strip is secondary chrome; the news itself is the main landmark
     body = (desk_strip() + '<main class="news-main">' + lead_html + grid
-            + trust_block() + newsletter() + '</main>')
+            + trust_block() + '</main>')
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html")
 
 
@@ -1773,6 +1771,32 @@ def evergreen_block(items):
             f'news cycle moves on: contracts and lawsuits, broadcast and ownership changes, '
             f'and the rulings that decide seasons.</p>'
             f'<ul class="eg-list">{lis}</ul></section>')
+
+
+def render_keepers(items, dateline):
+    """"Stories worth keeping" as its own page (directive v2 item 6, 2026-09-12).
+
+    The module on the homepage was already the desk's best internal-link surface; making it
+    a destination gives the fact-desk lane somewhere to live in primary navigation, and
+    gives the priority sitemap a hub that is not a league.
+    """
+    picks = evergreen_picks(items, 40)
+    lis = "".join(
+        f'<li><a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title"))}</a>'
+        f'<span class="mut"> &middot; {esc(fmt_date((i.get("published_utc") or "")[:10]))}</span></li>'
+        for i in picks)
+    body = f"""<main class="wrap"><h1 class="sr-only">Stories worth keeping</h1><section class="sec">
+    <div class="sec-head"><h2>Stories worth keeping</h2><span class="bar"></span></div>
+    <p class="lede" style="margin:0 0 14px">The reporting that holds up after the news cycle
+       moves on: contracts and cap math, lawsuits and discipline, broadcast and ownership
+       changes, and the rulings that decide seasons. Ranked by how well a story is sourced,
+       how much of it is original, and whether the subject keeps being searched.</p>
+    {crosscut_row(items)}
+    <ul class="eg-list eg-page">{lis}</ul>
+  </section></main>"""
+    return shell("Stories worth keeping - " + NAME,
+                 "The sports reporting that holds up after the news cycle moves on.",
+                 "Worth Keeping", body, dateline, path="/keepers.html")
 
 
 def render_home(items, dateline):
@@ -1945,7 +1969,7 @@ def render_home(items, dateline):
      news verified against official league data and on-record sources, with the rumor and the
      hype stripped out. No hot takes dressed as facts, no paid promotion, and never betting
      advice. Everything here is free, and every source is linked.</p>
-</section></main>""" + newsletter()
+</section></main>"""
     return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 
 
@@ -3139,6 +3163,7 @@ def build():
     site_hubs = coverage_hubs(items)
 
     w("index.html", render_home(items, dateline))
+    w("keepers.html", render_keepers(items, dateline))
     w("news.html", render_news(items, dateline))
     w("archive.html", render_archive(items, dateline))
     for _slug, _title, _nav, _tags, _blurb in SECTIONS:

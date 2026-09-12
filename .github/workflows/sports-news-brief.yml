@@ -165,6 +165,7 @@ jobs:
           # them in step.
           import datetime, os, subprocess
           serve = "true"
+          slug = ""
           if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
               now = datetime.datetime.now(datetime.timezone.utc)
               cron_slug = {"40 9 * * *": "morning-brief", "55 10 * * *": "morning-brief",
@@ -219,7 +220,13 @@ jobs:
                         f"{day.isoformat()} (per {where}); standing down before any "
                         f"model call (retry ticks are free when the primary served "
                         f"the slot).")
-          open(os.environ["GITHUB_OUTPUT"], "a").write(f"serve={serve}\n")
+          # The resolved slot is published so later steps can act on WHICH slot this is,
+          # not just whether to run. The Edition uses it (directive v2 2026-09-12: one
+          # Edition a day), and it is written on every path so a log line always says
+          # which slot the run believed it was.
+          with open(os.environ["GITHUB_OUTPUT"], "a") as _o:
+              _o.write(f"serve={serve}\n")
+              _o.write(f"slot_slug={slug}\n")
           PYEOF
 
       - name: Run the daily brief (live; Stages 1-5 only, never publishes)
@@ -329,9 +336,17 @@ jobs:
       # per-slot synthesis over the desk's own published stories. Runs even when no new
       # story cleared the gates (the whole point: never a zero-content slot). Fail-open
       # for the brief: an edition failure warns loudly but never blocks story publishing.
-      - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
+      # ONE EDITION A DAY (directive v2, 2026-09-12). The desk still publishes stories on
+      # every slot; only the composed Edition drops from three a day to one. Evening is the
+      # survivor because it is the slot that actually lands on time: measured 09-05 to
+      # 09-07 the evening wrap was the only one inside 45 minutes of its slot, while
+      # morning ran 194 to 322 minutes late. A breaking run still regenerates the current
+      # edition, which is what the 2026-07-15 directive asked for.
+      - name: The Daily Edition (one per day, evening)
         id: wrap
-        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        if: >-
+          steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+          && (steps.guard.outputs.slot_slug == 'evening-brief' || inputs.breaking == true)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # a breaking run REGENERATES the current slot's edition so The Bottom Line
