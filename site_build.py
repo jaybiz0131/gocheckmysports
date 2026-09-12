@@ -1008,7 +1008,7 @@ def sig_block():
     <span class="sig-script">Chuck Wando</span>
     <span class="sig-cap">The GoCheckMySports Desk</span>
     <span class="sig-attest">Ranked, source-checked, and verified by the desk's
-      <a href="/method.html">independent review pass</a>.</span>
+      <a href="/method.html" rel="nofollow">independent review pass</a>.</span>
   </div>
   <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
     <svg viewBox="0 0 120 120" aria-hidden="true">
@@ -3245,7 +3245,21 @@ def build():
     redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))
-    w("_redirects", "/rss.xml  /feed.xml  301\n" + redirects + "/*  /404.html  404\n")
+    # ONE URL PER PAGE, ENFORCED AT THE EDGE (2026-09-12). The canonical, the sitemap and
+    # the internal links all name the extensionless form and have since 2026-08-17, but
+    # the .html file still answers 200, so both URLs are live and Google files every
+    # article's .html twin under "Alternate page with proper canonical tag". That status
+    # is Google consolidating correctly rather than an error, but it is 108 URLs of crawl
+    # budget spent re-confirming duplicates on a site whose real articles are not being
+    # crawled at all. A 301 removes the duplicate instead of explaining it.
+    #
+    # Scoped to the two directories that have twins. If Netlify does not honour a suffix
+    # splat the rules simply never match, which is why this is safe to try: the failure
+    # mode is the status quo. Placed BEFORE the catch-all 404 so it wins.
+    canonical_301 = ("/articles/*.html  /articles/:splat  301!\n"
+                     "/sections/*.html  /sections/:splat  301!\n")
+    w("_redirects", "/rss.xml  /feed.xml  301\n" + redirects + canonical_301
+                    + "/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03, chassis extension per the approved crypto
     # build): the composed front replaces the Latest tab at its own URL; back issues
     # under /edition/. Written LAST so the composed front wins the /news.html route.
