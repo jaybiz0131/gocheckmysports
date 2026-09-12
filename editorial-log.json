@@ -4,45 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c161",
-    "headline": "Yankees acquire Luis Garc\u00eda Jr. from Nationals",
-    "category": "accuracy",
-    "reasons": [
-     "The draft explicitly states 'primary source confirmation on the identities of the four pitchers involved, Garc\u00eda's age, position, statistics, contract status, and projected role in the Yankees lineup is not available from the verified brief' and 'The MLB.com report does not carry those essential details.' This is a refusal to report, not a story. The brief contains only one data point (the basic transaction), and the writer correctly identified the brief as thin, but then published an article that admits it cannot report the story. A published story that says 'I don't have the information to tell this story' violates the hard rule that facts must come from the brief and serve readers. Either hold the story until the brief fills, or reject the assignment. Publishing a meta-commentary on missing information is not journalism."
-    ]
-   },
-   {
-    "id": "c166",
-    "headline": "Blue Jays trade for starter Taillon from Cubs",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The Toronto Blue Jays acquired pitcher Jameson Taillon from the Chicago Cubs, per MLB.com' but the brief contains zero data_points. The core_claim exists but is marked as unverified; the draft presents it as confirmed fact without qualification. The brief's open_questions explicitly state the source material contains only CSS declarations with no readable transaction content\u2014the draft cannot cite a source that yielded no usable information."
-    ]
-   },
-   {
-    "id": "c163",
-    "headline": "Red Sox sweep Dodgers for first time since 2010",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The Boston Red Sox swept the Los Angeles Dodgers in a series for the first time since 2010, according to MLB.com' but the brief contains zero data_points and explicitly states in open_questions that the source material contains only CSS declarations with no readable content about the Red Sox-Dodgers series. The draft cannot cite a source that yielded no usable information; this fact is unsourced and the draft smuggles it as confirmed."
-    ]
-   },
-   {
-    "id": "c086",
-    "headline": "Sparks trade five-time All-Star Kelsey Plum to Phoenix Mercury",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Plum is 'averaging career highs of 23.9 points and 6.4 assists in 12 games' but the brief's data_point says 'Plum is averaging 23.9 points and 6.4 assists -- both career highs -- in 12 games.' The draft's phrasing implies these are simultaneous career highs within the same 12-game span, but the brief does not confirm 6.4 assists is a career high\u2014only that both 23.9 points AND 6.4 assists are career highs. The draft's attribution of 'career highs' to both stats in a single sentence requires explicit confirmation in the source.",
-     "The draft presents the unconfirmed data_point about Plum's free agency intentions ('A source told ESPN that Plum still intends on going through the full free agency process in the offseason, though remaining with the Mercury is not off the table') without signaling its unconfirmed status. The brief marks this claim 'unconfirmed' but the draft prose reads it as settled fact: 'A source told ESPN that Plum still intends on going through the full free agency process in the offseason, though remaining with the Mercury is not off the table, based on anonymous sourcing that is unconfirmed.' The parenthetical hedge at the end does not cure the problem\u2014the sentence structure presents the claim itself as fact first, then qualifies it retroactively, violating the rule that unconfirmed claims must read that way from the start."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c077",
     "headline": "Cubs acquire Gausman from Blue Jays in trade",
     "category": "accuracy",
@@ -8348,5 +8309,53 @@
   "date": "2026-09-12",
   "approved": 8,
   "rejected": []
+ },
+ {
+  "date": "2026-09-12",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c054",
+    "headline": "Shelton defeats Tiafoe 4-6, 6-3, 6-3, 7-5 to reach US Open final, first American man in 23 years",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the semifinal match as having occurred on Saturday, September 12, but today's date is Saturday, September 12, 2026. The match cannot have already happened on the day it is happening. The brief data_point confirms the timestamp as '2026-09-12T06:28:59Z', indicating the article was published on that date reporting a past event, but the draft's opening and overall framing treat this as a completed past event when the approval date IS that date. The draft should report this as scheduled or use conditional language appropriate to the timing. Additionally, the draft states 'Ben Shelton will play for a Grand Slam title Sunday' (future), but then immediately reports the semifinal as completed\u2014a temporal inconsistency that suggests the writer may have written this before the match occurred and then added past-tense details without reconciling the frame."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Rays clinch playoff berth with 3-1 win over Astros, first team in MLB to punch ticket in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Tampa Bay Rays clinched a playoff berth on Saturday, September 12' at the top, but the data_point in the brief says the game was on 'Friday night' (timestamp 2026-09-12T06:00:00Z indicates the *report* was published Sept 12, but the game itself occurred Friday, Sept 11). The title and opening paragraph both say 'Saturday, September 12' but the body later says 'Friday night's clincher.' This is an internal contradiction. The brief data_point explicitly states: 'The Rays defeated the Astros 3-1 at Tropicana Field on Friday night to clinch the playoff berth.' The draft's first sentence is inaccurate about the date of the event."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Parramatta winger Addo-Carr faces second alleged cocaine positive in two years",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Addo-Carr's denial ('maintained he had not knowingly ingested recreational drugs') as a past fact about the October 2024 incident, but then opens by stating he 'allegedly recorded a positive roadside drug test for cocaine for the second time' without qualification in the present tense for the Friday incident. The brief marks the current alleged positive as 'reported' (unverified pending forensic analysis), and the October 2024 denial is noted in bear_case as 'suggestion of a denial or claim of unknowing ingestion rather than admission.' The draft's first paragraph presents Friday's positive as fact ('allegedly recorded') in a way that blurs the distinction between preliminary indication and confirmed result, creating ambiguity about what has been established. More critically, the draft names Addo-Carr as the subject of an ongoing investigation for alleged drug use without a second source: only Guardian Sport is cited. Per the liability rule, a reputationally damaging claim about a named person (alleged cocaine use, the second such allegation) requires more than one source. A single secondary source is insufficient for this allegation."
+    ]
+   },
+   {
+    "id": "c082",
+    "headline": "Brewers clinch playoff berth with 20-0 shutout, record historic feat",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'the Brewers became the first team in MLB history to record multiple shutout wins of 20-plus runs in a single season' based on two games: August 18 (22-0 vs Mariners) and September 12 (20-0 vs Reds). The brief's open_questions section explicitly states: 'The source text is truncated and does not provide full details on the historic nature of multiple 20-plus run shutout wins; the provided text describes the August 18 game (22-0 vs Mariners) and references Friday's 20-0 win but does not explicitly state any prior 20-plus run shutout wins in MLB history to establish the \"first-ever multiple\" claim with complete sourcing.' The brief itself acknowledges the source is insufficient to verify the historic claim. The writer has made a factual assertion (first team ever to do X) that is not fully supported by the single source provided; this is SMUGGLED information\u2014the brief flags it as unverified, but the draft states it as established fact."
+    ]
+   },
+   {
+    "id": "c074",
+    "headline": "Raiders Extend Michael Mayer to 3-Year, $45M Deal, Making Him One of NFL's Highest-Paid Tight Ends",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'CBS Sports reports the deal is the biggest three-year contract for a tight end in NFL history' but earlier states '$15 million average annual value, the fourth-largest at tight end.' These two claims are contradictory: a deal cannot simultaneously be the biggest three-year contract in history AND the fourth-largest by average annual value. The brief data_point says 'biggest three-year deal for a tight end in NFL history' but also separately lists '$15 million average annual value, the fourth-largest at the tight end position' as distinct claims. The draft presents both without resolving the conflict, creating liability around which metric is being cited.",
+     "The draft cites sources from Yahoo Sports and CBS Sports URLs, but the Yahoo URL in the draft footer links to a generic breaking-news article while the CBS URL in the brief footer points to an unrelated Tucker Kraft story, not the Mayer extension. The draft attributes facts to 'CBS Sports reporting' throughout but the CBS source provided does not appear to be the actual Mayer story. This is a source attribution failure that blocks verification of the factual claims.",
+     "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday"
+    ]
+   }
+  ]
  }
 ]
