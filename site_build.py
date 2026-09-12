@@ -1702,6 +1702,79 @@ def home_schema():
             + json.dumps({"@context": "https://schema.org", "@graph": [org, site]},
                          ensure_ascii=False) + "</script>")
 
+# EVERGREEN PICKS (newsroom work order 2026-09-12). The homepage linked the newest
+# stories and the editions; nothing linked the desk's best work, so an article's only
+# inbound link was a related-stories slot on a page nobody crawls either. This is the
+# curated set: 25 articles linked directly from the front door with their own headlines as
+# anchor text.
+#
+# "Best" is scored from what the desk already records rather than invented, because this
+# desk has no quality score and making one up is how a ranking starts lying. Four signals,
+# all of them proxies for SEARCH SHELF-LIFE, which is the thing the work order actually
+# asks for:
+#   - sources: a story checked against four sources outlives one checked against one
+#   - depth: body length, which separates a real piece from a two-paragraph recap
+#   - lineage: a story other stories update is a running subject, not a result
+#   - subject: contracts, lawsuits, broadcast rights and governance keep being searched;
+#     a final score is searched on the night and never again
+# A pure recap is demoted hard, which is the whole point: those are the pages that decay.
+_EVERGREEN_SUBJECT = re.compile(
+    r"\b(contract|extension|trade|lawsuit|sue[sd]?|court|ruling|settle\w*|fine[sd]?|"
+    r"suspend\w*|ban\w*|broadcast\w*|media rights|streaming|tv deal|sold|sale|"
+    r"acquire\w*|ownership|stake|commissioner|governance|eligibility|policy|rule change|"
+    r"how to watch|schedule|expansion|realign\w*|salary cap|revenue)\b", re.I)
+
+
+def evergreen_picks(items, n=25):
+    live = [i for i in items
+            if not i.get("example") and not i.get("superseded_by") and not _is_wrap(i)]
+    scored = []
+    for it in live:
+        body = it.get("body") or []
+        words = sum(len(str(b).split()) for b in body)
+        srcs = len(it.get("sources") or [])
+        blob = " ".join([it.get("title") or "", it.get("dek") or "", it.get("key_fact") or ""])
+        tags = set(tags_for(it))
+        score = 0.0
+        score += min(srcs, 5) * 2.0                      # corroboration, capped
+        score += min(words / 250.0, 4.0)                 # depth, capped
+        if it.get("continued_by") or it.get("update_of"):
+            score += 3.0                                 # a running subject
+        if _EVERGREEN_SUBJECT.search(blob):
+            score += 4.0                                 # searched for months
+        if tags == {"scores-results"} or (
+                "scores-results" in tags and words < 200):
+            score -= 6.0                                 # a result, searched for a night
+        scored.append((score, it.get("published_utc") or "", it))
+    scored.sort(key=lambda t: (-t[0], t[1]), reverse=False)
+    # One per subject line, so the module does not spend six of its slots on one saga.
+    picked, seen = [], set()
+    for _sc, _when, it in scored:
+        key = frozenset(w for w in _subject_words(it.get("title") or "") if w)
+        if any(len(key & k) >= 2 for k in seen):
+            continue
+        seen.add(key)
+        picked.append(it)
+        if len(picked) >= n:
+            break
+    return picked
+
+
+def evergreen_block(items):
+    picks = evergreen_picks(items)
+    if len(picks) < 6:
+        return ""
+    lis = "".join(
+        f'<li><a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title"))}</a></li>'
+        for i in picks)
+    return (f'<section class="evergreen"><div class="sec-head"><h2>Stories worth keeping</h2>'
+            f'<span class="bar"></span></div>'
+            f'<p class="lede" style="margin:0 0 12px">The reporting that holds up after the '
+            f'news cycle moves on: contracts and lawsuits, broadcast and ownership changes, '
+            f'and the rulings that decide seasons.</p>'
+            f'<ul class="eg-list">{lis}</ul></section>')
+
+
 def render_home(items, dateline):
     """The GoCheckMySports front door, built for the RETURNING reader: today's headlines,
     the editions, and the storylines the desk is tracking. The brand pitch lives below the
@@ -1866,6 +1939,7 @@ def render_home(items, dateline):
   {crosscut_row(items)}
   {editions_html}
   {track_html}
+  {evergreen_block(items)}
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
      right and keep the facts honest. The score is a fact; the story gets checked. Real sports
      news verified against official league data and on-record sources, with the rumor and the
@@ -3165,8 +3239,18 @@ def build():
 
     n_superseded = sum(1 for i in arts_sorted if i.get("superseded_by"))
     eligible = [i for i in arts_sorted if not i.get("superseded_by")]
-    prio_arts = eligible[:PRIORITY_N]
-    tail = eligible[PRIORITY_N:]
+    # THE PRIORITY TIER IS THE BEST WORK, NOT THE NEWEST (work order 2026-09-12). It was
+    # the N most recent stories, which means every new article entered the crawled-whole
+    # tier and pushed a better one out, and a desk publishing several a day churned the
+    # set faster than Google could read it. Search Console shows the result: 295 articles
+    # queued and uncrawled while the priority file kept changing underneath the crawler.
+    #
+    # It is now the same evergreen ranking the homepage links, so the two agree: a story
+    # in the priority sitemap is a story the front door also points at. Recency still has
+    # a home in news-sitemap.xml, which is the file built for it.
+    _ev = {i.get("slug") for i in evergreen_picks(eligible, PRIORITY_N)}
+    prio_arts = [i for i in eligible if i.get("slug") in _ev]
+    tail = [i for i in eligible if i.get("slug") not in _ev]
     archive_arts = [i for i in tail if _age_days(i) <= 60]
     n_aged_out = len(tail) - len(archive_arts)
 
