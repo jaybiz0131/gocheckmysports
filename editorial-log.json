@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c077",
-    "headline": "Cubs acquire Gausman from Blue Jays in trade",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The source text provided is corrupted font CSS and does not contain readable reporting about the trade' with no data_points available to verify any facts. The draft claims 'The Chicago Cubs have acquired right-hander Kevin Gausman from the Toronto Blue Jays' and cites an MLB.com source, but the brief contains zero verified data_points to support this claim. The writer has smuggled a fact (the trade itself) that does not appear in the research brief.",
-     "The draft acknowledges unverified details but presents the core trade as 'confirmed,' contradicting the brief's open_questions which state the acquisition, timing, and details 'cannot be verified from the fetched source.' The tone misrepresents the confidence level of available evidence."
-    ]
-   },
-   {
-    "id": "c161",
-    "headline": "Skubal set for Dodgers debut",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The source text provided is corrupted font CSS and does not contain readable reporting about Skubal's assignment or start date' with zero data_points provided. The draft claims 'Tarik Skubal, a Cy Young Award winner, is making his first start for the Los Angeles Dodgers against the Chicago Cubs' and presents this as confirmed fact, but the brief contains no verified data_points to support any element of this story.",
-     "The draft cites an MLB.com source that the brief identifies as unreadable/corrupted. The writer has published claims about a specific matchup, opponent, and event status that exist nowhere in the research brief's verified information."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Marc Skinner departs Manchester United Women by mutual consent",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'their lowest ever league finish' for the fifth-place finish in the 2024 season, but the brief data point says 'their lowest ever' referring to that fifth-place finish. The draft then later states 'fourth-place league finish' for the most recent season. This creates internal contradiction and fails to clearly distinguish between two different seasons' league finishes.",
-     "Draft claims Skinner 'retained his position after Manchester United won the FA Cup in 2024 while finishing fifth in the league that same season,' implying the fifth-place and FA Cup win occurred in the same season. The brief data points separate these events: the FA Cup win is associated with 'the year of the FA Cup win' (2024) and the fifth-place finish is described as 'that season,' but the brief does not explicitly confirm these occurred in the same calendar/competition year. The temporal relationship is ambiguous in the brief and the draft presents it as settled fact."
-    ]
-   },
-   {
-    "id": "c123",
-    "headline": "Thorbjornsen captures first PGA Tour title in final Rocket Classic",
-    "category": "accuracy",
-    "reasons": [
-     "Draft references 'Xander Schauffele' as 'ranked among the tour's most consistent performers' but this characterization does not appear in the brief's data points. The brief only reports his finishes (third top-five, sixth top-10 this season); the qualitative assertion about his ranking or consistency status is smuggled in without source backing.",
-     "Draft states Riley 'recorded three bogeys through six holes' but the brief data point says 'Riley fell out of the lead with four bogeys in the final round.' The draft's phrasing of 'three bogeys through six holes' is a specific claim (three in the first six) that does not appear in the brief and may contradict the 'four bogeys total' claim if taken literally."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
   "approved": 3,
   "rejected": [
    {
@@ -8354,6 +8312,31 @@
      "The draft claims 'CBS Sports reports the deal is the biggest three-year contract for a tight end in NFL history' but earlier states '$15 million average annual value, the fourth-largest at tight end.' These two claims are contradictory: a deal cannot simultaneously be the biggest three-year contract in history AND the fourth-largest by average annual value. The brief data_point says 'biggest three-year deal for a tight end in NFL history' but also separately lists '$15 million average annual value, the fourth-largest at the tight end position' as distinct claims. The draft presents both without resolving the conflict, creating liability around which metric is being cited.",
      "The draft cites sources from Yahoo Sports and CBS Sports URLs, but the Yahoo URL in the draft footer links to a generic breaking-news article while the CBS URL in the brief footer points to an unrelated Tucker Kraft story, not the Mayer extension. The draft attributes facts to 'CBS Sports reporting' throughout but the CBS source provided does not appear to be the actual Mayer story. This is a source attribution failure that blocks verification of the factual claims.",
      "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-12",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c069",
+    "headline": "Ben Shelton reaches first US Open final; faces Zverev on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states final is on 'September 15' but today is Saturday, September 12, 2026. September 15 is a Monday, three days away. The brief core_claim says 'Sunday' and the brief data_point confirms 'Shelton will play No. 1 seed Alexander Zverev on Sunday for the US Open title.' The title and opening paragraph both incorrectly date the final as September 15 when it should be Sunday (September 14, 2026) based on the brief.",
+     "Draft claims 'Shelton would also become the first Black American man to win the US Open since Arthur Ashe in 1968' but the brief data_point states 'Shelton is the first Black American man to reach a US Open final since Arthur Ashe in 1972' (note: 1972, not 1968; and 'reach' not 'win'). The draft conflates reaching the final with winning it, and misquotes the year. A second data_point clarifies Shelton is 'the first Black American man to reach any major final since MaliVai Washington at Wimbledon in 1996,' which the draft does not include.",
+     "Draft states Shelton 'would also become the first Black man of any nationality to win a Grand Slam singles title since Yannick Noah at Roland Garros in 1983' but the brief data_point says 'Shelton would be the first Black man to win any grand slam singles title since Yannick Noah at Roland Garros in 1983, and the third overall.' The phrase 'and the third overall' is in the brief and missing from the draft, but more critically, the brief distinguishes between him being 'the first Black American man to reach' vs. a hypothetical future win. The draft mixes achievement (reach) with contingency (would win)."
+    ]
+   },
+   {
+    "id": "c363",
+    "headline": "Rybakina ends Gauff's US Open run; faces Sabalenka on September 14",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the final 'will be held on September 14' but today is Saturday, September 12, 2026. The brief data_point says 'The final will be held on Saturday (September 12, 2026).' September 14 is Monday; September 12 is today (Saturday). The draft has incorrectly dated the final as two days in the future when it should be today or has already occurred. Given today's date is September 12 and the brief confirms the final is Saturday September 12, the draft's 'September 14' is factually wrong.",
+     "The draft headline says the final 'faces Sabalenka on September 14' which conflicts with the core brief statement that this is a Saturday match and the data_point explicitly stating '(September 12, 2026).'"
     ]
    }
   ]
