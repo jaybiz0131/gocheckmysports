@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c019",
-    "headline": "UEFA raises possibility of legal action against Infantino, sends document preservation letter",
-    "category": "accuracy",
-    "reasons": [
-     "The claim 'UEFA's 55 member nations had agreed on Thursday to boycott the World Cup and all other FIFA competitions' appears in the draft but is not present in any data_point in the brief. The brief does not contain this boycott claim, so it has been smuggled into the draft without research support.",
-     "The opening sentences present 'sources cited by ESPN' and 'according to sources cited by ESPN' but the confidence labels in the brief mark the first two data_points as 'unconfirmed'. The draft prose does not adequately signal uncertainty; it reads as reported fact rather than possibility. The phrase 'according to sources' is too weak a hedge for claims marked 'unconfirmed' in the brief."
-    ]
-   },
-   {
-    "id": "c084",
-    "headline": "Kevin Gausman traded to Cubs from Blue Jays",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points despite claiming the trade was confirmed. The open_questions field explicitly states 'The source text provided is incomplete (contains only font and style markup with no actual article content).' The writer has drafted a story from a source that contains no usable factual content, violating the hard rule that facts must trace to the brief's data_points.",
-     "The brief is marked 'thin': true, but with empty data_points, there is no factual foundation for any claims beyond the bare core_claim. The draft repeats only the core claim and offers no depth or context despite being structured as a full story."
-    ]
-   },
-   {
-    "id": "c166",
-    "headline": "Skubal set for first Dodgers start Tuesday at Wrigley",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Skubal is a 'Cy Young-winning pitcher' but the brief's open_questions explicitly note: 'No confirmation of Skubal's Cy Young award year or season statistics.' This is a factual claim presented as settled when the brief marks it unconfirmed.",
-     "The draft provides specific details ('Tuesday at Wrigley Field') that do not appear in the brief's data_points. The brief's open_questions state: 'The source text provided is incomplete (contains only font and style markup with no actual article content). No game date, location details, or context about the trade are available from the fetched page.' The writer has smuggled information not in the brief.",
-     "The draft does not disclose that the source fetch failed or was incomplete. The brief is explicitly thin with no data_points, yet the draft reads as a full story with specific scheduling details."
-    ]
-   },
-   {
-    "id": "c044",
-    "headline": "Pogacar confirmed for Vuelta a Espana, targeting rare Grand Tour triple",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Pogacar is a five-time Tour de France winner' but the brief's data_point states only 'Pogacar is a five-time Tour winner' without specifying Tour de France. The brief data is sourced from a corrupted/partial Guardian fetch (noted in open_questions), creating uncertainty about the exact claim. The draft adds specificity ('Tour de France') not present in the verified brief data.",
-     "The draft states 'Jonas Vingegaard has completed the feat of winning all three Grand Tours' but the brief's corresponding data_point says only 'Jonas Vingegaard completed a grand slam of all three Grand Tours.' The draft's phrasing ('has completed') implies a single season treble to match Pogacar's attempt, but the brief does not specify whether Vingegaard achieved this in one season or across multiple seasons. This is a material distinction for the story's framing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
   "approved": 5,
   "rejected": [
    {
@@ -8337,6 +8294,52 @@
     "reasons": [
      "Draft states the final 'will be held on September 14' but today is Saturday, September 12, 2026. The brief data_point says 'The final will be held on Saturday (September 12, 2026).' September 14 is Monday; September 12 is today (Saturday). The draft has incorrectly dated the final as two days in the future when it should be today or has already occurred. Given today's date is September 12 and the brief confirms the final is Saturday September 12, the draft's 'September 14' is factually wrong.",
      "The draft headline says the final 'faces Sabalenka on September 14' which conflicts with the core brief statement that this is a Saturday match and the data_point explicitly stating '(September 12, 2026).'"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Rybakina Wins US Open, Clinches No. 1, Takes $5.5M Record Prize",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c321",
+    "headline": "Falcons QB Rush to start Week 1 against Steelers despite Saturday back spasms",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states Tagovailoa was 'named the starter Friday' (data_point 5), but the draft says 'Tua Tagovailoa, named the starter Friday' in the second paragraph while also stating in the first paragraph that Rush is 'the third-choice quarterback after two injury disruptions left the Falcons without their planned starter and top backup.' This creates a factual inconsistency: if Tagovailoa was named the starter Friday and only ruled out after Thursday practice, the draft's framing of Rush as replacing 'their planned starter' is not fully supported by the sequence. The draft also omits data_point 6 entirely, which says 'The Falcons named Tagovailoa as the starter last Monday' \u2014 a different day than Friday. This is a material factual discrepancy between brief and draft that undermines accuracy.",
+     "The draft claims 'Penix is healthy but not yet where he feels he needs to be, though close' but the brief data_point 22 says 'James Palmer reported that Penix is healthy, but not where he feels like he needs to be right now, but he is close.' The draft paraphrases this as CBS Sports reporting, but the brief attributes it specifically to James Palmer via CBS Sports. The writer should have preserved the Palmer attribution or made clear it was a specific reporter's assessment, not a blanket statement from CBS Sports, to avoid misattribution.",
+     "The draft states the Falcons 'appear to face a compounded uncertainty at the position heading into the season' and describes it as future-facing, but today is Sunday 2026-09-13 and the game is described as having already occurred ('will take the field Sunday' reads prospectively but the lead says 'Atlanta will start Week 1' in past-tense narrative frame). The game was described as happening 'Sunday' and the data from the brief is timestamped 2026-09-12T20:34:35Z, meaning this is reporting on a game scheduled for after the brief was finalized. The use of future tense ('will start') mixed with past tense narrative ('Cooper Rush, signed by Atlanta on July 29, will take the field Sunday') creates temporal ambiguity about whether this is a pre-game or post-game story. Given today is Sunday 2026-09-13, the story should clarify whether it is reporting a completed or upcoming event."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Texas stuns No. 1 Ohio State 24-23 in Austin on September 12, erasing 20-3 halftime deficit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'No. 4 Texas defeated No. 1 Ohio State 24-23 on September 12 in Austin' but today is Sunday 2026-09-13. The event is dated to yesterday (September 12), which is factually correct for a past event. However, the draft narrative uses future tense throughout ('will weigh,' 'will shape'), which is inconsistent with reporting a completed game. More critically, the draft mixes pre-game analysis and post-game result reporting without clear separation. The brief's core_claim states the game happened 'on Saturday' (which would be 2026-09-13 if today is Sunday, or 2026-09-12 if this is early Sunday morning), but the data_point timestamps show 2026-09-13T03:57:36Z \u2014 meaning the brief was finalized after the game. The draft's temporal framing is confused about whether it is pre- or post-game.",
+     "The draft contains multiple factual claims not found in the brief's data_points: 'Arch Manning is 9-0 as a starter at Memorial Stadium and has 40 career touchdowns at home, tied for most by an FBS player since 2024' \u2014 this appears in the brief (data_point 24-25), but the draft then states 'In last year's game, he threw for 170 yards, one touchdown and one interception' (data_point 32). However, the draft also says 'Per CBS Sports, Manning threw for 305 yards with four TDs and one pick against Texas State in Week 1 of the 2026 season' (data_point 31) but attributes this to his Week 1 2026 performance, not last year's Ohio State game. The draft conflates these two separate games' statistics.",
+     "The draft names Colin Simmons as having '12 sacks in 2025' and describes him as anchoring the defense, but then later states 'Texas's defense was anchored by Colin Simmons, who led the team with 12 sacks in 2025, per CBS Sports' \u2014 implying he is still on the team in 2026. However, the brief does not confirm Simmons is on the current roster; it only states his 2025 statistics. This is speculation beyond the brief.",
+     "The draft references technical difficulties and Sarkisian's postgame interaction with Holly Rowe in detail, including quotes and description of the exchange, but the brief's bear_case explicitly states 'Technical difficulties may have been responsible for the halftime interview issue, per Laura Rutledge's later explanation.' The draft presents this as a narrative event without adequately flagging the disputed nature or the bear_case explanation. The draft should either omit this or clearly attribute the alternative explanation to Rutledge."
+    ]
+   },
+   {
+    "id": "c173",
+    "headline": "Rays clinch playoff berth, September 12: First 2026 team to secure postseason spot",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tampa's first postseason appearance since 2023' in the body, but the brief's data_point confirms the Rays' last postseason appearance WAS in 2023. This is accurate. However, the draft then says 'The Rays won AL pennants in 2008 and 2020 but have never won a World Series'\u2014this phrasing is technically correct but the brief does not confirm whether the Rays won pennants or merely reached the World Series in those years; the brief says they 'won AL pennants in 2008 and 2020' so this traces correctly.",
+     "The bottom_line references 'whether Caminero can replicate Randy Arozarena's 2020 postseason performance.' The brief's bear_case explicitly flags that 'the article does not confirm Arozarena remains on the roster or is available for 2026 playoffs.' The draft invokes Arozarena as a comparative model without confirming he is on the 2026 roster. This is a reputational/accuracy risk: using a player as a performance benchmark when his current roster status is unconfirmed smuggles an unconfirmed fact into the narrative.",
+     "The draft states 'The clinching win secures Tampa at minimum a third wild card spot and keeps the team in contention for the AL East title.' The brief data_point says 'The Rays clinched only a postseason spot and are assured of being no worse than the third wild card team.' The phrasing 'third wild card spot' is accurate, but the draft does not clarify that this is the MINIMUM clinching (i.e., they could still win the division). The phrase 'keeps the team in contention' is supported by the brief's data_point 'Tampa will attempt to hold off the New York Yankees and win their first AL East title since 2021.' However, this last claim says 'first AL East title since 2021,' but the open_questions note the brief does not provide the Rays' win-loss record. The brief itself contains this contradiction. The draft correctly reports the clinching event but the underlying brief has an inconsistency about whether the Rays last won the AL East in 2021 (the data_point claims) or never recently (the open_questions imply uncertainty). This is a brief-level problem, not a draft error, so the draft is not culpable here."
     ]
    }
   ]
