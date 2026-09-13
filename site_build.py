@@ -2381,7 +2381,7 @@ LIVING_TABLES = [
         "title": "Media rights, by property",
         "h1": "Sports media rights, every deal this desk has reported",
         "dek": "Who carries what, what changed, and the filing or announcement behind "
-               "each row. Updated when a new deal posts.",
+               "each row.",
         "desc": "A living table of sports media rights deals: property, what changed, "
                 "when it was reported, and the source behind every row.",
         "col": "Property",
