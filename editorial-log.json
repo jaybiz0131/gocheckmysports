@@ -1,45 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c024",
-    "headline": "Red Sox acquire All-Star catcher Rutschman from Orioles on trade deadline day",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'The Orioles replaced both of their starting safeties from 2025 and drafted Dillon Thieneman with the 25th pick as part of secondary replacements' appears in the draft body but this claim is not in the research brief. The brief's data_points contain no information about the Orioles replacing safeties or drafting Thieneman; these claims appear only in the context of the Bears (draft c026). This is either a smuggled fact or a cross-draft contamination error.",
-     "The phrase 'His on-base average at the All-Star break was the second-best rate of his career, behind only his 5.5 WAR season in 2023' conflates two different claims from the brief. The brief states Rutschman's 'expected on-base average at the All-Star break was the second-best rate of his career, behind only his 5.5-WAR season in 2023,' but the draft removes the 'expected' qualifier, presenting a projection as a fact already achieved. The All-Star break had not occurred yet at time of reporting (August 3), making this phrasing inaccurate."
-    ]
-   },
-   {
-    "id": "c122",
-    "headline": "MLS board elects LAFC co-owner Larry Berg as next commissioner",
-    "category": "balance",
-    "reasons": [
-     "The brief is marked 'thin': true with only 5 data_points and no bear_case items. The open_questions list includes 6 critical unknowns (Berg's prior experience, start date, voting margin, vision statement, selection rationale, Garber's position). The draft is extremely thin at 3 sentences with no substantive reporting beyond the core fact. However, the more acute problem is framing: the draft presents Berg's appointment as a settled 'significant shift' in a 30-year-old organization without any counter-evidence, context on Garber's tenure, or reporting on whether this is controversial, celebrated, or merely procedural. The brief's angle explicitly flags the tension ('whether MLS will prioritize financial engineering or on-field growth'), which the draft completely ignores. A draft this thin on a thin brief is acceptable; a draft this thin that ignores its own angle is not."
-    ]
-   },
-   {
-    "id": "c060",
-    "headline": "Alexandra Eala wins DC Open for first WTA title, becomes first Filipino champion",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains a fabricated quote from Pegula: 'To see how far you've come over the last couple of years since we first played, to see the amazing fans that follow you every place you go, it's not fun to play against, but I think it's amazing.' This quote appears in the brief's data_points but is NOT used in the draft body. However, the draft DOES use Eala's quote without quotation marks: 'In her post-match remarks, Eala said, I feel so much love...' This is presented as a direct quote (signaled by 'said,') but lacks proper quotation marks, which is a compliance issue with punctuation/formatting. More critically: the brief lists a Pegula quote in data_points that never appears in the draft at all, suggesting the writer selected which quotes to include. The Eala quote in the draft matches the brief's data_point but lacks closing quotation marks\u2014the sentence reads 'Eala said, I feel so much love. I knew...' without closing quotes around the entire statement, which is a structural error that makes attribution ambiguous."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Phillies acquire three-time batting champion Arraez; Harper shifts to right field",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'To secure Arraez and Kilian, the Phillies traded top pitching prospect Ramon Marquez and reliever Marty Gair to the Giants, per ESPN reporting.' However, the brief's data_point describes these as 'two minor leaguers,' and specifies Marquez as a 'top pitching prospect' and Gair as a 'reliever'\u2014not a 'reliever' without qualifier. The draft calls Marquez a 'prospect,' which is accurate, but the phrasing 'top pitching prospect Ramon Marquez' vs. the brief's clearer 'top pitching prospect Ramon Marquez' is not the issue. The real problem: the brief describes these as minor leaguers sent to the Giants, but the draft does not clarify their minor league status in the first reference. This is a minor framing issue, not a factual error\u2014all facts trace back. However, a more serious issue: the draft includes the claim 'Arraez signed a $12 million, one-year contract with the Giants this season' but the brief data_point says 'Arraez had signed a $12 million, one-year contract this season with the Giants.' The draft's phrasing is accurate but the context of when/how he arrived with the Giants is implied rather than explicit, which is acceptable. The real problem lies in the age claim: the draft does not state Arraez's age at all, whereas the brief implies he's established (five teams in five years). No liability issue here. Re-reading more carefully: the draft states Arraez 'is joining his fifth team in five years' but the brief data_point says 'Arraez is joining his fifth team in five years.' All traces. The draft also includes 'Arraez has made it clear that he does not want to move from second base, according to ESPN, which may constrain the Phillies' flexibility.' This is in the brief. However, the draft also states 'He has experience at first base, having played there for the San Diego Padres in 2024 and 2025.' The brief data_point says 'Arraez has experience at first base, having played there for the San Diego Padres in 2024 and 2025.' This traces. But wait\u2014if Arraez is playing for SF Giants in 2026 (the current season per the reporting date), and played for SD Padres in 2024 and 2025, the timeline is: Twins (5 years) \u2192 Marlins (Jan 2023) \u2192 Padres (May 2024) \u2192 Giants (2026). That's four teams before Phillies, making Phillies the fifth. The brief confirms this in separate data_points about the trades. All facts check out. However, one claim is suspicious: the draft says Arraez 'has led the National League in hits the past two seasons, per ESPN.' The brief says 'Arraez has made it clear that he does not want to move from second base.' These are different claims. Looking at brief data_points: 'Arraez...has led the National League in hits the past two seasons, per ESPN.' This IS in the brief. Fact traces. No accuracy error detected after full review\u2014all numbered facts and claims in the draft appear in the brief's data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
   "approved": 3,
   "rejected": [
    {
@@ -8413,6 +8374,40 @@
      "The draft correctly uses future tense ('remains unresolved', 'will resolve') for a Sunday Sept 14 event being written on Sept 13.",
      "The draft acknowledges the conflict between 'unlikely to play' reporting and Schefter's internal dissent, balancing the narrative.",
      "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c016",
+    "headline": "Rybakina Wins First US Open Title, Captures No. 1 Ranking Over Sabalenka",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open women's final as occurring on 'Saturday, September 14' but today is Sunday, September 13, 2026. A scheduled future event (September 14) cannot be reported as already happened ('defeated', 'securing', 'ended'). The brief's core_claim and data_points are all marked with timestamp '2026-09-12' and confidence 'verified-on-chain' or 'reported', indicating the sources are reporting a future event, not a completed one. The draft's entire narrative\u2014written in past tense throughout\u2014treats the final as completed when it has not yet occurred.",
+     "The draft treats an 'announced-not-verified' claim ('Rybakina will officially become No. 1 in the world on Monday') as though it is settled fact by writing 'claiming the world No. 1 ranking' and 'capturing her second major title of 2026' as accomplished facts. Confidence labels must survive in the prose: a claim marked 'announced-not-verified' in the brief cannot be narrated as definitely true in the draft.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c318",
+    "headline": "Mayer Gets 3-Year, $45M Extension; Will Start Week 1 for Injured Bowers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the contract extension as signed 'on Saturday, September 12,' which has already occurred (today is Sunday, September 13). This is appropriate and consistent with the brief's data_points timestamp of '2026-09-12T17:42:12Z'. However, the opening claim states that Mayer 'signed a three-year, $45 million contract extension... on Saturday, September 12, positioning him as the team's starting tight end in Week 1 against the Miami Dolphins.' The brief's core_claim and first data_point mark the extension as 'announced-not-verified,' not verified-on-chain. The draft treats an announced-not-verified claim as settled fact by writing it in the simple past tense without qualification. Confidence labels must survive: the prose should reflect that the announcement has been made but not independently verified.",
+     "The draft claims 'Brock Bowers, the Raiders' primary tight end, underwent a meniscus trim on Tuesday and is expected to miss a game or two to start the season, per ESPN.' The brief states Bowers 'underwent a meniscus trim on Tuesday' but does not specify which Tuesday relative to the publication date (September 12). The data_point timestamp is September 12, so 'Tuesday' would refer to September 9 (three days prior), which is reasonable, but the draft does not make this temporal relationship clear and the brief's data_point does not specify the date of the procedure in absolute terms, only relative to an unstated baseline."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "No. 4 Texas defeats No. 1 Ohio State 24-23 in historic fourth-quarter comeback (September 13, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having happened on Saturday night ('No. 4 Texas defeated No. 1 Ohio State 24-23 on Saturday night'), but today is Sunday, September 13, 2026, making Saturday September 12. The brief timestamp is '2026-09-13', and the Guardian URL in the brief is dated 2026/sep/13, which is today. The game must have occurred on Saturday (Sept. 12), so the past-tense reporting is correct. However, the brief's open_questions section notes critical details are missing: 'The sources do not specify Ohio State's scoring breakdown or confirm the exact sequence of how Ohio State scored its 23 points' and 'The sources do not provide detail on Texas's defensive performance or Ohio State's offensive struggles in the fourth quarter that enabled the comeback.' The draft does not flag or acknowledge these gaps; it presents a complete narrative. More critically, the brief data_point says 'Texas was losing 23-3 in the third quarter before the rally began,' but the draft states 'Texas trailed 23-3 entering the fourth quarter before the rally began.' This is the same score but different timing language (third quarter vs. entering the fourth quarter). The brief says 'in the third quarter,' which means after three quarters; the draft says 'entering the fourth quarter,' which also means after three quarters. This is not a material discrepancy.",
+     "The draft states Manning's performance 'won't light up a Heisman Trophy ballot' as a direct claim. The brief bear_case says Manning's stat line 'won't light up a Heisman Trophy ballot,' according to The Guardian. The draft should attribute this to The Guardian explicitly, not present it as the desk's voice. The draft does include attribution: 'According to The Guardian, the performance \"won't light up a Heisman Trophy ballot.\"' This is correct."
     ]
    }
   ]
