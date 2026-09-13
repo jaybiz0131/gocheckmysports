@@ -194,7 +194,8 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 # so the lanes that matter this week are visible before a reader scrolls. Revisit the order
 # when the seasons turn; the list is the only place it is expressed.
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
-       ("Worth Keeping", "/keepers.html"),
+       ("The Record", "/keepers.html"),
+       ("Where to watch", "/where-to-watch.html"),
        ("NFL", "/sections/nfl.html"),
        ("College Football", "/sections/college-football.html"),
        ("MLB", "/sections/mlb.html"),
@@ -736,9 +737,14 @@ def masthead(active, dateline, brand="site"):
     # the footer in the same change: /archive was orphaned once already (owner audit
     # 2026-08-29) by being linked from exactly one place, so it never leaves here without
     # arriving somewhere else first.
+    # WHERE TO WATCH LEAVES THE RAIL WITH ITS PAGE. where_to_watch withdraws the page
+    # when its feed has been unreachable for six days, and a nav entry pointing at a
+    # page that was withdrawn is a 404 in the most prominent place on the site.
+    _hidden = set() if W2W_LIVE else {"Where to watch"}
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
-        for label, href in NAV if label not in NAV_UTILITY and label not in NAV_CROSSCUT)
+        for label, href in NAV
+        if label not in NAV_UTILITY and label not in NAV_CROSSCUT and label not in _hidden)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
@@ -999,8 +1005,8 @@ def sig_block():
     says "automated newsroom" and the attestation no longer points at a pipeline walkthrough.
     Signature reads Chuck Wando, the desk's byline.
 
-    Anything added here must describe the story, not the machinery. The AI disclosure lives
-    once on /standards.html, which is what keeps a named byline honest."""
+    Anything added here must describe the story, not the machinery. What keeps a named
+    byline honest is the standards page and the sources linked on the story itself."""
     return """<div class="sigrow">
   <div class="sig">
     <span class="sig-script">Chuck Wando</span>
@@ -1097,8 +1103,9 @@ def render_article(item, all_items=None, hubs=None):
     if brows:
         lis = ""
         for label, value in brows:
+            _is_url = str(value).strip().lower().startswith(("http://", "https://", "/"))
             cell = (f'<a href="{esc(value)}" rel="nofollow noopener">{esc(value)}</a>'
-                    if label == "Advisory" else esc(value))
+                    if label == "Advisory" and _is_url else esc(value))
             lis += f'<div class="brow"><dt>{esc(label)}</dt><dd>{cell}</dd></div>'
         bnd = (f'<section class="boundary" aria-labelledby="bnd-h">'
                f'<h2 id="bnd-h">Who this affects</h2>'
@@ -1616,7 +1623,7 @@ def render_bottom_line_history(items, dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">The Bottom Line</span>
   <h1>The daily reads</h1>
-  <p class="lede">Three times a day the desk closes its edition with The Bottom Line: what
+  <p class="lede">Once a day the desk closes its edition with The Bottom Line: what
      happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
@@ -1669,8 +1676,9 @@ def render_news(items, dateline):
   </div></section>"""
         grid = ('<section class="sec"><div class="wrap"><div class="empty">'
                 '<span class="k">No brief published yet</span>'
-                '<p style="margin:.6em 0 0">Every story here will have been ranked by an AI editor, '
-                'checked against its sources by an independent AI verifier, and approved by a human. '
+                '<p style="margin:.6em 0 0">Every story here will have been ranked for significance, '
+                'checked against its sources by an independent verification pass, and held if it '
+                'fails that check. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
     # news first: lead story (Bottom Line beside it), then the rest of the day's stories;
@@ -1758,45 +1766,791 @@ def evergreen_picks(items, n=25):
     return picked
 
 
-def evergreen_block(items):
-    picks = evergreen_picks(items)
-    if len(picks) < 6:
+def _bd_outlet(src):
+    """Just the outlet: "Reuters", not "Reuters: the whole headline". source_label is
+    built for a citation list under an article and returns the article title; a card
+    footer needs the masthead name and nothing else."""
+    from urllib.parse import urlparse
+    url = (src.get("url") if isinstance(src, dict) else src) or ""
+    if not isinstance(url, str) or not url.startswith("http"):
+        name = (src.get("name") or src.get("outlet") or "") if isinstance(src, dict) else ""
+        return name.strip()
+    host = urlparse(url).netloc.lower().removeprefix("www.")
+    if host in OUTLETS:
+        return OUTLETS[host]
+    bare = host.removesuffix(".com").removesuffix(".org").removesuffix(".io")
+    return bare.rsplit(".", 1)[-1].replace("-", " ").title() if bare else ""
+
+
+# ---- S1: the receipts ledger --------------------------------------------------
+# Artboard 4 module 3. The lead story's checkable figures, each with the source the
+# story attributes it to and a status badge.
+#
+# WHERE THE ROWS COME FROM, and what stops this being decoration. Content files carry
+# no per-claim source mapping: `sources` is a story-level list and `verification` is a
+# story-level verdict. So a naive ledger would print every figure against every source
+# and imply an attribution nobody made.
+#
+# What makes it real is that this desk attributes inline. Measured across 460 live
+# stories: 415 carry an inline "per X" or "according to X", 224 carry two or more
+# checkable figures, and 207 carry both. When the outlet named beside a figure matches
+# one of the story's cited sources, that IS a claim-to-source link the story itself
+# asserted, and the ledger reports it rather than inventing one.
+#
+# A story that does not clear that bar gets no ledger. Per S1: "a story without
+# checkable figures does not get a ledger."
+
+# Money, large counts, percentages, scorelines, and measured quantities.
+_FIG_RX = re.compile(
+    r"(\$[\d,.]+(?:\s?(?:million|billion|trillion|m|bn))?"
+    r"|\b\d{1,3}(?:,\d{3})+\b"
+    r"|\b\d+(?:\.\d+)?\s?(?:%|percent)"
+    r"|\b\d+-\d+\b"
+    r"|\b\d+(?:\.\d+)?[ -]?(?:yards|points|games|weeks|days|years|seasons)\b)", re.I)
+
+# A figure the desk worked out rather than quoted. Narrow on purpose: these are the
+# phrases that state a derivation in the sentence itself, so the Calculated badge is
+# never a guess about provenance.
+_DERIVED_RX = re.compile(
+    r"\b(average|averages|averaging|per year|annually|per game|combined|in total|"
+    r"altogether|works out to|amounts to|equivalent to|effectively|a rate of)\b", re.I)
+
+_ATTR_RX = re.compile(r"\b(?:per|according to|reported by|told|via|cited by)\s+"
+                      r"([A-Z][A-Za-z.'&\-]*(?:\s+[A-Z][A-Za-z.'&\-]*){0,3})")
+
+
+def _sentences(text):
+    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text or "") if s.strip()]
+
+
+def _receipt_rows(item, cap=4):
+    """One row per checkable figure, with the source the story attributes it to."""
+    srcs = [s for s in (item.get("sources") or []) if isinstance(s, dict)]
+    if not srcs:
+        return []
+    names = {(s.get("title") or "").strip(): s for s in srcs if s.get("title")}
+    blob = [item.get("key_fact") or ""] + [str(b) for b in (item.get("body") or [])[:5]]
+    rows, seen = [], set()
+    carry = None                       # the last outlet named, for a following sentence
+    for sent in _sentences(" ".join(blob)):
+        a = _ATTR_RX.search(sent)
+        if a:
+            cand = a.group(1).strip(" .,")
+            # Only accept an outlet the story actually cites. "per a source" and
+            # "according to head coach Dan Campbell" are not sources in this sense.
+            for nm in names:
+                if nm.lower() in cand.lower() or cand.lower() in nm.lower():
+                    carry = nm
+                    break
+        figs = _FIG_RX.findall(sent)
+        if not figs:
+            continue
+        fig = figs[0]
+        key = fig.lower().replace(",", "")
+        if key in seen:
+            continue
+        seen.add(key)
+        derived = bool(_DERIVED_RX.search(sent))
+        claim = sent if len(sent) <= 128 else sent[:125].rsplit(" ", 1)[0] + "..."
+        src_name = carry or (srcs[0].get("title") or "")
+        rows.append({
+            "claim": claim,
+            "source": ("Derived in the story from figures above" if derived
+                       else src_name),
+            "derived": derived,
+            "url": (names.get(src_name) or srcs[0]).get("url") or "",
+        })
+        if len(rows) >= cap:
+            break
+    return rows
+
+
+def receipts_ledger(item):
+    """The bordered ledger. Returns "" when the story has nothing checkable."""
+    rows = _receipt_rows(item)
+    if len(rows) < 2:
         return ""
-    lis = "".join(
-        f'<li><a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title"))}</a></li>'
-        for i in picks)
-    return (f'<section class="evergreen"><div class="sec-head"><h2>Stories worth keeping</h2>'
-            f'<span class="bar"></span></div>'
-            f'<p class="lede" style="margin:0 0 12px">The reporting that holds up after the '
-            f'news cycle moves on: contracts and lawsuits, broadcast and ownership changes, '
-            f'and the rulings that decide seasons.</p>'
-            f'<ul class="eg-list">{lis}</ul></section>')
+    verified = (item.get("verdict") or "").upper() == "VERIFIED"
+    out = ['<div class="sp-ledger">',
+           '<div class="sp-row3 sp-head"><span class="bd-label">The receipts</span>'
+           '<span class="bd-label">Source</span><span class="bd-label">Status</span></div>']
+    for n, r in enumerate(rows):
+        last = ' style="border-bottom:none"' if n == len(rows) - 1 else ""
+        badge = ('<span class="bd-badge calc">Calculated</span>' if r["derived"]
+                 else ('<span class="bd-badge ok">Verified</span>' if verified
+                       else '<span class="bd-badge dat">Reported</span>'))
+        src = esc(r["source"])
+        if r["url"] and not r["derived"]:
+            src = f'<a href="{esc(r["url"])}" rel="nofollow">{src}</a>'
+        out.append(f'<div class="sp-row3"{last}><span class="sp-claim">{esc(r["claim"])}</span>'
+                   f'<span class="bd-src">{src}</span>{badge}</div>')
+    out.append("</div>")
+    return "".join(out)
+
+
+def _usd(fig):
+    """Parse "$18.75 million" to a number, or None when it is not money."""
+    m = re.match(r"\$([\d,.]+)\s*(million|billion|trillion|m|bn)?$", fig.strip(), re.I)
+    if not m:
+        return None
+    try:
+        v = float(m.group(1).replace(",", ""))
+    except ValueError:
+        return None
+    mult = {"million": 1e6, "m": 1e6, "billion": 1e9, "bn": 1e9, "trillion": 1e12}
+    return v * mult.get((m.group(2) or "").lower(), 1)
+
+
+def receipts_chart(item):
+    """Artboard 4 module 3, right column: the two largest comparable money figures in
+    the ledger, as two bars. Two figures of the same unit are the only pair that can
+    honestly share an axis, so a story without them gets no chart rather than a chart
+    comparing yards to dollars."""
+    rows = _receipt_rows(item, cap=8)
+    vals = []
+    for r in rows:
+        for f in _FIG_RX.findall(r["claim"]):
+            v = _usd(f)
+            if v:
+                vals.append((v, f, r["claim"]))
+                break
+    uniq, seen = [], set()
+    for v, f, c in sorted(vals, key=lambda t: -t[0]):
+        if v in seen:
+            continue
+        seen.add(v)
+        uniq.append((v, f, c))
+    if len(uniq) < 2:
+        return ""
+    (v1, f1, c1), (v2, f2, c2) = uniq[0], uniq[1]
+    W, BH = 300, 14
+    w1 = W - 60
+    w2 = max(6, round(w1 * (v2 / v1)))
+
+    def lab(c):
+        return (c.split(":")[0] if ":" in c[:40] else c.split(",")[0])[:38]
+    return (
+        '<div class="bd-card sp-chart"><span class="bd-eyebrow">The receipts, charted</span>'
+        f'<div class="bd-h3" style="font-size:18px">{esc(lab(c1))}</div>'
+        f'<svg width="{W}" height="86" viewBox="0 0 {W} 86" role="img" '
+        f'aria-label="{esc(f1)} against {esc(f2)}." style="max-width:100%">'
+        f'<rect x="0" y="10" width="{w1}" height="{BH}" rx="4" fill="var(--rule)"></rect>'
+        f'<text x="{w1 + 8}" y="{10 + BH - 2}" font-family="var(--mono)" font-size="11.5" '
+        f'fill="var(--muted)">{esc(f1)}</text>'
+        f'<rect x="0" y="48" width="{w2}" height="{BH}" rx="4" fill="var(--rule)" '
+        f'opacity="0.55"></rect>'
+        f'<text x="{w2 + 8}" y="{48 + BH - 2}" font-family="var(--mono)" font-size="11.5" '
+        f'fill="var(--muted)">{esc(f2)}</text></svg>'
+        f'<p class="bd-src">Both figures as the story reports them, drawn to the same '
+        f'scale.</p></div>')
+
+
+# ---- S2: Where to Watch -------------------------------------------------------
+# Artboard 4 module 4. The week's windows and the carrier that shows each game, from
+# where_to_watch.py. See that module for why it reads the feed itself rather than
+# scores.json, and for the fail-safe rules. Nothing here is typed in: a game the
+# league has not announced a carrier for says so.
+#
+# The ZIP lookup is deliberately absent. The order says ship static first, and an
+# input that does nothing is the control rule 5 forbids.
+
+def _w2w_slug(week):
+    return f"nfl-{week.get('season') or ''}-week-{week.get('week') or ''}"
+
+
+def _w2w_carriers(g):
+    if not g.get("carriers"):
+        return '<span class="bd-src">Not yet announced by the league</span>'
+    out = []
+    for c in g["carriers"]:
+        tag = "" if c.get("market") == "National" else '<span class="w2w-loc">Local</span>'
+        strm = '<span class="w2w-str">Streaming</span>' if c.get("type") == "Streaming" else ""
+        out.append(f'<span class="w2w-car">{esc(c.get("name") or "")}{tag}{strm}</span>')
+    return "".join(out)
+
+
+def _w2w_windows(week):
+    """Games grouped by window, windows in kickoff order. A window the feed shows that
+    is not one of the named slots (a Wednesday opener, an international game) keeps its
+    own day name rather than being forced into a slot it does not belong to."""
+    order, groups = [], {}
+    for g in week.get("games") or []:
+        w = g.get("window") or g.get("day_et") or "Other"
+        if w not in groups:
+            groups[w] = []
+            order.append(w)
+        groups[w].append(g)
+    return [(w, groups[w]) for w in order]
+
+
+def render_where_to_watch(week, weeks, dateline, current=False):
+    slug = _w2w_slug(week)
+    url = "/where-to-watch.html" if current else f"/where-to-watch/{slug}.html"
+    rows = []
+    for wname, games in _w2w_windows(week):
+        rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
+                    f'<span class="bd-stamp">{esc(games[0].get("day_et") or "")}</span></div>')
+        for g in games:
+            rows.append(
+                f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
+                f'{esc(g.get("home") or "")}</span>'
+                f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
+                f'<span class="w2w-cars">{_w2w_carriers(g)}</span></div>')
+    others = "".join(
+        f'<a class="bd-more" href="/where-to-watch/{_w2w_slug(w)}.html">Week {w.get("week")}</a>'
+        for w in weeks if w.get("week") != week.get("week"))
+    n = len(week.get("games") or [])
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Where to watch</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))},
+     every window and the channel that carries it</h1>
+  <p class="lx-dek">{n} games, grouped by kickoff window. Carriers as the league has
+     announced them.</p>
+  <div class="w2w">{"".join(rows)}</div>
+  <div class="lx-actions">{others}</div>
+  <p class="bd-src" style="margin-top:14px">Source: ESPN NFL scoreboard, read at build.
+     National and local carriage as the feed reports it; a game with no carrier listed
+     has not been announced yet.</p>
+</section></main>"""
+    return shell(f"NFL Week {week.get('week')}: where to watch every game - {NAME}",
+                 f"Every NFL Week {week.get('week')} game by kickoff window, with the "
+                 f"channel or stream that carries it.",
+                 "Where to watch", body, dateline, path=url)
+
+
+def where_to_watch_card(data):
+    """Homepage module 4, left. The next window or two, not the whole week."""
+    if not data or not (data.get("weeks") or []):
+        return ""
+    import datetime as _dt
+    now = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    week = None
+    for w in data["weeks"]:
+        if any((g.get("kickoff_utc") or "") >= now for g in w.get("games") or []):
+            week = w
+            break
+    week = week or data["weeks"][0]
+    upcoming = [(wn, gs) for wn, gs in _w2w_windows(week)
+                if any((g.get("kickoff_utc") or "") >= now for g in gs)][:2]
+    if not upcoming:
+        upcoming = _w2w_windows(week)[:2]
+    rows = []
+    for wname, games in upcoming:
+        rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
+                    f'<span class="bd-stamp">{esc(games[0].get("day_et") or "")}</span></div>')
+        for g in games[:4]:
+            rows.append(
+                f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
+                f'{esc(g.get("home") or "")}</span>'
+                f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
+                f'<span class="w2w-cars">{_w2w_carriers(g)}</span></div>')
+    return (f'<div class="bd-card" style="gap:12px;padding:20px 22px 18px">'
+            f'<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Where to watch</span>'
+            f'<span class="bd-h2" style="font-size:20px">NFL Week '
+            f'{esc(str(week.get("week") or ""))}, every window and the channel that '
+            f'carries it</span></div>'
+            f'<a class="bd-more" href="/where-to-watch.html">All windows</a></div>'
+            f'<div class="w2w">{"".join(rows)}</div>'
+            f'<p class="bd-src">Carriage as the league has announced it. Regional games '
+            f'vary by market.</p></div>')
+
+
+# ---- S6: the news hub ---------------------------------------------------------
+# /news.html was a flat dump of every live story. It is now the Record tier, then
+# one section per storyline, then a month archive, with a paginated page per
+# storyline behind it.
+#
+# ONE TAXONOMY. The storylines here are RECORD_LANES: the same lanes, the same
+# names, the same tag rules the Record uses. There is no second Tracking-only
+# classification to drift out of sync with the first.
+#
+# REACHABILITY, which is the whole point of the rebuild. Every live story is
+# reachable at a click depth of three or less from the front page:
+#   home -> /news -> /news/<lane> -> /news/<lane>/page/N   (a lane's stories)
+#   home -> /news -> /news/archive/YYYY-MM                 (anything unclaimed)
+# and no page renders with fewer than NEWS_MIN_STORIES entries.
+NEWS_PER_SECTION = 6      # stories shown inline per storyline on the hub
+NEWS_PER_PAGE = 24        # stories per paginated storyline page
+NEWS_MIN_STORIES = 5      # a lane below this is not given a page (no thin pages)
+NEWS_RECENT_DAYS = 60     # a lane whose newest story is older than this is "past"
+
+
+# THE NEWS HUB CARRIES MORE LANES THAN THE RECORD, and the reason is what each surface
+# is for. The Record is what stays true after the news moves on, so its lanes are the
+# business-of-sports ones: rulings, discipline, rights. The news hub has to reach EVERY
+# live story, and 382 of 410 are game coverage the Record lanes correctly ignore. A
+# transactions wire or a Tuesday result is not something that "holds up after the news
+# cycle moves on", so it does not belong in the Record, and a hub that cannot reach it
+# has failed at the one job the rebuild exists for.
+#
+# These are the desk's OWN TAGS, not a new classification: transactions 163, injuries
+# 94, nfl 120, soccer 66, mlb 65, scores-results 129. Every lane below clears the
+# five-story floor on live content; WNBA (1) and NHL (2) do not and are deliberately
+# absent, so their stories reach readers through the month archive instead of through a
+# lane too thin to earn a page.
+NEWS_EXTRA_LANES = [
+    ("transactions", "Transactions", ("transactions",), False),
+    ("injuries", "Injuries", ("injuries",), False),
+    ("nfl", "NFL", ("nfl",), False),
+    ("soccer", "Soccer", ("soccer",), False),
+    ("results", "Results", ("scores-results",), False),
+    ("mlb", "MLB", ("mlb",), False),
+    ("nba", "NBA", ("nba",), False),
+    ("college", "College", ("college", "college-football", "college-basketball"), False),
+    ("other-sports", "Other sports",
+     ("combat sports", "golf", "cycling", "cricket", "athletics"), False),
+    ("tennis", "Tennis", ("tennis",), False),
+]
+# Which lanes match on tags rather than phrases.
+NEWS_TAG_LANES = {slug for slug, _n, _t, _h in NEWS_EXTRA_LANES}
+
+
+def _news_lane_index(items):
+    """Every live story bucketed into its lane, newest first. First lane in
+    RECORD_LANES order claims a story, so nothing is double counted."""
+    live = [i for i in (items or [])
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+    live.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    claimed, lanes = set(), []
+    for slug, name, tags, _home in RECORD_LANES + NEWS_EXTRA_LANES:
+        tag_lane = slug in NEWS_TAG_LANES
+        rx = None if tag_lane else _record_lane_rx(tags)
+        want = set(tags) if tag_lane else None
+        got = []
+        for i in live:
+            if i.get("slug") in claimed:
+                continue
+            hit = bool(want & set(tags_for(i))) if tag_lane else _record_lane_match(rx, i)
+            if hit:
+                got.append(i)
+                claimed.add(i.get("slug"))
+        lanes.append({"slug": slug, "name": name, "items": got})
+    rest = [i for i in live if i.get("slug") not in claimed]
+    # Newest first: the hub is ordered by which storyline moved most recently.
+    lanes.sort(key=lambda L: (L["items"][0].get("published_utc") or "") if L["items"] else "",
+               reverse=True)
+    return lanes, rest, live
+
+
+def _news_row(i):
+    tags = tags_for(i)
+    return (f'<div class="nh-row"><a class="nh-t" href="/articles/{esc(i["slug"])}.html">'
+            f'{esc(i.get("title") or "")}</a>'
+            f'<span class="nh-m">{verdict_badge(i.get("verdict"), i)}'
+            f'<span class="bd-stamp">{esc(fmt_when(i))}</span>'
+            + (f'<span class="bd-stamp">{esc(tags[0])}</span>' if tags else "")
+            + '</span></div>')
+
+
+def _news_month_archive(live):
+    """Month buckets, newest first. Every story has a month, so this is the floor
+    under reachability: a story its lane never showed is still one click from here."""
+    by = {}
+    for i in live:
+        m = (i.get("published_utc") or "")[:7]
+        if len(m) == 7:
+            by.setdefault(m, []).append(i)
+    return dict(sorted(by.items(), reverse=True))
+
+
+def _news_month_label(m):
+    """"September 2026" from "2026-09". fmt_date returns a full day stamp, and
+    slicing three characters off it produced "September 1, 2"."""
+    import datetime as _dt
+    try:
+        return _dt.date(int(m[:4]), int(m[5:7]), 1).strftime("%B %Y")
+    except Exception:
+        return m
+
+
+def _news_jsonld(url, name, desc, rows, crumbs):
+    """CollectionPage + ItemList + BreadcrumbList, as specified."""
+    items = [{"@type": "ListItem", "position": n,
+              "url": f"{ORIGIN}/articles/{i['slug']}.html",
+              "name": (i.get("title") or "")[:110]}
+             for n, i in enumerate(rows[:30], start=1)]
+    crumb = [{"@type": "ListItem", "position": n, "name": nm,
+              "item": f"{ORIGIN}{href}"} for n, (nm, href) in enumerate(crumbs, start=1)]
+    # shell() injects schema_extra into the head verbatim, so it carries its own
+    # script tag; returning bare JSON put nothing on the page at all.
+    return '\n<script type="application/ld+json">' + json.dumps({
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "url": f"{ORIGIN}{url}", "name": name, "description": desc,
+        "isPartOf": {"@type": "WebSite", "name": FAMILY, "url": ORIGIN},
+        "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": crumb},
+        "mainEntity": {"@type": "ItemList", "numberOfItems": len(rows),
+                       "itemListElement": items},
+    }, separators=(",", ":")) + "</script>"
+
+
+def _news_section(lane, past=False):
+    rows = lane["items"]
+    if not rows:
+        return ""
+    shown = rows[:NEWS_PER_SECTION]
+    more = ""
+    if len(rows) >= NEWS_MIN_STORIES and len(rows) > len(shown):
+        more = (f'<a class="bd-more" href="/news/{esc(lane["slug"])}.html">'
+                f'All {len(rows)} in {esc(lane["name"].lower())}</a>')
+    newest = fmt_when(rows[0]) if rows else ""
+    return (f'<section class="bd-mod" id="{esc(lane["slug"])}">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">{esc(lane["name"])}</span>'
+            f'<span class="bd-stamp">{len(rows)} stories'
+            f'{", newest " + esc(newest) if newest and not past else ""}</span>'
+            f'</div>{more}</div>'
+            f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
+
+
+def render_news_hub(items, dateline, pulse=None):
+    """/news.html (C4)."""
+    lanes, rest, live = _news_lane_index(items)
+    import datetime as _dt
+    cutoff = (_build_now() - _dt.timedelta(days=NEWS_RECENT_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    current = [L for L in lanes if L["items"] and (L["items"][0].get("published_utc") or "") >= cutoff]
+    past = [L for L in lanes if L["items"] and L not in current]
+
+    # Jump chips, in the same order the sections render.
+    jump = "".join(
+        f'<a class="nh-chip" href="#{esc(L["slug"])}">{esc(L["name"])}'
+        f'<span class="nh-chip-n">{len(L["items"])}</span></a>' for L in current)
+
+    rec = record_sections(items, home=True)
+    months = _news_month_archive(live)
+    marc = "".join(
+        f'<a class="nh-mo" href="/news/archive/{esc(m)}.html">'
+        f'<span class="nh-mo-m">{esc(_news_month_label(m))}</span>'
+        f'<span class="bd-stamp">{len(v)} stories</span></a>'
+        for m, v in months.items())
+    arch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Archive</span>'
+            f'<h2 class="bd-h2">Every story by month</h2></div>'
+            f'<a class="bd-more" href="/archive.html">Full archive</a></div>'
+            f'<div class="nh-months">{marc}</div></section>') if marc else ""
+
+    past_html = ""
+    if past:
+        past_html = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                     f'<span class="bd-eyebrow">Past storylines</span>'
+                     f'<h2 class="bd-h2">Quiet for {NEWS_RECENT_DAYS} days or more</h2>'
+                     f'</div></div>'
+                     + "".join(_news_section(L, past=True) for L in past) + '</section>')
+
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="lx-h1" style="margin-bottom:6px">The news desk</h1>
+  <p class="lx-dek">{len(live)} checked stories, grouped by the storyline they belong to.
+     Every source linked, every figure checkable.</p>
+  {rec}
+  <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
+    <span class="bd-eyebrow">Storylines</span>
+    <h2 class="bd-h2">What the desk is following</h2></div></div>
+  <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
+  {"".join(_news_section(L) for L in current)}
+  {past_html}
+  {arch}
+</section></main>"""
+    return shell(f"Sports news by storyline - {NAME}",
+                 "Every checked story on the desk, grouped by the storyline it belongs to: "
+                 "lawsuits and rulings, discipline, media rights and more.",
+                 "News desk", body, dateline, path="/news.html",
+                 schema_extra=_news_jsonld("/news.html", "The news desk",
+                                           "Checked sports stories by storyline", live,
+                                           [("Home", "/"), ("News desk", "/news.html")]))
+
+
+def render_news_lane(lane, page, pages, dateline):
+    """/news/<slug>.html and /news/<slug>/page/N.html."""
+    rows = lane["items"][(page - 1) * NEWS_PER_PAGE: page * NEWS_PER_PAGE]
+    base = f"/news/{lane['slug']}.html"
+    nav = []
+    if page > 1:
+        prev = base if page == 2 else f"/news/{lane['slug']}/page/{page-1}.html"
+        nav.append(f'<a class="bd-more" href="{esc(prev)}">&larr; Newer</a>')
+    if page < pages:
+        nav.append(f'<a class="bd-more" href="/news/{esc(lane["slug"])}/page/{page+1}.html">'
+                   f'Older &rarr;</a>')
+    url = base if page == 1 else f"/news/{lane['slug']}/page/{page}.html"
+    title = f"{lane['name']} - crypto news by storyline"
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/news.html">News desk</a> / {esc(lane["name"])}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
+  <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
+     {f"Page {page} of {pages}." if pages > 1 else ""}</p>
+  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+  <div class="lx-actions">{"".join(nav)}</div>
+</section></main>"""
+    return shell(f"{title} - {NAME}",
+                 f"Every checked story the desk has published on {lane['name'].lower()}.",
+                 "News desk", body, dateline, path=url,
+                 schema_extra=_news_jsonld(url, lane["name"],
+                                           f"Sports stories on {lane['name'].lower()}", rows,
+                                           [("Home", "/"), ("News desk", "/news.html"),
+                                            (lane["name"], base)]),
+                 noindex=False)
+
+
+def render_news_month(month, rows, dateline):
+    """/news/archive/YYYY-MM.html."""
+    url = f"/news/archive/{month}.html"
+    label = _news_month_label(month)
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/news.html">News desk</a> / Archive / {esc(label)}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(label)}</h1>
+  <p class="lx-dek">{len(rows)} checked stories published this month.</p>
+  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+</section></main>"""
+    return shell(f"Sports news, {label} - {NAME}",
+                 f"Every checked story the desk published in {label}.",
+                 "News desk", body, dateline, path=url,
+                 schema_extra=_news_jsonld(url, label, f"Sports stories from {label}", rows,
+                                           [("Home", "/"), ("News desk", "/news.html"),
+                                            (label, url)]))
+
+
+# ---- S5: The Record -----------------------------------------------------------
+# Addendum of 2026-09-13, ported from the crypto desk. What this desk has published
+# that stays true after the news moves on, grouped into lanes, each lane led by its
+# strongest piece. It replaces "Stories worth keeping", which was a list of bare links
+# saying nothing about what any of them was. The name changes everywhere; /keepers
+# stays the URL, per family standing law.
+#
+# LANE MATCHING ON THIS DESK IS BY PHRASE, NOT BY TAG, and the difference is not a
+# style choice. The crypto desk tags stories `regulation`, `stablecoins`, `etfs-funds`,
+# so its lanes are those tags and the inventory falls out. This desk tags by league and
+# event type: transactions 163, scores-results 129, nfl 120, injuries 94. Not one tag
+# names a business-of-sports lane, so the lanes here are phrase matchers over the story
+# text.
+#
+# THE PHRASES ARE ALL MULTI-WORD, and that was measured rather than assumed. A first cut
+# used single words and filed "SMU Defeats FSU in a Game Played Without Stadium Lights"
+# under Stadium deals and "Judge Reinstated: Yankees Captain Returns After 3-Month IL"
+# under Discipline. That is the failure this chassis has now relearned six times: a
+# matcher satisfied by one shared token needs a floor. Multi-word phrases are the floor
+# here, plus the tag-chip rule the desk already uses: a TITLE hit qualifies alone,
+# otherwise two hits across title, key_fact and dek.
+RECORD_LANES = [
+    ("lawsuits-and-rulings", "Lawsuits and rulings",
+     ("lawsuit", "antitrust", "class action", "federal judge", "criminal probe",
+      "court ruling", "files suit", "settlement with", "grievance", "arbitrator",
+      "subpoena", "indicted", "appeals court", "legal action", "prosecutors",
+      "federal court", "injunction"), True),
+    ("discipline", "Discipline",
+     ("suspended for", "suspension", "fined ", "banned for", "violation",
+      "disciplinary", "performance-enhancing", "ineligible", "expelled"), True),
+    ("media-rights", "Media rights",
+     ("media rights", "broadcast deal", "tv deal", "rights deal", "streaming deal",
+      "rights package", "broadcast rights", "tv contract", "media deal",
+      "regional sports network", "rights fee", "broadcast partner"), True),
+    ("ownership", "Ownership",
+     ("controlling stake", "minority stake", "investor group", "sale of the",
+      "ownership group", "acquires the", "chapter 11", "new owner", "ownership stake",
+      "takes over the", "purchase of the"), False),
+    ("cap-math", "Cap math",
+     ("salary cap", "cap space", "dead money", "luxury tax", "cap hit", "franchise tag",
+      "cap penalty", "second apron", "cap charge", "cap casualty", "cap room"), False),
+    ("stadium-deals", "Stadium deals",
+     ("stadium deal", "naming rights", "new stadium", "stadium funding", "arena deal",
+      "new arena", "ballpark deal", "stadium plan", "publicly funded", "stadium project",
+      "stadium financing"), False),
+    ("expansion", "Expansion",
+     ("expansion team", "expansion franchise", "relocation", "expansion fee",
+      "expansion bid", "relocate to", "expansion draft"), False),
+]
+
+# A lane needs this many pieces to render at all: one featured plus the three
+# read-further rows the shape calls for. Below it the lane is omitted, per addendum
+# item 5, rather than shown half empty.
+RECORD_LANE_MIN = 4
+
+# Slugs whose pages are standing explainers rather than dated reporting. Used only for
+# the one-word type line on a read-further row.
+_RECORD_EXPLAINER_SLUGS = set()   # this desk has no standing explainer pages yet
+
+
+def _record_type(item, hub_slugs):
+    if (item.get("slug") or "") in _RECORD_EXPLAINER_SLUGS:
+        return "Explainer"
+    if (item.get("slug") or "") in hub_slugs:
+        return "Living table"
+    if item.get("continued_by") or item.get("update_of"):
+        return "Running story"
+    return "Checked story"
+
+
+def _record_lane_rx(kws):
+    return re.compile(r"(?:" + "|".join(re.escape(k) for k in kws) + r")", re.I)
+
+
+def _record_lane_match(rx, item):
+    """The desk's own tag-chip rule, applied to lanes: a title hit qualifies alone,
+    otherwise two hits across title, key_fact and dek. Never the body."""
+    t = item.get("title") or ""
+    if rx.search(t):
+        return True
+    n = len(rx.findall(t)) + len(rx.findall(item.get("key_fact") or "")) \
+        + len(rx.findall(item.get("dek") or ""))
+    return n >= 2
+
+
+def _record_inventory(items):
+    """Every evergreen pick bucketed by lane. One piece lands in one lane only: the
+    first lane in RECORD_LANES order that claims it."""
+    # THE POOL IS EVERY LIVE STORY, not evergreen_picks. evergreen_picks collapses to
+    # one story per subject line, which is right for a homepage list and wrong here:
+    # a lane IS a subject line, so that filter left five chapters of one lawsuit as a
+    # single pick and starved every lane below the floor (measured: 2, 3, 2, 2, 0, 0,
+    # 0 against 11, 8, 4, 3 from the full corpus). The lane match is itself the
+    # evergreen filter on this desk. A court ruling or a rights deal stays true; a
+    # Tuesday box score never matches a lane in the first place.
+    pool = [i for i in (items or [])
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+    pool.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    picks = pool
+    claimed, by_lane = set(), {}
+    for slug, name, kws, _home in RECORD_LANES:
+        rx = _record_lane_rx(kws)
+        lane = []
+        for it in picks:
+            key = it.get("slug")
+            if key in claimed:
+                continue
+            if _record_lane_match(rx, it):
+                lane.append(it)
+                claimed.add(key)
+        by_lane[slug] = lane
+    return by_lane, picks
+
+
+def _record_bars(lane_items, w=440, h=54, months=6):
+    """The lane's own publishing cadence: pieces per month over the last six months.
+    This is the "small data element built from the lane's own content" the addendum
+    asks for, and it is the one such element this desk can build without inventing a
+    status model it does not have. A lane with nothing to count draws nothing."""
+    import datetime as _dt
+    now = _build_now()
+    buckets, labels = [], []
+    for k in range(months - 1, -1, -1):
+        y, m = now.year, now.month - k
+        while m <= 0:
+            m += 12
+            y -= 1
+        buckets.append(sum(1 for i in lane_items
+                           if (i.get("published_utc") or "")[:7] == f"{y:04d}-{m:02d}"))
+        labels.append(_dt.date(y, m, 1).strftime("%b"))
+    if not any(buckets):
+        return ""
+    peak = max(buckets) or 1
+    bw, gap = 46, 12
+    base, top = h - 16, 6
+    parts = []
+    for i, (n, lab) in enumerate(zip(buckets, labels)):
+        x = i * (bw + gap)
+        bh = max(2, round((n / peak) * (base - top)))
+        parts.append(f'<rect x="{x}" y="{base - bh}" width="{bw}" height="{bh}" rx="2" '
+                     f'fill="var(--rule)" opacity="{0.35 + 0.65 * (n / peak):.2f}"></rect>')
+        parts.append(f'<text x="{x + bw / 2:.0f}" y="{h - 4}" font-family="var(--mono)" '
+                     f'font-size="10.5" fill="var(--muted)" text-anchor="middle">{lab}</text>')
+    total = (bw + gap) * len(buckets) - gap
+    aria = ", ".join(f"{l} {n}" for l, n in zip(labels, buckets))
+    return (f'<svg class="bd-chart" width="{total}" height="{h}" viewBox="0 0 {total} {h}" '
+            f'role="img" aria-label="Pieces published in this lane by month: {esc(aria)}.">'
+            f'{"".join(parts)}</svg>')
+
+
+def _record_lane(slug, name, lane_items, hub_slugs, page=False):
+    """One lane: the featured piece on the left, three more on the right."""
+    if len(lane_items) < RECORD_LANE_MIN:
+        return ""
+    feat = lane_items[0]
+    rest = lane_items[1:4]
+    newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
+    status = (f"{len(lane_items)} pieces in the Record, newest {esc(newest)}"
+              if newest else f"{len(lane_items)} pieces in the Record")
+    srcs = []
+    for i in lane_items[:6]:
+        for s in (i.get("sources") or []):
+            lab = _bd_outlet(s)
+            if lab and lab not in srcs:
+                srcs.append(lab)
+    receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
+                else "Receipts: every source linked on the piece")
+    dek = (feat.get("dek") or feat.get("key_fact") or "").strip()
+    left = (
+        f'<div class="bd-card bd-rec-feat">'
+        f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
+        f'{verdict_badge(feat.get("verdict"), feat)}'
+        f'<span class="bd-stamp">{status}</span></div>'
+        f'<a class="bd-rec-hl" href="/articles/{esc(feat["slug"])}.html">'
+        f'{esc(feat.get("title") or "")}</a>'
+        + (f'<p class="bd-read" style="font-size:15px">{esc(dek)}</p>' if dek else "")
+        + _record_bars(lane_items)
+        + f'<div class="bd-brief-foot"><span class="bd-src">{receipts}</span>'
+          f'<a class="bd-more" href="/articles/{esc(feat["slug"])}.html">Read the piece</a>'
+          f'</div></div>')
+    rows = "".join(
+        f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
+        f'{esc(i.get("title") or "")}</a>'
+        f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
+        for i in rest)
+    all_href = f"#{esc(slug)}" if page else f"/keepers.html#{esc(slug)}"
+    right = ""
+    if rows:
+        right = (f'<div class="bd-card bd-rec-more">'
+                 f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
+                 f'<div class="bd-rec-rows">{rows}</div>'
+                 f'<a class="bd-more" href="{all_href}">All {esc(name.lower())}</a></div>')
+    return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
+
+
+def record_sections(items, home=True):
+    """The Record: header plus one lane section per lane. Three lanes on the homepage,
+    every lane on /keepers.html."""
+    by_lane, _picks = _record_inventory(items)
+    hub_slugs = {h.get("slug") for h in coverage_hubs(items) if isinstance(h, dict)}
+    lanes = "".join(
+        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home)
+        for slug, name, _tags, on_home in RECORD_LANES
+        if (on_home or not home))
+    if not lanes.strip():
+        return ""
+    head = (f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">The Record</span>'
+            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
+            + (f'<a class="bd-more" href="/keepers.html">The full Record</a>' if home else "")
+            + '</div>')
+    return f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+
+
+def record_full_index(items, shown=12):
+    """Addendum item 4. The remaining evergreen titles as plain links in three columns,
+    so the internal-link count the priority sitemap relies on survives the change from a
+    wall of links to a set of lane sections. This replaces the wall, it does not delete
+    the links."""
+    picks = evergreen_picks(items, n=40)
+    rest = picks[shown:]
+    if len(rest) < 6:
+        return ""
+    links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
+                    for i in rest)
+    return (f'<section class="bd-mod bd-rec-index">'
+            f'<div class="bd-cardtop"><span class="bd-label">The Record, full index</span>'
+            f'<a class="bd-more" href="/keepers.html">Open the Record</a></div>'
+            f'<div class="bd-rec-cols">{links}</div></section>')
 
 
 def render_keepers(items, dateline):
-    """"Stories worth keeping" as its own page (directive v2 item 6, 2026-09-12).
+    """/keepers.html: every lane, same shape as the homepage sections."""
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">The Record: what stays true after the news moves on</h1>
+  {record_sections(items, home=False)}
+  {record_full_index(items, shown=0)}
+</section></main>"""
+    return shell(f"The Record - {NAME}",
+                 "The desk's standing work, by lane: what each piece establishes and the "
+                 "receipts behind it.", "", body, dateline, path="/keepers.html")
 
-    The module on the homepage was already the desk's best internal-link surface; making it
-    a destination gives the fact-desk lane somewhere to live in primary navigation, and
-    gives the priority sitemap a hub that is not a league.
-    """
-    picks = evergreen_picks(items, 40)
-    lis = "".join(
-        f'<li><a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title"))}</a>'
-        f'<span class="mut"> &middot; {esc(fmt_date((i.get("published_utc") or "")[:10]))}</span></li>'
-        for i in picks)
-    body = f"""<main class="wrap"><h1 class="sr-only">Stories worth keeping</h1><section class="sec">
-    <div class="sec-head"><h2>Stories worth keeping</h2><span class="bar"></span></div>
-    <p class="lede" style="margin:0 0 14px">The reporting that holds up after the news cycle
-       moves on: contracts and cap math, lawsuits and discipline, broadcast and ownership
-       changes, and the rulings that decide seasons. Ranked by how well a story is sourced,
-       how much of it is original, and whether the subject keeps being searched.</p>
-    {crosscut_row(items)}
-    <ul class="eg-list eg-page">{lis}</ul>
-  </section></main>"""
-    return shell("Stories worth keeping - " + NAME,
-                 "The sports reporting that holds up after the news cycle moves on.",
-                 "Worth Keeping", body, dateline, path="/keepers.html")
+
 
 
 def render_home(items, dateline):
@@ -1812,12 +2566,21 @@ def render_home(items, dateline):
     # and picks the edition that anchors The Bottom Line square.
     stories, breaking, bl_anchor = home_stack(items)
 
+    # S1 TAKES THE TOP STORY, so the hero mosaic must not print it again. The ledger
+    # decides: a lead with checkable figures becomes the receipts card above, and the
+    # mosaic starts one story down. Without a ledger there is no lead row and the
+    # mosaic leads as it always did.
+    _s1_lead = stories[0] if stories else None
+    _s1_ledger = receipts_ledger(_s1_lead) if _s1_lead else ""
+    hero_pool = stories[1:] if (_s1_lead and _s1_ledger) else stories
+
     def _hero_tag(item):
         tags = tags_for(item)
         return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
 
     desk_html = ""
-    if stories:
+    if hero_pool:
+        stories = hero_pool
         lead = stories[0]
         dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
         # The desk set: an ambient video loop behind the lead card. It is scenery for
@@ -1904,12 +2667,30 @@ def render_home(items, dateline):
                 f'<span class="ed-title">{esc(hook.strip())}</span>'
                 f'<span class="ed-fact">{esc(fact)}</span>'
                 f'<span class="dateline">{_blink_when(w)}</span></a>')
+    # Artboard 4 module 3, right rail: the Edition as one card rather than the strip.
+    # Built from the newest fresh edition, which is the same source the strip used.
+    _edition_card_html = ""
+    _fresh_ed = next((x for x in wraps), None)
+    if _fresh_ed:
+        _kick, _, _hook = (_fresh_ed.get("title") or "").partition(":")
+        _edition_card_html = (
+            f'<div class="bd-card" style="gap:10px;padding:20px 22px 18px">'
+            f'<span class="bd-eyebrow">The Evening Edition</span>'
+            f'<div class="bd-h3" style="font-size:20px">'
+            f'{esc((_hook or _kick).strip())}</div>'
+            f'<p class="bd-read">One read a day over everything the desk published, with '
+            f'the scores that settled and the stories that were checked.</p>'
+            f'<div class="bd-cta">'
+            f'<a class="bd-btn" href="/articles/{esc(_fresh_ed["slug"])}.html">'
+            f'Read tonight\'s Edition</a>'
+            f'<a class="bd-more" href="/bottom-line.html">Past editions</a></div></div>')
+
     editions_html = ""
     if ed_cards:
         editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
                          f'<span class="bar"></span></div>'
                          f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
-                         f'morning, midday, and evening reads over everything published.</p>'
+                         f'one evening read over everything published that day.</p>'
                          f'<div class="edition-strip">{"".join(ed_cards)}</div>')
 
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
@@ -1955,15 +2736,59 @@ def render_home(items, dateline):
         track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
+    # S1, Artboard 4 module 3: the lead story with its receipts ledger, and beside it
+    # the charted receipts and the Edition. The ledger is only rendered for a story
+    # that actually carries checkable figures with an attribution the story made; see
+    # receipts_ledger. Without one the lead keeps its normal shape and the row shows
+    # the Edition alone, rather than an empty ledger frame.
+    lead_row = ""
+    _lead, _ledger = _s1_lead, _s1_ledger
+    if _lead and _ledger:
+        _lt = tags_for(_lead)
+        _dek = (_lead.get("dek") or "").strip()
+        _para = ""
+        for _b in (_lead.get("body") or []):
+            _t = str(_b).strip()
+            if _t and _t != _dek:
+                _para = _t if len(_t) <= 420 else _t[:415].rsplit(" ", 1)[0] + "..."
+                break
+        _left = (f'<div class="bd-card sp-lead">'
+                 f'<div class="bd-cardtop"><span class="bd-eyebrow">Lead story</span>'
+                 f'{f"<span class=bd-stamp>{esc(_lt[0])}</span>" if _lt else ""}'
+                 f'{verdict_badge(_lead.get("verdict"), _lead)}</div>'
+                 f'<a class="sp-lead-h" href="/articles/{esc(_lead["slug"])}.html">'
+                 f'{esc(_lead.get("title") or "")}</a>'
+                 + (f'<p class="sp-lead-dek">{esc(_dek)}</p>' if _dek else "")
+                 + (f'<p class="sp-lead-p">{esc(_para)}</p>' if _para else "")
+                 + _ledger
+                 + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando, '
+                   f'The GoCheckMySports desk. Every figure links to the source the '
+                   f'story cites.</span>'
+                   f'<a class="bd-more" href="/articles/{esc(_lead["slug"])}.html">'
+                   f'Read the full breakdown</a></div></div>')
+        _right = receipts_chart(_lead) + _edition_card_html
+        lead_row = f'<section class="sp-leadrow">{_left}<div class="sp-rail">{_right}</div></section>'
+        editions_html = ""      # the rail card is carrying it; do not print it twice
+
+    # Module 4 left: Where to watch, when its feed is live. Tracking rides beside it.
+    _w2w_card = where_to_watch_card(W2W_DATA)
+    w2w_row = ""
+    if _w2w_card:
+        w2w_row = f'<section class="sp-w2wrow">{_w2w_card}{track_html}</section>'
+        track_html = ""
+
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
     # The live layer rides above the fold, before the editorial page begins.
     body = scores_strip() + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: the latest verified sports news</h1><section class="page">
+  {lead_row}
   {desk_html}
   {crosscut_row(items)}
   {editions_html}
+  {w2w_row}
   {track_html}
-  {evergreen_block(items)}
+  {record_sections(items, home=True)}
+  {record_full_index(items)}
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
      right and keep the facts honest. The score is a fact; the story gets checked. Real sports
      news verified against official league data and on-record sources, with the rumor and the
@@ -2087,6 +2912,10 @@ NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 # mismatch is caught the moment someone adds a lane and forgets the nav.
 # Not lanes. Present in NAV so the unreachable-section guard still sees the whole map,
 # but filtered out of the rail; they render in the masthead and the footer instead.
+# Set at build once where_to_watch has reported. False keeps its nav entry off.
+W2W_LIVE = False
+W2W_DATA = None      # set at build by where_to_watch.load()
+
 NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
 
 _nav_hrefs = {h for _l, h in NAV}
@@ -2228,8 +3057,8 @@ def render_method(items, dateline):
         statement. Speculation about an athlete's body is not news.</li>
     <li>We do not run paid coverage as news. Sponsored items are the thing we are built to
         strip out.</li>
-    <li>We do not let the machine speak in a human voice. Takes, analysis, and corrections
-        are human work, always.</li>
+    <li>We do not put an opinion in a voice that did not hold it. Takes, analysis, and
+        corrections are human work, always.</li>
   </ul>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
@@ -2254,13 +3083,12 @@ def render_about(dateline):
      on-record sources before it runs, and never tell you what to bet on. Injuries are reported
      only from official reports and on-record statements, never from speculation.</p>
 
-  <h2>The machine does the grind. A human owns the judgment.</h2>
-  <p>An AI newsroom does the reading, the triage, the fact-checking, and the first draft, every day,
-     without getting tired. But the machine is the staff, not the editor. A story runs only when an
-     independent verification pass confirms it against its sources; anything flagged waits for the
-     human editor-in-chief, who oversees the desk, overrides the machine where judgment differs, and
-     owns every take: no opinion ever goes out in a human voice unless a human wrote it. If that
-     standard ever slips, we drop the cadence before we drop the standard.</p>
+  <h2>How a story gets published</h2>
+  <p>A story runs only when an independent verification pass confirms it against its sources, and
+     every source is linked so you can check the work yourself. A human editor-in-chief oversees the
+     desk, can hold or remove anything, and owns every take: no opinion ever goes out in a human
+     voice unless a human wrote it. If that standard ever slips, we drop the cadence before we drop
+     the standard.</p>
 
   <h2>Our bias</h2>
   <p>We are biased toward the reader and against the rumor mill. We weight official league data
@@ -2318,10 +3146,6 @@ def render_standards(dateline):
      against the source. Corrections are made promptly and noted on the story itself. A correction
      is a feature of an honest desk, not a failure.</p>
 
-  <h2>AI disclosure</h2>
-  <p>Stories on this site are produced with AI assistance and reviewed before publication,
-     under a human editor-in-chief who oversees the desk. Opinion, analysis and corrections
-     are human work. We say so because you should know what you are reading.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "GoCheckMySports standards, verification, and corrections policy.",
@@ -3162,9 +3986,49 @@ def build():
     # /coverage/ pages themselves and the priority sitemap all read the same set
     site_hubs = coverage_hubs(items)
 
+    # S2: refresh the schedule, then decide whether Where to Watch exists at all this
+    # build. This runs BEFORE any page renders, because the nav entry on every page
+    # depends on the answer. A failed fetch falls back to the committed file and only
+    # withdraws the page once that file is six days old.
+    global W2W_LIVE, W2W_DATA
+    _w2w = None
+    try:
+        import where_to_watch as _w2wmod
+        _w2wmod.refresh()
+        _w2w = _w2wmod.load()
+    except Exception as _e:
+        print(f"where_to_watch: unavailable ({type(_e).__name__}); page and nav withheld")
+    W2W_LIVE = bool(_w2w and (_w2w.get("weeks") or []))
+    W2W_DATA = _w2w if W2W_LIVE else None
+    if W2W_LIVE:
+        _wks = _w2w["weeks"]
+        w("where-to-watch.html", render_where_to_watch(_wks[0], _wks, dateline, current=True))
+        for _wk in _wks:
+            w(f"where-to-watch/{_w2w_slug(_wk)}.html",
+              render_where_to_watch(_wk, _wks, dateline))
+        print(f"where to watch: {len(_wks)} week(s), "
+              f"{sum(len(x.get('games') or []) for x in _wks)} games, "
+              f"as of {_w2w.get('fetched_at')}")
+
     w("index.html", render_home(items, dateline))
     w("keepers.html", render_keepers(items, dateline))
-    w("news.html", render_news(items, dateline))
+    w("news.html", render_news_hub(items, dateline))
+    # S6: a page per storyline, paginated, plus a page per month. These are what make
+    # every live story reachable within three clicks of the front page.
+    _nh_lanes, _nh_rest, _nh_live = _news_lane_index(items)
+    _nh_urls = []
+    for _L in _nh_lanes:
+        if len(_L["items"]) < NEWS_MIN_STORIES:
+            continue
+        _pages = max(1, -(-len(_L["items"]) // NEWS_PER_PAGE))
+        for _pg in range(1, _pages + 1):
+            _rel = (f'news/{_L["slug"]}.html' if _pg == 1
+                    else f'news/{_L["slug"]}/page/{_pg}.html')
+            w(_rel, render_news_lane(_L, _pg, _pages, dateline))
+            _nh_urls.append("/" + _rel)
+    for _m, _rows in _news_month_archive(_nh_live).items():
+        w(f"news/archive/{_m}.html", render_news_month(_m, _rows, dateline))
+    print(f"news hub: {len(_nh_lanes)} storyline(s), {len(_nh_urls)} storyline page(s)")
     w("archive.html", render_archive(items, dateline))
     for _slug, _title, _nav, _tags, _blurb in SECTIONS:
         w(f"sections/{_slug}.html",
@@ -3281,8 +4145,21 @@ def build():
 
     # priority: the hub pages a reader starts from, the coverage hubs, the newest N stories
     hub_paths = [f"/coverage/{h['slug']}.html" for h in site_hubs]
-    prio = locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
-    archive = [f"/articles/{i['slug']}.html" for i in archive_arts]
+    # S5/S6: the Record, the storyline hubs and Where to Watch are the desk's own topic
+    # pages and the crawl path to every story, so they ride the priority tier. Month
+    # archives ride the archive tier with the aged stories they index. Storyline page 2
+    # onward is reachable from page 1 and needs no entry of its own.
+    _s6_lanes, _s6_rest, _s6_live = _news_lane_index(items)
+    topic_locs = ["/keepers.html"]
+    topic_locs += [f"/news/{L['slug']}.html" for L in _s6_lanes
+                   if len(L["items"]) >= NEWS_MIN_STORIES]
+    if W2W_LIVE and W2W_DATA:
+        topic_locs.append("/where-to-watch.html")
+        topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"
+                       for _wk in (W2W_DATA.get("weeks") or [])]
+    prio = locs + topic_locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
+    archive = [f"/news/archive/{m}.html" for m in _news_month_archive(_s6_live)] \
+        + [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
     print(f"sitemap: priority {len(prio)} ({len(hub_paths)} hubs), "
