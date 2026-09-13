@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c020",
-    "headline": "Itauma-Hrgovic upgraded to IBF world heavyweight title fight",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Itauma 'stopped British heavyweight Dillian Whyte in August 2025' but the brief data point says he stopped Whyte 'in one round in August 2025.' The draft omits the round specification, which is a factual detail present in the brief and represents a loss of specificity that could constitute a factual gap. More critically, the phrasing 'first-round knockout' appears in the draft but the brief says 'one round,' which may be the same thing but the draft adds 'first-round' as a modifier not explicitly confirmed in the source data_point wording.",
-     "The brief's core_claim states the belt was 'vacated by Oleksandr Usyk in June,' but the draft never mentions Usyk or provides context for why the belt is vacant. The brief explicitly includes this as a data_point; the draft omits the name of who vacated it, which leaves a factual gap even though the vacant status is mentioned. This is a sourced fact from the brief that should appear."
-    ]
-   },
-   {
-    "id": "c19",
-    "headline": "Mike McCarthy brings sports science approach to Steelers training camp",
-    "category": "accuracy",
-    "reasons": [
-     "The draft quotes McCarthy saying 'the parallels between the city of Pittsburgh, the Steel Mill industry, the tempering process of how steel was built, and still is today, and the parallels between coming together as a football team,' but the brief data_point shows the actual quote includes 'and still is today' followed by 'and the parallels,' which matches. However, the brief includes a longer McCarthy quote in data_point 5 that includes 'There's history behind it' and other material not cited in the draft. The draft selectively quotes without indicating the quote is partial.",
-     "The draft states 'Mike Tomlin's tenure' lasted 'two decades' but provides no end date or year reference. The brief references '2007 to 2025' in a data_point confidence note, which would be 18-19 years, not two decades (20 years). The draft's '2007-2025' is not in the available data_points and the 'two decades' phrasing is imprecise given the brief's own parenthetical clarification of dates."
-    ]
-   },
-   {
-    "id": "c113",
-    "headline": "Australian swimmer Isaac Cooper steps down from leadership role after missing final night",
-    "category": "compliance",
-    "reasons": [
-     "The draft describes Cooper's conduct as 'a drinking session' without qualification, but this characterizes personal behavior outside the athlete's sport. The reporting should either use the source's language directly or note that the exact nature of the off-field conduct is not specified in the brief. The current phrasing risks reading as judgment about Cooper's personal life rather than factual reporting of the team's decision."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 3,
   "rejected": [
    {
@@ -8426,6 +8394,38 @@
     "reasons": [
      "The draft states 'The U.S. will face France for the championship on September 13' as a future event, but today is Sunday, September 13, 2026. The gold medal game is scheduled for today (the present), not the future. The draft should use present or past tense appropriate to the publication date, or clarify the timing relative to today's date.",
      "The brief's data_point states 'USA will play France in the gold medal game on Sunday' with timestamp 2026-09-12, confirming the game is scheduled for September 13 (Sunday). Writing it as future-tense 'will face' on September 13 is temporally incorrect; it should be 'faces' (present) or acknowledge it is happening today."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c171",
+    "headline": "Oklahoma State Stuns No. 6 Oregon 39-31, September 12: Cowboys Snap Historic 21-Game Losing Streak",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point on Tosh Lupoi states he 'now heads the program at California' (offensive phrasing but indicating current position), but the draft writes 'Tosh Lupoi, who coordinated Lanning's first four defenses, now heads the program at California.' This is accurate per the brief. However, the more serious issue: the draft contains the sentence 'If not for two devastating interceptions that led directly to 14 Oregon points, Oklahoma State would have won by more than 8 points; the Cowboys needed an Oregon fumble with under two minutes remaining to secure the outcome.' This specific claim about interceptions leading to 14 points and the fumble with under two minutes appears in data_point index 12 in the brief but is never actually used or integrated into the draft body provided. Upon re-reading the actual draft body text, this sentence does NOT appear. The draft is internally consistent with the brief. However, re-examining more carefully: the draft states 'Oregon beat Oklahoma State 69-3 last season, per CBS Sports' reporting' but the brief lists this as simply 'reported' confidence, not 'verified-on-chain.' This is acceptable paraphrase. The core issue is that the draft never mentions the Notre Dame historical counterpoint's schedule differences clearly enough\u2014it says 'Oregon's remaining schedule, however, includes multiple playoff-threatening opponents that the Irish did not face after their Week 2 loss' but does not sufficiently emphasize the bear_case point that the schedule contexts are materially different. This reads as BALANCE issue, not accuracy. Re-examining: all facts trace. No new facts smuggled. The draft properly attributes claims. The compliance check: no betting language, no injury speculation beyond official reports (Bowers' meniscus trim and McClanahan's forearm soreness are both in brief), human_take is empty, disclaimer present. Balance check: the bear_case IS present in the draft\u2014coordinator departures, new coordinators' struggles, scheduling difficulty. The bottom_line correctly looks forward to stabilization of schemes before Ohio State, not summarizing. Quality: opens with stakes (CFP path), figures attributed, bottom_line forward-looking. This draft passes all checks."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "US Open men's final: Zverev faces Shelton on September 13; American seeks first Grand Slam title",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the final as a completed event ('Alexander Zverev and Ben Shelton contested the 2026 US Open men's final on September 13'), but today is September 13, 2026, and the brief's timestamp is 2026-09-13T21:22:33Z, suggesting the match occurred in the evening. The title and opening sentence describe the match in past tense as already finished on today's date, which may be inaccurate depending on when the match actually concluded. The brief provides no match result or final score, only that the match 'contested' the final, making it unclear whether the event had completed at time of drafting. The draft cannot confirm the match finished without that data from the brief."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Team USA defeats Spain in FIBA Women's World Cup semifinals; advances to face France for fifth consecutive gold",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's fifth data_point claims: 'The 24-year-old Caitlin Clark wasn't the U.S.'s best player and endured a few underwhelming outings in the early portions of the knockout stage but found life as the tournament wore on, culminating with an inspired display as the Americans knocked off France in the tournament final.' This states that USA defeated France in the final. However, the draft's bottom_line and core claim state that USA will play France in the gold medal game on September 15 (future tense). The brief's data_point explicitly describes a past victory over France in the tournament final, directly contradicting the draft's framing of the France match as upcoming. This is a foundational accuracy error: the draft describes the final against France as still to come, but the brief's own source material indicates USA already played and defeated France.",
+     "The draft states 'Caitlin Clark was part of the gold-medal-winning side and picked up her first major team honor' and 'The 23-year-old endured a few underwhelming outings...' but the brief's data_point identifies Clark as 24 years old. The draft contains an age discrepancy (23 vs. 24).",
+     "The brief explicitly notes 'thin: true' and 'open_questions' identifying missing data: exact final score vs Spain (76-66), the 35-game winning streak claim, fourth-quarter score (18-8), and player statistics are all absent from the fetched sources. The draft should not report these facts without sourcing them in the brief. The brief's own assessment is that sources are fragmented and incomplete."
     ]
    }
   ]
