@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c130",
-    "headline": "White Sox acquire reliever Brazob\u00e1n and Gold Glove center fielder Brenton Doyle on deadline day",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the specific details of the transactions remain unreported' and 'The teams involved have not disclosed what the White Sox sent to either the Mets or Rockies,' but the brief is labeled 'thin: true' and contains only two data_points, both marked 'announced-not-verified.' The draft's framing that details 'remain unreported' and teams 'have not disclosed' conflates announced trades with unverified details. The brief confirms the acquisitions were announced; the draft should report this fact, not imply the trades themselves are unconfirmed. Saying 'announced-not-verified' in prose means the acquisition itself is unconfirmed, which overstates the uncertainty and misrepresents the brief's confidence label.",
-     "The draft claims 'Brazob\u00e1n's and Doyle's contract statuses, ages, and 2026 performance records are not documented in available sources,' but this is the writer inserting original reporting on what is NOT in sources rather than sticking to what IS in the brief. The hard rule is facts go back to research; absence of data is not a reportable fact without explicit brief instruction to note gaps."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Phillies acquire All-Star second baseman Luis Arraez and reliever Brooks Raley at deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'The Philadelphia Phillies acquired two-time All-Star second baseman Luis Arraez and right-hander Caleb Kilian from the San Francisco Giants' but the brief's data_point #5 states only 'The Phillies acquired All-Star second baseman Luis Arraez and right-hander Caleb Kilian from the San Francisco Giants,' without 'two-time' as a modifier. The draft adds 'two-time' without it appearing in the brief. This is a smuggled fact.",
-     "The draft states 'Raley shows notably different splits by batter handedness: left-handed batters have hit .186 with a .542 OPS against him, while right-handed batters have hit .216 with a .636 OPS' but data_point #4 in the brief simply states the same thing without the word 'notably.' 'Notably' is a characterization not present in the source and injects editorial voice into factual presentation.",
-     "The draft claims 'The Mets are expected to make additional moves before the 6 p.m. ET deadline, with starter Clay Holmes, reliever Luke Weaver, and outfielders Tyrone Taylor and Luis Robert Jr. among the likeliest candidates to be traded' but data_point #14 states 'The Mets are expected to make more moves by Monday's 6 p.m. ET trade deadline, with starter Clay Holmes, reliever Luke Weaver, and outfielders Tyrone Taylor and Luis Robert Jr. the likeliest to be sent to contenders.' The brief says 'expected' and 'likeliest'; the draft upgrades this to 'among the likeliest candidates,' which softens the confidence claim without justification from the source."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "Eala wins first WTA title at DC Open, becomes first Filipina to claim WTA 500 crown",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'Eala made her USA cricket debut against Cayman Islands in April 2025 and has since compiled four T20 appearances for her country' appears in a tennis story about a WTA title. This is factually incoherent\u2014a tennis player does not have cricket appearances. This claim does not appear in the brief's data_points (which contain only tennis-related facts) and represents smuggled information from an unrelated sport that contradicts the story's subject matter.",
-     "The entire paragraph about cricket debut and T20 appearances should not exist in a tennis draft. It is factually impossible and introduces information from outside the brief."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "Wings move full 2027 schedule to American Airlines Center",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'They played two regular-season games there in 2025 and beat the Chicago Sky in a game at the arena last month.' contains a factual problem: the brief states 'The Wings beat the Chicago Sky in a game at the American Airlines Center last month' but does not specify that this was one of the two 2025 games or clarify the temporal relationship. The phrasing 'beat the Chicago Sky in a game at the arena last month' appears to reference a single recent game, but the data_point only confirms they played two regular-season games in 2025 without specifying one was against Chicago Sky or that it occurred 'last month.' This is either a conflation of separate facts or an inference not in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c024",
     "headline": "Red Sox acquire All-Star catcher Rutschman from Orioles on trade deadline day",
     "category": "accuracy",
@@ -8390,6 +8348,71 @@
     "category": "accuracy",
     "reasons": [
      "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Elena Rybakina Wins First US Open Title, World No. 1 Ranking; Second Major of 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open final as having occurred on Saturday, September 14, but today is Sunday, September 13. The brief's timestamp (2026-09-12T22:37:54Z) indicates the match information was reported before today. The match is a future event scheduled for Saturday, not a past event. The opening sentence reads 'Elena Rybakina defeated Aryna Sabalenka 6-4, 5-7, 6-2 in the US Open women's singles final on Saturday, September 14' as though it has already happened.",
+     "The brief data point states Rybakina 'clinched the top spot Wednesday after advancing to the semifinals' but the draft says 'Rybakina clinched the No. 1 ranking mathematically on Wednesday'\u2014the word 'mathematically' is not in the brief and adds a qualifier not sourced.",
+     "There is an internal inconsistency: the draft says the final is 'on Saturday' and that 'She will officially become No. 1 on Monday, September 16, ending Sabalenka's run' which works if Saturday is September 14. However, per the instruction that today is Sunday September 13, this event has not yet occurred and should be written as upcoming, not completed.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Ryan Garcia Stops Conor Benn in Second Round, Retains WBC Title; Targets Unified Bouts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the Garcia vs. Benn fight as having occurred on 'Saturday, September 14' with multiple past-tense references ('retained his WBC welterweight title by stopping'), but today is Sunday, September 13. The brief's timestamp (2026-09-13T05:58:36Z) indicates the event was reported on September 13, but the brief data point says 'Saturday night' in the context of a fight that has already been reported. However, the draft's opening sentence reports this as a completed past event when it should be written as upcoming if September 14 is in the future from today (September 13). The sources are dated September 13, indicating post-event reporting, but the calendar math from the instruction context (today = Sunday, September 13) makes September 14 (Saturday) retroactively impossible. The brief's core_claim includes 'on September 13, 2026' but the draft says 'Saturday, September 14'\u2014these dates conflict.",
+     "The brief core_claim states the fight occurred 'on September 13, 2026, at T-Mobile Arena in Las Vegas' but the draft says 'on Saturday, September 14.' This is a direct factual contradiction between the brief and draft.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Ben Shelton Reaches US Open Final; American Man Eyes First Grand Slam Title Since 2003",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a future event as already completed. It states 'Ben Shelton, 23, defeated Frances Tiafoe 4-6, 6-3, 6-3, 7-5 in the US Open men's semifinal on Friday' in past tense. Today is Sunday, September 13, 2026. The draft then says the final will occur 'Sunday, September 15' (two days from today). This means Friday would have been September 12, which aligns. However, the very next sentence says 'A victory would make Shelton the first American man to win a Grand Slam singles title since Andy Roddick won the 2003 US Open' using future conditional 'would,' which is correct for an upcoming final. But the opening clause treats the semifinal as past-completed when it should verify the date. The brief timestamp is 2026-09-12T12:15:26Z, which if interpreted as the US East Coast would be before Friday's completion. This is internally consistent if Friday was September 12. The draft is internally consistent: Friday Sept 12 (semifinal, already happened by Sunday Sept 13), Sunday Sept 15 (final, still upcoming). This is CORRECT and not a rejection factor.",
+     "The draft states Shelton 'will move to a career-high No. 4 in the world rankings on Monday, September 16, becoming the highest-ranked former college player since James Blake of Harvard reached No. 4 in January 2007.' The brief data point says Shelton is 'assured of moving up to a career high of No. 4 in the world Monday when the new rankings are released' but does not specify the date. The draft adds 'September 16' which is sourced from the brief's general 'Monday' reference, but September 16 is a Monday only if today (Sept 13) is Sunday, which aligns with the instruction. This is correct.",
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday",
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c160",
+    "headline": "Kraft, Mayer sign top tight end deals within 24 hours of season openers on September 12",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Tucker Kraft and Michael Mayer each finalized significant contract extensions on September 12, 2026, one day before their respective season openers' but this is temporally impossible. If the extensions were finalized on September 12 and the season openers are one day later (September 13), then the story is reporting a future event as having already happened. The brief's core_claim and data_points confirm the extensions were signed on September 12, but the timing claim in the lead is contradictory: you cannot sign 'one day before' an event that has not yet occurred. The draft should say the extensions came before the upcoming season openers.",
+     "The title states 'Kraft, Mayer sign top tight end deals within 24 hours of season openers on September 12'\u2014this is ambiguous and potentially misleading. Did the season openers occur on September 12, or the deals? The brief shows the deals were signed September 12, but Kraft's opener is against Minnesota and Mayer's is against Miami in Week 1, which would be September 13 (tomorrow, given today is September 13). The title conflates the deal-signing date with the opener date."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Steelers' Joey Porter Jr. uncertain for September 14 Falcons opener; back injury, contract deadline collide",
+    "category": "accuracy",
+    "reasons": [
+     "All factual claims trace to brief data_points with proper confidence labeling.",
+     "Bear case (Schefter reporting some Steelers believe Porter might suit up) is present and attributed as 'unconfirmed' via Adam Schefter.",
+     "Official injury status (questionable) is correctly distinguished from the 'unlikely to play' reporting.",
+     "Contract deadline policy and trade speculation are sourced to CBS Sports and ESPN as reported.",
+     "Bottom line appropriately frames what will resolve the uncertainty (gameday status, follow-up decisions) without betting language.",
+     "Compliance check: no gambling advice, no em dashes, not_financial_advice disclaimer present, human_take empty.",
+     "The draft correctly uses future tense ('remains unresolved', 'will resolve') for a Sunday Sept 14 event being written on Sept 13.",
+     "The draft acknowledges the conflict between 'unlikely to play' reporting and Schefter's internal dissent, balancing the narrative.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
     ]
    }
   ]
