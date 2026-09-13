@@ -134,12 +134,13 @@ def _week(params=""):
     games = []
     for e in d.get("events") or []:
         comp = (e.get("competitions") or [{}])[0]
-        teams, scores = {}, {}
+        teams, scores, tids = {}, {}, {}
         for c in comp.get("competitors") or []:
             ha = c.get("homeAway")
             teams[ha] = ((c.get("team") or {}).get("abbreviation")
                          or (c.get("team") or {}).get("shortDisplayName") or "")
             scores[ha] = c.get("score")
+            tids[ha] = str((c.get("team") or {}).get("id") or "")
         et = _et(e.get("date") or "")
         # STATUS COMES FROM THE FEED, NEVER FROM THE CLOCK. A build running at 03:00
         # UTC on Saturday cannot tell from the time alone whether Thursday's game
@@ -147,6 +148,7 @@ def _week(params=""):
         st = ((e.get("status") or {}).get("type") or {})
         games.append({
             "away": teams.get("away", ""), "home": teams.get("home", ""),
+            "away_id": tids.get("away", ""), "home_id": tids.get("home", ""),
             "kickoff_utc": e.get("date") or "",
             "kickoff_et": et.strftime("%-I:%M %p ET") if et else "",
             "day_et": et.strftime("%a %-d %b") if et else "",

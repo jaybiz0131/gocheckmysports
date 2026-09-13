@@ -196,6 +196,7 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("The Record", "/keepers.html"),
        ("Where to watch", "/where-to-watch.html"),
+       ("Fantasy", "/fantasy/inactives.html"),
        ("NFL", "/sections/nfl.html"),
        ("College Football", "/sections/college-football.html"),
        ("MLB", "/sections/mlb.html"),
@@ -740,7 +741,11 @@ def masthead(active, dateline, brand="site"):
     # WHERE TO WATCH LEAVES THE RAIL WITH ITS PAGE. where_to_watch withdraws the page
     # when its feed has been unreachable for six days, and a nav entry pointing at a
     # page that was withdrawn is a 404 in the most prominent place on the site.
-    _hidden = set() if W2W_LIVE else {"Where to watch"}
+    _hidden = set()
+    if not W2W_LIVE:
+        _hidden.add("Where to watch")
+    if not IA_BOARD:
+        _hidden.add("Fantasy")
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
         for label, href in NAV
@@ -2359,6 +2364,137 @@ def render_news_month(month, rows, dateline):
                                             (label, url)]))
 
 
+# ---- S-B2: the Sunday Inactives board -----------------------------------------
+# The single most important fantasy surface, and it must be correct before it is
+# pretty. Data comes from inactives.py, which polls and snapshots; see that module for
+# why the board cannot simply query a feed at render time.
+#
+# THE STAMP IS OURS AND THE PAGE SAYS SO (ruling 1). Never "posted": the league posts
+# about ninety minutes before kickoff and we do not observe that moment. We observe our
+# own check, so the column is "first seen" and the page explains it once.
+#
+# NOTHING ASSUMES SEVEN (ruling 2). No feed carries a game-day roster or an active
+# count, so no expected count is asserted. The board says "N inactive listed", never
+# "the N inactives" and never "all", so a short list cannot read as a complete one.
+# Detroit listed five on 13 Sep and the uncapped endpoint confirmed five.
+
+FANTASY_LINE = ("Facts, not advice. Official reports only. We never tell you whom to "
+                "start.")
+INACTIVES_NOTE = ("Times are when our check first saw each player's inactive flag, "
+                  "checked every five minutes. Teams post about 90 minutes before "
+                  "kickoff.")
+
+
+def _et(iso):
+    """UTC stamp to ET clock. Eastern is UTC-4 through the regular season."""
+    import datetime as _dt
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ"):
+        try:
+            t = _dt.datetime.strptime(iso, fmt).replace(tzinfo=_dt.timezone.utc)
+            return (t - _dt.timedelta(hours=4)).strftime("%-I:%M %p ET")
+        except Exception:
+            continue
+    return ""
+
+
+def _inactives_pending(games, posted_ids):
+    """Teams playing today whose list we have not seen yet, with the time the league is
+    expected to post: kickoff minus ninety minutes. Never a guess about who.
+
+    MATCHED ON TEAM ID, not name. The first cut compared the board's display names
+    ("Atlanta Falcons") against the schedule's abbreviations ("ATL"), matched nothing,
+    and listed all thirty-two teams as pending directly underneath the nineteen whose
+    lists were already on the page.
+
+    Only games that have not kicked off. A live or finished game's list is either
+    already seen or never coming, and either way "expected 11:30 AM ET" is wrong on a
+    page rendered at 2pm."""
+    import datetime as _dt
+    out = []
+    for g in games or []:
+        if (g.get("state") or "") != "pre":
+            continue
+        for side in ("home", "away"):
+            nm = g.get(side) or ""
+            tid = g.get(f"{side}_id") or ""
+            if not nm or tid in posted_ids or nm in posted_ids:
+                continue
+            k = g.get("kickoff_utc") or ""
+            exp = ""
+            try:
+                t = _dt.datetime.strptime(k, "%Y-%m-%dT%H:%MZ").replace(
+                    tzinfo=_dt.timezone.utc)
+                exp = _et((t - _dt.timedelta(minutes=90)).strftime("%Y-%m-%dT%H:%M:%SZ"))
+            except Exception:
+                pass
+            out.append({"team": nm, "expected": exp, "kick": g.get("kickoff_et") or ""})
+    out.sort(key=lambda x: (x["expected"] or "z", x["team"]))
+    return out
+
+
+def _inactives_team_card(t):
+    rows = "".join(
+        f'<div class="ia-row"><span class="ia-name">{esc(p.get("name") or "")}</span>'
+        f'<span class="ia-pos">{esc(p.get("pos") or "")}</span>'
+        f'<span class="bd-src">{esc(p.get("reason") or "")}</span>'
+        + (f'<span class="ia-upd">updated {esc(_et(p.get("first_seen") or ""))}</span>'
+           if p.get("first_seen") and p["first_seen"] != t["first_seen"] else "")
+        + '</div>'
+        for p in t["players"])
+    flag = ('<span class="bd-badge dat">list may be incomplete</span>'
+            if t.get("incomplete") else "")
+    return (f'<div class="bd-card ia-team">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(t["team"])}</span>'
+            f'<span class="bd-stamp">{t["count"]} inactive listed</span>'
+            f'<span class="bd-stamp">first seen {esc(_et(t["first_seen"]))}</span>'
+            f'{flag}</div>'
+            f'<div class="ia-rows">{rows}</div></div>')
+
+
+def render_inactives(board, w2w, dateline):
+    """/fantasy/inactives. Returns None when nothing is held, so the page and its nav
+    entry withdraw together rather than showing an empty table."""
+    if not board or not board.get("teams"):
+        return None
+    posted = {t["team"] for t in board["teams"]}
+    games = []
+    for wk in ((w2w or {}).get("weeks") or [])[:1]:
+        games = wk.get("games") or []
+    # Match on the team names the schedule uses, which are abbreviations; the board
+    # holds full display names. Only teams we can match are shown as pending, so a
+    # name we cannot resolve is left out rather than asserted as unposted.
+    pending = _inactives_pending(
+        games, {a for t in board["teams"] for a in (t["team"], str(t.get("id") or ""))})
+    cards = "".join(_inactives_team_card(t) for t in board["teams"])
+    pend = ""
+    if pending:
+        pend = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                '<span class="bd-eyebrow">Not seen yet</span>'
+                '<h2 class="bd-h2" style="font-size:20px">Lists we have not seen</h2>'
+                '</div></div><div class="ia-pending">'
+                + "".join(f'<div class="ia-pend"><span class="ia-name">{esc(p["team"])}</span>'
+                          f'<span class="bd-src">expected {esc(p["expected"])}</span></div>'
+                          for p in pending)
+                + '</div></section>')
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Inactives</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">Today's inactives</h1>
+  <p class="lx-dek">{board["total"]} players listed inactive across
+     {len(board["teams"])} teams.</p>
+  <p class="bd-src">{esc(INACTIVES_NOTE)}</p>
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <div class="ia-grid">{cards}</div>
+  {pend}
+  <p class="bd-src" style="margin-top:14px">Last checked
+     {esc(_et(board.get("last_poll") or ""))}. Source: the league injury feed, read on
+     our own schedule and kept as a dated record.</p>
+</section></main>"""
+    return shell(f"Today's NFL inactives - {NAME}",
+                 "Every team's inactive list for today's games, with the time our check "
+                 "first saw each one. Facts, not advice.",
+                 "Fantasy", body, dateline, path="/fantasy/inactives.html")
+
+
 # ---- S3: living tables --------------------------------------------------------
 # "Evergreen pages built as tables that update when a ruling or filing posts. Each
 # carries a source per row and an updated stamp."
@@ -3098,6 +3234,7 @@ NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 # Set at build once where_to_watch has reported. False keeps its nav entry off.
 W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
+IA_BOARD = None      # set at build by inactives.board()
 
 NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
 
@@ -4192,6 +4329,24 @@ def build():
         print(f"where to watch: {len(_wks)} week(s), "
               f"{sum(len(x.get('games') or []) for x in _wks)} games, "
               f"as of {_w2w.get('fetched_at')}")
+
+    # S-B2: poll the injury feed and snapshot before rendering, so a build that lands
+    # inside a posting window captures it. The board renders from the snapshot, never
+    # from a live read; see inactives.py.
+    global IA_BOARD
+    IA_BOARD = None
+    try:
+        import inactives as _ia
+        _ia.poll()
+        IA_BOARD = _ia.board()
+    except Exception as _e:
+        print(f"inactives: unavailable ({type(_e).__name__}); board withheld")
+    if IA_BOARD:
+        _ia_html = render_inactives(IA_BOARD, W2W_DATA, dateline)
+        if _ia_html:
+            w("fantasy/inactives.html", _ia_html)
+            print(f"inactives board: {IA_BOARD['total']} players, "
+                  f"{len(IA_BOARD['teams'])} teams")
 
     w("index.html", render_home(items, dateline))
     w("keepers.html", render_keepers(items, dateline))
