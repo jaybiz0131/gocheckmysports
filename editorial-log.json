@@ -4,49 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c001",
-    "headline": "MLB trade deadline closes at 6 p.m. ET Monday: 14 major deals completed",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The San Francisco Giants would still owe first baseman Rafael Devers 211 million dollars over the next seven years' but the brief data_point clarifies this is about the Giants' future obligation to Devers, not a Padres acquisition. The sentence is misleading in context\u2014it appears at the end of a paragraph about Padres checking in on Devers, making it sound like the Padres would inherit this obligation. The brief's data_point says 'After this season, the San Francisco Giants would still owe Rafael Devers 29 years old $211 million over the next seven years'\u2014Giants owe it, not Padres. The draft's placement and wording obscure this critical distinction.",
-     "Draft title says 'closes at 6 p.m. ET Monday' but the brief confirms deadline is August 3, 2026. The phrase 'closes...Monday' is vague and no Monday date is given in the draft; this is imprecise attribution given ESPN's explicit reporting."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Guardians acquire outfielder Jo Adell from Angels for catching prospect",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case includes specific detail: 'a ball bounced off his head into the outfield for a home run' as an example of Adell's defensive lapses in 2026. The draft mentions 'volatile track record' and 'defensively flawed' but does not include this concrete, vivid evidence of 2026 defensive struggles. The bear_case was substantially weakened in drafting by omitting the most memorable/damaging specific incident.",
-     "The bottom_line says 'betting on a player with a proven power ceiling and a recent rebound year (2025)' but the brief's bear_case emphasizes that his 2026 regression after 2025 is the salient point. The bottom_line tilts toward his positive (2025) without adequately foregrounding the severity of his current-year collapse, which dominates the bear_case."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Phillies acquire Arraez and Kilian from Giants, Raley from Mets",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims the Phillies 'traded...to the Mets for Raley' but does not specify what the Phillies sent to the Giants for Arraez and Kilian. The brief's open_questions explicitly flag this: 'What specific prospect assets did the Phillies send to the Giants for Arraez and Kilian? The MLB.com source text is truncated and does not contain this detail.' A major deal (All-Star + pitcher) is described without naming the assets the Phillies surrendered. This is an incomplete trade summary and the writer should have either flagged the missing information or refused to name a trade without full consideration.",
-     "Draft states 'Luis Arraez' in title and first sentence but the brief's open_questions note 'What is Luis Arraez's specific performance record or designation as a \"batting champion\"?' The draft calls him 'All-Star second baseman' but the brief describes him as a 'batting champion.' These are different honors\u2014the draft weakened Arraez's pedigree by calling him an All-Star rather than using the brief's 'batting champion' descriptor, which the brief's open_questions indicate is central to who he is."
-    ]
-   },
-   {
-    "id": "c138",
-    "headline": "Third confederation withdraws support for Infantino as opposition grows",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'A third national confederation has publicly withdrawn support' but the brief's core_claim and data_point say only that 'A third confederation has publicly withdrawn support'\u2014without specifying it is 'national.' More critically, the brief does not provide the identities, timing, or reasons for withdrawal, and the draft accurately flags this as 'not specified in available reporting.' However, the opening sentence presents the withdrawal as fact when the confidence label is only 'reported,' not 'announced-not-verified,' making the assertion of institutional opposition stronger than the evidence warrants. The phrase 'mounting institutional opposition' overstates a thin evidentiary base (one third withdrawal, no others named).",
-     "The draft states Infantino 'has denied meeting with Donald Trump or the U.S. government,' but the brief's confidence label is only 'reported'\u2014meaning the denial itself is reported secondhand, not an on-record statement. The draft should flag this as 'according to Yahoo Sports reporting' to preserve the chain of attribution and confidence level.",
-     "The sentence 'That clarification contradicts earlier speculation' injects a causal claim (that the denial was made in response to earlier speculation) that does not appear in the brief. The brief notes only that speculation existed and that a denial was issued, not that one prompted the other. This is SMUGGLED interpretation."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c130",
     "headline": "White Sox acquire reliever Brazob\u00e1n and Gold Glove center fielder Brenton Doyle on deadline day",
     "category": "accuracy",
@@ -8382,6 +8339,57 @@
      "The draft opens with 'Pittsburgh Steelers cornerback Joey Porter Jr. is listed as questionable for Sunday's Week 1 opener against the Atlanta Falcons' but then states 'remains in unresolved contract extension negotiations as the team's policy against mid-season contract talks approaches in approximately 42 hours.' The brief's core_claim says Porter is 'unlikely to play,' but the draft softens this to 'questionable,' which is the official listing. However, the second sentence immediately contradicts the framing by suggesting the contract issue is the blocking factor with a 42-hour countdown. The brief data points do not support a 42-hour countdown timer as a precise fact; the brief data point says Porter told ESPN 'At this point we got, what, 42 hours?' which is a quote reflecting uncertainty about time remaining, not a verified fact that exactly 42 hours remain. The draft presents Porter's colloquial speech as a factual deadline.",
      "The draft states the Steelers' 'policy against mid-season contract talks approaches in approximately 42 hours.' This is inaccurate phrasing: the policy does not 'approach'; the deadline for contract talks (kickoff time) approaches. The 42-hour figure is lifted from Porter's own speculative quote and presented as editorial fact without attribution. The brief shows this quote is reported speech, not a verified timeline.",
      "The draft's core premise\u2014that Porter is 'unlikely to play'\u2014is not matched by the brief's evidence. The draft presents Porter as 'questionable' (official status) while the brief core_claim says 'unlikely.' The draft then hedges throughout with 'if Porter does not play' and 'pending Porter's medical clearance,' which softens the 'unlikely' framing from the brief. The balance between injury and contract as blocking factors is unclear; the draft does not establish which is primary or whether both are present."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Rybakina defeats Sabalenka for US Open title, clinches world No. 1 on September 14",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open final as having occurred on 'Saturday, September 14' when today is Sunday, September 13. A final scheduled for September 14 should be written as upcoming, not as a completed past event. The title and opening sentence both report this future event in past tense.",
+     "The draft states Rybakina 'clinched the top ranking on Wednesday' but provides no date anchor for when the brief was written or when Wednesday occurred relative to the reported events. Given the brief timestamp (2026-09-13) and the game being scheduled for September 14, this creates temporal confusion about what has already happened versus what is scheduled.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c173",
+    "headline": "Rays Clinch Playoff Berth on September 12, First in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports 'The Tampa Bay Rays defeated the Houston Astros 3-1 on Friday night' as a past event, but today is Sunday, September 13, 2026. The CBS Sports source timestamp is 2026-09-12T03:53:04Z (Saturday morning), meaning the game occurred on Friday, September 11. However, the draft must specify the date of the event or use 'Friday' consistently with the publication date context. More critically, the draft does not establish whether this Friday (Sept 11) has already passed relative to today (Sept 13). The opening sentence should clarify the temporal anchor: 'The Tampa Bay Rays defeated the Houston Astros 3-1 on Friday, September 11, to clinch...' to avoid ambiguity about whether the event is being reported as already completed.",
+     "The phrase 'the first team to clinch a postseason berth this season' is accurate per the brief, but the draft never explicitly states the year (2026) in the opening, relying on context from the title. While not technically inaccurate, this creates potential for misreading in a CMS environment where the title and body may separate."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Texas Stuns No. 1 Ohio State 24-23 with 20-Point Fourth-Quarter Comeback on September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game in past tense ('Texas defeated No. 1 Ohio State 24-23 on Saturday night') and today is Sunday, September 13, 2026. The Guardian source is timestamped 2026-09-13T04:51:58Z, which is early Sunday morning (roughly 4:51 AM ET). A Saturday night game would have been played September 12, 2026. The draft correctly reports this as a past event relative to today (Sunday). However, the title states 'on September 13' which is TODAY/TOMORROW depending on timezone and time-of-day reading. This is a critical factual error: the title says the game happened 'on September 13' when it actually happened on September 12, 2026.",
+     "The title 'Texas Stuns No. 1 Ohio State 24-23 with 20-Point Fourth-Quarter Comeback on September 13' is factually wrong. Per the Guardian timestamp, the game occurred on September 13 only in the early morning hours (after midnight), but it was played on the night of September 12, 2026. The date in the title must be corrected to September 12."
+    ]
+   },
+   {
+    "id": "c222",
+    "headline": "USA defeats Spain 76-66 in Women's World Cup semifinal, advances to gold medal game vs. France",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the gold medal game is on 'Sunday, September 15, also in Berlin' but provides no source verification for the date or location of the gold medal game. The brief's data_points confirm only that 'Team USA will face France in the gold medal game on Sunday' without specifying the date as September 15. The source URL provided (Yahoo WNBA article) is not cited inline to verify the September 15 date for the gold medal game specifically.",
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Tua Tagovailoa ruled out with oblique injury; Cooper Rush to start for Falcons on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
     ]
    }
   ]
