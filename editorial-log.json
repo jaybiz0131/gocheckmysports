@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "MLB trade deadline tracker: Following every move of the 2026 deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'the window to close at 6 p.m. ET' but the brief contains no data_point specifying a closing time; the brief only confirms the date (Monday, August 3) and that deals are expected to go to the final minutes.",
-     "The brief's open_questions flag explicitly notes that 'the fetched source text is mostly navigation markup and CSS; no specific trades, team names, or deal details appear in the provided source material'\u2014meaning the source itself is unreliable and the writer should not have written a tracker draft from this brief at all. The draft presents itself as a live-tracking vehicle with no actual trades to track, making it a structural mismatch to the brief's actual content."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Mauricio Pochettino agrees deal to stay as US coach through World Cup 2030",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks the core claim ('US Soccer and Pochettino agreed to a contract extension through 2030') as 'announced-not-verified' confidence, but the draft presents it as settled fact with no hedge or attribution qualifier that signals the unverified status. The prose reads 'agreed Monday, August 3, to a contract extension' as a confirmed event, not as an announced claim pending verification.",
-     "The brief's open_questions flag notes that 'the fetched source text is mostly Guardian website markup and CSS; the actual article body with contract details, compensation, performance clauses, or further context does not appear in the provided source material.' The writer built a draft from a source the research team flagged as unreliable and mostly unreadable, violating the hard rule that facts derive from the research brief's verified data_points."
-    ]
-   },
-   {
-    "id": "c212",
-    "headline": "Kelsey Mitchell passes Diana Taurasi with historic scoring streak for Fever",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Mitchell 'moved ahead of Diana Taurasi on an exclusive WNBA scoring list' but does not specify which list. Brief's open_questions identify this as unverified in source material: 'The specific scoring list Mitchell passed Taurasi on (career total, single season, consecutive games, or another metric) is not identified in the fetched text.' Draft presents unclear/undefined fact as settled when source material does not contain the category detail. The title compounds this by claiming 'historic scoring streak'\u2014a specific metric not confirmed in the brief's data points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
   "approved": 4,
   "rejected": [
    {
@@ -8340,6 +8308,80 @@
      "The draft states 'Tampa's first postseason appearance since 2023' in the body, but the brief's data_point confirms the Rays' last postseason appearance WAS in 2023. This is accurate. However, the draft then says 'The Rays won AL pennants in 2008 and 2020 but have never won a World Series'\u2014this phrasing is technically correct but the brief does not confirm whether the Rays won pennants or merely reached the World Series in those years; the brief says they 'won AL pennants in 2008 and 2020' so this traces correctly.",
      "The bottom_line references 'whether Caminero can replicate Randy Arozarena's 2020 postseason performance.' The brief's bear_case explicitly flags that 'the article does not confirm Arozarena remains on the roster or is available for 2026 playoffs.' The draft invokes Arozarena as a comparative model without confirming he is on the 2026 roster. This is a reputational/accuracy risk: using a player as a performance benchmark when his current roster status is unconfirmed smuggles an unconfirmed fact into the narrative.",
      "The draft states 'The clinching win secures Tampa at minimum a third wild card spot and keeps the team in contention for the AL East title.' The brief data_point says 'The Rays clinched only a postseason spot and are assured of being no worse than the third wild card team.' The phrasing 'third wild card spot' is accurate, but the draft does not clarify that this is the MINIMUM clinching (i.e., they could still win the division). The phrase 'keeps the team in contention' is supported by the brief's data_point 'Tampa will attempt to hold off the New York Yankees and win their first AL East title since 2021.' However, this last claim says 'first AL East title since 2021,' but the open_questions note the brief does not provide the Rays' win-loss record. The brief itself contains this contradiction. The draft correctly reports the clinching event but the underlying brief has an inconsistency about whether the Rays last won the AL East in 2021 (the data_point claims) or never recently (the open_questions imply uncertainty). This is a brief-level problem, not a draft error, so the draft is not culpable here."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Elena Rybakina Defeats Sabalenka to Win US Open, Claim World No. 1 on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open women's final as having occurred on 'Saturday, September 14,' but today is Sunday, 2026-09-13. A past-tense report of an event dated September 14 (which is tomorrow) violates the hard rule that scheduled future events must be written as upcoming, not as completed fact. The entire draft treats a future event as already concluded.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c348",
+    "headline": "Ben Shelton Defeats Tiafoe to Reach First US Open Final, Faces Zverev on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open men's final as scheduled for 'Sunday, September 15,' which is two days in the future from today (Sunday, 2026-09-13). This is correct framing. However, the brief contains data points about Zverev's semifinal victory (beat Karen Khachanov 6-3, 7-6, 7-6) but the draft reports it as 'Zverev beat Karen Khachanov 6-3, 7-6, 7-6' without the tiebreak notation that appears in the brief ('7-6 (7), 7-6 (6)'). More critically, the draft does not include the tiebreak scores from the brief. This is a minor discrepancy in notation but the draft omits specific detail present in the source. Additionally, the brief states Alcaraz 'had withdrawn from Cincinnati and returned after a nearly five-month wrist injury absence' but the draft says he 'had withdrawn from Cincinnati and returned after a nearly five-month wrist injury absence'\u2014this is accurate. However, checking the Shelton narrative: the draft says 'Shelton defeated defending champion Carlos Alcaraz, who had withdrawn from Cincinnati and returned after a nearly five-month wrist injury absence, in the quarterfinal' but the brief's data point says 'Zverev defeated defending champion Carlos Alcaraz, who had withdrawn from Cincinnati and returned after a nearly five-month wrist injury absence, in the quarterfinal.' The draft incorrectly attributes the Alcaraz quarterfinal defeat to Shelton when it was Zverev who defeated Alcaraz.",
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday",
+     "the draft dates September 15, 2026 as a Sunday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c351",
+    "headline": "Townsend and Siniakova Win US Open Doubles, Complete Career Grand Slam",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 12, 2026 as a Friday; September 12, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c064",
+    "headline": "Oklahoma State Stuns No. 6 Oregon 39-31 on September 12, Snaps 21-Game FBS Losing Streak",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports an event dated after today (September 13, 2026) as having already happened. The title states 'Oklahoma State Stuns No. 6 Oregon 39-31 on September 12' and the body reports this as a past event ('Oklahoma State defeated No. 6 Oregon 39-31 on Saturday, September 12'), but today is Sunday, September 13. September 12 is in the past relative to today, so this is accurate. However, the opening sentence reports 'Oklahoma State defeated' using past tense for an event that occurred yesterday (September 12), which is correct given today is September 13.",
+     "Upon re-examination, the game occurred on September 12, 2026, and today is September 13, 2026. The event is correctly reported as past. However, the draft contains a critical factual inconsistency: the brief includes multiple data points referencing Notre Dame's 2024 loss to Northern Illinois (data_points about Notre Dame at No. 5, losing 16-14, plummeting to No. 18, then winning 13 straight and reaching the national title game), but these facts appear nowhere in the draft body. This is not an error per se, but rather the draft selectively omitted context available in the brief.",
+     "More critically, the draft contains a sentence that contradicts available data: 'Oregon was limited to just one red-zone trip and converted on 5 of 17 third- and fourth-down attempts.' The brief contains two separate claims: one data_point states 'Oregon converted on 4 of 15 third- and fourth-down plays in an uncomfortably close comeback win over Boise State' (Week 1), and another states 'Oregon finished 5 of 17 on third- and fourth-down attempts against Oklahoma State' (the game in question). The draft correctly reports 5 of 17 for the Oklahoma State game, but this is proper accuracy, not a failure."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "No. 4 Texas Defeats No. 1 Ohio State 24-23 on September 13, Rallies From 20-Point Fourth-Quarter Deficit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports 'No. 4 Texas defeated No. 1 Ohio State 24-23 on Saturday, September 13.' However, today is Sunday, September 13, 2026. September 13 is today, not yesterday. A game played 'on Saturday, September 13' is impossible if today is Sunday, September 13. The correct date should be September 12 or 13, but the day of week cannot both be Saturday and occur before Sunday, September 13. The brief's core data_point says 'Final score: Texas 24, Ohio State 23' with timestamp '2026-09-13T04:51:58Z,' indicating the game was played on September 13. If today is Sunday, September 13, then the game was played today or last night, not 'Saturday.' This is an accuracy error in the day-of-week attribution.",
+     "The draft states Manning 'accumulated only 60 yards, including negative-4 in the first quarter' in the first half, then later states 'At halftime, he had thrown for only 26 passing yards in the first half according to CBS Sports.' These two figures (60 yards total in first half vs. 26 passing yards at halftime) are contradictory and cannot both be true. The brief provides data_point: 'Manning threw for only 60 yards in the first half, including minus-4 in the first quarter' and separately 'Manning had only 26 passing yards at halftime a year ago in Columbus' (referring to the 2025 game). The draft conflates these: the 26 yards refers to the prior-year loss in Columbus, not this game. The current game shows 60 yards in the first half.",
+     "the draft dates September 13, 2026 as a Saturday; September 13, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c224",
+    "headline": "USA edges Spain 76-66 in Women's World Cup semifinal, advances to gold medal game vs. France on September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states the gold medal game is 'on September 13' and the body states it will be 'on Sunday, September 13, in Berlin, Germany.' Today is Sunday, 2026-09-13. The game has not yet happened; it is scheduled for today. The draft presents this scheduled future event as a past or concurrent occurrence by naming it as part of the semifinal result narrative. The brief's data point marks this as 'announced-not-verified' (a scheduled event), not a completed result. The phrasing 'advances to gold medal game vs. France on September 13' conflates the completed semifinal with an upcoming scheduled game.",
+     "The draft reports 'Team USA defeated Spain 76-66 in the FIBA Women's World Cup semifinal on Saturday, September 12, 2026, to advance to the gold medal game against France on Sunday, September 13.' This is accurate for the semifinal result, but the title construction 'advances to gold medal game vs. France on September 13' makes it ambiguous whether September 13 is a scheduled future event or part of the result narrative. For a draft written on September 13, any framing that reads as 'the team advanced and then played on the same day I am publishing' is inaccurate.",
+     "The draft does not clearly mark the September 13 gold medal game as scheduled/upcoming. The brief confidence label 'announced-not-verified' must survive in prose. The draft does not flag this as uncertain or scheduled; it reads as settled fact within the same narrative arc as the semifinal victory."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Steelers' Joey Porter Jr. questionable for Sunday opener vs. Falcons amid back injury and unresolved contract extension talks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Pittsburgh Steelers cornerback Joey Porter Jr. is listed as questionable for Sunday's Week 1 opener against the Atlanta Falcons' but then states 'remains in unresolved contract extension negotiations as the team's policy against mid-season contract talks approaches in approximately 42 hours.' The brief's core_claim says Porter is 'unlikely to play,' but the draft softens this to 'questionable,' which is the official listing. However, the second sentence immediately contradicts the framing by suggesting the contract issue is the blocking factor with a 42-hour countdown. The brief data points do not support a 42-hour countdown timer as a precise fact; the brief data point says Porter told ESPN 'At this point we got, what, 42 hours?' which is a quote reflecting uncertainty about time remaining, not a verified fact that exactly 42 hours remain. The draft presents Porter's colloquial speech as a factual deadline.",
+     "The draft states the Steelers' 'policy against mid-season contract talks approaches in approximately 42 hours.' This is inaccurate phrasing: the policy does not 'approach'; the deadline for contract talks (kickoff time) approaches. The 42-hour figure is lifted from Porter's own speculative quote and presented as editorial fact without attribution. The brief shows this quote is reported speech, not a verified timeline.",
+     "The draft's core premise\u2014that Porter is 'unlikely to play'\u2014is not matched by the brief's evidence. The draft presents Porter as 'questionable' (official status) while the brief core_claim says 'unlikely.' The draft then hedges throughout with 'if Porter does not play' and 'pending Porter's medical clearance,' which softens the 'unlikely' framing from the brief. The balance between injury and contract as blocking factors is unclear; the draft does not establish which is primary or whether both are present."
     ]
    }
   ]
