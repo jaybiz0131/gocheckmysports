@@ -1,55 +1,5 @@
 [
  {
-  "date": "2026-08-03",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c079",
-    "headline": "Red Sox acquire All-Star catcher Rutschman from Orioles",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states: 'The source text is corrupted\u2014it contains only font-face CSS declarations and no readable article content. The trade details, prospects involved, timing, and terms cannot be extracted from the fetched page.' The brief contains zero data_points because the source is unreadable. The draft presents the core_claim as fact, but the brief marks the sourcing as broken. No facts can be verified from a corrupted source.",
-     "The brief's only data_point is the core_claim itself with no supporting detail. The draft should reflect this thinness and lack of verification, not present the trade as established fact."
-    ]
-   },
-   {
-    "id": "c176",
-    "headline": "Padres acquire pitcher Robbie Ray from Giants",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains only one data_point: 'Robbie Ray was traded to the Padres from the Giants' with confidence label 'announced-not-verified'. The draft presents this as settled fact ('acquired pitcher Robbie Ray from the San Francisco Giants') without signaling the unverified status. A claim marked 'announced-not-verified' in the brief must read as announced/unconfirmed in the prose.",
-     "The draft states Ray is 'a former Cy Young Award winner' \u2014 this biographical fact does not appear in the brief's single data_point and is smuggled information sourced from outside the brief."
-    ]
-   },
-   {
-    "id": "c099",
-    "headline": "England FA joins Wales and Serbia in withdrawing support for Infantino re-election",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'England, Wales, Serbia join Finland in defection' in the bottom_line, but the brief's data_points only confirm Wales, Serbia, and Finland as defectors. The claim that England withdrew support is presented as fact in the draft body ('England's Football Association has withdrawn its backing') but the brief's core_claim and data_points describe England as 'the highest-profile of several Uefa member associations to drop its support'\u2014a description of prominence, not confirmation of actual withdrawal. The distinction between England being described as high-profile and England actually defecting is material and unresolved in the brief.",
-     "The draft opens with 'England's Football Association has withdrawn its backing for FIFA President Gianni Infantino's re-election, according to reporting by The Guardian' but presents this as settled fact when the brief marks the core_claim as only 'reported' confidence, not verified. The Guardian reporting language (as paraphrased in the brief's data_points) uses the phrase 'highest-profile of several' which suggests description rather than confirmation of withdrawal."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Cubs acquire Holmes and Taylor from Mets for infielder Rojas",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states in the bottom_line that the Cubs 'add All-Star reliever Clay Holmes,' but no data_point in the brief confirms Holmes is or was an All-Star. The brief describes his pre-injury 2.39 ERA and career 3.26 ERA across 40 starts, but makes no claim of All-Star status. This is a factual addition not present in the brief.",
-     "The draft body claims 'limited strikeout production' as a characteristic of Holmes, but no strikeout data or statistics appear in the brief's data_points. The brief notes 'Holmes is not a big strikeout pitcher' in the bear_case, but the draft presents this as an established fact in the main prose ('his injury status and limited strikeout production create uncertainty') without attribution or qualification."
-    ]
-   },
-   {
-    "id": "c173",
-    "headline": "Astros trade for Gold Glove outfielder Varsho in deal with Blue Jays",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks all three core data points as 'announced-not-verified' confidence level, but the draft presents them as settled fact without hedge language. The sentence 'The Houston Astros acquired outfielder Daulton Varsho from the Toronto Blue Jays in exchange for pitcher Spencer Arrighetti, according to MLB.com' reads as confirmed rather than announced-pending-verification. Per the hard rule, confidence labels must survive in prose: an 'announced-not-verified' claim requires conditional language ('according to reports', 'the deal was announced', or similar signal that verification is pending)."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-04",
   "approved": 5,
   "rejected": [
@@ -8408,6 +8358,47 @@
     "reasons": [
      "The draft reports the game as having happened on Saturday night ('No. 4 Texas defeated No. 1 Ohio State 24-23 on Saturday night'), but today is Sunday, September 13, 2026, making Saturday September 12. The brief timestamp is '2026-09-13', and the Guardian URL in the brief is dated 2026/sep/13, which is today. The game must have occurred on Saturday (Sept. 12), so the past-tense reporting is correct. However, the brief's open_questions section notes critical details are missing: 'The sources do not specify Ohio State's scoring breakdown or confirm the exact sequence of how Ohio State scored its 23 points' and 'The sources do not provide detail on Texas's defensive performance or Ohio State's offensive struggles in the fourth quarter that enabled the comeback.' The draft does not flag or acknowledge these gaps; it presents a complete narrative. More critically, the brief data_point says 'Texas was losing 23-3 in the third quarter before the rally began,' but the draft states 'Texas trailed 23-3 entering the fourth quarter before the rally began.' This is the same score but different timing language (third quarter vs. entering the fourth quarter). The brief says 'in the third quarter,' which means after three quarters; the draft says 'entering the fourth quarter,' which also means after three quarters. This is not a material discrepancy.",
      "The draft states Manning's performance 'won't light up a Heisman Trophy ballot' as a direct claim. The brief bear_case says Manning's stat line 'won't light up a Heisman Trophy ballot,' according to The Guardian. The draft should attribute this to The Guardian explicitly, not present it as the desk's voice. The draft does include attribution: 'According to The Guardian, the performance \"won't light up a Heisman Trophy ballot.\"' This is correct."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Brennan misses record sixth debut Grand Tour stage win as Mas clinches Vuelta crown",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Pogacar 'is a five-time Tour de France champion' but the brief data says he is 'a five-time Tour de France champion' and separately 'won a record-equalling fifth Tour de France' and 'Pogacar is 27 years old' \u2014 the brief also says 'Pogacar is a nine-time Grand Tour winner,' which is consistent. However, the draft then states 'Pogacar had won all three Grand Tours this season' \u2014 the brief does say 'Pogacar became the ninth rider to win all three Grand Tours' but does not explicitly state he won all three in 2026 (this season). The draft claims 'Pogacar, a five-time Tour de France champion and nine-time Grand Tour winner' but immediately after says he 'had won all three Grand Tours this season' \u2014 this is a factual assertion about winning all three in 2026 that is not clearly supported by the brief's wording, which says he 'became' the ninth rider to win all three (suggesting a career achievement, not necessarily all in one season).",
+     "More critically, the draft says 'Pogacar had only been beaten once all year (by Wout van Aert at Paris-Roubaix)' \u2014 but the brief's corresponding data point says 'Pogacar had only been beaten once all year before the Vuelta (by Van Aert at Paris-Roubaix).' The draft's version ('all year') is ambiguous and could include races after the Vuelta; the brief's version clarifies it was 'before the Vuelta.' By dropping the temporal qualifier, the draft has altered the factual claim's precision."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "Antonelli wins Spanish GP at Madring on September 13 ahead of Verstappen, Norris",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states the race occurred on 'September 13' but today is Sunday, 2026-09-13. The brief timestamp is also 2026-09-13. This creates ambiguity about whether this is a same-day report or a post-event report. However, the core issue is that the draft reports a scheduled/past event without clarity on timing relative to publication date. More critically, the brief's bear_case contains material that contradicts the framing: the bear_case explicitly states 'Antonelli benefited from McLaren's pit-stop miscalculation' and the race was 'decidedly prosaic' with poor competitive racing. The draft narrates Antonelli's victory as straightforward strategy execution without adequately surfacing the bear case that this was a beneficiary win, not a performance win."
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "USA beats Spain 76-66 in World Cup semifinal; Mercury return to finish season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the USA-France gold medal game as a past event ('Team USA and France tip off for gold on September 13 at 2 p.m. ET') when today is September 13 and the game is scheduled for later today. The brief's open_questions explicitly state 'The sources do not confirm whether Team USA defeated France in the World Cup final on Sept. 13 or provide the final score; the brief received pre-final reporting only.' The draft presents an unconfirmed future event as though it occurred, which is factually inaccurate.",
+     "The core_claim in the brief states Team USA 'won gold by defeating France,' but this contradicts the open_questions which say the sources do not confirm the final result. The draft should not assert an outcome that the sources have not verified."
+    ]
+   },
+   {
+    "id": "c180",
+    "headline": "Josh Allen runs for 21-yard TD, Bills lead Texans 10-7",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a game currently in progress (12:46 remaining in the first half) as though it is a completed narrative with analysis of Allen's performance against Houston's defense. Today is September 13; the game is ongoing. The brief's open_questions state 'The complete final score and result of the game, as the provided source texts only confirm the 10-7 Bills lead with 12:46 left in the first half.' The draft constructs an interpretive narrative about Allen potentially 'signaling a shift in the historical dynamic' when the game is still unresolved, presenting uncertainty as emerging fact.",
+     "The bottom_line attempts to hedge by saying 'The game is still in progress as of this report,' but this contradicts the body's narrative frame, which reads as a half-time analysis of an ongoing contest rather than a live-score update. A draft reporting an unfinished game with full contextual analysis of Allen's performance and the Texans' defensive scheme invites misreading as a completed-game story if republished out of temporal context."
     ]
    }
   ]
