@@ -1969,6 +1969,38 @@ def _w2w_carriers(g):
     return "".join(out)
 
 
+def _w2w_stamp(data):
+    """The real as-of time, in the page's own words. When the fetch failed and the
+    committed file is being served, this shows THAT file's time, not now: a data
+    surface is current or visibly stale, never quietly either."""
+    import datetime as _dt
+    raw = (data or {}).get("fetched_at") or ""
+    try:
+        t = _dt.datetime.strptime(raw, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+    except Exception:
+        return ""
+    age = (_dt.datetime.now(_dt.timezone.utc) - t).total_seconds() / 3600
+    when = t.strftime("%H:%M UTC, %a %-d %b")
+    tail = ", not refreshed since" if age > 24 else ""
+    return (f'<p class="bd-src">Channels as listed by the league, as of {esc(when)}'
+            f'{tail}.</p>')
+
+
+def _w2w_split(week):
+    """Upcoming windows first, then anything the feed says is finished. Read from the
+    feed's `completed`, never from the clock: a build at 03:00 UTC cannot tell whether
+    Thursday's game finished, was postponed, or is in a weather delay."""
+    up, done = [], []
+    for wname, games in _w2w_windows(week):
+        pending = [g for g in games if not g.get("completed")]
+        played = [g for g in games if g.get("completed")]
+        if pending:
+            up.append((wname, pending))
+        if played:
+            done.append((wname, played))
+    return up, done
+
+
 def _w2w_windows(week):
     """Games grouped by window, windows in kickoff order. A window the feed shows that
     is not one of the named slots (a Wednesday opener, an international game) keeps its
@@ -1986,8 +2018,9 @@ def _w2w_windows(week):
 def render_where_to_watch(week, weeks, dateline, current=False):
     slug = _w2w_slug(week)
     url = "/where-to-watch.html" if current else f"/where-to-watch/{slug}.html"
+    up, done = _w2w_split(week)
     rows = []
-    for wname, games in _w2w_windows(week):
+    for wname, games in up:
         rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
                     f'<span class="bd-stamp">{esc(games[0].get("day_et") or "")}</span></div>')
         for g in games:
@@ -1996,6 +2029,22 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                 f'{esc(g.get("home") or "")}</span>'
                 f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
                 f'<span class="w2w-cars">{_w2w_carriers(g)}</span></div>')
+    if done:
+        rows.append('<div class="w2w-win w2w-done"><span class="bd-label">Already played'
+                    '</span><span class="bd-stamp">final, per the league feed</span></div>')
+        for wname, games in done:
+            for g in games:
+                sc = ""
+                if g.get("away_score") is not None and g.get("home_score") is not None:
+                    sc = (f'{esc(str(g.get("away_score")))}-'
+                          f'{esc(str(g.get("home_score")))}')
+                rows.append(
+                    f'<div class="w2w-row w2w-played"><span class="w2w-game">'
+                    f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}</span>'
+                    f'<span class="bd-src">{esc(g.get("day_et") or "")}</span>'
+                    f'<span class="w2w-cars"><span class="bd-src">'
+                    f'{esc(g.get("status") or "Final")}{" " + sc if sc else ""}</span>'
+                    f'</span></div>')
     others = "".join(
         f'<a class="bd-more" href="/where-to-watch/{_w2w_slug(w)}.html">Week {w.get("week")}</a>'
         for w in weeks if w.get("week") != week.get("week"))
@@ -2006,6 +2055,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
      every window and the channel that carries it</h1>
   <p class="lx-dek">{n} games, grouped by kickoff window. Carriers as the league has
      announced them.</p>
+  {_w2w_stamp(W2W_DATA)}
   <div class="w2w">{"".join(rows)}</div>
   <div class="lx-actions">{others}</div>
   <p class="bd-src" style="margin-top:14px">Source: ESPN NFL scoreboard, read at build.
@@ -2026,14 +2076,15 @@ def where_to_watch_card(data):
     now = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     week = None
     for w in data["weeks"]:
-        if any((g.get("kickoff_utc") or "") >= now for g in w.get("games") or []):
+        if any(not g.get("completed") for g in w.get("games") or []):
             week = w
             break
-    week = week or data["weeks"][0]
-    upcoming = [(wn, gs) for wn, gs in _w2w_windows(week)
-                if any((g.get("kickoff_utc") or "") >= now for g in gs)][:2]
+    week = week or data["weeks"][-1]
+    # Only windows with a game still to play, and never a finished one.
+    upcoming, _played = _w2w_split(week)
+    upcoming = upcoming[:2]
     if not upcoming:
-        upcoming = _w2w_windows(week)[:2]
+        return ""
     rows = []
     for wname, games in upcoming:
         rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
@@ -2308,6 +2359,121 @@ def render_news_month(month, rows, dateline):
                                             (label, url)]))
 
 
+# ---- S3: living tables --------------------------------------------------------
+# "Evergreen pages built as tables that update when a ruling or filing posts. Each
+# carries a source per row and an updated stamp."
+#
+# EVERY ROW IS A STORY THIS DESK PUBLISHED. That is the whole design. A media-rights
+# table typed in from general knowledge would be longer and would also be this desk
+# asserting deals it never reported and cannot stand behind. Each row here links the
+# story, names the outlets that story cited, and carries that story's own date, so the
+# table updates exactly when the desk publishes, which is what "living" means here.
+#
+# ONLY ONE OF THE TWO TABLES SHIPS. The order asks for media rights and for cap math
+# (dead money). Measured across the whole live corpus: media rights has 5 reported
+# deals, cap math has 1. A one-row table is not a table, and the alternative is to
+# fill it from memory. So cap math is reported as having no inventory, the same
+# finding as its Record lane, and it ships the day the desk has covered it.
+LIVING_TABLES = [
+    {
+        "slug": "media-rights",
+        "lane": "media-rights",
+        "title": "Media rights, by property",
+        "h1": "Sports media rights, every deal this desk has reported",
+        "dek": "Who carries what, what changed, and the filing or announcement behind "
+               "each row. Updated when a new deal posts.",
+        "desc": "A living table of sports media rights deals: property, what changed, "
+                "when it was reported, and the source behind every row.",
+        "col": "Property",
+        "rx": (r"media rights|broadcast deal|tv deal|rights deal|streaming deal|"
+               r"rights package|broadcast rights|tv contract|media deal|rights fee|"
+               r"carriage"),
+        "min_rows": 5,
+    },
+]
+
+
+def _table_rows(spec, items):
+    rx = re.compile(spec["rx"], re.I)
+    live = [i for i in (items or [])
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+    got = []
+    for i in live:
+        t = i.get("title") or ""
+        n = len(rx.findall(t)) + len(rx.findall(i.get("key_fact") or "")) \
+            + len(rx.findall(i.get("dek") or ""))
+        if rx.search(t) or n >= 2:
+            got.append(i)
+    got.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    return got
+
+
+def _table_property(item):
+    """The league or property a row is about, from the tags the desk already applies.
+    Falls back to the first proper noun in the headline rather than inventing one."""
+    lg = {"nfl": "NFL", "mlb": "MLB", "nba": "NBA", "wnba": "WNBA", "nhl": "NHL",
+          "soccer": "Soccer", "tennis": "Tennis", "golf": "Golf",
+          "college-football": "College football", "college": "College",
+          "combat sports": "Combat sports", "cycling": "Cycling"}
+    for t in tags_for(item):
+        if t in lg:
+            return lg[t]
+    _NOT_A_PROPERTY = {"nbc", "cbs", "fox", "abc", "espn", "tnt", "amazon", "netflix",
+                       "peacock", "paramount", "apple", "disney", "comcast", "warner",
+                       "prime", "ion", "victory+", "youtube", "max", "turner",
+                       "scores-results", "transactions", "injuries", "markets"}
+    for t in tags_for(item):
+        if t and t.lower() not in _NOT_A_PROPERTY:
+            return t.replace("-", " ").title()
+    m = re.match(r"([A-Z][A-Za-z0-9'&.-]*)", item.get("title") or "")
+    if m and m.group(1).lower() not in _NOT_A_PROPERTY:
+        return m.group(1)
+    return "Not stated"
+
+
+def render_living_table(spec, items, dateline):
+    rows = _table_rows(spec, items)
+    if len(rows) < spec["min_rows"]:
+        return None
+    trs = []
+    for i in rows:
+        outlets = []
+        for s in (i.get("sources") or []):
+            nm = _bd_outlet(s)
+            if nm and nm not in outlets:
+                outlets.append(nm)
+        what = (i.get("key_fact") or i.get("dek") or "").strip()
+        if len(what) > 260:
+            what = what[:255].rsplit(" ", 1)[0] + "..."
+        trs.append(
+            f'<tr><td class="lt-prop">{esc(_table_property(i))}</td>'
+            f'<td class="lt-what"><a href="/articles/{esc(i["slug"])}.html">'
+            f'{esc(i.get("title") or "")}</a>'
+            + (f'<span class="bd-src">{esc(what)}</span>' if what else "") + '</td>'
+            f'<td class="lt-when"><span class="bd-stamp">{esc(fmt_date(i.get("date") or ""))}'
+            f'</span></td>'
+            f'<td class="lt-src"><span class="bd-src">'
+            f'{esc(", ".join(outlets[:3]) or "linked on the story")}</span></td></tr>')
+    updated = fmt_date(rows[0].get("date") or "")
+    url = f'/keepers/{spec["slug"]}.html'
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/keepers.html">The Record</a> / {esc(spec["title"])}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
+  <p class="lx-dek">{esc(spec["dek"])}</p>
+  <div class="bd-cardtop"><span class="bd-badge dat">Living table</span>
+    <span class="bd-stamp">{len(rows)} rows, updated {esc(updated)}</span></div>
+  <div class="lt-wrap"><table class="lt">
+    <thead><tr><th>{esc(spec["col"])}</th><th>What changed</th><th>Reported</th>
+      <th>Source</th></tr></thead>
+    <tbody>{"".join(trs)}</tbody></table></div>
+  <p class="bd-src" style="margin-top:14px">Every row is a story this desk published
+     and checked. The table updates when the next one posts; it is not a survey of
+     every deal in the market.</p>
+</section></main>"""
+    return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "The Record", body,
+                      dateline, path=url)
+
+
 # ---- S5: The Record -----------------------------------------------------------
 # Addendum of 2026-09-13, ported from the crypto desk. What this desk has published
 # that stays true after the news moves on, grouped into lanes, each lane led by its
@@ -2458,7 +2624,7 @@ def _record_bars(lane_items, w=440, h=54, months=6):
             f'{"".join(parts)}</svg>')
 
 
-def _record_lane(slug, name, lane_items, hub_slugs, page=False):
+def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     """One lane: the featured piece on the left, three more on the right."""
     if len(lane_items) < RECORD_LANE_MIN:
         return ""
@@ -2494,6 +2660,15 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
         f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
         for i in rest)
     all_href = f"#{esc(slug)}" if page else f"/keepers.html#{esc(slug)}"
+    # S3: a lane with a living table leads its read-further list with it. The table is
+    # the standing version of everything below it, so it goes first and is labelled as
+    # what it is.
+    _lt = next((t for t in LIVING_TABLES if t.get("lane") == slug), None)
+    if _lt and _lt["slug"] in (tables or set()):
+        rows = (f'<div class="bd-rec-row">'
+                f'<a class="bd-rec-t" href="/keepers/{esc(_lt["slug"])}.html">'
+                f'{esc(_lt["title"])}</a>'
+                f'<span class="bd-src">Living table</span></div>') + rows
     right = ""
     if rows:
         right = (f'<div class="bd-card bd-rec-more">'
@@ -2503,13 +2678,21 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
     return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
 
 
+def _live_tables(items):
+    """Which living tables have the rows to render. Same question render_living_table
+    asks, so the Record's link and the page itself can never disagree."""
+    return {t["slug"] for t in LIVING_TABLES
+            if len(_table_rows(t, items)) >= t["min_rows"]}
+
+
 def record_sections(items, home=True):
     """The Record: header plus one lane section per lane. Three lanes on the homepage,
     every lane on /keepers.html."""
     by_lane, _picks = _record_inventory(items)
     hub_slugs = {h.get("slug") for h in coverage_hubs(items) if isinstance(h, dict)}
     lanes = "".join(
-        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home)
+        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home,
+                     tables=_live_tables(items))
         for slug, name, _tags, on_home in RECORD_LANES
         if (on_home or not home))
     if not lanes.strip():
@@ -4012,6 +4195,18 @@ def build():
 
     w("index.html", render_home(items, dateline))
     w("keepers.html", render_keepers(items, dateline))
+    # S3: the living tables, one page each, in the Record lane they belong to.
+    _lt_urls = []
+    for _spec in LIVING_TABLES:
+        _got = render_living_table(_spec, items, dateline)
+        if _got:
+            _u, _html = _got
+            w(_u.lstrip("/"), _html)
+            _lt_urls.append(_u)
+            print(f"living table: {_u}")
+        else:
+            print(f"living table: {_spec['slug']} withheld, fewer than "
+                  f"{_spec['min_rows']} reported rows")
     w("news.html", render_news_hub(items, dateline))
     # S6: a page per storyline, paginated, plus a page per month. These are what make
     # every live story reachable within three clicks of the front page.

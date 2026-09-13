@@ -134,11 +134,17 @@ def _week(params=""):
     games = []
     for e in d.get("events") or []:
         comp = (e.get("competitions") or [{}])[0]
-        teams = {}
+        teams, scores = {}, {}
         for c in comp.get("competitors") or []:
-            teams[c.get("homeAway")] = ((c.get("team") or {}).get("abbreviation")
-                                        or (c.get("team") or {}).get("shortDisplayName") or "")
+            ha = c.get("homeAway")
+            teams[ha] = ((c.get("team") or {}).get("abbreviation")
+                         or (c.get("team") or {}).get("shortDisplayName") or "")
+            scores[ha] = c.get("score")
         et = _et(e.get("date") or "")
+        # STATUS COMES FROM THE FEED, NEVER FROM THE CLOCK. A build running at 03:00
+        # UTC on Saturday cannot tell from the time alone whether Thursday's game
+        # finished, was postponed or is in a weather delay. The feed says.
+        st = ((e.get("status") or {}).get("type") or {})
         games.append({
             "away": teams.get("away", ""), "home": teams.get("home", ""),
             "kickoff_utc": e.get("date") or "",
@@ -146,6 +152,10 @@ def _week(params=""):
             "day_et": et.strftime("%a %-d %b") if et else "",
             "window": window_name(et) if et else "",
             "carriers": _carriers(comp),
+            "state": st.get("state") or "",              # pre | in | post
+            "completed": bool(st.get("completed")),
+            "status": st.get("shortDetail") or st.get("description") or "",
+            "away_score": scores.get("away"), "home_score": scores.get("home"),
         })
     games.sort(key=lambda g: g["kickoff_utc"])
     return {"season": season.get("year"), "season_type": season.get("type"),
