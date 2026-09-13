@@ -4,40 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c003",
-    "headline": "MLB trade deadline closes with contenders adding All-Star talent",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'After this season, the San Francisco Giants would still owe Rafael Devers, age 29, 211 million dollars over the next seven years' but the brief's data point says 'the San Francisco Giants would still owe Rafael Devers'\u2014this is a factual contradiction. Devers plays for the Boston Red Sox, not the Giants. The brief contains an error that the draft uncritically reproduced, but the writer's obligation is to catch brief errors, not amplify them.",
-     "The draft introduces the claim that the Padres' interest in Devers 'likely does not amount to anything' in the main body, but this is presented as ESPN reporting when the brief clearly labels it as part of the bear_case (i.e., the other side of the story, not settled fact). The prose should signal uncertainty more clearly ('ESPN reported that the extent of the Padres' interest...likely does not amount to anything' does this adequately on re-read, but the phrasing 'However, ESPN reported' could be stronger to distinguish reported skepticism from confirmed fact).",
-     "The draft states Andrew Friedman 'called another addition to the major league roster unlikely' but the brief's data point says he 'called another addition to the major league roster unlikely'\u2014this traces correctly. However, the brief's bear_case notes that 'another addition to the major league roster is unlikely despite multiple conversations,' which contextualizes Friedman's comment as a constraint, not merely a statement of preference. The draft does not surface this constraint adequately."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "UFC flyweight Allan Nascimento dies at 34",
-    "category": "compliance",
-    "reasons": [
-     "Health/medical claim: The draft states Nascimento 'died after being found unresponsive in an apparent heart attack' as a factual summary. The brief explicitly notes the cause is 'described as apparent, not yet verified by medical determination or official channels.' The draft presents this unconfirmed medical determination without hedging language ('apparent' appears only in the sourced phrase but is immediately presented as settled fact in context). Per compliance rules, speculation about a player's medical state beyond the official record is prohibited. The draft should attribute the 'apparent' characterization explicitly to the source and avoid presenting it as verified fact."
-    ]
-   },
-   {
-    "id": "c149",
-    "headline": "England Set to Withdraw Support for Infantino as European Federations Defect",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Infantino abandoned a proposal to commercialize World Cup stakes through outside investment' but the brief data_point says 'FIFA announced the idea to commercialize its business by taking money from outside investors.' The draft mischaracterizes the scope as specific to World Cup stakes alone; the brief indicates a broader commercialization proposal.",
-     "The draft includes the claim 'Infantino is Swiss, and also has Italian and Lebanese citizenship' as a data_point in the brief (data_point 21), but this information does not appear anywhere in the draft body. This represents a factual omission, though minor\u2014the draft's omission of available data is acceptable; however, the inverse (adding facts not in brief) would violate the hard rule.",
-     "The draft states Germany's federation 'stated it was not among early supporters and therefore has no support to withdraw' but the brief data_point 10 provides a fuller quote: 'The DFB was among the few associations that did not support Gianni Infantino's re-election at an early stage. Therefore, there is no basis for us to withdraw our support at this time, given that there was no support to begin with.' The draft's paraphrase is accurate and does not add new information."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c020",
     "headline": "Itauma-Hrgovic upgraded to IBF world heavyweight title fight",
     "category": "accuracy",
@@ -8399,6 +8365,67 @@
     "reasons": [
      "The draft reports a game currently in progress (12:46 remaining in the first half) as though it is a completed narrative with analysis of Allen's performance against Houston's defense. Today is September 13; the game is ongoing. The brief's open_questions state 'The complete final score and result of the game, as the provided source texts only confirm the 10-7 Bills lead with 12:46 left in the first half.' The draft constructs an interpretive narrative about Allen potentially 'signaling a shift in the historical dynamic' when the game is still unresolved, presenting uncertainty as emerging fact.",
      "The bottom_line attempts to hedge by saying 'The game is still in progress as of this report,' but this contradicts the body's narrative frame, which reads as a half-time analysis of an ongoing contest rather than a live-score update. A draft reporting an unfinished game with full contextual analysis of Allen's performance and the Texans' defensive scheme invites misreading as a completed-game story if republished out of temporal context."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "Ravens' Henry Passes Allen for Third All-Time in Rushing TDs",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 8, 2026 as a Sunday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Rybakina Wins US Open, Becomes World No. 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open women's final as occurring on 'Saturday, September 14' but today is Sunday, September 13, 2026. A scheduled event dated after today cannot be written as having already happened. The brief's core claim and data_points all show timestamp '2026-09-12' or '2026-09-13' but the draft narrative presents this as a completed event with exact score and quotes from post-match interviews, creating a temporal impossibility.",
+     "The draft opens with 'Elena Rybakina defeated Aryna Sabalenka 6-4, 5-7, 6-2 on Saturday, September 14' but the approval date is Sunday, September 13. This event has not yet occurred and cannot be reported in past tense.",
+     "the draft dates September 14, 2026 as a Saturday; September 14, 2026 is a Monday",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c164",
+    "headline": "Rays clinch playoff berth, first team in 2026 to secure postseason spot",
+    "category": "balance",
+    "reasons": [
+     "The draft's bottom_line and closing framing present the Rays' roster as 'atypical' and their 'matchup-based staff and defense-heavy construction' as an untested model. However, the brief's bear_case explicitly cites three major vulnerabilities: middling offense in playoff format, lack of traditional starters outside Rasmussen, and a postseason no-win streak since 2021. The draft mentions the 2023 Rangers sweep in passing ('they were swept in two games at home') but does not integrate the bear_case into the main narrative proportionately. The draft devotes considerable space to praising the pitching model's unconventional design without substantively countering it with the bear_case that this model 'may not hold up under postseason pressure.' A reader could finish this piece believing the Rays are an clever underdog rather than understanding they carry meaningful structural vulnerabilities that the brief documents.",
+     "The draft states 'The Rays enter the postseason in an AL defined by mediocrity' and frames this as creating 'a potentially easier path through the ALCS to the World Series,' but immediately hedges with 'the outlet also cautions that any team can beat any team in a short series.' This structure allows the mediocrity framing to dominate without giving equal weight to the bear_case point that the postseason format 'may still force the Rays to face Yankees or Red Sox in the ALDS'\u2014negating the bye advantage even if they win the division. The balance here tilts toward upside."
+    ]
+   },
+   {
+    "id": "c169",
+    "headline": "Oklahoma State Defeats No. 6 Oregon 39-31 in Historic Upset on September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the Oklahoma State-Oregon game as having occurred on September 13 ('on Saturday, the Cowboys...'), but the brief timestamp is 2026-09-12T22:26:25Z, indicating the game occurred on September 12. Today is Sunday, September 13, so the game already happened but the date attribution in the draft is incorrect. The opening sentence should read 'on Saturday' or 'September 12' not 'on September 13'.",
+     "The draft states 'Moore completed only 14 of 29 passes (48%), a career low' and 'He had never completed less than 60% of his passes in a game last season.' This creates an ambiguous timeline: does 'last season' refer to 2025 or an earlier year? The brief says 'Moore never completed less than 60% of his passes in a game last season' which is clearer but the draft's framing is unclear about the scope of the comparison."
+    ]
+   },
+   {
+    "id": "c068",
+    "headline": "No. 4 Texas Defeats No. 1 Ohio State 24-23 with Fourth-Quarter Comeback on September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred 'on September 13' but the brief timestamps show 2026-09-13T04:51:58Z, which is early morning Sunday. This is ambiguous: a game played in the early hours of Sunday morning should likely be attributed to Saturday night or 'Saturday.' The core claim in the brief says 'on Saturday,' not Sunday. The draft should clarify whether this is Saturday night or Sunday to avoid reader confusion about timing.",
+     "The draft includes the detail 'Ohio State is now a loser of three of its last four games dating to the 2025 campaign' which appears in the brief as a data point, but the framing 'dating to the 2025 campaign' is imprecise. Does this mean games from the end of 2025 season through now, or is it describing a span that includes the entire 2025 season? The brief does not clarify the exact scope of this losing streak."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "USA defeats Spain 76-66 in FIBA Women's World Cup semifinal, September 12; advances to France in gold medal game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The U.S. will face France for the championship on September 13' as a future event, but today is Sunday, September 13, 2026. The gold medal game is scheduled for today (the present), not the future. The draft should use present or past tense appropriate to the publication date, or clarify the timing relative to today's date.",
+     "The brief's data_point states 'USA will play France in the gold medal game on Sunday' with timestamp 2026-09-12, confirming the game is scheduled for September 13 (Sunday). Writing it as future-tense 'will face' on September 13 is temporally incorrect; it should be 'faces' (present) or acknowledge it is happening today."
     ]
    }
   ]
