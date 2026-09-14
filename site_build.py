@@ -2836,7 +2836,8 @@ def render_inactives(board, w2w, dateline):
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
                  "first saw each one. Facts, not advice.",
-                 "Fantasy", body, dateline, path="/fantasy/inactives.html")
+                 "Fantasy", body, dateline, path="/fantasy/inactives.html",
+                 og_image=f"{ORIGIN}/share/inactives.png")
 
 
 # ---- S-B3, S-B7, S-B8: live points, the hub, and game pages --------------------
@@ -2991,7 +2992,8 @@ def render_game_page(g, points, board, wx, items, dateline):
     return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
                  f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
                  f'leaders and kickoff weather. Facts, not advice.',
-                 "Scores", body, dateline, path=f'/games/{g.get("id")}.html')
+                 "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
+                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png')
 
 
 def render_fantasy_live(all_points, dateline):
@@ -5282,6 +5284,12 @@ def build():
             w("fantasy/injuries.html", _dg)
             print(f"designations: {IA_DESIG['total']} players")
     if IA_BOARD:
+        try:
+            import share_cards as _sc2
+            _sc2.inactives_card(IA_BOARD,
+                                os.path.join(PUBLISH, "share", "inactives.png"))
+        except Exception:
+            pass
         _ia_html = render_inactives(IA_BOARD, W2W_DATA, dateline)
         if _ia_html:
             w("fantasy/inactives.html", _ia_html)
@@ -5301,10 +5309,21 @@ def build():
                 _pts = _fpm.for_game(_g["id"])
                 if _pts:
                     _all_points[_g["id"]] = _pts
+        _cards = 0
         for _g in _nfl:
+            # S-F: the card is drawn from the same game record the page renders, so
+            # the number in a group chat and the number on the page cannot disagree.
+            try:
+                import share_cards as _sc
+                _sc.game_card(_g, os.path.join(PUBLISH, "share", "games",
+                                               f'{_g["id"]}.png'))
+                _cards += 1
+            except Exception as _e:
+                pass
             w(f'games/{_g["id"]}.html',
               render_game_page(_g, _all_points.get(_g["id"]), IA_BOARD, WX_DATA,
                                items, dateline))
+        print(f"share cards: {_cards} game card(s)")
         print(f"game pages: {len(_nfl)}, {len(_all_points)} with a box score")
         _fl = render_fantasy_live(_all_points, dateline)
         if _fl:
