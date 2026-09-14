@@ -29,9 +29,10 @@ on:
   schedule:
     # A floor under the Worker, not a substitute for it. Sundays through the American
     # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
-    - cron: "*/15 15,16,17,20,21 * * 0"    # Sun 11:00-13:59 and 16:00-17:59 ET
-    - cron: "*/15 23 * * 0,1,4"            # Sun/Mon/Thu night games, 19:00 ET
-    - cron: "*/15 16,17 * * 6"             # Saturday slate
+    - cron: "*/15 15-22 * * 0"             # Sun 11:00-18:00 ET, continuous
+    - cron: "*/20 23 * * 0,1,4,5"          # Sun/Mon/Thu/Fri night games
+    - cron: "*/20 0-3 * * 1,2,5,6"         # the same games after UTC midnight
+    - cron: "*/15 16-23 * * 6"             # Saturday slate
 
 # Shares the desk's publish lock: this pushes to main, so it queues behind a running
 # brief rather than moving main underneath it.
