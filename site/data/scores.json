@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-09-14T16:50:51Z",
- "stale_after_utc": "2026-09-14T19:50:51Z",
+ "generated_utc": "2026-09-14T17:09:57Z",
+ "stale_after_utc": "2026-09-14T20:09:57Z",
  "leagues": [
   {
    "league": "Serie A",
@@ -10,9 +10,9 @@
      "away": "PAR",
      "home": "COMO",
      "away_score": 0,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "18'",
+     "detail": "37'",
      "start_utc": "2026-09-14T16:30Z",
      "eid": "401874933"
     },
@@ -22,7 +22,7 @@
      "away_score": 0,
      "home_score": 0,
      "state": "in",
-     "detail": "18'",
+     "detail": "37'",
      "start_utc": "2026-09-14T16:30Z",
      "eid": "401874950"
     },
@@ -55,7 +55,7 @@
     {
      "away": "M. Bassols Ribera",
      "home": "E. Bennemann",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 0,
      "state": "in",
      "detail": "1st",
@@ -331,6 +331,62 @@
    ]
   },
   {
+   "league": "UFC",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "A. Monteiro",
+     "home": "T. Williams",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 PM ET",
+     "start_utc": "2026-09-15T23:00Z",
+     "eid": "401918032"
+    },
+    {
+     "away": "H. Guillon",
+     "home": "L. Hernandez",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 PM ET",
+     "start_utc": "2026-09-15T23:00Z",
+     "eid": "401918031"
+    },
+    {
+     "away": "E. Santos",
+     "home": "A. Abdullaev",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 PM ET",
+     "start_utc": "2026-09-15T23:00Z",
+     "eid": "401918030"
+    },
+    {
+     "away": "O. Ravello",
+     "home": "I. Cavalcanti",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 PM ET",
+     "start_utc": "2026-09-15T23:00Z",
+     "eid": "401918029"
+    },
+    {
+     "away": "Z. Hunt",
+     "home": "M. Perea",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 PM ET",
+     "start_utc": "2026-09-15T23:00Z",
+     "eid": "401891541"
+    }
+   ]
+  },
+  {
    "league": "ATP",
    "source": "site.api.espn.com",
    "games": [
@@ -448,10 +504,10 @@
   },
   {
    "league": "UFC",
-   "status": "empty",
+   "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 0,
-   "games_kept": 0
+   "games_seen": 5,
+   "games_kept": 5
   },
   {
    "league": "ATP",

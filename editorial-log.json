@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c076",
-    "headline": "Kelsey Plum scores 20 points in first game as Mercury, a day after Sparks trade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes Plum's 20-point, 21-minute debut as 'the highest-scoring debut by a Mercury guard since Diana Taurasi in 2004.' The brief data_point states this as a direct comparison, but the brief's open_questions note asks 'How many games has Diana Taurasi played in her Mercury debut in 2004, and what was her point total?' This unresolved discrepancy in the source material means the claim cannot be verified as fact. The draft presents an unconfirmed comparison as settled fact.",
-     "The draft states 'No other material details about the transaction, the game outcome, or the Mercury's current playoff standing are confirmed in the available reporting.' This is a hedge that admits the brief is thin (confirmed: thin=true) but then presents the story anyway. The draft should either provide the material details or acknowledge their absence more transparently in the prose rather than burying it. The opening sentence makes Plum's scoring debut the story, but then admits we don't know the game outcome\u2014a critical detail for assessing whether this performance mattered."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Ravens extend Zay Flowers with $140 million deal, securing Jackson's top target",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes to Lamar Jackson the quote: 'He's just elusive. He's got the speed, he's got the quickness, the in and out of breaks. He really has everything a receiver needs. And he plays big.' However, the brief's data_point 21 attributes this same quote to Ravens cornerback Nate Wiggins, not Jackson. The draft misattributes this quote. Jackson is quoted separately in the brief (data_point 15) with different language about Flowers' market value.",
-     "The draft presents the anecdote about Flowers 'driving to Jackson's house at 5 a.m. in the offseason, honking his horn to get Jackson to come out for workouts' as fact in the narrative flow (it appears in brief data_point 18), but this claim originates from ESPN and should be attributed or flagged as reported, not presented as established fact without source signal in the prose."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Cleveland Sirens: WNBA's newest expansion franchise officially unveiled with independent branding",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Dan Gilbert's Rock Entertainment Group' but the brief data point identifies the owner only as 'Rock Entertainment Group' without naming Dan Gilbert. The draft has smuggled in a name (Dan Gilbert) that does not appear in the brief's sourced material.",
-     "The draft claims the Sirens will begin play 'in 2028 alongside the other expansion team coming to the league in that year,' but the brief contains no data point about a second expansion team or its timing. This is new information not in the brief."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Pac-12 and Mountain West reach settlement in realignment lawsuit",
-    "category": "balance",
-    "reasons": [
-     "The brief explicitly notes the source text is 'truncated and does not contain the substantive details of the settlement: terms agreed to, financial payments, specific schools affected, or statements from either league' and lists multiple open_questions about missing context. The draft transparently admits 'specific terms of the agreement, financial considerations, or detailed statements from either league are not available in the current sourcing,' which undercuts the credibility of leading with a settlement as a resolved matter. A story framed as 'settlement reached' without any terms, amounts, or league statements reads as a rumor-laundering piece and would embarrass the desk if details emerge contradicting the 'resolution' framing. The story is too thin to publish."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Jets rookie TE Sadiq sidelined from camp with hernia setback, Glenn expects Week 1 return",
-    "category": "compliance",
-    "reasons": [
-     "The draft states Sadiq 'managed the hernia injury through part of last season at Oregon, missing only one game' as a definitive fact about a player's medical history and injury management during college. This goes beyond the brief's scope, which only notes that 'Sadiq played with the injury through part of last season at Oregon, missing one game' and that 'The Jets said they were aware of the injury when they drafted him.' The draft's characterization of how he 'managed' a specific medical condition is speculative interpretation beyond the official record provided in the brief.",
-     "The draft's statement 'Despite the immediate practice absence, Glenn expressed confidence about Sadiq's status for the regular season, saying he is \"very confident\" the tight end will be ready for Week 1' requires scrutiny: Glenn's exact confidence level must trace directly to the brief. The brief lists Glenn's quote about being 'very confident' that Sadiq will be ready for Week 1, but the draft's framing of Glenn's confidence as coming 'despite the immediate practice absence' editorializes the tone beyond what the brief supports. The brief's bear_case explicitly notes Glenn said 'So I'm not real worried, but I think I want to make sure that I make the right decision,' indicating measured caution, not unqualified confidence\u2014a nuance the draft softens."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 5,
   "rejected": [
    {
@@ -8397,6 +8347,38 @@
     "reasons": [
      "The draft states Stribling 'sustained a deltoid strain in his left ankle' but the brief data_point says he 'sustained a deltoid strain in his ankle' with no laterality specified in the core claim or primary data_point. The draft adds 'left' without sourcing it to the brief. The open_questions section of the brief explicitly flags this ambiguity: 'The exact left/right leg designation is ambiguous in one instance.' The draft resolved an ambiguity that the brief identified as unresolved, smuggling in a fact choice the research had not confirmed.",
      "The draft reports a specific injury type ('deltoid strain') as settled fact, but 'deltoid strain' is an unusual diagnosis for an ankle injury (the deltoid is a shoulder muscle, not ankle-related). This suggests either a mischaracterization of the injury type or a sourcing error. The brief data_point repeats the term, but the desk should verify this is what CBS Sports actually reported before publishing; if this is a typo or misstatement in the brief, the draft inherited it. Absent clarification, this is a liability risk on a medical claim."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "Florida State fires athletic director Michael Alford; Norvell's job status uncertain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports FSU's record as '5-7 last year' but the brief data point states 'FSU went 2-10 on the gridiron following the 2023 season' and separately 'FSU went 5-7 last season with Alford and the athletic department giving Norvell full commitment.' The brief contains conflicting records (2-10 vs. 5-7) within its own data_points. The draft chose 5-7 as the 'last year' figure, which aligns with one data point but contradicts another. This internal brief contradiction means the writer cannot reliably trace the fact. The draft should not run until the brief is corrected."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Texas defeats Ohio State 24-23 in fourth-quarter rally, takes No. 1 AP ranking as SEC asserts early dominance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Texas defeated Ohio State 24-23 on Saturday night after staging a 20-point fourth-quarter comeback from a 23-3 deficit.' The brief data point confirms the 23-3 fourth-quarter deficit and 24-23 final score, but the phrase '20-point fourth-quarter comeback' is mathematically inconsistent with a 23-3 deficit reversed to a 24-23 victory. A 20-point swing from down 23-3 would result in a 24-20 Texas lead (20-point comeback from 23 points down), not 24-23. The writer has smuggled a mathematically incorrect fact not present or verifiable in the brief."
+    ]
+   },
+   {
+    "id": "c237",
+    "headline": "Sabres extend Ostlund to eight-year contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a claim not present in the brief: 'The move secures Ostlund before offer-sheet eligibility would have exposed him to external interest.' The open_questions note that 'the sources do not specify Ostlund's current offer-sheet eligibility status or the precise deadline that motivated the timing.' This is editorial interpretation smuggled beyond the brief's data points and is flagged in the brief itself as unknown.",
+     "The draft asserts motivation ('secures Ostlund before offer-sheet eligibility') that the brief explicitly lists as an open question, violating the hard rule that facts exist only in the brief.",
+     "the draft cites identifier '2026-27', which appears nowhere in the brief or its sourced text"
     ]
    }
   ]
