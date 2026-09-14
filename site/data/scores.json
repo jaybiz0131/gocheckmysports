@@ -1,141 +1,7 @@
 {
- "generated_utc": "2026-09-14T20:03:17Z",
- "stale_after_utc": "2026-09-14T23:03:17Z",
+ "generated_utc": "2026-09-14T21:02:52Z",
+ "stale_after_utc": "2026-09-15T00:02:52Z",
  "leagues": [
-  {
-   "league": "EPL",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "NEW",
-     "home": "LEE",
-     "away_score": 0,
-     "home_score": 3,
-     "state": "in",
-     "detail": "HT",
-     "start_utc": "2026-09-14T19:00Z",
-     "eid": "401879280"
-    }
-   ]
-  },
-  {
-   "league": "La Liga",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "BET",
-     "home": "VIL",
-     "away_score": 2,
-     "home_score": 1,
-     "state": "in",
-     "detail": "HT",
-     "start_utc": "2026-09-14T19:00Z",
-     "eid": "401882877"
-    }
-   ]
-  },
-  {
-   "league": "Serie A",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "UDI",
-     "home": "INT",
-     "away_score": 2,
-     "home_score": 3,
-     "state": "in",
-     "detail": "59'",
-     "start_utc": "2026-09-14T18:45Z",
-     "eid": "401874966"
-    },
-    {
-     "away": "PAR",
-     "home": "COMO",
-     "away_score": 1,
-     "home_score": 2,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-14T16:30Z",
-     "eid": "401874933"
-    },
-    {
-     "away": "ROMA",
-     "home": "TOR",
-     "away_score": 2,
-     "home_score": 0,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-14T16:30Z",
-     "eid": "401874950"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "K. Day",
-     "home": "E. Kalieva",
-     "away_score": 1,
-     "home_score": 0,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-14T18:10Z",
-     "eid": "183792"
-    },
-    {
-     "away": "S. Stephens",
-     "home": "C. Monnet",
-     "away_score": 1,
-     "home_score": 1,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-14T19:05Z",
-     "eid": "183796"
-    },
-    {
-     "away": "C. Dolehide",
-     "home": "R. Zarazua",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:30 PM ET",
-     "start_utc": "2026-09-14T20:30Z",
-     "eid": "183793"
-    },
-    {
-     "away": "T. Townsend",
-     "home": "T. Maria",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:30 PM ET",
-     "start_utc": "2026-09-14T20:30Z",
-     "eid": "183794"
-    },
-    {
-     "away": "S. Sierra",
-     "home": "C. Brace",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:30 PM ET",
-     "start_utc": "2026-09-14T20:30Z",
-     "eid": "183840"
-    },
-    {
-     "away": "C. Paquet",
-     "home": "J. Ortenzi",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:30 PM ET",
-     "start_utc": "2026-09-14T20:30Z",
-     "eid": "183855"
-    }
-   ]
-  },
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
@@ -183,8 +49,8 @@
     {
      "away": "ATL",
      "home": "CHC",
-     "away_score": null,
-     "home_score": null,
+     "away_score": 0,
+     "home_score": 0,
      "state": "pre",
      "detail": "7:40 PM ET",
      "start_utc": "2026-09-14T23:40:00Z",
@@ -193,8 +59,8 @@
     {
      "away": "NYY",
      "home": "MIN",
-     "away_score": null,
-     "home_score": null,
+     "away_score": 0,
+     "home_score": 0,
      "state": "pre",
      "detail": "7:40 PM ET",
      "start_utc": "2026-09-14T23:40:00Z",
@@ -265,6 +131,74 @@
      "detail": "Final",
      "start_utc": "2026-09-13T20:25Z",
      "eid": "401872926"
+    }
+   ]
+  },
+  {
+   "league": "EPL",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "NEW",
+     "home": "LEE",
+     "away_score": 1,
+     "home_score": 4,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-14T19:00Z",
+     "eid": "401879280"
+    }
+   ]
+  },
+  {
+   "league": "La Liga",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "BET",
+     "home": "VIL",
+     "away_score": 2,
+     "home_score": 1,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-14T19:00Z",
+     "eid": "401882877"
+    }
+   ]
+  },
+  {
+   "league": "Serie A",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "UDI",
+     "home": "INT",
+     "away_score": 3,
+     "home_score": 5,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-14T18:45Z",
+     "eid": "401874966"
+    },
+    {
+     "away": "PAR",
+     "home": "COMO",
+     "away_score": 1,
+     "home_score": 2,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-14T16:30Z",
+     "eid": "401874933"
+    },
+    {
+     "away": "ROMA",
+     "home": "TOR",
+     "away_score": 2,
+     "home_score": 0,
+     "state": "post",
+     "detail": "Final",
+     "start_utc": "2026-09-14T16:30Z",
+     "eid": "401874950"
     }
    ]
   },
@@ -391,6 +325,72 @@
      "eid": "182677"
     }
    ]
+  },
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "C. Dolehide",
+     "home": "R. Zarazua",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:10 PM ET",
+     "start_utc": "2026-09-14T21:10Z",
+     "eid": "183793"
+    },
+    {
+     "away": "T. Townsend",
+     "home": "T. Maria",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:10 PM ET",
+     "start_utc": "2026-09-14T21:10Z",
+     "eid": "183794"
+    },
+    {
+     "away": "I. Shymanovich",
+     "home": "Z. Sonmez",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "6:30 PM ET",
+     "start_utc": "2026-09-14T22:30Z",
+     "eid": "183791"
+    },
+    {
+     "away": "N. Hibino",
+     "home": "M. Frech",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "6:30 PM ET",
+     "start_utc": "2026-09-14T22:30Z",
+     "eid": "183795"
+    },
+    {
+     "away": "L. Samsonova",
+     "home": "E. Jacquemot",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "8:00 PM ET",
+     "start_utc": "2026-09-15T00:00Z",
+     "eid": "183790"
+    },
+    {
+     "away": "TBD",
+     "home": "M. Kostyuk",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "12:00 AM ET",
+     "start_utc": "2026-09-15T04:00Z",
+     "eid": "183805"
+    }
+   ]
   }
  ],
  "sources": [
@@ -510,7 +510,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 107,
+   "games_seen": 105,
    "games_kept": 6
   }
  ]
