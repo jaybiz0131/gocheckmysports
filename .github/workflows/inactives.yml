@@ -29,10 +29,11 @@ on:
   schedule:
     # A floor under the Worker, not a substitute for it. Sundays through the American
     # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
-    - cron: "*/15 15-22 * * 0"             # Sun 11:00-18:00 ET, continuous
-    - cron: "*/20 23 * * 0,1,4,5"          # Sun/Mon/Thu/Fri night games
-    - cron: "*/20 0-3 * * 1,2,5,6"         # the same games after UTC midnight
+    - cron: "*/15 15-23 * * 0"             # Sun, through the night game
+    - cron: "*/20 0-4 * * 1,2,5,6"         # night games after UTC midnight
+    - cron: "*/20 22-23 * * 1,4,5"         # Mon/Thu/Fri night games
     - cron: "*/15 16-23 * * 6"             # Saturday slate
+    - cron: "40 3 * * 1,2,7"               # the once-per-slate reconciliation
 
 # Shares the desk's publish lock: this pushes to main, so it queues behind a running
 # brief rather than moving main underneath it.
@@ -65,7 +66,7 @@ jobs:
                   grep -o 'INACTIVES_ADDED=[0-9]*' "$RUNNER_TEMP/poll.log" \
                   | tail -1 | cut -d= -f2)
           added="${added:-0}"
-          if [ "$added" = "0" ]; then
+          if [ "$added" = "0" ] && [ "${{ github.event.schedule }}" != "40 3 * * 1,2,7" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "no new inactives this tick; nothing to build or push"
             git checkout -- site/data/inactives || true
@@ -77,8 +78,16 @@ jobs:
       # Once per slate, fill any team whose rows hit the feed's 25-row cap from the
       # uncapped per-team endpoint. Manual only: it is roughly sixty requests per
       # capped team and has no place on a five-minute tick.
+      # ONCE PER SLATE, AND NOBODY WAS FIRING IT. The reconciliation was
+      # dispatch-only, which meant it never ran: there is no standing instruction for
+      # a person to trigger it every Sunday night. It now runs on its own cron at
+      # 03:40 UTC on Monday, Tuesday and Sunday, which is late evening Eastern after
+      # each slate, and still on demand. Roughly sixty requests per capped team, so it
+      # has no business on a five-minute tick and every business once a night.
       - name: Reconcile capped teams
-        if: github.event_name == 'workflow_dispatch' && inputs.reconcile == true
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.reconcile == true) ||
+          (github.event_name == 'schedule' && github.event.schedule == '40 3 * * 1,2,7')
         run: python3 inactives.py --reconcile
 
       - name: Rebuild and push

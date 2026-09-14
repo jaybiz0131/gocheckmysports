@@ -964,7 +964,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {body}
 {footer(brand)}{beacon}
 {tab_bar(path)}
-{MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}
+{MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -3049,16 +3049,142 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
                                'The full board</a></section>'))
     if not blocks:
         return None
+    # S-E: the day's marquee games, as "Where to watch tonight". The network already
+    # rides every Scoreboard card; this is the same data on the surface a fantasy
+    # reader is already on.
+    watch = ""
+    if sb:
+        games = [g for L in sb["leagues"] for g in L["games"]
+                 if g.get("state") in ("pre", "in")]
+        games.sort(key=lambda g: (SB_TAB_ORDER.index(g["league"])
+                                  if g["league"] in SB_TAB_ORDER else 99,
+                                  g.get("start_utc") or ""))
+        rows = "".join(
+            f'<div class="w2w-row"><span class="w2w-game">'
+            f'{esc((g.get("away") or {}).get("abbr",""))} at '
+            f'{esc((g.get("home") or {}).get("abbr",""))}</span>'
+            f'<span class="bd-src">{esc(g.get("status_short") or "")}</span>'
+            f'<span class="w2w-cars">'
+            + (f'<span class="w2w-car">{esc(g.get("network"))}</span>'
+               if g.get("network") else '<span class="bd-src">not announced</span>')
+            + '</span></div>' for g in games[:6])
+        if rows:
+            watch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                     f'<span class="bd-eyebrow">Where to watch tonight</span></div>'
+                     f'<a class="bd-more" href="/where-to-watch.html">Every window</a>'
+                     f'</div><div class="w2w">{rows}</div></section>')
+
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">Is he playing? Here's the official
      answer.</h1>
   <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  {player_check_block()}
   {"".join(blocks)}
+  {watch}
 </section></main>"""
     return shell(f"Fantasy facts - {NAME}",
                  "Official inactives, designations and live points. Facts, not advice: "
                  "we never tell you whom to start.",
                  "Fantasy", body, dateline, path="/fantasy/index.html")
+
+
+# ---- S-B6: the player check, and player status pages ---------------------------
+# A client-side search over the daily index. The search runs in the browser against a
+# small JSON payload; no query is sent anywhere and nothing is logged, which is the
+# same rule the crypto watchlist follows.
+
+PLAYER_SEARCH_JS = """<script>(function(){
+  var box=document.getElementById('pc-q'), out=document.getElementById('pc-out');
+  if(!box||!out) return;
+  var data=null, url=box.getAttribute('data-src');
+  function load(){ if(data) return Promise.resolve(data);
+    return fetch(url).then(function(r){return r.json()}).then(function(j){
+      data=j.players||[]; return data; }); }
+  function card(p){
+    var st = p.designation ? p.designation : (p.inactive_seen ? 'Inactive' : 'No designation');
+    var cls = p.inactive_seen ? 'dat' : (p.designation ? 'dat' : 'ok');
+    var n = p.next || {};
+    var when = n.day ? (n.day+' '+(n.kickoff_et||'')) : '';
+    var opp = n.opponent ? ((n.home?'vs ':'at ')+n.opponent) : '';
+    return '<a class="bd-card pc-card" href="/players/'+p.slug+'.html">'
+      +'<span class="bd-cardtop"><span class="bd-eyebrow">'+p.team+' '+p.pos+'</span>'
+      +'<span class="bd-badge '+cls+'">'+st+'</span></span>'
+      +'<span class="bd-rec-hl" style="font-size:22px">'+p.name+'</span>'
+      +(p.detail?'<span class="bd-src">'+p.detail+'</span>':'')
+      +(opp?'<span class="bd-read">Next: '+opp+(when?' &middot; '+when:'')
+        +(n.network?' &middot; '+n.network:'')+'</span>':'')
+      +'</a>';
+  }
+  function run(){
+    var q=(box.value||'').trim().toLowerCase();
+    if(q.length<2){ out.innerHTML=''; return; }
+    load().then(function(ps){
+      var hits=ps.filter(function(p){return p.name.toLowerCase().indexOf(q)>-1;}).slice(0,8);
+      out.innerHTML = hits.length ? hits.map(card).join('')
+        : '<p class="bd-src">No player by that name in today\\u2019s index.</p>';
+    }).catch(function(){ out.innerHTML='<p class="bd-src">The index could not be '
+      +'loaded. Try the boards below.</p>'; });
+  }
+  var t; box.addEventListener('input',function(){clearTimeout(t);t=setTimeout(run,140);});
+})();</script>"""
+
+
+def player_check_block():
+    return ('<section class="bd-mod pc"><div class="bd-sec"><div class="bd-sec-l">'
+            '<span class="bd-eyebrow">Player check</span>'
+            '<h2 class="bd-h2">Is he playing?</h2></div></div>'
+            '<label class="sr-only" for="pc-q">Search a player by name</label>'
+            '<input id="pc-q" class="pc-q" type="search" autocomplete="off" '
+            'placeholder="Type a player\'s name" data-src="/data/players.json">'
+            '<div id="pc-out" class="pc-out" aria-live="polite"></div>'
+            '<p class="bd-src">Searched on your device against today\'s index. '
+            'Nothing you type is sent anywhere.</p></section>')
+
+
+def render_player_page(p, board, dateline):
+    """/players/<slug>. Titled to the question people actually type."""
+    n = p.get("next") or {}
+    inactive = bool(p.get("inactive_seen"))
+    if inactive:
+        answer = "Ruled out. On today's posted inactive list."
+        badge = '<span class="bd-badge dat">Inactive</span>'
+    elif p.get("designation"):
+        answer = (f'Listed {p["designation"].lower()} on the official report'
+                  + (f', {p["detail"].lower()}' if p.get("detail") else "") + ".")
+        badge = f'<span class="bd-badge dat">{esc(p["designation"])}</span>'
+    else:
+        answer = "No designation on the official report."
+        badge = '<span class="bd-badge ok">No designation</span>'
+    nxt = ""
+    if n.get("opponent"):
+        when = " ".join(x for x in (n.get("day"), n.get("kickoff_et")) if x)
+        nxt = (f'<p class="bd-read">Next game: '
+               f'{"vs " if n.get("home") else "at "}{esc(n["opponent"])}'
+               + (f' &middot; {esc(when)}' if when else "")
+               + (f' &middot; {esc(n["network"])}' if n.get("network") else "") + '</p>')
+    hist = ""
+    if p.get("inactive_seen"):
+        hist = (f'<p class="bd-src">First seen on the inactive list at '
+                f'{esc(_et(p["inactive_seen"]))}.</p>')
+    body = f"""<main class="wrap narrow"><section class="page">
+  <p class="bd-stamp"><a href="/fantasy/index.html">Fantasy</a> / {esc(p.get("name"))}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">Is {esc(p.get("name"))} playing this week?
+     Official status</h1>
+  <div class="bd-cardtop" style="margin-bottom:8px">
+    <span class="bd-eyebrow">{esc(p.get("team"))} {esc(p.get("pos"))}</span>{badge}</div>
+  <p class="lx-dek">{esc(answer)}</p>
+  {nxt}{hist}
+  <p class="bd-src">Status as the official report lists it, read on our own schedule.
+     See the <a href="/fantasy/inactives.html">inactives board</a> for today's posted
+     lists and <a href="/fantasy/injuries.html">this week's designations</a> for the
+     full report.</p>
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+</section></main>"""
+    return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
+                 f'The official status for {p.get("name")}, {p.get("team")} '
+                 f'{p.get("pos")}: designation, inactive list and next game. '
+                 f'Facts, not advice.',
+                 "Fantasy", body, dateline, path=f'/players/{p.get("slug")}.html')
 
 
 # ---- S-B4: this week's designations --------------------------------------------
@@ -5183,6 +5309,33 @@ def build():
         _fl = render_fantasy_live(_all_points, dateline)
         if _fl:
             w("fantasy/live.html", _fl)
+    # S-B6: the daily index, then a page for every player the facts say is worth one.
+    try:
+        import player_index as _pix
+        _pix.build()
+        _IDX = _pix.load()
+    except Exception as _e:
+        print(f"player_index: unavailable ({type(_e).__name__}); check withheld")
+        _IDX = None
+    if _IDX:
+        # The search payload is served from /data so the worker never caches it.
+        os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+        with open(os.path.join(PUBLISH, "data", "players.json"), "w",
+                  encoding="utf-8") as _pf:
+            json.dump({"players": [{k: v for k, v in p.items()
+                                    if k in ("name", "slug", "team", "pos",
+                                             "designation", "detail",
+                                             "inactive_seen", "next")}
+                                   for p in _IDX["players"]]}, _pf,
+                      separators=(",", ":"))
+        _stat_names = {p.get("name") for pts in _all_points.values()
+                       for p in pts.values() if p.get("name")}
+        _pages = _pix.page_set(_IDX, _stat_names)
+        for _p in _pages:
+            w(f'players/{_p["slug"]}.html', render_player_page(_p, IA_BOARD, dateline))
+        print(f"player pages: {len(_pages)} of {len(_IDX['players'])} indexed "
+              f"({len(_stat_names)} with a stat line)")
+
     _hub = render_fantasy_hub(IA_BOARD, IA_DESIG, _all_points, WX_DATA, SB_DATA, dateline)
     if _hub:
         w("fantasy/index.html", _hub)
