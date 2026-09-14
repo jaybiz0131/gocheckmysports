@@ -5328,6 +5328,14 @@ def build():
         _fl = render_fantasy_live(_all_points, dateline)
         if _fl:
             w("fantasy/live.html", _fl)
+    # S-D: one dated record a day of what each feed carried, so the day-14 report has
+    # a series to read. Instrumentation only; it never fails a build.
+    try:
+        import source_trial as _st
+        _st.record()
+    except Exception as _e:
+        print(f"source_trial: skipped ({type(_e).__name__})")
+
     # S-B6: the daily index, then a page for every player the facts say is worth one.
     try:
         import player_index as _pix
