@@ -106,7 +106,7 @@ def load_snapshot(day=None):
 
 
 def _blank(day):
-    return {"day": day, "first_poll": None, "last_poll": None,
+    return {"day": day, "first_poll": None, "last_poll": None, "last_change": None,
             "source": "ESPN NFL injuries feed", "teams": {}}
 
 
@@ -165,6 +165,8 @@ def poll(reconcile=False):
     if reconcile:
         added += _reconcile(snap)
 
+    if added:
+        snap["last_change"] = seen_at
     os.makedirs(SNAP_DIR, exist_ok=True)
     with open(snapshot_path(day), "w", encoding="utf-8") as f:
         json.dump(snap, f, indent=1, sort_keys=True)
@@ -172,6 +174,8 @@ def poll(reconcile=False):
     with_any = sum(1 for t in snap["teams"].values() if t["players"])
     print(f"inactives: {added} new, {tot} held across {with_any} team(s), "
           f"{sum(1 for t in snap['teams'].values() if t['capped'])} capped")
+    # Machine-readable, for the workflow's build-and-push decision.
+    print(f"INACTIVES_ADDED={added}")
     return snap
 
 
@@ -278,7 +282,9 @@ def board(day=None):
         })
     out.sort(key=lambda t: (t["first_seen"] or "z", t["team"]))
     return {"day": snap.get("day"), "first_poll": snap.get("first_poll"),
-            "last_poll": snap.get("last_poll"), "teams": out,
+            "last_poll": snap.get("last_poll"),
+            "last_change": snap.get("last_change") or snap.get("last_poll"),
+            "teams": out,
             "total": sum(t["count"] for t in out)}
 
 

@@ -1,0 +1,102 @@
+# The Inactives poller (S-B2). Site lane only: it touches no pipeline stage, no
+# prompt, and no model.
+#
+# WHY THIS EXISTS AS ITS OWN WORKFLOW. The board renders from a dated snapshot that is
+# only correct if something polls during the posting window. Lists post about ninety
+# minutes before kickoff, so for a 13:00 ET slate that window is roughly 11:30 ET. The
+# desk's builds run at 09:40, 15:38 and 23:38 UTC; at 11:00 ET on a Sunday the most
+# recent would be 09:40 UTC, before any list exists. Without this the board is empty at
+# exactly the hour it is measured on.
+#
+# WHY THE CRON IS A FLOOR AND NOT THE TRIGGER. GitHub's scheduler was measured on this
+# family at 1.5 to 4 hours late, which is why the Cloudflare Worker exists. The Worker
+# dispatches this on its own tick through the Sunday window; the crons below are a
+# backstop for the days the Worker is the thing that is broken.
+#
+# IT COSTS NOTHING WHEN NOTHING CHANGED. One request to the league feed, and if the
+# snapshot gains no player the job stops before it builds or pushes. Through a quiet
+# hour that is a handful of seconds and no commit.
+
+name: Inactives poller
+
+on:
+  workflow_dispatch:
+    inputs:
+      reconcile:
+        description: "Also reconcile capped teams against the uncapped endpoint"
+        type: boolean
+        default: false
+  schedule:
+    # A floor under the Worker, not a substitute for it. Sundays through the American
+    # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
+    - cron: "*/15 15,16,17,20,21 * * 0"    # Sun 11:00-13:59 and 16:00-17:59 ET
+    - cron: "*/15 23 * * 0,1,4"            # Sun/Mon/Thu night games, 19:00 ET
+    - cron: "*/15 16,17 * * 6"             # Saturday slate
+
+# Shares the desk's publish lock: this pushes to main, so it queues behind a running
+# brief rather than moving main underneath it.
+concurrency:
+  group: sports-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: main }
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+
+      - name: Poll the league injury feed and snapshot what it shows
+        run: |
+          python3 inactives.py | tee "$RUNNER_TEMP/poll.log"
+          python3 inactives.py --report || true
+
+      - name: Stop here when nothing new was seen
+        id: changed
+        run: |
+          added=$(python3 inactives.py --report >/dev/null 2>&1; \
+                  grep -o 'INACTIVES_ADDED=[0-9]*' "$RUNNER_TEMP/poll.log" \
+                  | tail -1 | cut -d= -f2)
+          added="${added:-0}"
+          if [ "$added" = "0" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "no new inactives this tick; nothing to build or push"
+            git checkout -- site/data/inactives || true
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "$added new inactive(s) captured"
+          fi
+
+      # Once per slate, fill any team whose rows hit the feed's 25-row cap from the
+      # uncapped per-team endpoint. Manual only: it is roughly sixty requests per
+      # capped team and has no place on a five-minute tick.
+      - name: Reconcile capped teams
+        if: github.event_name == 'workflow_dispatch' && inputs.reconcile == true
+        run: python3 inactives.py --reconcile
+
+      - name: Rebuild and push
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          set -e
+          python3 verify_pipeline.py canary
+          python3 site_build.py
+          python3 odds_gate.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A site/data
+          git commit -m "inactives: snapshot $(date -u +%H:%MZ)" || exit 0
+          # The desk's race-safe push. A brief can land while this runs.
+          ok=false
+          for i in 1 2 3; do
+            if git push; then ok=true; break; fi
+            echo "::warning::push rejected (attempt $i); rebasing"
+            git pull --rebase --autostash origin main || {
+              echo "::error::rebase conflicted outside the snapshot"; git rebase --abort || true; exit 1; }
+          done
+          [ "$ok" = true ] || { echo "::error::push failed after 3 attempts"; exit 1; }

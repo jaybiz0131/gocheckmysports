@@ -2820,8 +2820,8 @@ def render_inactives(board, w2w, dateline):
   <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
   <div class="ia-grid">{cards}</div>
   {pend}
-  <p class="bd-src" style="margin-top:14px">Last checked
-     {esc(_et(board.get("last_poll") or ""))}. Source: the league injury feed, read on
+  <p class="bd-src" style="margin-top:14px">Last updated
+     {esc(_et(board.get("last_change") or ""))}. Source: the league injury feed, read on
      our own schedule and kept as a dated record.</p>
 </section></main>"""
     return shell(f"Today's NFL inactives - {NAME}",
@@ -3437,7 +3437,6 @@ def render_home(items, dateline):
     body = _band + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: every score, checked</h1><section class="page">
   {lead_row}
   {desk_html}
-  {crosscut_row(items)}
   {editions_html}
   {w2w_row}
   {track_html}
