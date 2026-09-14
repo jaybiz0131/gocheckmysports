@@ -31,9 +31,9 @@ on:
     # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
     - cron: "*/15 15-23 * * 0"             # Sun, through the night game
     - cron: "*/20 0-4 * * 1,2,5,6"         # night games after UTC midnight
-    - cron: "*/20 22-23 * * 1,4,5"         # Mon/Thu/Fri night games
+    - cron: "*/20 22-23 * * 1,4,5"         # Mon/Thu/Fri night lists
+    - cron: "*/20 0-4 * * 5"               # Thursday night after UTC midnight
     - cron: "*/15 16-23 * * 6"             # Saturday slate
-    - cron: "40 3 * * 0,1,2"               # the once-per-slate reconciliation
 
 # Shares the desk's publish lock: this pushes to main, so it queues behind a running
 # brief rather than moving main underneath it.
@@ -54,6 +54,42 @@ jobs:
       - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
 
+      # THE ALARM LIVES HERE, NOT IN THE WORKER. A Worker with a dead token cannot
+      # report through GitHub, because reporting through GitHub is exactly what the
+      # dead token prevents. This step runs on the repo's own GITHUB_TOKEN, so it
+      # still speaks when the Worker has gone silent. The token has no expiry, so a
+      # live check is the only thing that will ever tell us it was revoked.
+      - name: Check the trigger's token is still accepted
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          h=$(curl -s --max-time 20 "https://gcm-slot-trigger.gocheckmybrands.workers.dev/" || echo '{}')
+          ok=$(printf '%s' "$h" | python3 -c "import json,sys; print(json.load(sys.stdin).get('token_ok'))" 2>/dev/null || echo None)
+          det=$(printf '%s' "$h" | python3 -c "import json,sys; print(json.load(sys.stdin).get('token_detail',''))" 2>/dev/null || echo "")
+          if [ "$ok" != "True" ]; then
+            echo "::error::slot-trigger token is not accepted by GitHub ($det). Every"                 "Worker dispatch will fail until ACTIONS_API is replaced:"                 "npx wrangler secret put ACTIONS_API"
+            title="slot-trigger: ACTIONS_API not accepted"
+            if ! gh issue list --state open --search "$title in:title" --json title                  --jq '.[].title' | grep -qF "$title"; then
+              gh issue create --title "$title"                 --body "The Worker health endpoint reports the token is not accepted: $det
+
+Every dispatch from the slot trigger fails while this holds, so the briefs, the
+watchers and the Inactives poller all fall back to GitHub's own crons, which this
+family has measured at 1.5 to 4 hours late.
+
+Fix: npx wrangler secret put ACTIONS_API, from
+~/Desktop/Berno Projects/gcm-newsroom/slot-trigger, with a token carrying
+Actions read and write on gocheckmysports and gocheckmycrypto.
+
+This issue closes itself when the next poll sees a healthy token." || true
+            fi
+          else
+            echo "slot-trigger token: accepted by GitHub"
+            gh issue list --state open --search "slot-trigger: ACTIONS_API not accepted in:title"               --json number --jq '.[].number' | while read -r n; do
+              [ -n "$n" ] && gh issue close "$n" --comment "Token is accepted again." || true
+            done
+          fi
+
       - name: Poll the league injury feed and snapshot what it shows
         run: |
           python3 inactives.py | tee "$RUNNER_TEMP/poll.log"
@@ -66,7 +102,7 @@ jobs:
                   grep -o 'INACTIVES_ADDED=[0-9]*' "$RUNNER_TEMP/poll.log" \
                   | tail -1 | cut -d= -f2)
           added="${added:-0}"
-          if [ "$added" = "0" ] && [ "${{ github.event.schedule }}" != "40 3 * * 0,1,2" ]; then
+          if [ "$added" = "0" ] && [ "${{ inputs.reconcile }}" != "true" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "no new inactives this tick; nothing to build or push"
             git checkout -- site/data/inactives || true
@@ -84,10 +120,13 @@ jobs:
       # 03:40 UTC on Monday, Tuesday and Sunday, which is late evening Eastern after
       # each slate, and still on demand. Roughly sixty requests per capped team, so it
       # has no business on a five-minute tick and every business once a night.
+      # FIRED FROM THE WORKER, INSIDE THE WINDOW. Measured 14 Sep: every one of the
+      # fifteen finished games showed zero inactives on the league feed, and the
+      # uncapped per-team endpoint showed zero for Cincinnati too, so a post-game pass
+      # has nothing to read. The Worker dispatches this with reconcile=true about
+      # fifteen minutes before each kickoff wave, while the flags are still up.
       - name: Reconcile capped teams
-        if: >-
-          (github.event_name == 'workflow_dispatch' && inputs.reconcile == true) ||
-          (github.event_name == 'schedule' && github.event.schedule == '40 3 * * 0,1,2')
+        if: github.event_name == 'workflow_dispatch' && inputs.reconcile == true
         run: python3 inactives.py --reconcile
 
       - name: Rebuild and push
