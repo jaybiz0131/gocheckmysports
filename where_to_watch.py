@@ -154,6 +154,9 @@ def _week(params=""):
             "day_et": et.strftime("%a %-d %b") if et else "",
             "window": window_name(et) if et else "",
             "carriers": _carriers(comp),
+            "id": str(e.get("id") or ""),
+            "venue_id": str((comp.get("venue") or {}).get("id") or ""),
+            "venue_indoor": (comp.get("venue") or {}).get("indoor"),
             "state": st.get("state") or "",              # pre | in | post
             "completed": bool(st.get("completed")),
             "status": st.get("shortDetail") or st.get("description") or "",

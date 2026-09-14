@@ -1963,6 +1963,28 @@ def _w2w_slug(week):
     return f"nfl-{week.get('season') or ''}-week-{week.get('week') or ''}"
 
 
+def _w2w_wx(g, wx):
+    """S-B5 detail on the schedule row: the reading, or nothing. Credited to the
+    family's own weather product, as the item asks."""
+    if not wx:
+        return ""
+    w = (wx.get("games") or {}).get(g.get("id") or "")
+    if not w:
+        return ""
+    if w.get("indoors"):
+        return '<span class="bd-src w2w-wx">indoors</span>'
+    bits = []
+    if w.get("temp_f") is not None:
+        bits.append(f'{w["temp_f"]}F')
+    if w.get("wind_mph") is not None:
+        bits.append(f'wind {w["wind_mph"]} mph{" (flagged)" if w.get("windy") else ""}')
+    if w.get("precip_pct") is not None:
+        bits.append(f'{w["precip_pct"]}% precip')
+    if not bits:
+        return ""
+    return f'<span class="bd-src w2w-wx">{esc(", ".join(bits))}</span>'
+
+
 def _w2w_carriers(g):
     if not g.get("carriers"):
         return '<span class="bd-src">Not yet announced by the league</span>'
@@ -2033,7 +2055,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                 f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
                 f'{esc(g.get("home") or "")}</span>'
                 f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
-                f'<span class="w2w-cars">{_w2w_carriers(g)}</span></div>')
+                f'<span class="w2w-cars">{_w2w_carriers(g)}{_w2w_wx(g, WX_DATA)}</span></div>')
     if done:
         rows.append('<div class="w2w-win w2w-done"><span class="bd-label">Already played'
                     '</span><span class="bd-stamp">final, per the league feed</span></div>')
@@ -2063,7 +2085,8 @@ def render_where_to_watch(week, weeks, dateline, current=False):
   {_w2w_stamp(W2W_DATA)}
   <div class="w2w">{"".join(rows)}</div>
   <div class="lx-actions">{others}</div>
-  <p class="bd-src" style="margin-top:14px">Source: ESPN NFL scoreboard, read at build.
+  <p class="bd-src" style="margin-top:14px">Weather from the National Weather Service
+     via GoCheckMyWeather, for the hour of kickoff. Source: ESPN NFL scoreboard, read at build.
      National and local carriage as the feed reports it; a game with no carrier listed
      has not been announced yet.</p>
 </section></main>"""
@@ -2440,7 +2463,33 @@ def _sb_fantasy_strip(g, ia_index):
             f'{esc(" &middot; ".join(bits)).replace("&amp;middot;", "&middot;")}</a>')
 
 
-def _sb_card(g, ia_index, marquee=False):
+def _wx_for(g, wx):
+    """This game's kickoff weather, keyed the way kickoff_weather writes it."""
+    if not wx:
+        return None
+    games = wx.get("games") or {}
+    for k in (g.get("id") or "", f'{(g.get("away") or {}).get("abbr","")}@'
+                                 f'{(g.get("home") or {}).get("abbr","")}'):
+        if k and k in games:
+            return games[k]
+    return None
+
+
+def _wx_chip(g, wx):
+    """S-B5. A flag only above the threshold, and "indoors" where the roof says so.
+    A game with no reading shows nothing: the omission table's rule, and the reason
+    the feed's own weather is not read at all (no sustained wind, transposed fields)."""
+    w = _wx_for(g, wx)
+    if not w:
+        return ""
+    if w.get("indoors"):
+        return '<span class="wx wx-in">indoors</span>'
+    if w.get("windy"):
+        return (f'<span class="wx wx-wind">wind {esc(str(w.get("wind_mph")))} mph</span>')
+    return ""
+
+
+def _sb_card(g, ia_index, marquee=False, wx=None):
     lose_a, lose_h = _sb_losers(g)
     _started = g.get("state") in ("in", "post")
     prog = g.get("progress")
@@ -2451,7 +2500,8 @@ def _sb_card(g, ia_index, marquee=False):
     if marquee:
         sit = (f'<span>{esc(g.get("situation"))}</span>' if g.get("situation") else "")
         return (f'<div class="sb-marquee">'
-                f'<div class="sb-mq-top">{_sb_status(g)}{net}</div>'
+                f'<div class="sb-mq-top">{_sb_status(g)}<span class="st-r">'
+            f'{_wx_chip(g, wx)}{net}</span></div>'
                 f'<div class="sb-mq-grid">'
                 f'{_sb_team_row(g["away"], lose_a, big=True, started=_started)}'
                 f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
@@ -2463,7 +2513,8 @@ def _sb_card(g, ia_index, marquee=False):
     return (f'<div class="game">'
             f'{_sb_team_row(g["away"], lose_a, started=_started)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
-            f'<div class="st">{_sb_status(g)}{net}</div>'
+            f'<div class="st">{_sb_status(g)}<span class="st-r">'
+            f'{_wx_chip(g, wx)}{net}</span></div>'
             f'{f"<div class=sb-fanrow>{fan}</div>" if fan else ""}{bar}</div>')
 
 
@@ -2494,7 +2545,7 @@ def _ia_index(board):
     return {str(t.get("id")): t for t in board.get("teams") or [] if t.get("id")}
 
 
-def scoreboard_band(sb, board):
+def scoreboard_band(sb, board, wx=None):
     """The dark band under the masthead. Returns "" when there is nothing to show, so
     the homepage simply does not carry it rather than carrying an empty shell."""
     if not sb or not sb.get("leagues"):
@@ -2517,7 +2568,7 @@ def scoreboard_band(sb, board):
         f'<a class="tab{" on" if i == 0 else ""}" '
         f'href="/scores.html{"" if i == 0 else "#" + esc(n.lower())}">{esc(n)}</a>'
         for i, n in enumerate(["All live"] + present))
-    cards = "".join(_sb_card(g, ia) for g in rest[:8])
+    cards = "".join(_sb_card(g, ia, wx=wx) for g in rest[:8])
     stamp = _et(sb.get("fetched_at") or "")
     return f"""<section class="scoreband" aria-label="The Scoreboard">
   <div class="wrap sb-inner">
@@ -2528,7 +2579,7 @@ def scoreboard_band(sb, board):
         &middot; finals checked against league feeds</span>
     </div>
     <div class="sb-grid">
-      {_sb_card(mq, ia, marquee=True) if mq else ""}
+      {_sb_card(mq, ia, marquee=True, wx=wx) if mq else ""}
       <div class="sb-cards">{cards}</div>
     </div>
     <div class="sb-foot"><a class="sb-link" href="/scores.html">All
@@ -2538,7 +2589,7 @@ def scoreboard_band(sb, board):
 </section>"""
 
 
-def render_scores_page(sb, board, dateline):
+def render_scores_page(sb, board, dateline, wx=None):
     """/scores: every game, grouped by league, with a Yesterday, Today, Tomorrow strip.
     The strip links only days we actually hold data for."""
     if not sb or not sb.get("leagues"):
@@ -2558,7 +2609,7 @@ def render_scores_page(sb, board, dateline):
             f'<span class="bd-eyebrow">{esc(L["league"])}</span>'
             f'<span class="bd-stamp">{len(games)} games</span></div></div>'
             f'<div class="sb-cards sb-cards-light">'
-            + "".join(_sb_card(g, ia) for g in games) + '</div></section>')
+            + "".join(_sb_card(g, ia, wx=wx) for g in games) + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Scores</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Every score. No odds. No noise.</h1>
@@ -3306,7 +3357,7 @@ def render_home(items, dateline):
     # The live layer rides above the fold, before the editorial page begins.
     # S-A: the band is the product and it sits directly under the masthead. The old
     # ticker strip stays available for pages that are not the front door.
-    _band = scoreboard_band(SB_DATA, IA_BOARD) or scores_strip()
+    _band = scoreboard_band(SB_DATA, IA_BOARD, WX_DATA) or scores_strip()
     body = _band + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: every score, checked</h1><section class="page">
   {lead_row}
   {desk_html}
@@ -3444,6 +3495,7 @@ W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
 IA_BOARD = None      # set at build by inactives.board()
 SB_DATA = None       # set at build by scoreboard.load()
+WX_DATA = None       # set at build by kickoff_weather.load()
 
 NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
 
@@ -4528,6 +4580,18 @@ def build():
     except Exception as _e:
         print(f"where_to_watch: unavailable ({type(_e).__name__}); page and nav withheld")
     W2W_LIVE = bool(_w2w and (_w2w.get("weeks") or []))
+    # S-B5: kickoff weather from NWS. It reads the schedule file, so it runs after
+    # where_to_watch.refresh() writes it and BEFORE the schedule pages render: the
+    # first ordering had the pages asking an empty WX_DATA for a reading.
+    global WX_DATA
+    WX_DATA = None
+    try:
+        import kickoff_weather as _wxmod
+        _wxmod.refresh()
+        WX_DATA = _wxmod.load()
+    except Exception as _e:
+        print(f"kickoff_weather: unavailable ({type(_e).__name__}); weather withheld")
+
     W2W_DATA = _w2w if W2W_LIVE else None
     if W2W_LIVE:
         _wks = _w2w["weeks"]
@@ -4571,7 +4635,7 @@ def build():
 
     w("index.html", render_home(items, dateline))
     if SB_DATA:
-        _sc = render_scores_page(SB_DATA, IA_BOARD, dateline)
+        _sc = render_scores_page(SB_DATA, IA_BOARD, dateline, WX_DATA)
         if _sc:
             w("scores.html", _sc)
             print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
