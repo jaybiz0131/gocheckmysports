@@ -3235,6 +3235,157 @@ def render_living_table(spec, items, dateline):
                       dateline, path=url)
 
 
+# ---- S-C: Record lane cards v3, Contracts and Fantasy facts --------------------
+# The lane card drops the cadence bars it used to carry. A bar chart of how often the
+# desk published is a fact about the desk, not about the story, and the space is better
+# spent on what the story established. It now carries the story's Bottom Line pull, the
+# receipts line, and the read link, with a status chip ONLY when the metadata actually
+# has one and a chart ONLY when the story carries numbers.
+
+_MONEY_RX = re.compile(r"\$\s?[\d,.]+\s?(?:million|billion|bn|m)?\b", re.I)
+# Narrow on purpose. "deal" alone catches a trade and a broadcast agreement; paired
+# with a dollar figure and a contract verb it catches a contract.
+_CONTRACT_RX = re.compile(r"\b(signs?|signed|signing|extension|extends?|re-signs?|"
+                          r"guaranteed|year deal|[0-9]-year|contract)\b", re.I)
+# A figure that came from a league or union document rather than a reporter.
+_FILED_RX = re.compile(r"\b(league (?:document|filing|source)|union|NFLPA|NBPA|MLBPA|"
+                       r"cap sheet|filing|filed with|official (?:document|release)|"
+                       r"transaction wire)\b", re.I)
+
+
+def _contracts_lane(items):
+    out = []
+    for i in items:
+        tags = {t.lower() for t in tags_for(i)}
+        if "transactions" not in tags:
+            continue
+        blob = " ".join([i.get("title") or "", i.get("key_fact") or ""])
+        if _MONEY_RX.search(blob) and _CONTRACT_RX.search(blob):
+            out.append(i)
+    return out
+
+
+def _fantasy_facts_lane(items):
+    return [i for i in items if "injuries" in {t.lower() for t in tags_for(i)}]
+
+
+def _receipt_status(item):
+    """Filed when the figure comes from a league or union document; Reported with the
+    outlet named when it does not. Never guessed: with no outlet to name and no filing
+    language, the row carries neither chip."""
+    blob = " ".join([item.get("key_fact") or "", item.get("dek") or ""]
+                    + [str(b) for b in (item.get("body") or [])[:2]])
+    if _FILED_RX.search(blob):
+        return '<span class="bd-badge ok">Filed</span>'
+    outlets = []
+    for s in (item.get("sources") or []):
+        nm = _bd_outlet(s)
+        if nm and nm not in outlets:
+            outlets.append(nm)
+    if outlets:
+        return f'<span class="bd-badge dat">Reported &middot; {esc(outlets[0])}</span>'
+    return ""
+
+
+def _lane_numbers(item):
+    """A chart only when the story carries numbers worth one. Two comparable money
+    figures, the same rule the receipts chart uses; anything else draws nothing."""
+    figs = []
+    blob = " ".join([item.get("title") or "", item.get("key_fact") or ""])
+    for f in _MONEY_RX.findall(blob):
+        v = _usd(f if f.strip().startswith("$") else "$" + f)
+        if v:
+            figs.append((v, f.strip()))
+    uniq, seen = [], set()
+    for v, f in sorted(figs, key=lambda t: -t[0]):
+        if v in seen:
+            continue
+        seen.add(v)
+        uniq.append((v, f))
+    if len(uniq) < 2:
+        return ""
+    (v1, f1), (v2, f2) = uniq[0], uniq[1]
+    W, BH = 240, 11
+    w2 = max(5, round((W - 60) * (v2 / v1)))
+    return (f'<svg class="bd-chart" width="{W}" height="42" viewBox="0 0 {W} 42" '
+            f'role="img" aria-label="{esc(f1)} against {esc(f2)}." '
+            f'style="max-width:100%">'
+            f'<rect x="0" y="4" width="{W-60}" height="{BH}" rx="3" fill="var(--rule)">'
+            f'</rect><text x="{W-54}" y="{4+BH-1}" font-family="var(--mono)" '
+            f'font-size="10.5" fill="var(--muted)">{esc(f1)}</text>'
+            f'<rect x="0" y="25" width="{w2}" height="{BH}" rx="3" fill="var(--rule)" '
+            f'opacity="0.55"></rect><text x="{w2+6}" y="{25+BH-1}" '
+            f'font-family="var(--mono)" font-size="10.5" fill="var(--muted)">'
+            f'{esc(f2)}</text></svg>')
+
+
+def lane_card_v3(item, lane_name):
+    """S-C. The v3 lane card."""
+    pull = (item.get("bottom_line") or item.get("key_fact") or item.get("dek") or "").strip()
+    if len(pull) > 300:
+        pull = pull[:295].rsplit(" ", 1)[0] + "..."
+    chip = _receipt_status(item)
+    # A status chip only when the metadata has one. verdict_badge is the desk's own
+    # and is present on every checked story; the receipt chip is not.
+    status = verdict_badge(item.get("verdict"), item) if item.get("verdict") else ""
+    outlets = []
+    for s in (item.get("sources") or []):
+        nm = _bd_outlet(s)
+        if nm and nm not in outlets:
+            outlets.append(nm)
+    receipts = (f'<p class="bd-src">Receipts: {esc(", ".join(outlets[:3]))}</p>'
+                if outlets else "")
+    return (f'<div class="bd-card lane-v3">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(lane_name)}</span>'
+            f'{status}{chip}<span class="bd-stamp">{esc(fmt_when(item))}</span></div>'
+            f'<a class="bd-rec-hl" href="/articles/{esc(item["slug"])}.html">'
+            f'{esc(item.get("title") or "")}</a>'
+            + (f'<p class="bd-read" style="font-size:15px">{esc(pull)}</p>' if pull else "")
+            + _lane_numbers(item)
+            + receipts
+            + f'<a class="bd-more" href="/articles/{esc(item["slug"])}.html">'
+              f'Read the piece</a></div>')
+
+
+def extra_lanes_block(items, board):
+    """The Contracts and Fantasy facts lanes. An empty lane stays hidden."""
+    live = [i for i in (items or [])
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+    live.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    out = []
+    for name, rows, href in (
+            ("Contracts", _contracts_lane(live), None),
+            ("Fantasy facts", _fantasy_facts_lane(live), "/fantasy/index.html")):
+        if len(rows) < RECORD_LANE_MIN:
+            continue
+        feat = rows[0]
+        more = "".join(
+            f'<div class="bd-rec-row">'
+            f'<a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
+            f'{esc(i.get("title") or "")}</a>'
+            f'<span class="bd-src">{esc(fmt_when(i))}</span></div>' for i in rows[1:4])
+        extra = ""
+        if name == "Fantasy facts" and board:
+            extra = (f'<div class="bd-rec-row"><a class="bd-rec-t" '
+                     f'href="/fantasy/inactives.html">This week\'s inactives, '
+                     f'{board["total"]} players listed</a>'
+                     f'<span class="bd-src">Living board</span></div>')
+        right = (f'<div class="bd-card bd-rec-more">'
+                 f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
+                 f'<div class="bd-rec-rows">{extra}{more}</div>'
+                 + (f'<a class="bd-more" href="{href}">The fantasy hub</a>' if href else "")
+                 + '</div>')
+        out.append(f'<section class="bd-rec-lane" id="{slugify(name)}">'
+                   f'{lane_card_v3(feat, name)}{right}</section>')
+    if not out:
+        return ""
+    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">The Record</span>'
+            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
+            f'<a class="bd-more" href="/keepers.html">The full Record</a></div>'
+            f'{"".join(out)}</section>')
+
+
 # ---- S5: The Record -----------------------------------------------------------
 # Addendum of 2026-09-13, ported from the crypto desk. What this desk has published
 # that stays true after the news moves on, grouped into lanes, each lane led by its
@@ -3411,7 +3562,6 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
         f'<a class="bd-rec-hl" href="/articles/{esc(feat["slug"])}.html">'
         f'{esc(feat.get("title") or "")}</a>'
         + (f'<p class="bd-read" style="font-size:15px">{esc(dek)}</p>' if dek else "")
-        + _record_bars(lane_items)
         + f'<div class="bd-brief-foot"><span class="bd-src">{receipts}</span>'
           f'<a class="bd-more" href="/articles/{esc(feat["slug"])}.html">Read the piece</a>'
           f'</div></div>')
@@ -3731,6 +3881,7 @@ def render_home(items, dateline):
   {w2w_row}
   {track_html}
   {record_sections(items, home=True)}
+  {extra_lanes_block(items, IA_BOARD)}
   {record_full_index(items)}
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
      right and keep the facts honest. The score is a fact; the story gets checked. Real sports
