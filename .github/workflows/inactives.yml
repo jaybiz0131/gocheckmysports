@@ -63,32 +63,36 @@ jobs:
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEALTH_URL: https://gcm-slot-trigger.gocheckmybrands.workers.dev/
+          TITLE: "slot-trigger: ACTIONS_API not accepted"
         run: |
-          h=$(curl -s --max-time 20 "https://gcm-slot-trigger.gocheckmybrands.workers.dev/" || echo '{}')
-          ok=$(printf '%s' "$h" | python3 -c "import json,sys; print(json.load(sys.stdin).get('token_ok'))" 2>/dev/null || echo None)
-          det=$(printf '%s' "$h" | python3 -c "import json,sys; print(json.load(sys.stdin).get('token_detail',''))" 2>/dev/null || echo "")
-          if [ "$ok" != "True" ]; then
-            echo "::error::slot-trigger token is not accepted by GitHub ($det). Every"                 "Worker dispatch will fail until ACTIONS_API is replaced:"                 "npx wrangler secret put ACTIONS_API"
-            title="slot-trigger: ACTIONS_API not accepted"
-            if ! gh issue list --state open --search "$title in:title" --json title                  --jq '.[].title' | grep -qF "$title"; then
-              gh issue create --title "$title"                 --body "The Worker health endpoint reports the token is not accepted: $det
-
-Every dispatch from the slot trigger fails while this holds, so the briefs, the
-watchers and the Inactives poller all fall back to GitHub's own crons, which this
-family has measured at 1.5 to 4 hours late.
-
-Fix: npx wrangler secret put ACTIONS_API, from
-~/Desktop/Berno Projects/gcm-newsroom/slot-trigger, with a token carrying
-Actions read and write on gocheckmysports and gocheckmycrypto.
-
-This issue closes itself when the next poll sees a healthy token." || true
-            fi
-          else
+          h=$(curl -s --max-time 20 "$HEALTH_URL" || echo '{}')
+          ok=$(printf '%s' "$h" | python3 -c "import json,sys;print(json.load(sys.stdin).get('token_ok'))" 2>/dev/null || echo None)
+          det=$(printf '%s' "$h" | python3 -c "import json,sys;print(json.load(sys.stdin).get('token_detail',''))" 2>/dev/null || echo "unreachable")
+          if [ "$ok" = "True" ]; then
             echo "slot-trigger token: accepted by GitHub"
-            gh issue list --state open --search "slot-trigger: ACTIONS_API not accepted in:title"               --json number --jq '.[].number' | while read -r n; do
-              [ -n "$n" ] && gh issue close "$n" --comment "Token is accepted again." || true
-            done
+            gh issue list --state open --search "$TITLE in:title" --json number --jq '.[].number' \
+              | while read -r n; do [ -n "$n" ] && gh issue close "$n" -c "Token is accepted again." || true; done
+            exit 0
           fi
+          echo "::error::slot-trigger token is not accepted by GitHub ($det). Every Worker dispatch fails until ACTIONS_API is replaced."
+          if gh issue list --state open --search "$TITLE in:title" --json title --jq '.[].title' | grep -qF "$TITLE"; then
+            echo "alarm issue already open"; exit 0
+          fi
+          {
+            echo "The Worker health endpoint reports the token is not accepted: $det"
+            echo
+            echo "Every dispatch from the slot trigger fails while this holds, so the briefs,"
+            echo "the watchers and the Inactives poller all fall back to GitHub's own crons,"
+            echo "which this family has measured at 1.5 to 4 hours late."
+            echo
+            echo "Fix, from ~/Desktop/Berno Projects/gcm-newsroom/slot-trigger:"
+            echo "  npx wrangler secret put ACTIONS_API"
+            echo
+            echo "The token needs Actions read and write on gocheckmysports and gocheckmycrypto."
+            echo "This issue closes itself when the next poll sees a healthy token."
+          } > "$RUNNER_TEMP/alarm.md"
+          gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/alarm.md" || true
 
       - name: Poll the league injury feed and snapshot what it shows
         run: |
