@@ -23,9 +23,9 @@ on:
   workflow_dispatch:
     inputs:
       reconcile:
-        description: "Also reconcile capped teams against the uncapped endpoint"
-        type: boolean
-        default: false
+        description: "Also reconcile capped teams ('true' to enable)"
+        type: string
+        default: "false"
   schedule:
     # A floor under the Worker, not a substitute for it. Sundays through the American
     # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
@@ -130,7 +130,7 @@ jobs:
       # has nothing to read. The Worker dispatches this with reconcile=true about
       # fifteen minutes before each kickoff wave, while the flags are still up.
       - name: Reconcile capped teams
-        if: github.event_name == 'workflow_dispatch' && inputs.reconcile == true
+        if: github.event_name == 'workflow_dispatch' && inputs.reconcile == 'true'
         run: python3 inactives.py --reconcile
 
       - name: Rebuild and push
