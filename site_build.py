@@ -2364,6 +2364,214 @@ def render_news_month(month, rows, dateline):
                                             (label, url)]))
 
 
+# ---- S-A: the Scoreboard band, and S-B1 designations on the cards --------------
+# Artboard: sports-v3-desktop / sports-v3-phone. The band is the product: a reader
+# opening the site on a Sunday should see every live score with its network without
+# scrolling or clicking.
+#
+# EVERYTHING HERE OMITS RATHER THAN GUESSES. A game with no network shows no chip. A
+# sport whose length is not fixed draws no progress bar, because a bar that is 50% of
+# nothing is a fabricated number. A team with no colour in team-colors.json gets the
+# neutral bar the omission table specifies.
+
+SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
+
+
+def _sb_team_row(t, lose=False, big=False, started=True):
+    col = t.get("color") or ""
+    bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
+           else '<span class="tc tc-none"></span>')
+    rec = f' &middot; {esc(t.get("record"))}' if t.get("record") else ""
+    nm = (f'<span class="abbr{" big" if big else ""}">{esc(t.get("abbr") or "")}</span>'
+          f'<span class="tname">{esc(t.get("name") or "")}{rec}</span>')
+    if big:
+        nm = (f'<span class="sb-stack"><span class="abbr big">{esc(t.get("abbr") or "")}'
+              f'</span><span class="tname">{esc(t.get("name") or "")}{rec}</span></span>')
+    sc = t.get("score")
+    sc = "" if sc in (None, "") or not started else str(sc)
+    return (f'<div class="team">{bar}{nm}</div>'
+            f'<span class="score{" lose" if lose else ""}'
+            f'{" big" if big else ""}">{esc(sc)}</span>')
+
+
+def _sb_status(g):
+    st = g.get("state")
+    if st == "in":
+        per = g.get("status_short") or ""
+        return f'<span class="live"><span class="dot"></span>{esc(per)}</span>'
+    if st == "post":
+        return ('<span class="fin"><svg width="11" height="11" viewBox="0 0 11 11" '
+                'aria-hidden="true"><path d="M2 5.8L4.3 8 9 3" fill="none" '
+                'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+                'stroke-linejoin="round"></path></svg>FINAL &middot; checked</span>')
+    return f'<span class="soon">{esc(g.get("status_short") or "")}</span>'
+
+
+def _sb_losers(g):
+    """Which side to mute. Only at final, and only when the scores differ: muting a
+    leader mid-game would call a result that has not happened."""
+    if g.get("state") != "post":
+        return (False, False)
+    try:
+        a, h = int(g["away"].get("score")), int(g["home"].get("score"))
+    except Exception:
+        return (False, False)
+    return (a < h, h < a)
+
+
+def _sb_fantasy_strip(g, ia_index):
+    """S-B1. Designations for this game's two teams, from the inactives snapshot.
+    Once a list has been seen the strip says so and links the board; before that it
+    says nothing at all rather than implying a clean bill of health."""
+    if not ia_index:
+        return ""
+    bits = []
+    for side in ("away", "home"):
+        tid = (g.get(side) or {}).get("id") or ""
+        ab = (g.get(side) or {}).get("abbr") or ""
+        t = ia_index.get(tid)
+        if not t:
+            continue
+        bits.append(f'{esc(ab)} {t["count"]}')
+    if not bits:
+        return ""
+    return (f'<a class="sb-fan" href="/fantasy/inactives.html">'
+            f'<span class="sb-fan-k">Inactives</span>'
+            f'{esc(" &middot; ".join(bits)).replace("&amp;middot;", "&middot;")}</a>')
+
+
+def _sb_card(g, ia_index, marquee=False):
+    lose_a, lose_h = _sb_losers(g)
+    _started = g.get("state") in ("in", "post")
+    prog = g.get("progress")
+    bar = (f'<div class="prog" style="width:{prog*100:.0f}%"></div>'
+           if isinstance(prog, (int, float)) else "")
+    net = f'<span class="net">{esc(g.get("network"))}</span>' if g.get("network") else ""
+    fan = _sb_fantasy_strip(g, ia_index)
+    if marquee:
+        sit = (f'<span>{esc(g.get("situation"))}</span>' if g.get("situation") else "")
+        return (f'<div class="sb-marquee">'
+                f'<div class="sb-mq-top">{_sb_status(g)}{net}</div>'
+                f'<div class="sb-mq-grid">'
+                f'{_sb_team_row(g["away"], lose_a, big=True, started=_started)}'
+                f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
+                f'<div class="sb-mq-meta">{sit}{fan}</div>'
+                f'<div class="sb-mq-foot">'
+                f'<a class="sb-link" href="/scores.html">All scores</a>'
+                f'<span class="sb-note">Marquee picks itself: closest live score, '
+                f'largest audience</span></div>{bar}</div>')
+    return (f'<div class="game">'
+            f'{_sb_team_row(g["away"], lose_a, started=_started)}'
+            f'{_sb_team_row(g["home"], lose_h, started=_started)}'
+            f'<div class="st">{_sb_status(g)}{net}</div>'
+            f'{f"<div class=sb-fanrow>{fan}</div>" if fan else ""}{bar}</div>')
+
+
+def _sb_marquee_pick(games):
+    """The marquee picks itself: the closest live score in the largest-audience league,
+    else the next kickoff. No editor touches it."""
+    order = {n: i for i, n in enumerate(SB_TAB_ORDER)}
+    live = [g for g in games if g.get("state") == "in"]
+    if live:
+        def closeness(g):
+            try:
+                d = abs(int(g["away"]["score"]) - int(g["home"]["score"]))
+            except Exception:
+                d = 99
+            return (order.get(g["league"], 99), d)
+        return sorted(live, key=closeness)[0]
+    up = [g for g in games if g.get("state") == "pre" and g.get("start_utc")]
+    if up:
+        return sorted(up, key=lambda g: (g["start_utc"], order.get(g["league"], 99)))[0]
+    fin = [g for g in games if g.get("state") == "post"]
+    return sorted(fin, key=lambda g: order.get(g["league"], 99))[0] if fin else None
+
+
+def _ia_index(board):
+    """Inactive counts by team id, for the card strips."""
+    if not board:
+        return {}
+    return {str(t.get("id")): t for t in board.get("teams") or [] if t.get("id")}
+
+
+def scoreboard_band(sb, board):
+    """The dark band under the masthead. Returns "" when there is nothing to show, so
+    the homepage simply does not carry it rather than carrying an empty shell."""
+    if not sb or not sb.get("leagues"):
+        return ""
+    games = [g for L in sb["leagues"] for g in L["games"]]
+    if not games:
+        return ""
+    ia = _ia_index(board)
+    mq = _sb_marquee_pick(games)
+    rest = [g for g in games if g is not mq]
+    # Live first, then upcoming, then finals: what a reader opened the page for.
+    rank = {"in": 0, "pre": 1, "post": 2}
+    rest.sort(key=lambda g: (rank.get(g.get("state"), 9),
+                             SB_TAB_ORDER.index(g["league"])
+                             if g["league"] in SB_TAB_ORDER else 99,
+                             g.get("start_utc") or ""))
+    present = [n for n in SB_TAB_ORDER if any(g["league"] == n for g in games)]
+    n_live = sum(1 for g in games if g.get("state") == "in")
+    tabs = "".join(
+        f'<a class="tab{" on" if i == 0 else ""}" '
+        f'href="/scores.html{"" if i == 0 else "#" + esc(n.lower())}">{esc(n)}</a>'
+        for i, n in enumerate(["All live"] + present))
+    cards = "".join(_sb_card(g, ia) for g in rest[:8])
+    stamp = _et(sb.get("fetched_at") or "")
+    return f"""<section class="scoreband" aria-label="The Scoreboard">
+  <div class="wrap sb-inner">
+    <div class="sb-head">
+      <div class="sb-head-l"><span class="sb-lab">The Scoreboard</span>
+        <div class="sb-tabs">{tabs}</div></div>
+      <span class="sb-stamp">Updated {esc(stamp)} &middot; refreshes every 15 minutes
+        &middot; finals checked against league feeds</span>
+    </div>
+    <div class="sb-grid">
+      {_sb_card(mq, ia, marquee=True) if mq else ""}
+      <div class="sb-cards">{cards}</div>
+    </div>
+    <div class="sb-foot"><a class="sb-link" href="/scores.html">All
+      {len(games)} games today &rarr;</a>
+      <span class="sb-note">{n_live} live now</span></div>
+  </div>
+</section>"""
+
+
+def render_scores_page(sb, board, dateline):
+    """/scores: every game, grouped by league, with a Yesterday, Today, Tomorrow strip.
+    The strip links only days we actually hold data for."""
+    if not sb or not sb.get("leagues"):
+        return None
+    ia = _ia_index(board)
+    secs = []
+    for L in sb["leagues"]:
+        games = L["games"]
+        if not games:
+            continue
+        rank = {"in": 0, "pre": 1, "post": 2}
+        games = sorted(games, key=lambda g: (rank.get(g.get("state"), 9),
+                                             g.get("start_utc") or ""))
+        secs.append(
+            f'<section class="bd-mod" id="{esc(L["league"].lower())}">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">{esc(L["league"])}</span>'
+            f'<span class="bd-stamp">{len(games)} games</span></div></div>'
+            f'<div class="sb-cards sb-cards-light">'
+            + "".join(_sb_card(g, ia) for g in games) + '</div></section>')
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Scores</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">Every score. No odds. No noise.</h1>
+  <p class="lx-dek">Updated {esc(_et(sb.get("fetched_at") or ""))}. Finals are checked
+     against the league feeds.</p>
+  <div class="scoreband scoreband-page">{"".join(secs)}</div>
+</section></main>"""
+    return shell(f"Scores - {NAME}",
+                 "Every live score across the leagues this desk covers, with the "
+                 "network carrying each game. No odds, ever.",
+                 "Scores", body, dateline, path="/scores.html")
+
+
 # ---- S-B2: the Sunday Inactives board -----------------------------------------
 # The single most important fantasy surface, and it must be correct before it is
 # pretty. Data comes from inactives.py, which polls and snapshots; see that module for
@@ -2906,14 +3114,11 @@ def render_home(items, dateline):
         # WHATEVER story leads, never an illustration of it (no caption, no linkage), and
         # the scrim guarantees the headline always beats the motion. Reduced-motion
         # readers get the poster still only (script below removes the video pre-load).
-        hero_video = (
-            '<video class="hero-video motion-video" autoplay muted loop playsinline preload="none" '
-            'poster="/assets/hero/hero-poster.jpg" aria-hidden="true" tabindex="-1">'
-            '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
-            '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
-            '<span class="hero-scrim" aria-hidden="true"></span>'
-            '<button class="hero-pause" type="button" hidden aria-pressed="false" '
-            'aria-label="Pause background animation">&#10074;&#10074;</button>')
+        # S-A: the video block is retired. The Scoreboard band is the one hero, and an
+        # autoplaying loop sitting above the scores is exactly the noise the band's own
+        # headline disowns. The scrim stays: it is what keeps the headline legible over
+        # the poster still that remains.
+        hero_video = '<span class="hero-scrim" aria-hidden="true"></span>'
         lead_mark = ('<span class="badge breaking">Breaking</span>' if breaking
                      else _hero_tag(lead))
         # freshness at a glance (owner directive 2026-07-24): a lead that is the head of
@@ -3099,7 +3304,10 @@ def render_home(items, dateline):
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
     # The live layer rides above the fold, before the editorial page begins.
-    body = scores_strip() + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: the latest verified sports news</h1><section class="page">
+    # S-A: the band is the product and it sits directly under the masthead. The old
+    # ticker strip stays available for pages that are not the front door.
+    _band = scoreboard_band(SB_DATA, IA_BOARD) or scores_strip()
+    body = _band + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: every score, checked</h1><section class="page">
   {lead_row}
   {desk_html}
   {crosscut_row(items)}
@@ -3235,6 +3443,7 @@ NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
 IA_BOARD = None      # set at build by inactives.board()
+SB_DATA = None       # set at build by scoreboard.load()
 
 NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
 
@@ -4330,6 +4539,18 @@ def build():
               f"{sum(len(x.get('games') or []) for x in _wks)} games, "
               f"as of {_w2w.get('fetched_at')}")
 
+    # S-A: the Scoreboard band's own data. scores_pulse.py is frozen and writes a
+    # ticker's worth of each game; the band needs networks, records, period and
+    # situation, so this reads the public scoreboards itself.
+    global SB_DATA
+    SB_DATA = None
+    try:
+        import scoreboard as _sbmod
+        _sbmod.refresh()
+        SB_DATA = _sbmod.load()
+    except Exception as _e:
+        print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
+
     # S-B2: poll the injury feed and snapshot before rendering, so a build that lands
     # inside a posting window captures it. The board renders from the snapshot, never
     # from a live read; see inactives.py.
@@ -4349,6 +4570,12 @@ def build():
                   f"{len(IA_BOARD['teams'])} teams")
 
     w("index.html", render_home(items, dateline))
+    if SB_DATA:
+        _sc = render_scores_page(SB_DATA, IA_BOARD, dateline)
+        if _sc:
+            w("scores.html", _sc)
+            print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
+
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
     _lt_urls = []

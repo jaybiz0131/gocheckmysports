@@ -1100,3 +1100,104 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
   .ia-row{grid-template-columns:1fr auto}
   .ia-row .bd-src{grid-column:1/-1}
 }
+
+/* ---- S-A: the Scoreboard band ----------------------------------------------------
+   The dark band is the product. It is deliberately dark in BOTH themes: it is a
+   stadium board, not a document surface, and the mockup's contrast is what makes a
+   score readable across a room. Its colours are therefore literals rather than the
+   page tokens, and every one is checked against the band's own background. */
+.scoreband{background:#131419;padding:22px 0 26px}
+.sb-inner{display:flex;flex-direction:column;gap:14px}
+.sb-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  flex-wrap:wrap}
+.sb-head-l{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sb-lab{font:700 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:#868B95;white-space:nowrap}
+.sb-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{display:inline-flex;align-items:center;justify-content:center;min-height:36px;
+  padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:#A6ABB4;
+  white-space:nowrap;text-decoration:none}
+.tab.on{background:#FBFAF6;color:#17181C}
+.tab:hover{color:#EBE9E3;text-decoration:none}
+.sb-stamp{font:400 11px/1.4 var(--mono);color:#868B95}
+.sb-grid{display:grid;grid-template-columns:1.25fr 2fr;gap:14px;align-items:start}
+.sb-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+  align-content:start}
+.game,.sb-marquee{background:#1A1C22;border:1px solid #2A2D35;border-radius:8px;
+  position:relative;overflow:hidden}
+.game{display:grid;grid-template-columns:1fr auto;gap:6px 12px;padding:12px 14px 10px}
+.sb-marquee{display:flex;flex-direction:column;gap:14px;padding:18px 20px 16px;
+  border-radius:10px}
+.sb-mq-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sb-mq-grid{display:grid;grid-template-columns:1fr auto;gap:14px 16px;align-items:center}
+.sb-mq-meta{display:flex;flex-direction:column;gap:6px;font:400 12px/1.45 var(--mono);
+  color:#A6ABB4}
+.sb-mq-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  flex-wrap:wrap}
+.team{display:flex;align-items:center;gap:10px;min-width:0}
+.sb-stack{display:flex;flex-direction:column;min-width:0}
+.tc{width:10px;height:22px;border-radius:3px;flex:none}
+.sb-marquee .tc{height:30px}
+/* A team with no colour in team-colors.json gets a neutral bar, never a guessed one. */
+.tc-none{background:#2A2D35}
+.abbr{font:700 13px/1.2 var(--mono);color:#EBE9E3;width:44px;flex:none}
+.abbr.big{font-size:18px;width:auto}
+.tname{font-size:13.5px;color:#A6ABB4;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.score{font:600 26px/1 var(--serif);color:#EBE9E3;text-align:right;min-width:36px}
+.score.big{font-size:56px}
+.score.lose{color:#868B95}
+.st{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;
+  gap:10px;font:400 11px/1.3 var(--mono);color:#A6ABB4;padding-top:4px}
+.live{color:#3DDC84;display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:#3DDC84;
+  box-shadow:0 0 0 4px rgba(61,220,132,.18)}
+.fin{display:inline-flex;align-items:center;gap:5px;color:#A6ABB4;font-weight:700}
+.soon{color:#A6ABB4}
+.net{font:700 10.5px/1.3 var(--mono);letter-spacing:.06em;color:#EBE9E3;
+  background:#2A2D35;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.prog{position:absolute;left:0;bottom:0;height:3px;background:#3DDC84}
+.sb-link{color:#8FB6DC;font-weight:700;font-size:13.5px;white-space:nowrap;
+  text-decoration:none}
+.sb-link:hover{color:#B7D2ED;text-decoration:underline}
+.sb-note{font:400 11px/1.3 var(--mono);color:#868B95}
+.sb-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  flex-wrap:wrap;padding-top:2px}
+/* S-B1: the designations strip. Links the board rather than repeating it. */
+.sb-fan,.sb-fanrow .sb-fan{display:inline-flex;align-items:center;gap:8px;
+  font:400 11px/1.3 var(--mono);color:#F0C674;text-decoration:none}
+.sb-fanrow{grid-column:1/-1;padding-top:2px}
+.sb-fan:hover{color:#F7EACB;text-decoration:underline}
+.sb-fan-k{font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+/* The dot pulses only when motion is allowed. */
+@media (prefers-reduced-motion:no-preference){
+  .dot{animation:sb-pulse 2s ease-in-out infinite}
+}
+@keyframes sb-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+body.motion-off .dot{animation:none}
+/* The scores page reuses the cards on the page ground rather than the band's. */
+.scoreband-page{background:transparent;padding:0}
+@media (max-width:900px){
+  .scoreband{padding:16px 0 18px}
+  .sb-grid{grid-template-columns:1fr;gap:10px}
+  .sb-cards{grid-template-columns:1fr}
+  .score.big{font-size:40px}
+  .sb-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .sb-tabs::-webkit-scrollbar{display:none}
+  .sb-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .abbr{width:38px}
+}
+/* The marquee sizes to its content; an upcoming game has less to say than a live one
+   and should not leave a tall empty box under it. */
+.sb-marquee{align-self:start}
+.sb-grid{align-items:start}
+/* A flex item will not shrink below its content unless told to, so the tab rail's
+   own scroll container was pushing the band, and the page, to 548px at 390. The
+   stamp is one long unbroken line for the same reason. */
+.sb-head,.sb-head-l,.sb-inner{min-width:0}
+.sb-tabs{min-width:0;max-width:100%}
+.sb-stamp{min-width:0;overflow-wrap:anywhere}
+@media (max-width:900px){
+  .sb-head-l{width:100%}
+  .sb-tabs{width:100%}
+}
