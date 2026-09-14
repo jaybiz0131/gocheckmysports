@@ -202,6 +202,39 @@ def poll(reconcile=False):
     return snap
 
 
+def _playing_today():
+    """Team ids with a game that has not finished, from the schedule the site already
+    fetches. Returns None when the schedule is unavailable, which means "no opinion"
+    rather than "nobody plays"."""
+    try:
+        w = json.load(open(os.path.join(HERE, "site", "data", "where-to-watch.json"),
+                           encoding="utf-8"))
+    except Exception:
+        return None
+    ids = set()
+    now = _now()
+    for wk in w.get("weeks") or []:
+        for g in wk.get("games") or []:
+            if g.get("completed"):
+                continue
+            try:
+                k = datetime.datetime.strptime(
+                    g.get("kickoff_utc") or "", "%Y-%m-%dT%H:%MZ").replace(
+                        tzinfo=datetime.timezone.utc)
+            except Exception:
+                continue
+            # Under way, or kicking off within six hours. The schedule file holds two
+            # weeks, so "any unfinished game" selected all 32 teams, which is exactly
+            # what this filter exists to avoid.
+            if not (-datetime.timedelta(hours=4) <= (k - now)
+                    <= datetime.timedelta(hours=6)):
+                continue
+            for key in ("home_id", "away_id"):
+                if g.get(key):
+                    ids.add(str(g[key]))
+    return ids or None
+
+
 def _reconcile(snap):
     """Once per slate, for capped teams only: ask the uncapped per-team endpoint and
     add anything the poll never saw, stamped from the reconciliation rather than from
@@ -212,8 +245,11 @@ def _reconcile(snap):
     roughly 1,900 requests before names. Once, for the handful of teams whose rows hit
     the cap, it is cheap."""
     added = 0
+    playing = _playing_today()
     for t in snap["teams"].values():
         if not t.get("capped") or t.get("reconciled_at"):
+            continue
+        if playing is not None and str(t.get("id")) not in playing:
             continue
         tid = t.get("id")
         if not tid:
