@@ -598,6 +598,41 @@
     "url": "https://www.espn.com/espn/rss/tennis/news",
     "note": "RESTORED 2026-09-04. Retired 2026-09-03 as dead; it was not dead. The RSS host does answer datacenter IPs with an HTTP 202 bot challenge, which is real and unsolved, but the JSON fallback wired 2026-09-02 was returning 403 for one reason: the desk's branded User-Agent. ESPN's API tier allows generic HTTP client agents and rejects branded ones. common.ua_for now sends a generic client string to ESPN API hosts only. Proven from CI, not a laptop: the first scheduled run after the same fix landed in scores_pulse pulled 9 leagues and 29 games from site.api.espn.com on a GitHub runner. The RSS primary is still expected to fail from CI; espn_api_fallback is the working path.",
     "fallback_api": "https://now.core.api.espn.com/v1/sports/news?sport=tennis&limit=40"
+   },
+   {
+    "name": "Court dockets: NFL",
+    "tier": "primary",
+    "url": "https://www.courtlistener.com/feed/search/?q=%22National+Football+League%22&type=r",
+    "note": "S-D TRIAL, opened 2026-09-14, review at day 14 (2026-09-28). Open source, no paywall. Verified live before adding: 20 items. The court-docket feed S-D asks for, feeding the Lawsuits and rulings lane. A docket entry is a filing, which is the difference between Filed and Reported on a Record card.",
+    "max_items": 12
+   },
+   {
+    "name": "Court dockets: NCAA",
+    "tier": "primary",
+    "url": "https://www.courtlistener.com/feed/search/?q=NCAA&type=r",
+    "note": "S-D TRIAL, opened 2026-09-14, review at day 14 (2026-09-28). Open source, no paywall. Verified live before adding: 20 items. College half of the same lane; NIL and eligibility litigation is where that lane's volume actually is.",
+    "max_items": 12
+   },
+   {
+    "name": "PR Newswire sports",
+    "tier": "major",
+    "url": "https://www.prnewswire.com/rss/sports-latest-news/sports-latest-news-list.rss",
+    "note": "S-D TRIAL, opened 2026-09-14, review at day 14 (2026-09-28). Open source, no paywall. Verified live before adding: 20 items. The one wire S-D allows. Press releases are announcements, not reporting, so the verifier's source check earns its keep here more than anywhere.",
+    "max_items": 10
+   },
+   {
+    "name": "Team releases: Packers",
+    "tier": "primary",
+    "url": "https://www.packers.com/rss/news",
+    "note": "S-D TRIAL, opened 2026-09-14, review at day 14 (2026-09-28). Open source, no paywall. Verified live before adding: 100 items. A team press-release feed, sampled rather than adding all 32: the trial is meant to measure yield before the intake carries a club feed per team.",
+    "max_items": 8
+   },
+   {
+    "name": "Team releases: 49ers",
+    "tier": "primary",
+    "url": "https://www.49ers.com/rss/news",
+    "note": "S-D TRIAL, opened 2026-09-14, review at day 14 (2026-09-28). Open source, no paywall. Verified live before adding: 20 items. Second club sample, a different market and a different publishing cadence, so the trial is not measuring one club.",
+    "max_items": 8
    }
   ],
   "keywords_note": "Optional per-feed 'keywords' gate: high-volume aggregated feeds keep only items matching a keyword in headline+snippet, so they cannot flood the editor. Items matching a 'narratives' watchlist entry always pass the gate.",
@@ -646,7 +681,20 @@
    ]
   },
   "max_items_per_feed": 40,
-  "espn_note": "ESPN RESTORED 2026-09-04 after the User-Agent was identified as the cause of the 403s that got these feeds retired on 2026-09-03. Two separate failures had been read as one: the RSS hosts answer datacenter IPs with HTTP 202 bot challenges (IP-based, still unsolved, no User-Agent fixes it), while the site.api/now.core JSON tier answers 403 to any branded agent (UA-based, fixed by common.ua_for). Because only the second was ever the blocker on the fallback path, espn_api_fallback now serves these lanes from CI. If ESPN 403s again, test the agent before retiring anything."
+  "espn_note": "ESPN RESTORED 2026-09-04 after the User-Agent was identified as the cause of the 403s that got these feeds retired on 2026-09-03. Two separate failures had been read as one: the RSS hosts answer datacenter IPs with HTTP 202 bot challenges (IP-based, still unsolved, no User-Agent fixes it), while the site.api/now.core JSON tier answers 403 to any branded agent (UA-based, fixed by common.ua_for). Because only the second was ever the blocker on the fallback path, espn_api_fallback now serves these lanes from CI. If ESPN 403s again, test the agent before retiring anything.",
+  "sd_trial": {
+   "opened": "2026-09-14",
+   "review_on": "2026-09-28",
+   "feeds": [
+    "Court dockets: NFL",
+    "Court dockets: NCAA",
+    "PR Newswire sports",
+    "Team releases: Packers",
+    "Team releases: 49ers"
+   ],
+   "baseline_feed_count": 27,
+   "note": "S-D. Sources list only; nothing else in config changes. Report at day 14: items ingested per feed, verifier reject rate per feed, stories published per lane. Feeds with poor yield come out."
+  }
  },
  "narratives": {
   "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
