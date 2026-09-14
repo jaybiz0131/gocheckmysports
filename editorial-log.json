@@ -4,38 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c038",
-    "headline": "Infantino to meet FIFA leadership amid reported opposition",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'reported opposition from the English FA, Wales, and Jordan' but the brief's data_points contain no such claim. The brief explicitly notes in open_questions that 'no details on the meeting's agenda, the specific issues driving opposition from the English FA, Wales, and Jordan' are provided in the available source text. The draft smuggles in the names of opposing bodies without source support in the brief."
-    ]
-   },
-   {
-    "id": "c149",
-    "headline": "Adley Rutschman traded to Red Sox at deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks the core claim 'Adley Rutschman was traded to the Boston Red Sox at the trade deadline' with confidence level 'announced-not-verified', but the draft presents it as reported fact ('joined the Boston Red Sox at the trade deadline, according to MLB.com') without signaling the unverified status. The draft should indicate this claim has not been independently verified beyond the announcement.",
-     "The draft states 'Rutschman, an All-Star catcher' but 'All-Star' does not appear in the brief's data_points. This is smuggled information not present in the research."
-    ]
-   },
-   {
-    "id": "c110",
-    "headline": "Doubts grow over Carlos Alcaraz's US Open defence after latest withdrawal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Alcaraz 'withdrew from Barcelona' as his first consecutive tournament exit before Cincinnati, but the brief's data_points do not specify Barcelona by name. The brief states 'Alcaraz withdrew from Barcelona (implied as the event immediately preceding the Cincinnati withdrawal)' with only 'reported' confidence, and the open_questions note that 'The circumstances of the April withdrawal from Barcelona are not detailed in the provided source text.' The writer has smuggled a specific tournament name (Barcelona) that is not independently confirmed in the brief's sourced facts.",
-     "The draft states 'His withdrawal from Cincinnati follows an earlier withdrawal from Barcelona' as though Barcelona is established fact, but this exceeds what the brief can support. The brief's own open_questions acknowledge the source text does not provide 'The circumstances of the April withdrawal from Barcelona.' The writer cannot introduce unverified tournament details; facts must trace to the brief's data_points, not to inference about what the Guardian article might contain."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c032",
     "headline": "Pac-12 and Mountain West finalize settlement over conference poaching and exit fees",
     "category": "accuracy",
@@ -8327,6 +8295,46 @@
      "The brief's open_questions and thin=true flag indicate critical information gaps. The brief asks: 'What specific salary-cap circumvention mechanism did the NBA's investigation conclude the Clippers employed?' and 'What were the exact penalties the NBA assessed beyond the fine and draft-pick loss?' The draft's opening sentence claims the 'NBA investigation into the Los Angeles Clippers' salary-cap practices has concluded, clearing the way' but never specifies what was found, what the penalty was, or what rule was violated.",
      "The core story\u2014that an investigation cleared a trade\u2014rests on unconfirmed details about the investigation's scope and findings that are not present in the brief's data points. The brief itself flags source_chars=1406 (extremely thin) and notes the sources do not contain 'substantive counter-arguments, denials, or risks to the completion of the trade.'",
      "The draft narrates a concluded investigation without quoting the NBA's findings, the specific violation, or the penalties imposed. This is smuggled framing: the writer assumes facts (that the investigation happened, concluded, and cleared the trade) that are only implied by the sparse source material, not explicitly stated."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c040",
+    "headline": "Broncos vs. Chiefs, Monday, September 16: Mahomes active after torn ACL; Nix returns from broken ankle",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having already happened ('Patrick Mahomes is officially active for his return') when it is scheduled for September 16, 2026\u2014two days after today's date of September 14, 2026. The brief correctly treats this as an upcoming event in Week 1 of the 2026 season. The draft's present-tense phrasing and use of 'officially active for his return' reads as a completed fact rather than an upcoming game.",
+     "The draft states 'Bo Nix is also returning from a broken ankle he sustained in Denver's 33-30 overtime victory against the Buffalo Bills in the divisional round' without clarity that this is a past event (the 2025 playoff game) being discussed in context of an upcoming 2026 regular-season game. This creates temporal ambiguity about which season is being referenced.",
+     "The draft contains a data point ('The Kansas City Chiefs began the 2026 season off a dreadful 2025 season, having lost in the Super Bowl LIX to the Philadelphia Eagles') that contradicts the core narrative: the brief states the Chiefs went 6-11 and missed the playoffs entirely in 2025, which means they could not have played in a Super Bowl. This is a factual contradiction that does not appear in the brief's data points and suggests either a corrupted source or a fabrication.",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday",
+     "the draft cites identifier '2024-2025', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c138",
+    "headline": "White Sox and Guardians meet for crucial AL Central series beginning September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the series concludes 'Friday, September 18' but the brief's data_point says 'Series concludes Wednesday afternoon.' Today is Monday 2026-09-14; a Wednesday conclusion would be September 16, not Friday September 18. The draft has misdated the series end by two days.",
+     "The draft reports the White Sox went '4-10 over their last 14 games' and that they 'have gone 1-for-13 with bases loaded over their past 14 games, with 17 total plate appearances in that situation' but the brief data_point specifies '17 plate appearances with bases loaded over last 14 games, going 1-for-13 with four walks'\u2014the draft omits the four walks detail, which changes the on-base understanding.",
+     "The draft mentions 'Cleveland has won eight of its last 14 games' but the brief's open_questions state 'What is the Guardians' record in their last 14 games heading into Monday (source says 8-6, but it is not clear if this is current as of Monday game time)?'\u2014marking this figure as unconfirmed/current-status-unclear at publication time. The draft presents it as settled fact when the brief flags it as potentially stale.",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Lions RB Isiah Pacheco undergoes back surgery, sidelined for 12 weeks with early December return target",
+    "category": "compliance",
+    "reasons": [
+     "The draft states Pacheco 'underwent back surgery on September 14, 2026,' which is today's date. The brief timestamp is '2026-09-14T21:32:38Z' and the reporting is from Ian Rapoport today. A surgery that happened today has not yet concluded its outcome; the medical claim that he 'underwent' the procedure (past tense, completed action) may be premature if the surgery is ongoing or only just completed hours ago. The draft should either clarify timing as 'scheduled for' or 'undergoing' if the surgery is not confirmed finished, or source the completion status explicitly.",
+     "More critically, the draft presents the 12-week recovery timeline as a definite medical prognosis ('expected to take 12 weeks') when the brief's bear_case explicitly flags that Campbell qualified it as a 'chance' rather than a guarantee, and that medical uncertainty remains. The draft acknowledges this hedge only in the bottom_line and a single sentence mid-body ('Campbell's qualification... leaves some medical uncertainty'), but the opening and most of the body read the 12-week window as settled fact.",
+     "The phrase 'a chance Pacheco is back by early December' in the first paragraph softens the timeline, but the repeated statement in the next paragraph that 'The recovery is expected to take 12 weeks' contradicts the bear_case emphasis on uncertainty and reads as more definite than the source allows."
     ]
    }
   ]

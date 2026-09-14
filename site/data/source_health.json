@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-14T21:02:51Z",
+ "checked_utc": "2026-09-14T23:50:04Z",
  "sources": [
   {
    "name": "BBC Sport",
@@ -8,7 +8,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 82,
+   "items": 75,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -30,7 +30,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 47,
+   "items": 48,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -317,6 +317,61 @@
     "items": 40,
     "newest_age_h": null
    },
+   "lane_state": "OK"
+  },
+  {
+   "name": "Court dockets: NFL",
+   "kind": "rss",
+   "url": "https://www.courtlistener.com/feed/search/?q=%22National+Football+League%22&type=r",
+   "tier": "primary",
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 20,
+   "newest_age_h": null,
+   "lane_state": "OK"
+  },
+  {
+   "name": "Court dockets: NCAA",
+   "kind": "rss",
+   "url": "https://www.courtlistener.com/feed/search/?q=NCAA&type=r",
+   "tier": "primary",
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 20,
+   "newest_age_h": null,
+   "lane_state": "OK"
+  },
+  {
+   "name": "PR Newswire sports",
+   "kind": "rss",
+   "url": "https://www.prnewswire.com/rss/sports-latest-news/sports-latest-news-list.rss",
+   "tier": "major",
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 20,
+   "newest_age_h": null,
+   "lane_state": "OK"
+  },
+  {
+   "name": "Team releases: Packers",
+   "kind": "rss",
+   "url": "https://www.packers.com/rss/news",
+   "tier": "primary",
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 100,
+   "newest_age_h": null,
+   "lane_state": "OK"
+  },
+  {
+   "name": "Team releases: 49ers",
+   "kind": "rss",
+   "url": "https://www.49ers.com/rss/news",
+   "tier": "primary",
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 20,
+   "newest_age_h": null,
    "lane_state": "OK"
   },
   {
