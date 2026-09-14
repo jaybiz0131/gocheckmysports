@@ -1,35 +1,5 @@
 [
  {
-  "date": "2026-08-04",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c128",
-    "headline": "STORY BLOCKED: Mitch Keller injury details not available from source",
-    "category": "accuracy",
-    "reasons": [
-     "The draft itself is a meta-commentary acknowledging source failure, not a story built from the brief. The brief contains zero data_points (empty array) and explicitly notes 'source_chars: 0', making it impossible to trace any factual claim from the draft to the research. A story cannot be approved when the hard rule\u2014'no fact exists outside the brief'\u2014cannot be satisfied because the brief contains no facts. This should have been rejected at research intake, not submitted as a draft."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Cleveland's WNBA expansion franchise officially named the Sirens, set for 2028 debut",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Rock Entertainment Group, which has owned the Cavaliers since 2005' but the brief attributes this claim to ESPN with 'reported' confidence. The draft does not attribute this fact inline to ESPN. More critically, the data_point in the brief says 'Dan Gilbert's Rock Entertainment Group' but the draft omits 'Dan Gilbert' by name, creating an inaccuracy: it is Dan Gilbert (or his entity bearing his name) who owns Rock Entertainment Group, not an anonymous 'Rock Entertainment Group' that happens to own the Cavaliers. This is a material attribution and ownership fact that must be traced correctly."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "Reusser wins stage four time trial, takes yellow jersey at Tour de France Femmes",
-    "category": "accuracy",
-    "reasons": [
-     "Headline claims 'record time trial performance' but the brief's open_questions flag explicitly states: 'ESPN reports only that she won with the fastest time, not explicitly whether it set a course or Tour record.' The draft presents as settled fact what the brief identifies as unconfirmed. The body text does not repeat this claim, but the headline\u2014the first thing readers see\u2014overstates the evidence."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-05",
   "approved": 2,
   "rejected": [
@@ -8379,6 +8349,41 @@
      "The draft contains a claim not present in the brief: 'The move secures Ostlund before offer-sheet eligibility would have exposed him to external interest.' The open_questions note that 'the sources do not specify Ostlund's current offer-sheet eligibility status or the precise deadline that motivated the timing.' This is editorial interpretation smuggled beyond the brief's data points and is flagged in the brief itself as unknown.",
      "The draft asserts motivation ('secures Ostlund before offer-sheet eligibility') that the brief explicitly lists as an open question, violating the hard rule that facts exist only in the brief.",
      "the draft cites identifier '2026-27', which appears nowhere in the brief or its sourced text"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "Aspinall Vacates Heavyweight Title After Eye-Injury Setbacks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Aspinall 'has not fought since October 2025' but the brief data_point says 'Aspinall has not fought since October, when his first title defence against Ciryl Gane ended in a no-contest following several eye pokes.' The year 2025 is not in the brief; the brief does not specify which October. Since today is September 14, 2026, 'October 2025' is a specific date claim not present in the source material.",
+     "The draft quotes Aspinall as saying 'I have chased this dream since age 10' (paraphrased from 'since I was 10 years old'), but the brief data_point attributes a different quote: 'I am absolutely gutted. I have chased this dream since I was 10 years old.' The draft uses the dream portion but omits 'I am absolutely gutted,' which is a material opening to that statement that should be included if the quote is used at all.",
+     "The draft states the vacation came 'after UFC president Dana White hinted over the weekend that Aspinall could be stripped of the title, per BBC Sport,' but the brief says 'The timing of Aspinall's decision came after UFC president Dana White hinted over the weekend...' The causality phrasing ('after...that...could be stripped') suggests a direct consequence, while the brief says only that the timing followed the hint. The draft's language implies Dana White's hint forced or prompted the vacation; the brief only notes chronological proximity."
+    ]
+   },
+   {
+    "id": "c076",
+    "headline": "USA defeats France 97-79 to win fifth consecutive FIBA Women's World Cup gold (September 13, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having already occurred on September 13, 2026 ('Team USA defeated France 97-79 in the FIBA Women's World Cup final on Sunday, September 13, in Berlin, Germany'). However, today's date is Monday, September 14, 2026. The event date of September 13 is yesterday, making this a past event correctly reported. However, the instruction states 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' This is the inverse: an event before today reported as past. This is correct temporal framing and not a rejection basis. However, examining the sources: the brief carries data_points with 'verified-on-chain' confidence for the game result, confirming the event occurred. The draft accurately reports a past event. No accuracy violation here on that basis.",
+     "The draft contains 'Managing director Sue Bird left Olivia Miles, the Minnesota Lynx's rising star and leading Rookie of the Year and MVP candidate, off the 12-player roster.' The brief data_point states: 'Olivia Miles, a rising superstar for the Minnesota Lynx and prohibitive Rookie of the Year favorite and MVP contender, was not called up to the 12-player roster by managing director Sue Bird.' The draft's phrasing 'leading Rookie of the Year and MVP candidate' is weaker than the brief's 'prohibitive Rookie of the Year favorite.' However, this is paraphrase variance, not a factual error. The substance is preserved.",
+     "The draft states 'Coach Kara Lawson's squad executed the comeback' but the brief does not cite Kara Lawson by name as the coach in the core materials, only listing a partial quote from 'Team USA coach Kara Lawson' in a data_point. The draft infers her role as coach from the brief's own data, which is acceptable inference.",
+     "The open_questions in the brief ask 'Who won the tournament MVP award? The headline claims Breanna Stewart, but this is not stated in any of the provided source texts.' The draft does not mention an MVP award at all. This is safe\u2014the draft does not contradict the brief's uncertainty."
+    ]
+   },
+   {
+    "id": "c249",
+    "headline": "Sabres Sign Ostlund to Eight-Year, $52.8 Million Extension on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the signing as a past event on September 15, 2026 ('signed center Noah Ostlund to an eight-year, $52.8 million contract extension...on September 15, 2026'), but today is Monday, September 14, 2026. September 15 is tomorrow and has not yet occurred. Per the hardline rule, a draft that reports an event dated after today as having already happened is an accuracy reject. The core_claim in the brief also states the signing occurred 'on September 15, 2026,' but the timestamp on the brief's data points is '2026-09-14,' indicating the reporting was dated today, not tomorrow. The draft must be rewritten to reflect that the signing is scheduled for tomorrow, not that it has already happened."
     ]
    }
   ]
