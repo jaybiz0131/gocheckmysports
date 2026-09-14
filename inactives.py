@@ -60,6 +60,9 @@ TEAM_CORE = ("https://sports.core.api.espn.com/v2/sports/football/leagues/nfl"
 TIMEOUT = 15
 ROW_CAP = 25          # the league feed's own cap; hitting it is the truncation signal
 INACTIVE = "INACTIVE"
+# The three the official report uses. Injured Reserve, PUP and suspensions are roster
+# states rather than a game-week designation and belong on neither page.
+DESIGNATIONS = ("Out", "Doubtful", "Questionable")
 
 
 def _athlete_id(a):
@@ -135,6 +138,7 @@ def poll(reconcile=False):
             "team": name, "id": tid, "players": {}, "capped": False,
             "rows_returned": 0, "reconciled_at": None, "reconciled_added": 0})
         t["team"], t["id"] = name, tid
+        t.setdefault("designations", {})
         t["rows_returned"] = len(rows)
         # HITTING THE CAP IS THE ONLY TRUNCATION SIGNAL THE FEED GIVES. It never says
         # what it dropped, so this records that it may have dropped something.
@@ -142,6 +146,25 @@ def poll(reconcile=False):
             t["capped"] = True
         for r in rows:
             fs = ((r.get("details") or {}).get("fantasyStatus") or {}).get("description")
+            st = (r.get("status") or "").strip()
+            # S-B4: the week's designations, from the same rows. Unlike the inactive
+            # flag these CHANGE (Questionable resolves to Out or to playing), so the
+            # designation is overwritten on each poll while its first sighting is kept.
+            if st in DESIGNATIONS:
+                a2 = r.get("athlete") or {}
+                pid2 = _athlete_id(a2)
+                if pid2:
+                    prev = t["designations"].get(pid2) or {}
+                    t["designations"][pid2] = {
+                        "name": a2.get("displayName") or "",
+                        "pos": ((a2.get("position") or {}).get("abbreviation") or ""),
+                        "status": st,
+                        "detail": ((r.get("details") or {}).get("type") or ""),
+                        "feed_date": r.get("date") or "",
+                        "first_seen": prev.get("first_seen") or seen_at,
+                        "changed_at": seen_at if prev.get("status") not in (None, st)
+                                      else prev.get("changed_at"),
+                    }
             if fs != INACTIVE:
                 continue
             a = r.get("athlete") or {}
@@ -286,6 +309,28 @@ def board(day=None):
             "last_change": snap.get("last_change") or snap.get("last_poll"),
             "teams": out,
             "total": sum(t["count"] for t in out)}
+
+
+def designations(day=None):
+    """S-B4: this week's designations, grouped Out, Doubtful, Questionable. Returns
+    None when nothing is held, so the page withdraws rather than showing an empty
+    report."""
+    snap = load_snapshot(day)
+    if not snap:
+        return None
+    groups = {k: [] for k in DESIGNATIONS}
+    for t in snap["teams"].values():
+        for p in (t.get("designations") or {}).values():
+            st = p.get("status")
+            if st in groups:
+                groups[st].append({**p, "team": t.get("team")})
+    for k in groups:
+        groups[k].sort(key=lambda p: (p.get("team") or "", p.get("name") or ""))
+    if not any(groups.values()):
+        return None
+    return {"day": snap.get("day"), "last_poll": snap.get("last_poll"),
+            "groups": groups,
+            "total": sum(len(v) for v in groups.values())}
 
 
 def main():

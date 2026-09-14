@@ -964,7 +964,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {body}
 {footer(brand)}{beacon}
 {tab_bar(path)}
-{MOTION_JS}{SW_REGISTER}
+{MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -2565,6 +2565,14 @@ def _wx_chip(g, wx):
     return ""
 
 
+def _game_href(g):
+    """A game page where one is built, else the scores page. Game pages are NFL only
+    for now: they need a box score and an inactives list, and only the NFL surfaces
+    both on this desk today."""
+    return (f'/games/{g.get("id")}.html' if g.get("league") == "NFL" and g.get("id")
+            else "/scores.html")
+
+
 def _sb_card(g, ia_index, marquee=False, wx=None):
     lose_a, lose_h = _sb_losers(g)
     _started = g.get("state") in ("in", "post")
@@ -2583,7 +2591,8 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                 f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
                 f'<div class="sb-mq-meta">{sit}{fan}</div>'
                 f'<div class="sb-mq-foot">'
-                f'<a class="sb-link" href="/scores.html">All scores</a>'
+                f'<a class="sb-link" href="{esc(_game_href(g))}">'
+                f'{"Game page" if g.get("league") == "NFL" else "All scores"}</a>'
                 f'<span class="sb-note">Marquee picks itself: closest live score, '
                 f'largest audience</span></div>{bar}</div>')
     return (f'<div class="game">'
@@ -2828,6 +2837,287 @@ def render_inactives(board, w2w, dateline):
                  "Every team's inactive list for today's games, with the time our check "
                  "first saw each one. Facts, not advice.",
                  "Fantasy", body, dateline, path="/fantasy/inactives.html")
+
+
+# ---- S-B3, S-B7, S-B8: live points, the hub, and game pages --------------------
+# Points are computed from the official box score at each refresh and carry the format
+# toggle client-side. The toggle is remembered on the device in localStorage and
+# nothing else: no account, no cookie sent anywhere, nothing logged.
+
+FANTASY_FOOT = ("Computed from the official box score at each refresh. Your league's "
+                "scoring may differ.")
+TWO_PT_NOTE = "Two-point conversions are not included live."
+
+FORMAT_JS = """<script>(function(){
+  var KEY='gcms_fmt', fmts=['ppr','half','standard'];
+  function get(){try{var v=localStorage.getItem(KEY);return fmts.indexOf(v)>-1?v:'ppr'}
+    catch(e){return 'ppr'}}
+  function apply(f){
+    document.querySelectorAll('[data-fmt]').forEach(function(el){
+      el.hidden = el.getAttribute('data-fmt')!==f;});
+    document.querySelectorAll('.fmt-btn').forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set')===f));});
+    document.querySelectorAll('[data-pts]').forEach(function(el){
+      var v=el.getAttribute('data-'+f); if(v!==null) el.textContent=v;});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.fmt-btn'); if(!b) return;
+    var f=b.getAttribute('data-set');
+    try{localStorage.setItem(KEY,f)}catch(err){}
+    apply(f);
+  });
+  apply(get());
+})();</script>"""
+
+
+def _fmt_toggle():
+    return ('<div class="fmt" role="group" aria-label="Scoring format">'
+            + "".join(f'<button type="button" class="fmt-btn" data-set="{k}" '
+                      f'aria-pressed="{"true" if k == "ppr" else "false"}">{lab}</button>'
+                      for k, lab in (("ppr", "PPR"), ("half", "Half"),
+                                     ("standard", "Standard")))
+            + '</div>')
+
+
+def _leader_rows(rows, rank_from=1):
+    out = []
+    for n, p in enumerate(rows, start=rank_from):
+        out.append(
+            f'<div class="fp-row"><span class="fp-n">{n}</span>'
+            f'<span class="fp-name">{esc(p.get("name") or "")}</span>'
+            f'<span class="ia-pos">{esc(p.get("pos") or "")}</span>'
+            f'<span class="bd-src">{esc(p.get("team") or "")}</span>'
+            f'<span class="bd-src fp-line">{esc("; ".join(p.get("line") or []))}</span>'
+            f'<span class="fp-pts" data-pts data-ppr="{p.get("ppr", 0)}" '
+            f'data-half="{p.get("half", 0)}" data-standard="{p.get("standard", 0)}">'
+            f'{p.get("ppr", 0)}</span></div>')
+    return "".join(out)
+
+
+def _leaders_module(points, title, n=8, expand=True):
+    if not points:
+        return ""
+    import fantasy_points as _fp
+    top = _fp.leaders(points, n)
+    if not top:
+        return ""
+    rest = [p for p in sorted(points.values(), key=lambda x: -x.get("ppr", 0))][n:]
+    more = ""
+    if expand and rest:
+        more = (f'<details class="fp-more"><summary>Every player in this game '
+                f'({len(rest)} more)</summary><div class="fp-rows">'
+                f'{_leader_rows(rest, n + 1)}</div></details>')
+    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">{esc(title)}</span></div>{_fmt_toggle()}</div>'
+            f'<div class="fp-rows">{_leader_rows(top)}</div>{more}'
+            f'<p class="bd-src">{esc(FANTASY_FOOT)} {esc(TWO_PT_NOTE)}</p></section>')
+
+
+def _game_wx_block(g, wx):
+    w = _wx_for(g, wx)
+    if not w:
+        return ""
+    if w.get("indoors"):
+        return ('<div class="bd-card" style="padding:14px 16px"><span class="bd-label">'
+                'Kickoff weather</span><p class="bd-read">Indoors at '
+                f'{esc(w.get("venue") or "the venue")}.</p></div>')
+    bits = []
+    if w.get("temp_f") is not None:
+        bits.append(f'{w["temp_f"]}F')
+    if w.get("wind_mph") is not None:
+        bits.append(f'wind {w["wind_mph"]} mph {esc(w.get("wind_dir") or "")}'.strip())
+    if w.get("precip_pct") is not None:
+        bits.append(f'{w["precip_pct"]}% chance of precipitation')
+    if w.get("summary"):
+        bits.append(str(w["summary"]).lower())
+    return ('<div class="bd-card" style="padding:14px 16px"><span class="bd-label">'
+            'Kickoff weather</span>'
+            f'<p class="bd-read">{esc(", ".join(bits))}.</p>'
+            '<p class="bd-src">National Weather Service, via GoCheckMyWeather.</p></div>')
+
+
+def render_game_page(g, points, board, wx, items, dateline):
+    """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
+    the desk's recent stories for both teams."""
+    ia = _ia_index(board)
+    away, home = g.get("away") or {}, g.get("home") or {}
+    inact = []
+    for side in (away, home):
+        t = ia.get(str(side.get("id")))
+        if not t:
+            continue
+        names = ", ".join(f'{p.get("name")} ({p.get("pos")})' for p in t["players"])
+        inact.append(f'<div class="gp-ia"><span class="bd-label">{esc(side.get("abbr"))}'
+                     f' inactive</span><span class="bd-read">{esc(names)}</span></div>')
+    inact_block = ""
+    if inact:
+        inact_block = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                       f'<span class="bd-eyebrow">Inactives</span></div>'
+                       f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a>'
+                       f'</div>{"".join(inact)}</section>')
+    # The desk's own recent coverage of both teams, by tag.
+    import re as _re
+    names = [n for n in ((away.get("name") or ""), (home.get("name") or "")) if n]
+    rx = _re.compile("|".join(_re.escape(n) for n in names), _re.I) if names else None
+    live_items = [i for i in (items or [])
+                  if not i.get("example") and not _is_wrap(i)][:120]
+    rel = []
+    if rx:
+        for i in live_items:
+            if rx.search(i.get("title") or "") or rx.search(i.get("key_fact") or ""):
+                rel.append(i)
+            if len(rel) == 4:
+                break
+    rel_block = ""
+    if rel:
+        rel_block = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                     '<span class="bd-eyebrow">From the desk</span></div></div>'
+                     '<div class="nh-rows">'
+                     + "".join(_news_row(i) for i in rel) + '</div></section>')
+    head = (f'<div class="scoreband scoreband-page gp-head">'
+            f'<div class="sb-cards">{_sb_card(g, ia, wx=wx)}</div></div>')
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/scores.html">Scores</a> /
+     {esc(away.get("abbr") or "")} at {esc(home.get("abbr") or "")}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(away.get("name") or "")} at
+     {esc(home.get("name") or "")}</h1>
+  {head}
+  {_game_wx_block(g, wx)}
+  {inact_block}
+  {_leaders_module(points, "Fantasy leaders")}
+  {rel_block}
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+</section></main>"""
+    return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
+                 f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
+                 f'leaders and kickoff weather. Facts, not advice.',
+                 "Scores", body, dateline, path=f'/games/{g.get("id")}.html')
+
+
+def render_fantasy_live(all_points, dateline):
+    """S-B3's all-games board."""
+    merged = {}
+    for pts in all_points.values():
+        merged.update(pts)
+    if not merged:
+        return None
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Live points</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">Live fantasy points</h1>
+  <p class="lx-dek">Every player with a stat line today, across every game.</p>
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  {_leaders_module(merged, "Today's leaders", n=25, expand=False)}
+</section></main>"""
+    return shell(f"Live fantasy points - {NAME}",
+                 "Live fantasy points in PPR, half-PPR and standard, computed from the "
+                 "official box score. No projections, ever.",
+                 "Fantasy", body, dateline, path="/fantasy/live.html")
+
+
+def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
+    """S-B7. The hub: the official answer, then the surfaces that give it."""
+    blocks = []
+    if board:
+        top = board["teams"][:6]
+        cards = "".join(
+            f'<a class="bd-card" href="/fantasy/inactives.html" '
+            f'style="text-decoration:none"><span class="bd-label">{esc(t["team"])}</span>'
+            f'<span class="bd-read">{t["count"]} inactive listed</span>'
+            f'<span class="bd-stamp">first seen {esc(_et(t["first_seen"]))}</span></a>'
+            for t in top)
+        blocks.append(
+            f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Today\'s inactives</span>'
+            f'<span class="bd-stamp">{board["total"]} players</span></div>'
+            f'<a class="bd-more" href="/fantasy/inactives.html">The full board</a>'
+            f'</div><div class="bd-cards4">{cards}</div></section>')
+    if desig:
+        counts = " &middot; ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
+        blocks.append(
+            f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">This week\'s designations</span>'
+            f'<span class="bd-stamp">{counts}</span></div>'
+            f'<a class="bd-more" href="/fantasy/injuries.html">All designations</a>'
+            f'</div></section>')
+    merged = {}
+    for pts in (all_points or {}).values():
+        merged.update(pts)
+    if merged:
+        blocks.append(_leaders_module(merged, "Live points", n=8, expand=False)
+                      .replace('</section>',
+                               '<a class="bd-more" href="/fantasy/live.html">'
+                               'The full board</a></section>'))
+    if not blocks:
+        return None
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="lx-h1" style="margin-bottom:6px">Is he playing? Here's the official
+     answer.</h1>
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  {"".join(blocks)}
+</section></main>"""
+    return shell(f"Fantasy facts - {NAME}",
+                 "Official inactives, designations and live points. Facts, not advice: "
+                 "we never tell you whom to start.",
+                 "Fantasy", body, dateline, path="/fantasy/index.html")
+
+
+# ---- S-B4: this week's designations --------------------------------------------
+# Built from the SAME poll as the Inactives board, so the two pages can never disagree
+# about a player. Grouped Out, Doubtful, Questionable, in that order, because that is
+# the order the official report uses and the order of how much it settles.
+#
+# Injured Reserve, PUP and suspensions are roster states rather than game-week
+# designations and appear on neither page.
+
+def render_designations(desig, board, dateline):
+    if not desig:
+        return None
+    ia_names = set()
+    for t in (board or {}).get("teams") or []:
+        for p in t.get("players") or []:
+            ia_names.add((t.get("team"), p.get("name")))
+    secs = []
+    for status in ("Out", "Doubtful", "Questionable"):
+        rows = desig["groups"].get(status) or []
+        if not rows:
+            continue
+        cards = []
+        for p in rows:
+            # S-B1's rule, applied here too: a player carrying a designation who is NOT
+            # on a posted inactive list is active. Saying so is the single most useful
+            # thing this page does on a Sunday.
+            ruled = ""
+            if (p.get("team"), p.get("name")) in ia_names:
+                ruled = '<span class="bd-badge dat">inactive</span>'
+            elif board and any(t.get("team") == p.get("team")
+                               for t in board.get("teams") or []):
+                ruled = '<span class="bd-badge ok">active</span>'
+            cards.append(
+                f'<div class="dg-row"><span class="dg-name">{esc(p.get("name") or "")}</span>'
+                f'<span class="ia-pos">{esc(p.get("pos") or "")}</span>'
+                f'<span class="bd-src">{esc(p.get("team") or "")}</span>'
+                f'<span class="bd-src">{esc(p.get("detail") or "")}</span>{ruled}</div>')
+        secs.append(
+            f'<section class="bd-mod" id="{esc(status.lower())}">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">{esc(status)}</span>'
+            f'<span class="bd-stamp">{len(rows)} players</span></div></div>'
+            f'<div class="dg-rows">{"".join(cards)}</div></section>')
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Designations</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">This week's designations</h1>
+  <p class="lx-dek">{desig["total"]} players carry an official designation right now.</p>
+  <p class="bd-src">Out, Doubtful and Questionable as the official report lists them.
+     A player who is questionable and not on a posted inactive list is shown as active.
+     Read on our own schedule; see the <a href="/fantasy/inactives.html">inactives
+     board</a> for today's posted lists.</p>
+  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  {"".join(secs)}
+</section></main>"""
+    return shell(f"NFL injury designations this week - {NAME}",
+                 "Every player listed Out, Doubtful or Questionable on the official "
+                 "report, with what it is and whether they have been ruled out today.",
+                 "Fantasy", body, dateline, path="/fantasy/injuries.html")
 
 
 # ---- S3: living tables --------------------------------------------------------
@@ -3569,6 +3859,7 @@ NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
 IA_BOARD = None      # set at build by inactives.board()
+IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
 WX_DATA = None       # set at build by kickoff_weather.load()
 
@@ -4701,6 +4992,18 @@ def build():
         IA_BOARD = _ia.board()
     except Exception as _e:
         print(f"inactives: unavailable ({type(_e).__name__}); board withheld")
+    global IA_DESIG
+    IA_DESIG = None
+    try:
+        import inactives as _ia2
+        IA_DESIG = _ia2.designations()
+    except Exception:
+        pass
+    if IA_DESIG:
+        _dg = render_designations(IA_DESIG, IA_BOARD, dateline)
+        if _dg:
+            w("fantasy/injuries.html", _dg)
+            print(f"designations: {IA_DESIG['total']} players")
     if IA_BOARD:
         _ia_html = render_inactives(IA_BOARD, W2W_DATA, dateline)
         if _ia_html:
@@ -4709,6 +5012,31 @@ def build():
                   f"{len(IA_BOARD['teams'])} teams")
 
     w("index.html", render_home(items, dateline))
+    # S-B3/S-B8: points per game, then the game pages, the live board and the hub.
+    # Only games that have started have a players block, so only those are fetched.
+    _all_points = {}
+    if SB_DATA:
+        import fantasy_points as _fpm
+        _nfl = [g for L in SB_DATA["leagues"] if L["league"] == "NFL"
+                for g in L["games"]]
+        for _g in _nfl:
+            if _g.get("state") in ("in", "post"):
+                _pts = _fpm.for_game(_g["id"])
+                if _pts:
+                    _all_points[_g["id"]] = _pts
+        for _g in _nfl:
+            w(f'games/{_g["id"]}.html',
+              render_game_page(_g, _all_points.get(_g["id"]), IA_BOARD, WX_DATA,
+                               items, dateline))
+        print(f"game pages: {len(_nfl)}, {len(_all_points)} with a box score")
+        _fl = render_fantasy_live(_all_points, dateline)
+        if _fl:
+            w("fantasy/live.html", _fl)
+    _hub = render_fantasy_hub(IA_BOARD, IA_DESIG, _all_points, WX_DATA, SB_DATA, dateline)
+    if _hub:
+        w("fantasy/index.html", _hub)
+        print("fantasy hub: built")
+
     if SB_DATA:
         _sc = render_scores_page(SB_DATA, IA_BOARD, dateline, WX_DATA)
         if _sc:

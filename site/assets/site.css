@@ -1228,3 +1228,41 @@ html.motion-off .dot{animation:none}
   /* The bar sits over the page, so the page needs room under its own last line. */
   body{padding-bottom:64px}
 }
+
+/* ---- S-B4: designations ---------------------------------------------------------- */
+.dg-rows{display:flex;flex-direction:column}
+.dg-row{display:grid;grid-template-columns:1.4fr auto 1fr 1fr auto;gap:12px;
+  align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.dg-row:last-child{border-bottom:0}
+.dg-name{font-size:15px;font-weight:600}
+@media (max-width:900px){
+  .dg-row{grid-template-columns:1fr auto;gap:3px 10px}
+  .dg-row .bd-src{grid-column:1/-1}
+  .dg-row .bd-badge{grid-column:2;grid-row:1}
+}
+
+/* ---- S-B3: live points ----------------------------------------------------------- */
+.fmt{display:inline-flex;gap:4px;border:1px solid var(--line);border-radius:999px;
+  padding:3px;background:var(--card)}
+.fmt-btn{min-height:38px;padding:0 14px;border:0;border-radius:999px;background:none;
+  font:600 13px/1 var(--sans);color:var(--muted);cursor:pointer}
+.fmt-btn[aria-pressed="true"]{background:var(--rule);color:#fff}
+.fp-rows{display:flex;flex-direction:column}
+.fp-row{display:grid;grid-template-columns:auto 1.3fr auto auto 2fr auto;gap:12px;
+  align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.fp-row:last-child{border-bottom:0}
+.fp-n{font:700 12px/1.3 var(--mono);color:var(--faint);min-width:20px}
+.fp-name{font-size:15px;font-weight:600}
+.fp-pts{font:600 18px/1 var(--serif);text-align:right;min-width:52px;
+  font-variant-numeric:tabular-nums}
+.fp-more summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--link);
+  min-height:44px;display:flex;align-items:center}
+.gp-ia{display:flex;flex-direction:column;gap:3px;padding:9px 0;
+  border-bottom:1px solid var(--line)}
+.gp-head{margin:6px 0 4px}
+@media (max-width:900px){
+  .fp-row{grid-template-columns:auto 1fr auto;gap:3px 10px}
+  .fp-row .fp-line,.fp-row .bd-src{grid-column:1/-1}
+  .fp-pts{grid-column:3;grid-row:1}
+  .fp-n{grid-row:1}
+}
