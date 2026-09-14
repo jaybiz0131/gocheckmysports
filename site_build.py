@@ -963,7 +963,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}
-{MOTION_JS}
+{tab_bar(path)}
+{MOTION_JS}{SW_REGISTER}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -2385,6 +2386,81 @@ def render_news_month(month, rows, dateline):
                  schema_extra=_news_jsonld(url, label, f"Sports stories from {label}", rows,
                                            [("Home", "/"), ("News desk", "/news.html"),
                                             (label, url)]))
+
+
+# ---- S-F: phone shell, install, share ------------------------------------------
+# A sticky bottom tab bar on phones, a manifest that installs properly, and a service
+# worker that caches THE SHELL ONLY.
+#
+# WHAT THE WORKER MUST NEVER CACHE, and why it is worth being explicit in code rather
+# than in a comment on a policy page: scores, inactives, weather and the board are the
+# whole product, and a stale score served from a cache is worse than no score. The
+# worker matches the stylesheet, the fonts and the icons, and nothing else. It never
+# touches /site/data, never an HTML page, and never anything that could carry a
+# person's own state, because there is no per-person state on this site to carry.
+
+TAB_BAR = [
+    ("Scores", "/index.html",
+     "M3 13h3l2-5 3 9 2.5-6 1.5 2h4"),                       # a scoreline
+    ("Fantasy", "/fantasy/inactives.html",
+     "M4 6h10M4 10h7M4 14h10M17 7v7M17 16.5v.5"),            # a list with a flag
+    ("Watch", "/where-to-watch.html",
+     "M3 5h14v9H3zM7 17h6"),                                  # a screen
+    ("Record", "/keepers.html",
+     "M5 3h8l3 3v11H5zM8 8h5M8 11h5"),                        # a filed document
+    ("More", "/archive.html",
+     "M4 6h12M4 10h12M4 14h12"),                              # a menu
+]
+
+
+def tab_bar(active_path=""):
+    """The phone tab bar. Hidden above the phone breakpoint in CSS rather than built
+    twice. A tab whose page is not being built this run is dropped, so the bar never
+    offers a destination that does not exist."""
+    out = []
+    for label, href, d in TAB_BAR:
+        if label == "Fantasy" and not IA_BOARD:
+            continue
+        if label == "Watch" and not W2W_LIVE:
+            continue
+        on = " on" if href == active_path else ""
+        out.append(
+            f'<a class="tb-item{on}" href="{esc(href)}">'
+            f'<svg viewBox="0 0 20 20" aria-hidden="true" width="20" height="20">'
+            f'<path d="{d}" fill="none" stroke="currentColor" stroke-width="1.6" '
+            f'stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+            f'<span>{esc(label)}</span></a>')
+    if len(out) < 2:
+        return ""
+    return (f'<nav class="tabbar" aria-label="Sections">{"".join(out)}</nav>')
+
+
+SERVICE_WORKER = """/* GoCheckMySports service worker: the shell, and nothing else.
+   Scores, inactives, weather and the Record are the product. A stale score served
+   from a cache is worse than no score, so this caches the stylesheet, the fonts and
+   the icons, and never an HTML page, never /site/data, never anything else. */
+const SHELL = 'gcms-shell-%(v)s';
+const ASSETS = %(assets)s;
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(SHELL).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks =>
+    Promise.all(ks.filter(k => k !== SHELL).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  const u = new URL(e.request.url);
+  if (e.request.method !== 'GET' || u.origin !== self.location.origin) return;
+  /* Only the shell. Anything that is or could become data goes to the network. */
+  if (!ASSETS.includes(u.pathname)) return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});
+"""
+
+SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener('load',"
+               "function(){navigator.serviceWorker.register('/sw.js').catch(function(){});"
+               "});}</script>")
 
 
 # ---- S-A: the Scoreboard band, and S-B1 designations on the cards --------------
@@ -4719,8 +4795,35 @@ def build():
         json.dump({"name": FAMILY, "short_name": SHORT_NAME, "start_url": "/",
                    "display": "standalone", "background_color": "#FBFAF6",
                    "theme_color": THEME_COLOR,
-                   "icons": [{"src": "/apple-touch-icon.png", "sizes": "180x180",
+                   # S-F: an install wants 192 and 512, plus a maskable icon so
+                   # Android does not letterbox the mark inside its own shape. Drawn at
+                   # size rather than upscaled: the only icon in the repo was 180px and
+                   # a 512 scaled from it is visibly soft.
+                   "icons": [{"src": "/assets/icon-192.png", "sizes": "192x192",
+                              "type": "image/png"},
+                             {"src": "/assets/icon-512.png", "sizes": "512x512",
+                              "type": "image/png"},
+                             {"src": "/assets/icon-maskable-512.png", "sizes": "512x512",
+                              "type": "image/png", "purpose": "maskable"},
+                             {"src": "/apple-touch-icon.png", "sizes": "180x180",
                               "type": "image/png"}]}, _mf, ensure_ascii=False, indent=1)
+
+    # S-F: the shell worker. The asset list is built from what actually shipped, and
+    # the cache name carries the build stamp so a new build retires the old cache
+    # rather than serving last week's stylesheet.
+    _sw_assets = ["/assets/site.css", "/assets/icon-192.png", "/assets/icon-512.png",
+                  "/assets/favicon.svg", "/apple-touch-icon.png"]
+    for _f in sorted(os.listdir(os.path.join(PUBLISH, "assets", "fonts"))
+                     if os.path.isdir(os.path.join(PUBLISH, "assets", "fonts")) else []):
+        if _f.endswith((".woff2", ".woff")):
+            _sw_assets.append(f"/assets/fonts/{_f}")
+    _sw_assets = [a for a in _sw_assets
+                  if os.path.exists(os.path.join(PUBLISH, a.lstrip("/")))]
+    with open(os.path.join(PUBLISH, "sw.js"), "w", encoding="utf-8") as _swf:
+        _swf.write(SERVICE_WORKER % {
+            "v": _build_now().strftime("%Y%m%d%H%M"),
+            "assets": json.dumps(_sw_assets)})
+    print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
     locs = ["/", "/news.html"] + [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [

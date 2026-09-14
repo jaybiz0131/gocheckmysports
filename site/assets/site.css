@@ -1209,3 +1209,22 @@ body.motion-off .dot{animation:none}
 .wx-wind{background:#3A2E10;color:#F0C674}
 .wx-in{background:#2A2D35;color:#A6ABB4}
 .w2w-wx{display:block;margin-top:2px}
+
+/* ---- S-F: the phone tab bar ------------------------------------------------------
+   Phones only. Above the breakpoint the nav rail already does this job and a second
+   fixed bar would be chrome competing with the scores. */
+.tabbar{display:none}
+@media (max-width:900px){
+  .tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:var(--card);border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom)}
+  .tb-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;min-height:52px;padding:6px 2px;text-decoration:none;color:var(--muted);
+    font:600 10.5px/1.2 var(--sans)}
+  .tb-item.on{color:var(--rule)}
+  .tb-item:hover{text-decoration:none;color:var(--ink)}
+  .tb-item svg{display:block}
+  /* The bar sits over the page, so the page needs room under its own last line. */
+  body{padding-bottom:64px}
+}
