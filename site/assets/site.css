@@ -1174,7 +1174,7 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
   .dot{animation:sb-pulse 2s ease-in-out infinite}
 }
 @keyframes sb-pulse{0%,100%{opacity:1}50%{opacity:.45}}
-body.motion-off .dot{animation:none}
+html.motion-off .dot{animation:none}
 /* The scores page reuses the cards on the page ground rather than the band's. */
 .scoreband-page{background:transparent;padding:0}
 @media (max-width:900px){
