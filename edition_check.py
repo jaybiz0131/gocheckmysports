@@ -205,7 +205,7 @@ def main():
            f"[tree HEAD: {head}]")
     if hours > limit:
         common.gh("error",
-                  f"edition_check: {msg}. The edition is supposed to run three times a day "
+                  f"edition_check: {msg}. The edition is supposed to run once a day "
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the gap. Read the wrap step's log for the gate it failed.")
         _flag_issue(msg)
