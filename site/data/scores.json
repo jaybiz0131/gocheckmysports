@@ -1,35 +1,51 @@
 {
- "generated_utc": "2026-09-14T16:11:10Z",
- "stale_after_utc": "2026-09-14T19:11:10Z",
+ "generated_utc": "2026-09-14T16:50:51Z",
+ "stale_after_utc": "2026-09-14T19:50:51Z",
  "leagues": [
+  {
+   "league": "Serie A",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "PAR",
+     "home": "COMO",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "in",
+     "detail": "18'",
+     "start_utc": "2026-09-14T16:30Z",
+     "eid": "401874933"
+    },
+    {
+     "away": "ROMA",
+     "home": "TOR",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "in",
+     "detail": "18'",
+     "start_utc": "2026-09-14T16:30Z",
+     "eid": "401874950"
+    },
+    {
+     "away": "UDI",
+     "home": "INT",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "2:45 PM ET",
+     "start_utc": "2026-09-14T18:45Z",
+     "eid": "401874966"
+    }
+   ]
+  },
   {
    "league": "WTA",
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "L. Gjorcheska",
-     "home": "M. Bulgaru",
-     "away_score": 1,
-     "home_score": 2,
-     "state": "in",
-     "detail": "3rd",
-     "start_utc": "2026-09-14T13:55Z",
-     "eid": "183664"
-    },
-    {
-     "away": "D. Papamichail",
-     "home": "N. Brancaccio",
-     "away_score": 2,
-     "home_score": 0,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-14T14:40Z",
-     "eid": "183752"
-    },
-    {
      "away": "V. Hruncakova",
      "home": "E. Andreeva",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 0,
      "state": "in",
      "detail": "1st",
@@ -39,21 +55,21 @@
     {
      "away": "M. Bassols Ribera",
      "home": "E. Bennemann",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "12:10 PM ET",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "in",
+     "detail": "1st",
      "start_utc": "2026-09-14T16:10Z",
      "eid": "183758"
     },
     {
      "away": "V. Erjavec",
      "home": "F. Curmi",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "12:20 PM ET",
-     "start_utc": "2026-09-14T16:20Z",
+     "away_score": 0,
+     "home_score": 1,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-14T16:35Z",
      "eid": "183749"
     },
     {
@@ -62,9 +78,29 @@
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "12:30 PM ET",
-     "start_utc": "2026-09-14T16:30Z",
+     "detail": "1:30 PM ET",
+     "start_utc": "2026-09-14T17:30Z",
      "eid": "183838"
+    },
+    {
+     "away": "A. Charaeva",
+     "home": "X. You",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "1:30 PM ET",
+     "start_utc": "2026-09-14T17:30Z",
+     "eid": "183849"
+    },
+    {
+     "away": "D. Salkova",
+     "home": "J. Bouzas Maneiro",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "1:30 PM ET",
+     "start_utc": "2026-09-14T17:30Z",
+     "eid": "183851"
     }
    ]
   },
@@ -229,42 +265,6 @@
      "detail": "3:00 PM ET",
      "start_utc": "2026-09-14T19:00Z",
      "eid": "401882877"
-    }
-   ]
-  },
-  {
-   "league": "Serie A",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "PAR",
-     "home": "COMO",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "12:30 PM ET",
-     "start_utc": "2026-09-14T16:30Z",
-     "eid": "401874933"
-    },
-    {
-     "away": "ROMA",
-     "home": "TOR",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "12:30 PM ET",
-     "start_utc": "2026-09-14T16:30Z",
-     "eid": "401874950"
-    },
-    {
-     "away": "UDI",
-     "home": "INT",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "2:45 PM ET",
-     "start_utc": "2026-09-14T18:45Z",
-     "eid": "401874966"
     }
    ]
   },
@@ -464,7 +464,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 116,
+   "games_seen": 114,
    "games_kept": 6
   }
  ]

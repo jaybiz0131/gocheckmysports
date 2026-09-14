@@ -4,56 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c013",
-    "headline": "Ravens' Zay Flowers and team announce four-year extension at $140M with $108M guaranteed",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Flowers 'set a career high with 86 catches in 2025' but the brief data_point says 'Last season, Flowers set career highs with 86 catches' with confidence 'verified-on-chain'. The brief does not specify which season is 'last season' in relation to the current draft date (2026-08-04). The draft's use of '2025' as a definitive year is not explicitly confirmed in the brief's language and creates ambiguity about whether this refers to the immediately preceding season.",
-     "The draft states 'Flowers' 36.9% share of receiving yards was the second-highest share by any player in 2025, behind Seattle's Jaxon Smith-Njigba at 44.1%' but does not attribute this finding to ESPN inline. While the brief confirms the comparison is reported, the draft should clarify attribution of the year-specific league ranking claim."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Jets rookie TE Kenyon Sadiq to miss time after hernia setback during training camp",
-    "category": "compliance",
-    "reasons": [
-     "The draft includes medical speculation beyond the official record: 'Glenn explained that the setback is hernia-related and noted that when doctors perform hernia surgery, \"most doctors do both sides,\" and he wants to \"make sure that I take care of him so he can be ready for the season.\"' This generalizes Glenn's statement about surgical practice into a broader medical explanation without attribution to a medical professional. The phrase 'most doctors do both sides' is Glenn's interpretation, not a verified medical fact, and presenting it as explanatory background for a player's injury crosses into medical terrain beyond the official injury report.",
-     "The draft states 'Sadiq is not expected to require another surgery' as a definitive fact, but the brief confidence label is only 'reported'\u2014this is an expectation, not a confirmed medical determination, and should be attributed more carefully or qualified as an expectation rather than stated as settled fact."
-    ]
-   },
-   {
-    "id": "c133",
-    "headline": "MLB.com ranks 2026 trade deadline winners",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The specific teams named in the ranking, the individual players acquired, and the trades evaluated in the piece are not available from the fetched source material.' This is accurate but the entire draft is an admission that no reportable facts exist beyond the title and publication date. The brief's open_questions section explicitly confirms 'The source text provided is primarily CSS font declarations and contains no readable article content.' Publishing a story that says 'we don't know what the article says' is not fulfilling the editorial mission; the story should not have been drafted at all until the source material was readable."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Falcons extend Robinson, offensive core, put spotlight on QB",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Kyle Pitts signed 'three-year, $54 million three weeks later' (after London's June 8 deal). The brief data_point says 'Kyle Pitts Sr. was extended for three years and $54 million three weeks after London's deal.' However, the brief does not specify the dollar amount for Pitts' deal; only the brief's data_point title references $54M, but checking the actual data point reveals no contract value is explicitly stated in the source URL text. The draft introduces a specific figure ($54M) that cannot be verified against the source material provided in the brief. Additionally, the draft earlier states 'four-year, $141 million deals for receiver Drake London' but the brief states London received a 'four-year, $141 million extension.' The brief does not include a separate data point confirming Pitts' extension value of $54M\u2014only that he was extended 'for three years' three weeks after London. This is a SMUGGLED fact."
-    ]
-   },
-   {
-    "id": "c102",
-    "headline": "Manchester United Women in talks with Eva Olid to replace Marc Skinner",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims talks are with 'multiple sources cited by the Guardian' but the brief explicitly states the source is a single Guardian article and notes 'the brief is thin, drawn entirely from the snippet's assertion of multiple sources.' The writer has fabricated attribution to multiple sources when only one source exists in the brief.",
-     "Draft states 'Olid, 40, could be appointed within the next 36 hours' as a forward-looking possibility, but this fact (the 36-hour timeline) comes from the brief's reported claims and should be presented as reporting from the Guardian, not as speculation about what 'could' happen. The confidence level 'reported' requires the clause to read as what was reported, not as conditional.",
-     "Draft says 'No official confirmation or timeline has been provided by Manchester United' and 'Details of Olid's record at Hearts or other qualifications beyond her previous role are not confirmed' \u2014 these are editorial hedges about what the writer did not find, not facts from the brief. The brief's open_questions note these gaps exist, but the draft should not present the absence of information as a news fact itself."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c076",
     "headline": "Kelsey Plum scores 20 points in first game as Mercury, a day after Sparks trade",
     "category": "accuracy",
@@ -8422,6 +8372,31 @@
      "The brief states Stribling sustained 'a deltoid strain in his ankle during the 49ers' Week 1 win over the Los Angeles Rams in Australia.' The draft omits the location 'in Australia,' which is a factual detail present in the brief's data point and materially changes the context of the event.",
      "The draft describes the injury mechanism as occurring 'after brushing off Rams cornerback Trent McDuffie,' but the brief data point states he 'brushed off Rams cornerback Trent McDuffie and appeared to tweak his left leg upon breaking away from the defender.' The draft's phrasing suggests McDuffie contact caused the injury; the brief indicates the injury occurred upon breaking away, which is a different causal sequence.",
      "The draft states Stribling 'earned first-team reps alongside quarterback Brock Purdy' during preseason, but the brief data point simply states 'Stribling displayed a strong connection with Purdy during preseason games' and separately that 'Stribling earned playing time with the first-team offense in San Francisco's preseason games.' The draft's phrasing conflates these claims in a way that suggests a closer targeting relationship than the brief supports."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "Florida State fires AD Michael Alford, signaling coaching upheaval ahead",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that the firing decision 'had been trending for weeks and FSU's board did not want Alford making the football program's next coaching hire.' The brief lists this claim as sourced to CBS Sports with confidence label 'unconfirmed.' The draft presents this as established fact without qualification. The hard rule is that unconfirmed claims must read as such in prose; here it reads as settled reporting.",
+     "The draft quotes the anonymous source: 'This is clearly the first domino in that chain.' The brief marks this as 'unconfirmed' confidence. The draft presents this as direct evidence of a coaching change without flagging its sourcing status or anonymity. An unconfirmed anonymous claim alleging upcoming job terminations is liability-level risk, especially when the brief's bear_case explicitly includes McCullough's support for Norvell.",
+     "The brief contains a bear_case point: 'FSU President Richard McCullough gave glowing reviews of Mike Norvell while addressing the AD firing, per Yahoo Sports reporting, suggesting the coaching situation may not be as precarious as the AD dismissal implies.' The draft does not include this counter-evidence. The McCullough quote in the draft is about 'maintaining the highest standards' and 'championships'\u2014not a glowing review of Norvell specifically. The draft is missing the bear_case entirely."
+    ]
+   },
+   {
+    "id": "c189",
+    "headline": "49ers rookie De'Zhaun Stribling sidelined at least one month with ankle injury sustained in Week 1 in Australia",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Stribling 'sustained a deltoid strain in his left ankle' but the brief data_point says he 'sustained a deltoid strain in his ankle' with no laterality specified in the core claim or primary data_point. The draft adds 'left' without sourcing it to the brief. The open_questions section of the brief explicitly flags this ambiguity: 'The exact left/right leg designation is ambiguous in one instance.' The draft resolved an ambiguity that the brief identified as unresolved, smuggling in a fact choice the research had not confirmed.",
+     "The draft reports a specific injury type ('deltoid strain') as settled fact, but 'deltoid strain' is an unusual diagnosis for an ankle injury (the deltoid is a shoulder muscle, not ankle-related). This suggests either a mischaracterization of the injury type or a sourcing error. The brief data_point repeats the term, but the desk should verify this is what CBS Sports actually reported before publishing; if this is a typo or misstatement in the brief, the draft inherited it. Absent clarification, this is a liability risk on a medical claim."
     ]
    }
   ]
