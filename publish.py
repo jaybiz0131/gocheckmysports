@@ -65,8 +65,17 @@ def run(approval_path=None, force_dry=False):
 
     mode = approval.get("mode", "live")
     if mode != "live":
-        common.gh("error", f"publish: approval file is mode={mode} (a non-production run). "
-                           f"Refusing to publish a test run. Publishing NOTHING.")
+        # Refusing here is the canary's whole point, so on a replay run this is expected and
+        # must not annotate red: an ::error:: on every green run trains the operator to read
+        # past real ones. It stays an error only when a LIVE run somehow carries a non-live
+        # approval file, which is a genuine mis-wiring.
+        run_mode = os.environ.get("DESK_LLM_MODE", "live")
+        expected = run_mode == mode
+        common.gh("notice" if expected else "error",
+                  f"publish: approval file is mode={mode} (a non-production run). "
+                  f"Refusing to publish a test run. Publishing NOTHING."
+                  + ("" if expected else f" NOTE: this run is mode={run_mode}; a live run must "
+                                         f"not carry a {mode} approval file."))
         return {"published": [], "skipped": [], "reason": f"mode={mode} not publishable"}
 
     drafts = {d["id"]: d for d in common.read_out("drafts.json")["drafts"]}
