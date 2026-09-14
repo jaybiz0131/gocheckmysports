@@ -4,53 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c011",
-    "headline": "Zay Flowers, Ravens agree to four-year, $140M extension",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks the core deal figures ($140M, $108M guaranteed, $35M AAV) as 'announced-not-verified' confidence level, but the draft presents them as settled fact with no hedging language ('agreed to a four-year, $140 million extension'). Per hard rules, confidence labels must survive in prose; unconfirmed announced figures must read as such.",
-     "The draft states 'Jaxon Smith-Njigba of Seattle leads the position at $42.15 million per year' but the brief data_point says only 'Jaxon Smith-Njigba is the NFL's highest-paid receiver at $42.15 million per year'\u2014no location (Seattle) is in the brief. This is smuggled information not traceable to the research."
-    ]
-   },
-   {
-    "id": "c135",
-    "headline": "Bijan Robinson signs three-year, $75M extension with Falcons",
-    "category": "accuracy",
-    "reasons": [
-     "The brief itself notes the source text is a navigation menu and does not contain article body; the brief's open_questions state 'the exact structure of the contract (guaranteed money vs. max value, signing bonus, per-year average, vesting schedule) is unknown' and 'no breakdown of the contract terms... is available in the provided source text.' The draft presents only four data_points, all of which are either extremely thin or beyond what the source supports. The brief is marked 'thin: true' with only 4 data_points and a source_chars of 1896 (a navigation menu). A story this short with this thin a brief cannot be approved\u2014the writer has no substantive facts to work with, and the draft reads as a stub written from a headline rather than reporting. The bottom_line acknowledges the reporting gap ('specifics of Robinson's contract structure, guaranteed money, and per-year breakdown remain unclear') but that admission belongs in the body or signals the story should not run until those details are confirmed."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Panthers' Xavier Legette suffers stinger, avoids concussion",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's data_point states Taylor Moton is 'unavailable to start the regular season due to blood clot/lung' (vague phrasing in brief itself), but the draft writes 'due to a blood clot issue' without specificity. More critically, the brief does not clarify what 'blood clot/lung' means, and the draft should not have paraphrased this into a vaguer formulation without confirmation of what the underlying condition actually is. The draft introduced ambiguity where the brief had a specific (if oddly phrased) claim."
-    ]
-   },
-   {
-    "id": "c101",
-    "headline": "Manchester United in talks with Eva Olid for head coach role",
-    "category": "balance",
-    "reasons": [
-     "The brief is marked 'thin: true' with only 5 data_points and 230 source_chars. The draft is extremely short (158 words in body), which is proportionate to brief thinness. However, the brief's bear_case is empty, and the draft contains no counterweight, hedge, or caveat language to reflect uncertainty inherent in 'advanced talks' and '36 hours' timelines\u2014reporting that is inherently speculative and subject to collapse. The phrase 'could be appointed within 36 hours' is the only hedge in the entire draft body. A story this thin, built entirely on a single source's reported timeline with zero counter-evidence or skeptical framing, risks reading as rumor-laundering if the deal falls through. The draft should either be thicker (other candidates, Skinner departure context, Olid's record detail) or should open with explicit uncertainty language ('sources say,' 'according to reporting,' etc.) to inoculate against embarrassment if the deal stalls."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "NWSL set for earliest-ever start next season to accommodate World Cup",
-    "category": "accuracy",
-    "reasons": [
-     "Super Bowl numbering error: Draft states 'Super Bowl XLVI plays at SoFi Stadium in Inglewood on Feb. 14' but the brief data_point says 'Super Bowl XLI will be played on Sunday, Feb. 14.' These are different Roman numerals (46 vs 41). The draft contains a factual claim about which Super Bowl game is occurring that contradicts the sourced brief; this must be corrected before publication."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c013",
     "headline": "Ravens' Zay Flowers and team announce four-year extension at $140M with $108M guaranteed",
     "category": "accuracy",
@@ -8426,6 +8379,49 @@
      "The brief's fifth data_point claims: 'The 24-year-old Caitlin Clark wasn't the U.S.'s best player and endured a few underwhelming outings in the early portions of the knockout stage but found life as the tournament wore on, culminating with an inspired display as the Americans knocked off France in the tournament final.' This states that USA defeated France in the final. However, the draft's bottom_line and core claim state that USA will play France in the gold medal game on September 15 (future tense). The brief's data_point explicitly describes a past victory over France in the tournament final, directly contradicting the draft's framing of the France match as upcoming. This is a foundational accuracy error: the draft describes the final against France as still to come, but the brief's own source material indicates USA already played and defeated France.",
      "The draft states 'Caitlin Clark was part of the gold-medal-winning side and picked up her first major team honor' and 'The 23-year-old endured a few underwhelming outings...' but the brief's data_point identifies Clark as 24 years old. The draft contains an age discrepancy (23 vs. 24).",
      "The brief explicitly notes 'thin: true' and 'open_questions' identifying missing data: exact final score vs Spain (76-66), the 35-game winning streak claim, fourth-quarter score (18-8), and player statistics are all absent from the fetched sources. The draft should not report these facts without sourcing them in the brief. The brief's own assessment is that sources are fragmented and incomplete."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c047",
+    "headline": "Florida State Fires Athletic Director Michael Alford After SMU Loss, 1-1 Start",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Florida State fired athletic director Michael Alford on Monday, September 8, 2026' but today's date per the task instructions is Monday, September 14, 2026. September 8, 2026 was six days ago, not today. The brief's data_point says 'fired athletic director Michael Alford on Monday' without a specific date, and the timestamp is '2026-09-14', suggesting the report was filed today. The draft's specific dating to September 8 contradicts the task instruction that 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' The inverse also applies: if the event occurred before today (September 8), it should not be written as a breaking event without clear temporal framing. The opening sentence presents this as a fresh firing without temporal anchoring, creating ambiguity about whether this is a current-day event or a past event being retroactively reported.",
+     "the draft dates September 8, 2026 as a Monday; September 8, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "Tennis players end 18-month campaign against grand slams, shift to private negotiation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the announcement occurred 'after the men's US Open final on Sunday' but the brief and source timestamp are dated 2026-09-14 (Monday), not Sunday 2026-09-13. The core data point says 'a statement released after the men's US Open final on Sunday' with timestamp 2026-09-14, which is internally inconsistent. The draft adopts the Sunday date as fact without acknowledging this discrepancy or the Monday publication date.",
+     "The draft includes a confidence label issue: it presents the $2 million USTA contribution as settled fact ('The US Tennis Association separately agreed to a $2 million contribution') when the brief marks this claim 'announced-not-verified'. The brief's language for unconfirmed claims requires hedging in prose; the draft does not hedge."
+    ]
+   },
+   {
+    "id": "c344",
+    "headline": "Top tennis players end public campaign, move prize-money fight to newly formed advisory council",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A Grand Slam Player Advisory Council was announced last month by the Australian Open, the French Open, Wimbledon, and the US Open' but provides no date for when the announcement occurred. The brief data point says the council 'was announced last month' with confidence 'reported' and timestamp 2026-09-14, but does not specify which month. The draft treats 'last month' as a fact without anchoring it to a date or qualifying language. Given today is 2026-09-14 (Monday), 'last month' is ambiguous and should either be dated or attributed with qualifying language.",
+     "The brief includes a confidence label 'announced-not-verified' for the council formation claim, but the draft presents it as established fact without any hedging language that would signal to the reader this is an announcement awaiting verification."
+    ]
+   },
+   {
+    "id": "c184",
+    "headline": "49ers rookie Stribling out at least one month with ankle deltoid strain",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states Stribling sustained 'a deltoid strain in his ankle during the 49ers' Week 1 win over the Los Angeles Rams in Australia.' The draft omits the location 'in Australia,' which is a factual detail present in the brief's data point and materially changes the context of the event.",
+     "The draft describes the injury mechanism as occurring 'after brushing off Rams cornerback Trent McDuffie,' but the brief data point states he 'brushed off Rams cornerback Trent McDuffie and appeared to tweak his left leg upon breaking away from the defender.' The draft's phrasing suggests McDuffie contact caused the injury; the brief indicates the injury occurred upon breaking away, which is a different causal sequence.",
+     "The draft states Stribling 'earned first-team reps alongside quarterback Brock Purdy' during preseason, but the brief data point simply states 'Stribling displayed a strong connection with Purdy during preseason games' and separately that 'Stribling earned playing time with the first-team offense in San Francisco's preseason games.' The draft's phrasing conflates these claims in a way that suggests a closer targeting relationship than the brief supports."
     ]
    }
   ]
