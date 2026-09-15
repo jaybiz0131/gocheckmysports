@@ -12,9 +12,50 @@ has no number to put on it. A card that says 0-0 for a game that has not kicked 
 the same fabricated number the band was fixed for.
 """
 
+import datetime as _dt
 import os
+from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw, ImageFont
+
+_ET = ZoneInfo("America/New_York")
+
+
+def _zone(text):
+    """G-7: the feed's status_short carries the offset name of the day ("9/18 - 7:30 PM
+    EDT"). One label all year on the card as on the page."""
+    import re as _re
+    return _re.sub(r"\b(EDT|EST)\b", "ET", str(text or ""))
+
+
+def _et_clock(iso):
+    """G-7: a card is reader-facing, so its clock is Eastern. This drew a raw UTC slice
+    ("Updated 00:00 UTC"), which is the same defect S-11 cleared off the pages - and a
+    card is the part of the site that travels furthest from it."""
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ"):
+        try:
+            t = _dt.datetime.strptime(iso, fmt).replace(tzinfo=_dt.timezone.utc)
+            return t.astimezone(_ET).strftime("%-I:%M %p ET")
+        except Exception:
+            continue
+    return ""
+
+
+def _board_heading(board):
+    """S-19's rule, on the card: name the day the board is actually showing. "Today's
+    inactives" on a Monday card for Sunday's lists is wrong in a chat window for as long
+    as the link survives, which is longer than the page is wrong for."""
+    day = str((board or {}).get("day") or "")[:10]
+    try:
+        d = _dt.datetime.strptime(day, "%Y-%m-%d").date()
+    except Exception:
+        return "Today's inactives"
+    today = _dt.datetime.now(_dt.timezone.utc).astimezone(_ET).date()
+    if d == today:
+        return "Today's inactives"
+    if d == today - _dt.timedelta(days=1):
+        return f"{d.strftime('%A')}'s inactives, final"
+    return f"{d.strftime('%A %-d %B')} inactives"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.join(HERE, "site", "assets", "fonts")
@@ -51,15 +92,31 @@ def _fit(draw, text, font, max_w):
     return t
 
 
-def _base(dark=False):
+def _base(dark=False, wordmark=True):
     im = Image.new("RGB", (W, H), BAND if dark else PAPER)
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, W, 10], fill=GREEN)
-    d.text((60, 44), "GoCheckMySports", font=_serif(38),
-           fill=LIGHT if dark else INK)
+    # The small wordmark identifies a card whose subject is a number. On the default
+    # card the wordmark IS the subject, so it is drawn once, large, and not twice.
+    if wordmark:
+        d.text((60, 44), "GoCheckMySports", font=_serif(38),
+               fill=LIGHT if dark else INK)
     d.text((60, H - 74), "Every score. No odds. No noise.", font=_mono(22),
            fill=MUTED if not dark else (134, 139, 149))
     return im, d
+
+
+def _lost(g, side):
+    """Which side to mute: only at final, and only when the scores differ - the same
+    rule the band uses. Muting a leader mid-game would call a result."""
+    if g.get("state") != "post":
+        return False
+    try:
+        a = int((g.get("away") or {}).get("score"))
+        h = int((g.get("home") or {}).get("score"))
+    except Exception:
+        return False
+    return (a < h) if side == "away" else (h < a)
 
 
 def game_card(g, out_path):
@@ -68,7 +125,7 @@ def game_card(g, out_path):
     away, home = g.get("away") or {}, g.get("home") or {}
     started = g.get("state") in ("in", "post")
     im, d = _base(dark=True)
-    d.text((60, 140), (g.get("status_short") or "").upper()[:34], font=_mono(26, True),
+    d.text((60, 140), _zone(g.get("status_short")).upper()[:34], font=_mono(26, True),
            fill=(61, 220, 132) if g.get("state") == "in" else (166, 171, 180))
     y = 210
     for side, t in (("away", away), ("home", home)):
@@ -84,8 +141,10 @@ def game_card(g, out_path):
                font=_mono(24), fill=(166, 171, 180))
         if started and t.get("score") not in (None, ""):
             s = str(t["score"])
+            # Art direction: a card is the page in miniature, so a final mutes the
+            # losing score here exactly as the scoreboard does.
             d.text((W - 90 - d.textlength(s, font=_serif(96)), y - 10), s,
-                   font=_serif(96), fill=LIGHT)
+                   font=_serif(96), fill=(122, 126, 136) if _lost(g, side) else LIGHT)
         y += 130
     net = g.get("network") or ""
     if net:
@@ -102,17 +161,41 @@ def inactives_card(board, out_path):
     if not board or not board.get("teams"):
         return None
     im, d = _base()
-    d.text((60, 150), "Today's inactives", font=_serif(72), fill=INK)
+    d.text((60, 150), _board_heading(board), font=_serif(72), fill=INK)
     big = str(board.get("total") or 0)
     d.text((60, 250), big, font=_serif(150), fill=GREEN)
     off = d.textlength(big, font=_serif(150))
     d.text((70 + off, 330), f"players listed across {len(board['teams'])} teams",
            font=_mono(28), fill=MUTED)
-    stamp = board.get("last_change") or board.get("last_poll") or ""
+    stamp = _et_clock(board.get("last_change") or board.get("last_poll") or "")
     if stamp:
-        d.text((60, 460), f"Updated {stamp[11:16]} UTC", font=_mono(24), fill=MUTED)
+        d.text((60, 460), f"Updated {stamp}", font=_mono(24), fill=MUTED)
     d.text((60, 500), "Facts, not advice. Official reports only.",
            font=_mono(24), fill=MUTED)
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    im.save(out_path, "PNG", optimize=True)
+    return out_path
+
+
+def og_card(out_path):
+    """The default share card, for a page with no number of its own.
+
+    THE WORDMARK IS ONE WORD. The committed og-image.png set it as "GoCheckMy Sports",
+    spaced, which is the same identity split S-22 found on the Edition: a link unfurls
+    to a wordmark the site does not use. Drawing it here rather than shipping a static
+    PNG also means the card cannot drift from the site again - it is the same fonts,
+    the same palette and the same band as every other card in this file."""
+    im, d = _base(dark=True, wordmark=False)
+    base, site = "GoCheckMy", "Sports"
+    f = _serif(88)
+    d.text((60, 210), base, font=f, fill=LIGHT)
+    d.text((60 + d.textlength(base, font=f), 210), site, font=f, fill=(61, 220, 132))
+    d.text((60, 340), "Sports news, checked against the record before it runs.",
+           font=_serif(32), fill=(198, 202, 210))
+    d.text((60, 140), "INDEPENDENT  ·  NO HOT TAKES", font=_mono(22, True),
+           fill=(61, 220, 132))
+    d.text((60, H - 150), "GOCHECKMYSPORTS.COM", font=_mono(24, True),
+           fill=(166, 171, 180))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     im.save(out_path, "PNG", optimize=True)
     return out_path

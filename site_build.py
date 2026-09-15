@@ -3170,16 +3170,21 @@ def _ia_heading(board):
     """S-19. "Today's inactives" on a Monday, for Sunday's lists, is wrong twice: it is
     not today and the lists are not provisional any more. The board names the day it is
     actually showing, and says "final" once that day's games have been played."""
-    d = _utc_dt((board or {}).get("day") or "")
-    if not d:
+    # A CALENDAR DATE IS NOT AN INSTANT. board["day"] is "2026-09-15", the day the
+    # board is for. Parsing it as a UTC timestamp and converting to ET moved it back a
+    # day - midnight UTC is 8pm ET the evening before - so a board for TODAY was
+    # labelled "Monday's inactives, final". Parse it as the date it is.
+    try:
+        day = datetime.datetime.strptime(
+            str((board or {}).get("day") or "")[:10], "%Y-%m-%d").date()
+    except ValueError:
         return "Today's inactives"
-    day = d.astimezone(_ET).date()
     today = _build_now().astimezone(_ET).date()
     if day == today:
         return "Today's inactives"
     if day == today - datetime.timedelta(days=1):
-        return f"{d.astimezone(_ET).strftime('%A')}'s inactives, final"
-    return f"{d.astimezone(_ET).strftime('%A %-d %B')} inactives, final"
+        return f"{day.strftime('%A')}'s inactives, final"
+    return f"{day.strftime('%A %-d %B')} inactives, final"
 
 
 def _inactives_team_card(t):
@@ -5824,6 +5829,15 @@ def build():
         if _dg:
             w("fantasy/injuries.html", _dg)
             print(f"designations: {IA_DESIG['total']} players")
+    # The default share card, drawn from the same system as the rest (art direction
+    # pass). Written to /assets so OG_IMAGE keeps pointing at one path.
+    try:
+        import share_cards as _sc0
+        _sc0.og_card(os.path.join(PUBLISH, "assets", "og-image.png"))
+    except Exception as _e:
+        print(f"share cards: default OG not drawn ({type(_e).__name__}); "
+              f"the committed image stands")
+
     if IA_BOARD:
         try:
             import share_cards as _sc2
