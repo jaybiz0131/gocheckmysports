@@ -1980,6 +1980,30 @@ def _receipt_rows(item, cap=4):
     return rows
 
 
+def _breaking_badge(item, hours=BREAKING_HOURS):
+    """S-16. BREAKING expires. The audit found the badge on a story published the
+    previous day; it had been rendered unconditionally by the photo band that S-2
+    retired, so for a while no card carried it at all.
+
+    The badge is bounded twice, and both bounds already existed for choosing the lead:
+    the story must be under BREAKING_HOURS old (3, inside the audit's 6), and its EVENT
+    must be within 12 hours (owner directive 2026-07-27: a Friday ruling posted Monday
+    is never Breaking). After that the card shows its verdict badge alone."""
+    if not item:
+        return ""
+    now = _build_now()
+    if _fresh_hours(item, now) > hours:
+        return ""
+    try:
+        ev = datetime.datetime.fromisoformat(
+            (item.get("event_utc") or "").replace("Z", "+00:00"))
+    except Exception:
+        return ""
+    if (now - ev).total_seconds() > 12 * 3600:
+        return ""
+    return '<span class="badge breaking">Breaking</span>'
+
+
 def receipts_ledger(item):
     """The bordered ledger. Returns "" when the story has nothing checkable."""
     rows = _receipt_rows(item)
@@ -2585,7 +2609,7 @@ SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener
 SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
 
 
-def _sb_team_row(t, lose=False, big=False, started=True):
+def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
     col = t.get("color") or ""
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
@@ -2597,6 +2621,11 @@ def _sb_team_row(t, lose=False, big=False, started=True):
               f'</span><span class="tname">{esc(t.get("name") or "")}{rec}</span></span>')
     sc = t.get("score")
     sc = "" if sc in (None, "") or not started else str(sc)
+    # S-9: before kickoff the score column is not empty, it carries the time, in mono,
+    # in the place the score will occupy. Passed on one row only so it prints once.
+    if not started and kick:
+        return (f'<div class="team">{bar}{nm}</div>'
+                f'<span class="score kick{" big" if big else ""}">{esc(kick)}</span>')
     return (f'<div class="team">{bar}{nm}</div>'
             f'<span class="score{" lose" if lose else ""}'
             f'{" big" if big else ""}">{esc(sc)}</span>')
@@ -2609,17 +2638,29 @@ def _sb_zone(text):
     return re.sub(r"\b(EDT|EST)\b", "ET", str(text or ""))
 
 
+def _sb_today_status(g):
+    """S-9: "9/14 - 7:30 PM ET" loses its date prefix when the game is today, because
+    then the band is today's and the date says nothing. It KEEPS the date when the band
+    has fallen through to a later day, which it does whenever today has no games - and
+    on that day the date is the most useful thing on the card."""
+    txt = _sb_zone(g.get("status_short"))
+    d = _utc_dt(g.get("start_utc") or "")
+    if d and d.astimezone(_ET).date() == _build_now().astimezone(_ET).date():
+        txt = re.sub(r"^\s*\d{1,2}/\d{1,2}\s*-\s*", "", txt)
+    return txt
+
+
 def _sb_status(g):
     st = g.get("state")
     if st == "in":
-        per = _sb_zone(g.get("status_short"))
+        per = _sb_today_status(g)
         return f'<span class="live"><span class="dot"></span>{esc(per)}</span>'
     if st == "post":
         return ('<span class="fin"><svg width="11" height="11" viewBox="0 0 11 11" '
                 'aria-hidden="true"><path d="M2 5.8L4.3 8 9 3" fill="none" '
                 'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
                 'stroke-linejoin="round"></path></svg>FINAL · checked</span>')
-    return f'<span class="soon">{esc(_sb_zone(g.get("status_short")))}</span>'
+    return f'<span class="soon">{esc(_sb_today_status(g))}</span>'
 
 
 def _sb_losers(g):
@@ -2765,8 +2806,13 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                 f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
                 f'<div class="sb-mq-meta">{sit}{fan}</div>'
                 f'<div class="sb-mq-foot">{foot}</div>{bar}</div>')
+    # S-9: pre-game, the kickoff time sits in the score column of the first row.
+    _kick = ""
+    if not _started:
+        _d = _utc_dt(g.get("start_utc") or "")
+        _kick = _et_clock(_d).replace(" ET", "") if _d else ""
     return (f'<div class="game">'
-            f'{_sb_team_row(g["away"], lose_a, started=_started)}'
+            f'{_sb_team_row(g["away"], lose_a, started=_started, kick=_kick)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
             f'<div class="st">{_sb_status(g)}<span class="st-r">'
             f'{_wx_chip(g, wx)}{net}</span></div>'
@@ -4254,6 +4300,7 @@ def render_home(items, dateline):
         _left = (f'<div class="bd-card sp-lead">'
                  f'<div class="bd-cardtop"><span class="bd-eyebrow">Lead story</span>'
                  f'{f"<span class=bd-stamp>{esc(_lt[0])}</span>" if _lt else ""}'
+                 f'{_breaking_badge(_lead)}'
                  f'{verdict_badge(_lead.get("verdict"), _lead)}</div>'
                  f'<a class="sp-lead-h" href="/articles/{esc(_lead["slug"])}.html">'
                  f'{esc(_lead.get("title") or "")}</a>'

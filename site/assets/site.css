@@ -1366,3 +1366,8 @@ to{transform:scale(1.06)}
 .sb-hero .sb-tabs .tab{color:rgba(235,233,227,.86)}
 .sb-hero .sb-tabs .tab.on{color:#17181C}
 .sb-hero .sb-foot .sb-link{color:#fff}
+
+/* S-9: the kickoff time occupies the score column before a game starts, in mono, so a
+   pre-game card has the same shape as a live one instead of a blank column. */
+.game .score.kick{font-family:var(--mono);font-size:13px;letter-spacing:-.01em;
+  color:rgba(235,233,227,.80);white-space:nowrap;align-self:center}
