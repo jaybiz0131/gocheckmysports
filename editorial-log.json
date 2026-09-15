@@ -4,37 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c032",
-    "headline": "Pac-12 and Mountain West finalize settlement over conference poaching and exit fees",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states poaching clause required payments in 'pounds' (\u00a310m, \u00a3500k, \u00a355m total), but brief data_point specifies these figures in dollars ($10m, $500k, $55m). Currency conversion is a material fact that cannot be invented; the writer smuggled a currency change not in the source."
-    ]
-   },
-   {
-    "id": "c106",
-    "headline": "Alcaraz withdraws from Cincinnati Masters with wrist injury as US Open looms",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Alcaraz is the defending title holder at the US Open' but this claim does not appear in the brief's data_points. The brief mentions 'defending his US Open crown' in the angle/description, but the core claim and all data_points are sourced to Guardian Sport. The draft asserts a specific fact (defending champion status) that cannot be traced to the provided data_points without assumption that it was in the source material. This is smuggled information not explicitly confirmed in the brief."
-    ]
-   },
-   {
-    "id": "c114",
-    "headline": "Alex Eala wins historic WTA 500 title as Philippines celebrates first breakthrough",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the victory was 'achieved at the DC Open on Monday' but the brief does not specify which tournament this was or confirm the tournament name. The brief's data_point only says 'Eala became the first player from the Philippines to win a Women's Tennis Association title at the 500 level' without naming DC Open. The tournament identification is smuggled in from outside the brief.",
-     "The draft omits the brief's open_question about the 'specific opponent, score, and date of the DC Open final victory'\u2014which signals the brief itself does not confirm the opponent or final score. The draft should reflect this absence rather than present an accomplished fact without those details."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c179",
     "headline": "REJECTED: Unreadable source material, zero verified data points",
     "category": "accuracy",
@@ -8335,6 +8304,54 @@
      "The draft states Pacheco 'underwent back surgery on September 14, 2026,' which is today's date. The brief timestamp is '2026-09-14T21:32:38Z' and the reporting is from Ian Rapoport today. A surgery that happened today has not yet concluded its outcome; the medical claim that he 'underwent' the procedure (past tense, completed action) may be premature if the surgery is ongoing or only just completed hours ago. The draft should either clarify timing as 'scheduled for' or 'undergoing' if the surgery is not confirmed finished, or source the completion status explicitly.",
      "More critically, the draft presents the 12-week recovery timeline as a definite medical prognosis ('expected to take 12 weeks') when the brief's bear_case explicitly flags that Campbell qualified it as a 'chance' rather than a guarantee, and that medical uncertainty remains. The draft acknowledges this hedge only in the bottom_line and a single sentence mid-body ('Campbell's qualification... leaves some medical uncertainty'), but the opening and most of the body read the 12-week window as settled fact.",
      "The phrase 'a chance Pacheco is back by early December' in the first paragraph softens the timeline, but the repeated statement in the next paragraph that 'The recovery is expected to take 12 weeks' contradicts the bear_case emphasis on uncertainty and reads as more definite than the source allows."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c101",
+    "headline": "Eagles place left guard Landon Dickerson on injured reserve",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday",
+     "the draft dates September 14, 2026 as a Sunday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c91",
+    "headline": "Elena Rybakina defeats Sabalenka to win first US Open title, becomes world No. 1 (September 13, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "All factual claims in the draft (scores, ages, titles, rankings, prize money, quotes, head-to-head records, tournament history) trace to data_points in the brief with proper confidence labels preserved.",
+     "The brief's bear_case (Vukov's behavior change uncertain, Sabalenka won two of three 2026 meetings, Rybakina's early US Open exits historical, Cincinnati foot injury) appears in the draft body in a dedicated paragraph beginning 'The coach Stefano Vukov...' and continuing through Sabalenka's commentary on Rybakina's serve advantage.",
+     "Contested terminology regarding Vukov's 'abusive conduct' is properly attributed to The Guardian's reporting and the WTA investigation conclusion; the draft does not adopt this language in its own voice.",
+     "The injury reference ('forced to stop playing in her quarterfinal match against Iga Swiatek in Cincinnati because of a foot injury') traces to brief data_point and does not speculate beyond the official record.",
+     "No betting or gambling language; the not_financial_advice disclaimer is present.",
+     "The bottom_line looks forward to the French Open and qualifies the sustainability of dominance rather than summarizing.",
+     "The brief contains substantial data_points and sources; the draft is appropriately detailed.",
+     "the draft cites identifier '2012-2014', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c32",
+    "headline": "Alexander Zverev defeats Ben Shelton at US Open, claims second major in 2026 (September 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions flag a discrepancy between sources on the second-set tiebreaker score: 'BBC source contains a discrepancy: it reports the second-set score as \"6-6 (7-6)\" whereas ESPN reports it as \"7-6 (2)\"; the precise second-set tiebreaker score is unconfirmed between sources.' The draft reports '7-6' without noting this unconfirmed discrepancy. The core_claim in the brief states '6-3, 7-6 (7-2), 5-7, 6-2' but the draft states '6-3, 7-6, 5-7, 6-2' (omitting the tiebreaker notation). More critically, the brief's open_questions explicitly flag the tiebreaker score as contested ('6-6 (7-6)' vs '7-6 (2)'), and the draft presents '7-6' as unqualified fact without acknowledging the source disagreement. This violates the rule that confidence labels and sourcing ambiguities must survive into prose."
+    ]
+   },
+   {
+    "id": "c75",
+    "headline": "USA defeats France 97-79 in FIBA Women's World Cup final, September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a final score of 97-79, but the brief's open_questions explicitly state: 'The final score of the USA-France Women's World Cup final is not provided in the source texts.' This score is not present in any data_point in the brief and violates the hard rule that no fact exists outside the brief.",
+     "The brief states the final was held 'on Sunday' (data_point 4), but the draft title and body specify 'September 13' as a date. September 13, 2026 was a Saturday, not a Sunday. The date in the draft does not match the brief's description of the day.",
+     "The draft title claims this is USA's implied fifth consecutive Women's World Cup gold (by stating 'USA defeats France 97-79 in FIBA Women's World Cup final'), but the brief's open_questions specifically flag: 'Whether this is USA's fifth consecutive Women's World Cup gold, as stated in the headline, cannot be verified from the provided sources.' The headline in the draft may imply dominance/consecutive wins without source support."
     ]
    }
   ]
