@@ -1,35 +1,5 @@
 [
  {
-  "date": "2026-08-08",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c005",
-    "headline": "WNBA rescinds Caitlin Clark's eighth technical foul, preventing suspension",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The Indiana Fever defeated the Chicago Sky 90-86' but the brief data_point says 'The Indiana Fever won 90-86 over the Chicago Sky' with confidence 'verified-on-chain'. The team name in the draft is 'Sky' not 'Sky'\u2014this is correct. However, the brief does not specify whether Chicago's team is the Sky or Sky; the draft uses 'Sky' throughout but the brief uses 'Chicago' without team name in some places. More critically, the draft does not attribute the game score to ESPN inline; all other facts are attributed, but this score appears unattributed in context, creating ambiguity about sourcing."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "DiJonai Carrington ejected for flagrant foul on Sophie Cunningham; posts on social media after",
-    "category": "balance",
-    "reasons": [
-     "The brief's open_questions note that 'the headline references an apparent reference to white privilege, but the sources do not quote the post itself.' The draft states 'Carrington posted on social media about the ejection incident, per Sporting News. The exact text of the post is not detailed in available reporting.' This is accurate but the framing is weak: the angle explicitly calls the post 'player commentary that reignited debate over fairness and bias in officiating' and says 'the story turns on what Carrington said post-game and how it landed,' yet the draft presents the post as unknown/unspecified. This under-delivers on the promised angle. Either the post text should be included (if available in sources), or the story should acknowledge the controversy explicitly rather than burying it in ambiguity. As written, the draft promises heat and delivers fog, misrepresenting the news peg."
-    ]
-   },
-   {
-    "id": "c155",
-    "headline": "White Sox call up pitching prospects Hagen Smith and Tanner McDougal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The White Sox called up pitching prospects Hagen Smith (No. 2 ranked) and Tanner McDougal (No. 4 ranked) for their major league debuts.' All three data points in the brief are labeled 'announced-not-verified' confidence, meaning the call-up and prospect rankings have not been independently confirmed. The draft presents these as settled fact without any hedging language ('announced,' 'according to,' 'per report') that would reflect the uncertainty in the source confidence. This violates the hard rule that confidence labels must survive into prose."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-09",
   "approved": 3,
   "rejected": [
@@ -8335,6 +8305,41 @@
      "The draft states the game occurred 'on Monday, September 15' but today's date is Tuesday, September 15, 2026. A Monday would have been September 14. The event is misdated.",
      "The draft quotes Judge as saying Schlittler 'might be the MVP, too'\u2014but Judge's actual quoted statement was about Schlittler for Cy Young, not MVP. The quote in the draft attributes the 'might be the MVP' language to Judge, when the brief shows that was Boone's statement ('might be the MVP, too'), not Judge's. Judge's quote concerns the Cy Young Award specifically.",
      "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c119",
+    "headline": "Steve Ballmer and LA Clippers Accept NBA Penalties for Salary-Cap Violation (September 14, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Steve Ballmer and the Los Angeles Clippers announced late Sunday, September 14, 2026, that they have accepted NBA penalties' but the research brief's core_claim and data_points indicate the date is September 14, 2026, which according to the context provided at the top of the instructions is a Tuesday (today is Tuesday, 2026-09-15). If today is Tuesday the 15th, then September 14 was Monday, not Sunday. The draft incorrectly identifies the day of the week.",
+     "The draft states that David Stern made a comment in December 2001 about returning picks, with the quote: 'In light of the other penalties that have been imposed on the Timberwolves, and the team's conduct since the Smith matter concluded, we feel it is appropriate.' However, the brief attributes a different Stern quote to December 2001: 'In light of the other penalties that have been imposed on the Timberwolves, and the team's conduct since the Smith matter concluded, we feel it is appropriate.' (These are identical, so no discrepancy there.) But the brief also includes an earlier Stern quote attributed to 'December 2000': 'We are pleased to put this episode behind us, so that we and the Timberwolves may focus our full energies on basketball rather than protracted legal proceedings.' The draft does not include this December 2000 quote, but does reference the December 2001 quote. The draft's discussion of the Timberwolves precedent is incomplete\u2014it states 'the Timberwolves lost five first-round picks in October 2000 but had one returned by December 2000 after owner Glen Taylor accepted suspension and executive Kevin McHale agreed to a leave of absence. By December 2001, the NBA returned a second pick.' However, the brief's data point says 'By December of 2000, the NBA had given the Timberwolves their 2003 first-round pick back,' not 'one returned by December 2000' with a different pick. The draft paraphrases the precedent in a way that loses precision about which picks were returned when, creating potential confusion.",
+     "the draft dates September 14, 2026 as a Sunday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Taylor Swift and Tom Cruise Attend Chiefs-Broncos Monday Night Game",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports that the game occurred 'Monday' and that 'Monday marked Swift's first Chiefs game since she and tight end Travis Kelce wed in July' and references it as a 'Monday Night Football game.' However, the brief's timestamp is 2026-09-15, which is a Tuesday. Today is Tuesday, 2026-09-15. A game that occurred on the preceding Monday (2026-09-14) is properly reported as a past event, but the draft's present-tense framing and the timestamp sequence creates ambiguity about whether this game has already happened or is being treated as upcoming. The open_questions in the brief explicitly state 'The sources do not provide the specific date of the game beyond Monday Night Football in the current reporting cycle,' indicating the exact date is unconfirmed in the brief itself.",
+     "The brief's core_claim and data points make no mention of Patrick Mahomes returning from injury, and the open_questions explicitly state 'The sources do not confirm whether Patrick Mahomes played or returned from injury; the headline claims Mahomes returned from major injury, but neither source text carries this claim.' The draft title does not reference Mahomes, but the core claim that 'no injury or game outcome details are present in the sources' suggests the draft should not smuggle in performance details beyond what the brief carries. The draft's focus on Swift and Cruise attendance is properly grounded, but any unstated assumption about game context should be verified."
+    ]
+   },
+   {
+    "id": "c250",
+    "headline": "Taj Gibson retires after 17 NBA seasons, joins Bulls coaching staff",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Gibson's Knicks tenure statistics as 175 games (64 starts) across four seasons with 4.9 points and 4.4 rebounds on 56.7% FG, but the brief's data_point #25 specifies '175 games (64 starts) across four seasons' with those scoring/rebounding averages. However, the draft also contains a critical internal inconsistency: it states Gibson 'played 16.5 minutes per game and started 56 of the 62 games he played with the Knicks' (from brief data_point #17), which contradicts the later claim of 64 starts across four seasons (data_point #25). The draft presents both contradictory statistics without flagging this discrepancy, creating an accuracy problem.",
+     "The draft claims Gibson was traded to the Pelicans 'in the Jordan Hawkins deal' but the brief data_point #27 says he was 'traded in the Jordan Hawkins deal to the Pelicans.' This is consistent, but the brief also notes the Hawkins deal was part of the 2025-26 season context. The draft does not clarify timing of this trade relative to when he was released and announced retirement.",
+     "The brief lists data_point #8 claiming 'Gibson finished fifth in Sixth Man of the Year voting in 2012' but the draft states he finished as 'close runner-up to Jamal Crawford for Sixth Man of the Year' in 2013-14 (data_point #9). These are two different seasons and claims. The draft only mentions the 2013-14 runner-up finish and omits the 2012 fifth-place finish entirely, which is acceptable as selective emphasis, but presents only one Sixth Man narrative when the brief contains two separate voting finishes."
     ]
    }
   ]
