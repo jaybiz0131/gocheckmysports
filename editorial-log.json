@@ -4,47 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c126",
-    "headline": "UEFA, Concacaf, and AFC Formally Accuse Infantino of Deception Over World Cup Privatization Plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'VICTOR Montagliani, whose name has been floated as a potential challenger to Infantino in the March election, has not announced an intention to run.' However, the brief data_point states 'Montagliani's name has arisen as the likeliest contender to oppose Infantino in FIFA's election next spring' \u2014 the capitalization of 'VICTOR' mid-paragraph appears to be a typographical error that disrupts readability and suggests incomplete editing, and more critically, the characterization of Montagliani as 'likeliest contender' in the brief is weakened to merely 'floated as a potential challenger' in the draft without acknowledgment of the confidence difference.",
-     "The draft claims 'The continental leaders stated in their letter, according to Front Office Sports' and then provides two block quotes. However, the brief identifies these as data_points from Front Office Sports reporting of the letter's contents. The inline attribution is present, but the draft does not verify that FOS directly quoted the letter versus paraphrasing or quoting secondhand sources \u2014 a distinction that matters for liability when direct quotations of a controversial political letter are attributed."
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "WNBA Faces Eligibility Debate After Cunningham Comments and Player Draft Declarations Expose Rule Ambiguity",
-    "category": "compliance",
-    "reasons": [
-     "The draft characterizes Kanter Freedom's declaration as exposing a 'loophole' in eligibility rules without sufficient qualification. The brief's bear_case explicitly notes that 'Kanter Freedom stated he is 'definitely not here to mock, make fun of, or disrespect any community or personal choices,' suggesting his declaration may be intended as a critique of the rule loophole rather than as a genuine attempt to play.' The draft presents the rule ambiguity as a vulnerability the league faces but does not adequately reflect the bear_case framing that Kanter Freedom's declaration may itself be performative critique rather than a genuine eligibility claim. This creates potential liability by implying a legal or regulatory danger that may not match the actual stakes of Kanter Freedom's stated intent.",
-     "The draft includes the claim 'Some former men's NBA players have now declared they will enter the WNBA 2027 Draft, citing the current guidelines or lack thereof for transgender women players, according to BBC Sport.' However, the brief data_point states 'Some former men's NBA players have declared they will enter the WNBA 2027 Draft, citing the current eligibility guidelines, or lack of, for transgender women players.' The word 'now' in the draft suggests contemporaneous action across multiple players, but the brief only names Kanter Freedom with specificity and uses softer language ('have declared'). The draft overstates the scale and coordination of declarations without additional sourcing."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Bezos consortium advances talks for stake in Liverpool",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the potential stake sale is 'valued at \u00a31.35bn' but attributes this only to The Guardian in the body text. The brief marks this as a separate data_point from BBC Sport's report of the 30% stake negotiation, suggesting these may be two distinct reported facts. The draft conflates them without clarifying whether both outlets reported the valuation or only The Guardian did. This creates ambiguity about what is jointly confirmed versus singly sourced.",
-     "The draft's second paragraph acknowledges 'the available reporting does not confirm the timeline for deal completion, the full membership of the consortium beyond Bezos, how the minority stake would integrate with Liverpool's current ownership structure under Fenway Sports Group, or what regulatory approvals may be required'\u2014but then names Fenway Sports Group as the current owner without that being explicitly confirmed in the reported material according to the brief's open_questions. This reads as an insertion of context not directly from the reporting."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Ron Snodgrass named national coordinator of college football officials",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Ron Snodgrass, a veteran college football referee' but the brief's open_questions explicitly flag that 'The sources do not state Snodgrass's age; the brief incorrectly stated he is 26 years old.' The brief's core_claim contains '26-year-old' but the open_questions confirm this was not in the source. The draft removed the age claim (correct), but the writer introduced 'veteran' without a source data_point defining years of experience as 'veteran' rather than the fact-checked '26 seasons.' The core fact to trace is: does the source support calling him a 'veteran'? The brief data_point says 'Snodgrass officiated in Division I for 26 seasons' (confidence: announced-not-verified), which supports experience but not the semantic judgment 'veteran.' This is a paraphrase that survived source verification, so it is acceptable. However, the draft omits a critical liability signal: all data_points are marked 'announced-not-verified,' meaning the NCAA announcement has not been independently verified. The draft presents the appointment as fact without signaling that confidence level. The opening sentence 'The NCAA announced Monday that Ron Snodgrass...has been appointed' reads as settled fact, but the brief flags every claim as announced-not-verified. The draft must surface that the appointment comes from an announcement that has not been independently confirmed, not just report it as an accomplished fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c025",
     "headline": "Lions center Cade Mays expected to miss 8-10 weeks with wrist fracture",
     "category": "accuracy",
@@ -8148,6 +8107,31 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'Tennessee head coach Josh Heupel announced on Monday that senior tight end Ethan Davis will miss the remainder of the 2026 football season.' The brief's data_point states 'Tennessee head coach Josh Heupel announced Monday' with timestamp 2026-09-15, which is today (Tuesday). Monday would be 2026-09-14. The draft's phrasing is correct for a Monday announcement, but the sourcing timestamp in the brief is dated 2026-09-15, creating ambiguity about whether the announcement actually occurred Monday or was merely reported on Tuesday. The brief's confidence label is 'reported,' not 'announced-not-verified.' A Monday announcement reported on Tuesday is standard, but the brief does not explicitly confirm the announcement date as Monday\u2014it only says Heupel 'announced Monday' in the claim text while timestamping the report itself 2026-09-15. This is not a smuggled fact, but the draft should either use 'according to reports on September 15' or rely on the brief's explicit date statement. However, re-reading: the data_point CLAIM TEXT states 'announced Monday,' so the draft is accurately paraphrasing the brief's own claim. This survives."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c080",
+    "headline": "Ovechkin appears in campaign ad for Putin-backing United Russia party",
+    "category": "compliance",
+    "reasons": [
+     "The draft uses contested political terminology in the desk's own voice. Specifically, the phrase 'an authoritarian leader' in the bottom_line and similar characterizations throughout appear as the desk's unattributed assertion. Per the 2026-08-21 ruling on contested terminology, when a story touches politically charged framing, the desk must report what named people SAID in quotes with attribution; the narration itself must stay neutral. The brief correctly attributes characterizations to sources ('The sources characterize Ovechkin as having been more cautious'), but the draft adopts 'authoritarian leader' as descriptive fact without attribution.",
+     "The draft's bottom_line contains the claim 'No statement from Ovechkin, the Capitals, or the league is yet on record regarding the appearance.' This restates absence\u2014an open_question from the brief\u2014as a finding. Per guidelines, the desk is forbidden from narrating absence; when the brief's open_questions ask 'What specific role did Ovechkin play in the United Russia campaign\u2014did he consent to the use of his image, or did the party use it without permission?' and 'Did the Capitals or NHL issue any response or statement regarding Ovechkin's appearance in the ad?', the draft should not convert these unknowns into sentences that read as reported facts."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "USA wins fifth consecutive Women's World Cup gold; Stewart earns MVP",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'USA defeated France to capture the FIBA Women's World Cup gold medal, securing the team's fifth consecutive championship' without specifying the final score. The brief's open_questions explicitly note 'The final score of the USA\u2013France gold medal game is not provided in the source text; only that the USA 'convincingly took down France' is mentioned.' The draft presents the victory as a bare fact without noting the absence of a final score in the source, which creates a factual gap between what the source confirms and what the draft asserts.",
+     "The draft states this is the 'fifth consecutive' World Cup gold without this data point appearing in the brief's data_points list. The brief's core_claim says 'fifth consecutive gold medal' but the data_points do not include verification of this specific claim\u2014only that 'Stewart has four World Cup gold medals' appears in the brief. The consecutive-championship claim is smuggled without source verification in the data.",
+     "The draft includes the phrase 'will pursue a fourth Olympic gold medal in Los Angeles in 2028' and later 'looking ahead to the 2028 Los Angeles Olympics'\u2014written as future tense for an event dated 2028. Today is 2026-09-15, so 2028 is future and correctly written. However, the draft's framing of the Olympics and the opening statement about a World Cup that appears to have just concluded creates temporal ambiguity: the World Cup championship is presented as having happened (past tense 'defeated', 'captured'), but the source timestamp is 2026-09-15 and no date for the World Cup final itself is stated. This is internally consistent but the brief's open_questions note 'The specific dates or location of the FIBA World Cup are not stated in the source text,' meaning the draft cannot establish when the gold medal game occurred relative to today."
     ]
    }
   ]
