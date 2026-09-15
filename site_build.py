@@ -2152,10 +2152,25 @@ def _w2w_split(week):
     """Upcoming windows first, then anything the feed says is finished. Read from the
     feed's `completed`, never from the clock: a build at 03:00 UTC cannot tell whether
     Thursday's game finished, was postponed, or is in a weather delay."""
+    # D-14: `completed` alone is not enough. It is the right signal on a FRESH file -
+    # a build at 03:00 UTC cannot tell whether Thursday's game finished, was postponed
+    # or is in a weather delay - but where_to_watch keeps its committed file when the
+    # fetch fails, and on a stale file yesterday's game is still completed:false and
+    # therefore still "upcoming". That is how the rail card offered Monday night's game
+    # on Tuesday. A kickoff that has already passed is not a NEXT window, whatever the
+    # flag says; the grace period keeps a game actually in progress on the card.
+    import datetime as _dt
+    _grace = _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=4)
+
+    def _still_ahead(g):
+        k = _utc_dt(g.get("kickoff_utc") or g.get("start_utc") or "")
+        return True if k is None else k > _grace
+
     up, done = [], []
     for wname, games in _w2w_windows(week):
-        pending = [g for g in games if not g.get("completed")]
-        played = [g for g in games if g.get("completed")]
+        pending = [g for g in games if not g.get("completed") and _still_ahead(g)]
+        played = [g for g in games
+                  if g.get("completed") or not _still_ahead(g)]
         if pending:
             up.append((wname, pending))
         if played:
@@ -2237,15 +2252,17 @@ def where_to_watch_card(data):
         return ""
     import datetime as _dt
     now = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    # D-14: the next window comes from the SCHEDULE, so pick the first week that
+    # actually has one. Picking the first week with an uncompleted game and stopping
+    # there is what stranded the card on a stale file: week 1 looked unfinished, had no
+    # window still ahead, and the card fell to nothing rather than to week 2.
+    upcoming = []
     week = None
     for w in data["weeks"]:
-        if any(not g.get("completed") for g in w.get("games") or []):
-            week = w
+        up, _played = _w2w_split(w)
+        if up:
+            week, upcoming = w, up[:2]
             break
-    week = week or data["weeks"][-1]
-    # Only windows with a game still to play, and never a finished one.
-    upcoming, _played = _w2w_split(week)
-    upcoming = upcoming[:2]
     if not upcoming:
         return ""
     rows = []
@@ -4399,25 +4416,21 @@ def render_home(items, dateline):
         # numbered 02-06 cards. It was the homepage's second hero, arguing with the
         # first. Its stories come here, to the light grid (S-6).
         #
-        # The Bottom Line card is NOT part of what the audit retired. It was put in the
-        # hero square by owner call on 2026-07-16 and the standalone band below was
-        # retired in the same move, so removing the square without rehoming it would
-        # delete the element rather than relocate it. It leads this section as a light
-        # card; /bottom-line.html still keeps the history.
-        bl_card = ""
+        # D-13: the Bottom Line card is off the homepage. Sprint A rehomed it here
+        # rather than delete it, and on the live page it became the first item under
+        # "From the desk" at nine lines - which is not the S-6 shape (six light cards,
+        # no summary text) and reads as the Edition leading the homepage. The Edition
+        # keeps its nav entry, /bottom-line.html keeps the history, and the Edition's
+        # homepage presence is one card in this grid, in the same shape as the rest.
+        ed_card = ""
         if bl_anchor is not None:
             ed = bl_anchor
-            ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-            bl_card = (f'<a class="bd-card sp-bl" '
-                       f'data-bl-published="{esc(ed.get("published_utc") or "")}" '
+            ed_card = (f'<a class="bd-card sp-deskcard sp-deskcard-ed" '
                        f'href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="bd-cardtop"><span class="bd-eyebrow">'
-                       f'The Bottom Line</span>'
-                       f'<span class="bd-stamp">{_bl_fresh_label(ed, ed_name)} · '
-                       f'{_blink_when(ed)}</span></span>'
-                       f'<span class="sp-bl-read">{esc(ed["bottom_line"])}</span>'
-                       f'<span class="bd-more">Read the full edition &rarr;</span></a>'
-                       + _BL_GUARD_SCRIPT)
+                       f'The Evening Edition</span></span>'
+                       f'<span class="sp-deskcard-h">Read tonight\u2019s Edition</span>'
+                       f'<span class="dateline">{fmt_when(ed)}</span></a>')
         # S-6: six light cards, three across. League label, the desk's badge, the
         # headline clamped at a word boundary, the time in ET. No summary text, so
         # equal heights come from the clamp and not from stretching a short card.
@@ -4428,11 +4441,12 @@ def render_home(items, dateline):
             f'<span class="sp-deskcard-h">{esc(clamp_words(i.get("title") or "", 96))}</span>'
             f'<span class="dateline">{fmt_when(i)}</span></a>'
             for i in stories[:6])
+        cards = ed_card + cards
         desk_html = (f'<div class="bd-sec"><div class="bd-sec-l">'
                      f'<span class="bd-eyebrow">The desk</span>'
                      f'<h2 class="bd-h2">From the desk</h2></div>'
                      f'<a class="bd-more" href="/news.html">All stories &rarr;</a></div>'
-                     f'{bl_card}<div class="sp-deskgrid">{cards}</div>')
+                     f'<div class="sp-deskgrid">{cards}</div>')
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
@@ -4595,7 +4609,6 @@ def render_home(items, dateline):
     body = _band + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: every score, checked</h1><section class="page">
   {lead_row}
   {desk_html}
-  {editions_html}
   {w2w_row}
   {track_html}
   {record_sections(items, home=True, board=IA_BOARD)}
