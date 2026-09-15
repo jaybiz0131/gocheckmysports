@@ -1482,3 +1482,76 @@ to{transform:scale(1.06)}
   .pl-row{grid-template-columns:70px 1fr;row-gap:2px}
   .pl-row .bd-src{grid-column:1 / -1}
 }
+
+/* ============================================================================
+   PROGRAM 3, A-1: the ground.
+   The page background is never flat paper. A fixed layer under everything: three
+   radial glows in desk colours placed in the gutters where cards do not cover them,
+   a paper-to-paper vertical gradient, and a grain tile over the top. Lifted from
+   SportsAtmosV6. pointer-events:none, z-index 0; page content is z-index 1.
+   ========================================================================== */
+.ground{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1100px 620px at 8% 30%, rgba(31,94,63,.30), rgba(31,94,63,0) 70%),
+    radial-gradient(900px 560px at 96% 56%, rgba(240,198,116,.22), rgba(240,198,116,0) 70%),
+    radial-gradient(900px 520px at 10% 88%, rgba(31,94,63,.18), rgba(31,94,63,0) 70%),
+    linear-gradient(180deg, #FBFAF6 0%, #F6F4EE 100%)}
+.ground::after{content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.06;mix-blend-mode:multiply}
+/* Everything the reader sees sits above the ground. */
+body>*:not(.ground){position:relative;z-index:1}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .ground{background:var(--paper)}
+  :root:not([data-theme="light"]) .ground::after{opacity:.04}
+}
+:root[data-theme="dark"] .ground{background:var(--paper)}
+:root[data-theme="dark"] .ground::after{opacity:.04}
+
+/* A-2: the photo shows. The addendum's 30/72/97 scrim buried it - the live band read
+   as a dark gradient with a hint of stadium. Poster to 90%, scrim to 22/66/94, so the
+   sky and the lights read at the top and the cards still sit on near-solid dark. */
+.sb-hero .sb-bg{opacity:.90}
+.sb-hero .sb-scrim{background:linear-gradient(180deg,
+  rgba(19,20,25,.22) 0%, rgba(19,20,25,.66) 34%, rgba(19,20,25,.94) 100%)}
+
+/* A-3: glass cards inside the band. Where backdrop-filter is unsupported the card
+   falls back to the solid it has now, so nothing breaks. */
+.sb-hero .game,.sb-hero .sb-marquee{background:rgba(26,28,34,.94);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .sb-hero .game,.sb-hero .sb-marquee{background:rgba(26,28,34,.86);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+}
+
+/* A-7: team-colour washes. The reason a wall of dark cards reads as twelve different
+   games instead of one grey grid. The 5px team bars stay; this sits under the content. */
+.sb-hero .game{position:relative;isolation:isolate}
+.sb-hero .game::before{content:'';position:absolute;inset:0;z-index:0;border-radius:inherit;
+  pointer-events:none;opacity:.22;
+  background:linear-gradient(90deg, var(--a,transparent) 0%, transparent 46%,
+    transparent 54%, var(--b,transparent) 100%)}
+.sb-hero .game>*{position:relative;z-index:1}
+
+/* A-8: the marquee takes the same wash on the diagonal, stronger at the corners. */
+.sb-hero .sb-marquee{position:relative;isolation:isolate}
+.sb-hero .sb-marquee::before{content:'';position:absolute;inset:0;z-index:0;
+  border-radius:inherit;pointer-events:none;
+  background:linear-gradient(118deg,
+    color-mix(in srgb, var(--a,transparent) 28%, transparent) 0%,
+    color-mix(in srgb, var(--a,transparent) 6%, transparent) 46%,
+    color-mix(in srgb, var(--b,transparent) 6%, transparent) 54%,
+    color-mix(in srgb, var(--b,transparent) 30%, transparent) 100%)}
+.sb-hero .sb-marquee>*{position:relative;z-index:1}
+
+/* A-5: the ornament. Real kickoff windows from the day's slate, never a placeholder
+   series, sitting in the fade zone under the cards. */
+.sb-orn{position:absolute;left:0;right:0;bottom:0;height:200px;width:100%;
+  opacity:.15;pointer-events:none;z-index:1}
+
+/* A-6: the band dissolves into the paper instead of ending on a hard edge. The band's
+   last line sits above the fade, never inside it. */
+.sb-hero{padding-bottom:150px}
+.sb-fade{height:130px;margin-top:-130px;position:relative;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg, rgba(19,20,25,0), #FBFAF6 92%)}
+@media (max-width:720px){ .sb-orn{display:none} }   /* A-15 */

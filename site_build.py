@@ -1068,6 +1068,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="{esc(body_class)}">
+<div class="ground" aria-hidden="true"></div>
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}
@@ -2755,6 +2756,13 @@ def _game_href(g):
             else "/scores.html")
 
 
+def _mq_vars(g):
+    """A-8: the marquee's diagonal wash reads the same two team colours as A-7."""
+    a = (g.get("away") or {}).get("color") or ""
+    b = (g.get("home") or {}).get("color") or ""
+    return f' style="--a:{esc(a)};--b:{esc(b)}"' if a and b else ""
+
+
 def _sb_card(g, ia_index, marquee=False, wx=None):
     lose_a, lose_h = _sb_losers(g)
     _started = g.get("state") in ("in", "post")
@@ -2792,7 +2800,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
             lines = "".join(f'<span class="sb-mq-fact">{f}</span>' for f in facts)
             w2w = ('<a class="sb-link" href="/where-to-watch.html">Where to watch</a>'
                    if W2W_LIVE else "")
-            return (f'<div class="sb-marquee sb-mq-pre">'
+            return (f'<div class="sb-marquee sb-mq-pre"{_mq_vars(g)}>'
                     f'<div class="sb-mq-top"><span class="kicker">{esc(kick)}</span>'
                     f'<span class="st-r">{_wx_chip(g, wx)}{net}</span></div>'
                     f'<div class="sb-mq-grid">'
@@ -2804,7 +2812,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
         if state == "post":
             foot += ('<a class="sb-link" href="' + esc(_game_href(g)) + '">Box leaders</a>'
                      if g.get("league") == "NFL" else "")
-        return (f'<div class="sb-marquee">'
+        return (f'<div class="sb-marquee"{_mq_vars(g)}>'
                 f'<div class="sb-mq-top">{_sb_status(g)}<span class="st-r">'
                 f'{_wx_chip(g, wx)}{net}</span></div>'
                 f'<div class="sb-mq-grid">'
@@ -2817,7 +2825,12 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
     if not _started:
         _d = _utc_dt(g.get("start_utc") or "")
         _kick = _et_clock(_d).replace(" ET", "") if _d else ""
-    return (f'<div class="game">'
+    # A-7: the wash needs both team colours as custom properties. Same table the 5px
+    # team bars already read, so a card can never disagree with its own bars.
+    _ca = (g.get("away") or {}).get("color") or ""
+    _cb = (g.get("home") or {}).get("color") or ""
+    _vars = (f' style="--a:{esc(_ca)};--b:{esc(_cb)}"' if _ca and _cb else "")
+    return (f'<div class="game"{_vars}>'
             f'{_sb_team_row(g["away"], lose_a, started=_started, kick=_kick)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
             f'<div class="st">{_sb_status(g)}<span class="st-r">'
@@ -2876,6 +2889,37 @@ SB_HERO_JS = """
     });
   }catch(e){}
 })();</script>"""
+
+
+def _sb_ornament(games):
+    """A-5: the kickoff timeline. One bar per kickoff window in the day's slate, height
+    proportional to the number of games in that window, drawn from site/data and never
+    hand-made. A day with no games has no ornament; there is never a fake series."""
+    import collections
+    today = _build_now().astimezone(_ET).date()
+    by_hour = collections.Counter()
+    for g in games:
+        d = _utc_dt(g.get("start_utc") or "")
+        if not d:
+            continue
+        e = d.astimezone(_ET)
+        if e.date() == today:
+            by_hour[e.hour] += 1
+    if not by_hour:
+        return ""
+    hours = sorted(by_hour)
+    lo, hi = min(hours), max(hours)
+    span = max(hi - lo, 1)
+    peak = max(by_hour.values())
+    W, H = 1200, 170
+    bars = []
+    for h in hours:
+        x = ((h - lo) / span) * (W - 90) + 20
+        bh = max(12, (by_hour[h] / peak) * (H - 24))
+        bars.append(f'<rect x="{x:.0f}" y="{H-bh:.0f}" width="46" height="{bh:.0f}" '
+                    f'rx="3" fill="#3DDC84"></rect>')
+    return (f'<svg class="sb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
+            f'aria-hidden="true">{"".join(bars)}</svg>')
 
 
 def _sb_day_split(games):
@@ -2976,7 +3020,9 @@ def scoreboard_band(sb, board, wx=None):
     <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
       &rarr;</a>{nxt}</div>
   </div>
-</section>""" + SB_HERO_JS
+  {_sb_ornament(games)}
+</section>
+<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS
 
 
 def render_scores_page(sb, board, dateline, wx=None):
