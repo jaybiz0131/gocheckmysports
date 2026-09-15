@@ -1,20 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c130",
-    "headline": "Royals sign closer Craig Kimbrel",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'The signing was announced by the team but has not been independently verified' contradicts the brief's confidence label. The brief marks the claim 'Craig Kimbrel signed with the Royals' as 'announced-not-verified', which means the fact itself is unconfirmed. The draft reads this as though the signing occurred but verification is pending\u2014a false distinction. The prose should reflect that the signing is announced by the team and not yet confirmed by independent sources, not that an announcement exists whose underlying event is assured."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 3,
   "rejected": [
    {
@@ -8297,6 +8283,33 @@
     "category": "accuracy",
     "reasons": [
      "The draft includes the claim 'Kreider crashed into Carey Price in 2014, knocking the goalie out of the Eastern Conference final.' This is a historical reference about a 2014 incident that is not part of the September 14, 2026 story and is sourced only to the current Yahoo NHL article per the brief. This is a contextual aside that, while potentially true, cannot be verified as originating from the primary source cited for this story and is not one of the core data points supporting the September 2026 extension. It reads as background information smuggled in without explicit confirmation it appeared in the Yahoo piece. The brief's data_points do list 'Kreider crashed into Carey Price in 2014, knocking the goalie out of the Eastern Conference final' with confidence 'reported' and sourced to the same Yahoo URL, so technically it traces. However, this is reputationally sensitive material about a named player and event (a collision that injured another player) that should only appear if it was genuinely in the source. Given the draft is about St. Louis's extension and Kreider's signing, and this is a 12-year-old incident, its inclusion requires explicit confirmation it was in the Yahoo piece and is not the writer inserting context. The source URL does not allow verification. This is a borderline case, but the inclusion of a specific damaging/controversial moment (Kreider hitting Price, a notable incident in hockey) without inline attribution to the source or quote marks is a compliance risk."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c094",
+    "headline": "Dodgers clinch playoff berth, tie Atlanta's 14-year consecutive record",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens 'The Los Angeles Dodgers clinched a playoff berth with a 4-1 victory over the Cincinnati Reds on Monday, September 15, securing their 14th consecutive postseason appearance.' Today is Tuesday 2026-09-15. The game is dated 'Monday, September 15,' which would be yesterday. This is internally consistent (yesterday was Monday), but the draft reports the clinching game as having already happened. Per the approval rules: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' The reverse is also true: events dated before today must have already happened. The clinching game on Monday Sept 15 did occur before today (Tuesday Sept 15), so the timing is actually correct. However, the draft's own framing is ambiguous: 'clinched...on Monday' is past tense, which is correct. This is not an error.",
+     "All other facts trace correctly: 4-1 score, Kyle Tucker solo home run in second off Lodolo, Teoscar Hern\u00e1ndez home run in fourth, Skubal's seven scoreless innings with 9 K, 3 H, 1 BB, nine-game lead over Padres with head-to-head tiebreaker, 3.5-game lead over Atlanta for NL West second seed, three-peat ambition vs. Yankees 1998-2000, Tucker as biggest free-agent signing, three homers in past five games, Skubal acquired at deadline, Ohtani's left knee and right biceps injuries on IL, Pages' left hand fracture on IL, Muncy's nine-of-14 tenure, three hits in clinching game, Kike Hern\u00e1ndez final out to Evan Phillips, Roberts' toast tradition, Skubal's two prior playoff seasons with Tigers as Wild Card\u2014all present in brief data_points with appropriate confidence levels.",
+     "However, there is a critical factual error: The draft says 'Kyle Tucker hit a solo home run in the second inning off Reds left-hander Nick Lodolo, and Teoscar Hern\u00e1ndez added a home run in the fourth.' The brief's data_point says 'Teoscar Hern\u00e1ndez took a home run off Nick Lodolo in the fourth inning.' This is the same Lodolo. But then the draft says the Dodgers won 4-1 with only three homers mentioned (Tucker solo, Hern\u00e1ndez solo = 2 runs). A 4-1 game requires one additional run. The brief does not account for where the fourth run came from. This is not a false claim the writer introduced; this is an arithmetic inconsistency between facts the brief provided. The draft does not smuggle a new fact, but it presents a scenario that does not add up. The three-hit total mentioned later ('The team recorded only three hits in the clinching game') makes a 4-1 win on two solo homers theoretically possible only if no other runs were scored, which is mathematically sound. But the brief provides no explanation of the scoring, and the draft does not clarify how a two-run game became 4-1. This is not new information smuggled into the draft; it is an unexplained gap in the brief itself. The writer should not have left this unresolved if the brief did not support the score. However, since all individual facts (Tucker homer, Hern\u00e1ndez homer, final score, hit total) ARE in the brief, the draft is not technically introducing false information\u2014it is simply not explaining a gap the brief created. This is a quality issue (clarity) rather than an accuracy issue, because the facts themselves are sourced. Revisiting: the brief's data_point 'Dodgers defeated Cincinnati Reds 4-1 to clinch playoff berth' is verified-on-chain and definitive. No claim in the draft contradicts this. The missing explanation is a quality problem, not an accuracy problem.",
+     "Checking bear_case: brief mentions 'Kyle Tucker has struggled offensively and is out of time to fully turn his season around, despite recent hot streak' and 'The Dodgers have been hit hard by injuries.' Draft mentions injuries (Ohtani, Pages) and Tucker's hot streak ('three homers in his past five games') but does NOT include the bear_case point that Tucker struggled offensively overall and lacks time to recover. This is a BALANCE problem, not an accuracy problem.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Nairobi Selected as First African Host for World Athletics Championships",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the announcement occurred 'on Tuesday, September 15' but today is Tuesday, September 15, 2026. The draft reports the announcement at a press conference in Budapest 'on Tuesday, September 15' as a completed past event, when per the task instructions, events dated as today or later must be written as upcoming or currently happening, not as settled past fact. The brief timestamp is 2026-09-15, indicating the announcement is breaking news on today's date, not yesterday's news.",
+     "The lead must be reframed to reflect that the announcement is happening today or occurred earlier today at the Budapest press conference, not written retrospectively as a concluded event without temporal marker."
     ]
    }
   ]
