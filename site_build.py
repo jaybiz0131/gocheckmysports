@@ -976,10 +976,9 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     _cp = canonical_path or path
     url = ORIGIN + (_cp[:-5] if _cp.endswith(".html") else _cp)
     site_name = NAME
-    # Home only: the hero band's poster is the LCP element (the video is preload="none"
-    # by design), so hint the browser to fetch it first.
-    lcp = ('<link rel="preload" as="image" href="/assets/hero/hero-poster.webp" '
-           'fetchpriority="high">\n' if path == "/" else "")
+    # S-2: the band that used this poster is retired, so the preload went with it -
+    # it was fetching 80KB the page no longer draws, and naming a false LCP candidate.
+    lcp = ""
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     robots = lcp + robots
     beacon = ""
@@ -2827,6 +2826,50 @@ def _et(iso):
     return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
 
 
+def _fantasy_tonight_card(sb, board, desig):
+    """S-3. The lead rail's fantasy card: tonight's NFL games and when their lists
+    post, this week's designation counts, and the way to the board.
+
+    Every line is a reading or it is absent. No game tonight, no line about games; no
+    designations held, no counts. If none of it holds, the card does not render and the
+    rail closes around it rather than showing a frame with nothing in it."""
+    rows = []
+    games = [g for L in ((sb or {}).get("leagues") or []) for g in (L.get("games") or [])
+             if g.get("league") == "NFL"]
+    ia = _ia_index(board)
+    for g in games:
+        if g.get("state") != "pre":
+            continue
+        dt = _utc_dt(g.get("start_utc") or "")
+        if not dt:
+            continue
+        import datetime as _dt
+        aw = (g.get("away") or {}).get("abbr") or ""
+        hm = (g.get("home") or {}).get("abbr") or ""
+        posted = [t for t in (aw, hm)
+                  if ia.get(("NFL", str((g.get("away") if t == aw else g.get("home")) or {}
+                                        ).get("id")))]
+        when = (f'lists posted' if len(posted) == 2
+                else f'lists post about {_et_clock(dt - _dt.timedelta(minutes=90))}')
+        rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">{esc(aw)} at '
+                    f'{esc(hm)}</span><span class="bd-src">{esc(when)}</span></div>')
+        if len(rows) >= 2:
+            break
+    if desig and desig.get("groups"):
+        bits = [f'{len(v)} {k.lower()}' for k, v in desig["groups"].items() if v]
+        if bits:
+            rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">'
+                        f'This week\u2019s designations</span>'
+                        f'<span class="bd-src">{esc(" · ".join(bits))}</span></div>')
+    if not rows:
+        return ""
+    return (f'<div class="bd-card sp-railcard">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">Fantasy, tonight</span>'
+            f'</div><div class="bd-rec-rows">{"".join(rows)}</div>'
+            f'<a class="bd-more" href="/fantasy/inactives.html">The inactives board</a>'
+            f'</div>')
+
+
 def _inactives_pending(games, posted_ids):
     """Teams playing today whose list we have not seen yet, with the time the league is
     expected to post: kickoff minus ninety minutes. Never a guess about who.
@@ -3553,20 +3596,30 @@ def lane_card_v3(item, lane_name, stamp=None):
               f'Read the piece</a></div>')
 
 
-def extra_lanes(items, board):
+def extra_lanes(items, board, claimed=None):
     """S-17. The Contracts and Fantasy facts lane SECTIONS, with no wrapper of their
     own. They used to render their own bd-mod with a second copy of the Record's
     header, which is what printed the Record twice on the homepage. record_sections
     owns the block and the header now; this returns lanes to go inside it."""
+    # ONE STORY, ONE PLACE ON THE PAGE (R2). These two lanes matched against the whole
+    # live corpus while the main lanes claimed from it separately, so a story could be
+    # claimed by Contracts AND by Fantasy facts AND still be the homepage lead: measured
+    # 15 Sep, the Pacheco surgery piece rendered three times on one screen. The lanes
+    # above have first claim, these two take what is left, and the second of them does
+    # not repeat the first.
+    taken = set(claimed or ())
     live = [i for i in (items or [])
-            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")
+            and i.get("slug") not in taken]
     live.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
     out = []
     for name, rows, href in (
             ("Contracts", _contracts_lane(live), None),
             ("Fantasy facts", _fantasy_facts_lane(live), "/fantasy/index.html")):
+        rows = [i for i in rows if i.get("slug") not in taken]
         if len(rows) < RECORD_LANE_MIN:
             continue
+        taken.update(i.get("slug") for i in rows[:4])
         feat = rows[0]
         more = "".join(
             f'<div class="bd-rec-row">'
@@ -3802,7 +3855,10 @@ def record_sections(items, home=True, board=None):
                      tables=_live_tables(items))
         for slug, name, _tags, on_home in RECORD_LANES
         if (on_home or not home))
-    lanes += extra_lanes(items, board)
+    _claimed = {i.get("slug") for v in by_lane.values() for i in v}
+    if home and HOME_LEAD_SLUG:
+        _claimed.add(HOME_LEAD_SLUG)
+    lanes += extra_lanes(items, board, claimed=_claimed)
     if not lanes.strip():
         return ""
     head = (f'<div class="bd-sec"><div class="bd-sec-l">'
@@ -3863,6 +3919,8 @@ def render_home(items, dateline):
     # mosaic leads as it always did.
     _s1_lead = stories[0] if stories else None
     _s1_ledger = receipts_ledger(_s1_lead) if _s1_lead else ""
+    global HOME_LEAD_SLUG
+    HOME_LEAD_SLUG = (_s1_lead or {}).get("slug") if (_s1_lead and _s1_ledger) else None
     hero_pool = stories[1:] if (_s1_lead and _s1_ledger) else stories
 
     def _hero_tag(item):
@@ -3873,55 +3931,45 @@ def render_home(items, dateline):
     if hero_pool:
         stories = hero_pool
         lead = stories[0]
-        dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
-        # The desk set: an ambient video loop behind the lead card. It is scenery for
-        # WHATEVER story leads, never an illustration of it (no caption, no linkage), and
-        # the scrim guarantees the headline always beats the motion. Reduced-motion
-        # readers get the poster still only (script below removes the video pre-load).
-        # S-A: the video block is retired. The Scoreboard band is the one hero, and an
-        # autoplaying loop sitting above the scores is exactly the noise the band's own
-        # headline disowns. The scrim stays: it is what keeps the headline legible over
-        # the poster still that remains.
-        hero_video = '<span class="hero-scrim" aria-hidden="true"></span>'
-        lead_mark = ('<span class="badge breaking">Breaking</span>' if breaking
-                     else _hero_tag(lead))
-        # freshness at a glance (owner directive 2026-07-24): a lead that is the head of
-        # an update chain shows "Updated <time>" so a running story reads as current, not
-        # as whenever the thread began.
-        when_lbl = (f'Updated {fmt_when(lead)}' if lead.get("update_of") else fmt_when(lead))
-        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
-                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{lead_mark}</span>'
-                     f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
-                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"), lead)}'
-                     f'<span class="dateline">{when_lbl}</span></span></a>')
-        # The Bottom Line rides shotgun: the day's summary as the hero square beside the
-        # lead, replacing the standalone band lower on the page.
+        # S-2: the dark .hero-band is gone - the photo band over hero-poster.webp, the
+        # second "Lead story" badge under the one in the lead row above it, and the
+        # numbered 02-06 cards. It was the homepage's second hero, arguing with the
+        # first. Its stories come here, to the light grid (S-6).
+        #
+        # The Bottom Line card is NOT part of what the audit retired. It was put in the
+        # hero square by owner call on 2026-07-16 and the standalone band below was
+        # retired in the same move, so removing the square without rehoming it would
+        # delete the element rather than relocate it. It leads this section as a light
+        # card; /bottom-line.html still keeps the history.
         bl_card = ""
         if bl_anchor is not None:
             ed = bl_anchor
             ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-            bl_card = (f'<a class="hero-bl" data-bl-published="{esc(ed.get("published_utc") or "")}" '
+            bl_card = (f'<a class="bd-card sp-bl" '
+                       f'data-bl-published="{esc(ed.get("published_utc") or "")}" '
                        f'href="/articles/{esc(ed["slug"])}.html">'
-                       f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-                       f'<span class="hero-bl-src">{_bl_fresh_label(ed, ed_name)} · {_blink_when(ed)}</span>'
-                       f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
-                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>'
+                       f'<span class="bd-cardtop"><span class="bd-eyebrow">'
+                       f'The Bottom Line</span>'
+                       f'<span class="bd-stamp">{_bl_fresh_label(ed, ed_name)} · '
+                       f'{_blink_when(ed)}</span></span>'
+                       f'<span class="sp-bl-read">{esc(ed["bottom_line"])}</span>'
+                       f'<span class="bd-more">Read the full edition &rarr;</span></a>'
                        + _BL_GUARD_SCRIPT)
-        more = "".join(
-            f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
-            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
-            f'<span class="hero-kick">{_hero_tag(i)}</span>'
-            f'<span class="hl-title">{esc(i.get("title"))}</span>'
-            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
-            for n, i in enumerate(stories[1:6], start=2))
-        more += ('<a class="hero-item more" href="/news.html">'
-                 '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
-        desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
-  <div class="hero-band">{hero_video}<div class="hero-band-inner">
-    <div class="hero-grid">{lead_html}{bl_card}</div>
-    <div class="hero-more-lab">More from the desk</div>
-    <div class="hero-more">{more}</div>
-  </div></div>"""
+        # S-6: six light cards, three across. League label, the desk's badge, the
+        # headline clamped at a word boundary, the time in ET. No summary text, so
+        # equal heights come from the clamp and not from stretching a short card.
+        cards = "".join(
+            f'<a class="bd-card sp-deskcard" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="bd-cardtop">{_hero_tag(i)}'
+            f'{verdict_badge(i.get("verdict"), i)}</span>'
+            f'<span class="sp-deskcard-h">{esc(clamp_words(i.get("title") or "", 96))}</span>'
+            f'<span class="dateline">{fmt_when(i)}</span></a>'
+            for i in stories[:6])
+        desk_html = (f'<div class="bd-sec"><div class="bd-sec-l">'
+                     f'<span class="bd-eyebrow">The desk</span>'
+                     f'<h2 class="bd-h2">From the desk</h2></div>'
+                     f'<a class="bd-more" href="/news.html">All stories &rarr;</a></div>'
+                     f'{bl_card}<div class="sp-deskgrid">{cards}</div>')
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
@@ -4033,13 +4081,9 @@ def render_home(items, dateline):
     _lead, _ledger = _s1_lead, _s1_ledger
     if _lead and _ledger:
         _lt = tags_for(_lead)
-        _dek = (_lead.get("dek") or "").strip()
-        _para = ""
-        for _b in (_lead.get("body") or []):
-            _t = str(_b).strip()
-            if _t and _t != _dek:
-                _para = _t if len(_t) <= 420 else _t[:415].rsplit(" ", 1)[0] + "..."
-                break
+        # S-4: no body paragraph on the homepage. It was the source of the lead card's
+        # ~400px of body text and of the headline that stopped mid-sentence at "The...".
+        _dek = clamp_words((_lead.get("dek") or "").strip(), 190)
         _left = (f'<div class="bd-card sp-lead">'
                  f'<div class="bd-cardtop"><span class="bd-eyebrow">Lead story</span>'
                  f'{f"<span class=bd-stamp>{esc(_lt[0])}</span>" if _lt else ""}'
@@ -4047,23 +4091,31 @@ def render_home(items, dateline):
                  f'<a class="sp-lead-h" href="/articles/{esc(_lead["slug"])}.html">'
                  f'{esc(_lead.get("title") or "")}</a>'
                  + (f'<p class="sp-lead-dek">{esc(_dek)}</p>' if _dek else "")
-                 + (f'<p class="sp-lead-p">{esc(_para)}</p>' if _para else "")
                  + _ledger
                  + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando, '
                    f'The GoCheckMySports desk. Every figure links to the source the '
                    f'story cites.</span>'
                    f'<a class="bd-more" href="/articles/{esc(_lead["slug"])}.html">'
                    f'Read the full breakdown</a></div></div>')
-        _right = receipts_chart(_lead) + _edition_card_html
-        lead_row = f'<section class="sp-leadrow">{_left}<div class="sp-rail">{_right}</div></section>'
-        editions_html = ""      # the rail card is carrying it; do not print it twice
+        # S-3: the rail rendered <div class="sp-rail"></div> whenever the receipts
+        # chart and the edition card both came back empty - a blank third of the page
+        # beside the lead. It carries the three cards the audit specifies now, and a
+        # rail with nothing in it collapses the row to one column rather than shipping
+        # an empty one.
+        _rail_cards = [c for c in (where_to_watch_card(W2W_DATA),
+                                   _fantasy_tonight_card(SB_DATA, IA_BOARD, IA_DESIG),
+                                   track_html) if c]
+        if _rail_cards:
+            lead_row = (f'<section class="sp-leadrow">{_left}'
+                        f'<div class="sp-rail">{"".join(_rail_cards)}</div></section>')
+            track_html = ""     # the rail is carrying the storylines now
+        else:
+            lead_row = f'<section class="sp-leadrow sp-leadrow-1col">{_left}</section>'
 
-    # Module 4 left: Where to watch, when its feed is live. Tracking rides beside it.
-    _w2w_card = where_to_watch_card(W2W_DATA)
+
+    # S-3: .sp-w2wrow is retired. Where to watch and the storylines both moved up into
+    # the lead rail, and a row that renders neither is a row with nothing to render.
     w2w_row = ""
-    if _w2w_card:
-        w2w_row = f'<section class="sp-w2wrow">{_w2w_card}{track_html}</section>'
-        track_html = ""
 
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
@@ -4205,6 +4257,7 @@ NAV_CROSSCUT = frozenset({"Scores section", "Injuries", "Transactions"})
 # Set at build once where_to_watch has reported. False keeps its nav entry off.
 W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
+HOME_LEAD_SLUG = None  # set at build: the homepage lead, so the Record cannot repeat it
 EDITION_HREF = None  # set at build: the newest dated edition (S-1 nav)
 IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
