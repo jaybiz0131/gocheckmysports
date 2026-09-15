@@ -2989,16 +2989,42 @@ def render_scores_page(sb, board, dateline, wx=None):
                                              g.get("start_utc") or ""))
         secs.append(
             f'<section class="bd-mod" id="{esc(L["league"].lower())}">'
-            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<div class="bd-sec sc-sticky"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(L["league"])}</span>'
             f'<span class="bd-stamp">{len(games)} games</span></div></div>'
-            f'<div class="sb-cards sb-cards-light">'
+            f'<div class="sb-cards sb-cards-light sc-grid">'
             + "".join(_sb_card(g, ia, wx=wx) for g in games) + '</div></section>')
-    body = f"""<main class="wrap"><section class="page">
+    n_live = sum(1 for L in sb["leagues"] for g in L["games"] if g.get("state") == "in")
+    _all = [g for L in sb["leagues"] for g in L["games"]]
+    _today, _nxt_lab, _nxt_n = _sb_day_split(_all)
+    if _today:
+        count_line = (f"{len(_today)} game{'' if len(_today) == 1 else 's'} today"
+                      f" · {n_live} live now")
+    elif _nxt_n:
+        count_line = (f"No games today · {_nxt_n} "
+                      f"{'game' if _nxt_n == 1 else 'games'} {_nxt_lab}")
+    else:
+        count_line = "No games scheduled"
+    # Revised G-2: an inner page carrying the same product opens with the SAME band at
+    # reduced height, then continues light. That amends S-10's "run the page inside the
+    # band"; the addendum wins, and it is the better read - a page-length dark surface
+    # is the thing the audit took off /pulse.
+    band = f"""<section class="scoreband sb-hero sb-hero-inner" aria-label="Scores">
+  <div class="sb-bg" aria-hidden="true"></div>
+  <div class="sb-scrim" aria-hidden="true"></div>
+  <div class="wrap sb-inner">
+    <div class="sb-promise">
+      <div class="sb-promise-l">
+        <h1 class="sb-claim">Every score. No odds. No noise.</h1>
+        <p class="sb-proof">Updated {esc(_et(sb.get("fetched_at") or ""))}. Finals are
+          checked against the league feeds.</p>
+      </div>
+      <span class="sb-count">{esc(count_line)}</span>
+    </div>
+  </div>
+</section>"""
+    body = band + f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Scores</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">Every score. No odds. No noise.</h1>
-  <p class="lx-dek">Updated {esc(_et(sb.get("fetched_at") or ""))}. Finals are checked
-     against the league feeds.</p>
   <div class="scoreband scoreband-page">{"".join(secs)}</div>
 </section></main>"""
     return shell(f"Scores - {NAME}",

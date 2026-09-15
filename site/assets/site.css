@@ -1416,3 +1416,29 @@ to{transform:scale(1.06)}
   /* The mission paragraph repeats the footer (S-23); on a phone it is 315px of it. */
   .home-lede{display:none}
 }
+
+/* ---- S-10: /scores -------------------------------------------------------------
+   The page opened as dark cards floating on cream paper in two wide columns, with the
+   score far to the right. It opens with the band now (revised G-2: an inner page
+   carrying the same product opens with the same band at reduced height and continues
+   light), then runs three across at 1440 with the league label sticky. */
+.sb-hero-inner .sb-promise{padding:20px 0 16px}
+.sb-hero-inner .sb-claim{font-size:30px}
+
+/* Three across at 1440, two at tablet, one on a phone: never looser than our own
+   homepage band (G-13). */
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:1100px){ .sc-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){ .sc-grid{grid-template-columns:1fr} }
+
+/* The cards are light here: this is the light half of the page. */
+.sb-cards-light .game{background:var(--card);border:1px solid var(--line)}
+.sb-cards-light .game .abbr,.sb-cards-light .game .tname{color:var(--ink)}
+.sb-cards-light .game .score{color:var(--ink)}
+.sb-cards-light .game .score.kick{color:var(--muted)}
+.sb-cards-light .game .st,.sb-cards-light .game .soon,
+.sb-cards-light .game .net{color:var(--muted)}
+
+/* The league label rides with the reader down a long list. */
+.sc-sticky{position:sticky;top:0;z-index:5;background:var(--paper);
+  padding-top:10px;padding-bottom:8px;margin-top:22px}
