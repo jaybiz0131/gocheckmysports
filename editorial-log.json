@@ -1,50 +1,5 @@
 [
  {
-  "date": "2026-08-09",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c069",
-    "headline": "Hall of Famer Don Nelson dies at 86",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly notes that source material from both CBS Sports and The Guardian is 'incomplete or corrupted (containing only HTML boilerplate and styling code); no detailed biographical information, cause of death, career specifics, or contextual details are present.' The draft makes specific factual claims about Nelson's accomplishments and death, but the research brief's open_questions flag indicates the sources themselves could not be verified. The draft should not have been written from corrupted source material."
-    ]
-   },
-   {
-    "id": "c068",
-    "headline": "Misiorowski reaches 200 strikeouts in 129\u2154 innings, second-fastest in MLB history",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Misiorowski reached 200 strikeouts in '129\u215b innings' but the brief data_point specifies '129\u2153 innings'\u2014a factual discrepancy in a quantitative claim that must trace exactly to the source.",
-     "The draft claims Misiorowski 'became MLB's first pitcher to record 200 strikeouts in a single 2026 season' but the brief's core_claim and data_points say 'in a single season in 2026'\u2014this phrasing matters because it could imply no pitcher in any other year hit 200 K's in fewer innings. The brief does not establish whether this is a single-season record or a 2026-only record.",
-     "The brief's open_questions explicitly ask 'Who previously held the record for fastest to 200 strikeouts' but the draft names no such person, leaving the 'second-fastest' claim unanchored and potentially misleading without context of who was first."
-    ]
-   },
-   {
-    "id": "c116",
-    "headline": "McBride sets WNBA single-game 3-pointer record in Lynx win",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Sinner won his fifth Grand Slam singles title at Wimbledon in July' but the brief identifies this as McBride's WNBA record, not Sinner's tennis achievement. This appears to be copy-paste error from c055 into c116.",
-     "The draft body contradicts itself: it opens with McBride's record but then discusses Sinner's Wimbledon victory, which is entirely outside the brief's core claim about McBride and the Lynx.",
-     "The draft introduces a player named Alexander Zverev and Novak Djokovic competing in Cincinnati, which are facts from c055's brief, not c116's.",
-     "Facts about the US Open (August 30 to September 13) appear in the draft but belong to the Sinner story, not McBride.",
-     "The entire middle section of the draft (from 'Sinner has not played since...' through 'the season's closing major') is wholesale transplant from c055 and has no connection to the brief for c116."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "Royals sign 9-time All-Star Craig Kimbrel",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Craig Kimbrel is a 9-time All-Star' as a standalone fact. The brief data_points contain only 'Craig Kimbrel signed with the Royals' marked 'announced-not-verified.' The All-Star credential is not in the brief and therefore smuggled. The writer must source this biographical fact or remove it.",
-     "The draft states the signing 'addresses a need in the bullpen as the Royals navigate a competitive AL Central divisional race.' The brief's open_questions explicitly note 'The motivation or roster context for the signing is not explained in the fetched material.' This context was not in the source and should not appear as reported fact in the draft."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-10",
   "approved": 6,
   "rejected": [
@@ -8328,6 +8283,20 @@
     "category": "accuracy",
     "reasons": [
      "Date mismatch: the brief's core claim and all data_points cite the game as occurring on September 15, 2026 (timestamp: 2026-09-15T02:29:23Z), but the draft title and opening sentence state the game took place on 'September 14'. Today is 2026-09-15; a game on September 14 would be a past event, which is correct. However, the brief's timestamp and the core_claim say September 15. The brief itself is internally inconsistent (core_claim says 'September 15' but the title in the drafting context may indicate a different date). The safest reading: the game occurred Monday night, which given today is Tuesday would be yesterday (September 14). The draft uses September 14; the brief timestamp says September 15. This is an accuracy failure\u2014the draft and brief disagree on the date of the event."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c273",
+    "headline": "Montreal Canadiens extend coach Martin St. Louis to multiyear contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes the claim 'Kreider crashed into Carey Price in 2014, knocking the goalie out of the Eastern Conference final.' This is a historical reference about a 2014 incident that is not part of the September 14, 2026 story and is sourced only to the current Yahoo NHL article per the brief. This is a contextual aside that, while potentially true, cannot be verified as originating from the primary source cited for this story and is not one of the core data points supporting the September 2026 extension. It reads as background information smuggled in without explicit confirmation it appeared in the Yahoo piece. The brief's data_points do list 'Kreider crashed into Carey Price in 2014, knocking the goalie out of the Eastern Conference final' with confidence 'reported' and sourced to the same Yahoo URL, so technically it traces. However, this is reputationally sensitive material about a named player and event (a collision that injured another player) that should only appear if it was genuinely in the source. Given the draft is about St. Louis's extension and Kreider's signing, and this is a 12-year-old incident, its inclusion requires explicit confirmation it was in the Yahoo piece and is not the writer inserting context. The source URL does not allow verification. This is a borderline case, but the inclusion of a specific damaging/controversial moment (Kreider hitting Price, a notable incident in hockey) without inline attribution to the source or quote marks is a compliance risk."
     ]
    }
   ]
