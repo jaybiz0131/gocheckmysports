@@ -1,76 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c125",
-    "headline": "FIFA Vice Presidents Accuse Infantino of 'Deception' Over World Cup Plan",
-    "category": "balance",
-    "reasons": [
-     "The draft states 'U.S. Soccer, however, stated its support for \"meaningful change that strengthens FIFA's governance, transparency and accountability,\" though the federation has not disclosed its position on Infantino's reelection.' The brief's data_point 10 says U.S. Soccer 'put out a statement saying it stands with other CONCACAF soccer bodies\u2014excluding Mexico\u2014in \"calling for meaningful change that strengthens FIFA's governance, transparency and accountability.\"' The draft's framing ('however') suggests U.S. Soccer is distancing itself from the three confederation letter, but the brief indicates U.S. Soccer is actually aligned with CONCACAF bodies on meaningful change\u2014a bear_case point that should soften the narrative. The balance of the draft tips heavily toward the opposition and undersells the official support Infantino retains and the procedural acknowledgment FIFA made on Aug. 5.",
-     "The draft omits the bear_case item: 'FIFA on Aug. 5 released a statement apologizing for keeping the FFE plan in secret and promising to conduct a review, showing some acknowledgment of procedural failure.' While the Aug. 5 apology is mentioned, it is immediately undercut by the Aug. 8 counter-statement without adequate framing that this was an initial acknowledgment\u2014a meaningful bear_case detail that belongs in the story to show Infantino's position is not monolithic defensiveness.",
-     "The draft also omits the bear_case detail that 'The confederation leaders are not necessarily speaking on behalf of all of their member associations,' a crucial caveat to the headline's framing of three confederations 'formally accus[ing]' when the signatories are presidents, not all members. This structural limitation is a material balance issue."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Lions Center Cade Mays Out 8-10 Weeks With Wrist Fracture",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Head coach Dan Quinn acknowledged the blow without offering a specific return timeline.' However, the brief attributes all quotes to 'Dan Campbell' not 'Dan Quinn.' The brief's data_points 2, 4, and 7 all cite Campbell as the Lions head coach. The draft has conflated or confused the coach's name, a factual error that undermines credibility on an injury story where the coach's exact words matter.",
-     "The bottom_line states 'The 8-to-10-week absence would extend into the regular season, depending on the exact timing of the injury and the start of recovery.' This is speculative reasoning not present in the brief. The brief's open_questions section explicitly flags: 'Whether the 8-10 week timeline means Mays could return during the regular season or would miss the entire regular season has not been clarified by sources; the calculation depends on when the 8-10 weeks begin.' The draft should not resolve an open question by offering its own calculation as fact."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Commanders LT Laremy Tunsil to Undergo Triceps Surgery",
-    "category": "accuracy",
-    "reasons": [
-     "The bottom_line states: 'The 8-to-14-month recovery window suggests Tunsil's status for the regular season will remain uncertain for weeks.' The brief data_point 3 specifies: 'The recovery time for a triceps injury is typically at least four months and as long as six or seven months.' The draft has converted '4-7 months' into '8-14 months,' which is a material misrepresentation of the medical guidance provided in the source. This is a factual error, not paraphrase.",
-     "The draft contains a quote attribution error in paragraph 3: 'Quinn told ESPN: \"Not only is he an unbelievable player, but he is an absolutely fantastic teammate. He'll be missed, and we certainly can't wait to get him back.\"' The brief's data_point 13 shows this quote is about Tunsil (the injured player), not about Coleman, yet the draft places it immediately after discussing Coleman as the replacement, creating ambiguity and misattribution of the emotional target of the quote."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "Reds' Hunter Greene to have season-ending surgery for torn UCL",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Greene has not made more than 26 starts in a single season since his debut' but the brief data_point says 'Greene hasn't made more than 26 starts in a season since his debut in 2022.' The draft's phrasing is ambiguous about whether 2022 counts as included in this constraint or not; more critically, the brief explicitly ties the constraint to 2022 forward, while the draft leaves it unclear. Since the brief says '2022' was his debut year and the constraint applies since then, the draft should clarify that 26 starts is the max in any season from 2022 onward.",
-     "The draft mentions Tommy John surgery was in 2018 per the brief data_point 7, but this fact does not appear anywhere in the draft body. The brief explicitly includes this claim with 'reported' confidence, yet the draft omits it entirely from the injury history paragraph. The writer should either include it or confirm it's not in the source material."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Sources: Bears' Luther Burden III expected to miss preseason",
-    "category": "compliance",
-    "reasons": [
-     "The draft states 'the team believes he will be ready for the Week 1 regular-season opener' without flagging that this comes from unnamed sources and has not been confirmed by the Bears organization itself. The brief's open_questions explicitly flag: 'No official timeline or medical evaluation of the injury is provided by the Bears organization itself; the team's belief that Burden will be ready for Week 1 is attributed to unnamed sources.' The draft must signal this uncertainty\u2014'according to ESPN sources' appears in the lede but the later assertion 'the Bears believe' reads as settled fact without attribution or confidence label. The brief open_question tells us this is unconfirmed-by-official-sources and the draft's phrasing masks that.",
-     "The draft says 'The Bears' assessment that he will be ready for Week 1 comes from unnamed sources and has not been confirmed by the team organization itself' in paragraph 3, which is good, but this flagging comes after the lede has already presented it as 'the team believes,' creating a compliance lag. The lede should carry the uncertainty flag."
-    ]
-   },
-   {
-    "id": "c077",
-    "headline": "Big East hires former MLB executive Tim Brosnan as new commissioner",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions note: 'The source text is heavily truncated (page metadata and navigation fragments); the full article content explaining the hire, Brosnan's specific background at MLB, the Big East's stated rationale, competing candidates, or his intended start date is not available.' The brief is explicitly marked 'thin: true' with only 641 source characters and 4 data_points. The draft invents interpretive framing ('This marks an unconventional choice,' 'Brosnan's appointment signals the Big East's priority on media and sponsorship deal expertise') that goes beyond the four minimal data points available. The bottom_line asks readers to 'Watch for the conference's explanation' and speculates about 'Power 4 conferences follow with similar outside hires'\u2014narrative moves that create a story from a fragment.",
-     "The draft asserts 'Brosnan's specific role at MLB and the details of his sports deal-making record have not been disclosed' as fact, but the brief does not provide a data_point confirming this negative claim. The brief says 'The specific sports deals Brosnan brokered at MLB are not detailed' in open_questions, but the draft states it as established fact without attribution to the source material."
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "Bezos consortium advances talks for stake in Liverpool",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bezos, whose estimated net worth stands at $256bn (\u00a3192bn) according to BBC Sport' but the brief marks this data_point as 'reported' confidence, meaning it is a claim reported by BBC Sport rather than independently verified fact. The phrasing 'stands at' presents the figure as settled fact rather than reported estimate.",
-     "The draft acknowledges in its body that 'The fetched source material does not specify the full membership of the consortium beyond Bezos, the timeline for deal completion, how the stake would integrate with Liverpool's existing governance structure under Fenway Sports Group, or what regulatory approvals may be required' and 'No statement from Liverpool FC, Fenway Sports Group, or representatives of Bezos's consortium is included in the available reporting.' These admissions, while transparent, undermine the draft's authority to lead with a hard news claim when the underlying sources are truncated (source_chars: 267) and unverified by any official statement. The draft presents 'advancing negotiations' as fact when the brief's open_questions flag that source texts contain only captions and headlines\u2014no detail confirming active negotiations exists in the fetched material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 4,
   "rejected": [
    {
@@ -8195,6 +8125,29 @@
     "reasons": [
      "The draft states that 'Walker became the third player since 2000 to record at least 100 rushing yards in a Chiefs debut, joining Kareem Hunt (148 yards in 2017) and Clyde Edwards-Helaire (138 yards in 2020), per ESPN.' However, the brief's data point about this fact cites ESPN as the source. Later in the draft, the statement 'Walker's 173 rushing yards were the fourth-most by any player in a debut with a new team in NFL history and the most in franchise history' is attributed to CBS Sports per the brief. The draft then states 'Walker had two rushes of 25-plus yards, more than the Chiefs' entire running back room combined recorded in the previous season, per CBS Sports.' However, the brief data point on this same claim says 'Walker had two rushes of 25-plus yards, more than the entire Chiefs running back room combined last season (1)' and attributes it to CBS Sports. The parenthetical '(1)' in the brief suggests the Chiefs had only 1 such rush combined last season. The draft paraphrases this as 'more than the Chiefs' entire running back room combined recorded in the previous season,' which is technically accurate but the draft then writes 'Nix had been sacked more than twice in just two games in the previous season: three by the Raiders and four by the Chargers in the regular season finale.' This statement in the draft does not match the brief's data point which says 'Nix was sacked more than twice in only two games last season -- three by the Raiders and four by the Chargers in the regular-season finale.' The draft's phrasing 'in just two games' could be read as the only times he was sacked more than twice, but more critically, the draft statement about Jaylen Waddle is problematic.",
      "The draft mentions 'Nohl Williams held receiver Courtland Sutton to two receptions for 11 yards' but the brief's corresponding data point says 'Cornerback Nohl Williams, a second-year player, did an excellent job in coverage against receiver Courtland Sutton, who finished with just two receptions for 11 yards.' The draft correctly attributes the stat but does not attribute it to any source inline. More problematically, the draft references Jaylen Waddle earlier: 'Second-year cornerback Nohl Williams held receiver Courtland Sutton to two receptions for 11 yards' but the brief data points list a claim about 'Jaylen Waddle was limited to just one reception for 2 yards' which the draft does not mention at all. This is not an omission error (omission is allowed), but the fact that the brief includes Waddle data and the draft silently substitutes Sutton instead suggests possible confusion in the source material."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c81",
+    "headline": "Ovechkin appears in United Russia campaign ad supporting Putin",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'The Russian business newspaper Vedomosti published images of Ovechkin alongside pro-Putin figures' as a factual claim without attribution in the narrative. While The Guardian is cited at the end of the sentence via 'per the source,' the opening clause about Vedomosti's publication is a primary-source claim about a specific foreign news outlet's actions. This is a reputationally sensitive claim about Ovechkin's political association that rests on a single secondary source (The Guardian reporting on Vedomosti). Per the desk rule on reputationally damaging claims about named persons: 'A specific allegation of misconduct against a named individual carried on a single secondary source is category compliance.' This allegation of political alignment with Putin via campaign ad appearance needs either on-record primary confirmation (Ovechkin or Capitals statement) or wire-service reporting. Guardian alone does not meet the threshold for a claim this loaded.",
+     "The bottom_line reads 'NHL all-time leading goalscorer appears in campaign ad backing Vladimir Putin and United Russia party ahead of season' which frames Ovechkin's involvement as settled fact ('appears in campaign ad backing'). However, the brief's open_questions note: 'The sources do not specify whether Ovechkin explicitly consented to the use of his image in the campaign ad or was simply featured in materials published by Vedomosti.' The draft does not flag this ambiguity\u2014it presents the appearance as an endorsement ('backing') when the consent and intentionality are unconfirmed."
+    ]
+   },
+   {
+    "id": "c100",
+    "headline": "Tennessee tight end Ethan Davis out for season with ACL injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tennessee head coach Josh Heupel announced on Monday that senior tight end Ethan Davis will miss the remainder of the 2026 football season.' The brief's data_point states 'Tennessee head coach Josh Heupel announced Monday' with timestamp 2026-09-15, which is today (Tuesday). Monday would be 2026-09-14. The draft's phrasing is correct for a Monday announcement, but the sourcing timestamp in the brief is dated 2026-09-15, creating ambiguity about whether the announcement actually occurred Monday or was merely reported on Tuesday. The brief's confidence label is 'reported,' not 'announced-not-verified.' A Monday announcement reported on Tuesday is standard, but the brief does not explicitly confirm the announcement date as Monday\u2014it only says Heupel 'announced Monday' in the claim text while timestamping the report itself 2026-09-15. This is not a smuggled fact, but the draft should either use 'according to reports on September 15' or rely on the brief's explicit date statement. However, re-reading: the data_point CLAIM TEXT states 'announced Monday,' so the draft is accurately paraphrasing the brief's own claim. This survives."
     ]
    }
   ]
