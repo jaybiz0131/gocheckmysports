@@ -101,6 +101,38 @@ def _designations():
     return desig, inact
 
 
+SNAP_GLOB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "site", "data", "inactives")
+
+
+def _season_designations():
+    """S-21. Every dated snapshot this desk holds, collapsed to one row per player per
+    day: what the official report said and why. The board keeps a file per day already,
+    so the history is on disk; nothing new is fetched and nothing is inferred.
+
+    One row per (player, day): a player listed on three polls of the same day is one
+    entry, taking the last status seen that day, because that is what the report ended
+    the day saying."""
+    import glob as _glob, json as _json, os as _os
+    out = {}
+    paths = sorted(_glob.glob(_os.path.join(SNAP_GLOB_DIR, "inactives-*.json")))
+    for path in paths[-120:]:
+        try:
+            snap = _json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        day = snap.get("day") or _os.path.basename(path)[10:20]
+        for t in (snap.get("teams") or {}).values():
+            for pl in (t.get("designations") or {}).values():
+                nm = pl.get("name")
+                if not nm or not pl.get("status"):
+                    continue
+                out.setdefault(nm, {})[day] = {"date": day,
+                                               "status": pl.get("status"),
+                                               "detail": pl.get("detail") or ""}
+    return {nm: [days[k] for k in sorted(days)] for nm, days in out.items()}
+
+
 def build():
     try:
         teams = _get(TEAMS)["sports"][0]["leagues"][0]["teams"]
@@ -109,6 +141,7 @@ def build():
         return None
     nxt = _next_games()
     desig, inact = _designations()
+    season = _season_designations()
     players, failed = [], 0
     for t in teams:
         tm = t["team"]
@@ -135,6 +168,7 @@ def build():
                     "designation": (d or {}).get("status") or "",
                     "detail": (d or {}).get("detail") or "",
                     "inactive_seen": inact.get(nm) or "",
+                    "designations": season.get(nm) or [],
                     "next": nxt.get(ab) or {},
                 })
     # Team defenses, one per club, as the item asks.

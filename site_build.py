@@ -3589,7 +3589,20 @@ def render_player_page(p, board, dateline):
     n = p.get("next") or {}
     inactive = bool(p.get("inactive_seen"))
     if inactive:
-        answer = "Ruled out. On today's posted inactive list."
+        # S-21: "on today's posted inactive list" was read on a Monday about a Sunday
+        # game. The list belongs to a day and a fixture, so the sentence carries both.
+        seen = _utc_dt(p.get("inactive_seen") or "")
+        when = ""
+        if seen:
+            e = seen.astimezone(_ET)
+            today = _build_now().astimezone(_ET).date()
+            day = ("today" if e.date() == today
+                   else "yesterday" if e.date() == today - datetime.timedelta(days=1)
+                   else e.strftime("%A"))
+            when = f" (first seen {day}, {fmt_short_date(e.strftime('%Y-%m-%d'))}, {_et_clock(seen)})"
+        g = p.get("inactive_game") or (p.get("next") or {}).get("opponent") or ""
+        where = f" for the game {'vs ' if (p.get('next') or {}).get('home') else 'at '}{g}" if g else ""
+        answer = f"Inactive{where}{when}."
         badge = '<span class="bd-badge dat">Inactive</span>'
     elif p.get("designation"):
         answer = (f'Listed {p["designation"].lower()} on the official report'
@@ -3606,9 +3619,17 @@ def render_player_page(p, board, dateline):
                + (f' · {esc(when)}' if when else "")
                + (f' · {esc(n["network"])}' if n.get("network") else "") + '</p>')
     hist = ""
-    if p.get("inactive_seen"):
-        hist = (f'<p class="bd-src">First seen on the inactive list at '
-                f'{esc(_et(p["inactive_seen"]))}.</p>')
+    rows = [d for d in (p.get("designations") or []) if d.get("status")]
+    if rows:
+        hist = ('<div class="bd-card pl-desig"><span class="bd-label">'
+                'This season on the report</span><div class="pl-rows">'
+                + "".join(
+                    f'<div class="pl-row"><span class="pl-d">'
+                    f'{esc(fmt_short_date(d.get("date") or ""))}</span>'
+                    f'<span class="pl-s">{esc(d.get("status") or "")}</span>'
+                    f'<span class="bd-src">{esc(d.get("detail") or "")}</span></div>'
+                    for d in rows[:8])
+                + '</div></div>')
     body = f"""<main class="wrap narrow"><section class="page">
   <p class="bd-stamp"><a href="/fantasy/index.html">Fantasy</a> / {esc(p.get("name"))}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Is {esc(p.get("name"))} playing this week?
@@ -3621,7 +3642,7 @@ def render_player_page(p, board, dateline):
      See the <a href="/fantasy/inactives.html">inactives board</a> for today's posted
      lists and <a href="/fantasy/injuries.html">this week's designations</a> for the
      full report.</p>
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
                  f'The official status for {p.get("name")}, {p.get("team")} '

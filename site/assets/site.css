@@ -1470,3 +1470,16 @@ to{transform:scale(1.06)}
 .ia-tonight{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
   margin:14px 0 4px;padding:13px 16px}
 .ia-tonight-g{font:600 19px/1.2 var(--serif);color:var(--ink)}
+
+/* S-21: this season on the official report, as a short table on the player page. */
+.pl-desig{margin:14px 0;padding:14px 16px;gap:8px}
+.pl-rows{display:flex;flex-direction:column;gap:0}
+.pl-row{display:grid;grid-template-columns:72px 104px 1fr;gap:10px;align-items:baseline;
+  padding:7px 0;border-bottom:1px solid var(--line)}
+.pl-row:last-child{border-bottom:0}
+.pl-d{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pl-s{font-size:14px;color:var(--ink)}
+@media (max-width:520px){
+  .pl-row{grid-template-columns:70px 1fr;row-gap:2px}
+  .pl-row .bd-src{grid-column:1 / -1}
+}
