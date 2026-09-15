@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c073",
-    "headline": "49ers' Kyle Shanahan says his Tesla was on autopilot during July 14 car accident",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Chris Simms said there was a chance Shanahan would lose his right eye' is a data_point in the brief (with 'reported' confidence), but this claim does not appear anywhere in the draft body. The draft mentions '40 stitches in his face' and discusses his injuries, but never mentions the eye injury or Chris Simms. Either the draft must include this reported claim or it cannot be cited as sourced from the brief."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "WNBA commissioner schedules league-wide discussion on transgender athlete eligibility rules",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents detailed personal and political statements from Sophie Cunningham, Natalie Nakase, Stephanie White, and the WNBPA on a contentious issue involving gender identity and transgender participation. The open_question in the brief ('Has any transgender player formally applied for or been denied WNBA eligibility, or is this discussion purely prospective?') is answered in the draft as 'No transgender player has formally sought or been denied WNBA eligibility based on available reporting, meaning the discussion remains prospective rather than tied to a specific case.' This is a factual claim that does not appear in the brief's data_points and therefore is SMUGGLED. Additionally, the draft presents the debate's merits and arguments without sufficient neutrality on a sensitive topic involving marginalized identity; the framing of Cunningham's statement alongside the union's rebuttal and coach responses reads as argument-lawyering rather than reporting. The bear_case in the brief (White's expressed frustration, WNBPA's inclusion-focused statement) survives, but the overall tone tilts the reader toward seeing this as a controversy rather than policy development."
-    ]
-   },
-   {
-    "id": "c072",
-    "headline": "WNBA rescinds Clark's eighth technical foul, clears her for Liberty game",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Under league rules, a player who accumulates eight technical fouls in a season triggers an automatic one-game suspension.' This rule is not present in the brief's data_points. The brief contains only one data_point about Clark receiving a technical for contact with an official; it does not specify the automatic suspension threshold or rule.",
-     "The draft claims the rescission 'removes that penalty' but the brief's open_questions note that 'The league's official ruling or statement rescinding the technical is not present in the source text.' The draft asserts a fact about the consequence of rescission that is not confirmed in the source material available to the brief."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Thorslund becomes undisputed bantamweight champion with shutout win over Johnson",
-    "category": "compliance",
-    "reasons": [
-     "The draft includes the claim: 'Thorslund's training partner, Raven Chapman, underwent emergency brain surgery last month after she collapsed during a sparring session in Denmark' in the brief's data_points, but this claim does not appear in the draft body. This is not a balance issue\u2014it is a health/medical claim about a non-athlete (Chapman) that goes beyond official injury reporting and ventures into personal medical details outside the scope of sports performance. Including unverified medical details about a third party in connection with the athlete creates compliance liability.",
-     "However, the more immediate compliance issue: the draft does not include this Chapman claim at all. The brief lists it as a data_point, but the draft omits it. This suggests either the writer filtered it for sensitivity (correct instinct) or the brief contains a data_point the writer should not have been given. Either way, the draft should be held to clarify whether this medical claim was intentionally dropped due to compliance concern, in which case the brief should be corrected."
-    ]
-   },
-   {
-    "id": "c172",
-    "headline": "Baker save record claim cannot be verified from source",
-    "category": "accuracy",
-    "reasons": [
-     "The draft is structured as a meta-commentary on its own inadequacy rather than a news story. It announces that a claim 'cannot be verified' and demands further research, but the brief itself explicitly flags this in open_questions: the source contains no substantive reporting on the record. The writer has turned the absence of information into the story itself, which violates the hard rule that facts go back to research\u2014the writer does not report on what research failed to find.",
-     "The draft contains zero facts from the brief's single data_point (Baker earned his 34th save in a Rays win over the Mariners). Instead it meta-reports on the unavailability of facts. This is not paraphrase or legitimate rewriting; it is refusal to draft from the brief.",
-     "The bottom_line instructs the desk to 'obtain official MLB records' and 'verify the achievement'\u2014tasks that belong to research, not to a draft's closing instructions. A draft cannot be a rejection memo disguised as a story."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 5,
   "rejected": [
    {
@@ -8340,6 +8290,29 @@
      "The draft reports Gibson's Knicks tenure statistics as 175 games (64 starts) across four seasons with 4.9 points and 4.4 rebounds on 56.7% FG, but the brief's data_point #25 specifies '175 games (64 starts) across four seasons' with those scoring/rebounding averages. However, the draft also contains a critical internal inconsistency: it states Gibson 'played 16.5 minutes per game and started 56 of the 62 games he played with the Knicks' (from brief data_point #17), which contradicts the later claim of 64 starts across four seasons (data_point #25). The draft presents both contradictory statistics without flagging this discrepancy, creating an accuracy problem.",
      "The draft claims Gibson was traded to the Pelicans 'in the Jordan Hawkins deal' but the brief data_point #27 says he was 'traded in the Jordan Hawkins deal to the Pelicans.' This is consistent, but the brief also notes the Hawkins deal was part of the 2025-26 season context. The draft does not clarify timing of this trade relative to when he was released and announced retirement.",
      "The brief lists data_point #8 claiming 'Gibson finished fifth in Sixth Man of the Year voting in 2012' but the draft states he finished as 'close runner-up to Jamal Crawford for Sixth Man of the Year' in 2013-14 (data_point #9). These are two different seasons and claims. The draft only mentions the 2013-14 runner-up finish and omits the 2012 fifth-place finish entirely, which is acceptable as selective emphasis, but presents only one Sixth Man narrative when the brief contains two separate voting finishes."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c119",
+    "headline": "Clippers accept NBA penalties for salary-cap circumvention (September 14)",
+    "category": "balance",
+    "reasons": [
+     "The brief contains a substantial bear_case with four distinct counter-narratives: (1) Ballmer's own stated disagreement with findings, (2) the ongoing DOJ probe that could complicate matters, (3) the Clippers' history of repeat violations, and (4) speculation about other possible cap circumvention instances not yet under investigation. The draft acknowledges points (1) and (2) but almost entirely ignores points (3) and (4), flattening the bear_case significantly. The draft mentions the DeAndre Jordan precedent briefly ('The Clippers are already a repeat offender in cap circumvention. According to CBS Sports, they were previously penalized for violations involving DeAndre Jordan in 2015.') but buries it in a single sentence without emphasizing it as a pattern. The draft also includes a long section on Beal, Mathurin, and Trent Jr. contracts but frames these as mere examples of salary-cap manipulation tactics in the league generally, not as evidence that the Clippers may have violated rules in ways the NBA has not yet discovered. The bear_case item about speculation on unexamined recent circumvention is present but underweighted relative to its place in the brief. A reader would not come away with the sense that the Clippers have a documented history of repeat offenses and may be engaged in ongoing violations\u2014they would come away thinking this is an isolated incident during which the owner suddenly capitulated due to DOJ pressure."
+    ]
+   },
+   {
+    "id": "c098",
+    "headline": "Reeve outlines commissioner requirements as Engelbert retirement nears",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cathy Engelbert is set to retire from the position at year's end' with confidence labeled 'announced-not-verified' in the brief, but the draft presents this as settled fact without qualification. The language must signal the unverified status per desk liability rules on confidence labels.",
+     "The draft states 'players have criticized Engelbert, though the outlet does not detail those criticisms' but this is narration of absence\u2014a breach of the accuracy rule. The brief's data point says 'Players in the WNBA have come out and criticized Cathy Engelbert' (reported confidence), but open_questions explicitly flag 'What specific criticisms have WNBA players leveled at Engelbert?' The writer cannot narrate the absence of detail the brief itself identifies as an open question."
     ]
    }
   ]
