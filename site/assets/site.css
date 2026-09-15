@@ -989,9 +989,12 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
 /* A jumped-to section must not land under the sticky nav. */
 .bd-mod[id]{scroll-margin-top:64px}
 /* ---- S1: lead row and the receipts ledger --------------------------------------- */
+/* S-4: the card and the rail are the same height. The sprint-A edit added
+   align-items:stretch directly ABOVE an existing align-items:start in this same block,
+   so the later declaration won and the stretch never applied - the lead card measured
+   483px in a 1027px row. One declaration now. */
 .sp-leadrow{display:grid;grid-template-columns:2fr 1fr;gap:18px;padding:28px 0 10px;
-  align-items:stretch;
-  align-items:start}
+  align-items:stretch}
 .sp-rail{display:flex;flex-direction:column;gap:18px}
 .sp-lead{padding:24px 26px 22px;gap:12px}
 .sp-lead-h{font:600 34px/1.1 var(--serif);letter-spacing:-.015em;color:var(--ink);
@@ -1560,3 +1563,17 @@ body>*:not(.ground){position:relative;z-index:1}
 .sb-hero.no-orn{padding-bottom:60px}
 .sb-hero.no-orn + .sb-fade{height:80px;margin-top:-80px}
 @media (max-width:720px){ .sb-orn{display:none} }   /* A-15 */
+
+/* Punch item 9: the receipts STRIP. Two rows, each one line, the claim given the width
+   it needs so a real sentence fits instead of wrapping and being cut. */
+.sp-strip{display:flex;flex-direction:column;gap:0;margin:14px 0 4px;
+  border-top:1px solid var(--line)}
+/* the board's header is a plain label over a hairline, not a filled bar */
+.sp-strip-head{display:flex;align-items:baseline;gap:8px;padding:0 0 7px}
+.sp-strip-head .bd-src::before{content:"· "}
+.sp-strip-row{display:flex;align-items:baseline;gap:14px;padding:9px 0;
+  border-top:1px solid var(--line)}
+/* claims wrap; they are never cut. Nothing here truncates extracted text. */
+.sp-strip-row .sp-claim{flex:1 1 auto;min-width:0;font-size:14.5px;line-height:1.45;
+  color:var(--ink)}
+.sp-strip-row .bd-src{flex:0 0 auto;white-space:nowrap}

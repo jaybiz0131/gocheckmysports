@@ -1967,7 +1967,13 @@ def _receipt_rows(item, cap=4):
             continue
         seen.add(key)
         derived = bool(_DERIVED_RX.search(sent))
-        claim = sent if len(sent) <= 128 else sent[:125].rsplit(" ", 1)[0] + "..."
+        # Punch item 9 / the standing law: a receipt is a quotation of the story, so it
+        # is never cut. A sentence too long to show is SKIPPED and the next candidate
+        # takes its place; an ellipsis in a receipt reads as the desk trailing off in the
+        # middle of the evidence.
+        if len(sent) > 128:
+            continue
+        claim = sent
         src_name = carry or (srcs[0].get("title") or "")
         rows.append({
             "claim": claim,
@@ -2005,24 +2011,43 @@ def _breaking_badge(item, hours=BREAKING_HOURS):
     return '<span class="badge breaking">Breaking</span>'
 
 
-def receipts_ledger(item):
-    """The bordered ledger. Returns "" when the story has nothing checkable."""
+def receipts_ledger(item, max_rows=2):
+    """S-4 / punch item 9: the receipts STRIP, two rows, each one line, nothing cut.
+
+    This was a four-row table in three columns, which squeezed the claim to 246px - about
+    31 characters - so every real claim wrapped and was then cut mid-sentence
+    ("membership valid...", "tournament, with..."). The claims are EXTRACTED from the
+    story, so they cannot be authored shorter and must not be truncated.
+
+    The board settles the shape: two rows, a plain label with a hairline over them, and
+    claims that WRAP to two lines complete rather than being cut to one. Selection is the
+    only lever the data allows, so it takes the two most compact claims. The live claims
+    run 77 to 127 characters against about 51 that fit one line at this width, so one
+    line per row is not achievable from extracted sentences without cutting them, and
+    cutting them is the thing this fixes.
+    """
     rows = _receipt_rows(item)
-    if len(rows) < 2:
+    if not rows:
         return ""
     verified = (item.get("verdict") or "").upper() == "VERIFIED"
-    out = ['<div class="sp-ledger">',
-           '<div class="sp-row3 sp-head"><span class="bd-label">The receipts</span>'
-           '<span class="bd-label">Source</span><span class="bd-label">Status</span></div>']
-    for n, r in enumerate(rows):
-        last = ' style="border-bottom:none"' if n == len(rows) - 1 else ""
+    # Two rows, and the two most compact ones, because a receipt is a fact and the
+    # shortest statement of it is the best one on a card. The claims are EXTRACTED from
+    # the story, not authored here, so they are never rewritten and never cut - they
+    # wrap, exactly as they do on the board.
+    shown = sorted(rows, key=lambda r: len(" ".join(str(r["claim"]).split())))[:max_rows]
+    head = (f'<div class="sp-strip-head"><span class="bd-label">The receipts</span>'
+            f'<span class="bd-src">{len(rows)} of {len(rows)} '
+            f'{"verified" if verified else "reported"}</span></div>')
+    out = [f'<div class="sp-ledger sp-strip">', head]
+    for r in shown:
         badge = ('<span class="bd-badge calc">Calculated</span>' if r["derived"]
                  else ('<span class="bd-badge ok">Verified</span>' if verified
                        else '<span class="bd-badge dat">Reported</span>'))
         src = esc(r["source"])
         if r["url"] and not r["derived"]:
             src = f'<a href="{esc(r["url"])}" rel="nofollow">{src}</a>'
-        out.append(f'<div class="sp-row3"{last}><span class="sp-claim">{esc(r["claim"])}</span>'
+        out.append(f'<div class="sp-strip-row"><span class="sp-claim">'
+                   f'{esc(" ".join(str(r["claim"]).split()))}</span>'
                    f'<span class="bd-src">{src}</span>{badge}</div>')
     out.append("</div>")
     return "".join(out)
@@ -4563,9 +4588,11 @@ def render_home(items, dateline):
     # whether an unrelated story happens to have receipts.
     if _lead:
         _lt = tags_for(_lead)
-        # S-4: no body paragraph on the homepage. It was the source of the lead card's
-        # ~400px of body text and of the headline that stopped mid-sentence at "The...".
-        _dek = clamp_words((_lead.get("dek") or "").strip(), 190)
+        # S-4: no body paragraph on the homepage - that was the source of the lead
+        # card's ~400px of body text. The DEK is authored by the writer, so it is not cut
+        # either (punch item 9, and the standing law): it renders whole and the card
+        # takes the height it needs. The row is align-items:stretch, so the rail follows.
+        _dek = " ".join((_lead.get("dek") or "").split())
         _left = (f'<div class="bd-card sp-lead">'
                  f'<div class="bd-cardtop"><span class="bd-eyebrow">Lead story</span>'
                  f'{f"<span class=bd-stamp>{esc(_lt[0])}</span>" if _lt else ""}'
