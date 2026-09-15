@@ -37,8 +37,20 @@ on:
 
 # Shares the desk's publish lock: this pushes to main, so it queues behind a running
 # brief rather than moving main underneath it.
+# A RECONCILE TICK MUST NOT QUEUE BEHIND A POLL TICK. Measured 15 Sep: the Monday
+# 20:05 ET reconcile (run 34911709449, 00:05:33Z) was cancelled at 00:08:05Z, one
+# second after the scheduled floor entered the group. cancel-in-progress:false does
+# not protect a PENDING run - GitHub keeps only the newest pending member of a group
+# and evicts the rest - and the Worker's five-minute tick plus the twenty-minute cron
+# floor means something is almost always arriving. Six of the last sixty-four runs
+# were evicted this way, including the one dispatch of the night that carried a
+# payload. Reconcile gets its own group, so it contends only with other reconciles,
+# which are fifteen minutes apart at the closest. Two runs pushing at once is already
+# handled: the push step below rebases and retries, by design.
 concurrency:
-  group: sports-publish
+  group: >-
+    sports-publish${{ (github.event_name == 'workflow_dispatch'
+    && inputs.reconcile == 'true') && '-reconcile' || '' }}
   cancel-in-progress: false
 
 permissions:
