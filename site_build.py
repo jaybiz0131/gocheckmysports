@@ -240,6 +240,29 @@ def _utc_dt(iso):
     return None
 
 
+def fmt_short_date(iso):
+    """'Sep 11' - the meta form (G-7). Prose keeps fmt_date's 'September 11, 2026'."""
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", str(iso or ""))
+    return f"{MONTHS[int(m.group(2))][:3]} {int(m.group(3))}" if m else str(iso or "")
+
+
+def clamp_words(text, limit, tail="\u2026"):
+    """Cut at a word boundary, never mid-word (S-14, G-11).
+
+    A bare slice produced 'The offensive er' and 'Denver Br' on section and coverage
+    cards. If a sentence ends inside the limit we stop there instead, which reads as
+    written rather than as cut."""
+    t = " ".join(str(text or "").split())
+    if len(t) <= limit:
+        return t
+    head = t[:limit]
+    stop = max(head.rfind(". "), head.rfind("! "), head.rfind("? "))
+    if stop >= limit * 0.6:
+        return head[:stop + 1]
+    cut = head.rsplit(" ", 1)[0].rstrip(",;:-\u2014 ")
+    return (cut or head.rstrip()) + tail
+
+
 def _et_clock(dt):
     """An aware datetime to '6:45 PM ET'. Reader-facing times are Eastern (G-7)."""
     return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
@@ -1262,7 +1285,7 @@ def card(item):
     return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
-  <p class="summary">{esc(summ[:180])}</p>
+  <p class="summary">{esc(clamp_words(summ, 180))}</p>
   <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
@@ -3691,8 +3714,9 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     feat = lane_items[0]
     rest = lane_items[1:4]
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
-    status = (f"{len(lane_items)} pieces in the Record, newest {esc(newest)}"
-              if newest else f"{len(lane_items)} pieces in the Record")
+    # was "1 pieces in the Record"; the count carries no noun now, so it cannot disagree
+    status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
+              if newest else f"{len(lane_items)} in the Record")
     srcs = []
     for i in lane_items[:6]:
         for s in (i.get("sources") or []):
