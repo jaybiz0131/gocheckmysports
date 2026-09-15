@@ -2610,7 +2610,9 @@ SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
 
 
 def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
-    col = t.get("color") or ""
+    # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
+    # matched on team id. No match, no bar: a neutral rule rather than a wrong colour.
+    col = _nfl_color(t.get("id"))
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
     rec = f' · {esc(t.get("record"))}' if t.get("record") else ""
@@ -3144,6 +3146,38 @@ def _inactives_pending(games, posted_ids):
     return out
 
 
+def _nfl_color(team_id):
+    """A team's colour from the scoreboard feed, by id. "" when the feed has not been
+    read this build or the id is not in it."""
+    if not team_id or not SB_DATA:
+        return ""
+    for L in (SB_DATA.get("leagues") or []):
+        if L.get("league") != "NFL":
+            continue
+        for g in (L.get("games") or []):
+            for side in ("away", "home"):
+                t = g.get(side) or {}
+                if str(t.get("id")) == str(team_id):
+                    return t.get("color") or ""
+    return ""
+
+
+def _ia_heading(board):
+    """S-19. "Today's inactives" on a Monday, for Sunday's lists, is wrong twice: it is
+    not today and the lists are not provisional any more. The board names the day it is
+    actually showing, and says "final" once that day's games have been played."""
+    d = _utc_dt((board or {}).get("day") or "")
+    if not d:
+        return "Today's inactives"
+    day = d.astimezone(_ET).date()
+    today = _build_now().astimezone(_ET).date()
+    if day == today:
+        return "Today's inactives"
+    if day == today - datetime.timedelta(days=1):
+        return f"{d.astimezone(_ET).strftime('%A')}'s inactives, final"
+    return f"{d.astimezone(_ET).strftime('%A %-d %B')} inactives, final"
+
+
 def _inactives_team_card(t):
     rows = "".join(
         f'<div class="ia-row"><span class="ia-name">{esc(p.get("name") or "")}</span>'
@@ -3155,12 +3189,43 @@ def _inactives_team_card(t):
         for p in t["players"])
     flag = ('<span class="bd-badge dat">list may be incomplete</span>'
             if t.get("incomplete") else "")
+    # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
+    # matched on team id. No match, no bar: a neutral rule rather than a wrong colour.
+    col = _nfl_color(t.get("id"))
+    bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
+           else '<span class="tc tc-none"></span>')
     return (f'<div class="bd-card ia-team">'
-            f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(t["team"])}</span>'
+            f'<div class="bd-cardtop">{bar}<span class="bd-eyebrow">{esc(t["team"])}</span>'
             f'<span class="bd-stamp">{t["count"]} inactive listed</span>'
             f'<span class="bd-stamp">first seen {esc(_et(t["first_seen"]))}</span>'
             f'{flag}</div>'
             f'<div class="ia-rows">{rows}</div></div>')
+
+
+def _ia_tonight_block():
+    """S-19. On a day whose lists are not the board's day - a Monday showing Sunday -
+    tonight's game still matters, so it gets its own block with the time its lists are
+    expected. Nothing scheduled, no block."""
+    if not SB_DATA:
+        return ""
+    import datetime as _dt
+    today = _build_now().astimezone(_ET).date()
+    for L in (SB_DATA.get("leagues") or []):
+        if L.get("league") != "NFL":
+            continue
+        for g in sorted((L.get("games") or []), key=lambda x: x.get("start_utc") or ""):
+            if g.get("state") != "pre":
+                continue
+            d = _utc_dt(g.get("start_utc") or "")
+            if not d or d.astimezone(_ET).date() != today:
+                continue
+            aw = (g.get("away") or {}).get("abbr") or ""
+            hm = (g.get("home") or {}).get("abbr") or ""
+            when = _et_clock(d - _dt.timedelta(minutes=90))
+            return (f'<div class="bd-card ia-tonight"><span class="bd-eyebrow">Tonight'
+                    f'</span><span class="ia-tonight-g">{esc(aw)} at {esc(hm)}</span>'
+                    f'<span class="bd-src">lists post about {esc(when)}</span></div>')
+    return ""
 
 
 def render_inactives(board, w2w, dateline):
@@ -3190,11 +3255,12 @@ def render_inactives(board, w2w, dateline):
                 + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Inactives</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">Today's inactives</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
   <p class="lx-dek">{board["total"]} players listed inactive across
      {len(board["teams"])} teams.</p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
+  {_ia_tonight_block()}
   <p class="bd-src">{esc(INACTIVES_NOTE)}</p>
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
   <div class="ia-grid">{cards}</div>
   {pend}
   <p class="bd-src" style="margin-top:14px">Last updated
@@ -3504,8 +3570,15 @@ def player_check_block():
             '<span class="bd-eyebrow">Player check</span>'
             '<h2 class="bd-h2">Is he playing?</h2></div></div>'
             '<label class="sr-only" for="pc-q">Search a player by name</label>'
+            '<div class="pc-field">'
+            '<svg class="pc-ico" width="17" height="17" viewBox="0 0 17 17" '
+            'aria-hidden="true"><circle cx="7.2" cy="7.2" r="5.2" fill="none" '
+            'stroke="currentColor" stroke-width="1.7"></circle>'
+            '<path d="M11.2 11.2L15.2 15.2" stroke="currentColor" stroke-width="1.7" '
+            'stroke-linecap="round"></path></svg>'
             '<input id="pc-q" class="pc-q" type="search" autocomplete="off" '
             'placeholder="Type a player\'s name" data-src="/data/players.json">'
+            '<button type="button" class="pc-go" data-pc-go>Check</button></div>'
             '<div id="pc-out" class="pc-out" aria-live="polite"></div>'
             '<p class="bd-src">Searched on your device against today\'s index. '
             'Nothing you type is sent anywhere.</p></section>')

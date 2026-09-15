@@ -1442,3 +1442,31 @@ to{transform:scale(1.06)}
 /* The league label rides with the reader down a long list. */
 .sc-sticky{position:sticky;top:0;z-index:5;background:var(--paper);
   padding-top:10px;padding-bottom:8px;margin-top:22px}
+
+/* ---- S-19: the fantasy pages ---------------------------------------------------
+   They were text-first and plain: a default-styled input, tiny mono labels, and the
+   doctrine sentence in bold on every page. */
+.pc-field{display:flex;align-items:center;gap:10px;height:52px;padding:0 6px 0 14px;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;max-width:560px}
+.pc-field:focus-within{border-color:var(--rule);box-shadow:0 0 0 3px rgba(31,94,63,.10)}
+.pc-ico{flex:0 0 auto;color:var(--muted)}
+.pc-field .pc-q{flex:1 1 auto;height:100%;border:0;background:none;outline:none;
+  font-size:16px;color:var(--ink);min-width:0}
+.pc-go{flex:0 0 auto;height:40px;padding:0 16px;border:0;border-radius:6px;cursor:pointer;
+  background:var(--rule);color:#fff;font-size:14px;font-weight:600}
+.pc-go:hover{filter:brightness(1.08)}
+
+/* G-9: the doctrine line is muted 12.5px, once per page, never bold. */
+.fantasy-line{font-size:12.5px;color:var(--muted);font-weight:400}
+.fantasy-line strong{font-weight:400}
+
+/* "Coach's Decision" is a reason, not an emphasis. */
+.ia-row .bd-src strong,.ia-reason strong{font-weight:400}
+
+/* The team colour bar on a board card, and tonight's block above it. */
+.ia-team .bd-cardtop{align-items:center}
+.ia-team .tc{width:4px;height:17px;border-radius:2px;flex:0 0 auto}
+.ia-team .tc-none{background:var(--line)}
+.ia-tonight{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin:14px 0 4px;padding:13px 16px}
+.ia-tonight-g{font:600 19px/1.2 var(--serif);color:var(--ink)}
