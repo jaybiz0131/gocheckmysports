@@ -2995,7 +2995,8 @@ def scoreboard_band(sb, board, wx=None):
                    f'{esc((_g.get("away") or {}).get("abbr") or "")} at '
                    f'{esc((_g.get("home") or {}).get("abbr") or "")} '
                    f'{esc(_et_clock(_dt))}</span>')
-    return f"""<section class="scoreband sb-hero" aria-label="The Scoreboard">
+    _orn = _sb_ornament(games)
+    return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" aria-label="The Scoreboard">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
@@ -3020,7 +3021,7 @@ def scoreboard_band(sb, board, wx=None):
     <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
       &rarr;</a>{nxt}</div>
   </div>
-  {_sb_ornament(games)}
+  {_orn}
 </section>
 <div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS
 

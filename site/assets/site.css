@@ -1554,4 +1554,9 @@ body>*:not(.ground){position:relative;z-index:1}
 .sb-hero{padding-bottom:150px}
 .sb-fade{height:130px;margin-top:-130px;position:relative;z-index:2;pointer-events:none;
   background:linear-gradient(180deg, rgba(19,20,25,0), #FBFAF6 92%)}
+/* D-8: the padding and the fade exist to give the ornament room. With no games in the
+   ET day there is no ornament, and the same numbers left about 170px of empty
+   dark-to-paper. The band carries .no-orn on those days and both come down. */
+.sb-hero.no-orn{padding-bottom:60px}
+.sb-hero.no-orn + .sb-fade{height:80px;margin-top:-80px}
 @media (max-width:720px){ .sb-orn{display:none} }   /* A-15 */
