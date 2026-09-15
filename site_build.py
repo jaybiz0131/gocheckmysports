@@ -4382,8 +4382,8 @@ def render_home(items, dateline):
     _s1_lead = stories[0] if stories else None
     _s1_ledger = receipts_ledger(_s1_lead) if _s1_lead else ""
     global HOME_LEAD_SLUG
-    HOME_LEAD_SLUG = (_s1_lead or {}).get("slug") if (_s1_lead and _s1_ledger) else None
-    hero_pool = stories[1:] if (_s1_lead and _s1_ledger) else stories
+    HOME_LEAD_SLUG = (_s1_lead or {}).get("slug") if _s1_lead else None
+    hero_pool = stories[1:] if _s1_lead else stories
 
     def _hero_tag(item):
         tags = tags_for(item)
@@ -4541,7 +4541,12 @@ def render_home(items, dateline):
     # the Edition alone, rather than an empty ledger frame.
     lead_row = ""
     _lead, _ledger = _s1_lead, _s1_ledger
-    if _lead and _ledger:
+    # D-5: the row renders whenever there is a lead story. It used to require a receipts
+    # ledger too, so on a day whose top story carried none the lead card AND the whole
+    # rail vanished - Where to Watch, Fantasy tonight and the storylines with it - and
+    # the Bottom Line paragraph led the homepage instead. A fantasy card cannot depend on
+    # whether an unrelated story happens to have receipts.
+    if _lead:
         _lt = tags_for(_lead)
         # S-4: no body paragraph on the homepage. It was the source of the lead card's
         # ~400px of body text and of the headline that stopped mid-sentence at "The...".
