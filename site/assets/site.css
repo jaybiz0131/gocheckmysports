@@ -1371,3 +1371,48 @@ to{transform:scale(1.06)}
    pre-game card has the same shape as a live one instead of a blank column. */
 .game .score.kick{font-family:var(--mono);font-size:13px;letter-spacing:-.01em;
   color:rgba(235,233,227,.80);white-space:nowrap;align-self:center}
+
+/* ---- S-24: the phone homepage --------------------------------------------------
+   13,532px, sixteen screens, against a 6,000 target (G-12). Every rule below removes
+   length without removing a fact the reader cannot reach: the band's remaining games
+   are one tap away on /scores, the receipts are on the story, the Record's other lanes
+   are behind their own control, and the link index is behind its summary. */
+.rec-more>summary{cursor:pointer;margin-top:14px;padding:10px 0;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);border-top:1px solid var(--line);list-style:none}
+.rec-more>summary::-webkit-details-marker{display:none}
+@media (min-width:641px){
+  /* On desktop the control is not a control: every lane renders, as it always did. */
+  .rec-more>summary{display:none}
+}
+@media (max-width:640px){
+  /* The band: the marquee plus three game rows, then the way to the rest. */
+  .sb-cards .game:nth-of-type(n+4){display:none}
+
+  /* The lead card without its receipts table (four rows, ~400px). */
+  .sp-lead .sp-ledger{display:none}
+
+  /* The rail becomes one card: tonight's. */
+  .sp-rail>*:nth-child(n+2){display:none}
+
+  /* From the desk is a list, not a stack of cards. */
+  .sp-deskgrid{display:flex;flex-direction:column;gap:0}
+  .sp-deskcard{flex-direction:row;align-items:baseline;gap:10px;flex-wrap:wrap;
+    padding:11px 0;border-bottom:1px solid var(--line);border-radius:0;
+    background:none;border-left:0;border-right:0;border-top:0}
+  .sp-deskcard-h{font-size:16px;line-height:1.3;flex:1 1 100%}
+  .sp-deskcard .bd-cardtop{flex:0 0 auto;gap:6px}
+  .sp-deskcard .dateline{margin-top:0;font-size:11.5px}
+
+  /* The Bottom Line card is a read, not a wall: three lines and a link to the rest. */
+  .sp-bl .sp-bl-read{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+    overflow:hidden}
+
+  /* The full link index is a phone-hostile wall of 60 links; it keeps its own control. */
+  .bd-rec-index .bd-rec-cols{display:none}
+  .bd-rec-index::after{content:"Open the Record for the full index";display:block;
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);padding-top:6px}
+
+  /* The mission paragraph repeats the footer (S-23); on a phone it is 315px of it. */
+  .home-lede{display:none}
+}

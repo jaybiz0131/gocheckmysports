@@ -4057,6 +4057,19 @@ def _live_tables(items):
             if len(_table_rows(t, items)) >= t["min_rows"]}
 
 
+REC_MORE_JS = """
+<script>(function(){
+  /* S-24. The Record ships expanded so the page is complete without JavaScript; this
+     collapses it on a phone, where five lanes are a third of the homepage. Desktop is
+     untouched and the summary is hidden there by CSS. */
+  try{
+    if (window.matchMedia && window.matchMedia('(max-width:640px)').matches){
+      document.querySelectorAll('details.rec-more').forEach(function(d){ d.open = false; });
+    }
+  }catch(e){}
+})();</script>"""
+
+
 def record_sections(items, home=True, board=None):
     """The Record: ONE header and one block, five lanes on the homepage in the audit's
     order (Lawsuits and rulings, Discipline, Media rights, Contracts, Fantasy facts),
@@ -4079,7 +4092,18 @@ def record_sections(items, home=True, board=None):
             f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
             + (f'<a class="bd-more" href="/keepers.html">The full Record</a>' if home else "")
             + '</div>')
-    return f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+    # S-24: five lane sections are 4,970px on a phone, over a third of the homepage.
+    # The first lane stays; the rest go inside a details the phone closes. It ships
+    # OPEN, so a reader without JavaScript sees every lane exactly as before - the
+    # script only closes it where the height is the problem.
+    parts = re.findall(r'<section class="bd-rec-lane".*?</section>', lanes, re.S)
+    if home and len(parts) > 1:
+        rest = "".join(parts[1:])
+        lanes = (parts[0]
+                 + f'<details class="rec-more" open><summary>Show all '
+                   f'{len(parts)} lanes</summary>{rest}</details>')
+    return (f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+            + (REC_MORE_JS if home else ""))
 
 
 def record_full_index(items, shown=12):
