@@ -2271,6 +2271,49 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                  "Where to watch", body, dateline, path=url)
 
 
+def nfl_week(w2w=None):
+    """F-2: the NFL week, computed from the SCHEDULE file, never from the calendar.
+
+    A week runs from the Tuesday after the last game of the previous week through the
+    Monday night game. The schedule gives the kickoffs, so the rule is simply: the
+    current week is the first one whose last kickoff has not yet passed. Every surface
+    that names a week reads this one function, so the band, the hub, the inactives
+    board, the game pages and the player pages cannot disagree.
+
+    Returns (week_number, last_kickoff_utc) or (None, None) when the file has no weeks.
+    """
+    data = w2w if w2w is not None else W2W_DATA
+    weeks = (data or {}).get("weeks") or []
+    if not weeks:
+        return (None, None)
+    import datetime as _dt
+    now = _dt.datetime.now(_dt.timezone.utc)
+    for w in weeks:
+        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (w.get("games") or [])]
+        ks = [k for k in ks if k]
+        if not ks:
+            continue
+        last = max(ks)
+        # a Monday night game runs about four hours; the week turns after it ends
+        if now < last + _dt.timedelta(hours=4):
+            return (w.get("week"), last)
+    last_w = weeks[-1]
+    ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (last_w.get("games") or [])]
+    return (last_w.get("week"), max([k for k in ks if k], default=None))
+
+
+def fantasy_asof(label, when_iso, source):
+    """F-1: one as-of line, in ET, naming the source. Every fantasy surface carries one
+    and nothing renders under "today" or "this week" without it."""
+    wk, _ = nfl_week()
+    week_s = f"Week {wk}" if wk else ""
+    dt = _utc_dt(when_iso or "")
+    when = (f'{fmt_short_date(dt.astimezone(_ET).strftime("%Y-%m-%d"))}, {_et_clock(dt)}'
+            if dt else "")
+    bits = [b for b in (week_s, f"{label} as of {when}" if when else label, source) if b]
+    return f'<p class="fx-asof">{esc(" · ".join(bits))}</p>'
+
+
 def where_to_watch_card(data):
     """Homepage module 4, left. The next window or two, not the whole week."""
     if not data or not (data.get("weeks") or []):
@@ -3160,6 +3203,46 @@ def _et(iso):
     return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
 
 
+def _league_teams(w2w=None):
+    """Every team the schedule mentions across all weeks. Derived, not hand-kept: a
+    hand-kept list of 32 goes stale the season a team moves or renames."""
+    data = w2w if w2w is not None else W2W_DATA
+    out = set()
+    for w in (data or {}).get("weeks") or []:
+        for g in (w.get("games") or []):
+            for side in ("away", "home"):
+                v = g.get(side)
+                if v:
+                    out.add(str(v))
+    return out
+
+
+def nfl_byes(week_no, w2w=None):
+    """S-B12: the teams on bye in a week, from the schedule.
+
+    A bye is not a field in the feed; it is the absence of a fixture. The league's 32
+    teams minus the teams with a game that week IS the bye list, so it needs no new
+    source. Returns [] when the schedule does not hold that week, rather than guessing.
+    """
+    data = w2w if w2w is not None else W2W_DATA
+    weeks = (data or {}).get("weeks") or []
+    wk = next((w for w in weeks if w.get("week") == week_no), None)
+    if not wk:
+        return []
+    playing = set()
+    for g in (wk.get("games") or []):
+        for side in ("away", "home"):
+            v = g.get(side)
+            if v:
+                playing.add(str(v))
+    # Only claim a bye list when the week looks complete; a partial schedule would
+    # name teams as idle that simply are not in the file yet.
+    if len(playing) < 24:
+        return []
+    league = _league_teams(data)
+    return sorted(league - playing) if len(league) >= 30 else []
+
+
 def _fantasy_tonight_card(sb, board, desig):
     """S-3. The lead rail's fantasy card: tonight's NFL games and when their lists
     post, this week's designation counts, and the way to the board.
@@ -3195,13 +3278,25 @@ def _fantasy_tonight_card(sb, board, desig):
             rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">'
                         f'This week\u2019s designations</span>'
                         f'<span class="bd-src">{esc(" · ".join(bits))}</span></div>')
+    # S-B12: byes, on the days they matter. No byes in a week is a fact and renders
+    # nothing; an empty list is not an empty block.
+    _wk, _ = nfl_week()
+    _byes = nfl_byes(_wk) if _wk else []
+    if _byes:
+        rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">On bye</span>'
+                    f'<span class="bd-src">{esc(", ".join(_byes))}</span></div>')
     if not rows:
         return ""
-    return (f'<div class="bd-card sp-railcard">'
-            f'<div class="bd-cardtop"><span class="bd-eyebrow">Fantasy, tonight</span>'
-            f'</div><div class="bd-rec-rows">{"".join(rows)}</div>'
-            f'<a class="bd-more" href="/fantasy/inactives.html">The inactives board</a>'
-            f'</div>')
+    # F-1: the eyebrow names the week and the card carries its as-of line. Nothing here
+    # renders under "tonight" without the week beside it.
+    _stamp = (board or {}).get("last_change") or (board or {}).get("last_poll") or ""
+    return (f'<div class="bd-card sp-railcard sp-fantasy">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">'
+            f'Fantasy{f", Week {_wk}" if _wk else ""}</span></div>'
+            f'<div class="bd-rec-rows">{"".join(rows)}</div>'
+            + fantasy_asof("Designations", _stamp, "the league injury report")
+            + f'<a class="bd-more" href="/fantasy/inactives.html">The inactives board</a>'
+              f'</div>')
 
 
 def _inactives_pending(games, posted_ids):
@@ -3253,6 +3348,12 @@ def _nfl_color(team_id):
                 if str(t.get("id")) == str(team_id):
                     return t.get("color") or ""
     return ""
+
+
+def _wk_suffix():
+    """F-1: nothing renders under "today" or "this week" without the week beside it."""
+    wk, _ = nfl_week()
+    return f", Week {wk}" if wk else ""
 
 
 def _ia_heading(board):
@@ -3353,9 +3454,11 @@ def render_inactives(board, w2w, dateline):
                 + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Inactives</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}{_wk_suffix()}</h1>
   <p class="lx-dek">{board["total"]} players listed inactive across
      {len(board["teams"])} teams.</p>
+  {fantasy_asof("First seen", (board or {}).get("last_change") or
+                (board or {}).get("last_poll") or "", "the league injury feed")}
   <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {_ia_tonight_block()}
   <p class="bd-src">{esc(INACTIVES_NOTE)}</p>
@@ -3569,6 +3672,8 @@ def render_game_page(g, points, board, wx, items, dateline):
   {_w2w}
   {"" if _pre else _leaders_module(points, "Fantasy leaders")}
   {rel_block}
+  {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
+                "the league injury report")}
   <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
@@ -3589,7 +3694,7 @@ def render_fantasy_live(all_points, dateline):
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Live points</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Live fantasy points</h1>
   <p class="lx-dek">Every player with a stat line today, across every game.</p>
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {_leaders_module(merged, "Today's leaders", n=25, expand=False)}
 </section></main>"""
     return shell(f"Live fantasy points - {NAME}",
@@ -3661,7 +3766,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">Is he playing? Here's the official
      answer.</h1>
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {player_check_block()}
   {"".join(blocks)}
   {watch}
@@ -3790,6 +3895,7 @@ def render_player_page(p, board, dateline):
      See the <a href="/fantasy/inactives.html">inactives board</a> for today's posted
      lists and <a href="/fantasy/injuries.html">this week's designations</a> for the
      full report.</p>
+  {fantasy_asof("Status", p.get("inactive_seen") or "", "the league injury report")}
   <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
@@ -3843,13 +3949,14 @@ def render_designations(desig, board, dateline):
             f'<div class="dg-rows">{"".join(cards)}</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Designations</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">This week's designations</h1>
-  <p class="lx-dek">{desig["total"]} players carry an official designation right now.</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">This week's designations{_wk_suffix()}</h1>
+  <p class="lx-dek">{desig["total"]} players carry an official designation.</p>
+  {fantasy_asof("Designations", desig.get("last_poll") or "", "the league injury report")}
   <p class="bd-src">Out, Doubtful and Questionable as the official report lists them.
      A player who is questionable and not on a posted inactive list is shown as active.
      Read on our own schedule; see the <a href="/fantasy/inactives.html">inactives
      board</a> for today's posted lists.</p>
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {"".join(secs)}
 </section></main>"""
     return shell(f"NFL injury designations this week - {NAME}",

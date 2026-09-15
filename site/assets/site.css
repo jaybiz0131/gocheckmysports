@@ -1577,3 +1577,10 @@ body>*:not(.ground){position:relative;z-index:1}
 .sp-strip-row .sp-claim{flex:1 1 auto;min-width:0;font-size:14.5px;line-height:1.45;
   color:var(--ink)}
 .sp-strip-row .bd-src{flex:0 0 auto;white-space:nowrap}
+
+/* F-1: the as-of line every fantasy surface carries. Muted, small, under its block. */
+.fx-asof{margin:8px 0 0;font-family:var(--mono);font-size:11.5px;line-height:1.45;
+  color:var(--muted)}
+/* A-13: the Fantasy card's own rule and eyebrow colour. */
+.sp-fantasy{border-top:3px solid #F0C674}
+.sp-fantasy .bd-eyebrow{color:#B45309}
