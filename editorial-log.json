@@ -4,64 +4,6 @@
   "approved": 2,
   "rejected": [
    {
-    "id": "c079",
-    "headline": "Falcons Edge Rusher Jalon Walker Suffers Torn ACL in Training Camp",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'the Falcons could be down two starting edge rushers for at least part of the 2026 season' but provides no identification of the second edge rusher or confirmation of injury. The brief's data_point says 'Atlanta could be down two starting edge rushers' but does not specify whether this is confirmed or speculative. The draft presents this as established fact without the qualifying language that would match the brief's uncertainty. The identity and status of the second edge rusher must either be named with source attribution or the sentence must be reframed to reflect that this is a potential scenario, not a confirmed situation."
-    ]
-   },
-   {
-    "id": "c082",
-    "headline": "Browns Plan Separate Preseason Starts for Watson and Sanders Before Naming Starter",
-    "category": "accuracy",
-    "reasons": [
-     "The draft describes a plan for Watson and Sanders to 'start in separate preseason games, with the winner of that evaluation earning the start in the third preseason contest.' The brief contains only one data_point: 'Todd Monken plans to start each QB in one preseason game, before deciding who will start the third.' The draft's framing of 'the winner of that evaluation' earning the third start is an inference not present in the brief. The brief does not state that the third start is a reward or that it follows a competitive evaluation between the two games\u2014it only states that a decision will be made before the third game. This characterization goes beyond what the source material supports."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "European Leagues Call for FIFA Governance Reform After Infantino's Failed World Cup Plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Infantino, who is aiming to win a fourth and final term in office in elections scheduled for March' but the brief's open_questions note that the exact year of the FIFA elections is not specified in the source, only 'implied contextually' as 2027. The draft presents March as a settled fact without the uncertainty the brief acknowledges.",
-     "The draft introduces 'Luis Figo called for Infantino to step down, saying he had debased the office' as a single fact in the body, but this appears to be sourced from a different ESPN article (c017) about Figo's statement, not from the European Leagues article cited in c005's sources. The European Leagues brief does not list Figo's call for resignation as a data point; it appears only in c017's brief."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "Luis Figo Demands Infantino's Resignation Over Failed World Cup Privatization",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'UEFA has raised the prospect of legal action against Infantino over the World Cup sell-off plan, according to sources who told ESPN, though the reporting carries an unconfirmed label.' However, the brief marks this claim as 'unconfirmed' confidence, and the draft does not signal that uncertainty in its prose\u2014it presents the claim as fact that occurred, only parenthetically noting ESPN's labeling. The sentence structure ('has raised the prospect') reads as settled fact, not speculation.",
-     "The draft names 'Former Arsenal manager and current FIFA chief of global football development distanced himself from Infantino's plan on Tuesday, according to ESPN' without naming Ars\u00e8ne Wenger. The brief's open_questions explicitly flag that 'The source does not name the specific FIFA chief of global football development who distanced himself from Infantino's plan on Tuesday.' The draft compounds this by not naming him while the c005 brief (the broader story) identifies him as Wenger. This creates a factual ambiguity that violates the hard rule: facts must come from the brief, and the c017 brief does not name him."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "LIV Golf Announces Funding Agreement to Secure League Operations Beyond 2026",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'LIV Golf has an agreement in place with a lead investor, signed by the investor and approved by the board' and 'The investor agreement has been signed by the investor and approved by the board.' However, the brief marks this as 'announced-not-verified' confidence, and the bottom_line correctly notes 'The investor agreement remains unsigned pending final terms.' The draft's opening paragraphs present the agreement as already signed, contradicting both the brief's confidence label and the draft's own bottom_line. This is a critical factual collision.",
-     "The draft's title 'LIV Golf Announces Funding Agreement to Secure League Operations Beyond 2026' and opening sentence claim the agreement has been 'reached' and 'announced,' but the brief marks key structural claims (equity distribution, player rights regain, schedule) as 'announced-not-verified' and notes these are O'Neil's statements, not independently verified facts. The draft should flag this uncertainty more clearly in the body, not bury it late in paragraphs."
-    ]
-   },
-   {
-    "id": "c101",
-    "headline": "Tour de France Femmes: Demi Vollering wins stage five amid general classification reshuffling",
-    "category": "accuracy",
-    "reasons": [
-     "The claim 'Katarzyna Niewiadoma, reflecting on her time trial performance, stated...' attributes a quote about a time trial to Niewiadoma, but the brief's data_point for that quote does not specify that it was about a time trial performance. The draft adds interpretive detail ('reflecting on her time trial performance') not present in the source documentation, changing the context of the quote.",
-     "The draft states 'Riders competing in stage five faced pre-race checks for aerodynamic chest padding' as fact, but the brief marks this as 'reported' confidence with an open question noting 'the substantive reporting details...are not present in the fetched text.' The draft presents this without hedging language despite the source material's incompleteness, risking attribution of a claim the underlying source may not have fully substantiated."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 2,
-  "rejected": [
-   {
     "id": "c082",
     "headline": "Falcons edge rusher Jalon Walker tears ACL in training camp",
     "category": "compliance",
@@ -8392,6 +8334,40 @@
     "category": "accuracy",
     "reasons": [
      "The draft states the game happened on 'Sunday, September 13, 2026,' but today is Tuesday, September 15, 2026. September 13, 2026 was a Friday, not a Sunday. The brief's core claim and data_points all place the event on 'September 13, 2026' with timestamp '2026-09-13T10:05:45Z', but do not specify day-of-week. The draft's insertion of 'Sunday' is a factual error. Additionally, the brief's open_questions flag that 'The source text from the primary story URL contains only a live-game preview without final game details, statistics, or post-game commentary' and that 'The quote from Kara Lawson is incomplete in the provided source text.' The draft presents a full Lawson quote ('the team was \"really proud of our players, they got this done,\"') as if complete, when the brief indicates it is incomplete. This is a fabrication of a complete quote from partial source material."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c185",
+    "headline": "Bears defeat Panthers 59-37 on September 15, producing first scorigami of 2026 season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Caleb Williams threw for 261 yards and two touchdowns' but the brief's data_point specifies '269 yards and two more touchdowns' (data_point 8). The passing yardage figure is incorrect by 8 yards.",
+     "The draft reports the game occurred on 'September 15' as a past event ('Bears defeat Panthers 59-37'), but today is September 15, 2026. The title and opening sentences treat a game scheduled for today as already completed. Per the approval guidelines, 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.'"
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Patrick Mahomes returns from torn ACL in Week 1 against Broncos on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game is scheduled for 'Monday night' and uses language suggesting it has not yet occurred ('is officially active and set to make his return'), but the title and lead are written in past tense or present progressive tense without clear temporal markers. However, the core problem is that today is Tuesday, September 15, 2026, and the brief's timestamp on the core data is '2026-09-15T00:32:29Z', indicating the game information was current as of early Tuesday morning. The draft's phrasing 'Patrick Mahomes is officially active and set to make his return' followed by 'in the Kansas City Chiefs' Week 1 matchup against Denver on Monday night' is temporally incoherent. If today is Tuesday and the game is on Monday night, either the game has already happened or the date reference is wrong. The approval guidelines state: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The tense and date structure here creates ambiguity that violates the rule.",
+     "The brief contains a claim in data_point 20 that 'Nick Bonitto faces a felony charge of second-degree assault by strangulation and three misdemeanors, including violating a protection order' but this is marked as 'reported' confidence and sourced to a CBS Sports article. However, criminal charges against a named person constitute a reputational allegation. Per the approval guidelines: 'A REPUTATIONALLY DAMAGING CLAIM ABOUT A NAMED PERSON NEEDS MORE THAN ONE SOURCE.' The brief shows only one source (CBS Sports) for the Bonitto charges. The draft repeats this single-sourced allegation without additional verification."
+    ]
+   },
+   {
+    "id": "c76",
+    "headline": "Breanna Stewart wins second FIBA Women's World Cup MVP",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Team USA's World Cup ended with a victory over France' as an accomplished fact, but the primary source (USA vs. France FIBA Women's) uses future tense: 'USA will face France in the World Cup final Sunday in Berlin.' No timestamp or date is provided in the brief data_points, and the source texts contain contradictory temporal framing\u2014one says the game 'will' occur (future), another says it 'ended with a win' (past). Today is Tuesday, 2026-09-15. If the game is scheduled for a Sunday, that would be in the future (2026-09-21), making the draft's reporting of it as already completed an accuracy violation.",
+     "The draft reports the game as completed without establishing a date that has already passed. The brief itself acknowledges this ambiguity: 'The primary source discusses the matchup in future tense, stating USA would face France in Berlin on Sunday, and the exact date of the completed game is not confirmed in available reporting.' The draft does not flag this temporal uncertainty and writes as though the event is settled history.",
+     "The draft acknowledges in the body 'The sources do not provide the final score, a confirmed date for the game, or detailed statistics beyond Stewart's double-double' and notes 'the exact date of the completed game is not confirmed in available reporting,' yet the headline and opening paragraphs present the victory as accomplished fact without any caveat about timing or confirmation."
     ]
    }
   ]

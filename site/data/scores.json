@@ -1,38 +1,28 @@
 {
- "generated_utc": "2026-09-15T00:39:51Z",
- "stale_after_utc": "2026-09-15T03:39:51Z",
+ "generated_utc": "2026-09-15T01:07:11Z",
+ "stale_after_utc": "2026-09-15T04:07:11Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "LAD",
-     "home": "CIN",
-     "away_score": 4,
-     "home_score": 0,
-     "state": "in",
-     "detail": "Top 9",
-     "start_utc": "2026-09-14T22:40:00Z",
-     "eid": "824465"
-    },
-    {
      "away": "CWS",
      "home": "CLE",
      "away_score": 6,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "Top 6",
+     "detail": "Bot 7",
      "start_utc": "2026-09-14T22:40:00Z",
      "eid": "824386"
     },
     {
      "away": "DET",
      "home": "TOR",
-     "away_score": 0,
+     "away_score": 3,
      "home_score": 2,
      "state": "in",
-     "detail": "Bot 5",
+     "detail": "Top 7",
      "start_utc": "2026-09-14T23:07:00Z",
      "eid": "822765"
     },
@@ -42,7 +32,7 @@
      "away_score": 1,
      "home_score": 1,
      "state": "in",
-     "detail": "Bot 5",
+     "detail": "Top 7",
      "start_utc": "2026-09-14T23:10:00Z",
      "eid": "823575"
     },
@@ -52,7 +42,7 @@
      "away_score": 0,
      "home_score": 5,
      "state": "in",
-     "detail": "Top 4",
+     "detail": "Bot 5",
      "start_utc": "2026-09-14T23:40:00Z",
      "eid": "824629"
     },
@@ -62,9 +52,19 @@
      "away_score": 1,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 4",
+     "detail": "Top 6",
      "start_utc": "2026-09-14T23:40:00Z",
      "eid": "823656"
+    },
+    {
+     "away": "SF",
+     "home": "STL",
+     "away_score": 0,
+     "home_score": 1,
+     "state": "in",
+     "detail": "Bot 5",
+     "start_utc": "2026-09-14T23:45:00Z",
+     "eid": "823006"
     }
    ]
   },
@@ -78,7 +78,7 @@
      "away_score": 7,
      "home_score": 7,
      "state": "in",
-     "detail": "3:48 - 1st",
+     "detail": "11:04 - 2nd",
      "start_utc": "2026-09-15T00:15Z",
      "eid": "401872931"
     },
@@ -139,16 +139,6 @@
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "N. Hibino",
-     "home": "M. Frech",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-14T23:40Z",
-     "eid": "183795"
-    },
-    {
      "away": "L. Samsonova",
      "home": "E. Jacquemot",
      "away_score": 0,
@@ -197,6 +187,16 @@
      "detail": "4:00 AM ET",
      "start_utc": "2026-09-15T08:00Z",
      "eid": "183667"
+    },
+    {
+     "away": "R. Zelnickova",
+     "home": "M. Barthel",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-15T08:00Z",
+     "eid": "183666"
     }
    ]
   },
@@ -478,7 +478,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 130,
+   "games_seen": 129,
    "games_kept": 6
   }
  ]
