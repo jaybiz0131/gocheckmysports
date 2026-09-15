@@ -736,9 +736,43 @@ def destyle(text):
         seg = _re.sub(r"\s*\u2014\s*", ", ", seg)
         return _re.sub(r",\s*,", ",", seg)
 
-    # split on double-quoted spans; odd indexes are quotations and are preserved
-    parts = _re.split(r'("[^"]*"|\u201c[^\u201d]*\u201d)', s)
-    return "".join(p if i % 2 else _clean(p) for i, p in enumerate(parts))
+    # S-15, owner ruling 2026-09-15: house style beats the quotation exemption. The
+    # 2026-08-25 audit had carved quoted speech out of this pass so a source's own words
+    # were never repunctuated; Jack has now ruled no em dashes anywhere, quotes
+    # included, which is what the September audit asked for. The exemption is gone.
+    #
+    # THE OTHER HALF OF THAT RULING STANDS. "Never punctuate twice" is a separate rule
+    # and _clean still enforces it: a dash already following punctuation does not get a
+    # comma of its own, which is what produced the published string "government. , and".
+    return _clean(s)
+
+
+_DESTYLE_SKIP = {"url", "href", "link", "slug", "id", "image", "src", "canonical",
+                 "published_utc", "date", "event_utc"}
+
+
+def _destyle_item(obj):
+    """S-15: house style over every text field of an item, however deep.
+
+    A fixed list of keys was not enough. The last em dash in the built output sat in
+    boundary.fixed - a nested dict - and enumerating fields would only hold until the
+    next nested one appeared. This walks the item instead and rewrites every string,
+    skipping the keys that are identifiers rather than prose: a dash inside a URL or a
+    slug is structure, not punctuation."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k in _DESTYLE_SKIP:
+                continue
+            if isinstance(v, str):
+                obj[k] = destyle(v)
+            else:
+                _destyle_item(v)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            if isinstance(v, str):
+                obj[i] = destyle(v)
+            else:
+                _destyle_item(v)
 
 
 def load_content():
@@ -749,6 +783,11 @@ def load_content():
                 continue
             c = json.load(open(os.path.join(CONTENT, fn), encoding="utf-8"))
             c.setdefault("slug", slugify(c.get("title", "")))
+            # S-15: house style applies to every text field of every item, whatever
+            # path it arrived by. destyle ran only in the brief loader, so stories
+            # already committed under CONTENT kept their dashes - the four the audit
+            # found were all in this set. Normalising at load covers both.
+            _destyle_item(c)
             # Derived, not stored, so stories published before the flag existed are
             # labelled too. Editions are excluded: a daily wrap cites the day's stories and
             # is not a single-outlet claim.
