@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-08-11",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c041",
-    "headline": "Trump backs FIFA's Infantino amid World Cup privatization scandal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Sophie Cunningham and other national federations within CONCACAF and AFC have reaffirmed support for Infantino' but the brief contains no data point supporting this claim. The brief's bear_case and data_points make no mention of any federation reaffirming support for Infantino; this is smuggled information not in the research.",
-     "The draft states 'U.S. Soccer put out a statement saying it stands with other CONCACAF soccer bodies, excluding Mexico' but this claim does not appear in any data_point in the brief. This is an unvetted factual assertion introduced by the writer."
-    ]
-   },
-   {
-    "id": "c049",
-    "headline": "Carrington clarifies 'white privilege' post after ejection backlash",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'what Carrington's post actually referred to remains unspecified in public statements,' but the brief's core_claim explicitly states she 'later clarified she never claimed the foul assessment itself was based on white privilege, but rather said the post referred to a separate matter.' The brief itself acknowledges the answer is unspecified (open_question: 'What exactly did Carrington's white privilege post refer to'), yet the draft presents this as established fact that it 'remains unspecified,' which is accurate but contradicts the framing in the story that Carrington has 'clarified' her position when in fact her actual meaning remains unclear.",
-     "More critically: the draft reports that Carrington said 'I've never once claimed that the assessment of the foul was white privilege' and attributes this to 'Awful Announcing' as the source, but this is a quote from Carrington's own X/Twitter post. The attribution is misleading\u2014Awful Announcing reported that she posted it, but the quote originates from Carrington. This is a sourcing accuracy problem that obscures the chain of statement."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "Everton and Crystal Palace complete two-player swap, McNeil finally joins Palace",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'McNeil's partner Megan Sharpley accused Palace via Instagram of toying with McNeil's mental health following the failed transfer, as reported by ESPN.' However, the brief shows this claim is sourced to BBC Sport in the data_points (not ESPN), and ESPN's data_point specifies the accusation was about 'radio silence' specifically. The draft attributes the claim to the wrong source outlet.",
-     "The draft includes 'Johnson then signed for Palace in a 35 million pound deal in January but made 26 appearances in all competitions for the club without scoring.' This fact does not appear in the brief's data_points at all. The brief does not contain a data_point confirming Johnson signed for Palace for \u00a335m in January; it only appears in the sourced articles list, not in the verified data_points researchers confirmed. This is a smuggled fact.",
-     "The draft states Johnson 'scored Tottenham's winning goal in the Europa League final in May' but does not specify the year (2026), creating ambiguity about whether this refers to May 2025 or May 2026. The brief data_point clarifies '(year unspecified but context suggests May 2026)' \u2014 the draft should match this uncertainty or clarify the year explicitly from source."
-    ]
-   },
-   {
-    "id": "c196",
-    "headline": "Angel Reese breaks Atlanta Dream single-season double-double record",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Angel Reese has broken the Atlanta Dream's single-season double-double record' as settled fact. The brief's data_point labels this claim 'reported' (not verified-on-chain), meaning it is announced but unconfirmed. The draft must signal this confidence level; presenting it without qualification violates the rule that confidence labels must survive into prose.",
-     "The draft identifies Sporting News as the source but does not attribute the claim inline to that outlet in the opening sentences, leaving the attribution buried in the body.",
-     "The brief is marked 'thin: true' with only two data_points and multiple open_questions (exact totals, record-holder identity, exact gap to Thomas). The draft states these details were not disclosed by sources ('The sources do not specify how many double-doubles remain...'), which is appropriate for the bottom_line, but the core claim itself rests on a single 'reported' (not verified) source without any hedging language in the body. A headline that reads as a completed fact, sourced to reporting rather than verification, creates liability if the record claim is later disputed or clarified differently."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
   "approved": 5,
   "rejected": [
    {
@@ -8038,6 +7994,55 @@
      "The draft states Bedard 'will miss the season start due to shoulder surgery, though the specific nature of the procedure and the expected recovery timeline are not documented in available reporting.' This framing violates the hard rule: a fact (shoulder surgery, season-start absence) must trace to the brief. The brief's data_points contain no mention of shoulder surgery or Bedard missing games. This is smuggled information not present in the research brief.",
      "The bottom_line references 'Bedard's immediate absence due to surgery' and frames it as a strategic question about the organization's intentions. This entire narrative thread\u2014that Bedard will be absent, that he is undergoing surgery\u2014is not supported by any data_point in the brief. The brief contains no open_question or data_point about surgery or absence.",
      "The brief's open_questions explicitly state 'The sources mention shoulder surgery will cause him to miss the season start but provide no details on the surgery type.' This indicates the source material the writer saw contained this claim, but it is NOT in the formal data_points provided to the approver. The writer is reporting from outside the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c136",
+    "headline": "Dodgers Tie MLB Record for 14 Consecutive Playoff Appearances",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Judge hit a 'three-run shot' that 'put the Yankees up 7-3', but the brief data_point says the same shot 'put the Yankees up 7-2'. This is a factual discrepancy in the score and cannot be paraphrased away\u2014one of these numbers is wrong and the writer must go back to source to verify which is correct before publication."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Leonard traded to Raptors; salary-cap investigation timeline still murky",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Clippers governor Steve Ballmer publicly took ownership of the salary cap circumvention scandal involving Leonard and four companies' but the brief does not contain this claim in any data_point. The brief only states that the trade was finalized 'less than 24 hours after' an unnamed event; it does not specify what Ballmer said or when. This fact is smuggled.",
+     "The draft refers to 'commissioner Adam Silver was scheduled to address the Board of Governors on the salary-cap matter' but today is Tuesday 2026-09-15 and Silver's statement is scheduled for today (September 15), not a future date. The phrasing 'was scheduled' correctly uses past tense for a same-day event, but this risks reader confusion about the timing.",
+     "The brief's data_point on Alleyne says 'might have been most productive guy all spring' (conditional language) but the draft states 'Venables described Thomas as \"one of our most explosive guys\"' without the conditional and 'said Alleyne was called \"our most productive guy all spring\"' which strips the 'might have been' qualifier from the source language."
+    ]
+   },
+   {
+    "id": "c177",
+    "headline": "Oklahoma WR Harris sidelined indefinitely after abdominal injury vs. Michigan",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 20, 2026 as a Saturday; September 20, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "Netflix's Australia Game Averages 18.5M U.S. Viewers, Matching YouTube's Brazil Benchmark",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 11, 2026 as a Thursday; September 11, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Nairobi Selected as First African Host for 2029 World Athletics Championships",
+    "category": "accuracy",
+    "reasons": [
+     "The brief confidence label for the Nairobi selection is 'announced-not-verified', but the draft presents it as settled fact without qualification. The opening sentence 'World Athletics announced on September 15 that Nairobi will host the 2029 World Athletics Championships' reads as definitive rather than announced-pending-verification.",
+     "The draft includes a claim about Taylor Swift being present at the Chiefs-Broncos game ('Taylor Swift, Kelce's wife, and actor Tom Cruise watched the Chiefs-Broncos game together from the stands'), but this fact is not in the brief for story c006 at all. This is smuggled information outside the research scope for this story."
     ]
    }
   ]
