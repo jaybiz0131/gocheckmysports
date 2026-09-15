@@ -1,66 +1,6 @@
 [
  {
   "date": "2026-08-05",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c082",
-    "headline": "Falcons edge rusher Jalon Walker tears ACL in training camp",
-    "category": "compliance",
-    "reasons": [
-     "The brief is marked 'thin': true and contains only 3 data_points with minimal sourcing. The draft presents a torn ACL diagnosis as fact but acknowledges in the second paragraph that 'The Falcons have not issued an official public statement confirming the injury diagnosis.' This creates a compliance liability: the draft reports an injury diagnosis from a secondary source (CBS Sports) without the official team confirmation that would be required for a medical/health claim. A sentence stating an injury diagnosis while simultaneously admitting the team has not confirmed it reads as speculation about a player's medical state beyond the official record, which violates the compliance boundary."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Lu\u00eds Figo calls for Infantino to resign over failed World Cup privatization plan",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Figo's statement was released 'Wednesday' but the brief data_point timestamps are '2026-08-05' without day-of-week confirmation from the source. The draft should not assert a day name without explicit source confirmation of what day August 5, 2026 falls on.",
-     "The draft names 'the former Arsenal manager and current FIFA chief of global football development' without identifying the individual. This is a factual claim about a person's role that appears in the body but is left unnamed, creating ambiguity about who the statement refers to. The brief's open_questions flag this exact gap: 'Who is the former Arsenal manager identified as current FIFA chief of global football development who distanced himself on Tuesday? The source does not name this figure.' The draft cannot smuggle an unnamed person into the narrative.",
-     "The draft states 'Infantino has not yet responded publicly to Figo's statement or the broader calls for resignation, based on available reporting' but the brief contains no data_point confirming this negative fact. A claim about what Infantino has NOT done requires affirmative source backing, not inference from silence."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "LIV Golf announces outside investor backing to continue beyond 2026 season",
-    "category": "compliance",
-    "reasons": [
-     "The draft states 'The funding agreement remains a stated objective rather than a closed transaction' and 'The investor agreement remains unsigned pending final terms and close, making the funding conditional rather than certain.' This language obscures the distinction between announced-not-verified claims in the brief. The brief data_point labels the agreement itself as 'announced-not-verified' (claim: 'LIV Golf has an agreement in place with a lead investor, signed by the investor and approved by the board'). The draft must preserve this confidence label explicitly in prose rather than bury it in cautionary language that may mislead readers into thinking the deal is closer to done than the brief permits.",
-     "The draft states 'LIV Golf reported strong interest from more than a dozen additional parties to serve as minority investors' but the brief labels this claim 'announced-not-verified,' not 'reported.' The draft's framing as a simple report elides the sourcing uncertainty flagged in the brief."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Mykhailo Mudryk plays in friendly after serving 20-month doping suspension",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens by stating Mudryk 'returned to competitive football Wednesday in a preseason friendly' and later states 'nine months after the Football Association cleared him to play again.' The brief data_point states 'Mudryk was last week cleared to play again by the FA' (timestamp 2026-08-05). If the friendly is Wednesday Aug 5, 2026, and the brief says 'last week,' that timeline contradicts the draft's 'nine months after' phrasing. The draft has smuggled a time calculation (nine months) not present in the brief and inconsistent with the brief's own timeline ('last week'). This is a factual error on a material detail: when Mudryk was cleared.",
-     "The draft states the friendly was played at 'Kai Tak Stadium in Hong Kong' but the brief's data_point says only 'The friendly was played at the Kai Tak Stadium in Hong Kong' without specifying which Kai Tak Stadium or confirming an active stadium by that name. Kai Tak Stadium (the original Hong Kong venue) closed in 1994. The draft should not assert this venue name without independent source verification beyond the brief, and the brief itself does not confirm it reliably."
-    ]
-   },
-   {
-    "id": "c074",
-    "headline": "Oregon assistant Ra'Shaad Samples charged with DUII after fleeing crash",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points and explicitly states 'The provided source text is truncated and contains only navigation metadata; no substantive reporting is present.' The draft asserts multiple facts as established (charges of DUII and reckless driving, a crash, an alleged false identity claim) that do not appear in the brief's data layer and cannot be traced to substantive source content. The writer has smuggled facts from outside the brief.",
-     "The draft presents these charges as confirmed fact rather than announced-not-verified. The brief's open_questions confirm the source is truncated navigation metadata only\u2014no charges or details are actually present in the fetched material."
-    ]
-   },
-   {
-    "id": "c085",
-    "headline": "Browns HC Monken outlines QB audition structure for Watson, Sanders",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points and explicitly states 'The provided source text is truncated and contains only navigation metadata; no substantive reporting is present.' The draft asserts that Monken 'announced a plan to start Deshaun Watson and Shedeur Sanders in separate preseason games before making a decision on the Week 3 starter' as established fact, but this information does not appear in the brief's data layer.",
-     "The brief's open_questions confirm 'No details on which quarterback starts which preseason game, when those games occur, the criteria Monken will use to decide, or any quotes from Monken appear in the fetched content.' The writer has attributed a complete QB audition plan to a truncated, navigation-only source and cannot trace the facts back to substantive reporting in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
   "approved": 4,
   "rejected": [
    {
@@ -8368,6 +8308,60 @@
      "The draft claims 'Team USA's World Cup ended with a victory over France' as an accomplished fact, but the primary source (USA vs. France FIBA Women's) uses future tense: 'USA will face France in the World Cup final Sunday in Berlin.' No timestamp or date is provided in the brief data_points, and the source texts contain contradictory temporal framing\u2014one says the game 'will' occur (future), another says it 'ended with a win' (past). Today is Tuesday, 2026-09-15. If the game is scheduled for a Sunday, that would be in the future (2026-09-21), making the draft's reporting of it as already completed an accuracy violation.",
      "The draft reports the game as completed without establishing a date that has already passed. The brief itself acknowledges this ambiguity: 'The primary source discusses the matchup in future tense, stating USA would face France in Berlin on Sunday, and the exact date of the completed game is not confirmed in available reporting.' The draft does not flag this temporal uncertainty and writes as though the event is settled history.",
      "The draft acknowledges in the body 'The sources do not provide the final score, a confirmed date for the game, or detailed statistics beyond Stewart's double-double' and notes 'the exact date of the completed game is not confirmed in available reporting,' yet the headline and opening paragraphs present the victory as accomplished fact without any caveat about timing or confirmation."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c134",
+    "headline": "Dodgers clinch playoff berth on September 14, tie Braves' record for 14 consecutive postseason appearances",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title and opening sentence state the Dodgers clinched on 'Monday, September 14, 2026,' but the brief's core_claim and all data_points are timestamped 2026-09-15T01:03:59Z. The brief's timestamp indicates the event occurred on September 15, not September 14. Today is Tuesday, September 15; reporting a future or same-day event as having already happened on a prior date is an accuracy error. The draft should either correct the date to September 15 or reframe as an upcoming event if the clinch has not yet occurred.",
+     "The draft states 'Monday, September 14' twice (title and body), creating internal contradiction with the brief's September 15 timestamp and creating a factual claim (the date of the game) that does not align with the sourced material."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "Patrick Mahomes active for Chiefs-Broncos on September 14, 2026; Bo Nix returns from ankle injury",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the game is 'on September 14, 2026' but the body correctly identifies it as 'Wednesday, September 16, 2026, at 8:15 p.m. ET'. Today is September 15, 2026; September 14 is in the past. The title reports a future event as already having occurred.",
+     "The draft contains reporting on betting lines and player prop over/unders (Mahomes' passing yardage 223.5, Nix's 227.5, Walker's rushing line 59.5, Waddle's receptions 4.5, Kelce's model prediction at -148) with the preamble that the sources come from CBS Sports betting coverage. The compliance disclaimer states 'nothing here is betting or gambling advice' but the prose itself reads as a betting preview, not a news report of the game and roster details.",
+     "The brief's bear_case includes 'The uncertainty about how Bo Nix's broken ankle will affect his mobility remains despite claims he is \"reportedly full strength\"' but the draft does not surface this counter-narrative. Instead it states flatly 'Nix is reportedly full strength in his return from the ankle injury' without acknowledging the uncertainty or the tension between the reported status and his known reliance on mobility."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Rams' Garrett to undergo knee surgery, will miss at least four games",
+    "category": "accuracy",
+    "reasons": [
+     "The draft identifies Myles Garrett as 'the Rams' defensive end' but the brief and all source material consistently refer to him as acquired FROM the Cleveland Browns, not originally a Ram. The title and opening reinforce this error by failing to note he was just acquired and is in the early stage of his Rams tenure.",
+     "The draft states Garrett 'set the NFL's single-season sack record with 23 last season for the Cleveland Browns' but does not clarify in any way that this record was set BEFORE he joined the Rams. A reader unfamiliar with the trade might conflate this as a Rams achievement. The brief's angle explicitly calls him 'a star pass rusher acquired in an expensive offseason trade' but the draft treats him as if he is an established Ram without foregrounding his newness to the team.",
+     "The draft reports 'Coach Sean McVay said after the game from Melbourne, Australia that Garrett was \"100% healthy\" to his knowledge' but this is hearsay about what McVay said, and the phrasing 'to his knowledge' is the draft's own hedging language, not a direct quote. The brief data point quotes McVay as saying it and then later correcting himself, which the draft does report accurately, but the opening framing is loose."
+    ]
+   },
+   {
+    "id": "c75",
+    "headline": "USA defeats France in FIBA Women's World Cup final; Breanna Stewart named MVP",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's core claim is that 'Breanna Stewart was named MVP of the FIBA Women's World Cup for the second time in her career after leading Team USA with a double-double in the final against France.' The brief identifies only ONE data point confirming Stewart won MVP a second time and led with a double-double (from Yahoo Sports). However, the brief's angle explicitly states: 'The provided source texts do not contain a final score, margin, or confirmation that the USA won.' The draft presents the USA victory as fact in the title and opening, but the brief signals the sources do not confirm it.",
+     "The title 'USA defeats France in FIBA Women's World Cup final' is stated as accomplished fact. The brief shows the core_claim references 'the FIBA Women's World Cup final' but the data_points show only: (1) USA 'will face' France (future tense, scheduled), (2) Stewart won MVP and had a double-double, and (3) one source states the World Cup 'ended with a win over France' without score or date. The brief's angle notes the source material does not contain confirmation the USA won. The title and opening treat a scheduled game as completed.",
+     "The brief categorizes the brief itself as 'thin: true' and flags critical open_questions: 'Final score of the USA vs. France game not stated in source texts.' The draft should not have been built on a game result that sources do not confirm happened."
+    ]
+   },
+   {
+    "id": "c272",
+    "headline": "Eric Morris Named Bear Bryant Coach of the Week After Oklahoma State Upsets No. 6 Oregon",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The victory marked Morris's first game leading Oklahoma State and came after the program's opening loss to Tulsa.' However, the brief's data_point about the Tulsa loss says 'Mestemaker had struggled at times the previous week in a 24-10 loss to Tulsa'\u2014this establishes Tulsa as the opening loss. The draft then says 'The victory was Morris' first as Oklahoma State's head coach' in the brief, but later says 'The victory marked Morris's first game leading Oklahoma State,' which contradicts the established timeline that Tulsa was the opening game (game 1) and Oregon was game 2. This is internally inconsistent with the brief's own data.",
+     "The draft describes the rushing touchdown as 'a 10-yard play in which he hurdled a defender and was flipped upside down by another before landing in the end zone.' The brief's corresponding data_point states Mestemaker 'took off from the 3-yard line, hurdled a defender and was flipped upside down by another before landing hard on his back in the end zone.' The draft omits the specific starting point (3-yard line) and changes 'landing hard on his back' to a generic 'landing in the end zone,' losing material detail from the source."
     ]
    }
   ]
