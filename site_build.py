@@ -196,6 +196,7 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 # when the seasons turn; the list is the only place it is expressed.
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("The Record", "/keepers.html"),
+       ("Scores", "/scores.html"),
        ("Where to watch", "/where-to-watch.html"),
        ("Fantasy", "/fantasy/inactives.html"),
        ("NFL", "/sections/nfl.html"),
@@ -208,10 +209,19 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("College Basketball", "/sections/college-basketball.html"),
        ("NHL", "/sections/nhl.html"),
        ("More Sports", "/sections/more-sports.html"),
-       ("Scores", "/sections/scores.html"),
+       ("Scores section", "/sections/scores.html"),
        ("Injuries", "/sections/injuries.html"),
        ("Transactions", "/sections/transactions.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
+
+# S-1: .mh-nav rendered thirteen items and overflowed at 1440, cutting the last two and
+# scrolling "THE RECORD" to "ECORD" on section pages. Nine now, in the audit's order,
+# with the product first. NAV above stays the full union: it is what the unreachable-lane
+# guard reads, and a lane that moved into More is still a lane that must be reachable.
+NAV_PRIMARY = ["Scores", "Fantasy", "Where to watch", "The Record", "The Edition",
+               "NFL", "College Football", "MLB"]
+NAV_MORE = ["Soccer", "WNBA", "Tennis", "NBA", "College Basketball", "NHL",
+            "More Sports", "Archive", "About"]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -789,10 +799,23 @@ def masthead(active, dateline, brand="site"):
         _hidden.add("Where to watch")
     if not IA_BOARD:
         _hidden.add("Fantasy")
+    _href = dict(NAV)
+    if EDITION_HREF:
+        _href["The Edition"] = EDITION_HREF
     nav = "".join(
-        f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
-        for label, href in NAV
-        if label not in NAV_UTILITY and label not in NAV_CROSSCUT and label not in _hidden)
+        f'<a href="{esc(_href[label])}"'
+        f'{" class=active" if label == active else ""}>{esc(label)}</a>'
+        for label in NAV_PRIMARY
+        if label in _href and label not in _hidden)
+    _more = [l for l in NAV_MORE if l in _href and l not in _hidden]
+    if _more:
+        _open = " open" if active in _more else ""
+        nav += (f'<details class="mh-more"{_open}><summary>More</summary>'
+                f'<div class="mh-more-sheet">'
+                + "".join(f'<a href="{esc(_href[l])}"'
+                          f'{" class=active" if l == active else ""}>{esc(l)}</a>'
+                          for l in _more)
+                + '</div></details>')
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
@@ -4190,7 +4213,7 @@ SECTIONS = [
 
 # The second axis, kept out of the lane rail but present in NAV so the unreachable-section
 # guard still sees them. masthead() filters both this and NAV_UTILITY.
-NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
+NAV_CROSSCUT = frozenset({"Scores section", "Injuries", "Transactions"})
 
 
 # A LANE THE READER CANNOT CLICK DOES NOT EXIST (owner audit 2026-08-29). SECTIONS and
@@ -4202,6 +4225,7 @@ NAV_CROSSCUT = frozenset({"Scores", "Injuries", "Transactions"})
 # Set at build once where_to_watch has reported. False keeps its nav entry off.
 W2W_LIVE = False
 W2W_DATA = None      # set at build by where_to_watch.load()
+EDITION_HREF = None  # set at build: the newest dated edition (S-1 nav)
 IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
@@ -5328,6 +5352,18 @@ def build():
     # S-B2: poll the injury feed and snapshot before rendering, so a build that lands
     # inside a posting window captures it. The board renders from the snapshot, never
     # from a live read; see inactives.py.
+    # S-1: the nav's Edition entry points at the newest dated issue. Resolved before
+    # any page renders, because the masthead is on every one of them.
+    global EDITION_HREF
+    EDITION_HREF = None
+    try:
+        import edition as _ed_nav
+        _days = _ed_nav.edition_days(items)
+        if _days:
+            EDITION_HREF = _ed_nav._latest_edition_path(_days)
+    except Exception as _e:
+        print(f"nav: Edition link unavailable ({type(_e).__name__}); item withheld")
+
     global IA_BOARD
     IA_BOARD = None
     try:
