@@ -1121,7 +1121,7 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
 .tab.on{background:#FBFAF6;color:#17181C}
 .tab:hover{color:#EBE9E3;text-decoration:none}
 .sb-stamp{font:400 11px/1.4 var(--mono);color:#868B95}
-.sb-grid{display:grid;grid-template-columns:1.25fr 2fr;gap:14px;align-items:start}
+.sb-grid{display:grid;grid-template-columns:1.25fr 2fr;gap:14px;align-items:stretch}
 .sb-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
   align-content:start}
 .game,.sb-marquee{background:#1A1C22;border:1px solid #2A2D35;border-radius:8px;
@@ -1190,8 +1190,8 @@ html.motion-off .dot{animation:none}
 }
 /* The marquee sizes to its content; an upcoming game has less to say than a live one
    and should not leave a tall empty box under it. */
-.sb-marquee{align-self:start}
-.sb-grid{align-items:start}
+.sb-marquee{align-self:stretch}   /* S-7: no dead space under the marquee */
+.sb-grid{align-items:stretch}
 /* A flex item will not shrink below its content unless told to, so the tab rail's
    own scroll container was pushing the band, and the page, to 548px at 390. The
    stamp is one long unbroken line for the same reason. */
@@ -1324,3 +1324,11 @@ html.motion-off .dot{animation:none}
 @media (max-width:640px){
   .sp-deskgrid{grid-template-columns:1fr;gap:12px}
 }
+
+/* S-7: the pre-game marquee. The kickoff time is the figure on a card with no score
+   yet, and the fact lines carry only what the feed actually returned. The foot is
+   pushed down so the card fills its column beside the game grid. */
+.sb-mq-pre .sb-mq-kick{font:600 30px/1 var(--mono);color:#EBE9E3;letter-spacing:-.01em}
+.sb-mq-facts{display:flex;flex-direction:column;gap:6px}
+.sb-mq-fact{font-size:12.5px;line-height:1.45;color:#A6ABB4}
+.sb-marquee .sb-mq-foot{margin-top:auto;display:flex;gap:16px;flex-wrap:wrap}

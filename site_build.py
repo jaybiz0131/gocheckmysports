@@ -2667,18 +2667,54 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
     net = f'<span class="net">{esc(g.get("network"))}</span>' if g.get("network") else ""
     fan = _sb_fantasy_strip(g, ia_index)
     if marquee:
+        # S-7. Three states, and every line in them is a reading or it is absent.
+        #
+        # The audit's pre-game kicker is "TONIGHT · NFL · WEEK 1". The feed carries no
+        # week number and no venue name - both come back None - so the kicker says the
+        # day and the league and stops. A week number invented at build time to match a
+        # mock is exactly the fabricated figure this desk does not print.
+        import datetime as _dt
+        state = g.get("state")
         sit = (f'<span>{esc(g.get("situation"))}</span>' if g.get("situation") else "")
+        foot = (f'<a class="sb-link" href="{esc(_game_href(g))}">'
+                f'{"Game page" if g.get("league") == "NFL" else "All scores"}</a>')
+        if state == "pre":
+            dt = _utc_dt(g.get("start_utc") or "")
+            when = _et_clock(dt) if dt else ""
+            today = dt and dt.astimezone(_ET).date() == _build_now().astimezone(_ET).date()
+            kick = " · ".join(x for x in (("Tonight" if today else "Next up"),
+                                          g.get("league")) if x)
+            facts = []
+            wxf = _wx_for(g, wx)
+            if wxf:
+                facts.append(esc(wxf))
+            elif g.get("venue_indoor"):
+                facts.append("Indoors, no weather factor")
+            if fan:
+                facts.append(fan)
+            lines = "".join(f'<span class="sb-mq-fact">{f}</span>' for f in facts)
+            w2w = ('<a class="sb-link" href="/where-to-watch.html">Where to watch</a>'
+                   if W2W_LIVE else "")
+            return (f'<div class="sb-marquee sb-mq-pre">'
+                    f'<div class="sb-mq-top"><span class="kicker">{esc(kick)}</span>'
+                    f'<span class="st-r">{_wx_chip(g, wx)}{net}</span></div>'
+                    f'<div class="sb-mq-grid">'
+                    f'{_sb_team_row(g["away"], False, big=True, started=False)}'
+                    f'{_sb_team_row(g["home"], False, big=True, started=False)}</div>'
+                    + (f'<div class="sb-mq-kick">{esc(when)}</div>' if when else "")
+                    + (f'<div class="sb-mq-facts">{lines}</div>' if lines else "")
+                    + f'<div class="sb-mq-foot">{foot}{w2w}</div>{bar}</div>')
+        if state == "post":
+            foot += ('<a class="sb-link" href="' + esc(_game_href(g)) + '">Box leaders</a>'
+                     if g.get("league") == "NFL" else "")
         return (f'<div class="sb-marquee">'
                 f'<div class="sb-mq-top">{_sb_status(g)}<span class="st-r">'
-            f'{_wx_chip(g, wx)}{net}</span></div>'
+                f'{_wx_chip(g, wx)}{net}</span></div>'
                 f'<div class="sb-mq-grid">'
                 f'{_sb_team_row(g["away"], lose_a, big=True, started=_started)}'
                 f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
                 f'<div class="sb-mq-meta">{sit}{fan}</div>'
-                f'<div class="sb-mq-foot">'
-                f'<a class="sb-link" href="{esc(_game_href(g))}">'
-                f'{"Game page" if g.get("league") == "NFL" else "All scores"}</a>'
-                f'</div>{bar}</div>')
+                f'<div class="sb-mq-foot">{foot}</div>{bar}</div>')
     return (f'<div class="game">'
             f'{_sb_team_row(g["away"], lose_a, started=_started)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
