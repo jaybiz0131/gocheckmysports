@@ -22,6 +22,7 @@ USAGE
 
 import datetime
 import json
+from zoneinfo import ZoneInfo
 import os
 import re
 import sys
@@ -225,6 +226,25 @@ def slugify(s):
     return s or "story"
 
 
+_ET = ZoneInfo("America/New_York")
+
+
+def _utc_dt(iso):
+    """Parse a UTC stamp in any shape the data files use. None when it is not one."""
+    import datetime as _dt
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ", "%Y-%m-%d"):
+        try:
+            return _dt.datetime.strptime(iso or "", fmt).replace(tzinfo=_dt.timezone.utc)
+        except Exception:
+            continue
+    return None
+
+
+def _et_clock(dt):
+    """An aware datetime to '6:45 PM ET'. Reader-facing times are Eastern (G-7)."""
+    return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
+
+
 def fmt_date(iso):
     m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", str(iso or ""))
     if not m:
@@ -247,13 +267,13 @@ def _parse_utc(item):
 
 
 def fmt_when(item):
-    """Dateline with the publish time when we have one: 'July 12, 2026 · 07:41 UTC'.
+    """Dateline with the publish time when we have one: 'July 12, 2026 · 3:41 AM ET'.
     Games end late and news breaks around the clock; a reader needs to know 2 hours old vs 20."""
     base = esc(fmt_date(item.get("date")))
     if item.get("published_utc"):
         dt = _parse_utc(item)
         if dt:
-            return f"{base} &middot; {dt.strftime('%H:%M')} UTC"
+            return f"{base} · {_et_clock(dt)}"
     return base
 
 
@@ -768,7 +788,7 @@ def masthead(active, dateline, brand="site"):
 if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
   <div class="mh-top">
     {fam}
-    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> &middot; Independent &middot; No hype</span>
+    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> · Independent · No hype</span>
   </div>
   {brand_row}
 </div></header>
@@ -828,7 +848,7 @@ def footer(brand="site"):
     <div class="flinks">{links}</div>
   </div>
   <p class="fnote"><b>{esc(NFA)}</b> {note}
-    {who} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.<br>&copy; {YEAR} Go Check My Brands LLC</p>
+    {who} · <a href="{FAMILY_HUB}">A GoCheckMy site</a>.<br>&copy; {YEAR} Go Check My Brands LLC</p>
 </div></footer>"""
 
 
@@ -1166,7 +1186,7 @@ def render_article(item, all_items=None, hubs=None):
     rel_html = ""
     for rel in related_stories(item, all_items or []):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
-                     f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
+                     f'<span class="mut"> · {fmt_when(rel)}</span></li>')
     if rel_html:
         rel_html = f'<div class="related"><h2>Related stories</h2><ul>{rel_html}</ul></div>'
     # NO PER-STORY CHECK TRAIL. This used to render a "How this story was checked" block on
@@ -1393,8 +1413,9 @@ SCORES_AGE_JS = (
     '<script>(function(){var n=document.getElementById("sb-note");if(!n)return;'
     'var s=document.getElementById("scores-strip");'
     'function two(x){return(x<10?"0":"")+x}'
-    'function mark(d,live){var t=two(d.getUTCHours())+":"+two(d.getUTCMinutes());'
-    'n.textContent="League data, not news \u00b7 as of "+t+" UTC"+(live?"":"");}'
+    'function mark(d,live){var t=d.toLocaleTimeString("en-US",{timeZone:"America/New_York",'
+    'hour:"numeric",minute:"2-digit"})+" ET";'
+    'n.textContent="League data, not news \u00b7 as of "+t+(live?"":"");}'
     'var g=Date.parse(n.getAttribute("data-generated")||"");'
     'function stale(){n.textContent="League data, not news \u00b7 last update may be "+'
     '"delayed; scores below may not be current";n.classList.add("sb-stale");'
@@ -1508,7 +1529,7 @@ def scores_strip():
     except ValueError:
         stale_after = gen + datetime.timedelta(hours=3)
     demote_live = now > stale_after
-    stamp = esc(gen_raw[11:16])
+    stamp = esc(_et(gen_raw))          # G-7: reader-facing clock is Eastern
     cards, feeds = [], []
     for l in leagues:
         feed = _CLIENT_FEEDS.get(l.get("league", ""))
@@ -1539,7 +1560,7 @@ def scores_strip():
                 # a frozen inning is not a live game: the card keeps its last scores
                 # but loses the live treatment and says when they were taken
                 live_cls = ""
-                detail = f"as of {gen_raw[11:16]} UTC"
+                detail = f"as of {_et(gen_raw)}"
             cards.append(
                 f'<span class="sb-game{live_cls}" data-eid="{esc(str(g.get("eid", "")))}" '
                 f'data-lg="{esc(l.get("league", ""))}">'
@@ -1561,7 +1582,7 @@ def scores_strip():
             f'{"".join(cards)}</div>'
             f'<span class="sb-note" id="sb-note" '
             f'data-generated="{esc(snap.get("generated_utc") or "")}">'
-            f'League data, not news &middot; as of {note_when} UTC'
+            f'League data, not news · as of {note_when}'
             f'</span></div></section>') + SCORES_JS + SCORES_AGE_JS
 
 
@@ -1589,7 +1610,7 @@ def _bl_fresh_label(ed, name):
     if ed_date and ed_date < build_date:
         import datetime as _dt
         days = (_dt.date.fromisoformat(build_date) - _dt.date.fromisoformat(ed_date)).days
-        return ("Yesterday's " + name) if days == 1 else (name + " &middot; " + esc(fmt_date(ed_date)))
+        return ("Yesterday's " + name) if days == 1 else (name + " · " + esc(fmt_date(ed_date)))
     return name
 
 
@@ -1607,7 +1628,7 @@ def bottom_line_card(items):
     return (f'<a class="hero-bl news-bl" data-bl-published="{esc(ed.get("published_utc") or "")}" '
             f'href="/articles/{esc(ed["slug"])}.html">'
             f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-            f'<span class="hero-bl-src">{name} &middot; {_blink_when(ed)}</span>'
+            f'<span class="hero-bl-src">{name} · {_blink_when(ed)}</span>'
             f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
             f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>'
             + _BL_GUARD_SCRIPT)
@@ -2008,7 +2029,7 @@ def _w2w_stamp(data):
     except Exception:
         return ""
     age = (_dt.datetime.now(_dt.timezone.utc) - t).total_seconds() / 3600
-    when = t.strftime("%H:%M UTC, %a %-d %b")
+    when = f'{_et_clock(t)}, {t.astimezone(_ET).strftime("%a %-d %b")}'
     tail = ", not refreshed since" if age > 24 else ""
     return (f'<p class="bd-src">Channels as listed by the league, as of {esc(when)}'
             f'{tail}.</p>')
@@ -2480,7 +2501,7 @@ def _sb_team_row(t, lose=False, big=False, started=True):
     col = t.get("color") or ""
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
-    rec = f' &middot; {esc(t.get("record"))}' if t.get("record") else ""
+    rec = f' · {esc(t.get("record"))}' if t.get("record") else ""
     nm = (f'<span class="abbr{" big" if big else ""}">{esc(t.get("abbr") or "")}</span>'
           f'<span class="tname">{esc(t.get("name") or "")}{rec}</span>')
     if big:
@@ -2502,7 +2523,7 @@ def _sb_status(g):
         return ('<span class="fin"><svg width="11" height="11" viewBox="0 0 11 11" '
                 'aria-hidden="true"><path d="M2 5.8L4.3 8 9 3" fill="none" '
                 'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
-                'stroke-linejoin="round"></path></svg>FINAL &middot; checked</span>')
+                'stroke-linejoin="round"></path></svg>FINAL · checked</span>')
     return f'<span class="soon">{esc(g.get("status_short") or "")}</span>'
 
 
@@ -2536,7 +2557,7 @@ def _sb_fantasy_strip(g, ia_index):
         return ""
     return (f'<a class="sb-fan" href="/fantasy/inactives.html">'
             f'<span class="sb-fan-k">Inactives</span>'
-            f'{esc(" &middot; ".join(bits)).replace("&amp;middot;", "&middot;")}</a>')
+            f'{esc(" · ".join(bits))}</a>')
 
 
 def _wx_for(g, wx):
@@ -2660,8 +2681,8 @@ def scoreboard_band(sb, board, wx=None):
     <div class="sb-head">
       <div class="sb-head-l"><span class="sb-lab">The Scoreboard</span>
         <div class="sb-tabs">{tabs}</div></div>
-      <span class="sb-stamp">Updated {esc(stamp)} &middot; refreshes every 15 minutes
-        &middot; finals checked against league feeds</span>
+      <span class="sb-stamp">Updated {esc(stamp)} · refreshes every 15 minutes
+        · finals checked against league feeds</span>
     </div>
     <div class="sb-grid">
       {_sb_card(mq, ia, marquee=True, wx=wx) if mq else ""}
@@ -2730,15 +2751,14 @@ INACTIVES_NOTE = ("Times are when our check first saw each player's inactive fla
 
 
 def _et(iso):
-    """UTC stamp to ET clock. Eastern is UTC-4 through the regular season."""
-    import datetime as _dt
-    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ"):
-        try:
-            t = _dt.datetime.strptime(iso, fmt).replace(tzinfo=_dt.timezone.utc)
-            return (t - _dt.timedelta(hours=4)).strftime("%-I:%M %p ET")
-        except Exception:
-            continue
-    return ""
+    """UTC stamp to ET clock, '6:45 PM ET' (G-7).
+
+    Was a flat UTC-4 with the note 'Eastern is UTC-4 through the regular season'. It is
+    not: DST ends November 1, and the season runs to February. Every ET time on the site
+    would have read an hour late from November, the inactives posting time included. The
+    zone does the arithmetic now, so the switch needs no edit."""
+    dt = _utc_dt(iso)
+    return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
 
 
 def _inactives_pending(games, posted_ids):
@@ -3034,7 +3054,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             f'<a class="bd-more" href="/fantasy/inactives.html">The full board</a>'
             f'</div><div class="bd-cards4">{cards}</div></section>')
     if desig:
-        counts = " &middot; ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
+        counts = " · ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
         blocks.append(
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">This week\'s designations</span>'
@@ -3113,8 +3133,8 @@ PLAYER_SEARCH_JS = """<script>(function(){
       +'<span class="bd-badge '+cls+'">'+st+'</span></span>'
       +'<span class="bd-rec-hl" style="font-size:22px">'+p.name+'</span>'
       +(p.detail?'<span class="bd-src">'+p.detail+'</span>':'')
-      +(opp?'<span class="bd-read">Next: '+opp+(when?' &middot; '+when:'')
-        +(n.network?' &middot; '+n.network:'')+'</span>':'')
+      +(opp?'<span class="bd-read">Next: '+opp+(when?' · '+when:'')
+        +(n.network?' · '+n.network:'')+'</span>':'')
       +'</a>';
   }
   function run(){
@@ -3162,8 +3182,8 @@ def render_player_page(p, board, dateline):
         when = " ".join(x for x in (n.get("day"), n.get("kickoff_et")) if x)
         nxt = (f'<p class="bd-read">Next game: '
                f'{"vs " if n.get("home") else "at "}{esc(n["opponent"])}'
-               + (f' &middot; {esc(when)}' if when else "")
-               + (f' &middot; {esc(n["network"])}' if n.get("network") else "") + '</p>')
+               + (f' · {esc(when)}' if when else "")
+               + (f' · {esc(n["network"])}' if n.get("network") else "") + '</p>')
     hist = ""
     if p.get("inactive_seen"):
         hist = (f'<p class="bd-src">First seen on the inactive list at '
@@ -3411,7 +3431,7 @@ def _receipt_status(item):
         if nm and nm not in outlets:
             outlets.append(nm)
     if outlets:
-        return f'<span class="bd-badge dat">Reported &middot; {esc(outlets[0])}</span>'
+        return f'<span class="bd-badge dat">Reported · {esc(outlets[0])}</span>'
     return ""
 
 
@@ -3834,7 +3854,7 @@ def render_home(items, dateline):
             bl_card = (f'<a class="hero-bl" data-bl-published="{esc(ed.get("published_utc") or "")}" '
                        f'href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-                       f'<span class="hero-bl-src">{_bl_fresh_label(ed, ed_name)} &middot; {_blink_when(ed)}</span>'
+                       f'<span class="hero-bl-src">{_bl_fresh_label(ed, ed_name)} · {_blink_when(ed)}</span>'
                        f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
                        f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>'
                        + _BL_GUARD_SCRIPT)
