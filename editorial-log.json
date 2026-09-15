@@ -4,39 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c179",
-    "headline": "REJECTED: Unreadable source material, zero verified data points",
-    "category": "accuracy",
-    "reasons": [
-     "The draft itself is a meta-rejection statement, not a story. A draft cannot consist of editorial commentary about why it cannot be drafted. If the brief contains zero verified data points and corrupted source material (as stated in open_questions), the correct action is for the desk to kill the assignment and return to research\u2014not for the writer to submit a non-story explaining the problem. The writer's role is to draft or recuse themselves; this submission is outside the approval scope and amounts to an attempt to bypass the research/brief stage. The brief should have been rejected before reaching the writer."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Pac-12, MWC finalize settlement over 'poaching,' exit fees",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes a data point about 'The scheduling agreement with the Mountain West allowed Oregon State and Washington State to piece together football schedules after 10 schools left the Pac-12 in 2024' (data_point 6 in brief) that does not appear anywhere in the draft body. This is a significant omission of reported information from the brief.",
-     "The draft states facts trace back to the brief, but this scheduling agreement claim, which is in the brief's data_points, is completely absent from the article. The writer cannot omit material facts from the research brief."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "Infantino convenes crisis meeting in Morocco amid pressure on his leadership",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Infantino is holding a meeting in Morocco' (present tense, definitive), but the brief data_point says only 'is holding a crisis meeting' with confidence 'reported'\u2014not verified as currently underway. The draft presents this as a settled fact without qualification.",
-     "The phrase 'furious calls for his ouster' is attributed to 'sources' in the draft ('what sources characterize as'), but the brief marks this claim as 'reported' from Yahoo Sports only. The brief's open_questions explicitly note 'No named individuals or organizations cited in the fetched source text.' The draft's passive-voice attribution to unnamed 'sources' is smuggled; it should either attribute to Yahoo Sports or signal the absence of named opposition.",
-     "The draft states 'Infantino is attempting to consolidate backing from FIFA constituencies before formal opposition campaigns take shape' as a direct inference about motive, which goes beyond the brief's data_point that he is 'attempting to secure support.' Adding editorial interpretation about timing relative to 'opposition campaigns' is not factual reporting traceable to the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c014",
     "headline": "Mohamed Salah arrives in Turkey to sign for Trabzonspor",
     "category": "accuracy",
@@ -8352,6 +8319,58 @@
      "The draft reports a final score of 97-79, but the brief's open_questions explicitly state: 'The final score of the USA-France Women's World Cup final is not provided in the source texts.' This score is not present in any data_point in the brief and violates the hard rule that no fact exists outside the brief.",
      "The brief states the final was held 'on Sunday' (data_point 4), but the draft title and body specify 'September 13' as a date. September 13, 2026 was a Saturday, not a Sunday. The date in the draft does not match the brief's description of the day.",
      "The draft title claims this is USA's implied fifth consecutive Women's World Cup gold (by stating 'USA defeats France 97-79 in FIBA Women's World Cup final'), but the brief's open_questions specifically flag: 'Whether this is USA's fifth consecutive Women's World Cup gold, as stated in the headline, cannot be verified from the provided sources.' The headline in the draft may imply dominance/consecutive wins without source support."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c042",
+    "headline": "Mahomes active for Broncos-Chiefs on September 16; Nix also returning from injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as occurring on September 16, but the brief's core_claim states the game is on September 14, 2026. Today is September 15, 2026; a game on September 14 would be in the past. The draft describes future tense ('will face,' 'kicks off') for an event that, per the brief, has already occurred or is occurring tonight.",
+     "The draft does not acknowledge or address the bear_case items regarding Denver's pass rusher on the commissioner's exempt list and facing felony charges\u2014critical context entirely absent from the narrative despite being in the brief."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "Lions RB Pacheco has back surgery, facing 12-week recovery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Pacheco 'underwent back surgery to repair nerve compression,' but the brief data_point says the surgery was to remove 'a body that was pressing on a nerve.' The draft uses 'nerve compression' as the diagnosis; the brief uses 'body' (unspecified material). The draft is more specific than the source permits.",
+     "The draft says Pacheco 'signed a one-year, $1.81 million contract with Detroit this offseason to fill the RB2 role,' but the brief indicates he was signed as a backup option after Montgomery's trade. The characterization of 'RB2 role' as his stated purpose may overstate what the brief supports.",
+     "The draft references Vaki's 'uneven debut' and an unnamed play everyone is 'talking about,' but does not explain what that play was. Campbell's cryptic quote is printed, but the reader cannot understand the specific failure being referenced, creating ambiguity about what actually happened."
+    ]
+   },
+   {
+    "id": "c254",
+    "headline": "Canadiens extend coach Martin St. Louis on multiyear deal",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2025-26', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "White Sox-Guardians series beginning September 16 could clarify AL Central race",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The series consists of three games, and the outcome could determine which team secures the division title or at minimum controls the season-series tiebreaker.' However, the brief data shows the series 'begins Monday' and today is Tuesday 2026-09-15, meaning the series began yesterday (Monday, September 16). The draft writes this upcoming event in future tense ('could determine') when it is already in progress. This is a temporal accuracy failure.",
+     "The draft contains multiple player attributions and statistics (Miguel Vargas, Munetaka Murakami, Colson Montgomery home runs; specific relief ERA figures; Travis Bazzana statistics) that are not present in the brief's data_points. While the brief mentions some of these players and stats exist, the specific numbers and attributions in the draft (e.g., 'Miguel Vargas, Munetaka Murakami and Colson Montgomery have each topped 30 home runs') must trace directly to the brief. The brief lists Vargas and Montgomery as having 'topped 30 home runs' but does not confirm Murakami's status separately in the data_points; this claim appears smuggled.",
+     "The draft states 'Chicago would hold the tiebreaker if the Guardians lose the series' but the brief data_point says 'Chicago would hold the tiebreaker if the Guardians lose the series' - however, the draft also earlier states 'The White Sox currently hold a 6-4 edge in the season series, meaning Chicago would have to get swept in these three games to lose the tiebreaker.' These two statements are contradictory. The brief clarifies the tiebreaker math, but the draft's phrasing conflates the current 6-4 lead with the conditional tiebreaker rule in a confusing way that could mislead."
+    ]
+   },
+   {
+    "id": "c076",
+    "headline": "USA defeats France in FIBA Women's World Cup final on September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The final score was not specified in available source material' but the brief's core_claim explicitly states the score was 97-79. This is a direct contradiction: the draft omits a key fact that the brief contains. The draft must report the score that appears in the brief's data_points.",
+     "The draft reports a truncated quote: 'Team USA coach Kara Lawson said: \"Really proud of our players, they got this done. In the biggest moments, they...,\" according to Yahoo WNBA reporting.' The ellipsis and incomplete sentence suggest the full quote was not retrieved. The brief notes 'The full Lawson quote is truncated in the provided source text; her complete statement is not available,' which acknowledges the limitation. However, the draft should not run an incomplete quote in quotation marks; it should either paraphrase or note the incompleteness outside the quote. Running an incomplete quote suggests the full thought is preserved when it is not, which is misleading."
     ]
    }
   ]

@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-09-15T00:09:42Z",
- "stale_after_utc": "2026-09-15T03:09:42Z",
+ "generated_utc": "2026-09-15T00:18:58Z",
+ "stale_after_utc": "2026-09-15T03:18:58Z",
  "leagues": [
   {
    "league": "MLB",
@@ -9,10 +9,10 @@
     {
      "away": "LAD",
      "home": "CIN",
-     "away_score": 3,
+     "away_score": 4,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 7",
+     "detail": "Bot 7",
      "start_utc": "2026-09-14T22:40:00Z",
      "eid": "824465"
     },
@@ -22,7 +22,7 @@
      "away_score": 0,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 5",
+     "detail": "Top 6",
      "start_utc": "2026-09-14T22:40:00Z",
      "eid": "824386"
     },
@@ -32,7 +32,7 @@
      "away_score": 0,
      "home_score": 2,
      "state": "in",
-     "detail": "Top 4",
+     "detail": "Bot 4",
      "start_utc": "2026-09-14T23:07:00Z",
      "eid": "822765"
     },
@@ -42,7 +42,7 @@
      "away_score": 1,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 3",
+     "detail": "Top 4",
      "start_utc": "2026-09-14T23:10:00Z",
      "eid": "823575"
     },
@@ -50,87 +50,21 @@
      "away": "ATL",
      "home": "CHC",
      "away_score": 0,
-     "home_score": 1,
+     "home_score": 3,
      "state": "in",
-     "detail": "Bot 2",
+     "detail": "Top 3",
      "start_utc": "2026-09-14T23:40:00Z",
      "eid": "824629"
     },
     {
      "away": "NYY",
      "home": "MIN",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 2",
+     "detail": "Top 3",
      "start_utc": "2026-09-14T23:40:00Z",
      "eid": "823656"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "I. Shymanovich",
-     "home": "Z. Sonmez",
-     "away_score": 0,
-     "home_score": 2,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-14T23:15Z",
-     "eid": "183791"
-    },
-    {
-     "away": "N. Hibino",
-     "home": "M. Frech",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "in",
-     "detail": "1st",
-     "start_utc": "2026-09-14T23:40Z",
-     "eid": "183795"
-    },
-    {
-     "away": "L. Samsonova",
-     "home": "E. Jacquemot",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "8:30 PM ET",
-     "start_utc": "2026-09-15T00:30Z",
-     "eid": "183790"
-    },
-    {
-     "away": "A. Teixido Garcia",
-     "home": "C. Burel",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-15T08:00Z",
-     "eid": "183750"
-    },
-    {
-     "away": "A. Geerlings",
-     "home": "A. Mintegi Del Olmo",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-15T08:00Z",
-     "eid": "183755"
-    },
-    {
-     "away": "A. Zantedeschi",
-     "home": "L. Havlickova",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-15T08:00Z",
-     "eid": "183670"
     }
    ]
   },
@@ -143,8 +77,8 @@
      "home": "KC",
      "away_score": 0,
      "home_score": 0,
-     "state": "pre",
-     "detail": "8:15 PM ET",
+     "state": "in",
+     "detail": "14:22 - 1st",
      "start_utc": "2026-09-15T00:15Z",
      "eid": "401872931"
     },
@@ -197,6 +131,72 @@
      "detail": "Final",
      "start_utc": "2026-09-13T20:25Z",
      "eid": "401872926"
+    }
+   ]
+  },
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "I. Shymanovich",
+     "home": "Z. Sonmez",
+     "away_score": 0,
+     "home_score": 2,
+     "state": "in",
+     "detail": "2nd",
+     "start_utc": "2026-09-14T23:15Z",
+     "eid": "183791"
+    },
+    {
+     "away": "N. Hibino",
+     "home": "M. Frech",
+     "away_score": 0,
+     "home_score": 2,
+     "state": "in",
+     "detail": "2nd",
+     "start_utc": "2026-09-14T23:40Z",
+     "eid": "183795"
+    },
+    {
+     "away": "L. Samsonova",
+     "home": "E. Jacquemot",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "8:30 PM ET",
+     "start_utc": "2026-09-15T00:30Z",
+     "eid": "183790"
+    },
+    {
+     "away": "A. Teixido Garcia",
+     "home": "C. Burel",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-15T08:00Z",
+     "eid": "183750"
+    },
+    {
+     "away": "A. Geerlings",
+     "home": "A. Mintegi Del Olmo",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-15T08:00Z",
+     "eid": "183755"
+    },
+    {
+     "away": "A. Zantedeschi",
+     "home": "L. Havlickova",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-15T08:00Z",
+     "eid": "183670"
     }
    ]
   },
@@ -359,22 +359,6 @@
      "eid": "401891541"
     }
    ]
-  },
-  {
-   "league": "ATP",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "B. Shelton",
-     "home": "A. Zverev",
-     "away_score": 1,
-     "home_score": 3,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-13T18:15Z",
-     "eid": "182677"
-    }
-   ]
   }
  ],
  "sources": [
@@ -485,10 +469,10 @@
   },
   {
    "league": "ATP",
-   "status": "ok",
+   "status": "empty",
    "source": "site.api.espn.com",
-   "games_seen": 1,
-   "games_kept": 1
+   "games_seen": 0,
+   "games_kept": 0
   },
   {
    "league": "WTA",
