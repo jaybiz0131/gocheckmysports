@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c094",
-    "headline": "Confederations push for Infantino resignation as succession candidates emerge",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Concacaf president Montagliani is being seen as a top contender to succeed him' but the brief provides no information about Montagliani's full name, background, or confirmation that he is the current Concacaf president. The data_point only says he 'is seen as a top contender' without establishing his current position or identity clearly enough for publication.",
-     "The draft claims 'The three confederations are simultaneously discussing rival competitions' but the brief's data_point says only that 'The confederations are discussing rival competitions alongside their push for Infantino to resign' with confidence marked 'reported.' The word 'simultaneously' adds temporal specificity not present in the source material.",
-     "The brief is marked 'thin: true' with only 3 data_points total. The draft substantially elaborates on succession planning and rival competition structures without proportional sourcing\u2014it treats The Guardian as the sole source for all claims despite the thin brief suggesting limited reporting depth."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Everton and Crystal Palace complete McNeil-Johnson swap deal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states McNeil 'has scored 15 times in 128 games in all competitions for the club' but a data_point in the brief reports 'McNeil has made 114 appearances for Everton' (per ESPN). The draft uses the BBC figure of 128 games while the brief's ESPN source says 114. The discrepancy between sources is not reconciled and both figures appear in the brief itself, creating internal contradiction that the draft must resolve by choosing one and explaining the difference, or noting it.",
-     "The draft's opening sentence claims both players 'are expected to undergo medicals on Monday and sign four-year contracts' but does not attribute these details inline to their respective sources (BBC Sport for medicals, BBC Sport for contracts). Attribution is present but not inline per desk standard."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "What the Giants' West Virginia camp revealed",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Jevon Holland (who was around the ball frequently) showed promise' but the brief data_point says 'Jevon Holland looks primed for a bounce back and was around the ball a lot during camp.' The draft omits the 'bounce back' framing, which is a material detail about Holland's narrative that changes the meaning of his camp performance from recovery-focused to general promise.",
-     "The draft characterizes DJ Reader as having 'looked solid as a run stuffer' but the brief says 'DJ Reader looked really good as a run stuffer in the middle of the defense.' 'Solid' and 'really good' are materially different confidence levels; the downgrade softens the data point without justification from the source."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 1,
   "rejected": [
    {
@@ -8209,5 +8175,28 @@
   "date": "2026-09-15",
   "approved": 8,
   "rejected": []
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c081",
+    "headline": "NHL's Ovechkin appears in Russian state campaign ad supporting Putin",
+    "category": "compliance",
+    "reasons": [
+     "The draft uses the phrase 'propaganda network RT' to describe RT (formerly Russia Today) as a characterization. Per the desk's ruling on contested terminology, when a story touches politically charged framing, the desk must report what named people SAID in quotes with attribution, not adopt loaded vocabulary as the desk's own unquoted description. The brief's data point describes RT as 'state-backed network RT,' which is factual and neutral. By switching to 'propaganda network,' the draft adopts a contested political characterization as its own voice rather than reporting attribution. This violates the rule that the desk describes the dispute; it does not adopt either side's vocabulary as fact."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Walker's 173-yard debut dominates as Mahomes returns, Chiefs rout Broncos 31-10 on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that 'Walker became the third player since 2000 to record at least 100 rushing yards in a Chiefs debut, joining Kareem Hunt (148 yards in 2017) and Clyde Edwards-Helaire (138 yards in 2020), per ESPN.' However, the brief's data point about this fact cites ESPN as the source. Later in the draft, the statement 'Walker's 173 rushing yards were the fourth-most by any player in a debut with a new team in NFL history and the most in franchise history' is attributed to CBS Sports per the brief. The draft then states 'Walker had two rushes of 25-plus yards, more than the Chiefs' entire running back room combined recorded in the previous season, per CBS Sports.' However, the brief data point on this same claim says 'Walker had two rushes of 25-plus yards, more than the entire Chiefs running back room combined last season (1)' and attributes it to CBS Sports. The parenthetical '(1)' in the brief suggests the Chiefs had only 1 such rush combined last season. The draft paraphrases this as 'more than the Chiefs' entire running back room combined recorded in the previous season,' which is technically accurate but the draft then writes 'Nix had been sacked more than twice in just two games in the previous season: three by the Raiders and four by the Chargers in the regular season finale.' This statement in the draft does not match the brief's data point which says 'Nix was sacked more than twice in only two games last season -- three by the Raiders and four by the Chargers in the regular-season finale.' The draft's phrasing 'in just two games' could be read as the only times he was sacked more than twice, but more critically, the draft statement about Jaylen Waddle is problematic.",
+     "The draft mentions 'Nohl Williams held receiver Courtland Sutton to two receptions for 11 yards' but the brief's corresponding data point says 'Cornerback Nohl Williams, a second-year player, did an excellent job in coverage against receiver Courtland Sutton, who finished with just two receptions for 11 yards.' The draft correctly attributes the stat but does not attribute it to any source inline. More problematically, the draft references Jaylen Waddle earlier: 'Second-year cornerback Nohl Williams held receiver Courtland Sutton to two receptions for 11 yards' but the brief data points list a claim about 'Jaylen Waddle was limited to just one reception for 2 yards' which the draft does not mention at all. This is not an omission error (omission is allowed), but the fact that the brief includes Waddle data and the draft silently substitutes Sutton instead suggests possible confusion in the source material."
+    ]
+   }
+  ]
  }
 ]
