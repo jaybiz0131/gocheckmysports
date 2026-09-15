@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c077",
-    "headline": "Commanders' Laremy Tunsil Diagnosed With Torn Triceps",
-    "category": "compliance",
-    "reasons": [
-     "Injury claims must trace to official injury reports or on-record statements. The draft states 'has been diagnosed with a torn triceps' and 'is expected to miss most of the 2026 NFL season' as definitive facts, but the brief notes 'No official Commanders statement or injury report is included in the source text.' The draft presents reported-only information as official diagnosis without hedging language like 'reported' or 'according to sources' to match the brief's confidence level."
-    ]
-   },
-   {
-    "id": "c075",
-    "headline": "Max Scherzer Passes Walter Johnson in Career Strikeouts, Reaches 10th in MLB History",
-    "category": "accuracy",
-    "reasons": [
-     "The brief notes that the source is 'severely truncated and does not provide substantive reporting content\u2014only page metadata and navigation elements are present.' The facts in the draft (3,516 strikeouts, passing Walter Johnson, 10th place ranking) are labeled 'reported' confidence in the brief, but the brief's own open_questions section and source_chars assessment (691 chars, marked 'thin': true) indicate the source did not actually deliver verifiable reporting content. The writer appears to have written facts that the source itself does not substantiate.",
-     "The brief explicitly states 'The exact game or date when Scherzer passed Johnson is not specified in the available text' and 'Walter Johnson's strikeout total is not stated for comparison.' The draft presents these as settled facts without qualification, violating the rule that unconfirmed or thinly sourced claims must read that way in prose."
-    ]
-   },
-   {
-    "id": "c053",
-    "headline": "Messi absent from Miami's Leagues Cup defeat following father Jorge's death at 68",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Jorge Messi served as his son's agent from the age of 14,' but the brief data point says 'Jorge Messi had been Lionel Messi's agent since Lionel was 14 years old'\u2014these are consistent. However, the draft then says 'In 2000, Jorge accompanied his 13-year-old son to Catalonia,' which contradicts the claim that Jorge became agent at age 14. The brief source material does not reconcile this apparent age discrepancy (13 vs. 14), and the draft presents both facts without noting the inconsistency, creating a factual contradiction within the draft itself that was not resolved in the source material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 3,
   "rejected": [
    {
@@ -8313,6 +8282,50 @@
     "reasons": [
      "The draft states 'Cathy Engelbert is set to retire from the position at year's end' with confidence labeled 'announced-not-verified' in the brief, but the draft presents this as settled fact without qualification. The language must signal the unverified status per desk liability rules on confidence labels.",
      "The draft states 'players have criticized Engelbert, though the outlet does not detail those criticisms' but this is narration of absence\u2014a breach of the accuracy rule. The brief's data point says 'Players in the WNBA have come out and criticized Cathy Engelbert' (reported confidence), but open_questions explicitly flag 'What specific criticisms have WNBA players leveled at Engelbert?' The writer cannot narrate the absence of detail the brief itself identifies as an open question."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c230",
+    "headline": "Mahomes shows limits in return from ACL tear as Walker dominates Chiefs' debut",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains a data point stating 'The Chiefs signed Kenneth Walker to a three-year, $45 million deal' but also contains a conflicting data point stating 'The Chiefs signed Kenneth Walker to a three-year, $43 million contract.' The draft uses the $45 million figure. This internal contradiction in the source material should have been flagged to research before publication; the writer cannot adjudicate conflicting figures within the brief itself.",
+     "The draft states 'Montreal advanced to the Eastern Conference final before being eliminated in the first round by the Washington Capitals' - this is internally contradictory (cannot be eliminated in first round after advancing to Conference Finals). However, this error actually appears in the c278 draft, not c230. For c230: the draft correctly identifies that Denver lost to New England in the AFC Championship (not title game), but the brief data point says 'AFC title game' which is acceptable NFL terminology. No accuracy error on this point.",
+     "Upon closer inspection of c230: all major facts (score, Walker's rushing yards, Mahomes' return, air yards average, Denver's tackle misses, prior season records) trace to brief data points. The $45M vs $43M discrepancy exists within the brief itself (two different data points), not between brief and draft. The draft chose one; this is a research problem, not a writer problem."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Clippers Accept NBA Punishment: $30M Fine, One-Year Ban, Five-Pick Loss",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Ballmer announced his acceptance 'late Monday, September 14' but the brief data_point says he announced it 'late Sunday night, 11 days after the NBA handed down' the penalties. These are contradictory dates. The brief's timestamp is 2026-09-14 but the claim itself places the announcement on Sunday, not Monday.",
+     "The draft names 'Lawrence Frank and Elliot Perry' as suspended executives, but the brief data_point (from CBS Sports) states 'Ballmer and Zucker will be suspended for one year, and Frank will be suspended for six months.' The draft introduces 'Elliot Perry' as suspended for six months, but the brief says 'Frank will be suspended for six months' and does not mention Perry at all in the suspension claim. This is a factual claim not in the brief."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Netflix's Australia Game Draws 18.5M U.S. Viewers, Triples YouTube's International Reach",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Netflix's international reach\u2014with viewers from more than 200 countries and territories\u2014exceeds YouTube's global penetration' but the brief does not contain any data point claiming YouTube's viewership came from 200 countries or any comparable geographic spread. The brief only states Netflix viewers came from 'more than 200 countries and territories.' Comparing Netflix's 200+ countries to YouTube's 1.2 million viewers conflates viewer count with geographic reach; this is a claim inference not in the brief.",
+     "The bottom_line states 'Netflix's international viewers (3.2 million) more than doubled YouTube's 1.2 million' but the brief's bear_case notes the game 'quickly became a rout for San Francisco, which may have dampened viewer engagement as the competitive stakes diminished.' This countervailing evidence should appear in the draft body to survive balance check, but it does not."
+    ]
+   },
+   {
+    "id": "c33",
+    "headline": "Alexander Zverev defeats Ben Shelton to win 2026 US Open",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the US Open final as already having occurred ('defeated...on Sunday to win'), but today is Tuesday, 2026-09-15. A US Open final on Sunday would be September 14, 2026, which is in the past and consistent with the date. However, the open_questions in the brief explicitly flag a scoring discrepancy: 'The BBC source text contains a discrepancy in the score, reporting 6-3, 6-6 (7-6), 5-7, 6-2; the ESPN source reports 6-3, 7-6 (7-2), 5-7, 6-2.' The draft reports the ESPN version (6-3, 7-6 (7-2), 5-7, 6-2) as definitive fact without acknowledging the source conflict noted in the brief.",
+     "The brief's open_questions explicitly state a score discrepancy exists between sources. The draft presents only one version without qualification. This is an accuracy failure: the writer was required to flag unresolved source conflicts when they exist in the brief, not choose one version as though the conflict does not exist.",
+     "The bottom_line claims Shelton's 0-6 record 'raises questions about whether he can overcome that particular matchup disadvantage,' which is appropriate, but the draft's phrasing of the bear_case material\u2014particularly the statement that 'The loss leaves Shelton winless against Zverev at 0-6'\u2014correctly carries the bear_case from the brief."
     ]
    }
   ]
