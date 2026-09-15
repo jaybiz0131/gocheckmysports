@@ -1015,9 +1015,13 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     _cp = canonical_path or path
     url = ORIGIN + (_cp[:-5] if _cp.endswith(".html") else _cp)
     site_name = NAME
-    # S-2: the band that used this poster is retired, so the preload went with it -
-    # it was fetching 80KB the page no longer draws, and naming a false LCP candidate.
-    lcp = ""
+    # S-25: the band's backdrop poster IS the LCP element by design (addendum item 2),
+    # so it is preloaded at high priority. The loop is injected after the load event by
+    # script and is never preloaded. 1280 wide, not the addendum's 1600: that is the
+    # widest source in the repo and upscaling adds bytes without detail (owner call,
+    # 2026-09-15). 80KB against the 120KB ceiling.
+    lcp = ('<link rel="preload" as="image" href="/assets/hero/hero-poster.webp" '
+           'fetchpriority="high">\n' if path == "/" else "")
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     robots = lcp + robots
     beacon = ""
@@ -2598,17 +2602,24 @@ def _sb_team_row(t, lose=False, big=False, started=True):
             f'{" big" if big else ""}">{esc(sc)}</span>')
 
 
+def _sb_zone(text):
+    """G-7/S-11: the feed hands back status_short pre-formatted with the offset name
+    of the day - "9/18 - 7:30 PM EDT" in summer, EST in winter. House style is one
+    label, ET, all year. Done at render because the string arrives already built."""
+    return re.sub(r"\b(EDT|EST)\b", "ET", str(text or ""))
+
+
 def _sb_status(g):
     st = g.get("state")
     if st == "in":
-        per = g.get("status_short") or ""
+        per = _sb_zone(g.get("status_short"))
         return f'<span class="live"><span class="dot"></span>{esc(per)}</span>'
     if st == "post":
         return ('<span class="fin"><svg width="11" height="11" viewBox="0 0 11 11" '
                 'aria-hidden="true"><path d="M2 5.8L4.3 8 9 3" fill="none" '
                 'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
                 'stroke-linejoin="round"></path></svg>FINAL · checked</span>')
-    return f'<span class="soon">{esc(g.get("status_short") or "")}</span>'
+    return f'<span class="soon">{esc(_sb_zone(g.get("status_short")))}</span>'
 
 
 def _sb_losers(g):
@@ -2791,6 +2802,54 @@ def _ia_index(board):
     return {("NFL", str(t.get("id"))): t for t in board.get("teams") or [] if t.get("id")}
 
 
+SB_HERO_JS = """
+<script>(function(){
+  /* Hero addendum item 3: the loop may replace the poster on desktop ONLY, and only
+     after the load event. It is never requested on a phone, because the request is
+     made by this script and this script does not run one below 1024. Reduced motion
+     stops both the loop and the poster's zoom. webm only: the mp4 is 1.67MB, over the
+     1.5MB ceiling, and every browser that autoplays a muted loop here reads webm. */
+  try{
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia || !window.matchMedia('(min-width:1024px)').matches) return;
+    var bg = document.querySelector('.sb-hero .sb-bg');
+    if (!bg) return;
+    window.addEventListener('load', function(){
+      var v = document.createElement('video');
+      v.className = 'sb-loop'; v.muted = true; v.autoplay = true; v.loop = true;
+      v.playsInline = true; v.setAttribute('aria-hidden','true'); v.tabIndex = -1;
+      v.src = '/assets/hero/hero-loop.webm';
+      v.addEventListener('playing', function(){ bg.classList.add('has-loop'); });
+      bg.appendChild(v);
+    });
+  }catch(e){}
+})();</script>"""
+
+
+def _sb_day_split(games):
+    """S-25. How many of these games are actually TODAY, on the reader's clock.
+
+    The band said "62 games today" and linked "All 62 games today". The scoreboard feed
+    is not a day, it is a schedule: measured 15 Sep it held 62 games spanning 9 Sep to
+    3 Oct, and none of them were today. len(games) was never the day's count, and S-25
+    put that number in the hero's promise row where a reader would read it as the
+    desk's own tally. Returns (todays_games, next_day_label, next_day_count)."""
+    import datetime as _dt
+    today = _build_now().astimezone(_ET).date()
+    by_day = {}
+    for g in games:
+        d = _utc_dt(g.get("start_utc") or "")
+        if d:
+            by_day.setdefault(d.astimezone(_ET).date(), []).append(g)
+    todays = by_day.get(today) or []
+    nxt = sorted(d for d in by_day if d > today)
+    if not nxt:
+        return todays, "", 0
+    d0 = nxt[0]
+    lab = "tomorrow" if (d0 - today).days == 1 else d0.strftime("%A")
+    return todays, lab, len(by_day[d0])
+
+
 def scoreboard_band(sb, board, wx=None):
     """The dark band under the masthead. Returns "" when there is nothing to show, so
     the homepage simply does not carry it rather than carrying an empty shell."""
@@ -2810,14 +2869,48 @@ def scoreboard_band(sb, board, wx=None):
                              g.get("start_utc") or ""))
     present = [n for n in SB_TAB_ORDER if any(g["league"] == n for g in games)]
     n_live = sum(1 for g in games if g.get("state") == "in")
+    _today, _nxt_lab, _nxt_n = _sb_day_split(games)
+    if _today:
+        count_line = (f"{len(_today)} game{'' if len(_today) == 1 else 's'} today"
+                      f" · {n_live} live now")
+        foot_link = f"All {len(_today)} game{'' if len(_today) == 1 else 's'} today"
+    elif _nxt_n:
+        count_line = (f"No games today · {_nxt_n} "
+                      f"{'game' if _nxt_n == 1 else 'games'} {_nxt_lab}")
+        foot_link = "The full scoreboard"
+    else:
+        count_line = "No games scheduled"
+        foot_link = "The full scoreboard"
     tabs = "".join(
         f'<a class="tab{" on" if i == 0 else ""}" '
         f'href="/scores.html{"" if i == 0 else "#" + esc(n.lower())}">{esc(n)}</a>'
         for i, n in enumerate(["All live"] + present))
     cards = "".join(_sb_card(g, ia, wx=wx) for g in rest[:8])
     stamp = _et(sb.get("fetched_at") or "")
-    return f"""<section class="scoreband" aria-label="The Scoreboard">
+    # S-25: the next kickoff, from the feed. Absent when nothing is scheduled.
+    nxt = ""
+    _pre = sorted((g for g in games if g.get("state") == "pre"),
+                  key=lambda g: g.get("start_utc") or "")
+    if _pre:
+        _g = _pre[0]
+        _dt = _utc_dt(_g.get("start_utc") or "")
+        if _dt:
+            nxt = (f'<span class="sb-next">Next: '
+                   f'{esc((_g.get("away") or {}).get("abbr") or "")} at '
+                   f'{esc((_g.get("home") or {}).get("abbr") or "")} '
+                   f'{esc(_et_clock(_dt))}</span>')
+    return f"""<section class="scoreband sb-hero" aria-label="The Scoreboard">
+  <div class="sb-bg" aria-hidden="true"></div>
+  <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
+    <div class="sb-promise">
+      <div class="sb-promise-l">
+        <h2 class="sb-claim">Every score. No odds. No noise.</h2>
+        <p class="sb-proof">Finals checked against the league feeds. Inactives within
+          five minutes of posting. Every source linked.</p>
+      </div>
+      <span class="sb-count">{esc(count_line)}</span>
+    </div>
     <div class="sb-head">
       <div class="sb-head-l"><span class="sb-lab">The Scoreboard</span>
         <div class="sb-tabs">{tabs}</div></div>
@@ -2828,11 +2921,10 @@ def scoreboard_band(sb, board, wx=None):
       {_sb_card(mq, ia, marquee=True, wx=wx) if mq else ""}
       <div class="sb-cards">{cards}</div>
     </div>
-    <div class="sb-foot"><a class="sb-link" href="/scores.html">All
-      {len(games)} games today &rarr;</a>
-      <span class="sb-note">{n_live} live now</span></div>
+    <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
+      &rarr;</a>{nxt}</div>
   </div>
-</section>"""
+</section>""" + SB_HERO_JS
 
 
 def render_scores_page(sb, board, dateline, wx=None):

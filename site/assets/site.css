@@ -1332,3 +1332,63 @@ html.motion-off .dot{animation:none}
 .sb-mq-facts{display:flex;flex-direction:column;gap:6px}
 .sb-mq-fact{font-size:12.5px;line-height:1.45;color:#A6ABB4}
 .sb-marquee .sb-mq-foot{margin-top:auto;display:flex;gap:16px;flex-wrap:wrap}
+
+/* ---- S-25: the Scoreboard band is the hero ---------------------------------------
+   The backdrop sits behind the band under a vertical scrim: about 30% dark at the top
+   so the sky and lights read, 72% at the tabs row, 97% at the bottom so the cards sit
+   on near-solid dark (hero addendum item 1). */
+.sb-hero{position:relative;isolation:isolate;overflow:hidden}
+.sb-hero .sb-bg{position:absolute;inset:0;z-index:0;
+  background:#131419 url("/assets/hero/hero-poster.webp") center/cover no-repeat}
+.sb-hero .sb-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(19,20,25,.30) 0%,
+    rgba(19,20,25,.72) 46%,
+    rgba(19,20,25,.97) 100%)}
+.sb-hero .sb-inner{position:relative;z-index:2}
+.sb-hero .sb-loop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s ease}
+.sb-hero .sb-bg.has-loop .sb-loop{opacity:1}
+
+/* Cards inside the band, per the addendum: near-solid dark, a small blur, a hairline. */
+.sb-hero .game,.sb-hero .sb-marquee{background:rgba(26,28,34,.92);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.08)}
+
+/* The promise row: the thesis first, the proof under it, the day's count at the right. */
+.sb-promise{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  padding:26px 0 18px;flex-wrap:wrap}
+.sb-claim{margin:0;font:600 38px/1.1 var(--serif);color:#fff;text-wrap:balance;
+  letter-spacing:-.015em}
+.sb-proof{margin:8px 0 0;max-width:62ch;font-size:15px;line-height:1.5;
+  color:rgba(235,233,227,.82)}
+.sb-count{font-family:var(--mono);font-size:12.5px;color:rgba(235,233,227,.72);
+  white-space:nowrap;padding-top:6px}
+.sb-next{font-family:var(--mono);font-size:12.5px;color:rgba(235,233,227,.72)}
+
+/* Item 4: a slow one-direction zoom on the poster, desktop only, no loop. */
+@media (min-width:1024px) and (prefers-reduced-motion:no-preference){
+  .sb-hero .sb-bg{animation:sb-zoom 30s ease-out 1 forwards;transform-origin:center}
+  @keyframes sb-zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+}
+@media (prefers-reduced-motion:reduce){
+  .sb-hero .sb-bg{animation:none!important;transform:none!important}
+  .sb-hero .sb-loop{display:none!important}
+}
+@media (max-width:640px){
+  /* Phone: poster only. No loop is ever requested (the script does not run) and the
+     zoom does not apply. Promise 26px, proof 14px, above the marquee. */
+  .sb-claim{font-size:26px}
+  .sb-proof{font-size:14px}
+  .sb-promise{padding:18px 0 14px;gap:10px}
+  .sb-count{padding-top:0}
+}
+
+/* The band's own labels sit over the brightest part of the backdrop (the scrim is only
+   ~72% at the tabs row, which the addendum fixes). #868B95 grey was not readable there,
+   so the chrome inside the hero is lifted. The scrim stops are unchanged. */
+.sb-hero .sb-lab{color:rgba(235,233,227,.92)}
+.sb-hero .sb-stamp{color:rgba(235,233,227,.78)}
+.sb-hero .sb-tabs .tab{color:rgba(235,233,227,.86)}
+.sb-hero .sb-tabs .tab.on{color:#17181C}
+.sb-hero .sb-foot .sb-link{color:#fff}
