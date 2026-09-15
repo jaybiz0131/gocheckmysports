@@ -1,30 +1,30 @@
 {
- "generated_utc": "2026-09-15T19:42:44Z",
- "stale_after_utc": "2026-09-15T22:42:44Z",
+ "generated_utc": "2026-09-15T20:20:51Z",
+ "stale_after_utc": "2026-09-15T23:20:51Z",
  "leagues": [
   {
    "league": "La Liga",
    "source": "site.api.espn.com",
    "games": [
     {
+     "away": "RMA",
+     "home": "ELC",
+     "away_score": 2,
+     "home_score": 0,
+     "state": "in",
+     "detail": "HT",
+     "start_utc": "2026-09-15T19:30Z",
+     "eid": "401882872"
+    },
+    {
      "away": "VAL",
      "home": "ALA",
      "away_score": 1,
      "home_score": 0,
-     "state": "in",
-     "detail": "82'",
+     "state": "post",
+     "detail": "Final",
      "start_utc": "2026-09-15T18:00Z",
      "eid": "401882876"
-    },
-    {
-     "away": "RMA",
-     "home": "ELC",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "in",
-     "detail": "11'",
-     "start_utc": "2026-09-15T19:30Z",
-     "eid": "401882872"
     },
     {
      "away": "ESP",
@@ -43,54 +43,44 @@
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "C. Esquiva Banuls",
-     "home": "J. Lilly Sophie Steur",
-     "away_score": 0,
-     "home_score": 2,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-15T18:15Z",
-     "eid": "183747"
-    },
-    {
-     "away": "A. Voloshchuk",
-     "home": "K. Rinaldo Persson",
-     "away_score": 1,
-     "home_score": 1,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-15T18:20Z",
-     "eid": "183703"
-    },
-    {
      "away": "G. Maristany Zuleta De Reales",
      "home": "B. Cengiz",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 0,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-15T19:00Z",
      "eid": "183759"
     },
     {
      "away": "M. Martinez Vaquero",
      "home": "S. Bandecchi",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 1,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-15T19:00Z",
      "eid": "183698"
     },
     {
      "away": "P. Udvardy",
      "home": "C. Bucsa",
-     "away_score": 0,
+     "away_score": 1,
      "home_score": 1,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-15T19:05Z",
      "eid": "183802"
+    },
+    {
+     "away": "S. Bejlek",
+     "home": "A. Parks",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:30 PM ET",
+     "start_utc": "2026-09-15T20:30Z",
+     "eid": "183801"
     },
     {
      "away": "C. Paquet",
@@ -98,9 +88,19 @@
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "4:00 PM ET",
-     "start_utc": "2026-09-15T20:00Z",
+     "detail": "4:30 PM ET",
+     "start_utc": "2026-09-15T20:30Z",
      "eid": "183855"
+    },
+    {
+     "away": "C. Alves",
+     "home": "S. Lamens",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:30 PM ET",
+     "start_utc": "2026-09-15T20:30Z",
+     "eid": "183846"
     }
    ]
   },
@@ -360,7 +360,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 97,
+   "games_seen": 93,
    "games_kept": 6
   }
  ]

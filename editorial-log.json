@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-11",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c086",
-    "headline": "Caitlin Clark's suspension rescinded for Liberty-Fever matchup",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states in the second paragraph: 'The headline references gender-eligibility comments, but the available reporting does not detail the original disciplinary action or the circumstances that led to it being overturned on game day.' This is a meta-commentary about the headline itself that does not appear in the brief and appears to be the writer editorializing about what the headline says rather than reporting from the brief. The brief contains only one data point confirming the suspension rescission; the draft should not narrate gaps or reference a headline that is not provided in the brief."
-    ]
-   },
-   {
-    "id": "c121",
-    "headline": "Trump Endorses Infantino as FIFA Leadership Pressure Mounts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Infantino awarded Trump the first FIFA peace prize' but the brief data_point says 'Infantino awarded Trump the first FIFA peace prize.' However, a separate data_point in the brief claims 'Infantino said Trump should win the Nobel Peace Prize,' which is a different claim entirely. The draft conflates or misrepresents these two distinct facts\u2014one is an actual FIFA award, the other is a statement about the Nobel Prize. The brief does not support the claim that Trump received 'the first FIFA peace prize' with sufficient clarity to distinguish it from the Nobel Prize statement.",
-     "The draft references 'During a World Cup scandal involving a U.S. striker's red card' but the brief data_point specifies 'During the World Cup scandal surrounding U.S. striker Folarin Balogun's red card.' The draft omits the player's name while the brief provides it; this is acceptable paraphrase. However, the draft does not verify whether Balogun is a striker or centre-back, and the brief itself does not clarify his position, creating an unverified claim about his role."
-    ]
-   },
-   {
-    "id": "c146",
-    "headline": "CFP Expansion Scenarios Hinge on Media Rights Threshold",
-    "category": "clarity",
-    "reasons": [
-     "The draft states 'By keeping play-in games separate from the playoffs, ESPN can retain broadcast rights for the entire tournament, with only the play-in games hitting the open market, according to Awful Announcing. This structure would allow ESPN to maintain exclusive control of the core playoff while opening some inventory to competitors like Fox.' This sentence presents ESPN's strategic interest (retaining rights) as though it is a settled contractual fact or agreed-upon outcome, when the brief and source describe it as ESPN's proposal or pitch. The phrasing 'would allow' softens it slightly, but the overall framing suggests a more resolved status than the reporting supports.",
-     "The draft does not adequately surface the bear_case that ESPN's 16-team proposal is 'likely dead on arrival' given Big Ten opposition and the requirement that both conferences agree. The draft mentions Big Ten opposition to the 16-team format in paragraph 2 but does not circle back to this conflict when discussing ESPN's play-in structure proposal in paragraph 6, leaving the reader without a clear sense that ESPN's compromise may be unacceptable to a key stakeholder."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
   "approved": 1,
   "rejected": [
    {
@@ -8063,6 +8031,47 @@
      "The draft states 'Clippers owner Steve Ballmer announced on September 14 he will accept the NBA's salary-cap circumvention penalties' but the brief data_point says 'Clippers owner Steve Ballmer announced Sunday he will accept the league's punishment without further protest.' Today is Tuesday September 15, 2026; September 14 was Monday, not Sunday. The brief says 'Sunday' but the draft changed it to 'September 14.' This is a factual discrepancy between draft and brief that cannot be reconciled without returning to the source.",
      "The draft claims 'Lawrence Frank, the Clippers' president of basketball operations, was among executives punished by the league' but does not specify the nature, length, or scope of his punishment. The brief's open_questions explicitly flag that 'Which Clippers executives were suspended, and for how long?' and 'What are the specific details of the suspensions applied to Clippers personnel mentioned as punished?' remain unanswered. Presenting Frank as 'punished' without caveat in the draft when the brief marks these specifics as open_questions violates the confidence-label requirement.",
      "The draft states 'The league reportedly lacked sufficient evidence to suspend Leonard individually for his role in the scheme, per Yahoo NBA' but frames this as settled fact in past tense ('lacked'). The brief's bear_case and open_questions both flag this as unresolved: 'The NBA reportedly lacked sufficient evidence to suspend Kawhi Leonard for his role in the Clippers investigation, indicating uncertain culpability' and 'What is the formal ruling on whether Leonard was suspended or disciplined individually by the NBA?' The draft should flag this as reported allegation or unconfirmed, not convert it to closed fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "Dodgers clinch 14th straight playoff berth, tie Atlanta's all-time record on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred on 'September 15' and uses past tense ('clinched on September 15'), but today is Tuesday, September 15, 2026. A game described as having happened 'on September 15' when today IS September 15 is ambiguous about timing. The brief timestamp shows '2026-09-15T05:42:00Z' which suggests an early-morning report of a game that occurred the night before (Monday), but the draft's phrasing 'on September 15' could mislead readers into thinking the game is today. The draft should specify 'Monday' or 'on September 14' to match the brief's implication that this was Monday's game.",
+     "The draft states 'Kik\u00e9 Hern\u00e1ndez fielded the game-ending grounder and tossed it to Evan Phillips at first base for the final out.' The brief's data point says 'Kiki\u00e9 Hern\u00e1ndez fielded the game-ending grounder and tossed it to Evan Phillips at first base for the final out,' but the draft uses 'Kik\u00e9' (with accent on the e) while the brief uses 'Kiki\u00e9' (with accent on the second i). This is a minor spelling variance but should match the source exactly."
+    ]
+   },
+   {
+    "id": "c44",
+    "headline": "Arch Manning apologizes to Holly Rowe after laughing about AI deepfake on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Texas quarterback Arch Manning apologized on September 15 after joking during a Monday press conference.' Today is Tuesday, September 15. The draft says Manning 'apologized on September 15' (today), which contradicts the later statement that 'On Tuesday, Manning posted a statement' and the brief data point that says 'On Tuesday, roughly 21 hours after the clip took off, Vieth posted.' If Manning's apology came on Tuesday (today), and the press conference was Monday, the timeline is: Monday press conference \u2192 Tuesday apology. The opening sentence creates ambiguity by stating 'apologized on September 15' without clarifying whether this means the apology was issued today (Tuesday the 15th) or that the incident happened on the 15th.",
+     "The draft states 'Evan Vieth's tweet describing Manning's reaction as 'gold' garnered more than 27 million views on X, according to The Guardian.' However, the brief data point says 'Evan Vieth's tweet describing Manning's reaction as 'gold' has more than 27 million views on X.' The draft's word choice 'garnered' (past tense, suggesting a completed accumulation) versus the brief's 'has' (present perfect, suggesting ongoing accumulation as of the reporting moment) represents a subtle but meaningful factual shift. The brief's phrasing indicates a snapshot in time; the draft's phrasing could imply the tweet has finished accumulating views."
+    ]
+   },
+   {
+    "id": "c316",
+    "headline": "Oklahoma WR Harris out indefinitely after abdominal injury against Michigan on September 15",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains medical/injury speculation beyond the official injury report. The brief states Harris 'continues to be evaluated following the hit' and 'Harris continues to be evaluated after taking a big hit in Saturday's loss at Michigan,' which reflects official language of ongoing evaluation. However, the draft's bottom line states: 'the severity of his abdominal injury remain unconfirmed as evaluation continues.' The word 'remain unconfirmed' narrates the absence of confirmation rather than reporting the official status. The brief's open_questions ask 'What specific abdominal or internal injury does Harris have, and does it require surgery?' but the desk cannot write 'remain unconfirmed' as its own voice when an official injury report has not yet been released. This crosses from reporting 'continuing evaluation' into speculating about whether information exists. Per the approver's instructions: 'the writer is forbidden from narrating absence, and a sentence that does (restating open_questions, 'the absence of', 'remains unreported') is category accuracy.' This is a compliance violation because it presents medical uncertainty as an editorial observation rather than letting the official 'foreseeable future' language stand.",
+     "The draft does not include the bear_case from the brief, which states: 'Harris returned to the field after the initial hit and completed the game with four receptions for 43 yards, suggesting the injury may not have been initially debilitating.' While the draft mentions Harris 'left the field but returned and finished the game, recording four receptions for 43 yards,' it does not acknowledge the counter-narrative implied by this information\u2014that his ability to return and complete the game might suggest the injury is less severe than 'indefinite absence' implies. The brief's bear_case is not empty, and the draft did not surface this balancing perspective."
+    ]
+   },
+   {
+    "id": "c55",
+    "headline": "Kawhi Leonard trade to Toronto becomes official after Clippers accept salary-cap penalties",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the trade 'became official' and uses past tense throughout ('The trade was initially agreed to on June 30 but was held pending'), but today is September 15, 2026, and no date in the brief establishes that the trade officially closed on or before today. The brief says 'The trade was made official Monday night' without specifying which Monday or whether that Monday has already occurred relative to today's date. The draft's presentation of this as a completed past event requires confirmation that today is after that official closing date, which is not established in the brief materials provided. If the trade closes on a future date, this entire draft reads as having already happened and must be rejected on accuracy grounds."
     ]
    }
   ]
