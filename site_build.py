@@ -3409,8 +3409,56 @@ def render_game_page(g, points, board, wx, items, dateline):
                      '<span class="bd-eyebrow">From the desk</span></div></div>'
                      '<div class="nh-rows">'
                      + "".join(_news_row(i) for i in rel) + '</div></section>')
+    _pre = g.get("state") == "pre"
+    # S-20: the marquee header, not a small score card - pre-game it carries both
+    # records, the kickoff in ET, the network chips and the facts the desk holds.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'<div class="sb-cards">{_sb_card(g, ia, wx=wx)}</div></div>')
+            f'{_sb_card(g, ia, marquee=True, wx=wx)}</div>')
+
+    # The inactives block says WHEN a list is expected rather than being absent, so a
+    # reader before kickoff learns something instead of nothing (S-20).
+    if not inact and _pre:
+        import datetime as _dt
+        _d = _utc_dt(g.get("start_utc") or "")
+        if _d:
+            _post = _et_clock(_d - _dt.timedelta(minutes=90))
+            inact_block = (
+                f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                f'<span class="bd-eyebrow">Inactives</span></div>'
+                f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a></div>'
+                f'<p class="bd-read">Not posted yet. The league posts about ninety '
+                f'minutes before kickoff, so expect these lists around '
+                f'{esc(_post)}.</p></section>')
+
+    # Designations for both teams, from this week's report.
+    _desig = ""
+    if IA_DESIG and IA_DESIG.get("groups"):
+        _abbrs = {(away.get("name") or ""), (home.get("name") or "")}
+        _rows = []
+        for _st, _ps in IA_DESIG["groups"].items():
+            for _pl in _ps:
+                if _pl.get("team") in _abbrs:
+                    _rows.append(f'<div class="pl-row"><span class="pl-d">'
+                                 f'{esc(_pl.get("team") or "")}</span>'
+                                 f'<span class="pl-s">{esc(_pl.get("name") or "")}</span>'
+                                 f'<span class="bd-src">{esc(_st)}'
+                                 f'{" · " + esc(_pl.get("detail")) if _pl.get("detail") else ""}'
+                                 f'</span></div>')
+        if _rows:
+            _desig = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                      '<span class="bd-eyebrow">This week on the report</span></div>'
+                      '<a class="bd-more" href="/fantasy/injuries.html">All designations'
+                      '</a></div><div class="pl-rows">' + "".join(_rows[:12])
+                      + '</div></section>')
+
+    # Where to watch, when the feed has this game.
+    _w2w = ""
+    if W2W_LIVE and g.get("network"):
+        _w2w = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                f'<span class="bd-eyebrow">Where to watch</span></div>'
+                f'<a class="bd-more" href="/where-to-watch.html">Every window</a></div>'
+                f'<p class="bd-read">{esc(g.get("network"))} carries this game.</p>'
+                f'</section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/scores.html">Scores</a> /
      {esc(away.get("abbr") or "")} at {esc(home.get("abbr") or "")}</p>
@@ -3419,9 +3467,11 @@ def render_game_page(g, points, board, wx, items, dateline):
   {head}
   {_game_wx_block(g, wx)}
   {inact_block}
-  {_leaders_module(points, "Fantasy leaders")}
+  {_desig}
+  {_w2w}
+  {"" if _pre else _leaders_module(points, "Fantasy leaders")}
   {rel_block}
-  <p class="bd-src"><strong>{esc(FANTASY_LINE)}</strong></p>
+  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
                  f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
