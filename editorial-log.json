@@ -4,37 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c031",
-    "headline": "Fulham sign Charles from Southampton for \u00a330m",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Charles began his career at Manchester City before moving to Southampton' but brief data_point only says 'Charles started his career at Manchester City'\u2014the draft adds information not in the brief about moving to Southampton, implying a direct path that is not confirmed in source.",
-     "Draft claims Charles 'becomes Fulham's third signing since Alvaro Arbeloa was appointed manager' and lists Gonzalo Garcia and Kevin as the other two signings. Brief data_point says Charles 'becomes Fulham's third most expensive signing' (ranking by fee, not sequence), and separately notes 'Since Arbeloa's arrival, Fulham have signed two players from Madrid: Garcia and midfielder Cesar Palacios.' Draft conflates cost ranking with signing order and substitutes 'Kevin from Shakhtar' for 'Cesar Palacios from Madrid'\u2014a factual error not supported by the brief."
-    ]
-   },
-   {
-    "id": "c035",
-    "headline": "Everton and Palace complete McNeil-Johnson swap",
-    "category": "accuracy",
-    "reasons": [
-     "Draft omits a critical data_point from the brief: 'McNeil's partner Megan Sharpley accused Crystal Palace of toying with his mental health via a social media post after the failed transfer.' This is part of the core record of the failed February deal and its fallout. Omission of a sensitive but documented claim about a player's personal experience in a swap-context story weakens accuracy and balance."
-    ]
-   },
-   {
-    "id": "c116",
-    "headline": "Caitlin Clark Matches Sue Bird's Career Scoring Mark in 499 Fewer Games",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Clark 'reached the same career point total as Bird while playing 499 fewer WNBA games' and later refers to her '499-game advantage in reaching Bird's career mark.' This frames the comparison as a completed equivalence. However, the brief's data_point says Clark 'matched Sue Bird's career scoring record in 499 fewer WNBA games than Bird required'\u2014a different claim. The brief does not confirm they reached identical point totals; it only confirms the 499-game differential. The draft conflates 'matched' (reported fact from source) with 'reached the same career point total' (an inference not in the brief). The brief explicitly notes 'The exact career point total for both Clark and Bird is not provided in the fetched text,' making the draft's definitive claim unsupported."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c086",
     "headline": "Caitlin Clark's suspension rescinded for Liberty-Fever matchup",
     "category": "accuracy",
@@ -8043,6 +8012,57 @@
     "reasons": [
      "The brief confidence label for the Nairobi selection is 'announced-not-verified', but the draft presents it as settled fact without qualification. The opening sentence 'World Athletics announced on September 15 that Nairobi will host the 2029 World Athletics Championships' reads as definitive rather than announced-pending-verification.",
      "The draft includes a claim about Taylor Swift being present at the Chiefs-Broncos game ('Taylor Swift, Kelce's wife, and actor Tom Cruise watched the Chiefs-Broncos game together from the stands'), but this fact is not in the brief for story c006 at all. This is smuggled information outside the research scope for this story."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c089",
+    "headline": "Browns place RB Sampson on injured reserve with knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Whether McLaughlin can replicate the kick-return production Sanders provided' in the bottom_line, but the brief shows Sanders filled Sampson's role AFTER the injury, meaning McLaughlin replaces Sampson, not Sanders. Sanders is the backup on offense; the draft creates a false comparison about kick-return succession that is not supported by the brief's data."
+    ]
+   },
+   {
+    "id": "c183",
+    "headline": "Oklahoma WR Harris out for 'foreseeable future' after Michigan injury",
+    "category": "compliance",
+    "reasons": [
+     "The draft's opening sentence presents Venables' announcement ('will be out for the \"foreseeable future\"') as a diagnostic ruling when the brief's confidence label is 'announced-not-verified.' The phrasing 'is ruled out' in the draft presents this as a clinical determination, but the brief clearly marks this as a coach's statement that has not been independently verified. The draft should attribute the indefinite timeline to Venables' statement, not present it as established fact.",
+     "The bottom_line speculates on injury evaluation outcomes ('The specific nature of Harris's injury and any imaging results will determine whether') that are not in the brief. The brief's open_questions flag exactly this: what the medical diagnosis is and what evaluation entails. The draft should not narrate the absence of this information as forward-looking analysis; it should acknowledge the information is unavailable."
+    ]
+   },
+   {
+    "id": "c274",
+    "headline": "Red Wings name Horcoff interim GM on September 15 as permanent search continues",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 17, 2026 as a Friday; September 17, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c186",
+    "headline": "Ovechkin appears in pro-Putin campaign ad; Hasek and others condemn participation",
+    "category": "compliance",
+    "reasons": [
+     "The draft uses the contested term 'imperialist war' in Dominik Hasek's quote without attribution in the body text. While the quote itself is properly attributed, the opening paragraph states 'Russia's imperialist war in Ukraine' as unquoted desk language, adopting charged framing as fact rather than reporting what named sources said. The brief's contested-terminology rule (2026-08-21) requires the desk to stay neutral and report dispute, not adopt either side's loaded vocabulary in unquoted narration.",
+     "The phrase 'propaganda network RT' in the draft is characterized language the desk applied without attribution or quotes. While Margarita Simonyan's role is factual, the descriptor 'propaganda' is contested framing that should either be sourced to a named speaker or removed.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Leonard trade to Toronto clears after Ballmer accepts NBA penalties on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Clippers owner Steve Ballmer announced on September 14 he will accept the NBA's salary-cap circumvention penalties' but the brief data_point says 'Clippers owner Steve Ballmer announced Sunday he will accept the league's punishment without further protest.' Today is Tuesday September 15, 2026; September 14 was Monday, not Sunday. The brief says 'Sunday' but the draft changed it to 'September 14.' This is a factual discrepancy between draft and brief that cannot be reconciled without returning to the source.",
+     "The draft claims 'Lawrence Frank, the Clippers' president of basketball operations, was among executives punished by the league' but does not specify the nature, length, or scope of his punishment. The brief's open_questions explicitly flag that 'Which Clippers executives were suspended, and for how long?' and 'What are the specific details of the suspensions applied to Clippers personnel mentioned as punished?' remain unanswered. Presenting Frank as 'punished' without caveat in the draft when the brief marks these specifics as open_questions violates the confidence-label requirement.",
+     "The draft states 'The league reportedly lacked sufficient evidence to suspend Leonard individually for his role in the scheme, per Yahoo NBA' but frames this as settled fact in past tense ('lacked'). The brief's bear_case and open_questions both flag this as unresolved: 'The NBA reportedly lacked sufficient evidence to suspend Kawhi Leonard for his role in the Clippers investigation, indicating uncertain culpability' and 'What is the formal ruling on whether Leonard was suspended or disciplined individually by the NBA?' The draft should flag this as reported allegation or unconfirmed, not convert it to closed fact."
     ]
    }
   ]
