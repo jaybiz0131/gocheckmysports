@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c027",
-    "headline": "Saints' Radunz out for season with torn ACL",
-    "category": "accuracy",
-    "reasons": [
-     "Opening sentence refers to Radunz as a 'guard' but the brief and injury context (offensive/defensive line drills, offensive line depth) indicate he is an offensive lineman, not a guard. This is a material misidentification of his position.",
-     "The draft states Moore 'said the team was gathering more information on the severity' of Jordan's hamstring, but the data_point says Moore 'did not reveal the severity' and 'said Jordan was currently gathering more information'\u2014the pronoun and meaning are reversed in the draft, misrepresenting what Moore said."
-    ]
-   },
-   {
-    "id": "c082",
-    "headline": "Jorge Messi dies at 68: Father and agent of Lionel Messi",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'during a period when the player was navigating his own health challenges' but no data_point in the brief supports that Lionel Messi himself was dealing with health issues. The brief only references Jorge Messi's health issues 'over the summer during the World Cup period.' This is a smuggled fact not supported by the research."
-    ]
-   },
-   {
-    "id": "c031",
-    "headline": "Sinner withdraws from Cincinnati with right knee injury",
-    "category": "accuracy",
-    "reasons": [
-     "Claim: 'Sinner will be trying to regain the US Open title that No. 2-ranked Carlos Alcaraz took from him.' The brief states via BBC Sport that 'Spain's Carlos Alcaraz won the 2025 event and was leading 5-0 in the final against Sinner, before Sinner had to retire because of illness'\u2014this clarifies Alcaraz won in 2025 when Sinner retired, not that Alcaraz 'took' a title Sinner previously held. The draft's phrasing implies Sinner was the defending champion, which is not supported by the brief.",
-     "Claim: 'Sinner has not played since winning his fifth Grand Slam singles title at Wimbledon last month, where he defeated Alexander Zverev in the final.' The brief data point says Sinner 'won his fifth Grand Slam singles title by beating Alexander Zverev in the Wimbledon final last month,' but does not state this was his fifth overall Grand Slam title count verified in the source text. The confidence is 'reported' for this claim, but the draft presents it as established fact without hedging that would reflect the source material's actual verification status."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Bridgewater retires again: Lions turn to Joshua Dobbs as Goff's backup",
-    "category": "accuracy",
-    "reasons": [
-     "Bottom line contains a typo: 'Bridgeworth' should be 'Bridgewater'. More critically, the bottom line states 'Bridgewater's departure leaves open the question of whether this retirement will hold'\u2014but this hedging is insufficiently sourced to the brief. The brief's bear_case notes Campbell's hedge ('can only truly answer that'), but the draft's opening paragraphs present the retirement as settled fact without adequately surfacing Campbell's qualification until the second paragraph, creating a false certainty in the lead that conflicts with the brief's cautionary tone.",
-     "The draft attributes the Campbell quote 'I think he can only truly answer that, but I feel like this is where it's at for sure right now' but the brief provides the full quote that includes 'This is where it needs to be and where he felt. And his biggest worry was letting us down. That's the type of guy he is and he's not.' The draft truncates the quote, omitting material context about Bridgewater's concern for the team, which softens the hedging language and misrepresents Campbell's tone."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 4,
   "rejected": [
    {
@@ -8326,6 +8285,49 @@
      "The draft reports the US Open final as already having occurred ('defeated...on Sunday to win'), but today is Tuesday, 2026-09-15. A US Open final on Sunday would be September 14, 2026, which is in the past and consistent with the date. However, the open_questions in the brief explicitly flag a scoring discrepancy: 'The BBC source text contains a discrepancy in the score, reporting 6-3, 6-6 (7-6), 5-7, 6-2; the ESPN source reports 6-3, 7-6 (7-2), 5-7, 6-2.' The draft reports the ESPN version (6-3, 7-6 (7-2), 5-7, 6-2) as definitive fact without acknowledging the source conflict noted in the brief.",
      "The brief's open_questions explicitly state a score discrepancy exists between sources. The draft presents only one version without qualification. This is an accuracy failure: the writer was required to flag unresolved source conflicts when they exist in the brief, not choose one version as though the conflict does not exist.",
      "The bottom_line claims Shelton's 0-6 record 'raises questions about whether he can overcome that particular matchup disadvantage,' which is appropriate, but the draft's phrasing of the bear_case material\u2014particularly the statement that 'The loss leaves Shelton winless against Zverev at 0-6'\u2014correctly carries the bear_case from the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c115",
+    "headline": "Ballmer accepts Clippers penalties on September 16 after reversing earlier stance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states 'Ballmer accepts Clippers penalties on September 16' but the brief core_claim states the event occurred on 'September 14-15, 2026' and the data point timestamp shows '2026-09-14T12:42:49Z.' The draft body states 'Steve Ballmer reversed course Monday, September 16, 2026' but the brief indicates the event occurred on September 14-15. Today is Tuesday, September 15, 2026. If Ballmer accepted on September 14-15, it is in the past; if he accepts on September 16, that is in the future. The brief's timestamp and core_claim place the event two days ago, but the draft places it tomorrow. This is a critical date discrepancy.",
+     "The brief includes multiple data points and open_questions indicating the Kawhi Leonard trade 'has not yet been completed,' but the draft states 'A planned trade would send Leonard to the Toronto Raptors... That trade has not yet been completed.' This is correct, but it is worth noting the brief's open_question: 'The expected timeline for the Kawhi Leonard trade to Toronto to be finalized, and whether the federal investigation or Ballmer's acceptance of penalties affects that deal.' The draft does not speculate on this, which is appropriate.",
+     "The draft states that Gillian Zucker and Lawrence Frank received suspensions but does not specify durations for each. The brief data point is clear: 'Ballmer and Zucker will be suspended for one year, and Lawrence Frank will be suspended for six months.' The draft should specify these durations, not leave them vague. The opening paragraph says 'Gillian Zucker was also suspended for one year, and Lawrence Frank was suspended for six months' in later text, so this is actually stated. No accuracy failure on suspensions.",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c275",
+    "headline": "Canadiens extend St. Louis on multiyear deal announced September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states 'announced September 16' but the brief data point timestamp shows '2026-09-14T15:39:39Z,' indicating the event occurred on September 14, 2026. The draft body states 'Monday, September 16, 2026,' but today is Tuesday, September 15, 2026, meaning September 16 has not yet occurred and Monday is in the past (September 15 is today, Tuesday). If the announcement occurred on September 14 (Sunday), it should not be written as Monday, September 16. The brief's core_claim says 'on September 14, 2026.' The draft has the wrong date and wrong day of week.",
+     "The draft states St. Louis 'carries a 163-155-47 record entering his sixth season' but if he is entering his sixth season, that record would be from his first five seasons, not his sixth. The brief confirms '163-155-47 record entering his sixth season,' so the number is correct, but the phrasing is awkward; it should clarify this is his record through five seasons, or after five seasons. However, this is not strictly inaccurate\u2014'entering his sixth season' means at the start of that season, with the prior record behind him.",
+     "the draft dates September 16, 2026 as a Monday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "Nairobi selected to host 2029 World Athletics Championships, first African city",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks the core claim 'Nairobi selected to host the 2029 World Athletics Championships' with confidence label 'announced-not-verified', but the draft opens with 'The World Athletics Council selected Nairobi to host the 2029 World Athletics Championships on Tuesday, September 15' as settled fact, with no hedging or qualification. An announced-not-verified claim must survive in prose as unconfirmed or conditional; the draft presents it as definitive."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Taylor Swift, Tom Cruise sit together at Chiefs-Broncos game September 14",
+    "category": "accuracy",
+    "reasons": [
+     "Date mismatch: the brief's core claim and all data_points cite the game as occurring on September 15, 2026 (timestamp: 2026-09-15T02:29:23Z), but the draft title and opening sentence state the game took place on 'September 14'. Today is 2026-09-15; a game on September 14 would be a past event, which is correct. However, the brief's timestamp and the core_claim say September 15. The brief itself is internally inconsistent (core_claim says 'September 15' but the title in the drafting context may indicate a different date). The safest reading: the game occurred Monday night, which given today is Tuesday would be yesterday (September 14). The draft uses September 14; the brief timestamp says September 15. This is an accuracy failure\u2014the draft and brief disagree on the date of the event."
     ]
    }
   ]
