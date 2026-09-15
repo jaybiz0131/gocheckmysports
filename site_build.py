@@ -2429,7 +2429,11 @@ def render_news_hub(items, dateline, pulse=None):
         f'<a class="nh-chip" href="#{esc(L["slug"])}">{esc(L["name"])}'
         f'<span class="nh-chip-n">{len(L["items"])}</span></a>' for L in current)
 
-    rec = record_sections(items, home=True)
+    # S-18: /news opened with the entire Record block before a single story. On the
+    # news desk the Record is a pointer, not the page.
+    rec = ('<p class="lx-dek" style="margin-top:10px">'
+           '<a href="/keepers.html">The Record: what stays true after the news moves on '
+           '&rarr;</a></p>')
     months = _news_month_archive(live)
     marc = "".join(
         f'<a class="nh-mo" href="/news/archive/{esc(m)}.html">'
@@ -4539,11 +4543,6 @@ def render_home(items, dateline):
   {track_html}
   {record_sections(items, home=True, board=IA_BOARD)}
   {record_full_index(items)}
-  <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
-     right and keep the facts honest. The score is a fact; the story gets checked. Real sports
-     news verified against official league data and on-record sources, with the rumor and the
-     hype stripped out. No hot takes dressed as facts, no paid promotion, and never betting
-     advice. Everything here is free, and every source is linked.</p>
 </section></main>"""
     return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 

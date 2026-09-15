@@ -37,9 +37,14 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 DESK = {
-    "name": "GoCheckMy Sports",
+    # S-22: the site is GoCheckMySports, one word. The Edition had it spaced and in a
+    # different treatment, so the paper looked like a different publication from the
+    # site that prints it. The print design otherwise stands: Jack reads it daily.
+    "name": "GoCheckMySports",
+    "name_base": "GoCheckMy",
+    "name_site": "Sports",
     "motto": "The Result, and How It Happened.",
-    "folio": ("GoCheckMy Sports is a news desk of Go Check My Brands LLC · "
+    "folio": ("GoCheckMySports is a news desk of Go Check My Brands LLC · "
               "Every source linked · Never betting advice"),
     "place": "Charleston, S.C.",
     "origin": "https://gocheckmysports.com",
@@ -168,6 +173,10 @@ a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 .ed-masthead{text-align:center; padding:1.6rem 0 .9rem;}
 .ed-masthead h1{font-weight:600; font-size:clamp(2.4rem,6vw,4.4rem);
   letter-spacing:.01em; line-height:1;}
+/* S-22: the site's wordmark SHAPE in the Edition's own palette. --rule here is a
+   hairline tan, not the site's green; --accent is this paper's accent and it is
+   redefined for night and e-ink, so the wordmark stays right in all three modes. */
+.ed-word-site{font-style:italic; color:var(--accent);}
 .ed-masthead .ed-motto{font-family:var(--sans); font-size:.72rem;
   letter-spacing:.22em; text-transform:uppercase; color:var(--ink-faint);
   margin-top:.55rem;}
@@ -327,6 +336,16 @@ def _latest_edition_path(all_days):
     """The newest dated edition; nav points here now that /news is the news hub."""
     return f"/edition/{all_days[0]}.html" if all_days else "/news.html"
 
+def _wordmark_html(desk):
+    """S-22: the site's own wordmark - the base in ink, the site name in the desk colour
+    and italic - so the masthead of the paper is the masthead of the site."""
+    base, site = desk.get("name_base"), desk.get("name_site")
+    if base and site:
+        return (f'<span class="ed-word-base">{esc(base)}</span>'
+                f'<span class="ed-word-site">{esc(site)}</span>')
+    return esc(desk.get("name") or "")
+
+
 def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     ed, stories = select(items, day)
     lead = stories[0] if stories else None
@@ -348,7 +367,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     # Sections nav, v1: only REAL destinations (no dead links, no faked sections; the
     # demo's crypto section list lives in DESK until per-story tags exist).
     head = f"""<header class="ed-masthead">
-  <h1>{esc(desk["name"])}</h1>
+  <h1>{_wordmark_html(desk)}</h1>
   <p class="ed-motto">{esc(desk["motto"])}</p>
   <div class="ed-dateline">
     <span>{esc(_human_date(day))}</span>
