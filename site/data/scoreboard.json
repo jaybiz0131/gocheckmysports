@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-15T00:01:27Z",
+ "fetched_at": "2026-09-15T02:14:20Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,17 +7,17 @@
     {
      "id": "401872931",
      "league": "NFL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/14 - 8:15 PM EDT",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "9:10 - 3rd",
+     "detail": "9:10",
+     "period": 3,
      "start_utc": "2026-09-15T00:15Z",
      "network": "ESPN",
      "home": {
       "abbr": "KC",
       "name": "Chiefs",
-      "score": "0",
+      "score": "21",
       "record": "0-0",
       "id": "12",
       "color": "#e31837"
@@ -25,14 +25,14 @@
      "away": {
       "abbr": "DEN",
       "name": "Broncos",
-      "score": "0",
+      "score": "7",
       "record": "0-0",
       "id": "7",
       "color": "#0a2343"
      },
-     "situation": "",
-     "possession": "",
-     "progress": null,
+     "situation": "1st & Goal at KC 15",
+     "possession": "7",
+     "progress": 0.5972222222222222,
      "venue_indoor": false
     },
     {
@@ -508,26 +508,26 @@
     {
      "id": "401816934",
      "league": "MLB",
-     "state": "in",
-     "completed": false,
-     "status_short": "Bot 5th",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 5,
+     "period": 9,
      "start_utc": "2026-09-14T22:40Z",
      "network": "ESPN Unlmtd",
      "home": {
       "abbr": "CLE",
       "name": "Guardians",
-      "score": "0",
-      "record": "76-74",
+      "score": "3",
+      "record": "76-75",
       "id": "5",
       "color": "#002b5c"
      },
      "away": {
       "abbr": "CHW",
       "name": "White Sox",
-      "score": "0",
-      "record": "76-73",
+      "score": "7",
+      "record": "77-73",
       "id": "4",
       "color": "#000000"
      },
@@ -539,26 +539,26 @@
     {
      "id": "401816936",
      "league": "MLB",
-     "state": "in",
-     "completed": false,
-     "status_short": "Mid 6th",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 6,
+     "period": 9,
      "start_utc": "2026-09-14T22:40Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "CIN",
       "name": "Reds",
-      "score": "0",
-      "record": "70-79",
+      "score": "1",
+      "record": "70-80",
       "id": "17",
       "color": "#c6011f"
      },
      "away": {
       "abbr": "LAD",
       "name": "Dodgers",
-      "score": "3",
-      "record": "90-59",
+      "score": "4",
+      "record": "91-59",
       "id": "19",
       "color": "#005a9c"
      },
@@ -570,17 +570,17 @@
     {
      "id": "401816935",
      "league": "MLB",
-     "state": "in",
-     "completed": false,
-     "status_short": "Bot 3rd",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 3,
+     "period": 9,
      "start_utc": "2026-09-14T23:07Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "TOR",
       "name": "Blue Jays",
-      "score": "2",
+      "score": "5",
       "record": "75-75",
       "id": "14",
       "color": "#134a8e"
@@ -588,7 +588,7 @@
      "away": {
       "abbr": "DET",
       "name": "Tigers",
-      "score": "0",
+      "score": "6",
       "record": "70-79",
       "id": "6",
       "color": "#0a2240"
@@ -601,26 +601,26 @@
     {
      "id": "401816933",
      "league": "MLB",
-     "state": "in",
-     "completed": false,
-     "status_short": "Bot 3rd",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 3,
+     "period": 9,
      "start_utc": "2026-09-14T23:10Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "NYM",
       "name": "Mets",
-      "score": "0",
-      "record": "69-80",
+      "score": "1",
+      "record": "69-81",
       "id": "21",
       "color": "#002d72"
      },
      "away": {
       "abbr": "BAL",
       "name": "Orioles",
-      "score": "1",
-      "record": "72-78",
+      "score": "2",
+      "record": "73-78",
       "id": "1",
       "color": "#df4601"
      },
@@ -634,15 +634,15 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Mid 2nd",
+     "status_short": "Top 9th",
      "detail": "0:00",
-     "period": 2,
+     "period": 9,
      "start_utc": "2026-09-14T23:40Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "CHC",
       "name": "Cubs",
-      "score": "0",
+      "score": "7",
       "record": "83-67",
       "id": "16",
       "color": "#0e3386"
@@ -650,7 +650,7 @@
      "away": {
       "abbr": "ATL",
       "name": "Braves",
-      "score": "0",
+      "score": "3",
       "record": "88-62",
       "id": "15",
       "color": "#0c2340"
@@ -665,15 +665,15 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Top 2nd",
+     "status_short": "Mid 8th",
      "detail": "0:00",
-     "period": 2,
+     "period": 8,
      "start_utc": "2026-09-14T23:40Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "MIN",
       "name": "Twins",
-      "score": "0",
+      "score": "2",
       "record": "70-79",
       "id": "9",
       "color": "#031f40"
@@ -681,7 +681,7 @@
      "away": {
       "abbr": "NYY",
       "name": "Yankees",
-      "score": "0",
+      "score": "7",
       "record": "86-63",
       "id": "10",
       "color": "#132448"
@@ -696,15 +696,15 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "End 1st",
+     "status_short": "Mid 8th",
      "detail": "0:00",
-     "period": 1,
+     "period": 8,
      "start_utc": "2026-09-14T23:45Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "STL",
       "name": "Cardinals",
-      "score": "0",
+      "score": "2",
       "record": "74-76",
       "id": "24",
       "color": "#be0a14"
@@ -712,7 +712,7 @@
      "away": {
       "abbr": "SF",
       "name": "Giants",
-      "score": "0",
+      "score": "1",
       "record": "62-88",
       "id": "26",
       "color": "#000000"
@@ -725,17 +725,17 @@
     {
      "id": "401816940",
      "league": "MLB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/14 - 8:40 PM EDT",
+     "status_short": "Top 6th",
      "detail": "0:00",
-     "period": 1,
+     "period": 6,
      "start_utc": "2026-09-15T00:40Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "COL",
       "name": "Rockies",
-      "score": "0",
+      "score": "2",
       "record": "55-94",
       "id": "27",
       "color": "#33006f"
@@ -743,7 +743,7 @@
      "away": {
       "abbr": "SD",
       "name": "Padres",
-      "score": "0",
+      "score": "6",
       "record": "81-68",
       "id": "25",
       "color": "#2f241d"
@@ -756,17 +756,17 @@
     {
      "id": "401816942",
      "league": "MLB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/14 - 9:38 PM EDT",
+     "status_short": "Top 3rd",
      "detail": "0:00",
-     "period": 1,
+     "period": 3,
      "start_utc": "2026-09-15T01:38Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "LAA",
       "name": "Angels",
-      "score": "0",
+      "score": "2",
       "record": "56-93",
       "id": "3",
       "color": "#ba0021"
@@ -787,11 +787,11 @@
     {
      "id": "401816941",
      "league": "MLB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/14 - 9:40 PM EDT",
+     "status_short": "Top 3rd",
      "detail": "0:00",
-     "period": 1,
+     "period": 3,
      "start_utc": "2026-09-15T01:40Z",
      "network": "MLB.TV",
      "home": {
@@ -805,7 +805,7 @@
      "away": {
       "abbr": "MIA",
       "name": "Marlins",
-      "score": "0",
+      "score": "3",
       "record": "74-76",
       "id": "28",
       "color": "#00a3e0"
