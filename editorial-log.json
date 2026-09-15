@@ -4,46 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c031",
-    "headline": "Everton and Palace Complete McNeil-Johnson Swap",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'McNeil scored 15 goals and provided 19 assists in 128 games in all competitions for Everton, per BBC Sport, though ESPN reports he made 114 appearances for the club.' This directly contradicts the brief's data_points, which list both stats as coming from BBC Sport (128 games with 15 goals and 19 assists). The ESPN figure of 114 appearances appears in the brief as a separate conflicting claim from ESPN, not as a parenthetical caveat to the BBC figure. The draft misattributes the ESPN discrepancy by implying ESPN also covers the goal/assist stats when it only disputes the appearance count.",
-     "The draft states 'Palace finished 15th in the Premier League last season, per ESPN' but the brief shows this is marked 'verified-on-chain' confidence from ESPN, not 'reported.' However, more critically, the draft later states 'Palace have won the FA Cup, Community Shield, and Europa Conference League in the last two seasons, per BBC Sport' but the brief shows this claim comes from BBC Sport marked 'reported' confidence. The draft's attribution is correct but the statement that Palace won the FA Cup and Community Shield in the last two seasons needs verification\u2014these are major trophies and the timeframe matters for credibility."
-    ]
-   },
-   {
-    "id": "c163",
-    "headline": "Red Sox Rutschman activation: source verification failed",
-    "category": "accuracy",
-    "reasons": [
-     "Draft body acknowledges source is unreadable and contains no verifiable facts, yet this is presented as a draft for approval rather than a research failure returned to the desk. The hard rule is: no fact exists outside the brief. This brief has zero data_points because the source failed. The draft itself is correct in refusing to publish, but it should not be submitted to approval; it should be rejected at research intake."
-    ]
-   },
-   {
-    "id": "c190",
-    "headline": "Seattle Storm game: source verification failed",
-    "category": "accuracy",
-    "reasons": [
-     "Draft body acknowledges source is unreadable and contains no verifiable facts, yet this is presented as a draft for approval rather than a research failure returned to the desk. The brief has zero data_points because the source failed. The draft correctly refuses publication, but this should not reach approval; research must recover the source or the story cannot be written."
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "Carrington clarifies 'white privilege' post, tells critics to research her background",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Carrington 'holds a bachelor's degree in Psychology and a bachelor's degree in African and African American Studies, both from Stanford, per Awful Announcing.' The brief data_point confirms both degrees are from Stanford. However, the draft attributes this to Awful Announcing when it should be attributed inline to that source in the body text where the education is introduced, not buried as a parenthetical at the end of a paragraph about her response. More critically, the draft introduces Carrington's educational credentials in a way that reads as character defense without the original context from the brief's open_questions noting that 'Carrington's response clarifies what she did NOT claim, but does not explicitly state what her original post was intended to communicate.' The brief also documents that Acho holds degrees in sports management and sports psychology from University of Texas (data_point provided), but the draft omits this entirely while including Carrington's credentials, creating asymmetrical sourcing of educational background that tilts the narrative toward Carrington's credibility without balance.",
-     "Draft states Emmanuel Acho's follow-up criticism as: 'The problem with Dijonai's tweet is nothing about it was clear. If we're ignoring the obvious context of her ejection, \"White privilege\" becomes an explosive accusation with no context.' The brief data_point provides the fuller quote: 'Respectfully, the problem with Dijonai's tweet is nothing about it was clear. If we're ignoring the obvious context of her ejection, \"White privilege\" becomes an explosive accusation with no context. White privilege is a real thing, it's not a claim you can ambiguously make.' The draft truncates the final substantive clause ('White privilege is a real thing, it's not a claim you can ambiguously make') which is essential to Acho's argument and part of the bear_case. Omitting this changes the weight of his critique."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c041",
     "headline": "Trump backs FIFA's Infantino amid World Cup privatization scandal",
     "category": "accuracy",
@@ -8018,6 +7978,66 @@
     "reasons": [
      "The draft states 'Commissioner Silver's statement on September 15 will clarify...' but today IS September 15, 2026. A future event cannot be written as prospective ('will') when it is scheduled for today; the draft must either report the statement as completed (if it has happened) or state the scheduled timing more carefully. The brief does not establish whether Silver's announcement has already occurred or is still pending today.",
      "The draft references 'Leonard won an unprecedented NBA championship with the Raptors seven years prior to the trade' but the brief's corresponding data point says 'seven years ago,' which is vague about calendar precision. The draft should match the brief's language exactly or verify the year independently; reframing temporal language without source confirmation is a smuggle."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c139",
+    "headline": "Dodgers clinch 14th straight playoff berth, tie Braves' all-time record on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim and data_point timestamp state the clinch occurred on 'Monday,' but the draft title and opening sentence state it occurred on 'Tuesday.' Today is Tuesday, 2026-09-15. The brief timestamp shows 2026-09-15T05:42:00Z (Tuesday morning). The brief's core_claim says 'Monday' but the angle says 'over a week still remaining,' which is consistent with Tuesday, Sept 15. The source itself is dated 2026-09-15, making Tuesday the correct date. The draft incorrectly reports 'Monday' in the core narrative, creating a factual error about when the event occurred."
+    ]
+   },
+   {
+    "id": "c42",
+    "headline": "Kawhi Leonard trade to Toronto officially clears; Clippers accept draft-pick penalties on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal 'became officially complete Monday night' but today is Tuesday, 2026-09-15, and the brief provides no timestamp indicating when Monday was relative to today. The brief's core_claim says 'Monday night' but without a timestamp in the brief's data_points, and with today being Tuesday, reporting a past event as 'Monday night' is ambiguous and potentially inaccurate. More critically, the draft attributes the quote 'the foremost concern, of course, is his health...' to CBS Sports, but the brief's bear_case attributes this exact quote to CBS Sports with different framing. The draft presents a direct quote but provides no source URL distinction; it appears to be paraphrased rather than directly quoted from CBS Sports as written, and the attribution and sourcing path is unclear."
+    ]
+   },
+   {
+    "id": "c275",
+    "headline": "Shawn Horcoff named interim GM of Red Wings on September 15 as new NHL contract era begins",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes two data points from the brief that are not relevant to the core story and appear to come from a different Yahoo NHL article about Will Horcoff (Shawn's son): 'Will Horcoff is a prospect for the Pittsburgh Penguins' and 'Will Horcoff heads back to the University of Michigan for a second full season.' These claims appear in the brief's data_points but are not mentioned in the draft's body or sources, and the source URLs cited in the brief (father-penguins-top-prospect-named-144929733.html) suggest the brief may have conflated multiple articles. The draft's single source URL does not appear to match all the data_points claimed. Additionally, the brief's data_point about Will Horcoff is unrelated to Shawn Horcoff's appointment and introduces a reputational or personal detail about the family that falls outside the employment story, raising a compliance concern about whether this information should be in the brief at all."
+    ]
+   },
+   {
+    "id": "c10",
+    "headline": "Bears and Panthers set NFL Week 1 scoring record with 96-point combined output",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Chicago Bears defeated the Carolina Panthers 59-37 in Week 1' as a past event. Today is Tuesday, 2026-09-15. The brief does not specify the date of this game beyond 'Week 1 of the 2026 season.' If this game occurred on or after today's date, it should be written as upcoming or scheduled, not as a completed event. The brief's open_questions note 'The source texts do not specify the exact date the game was played beyond noting it as Week 1 of the 2026 season,' which means the writer cannot establish that this game has already happened. Writing a scheduled or future event as past tense is an accuracy failure.",
+     "The draft reports 'the highest-scoring Week 1 game in NFL history' as settled fact, but the brief does not contain a source providing definitive verification of this claim as a historical record. The CBS Sports source is cited, but the brief does not confirm this is independently verified as an all-time record rather than a reported claim."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Garrett (knee, IR), A.J. Brown (ankle, IR), Darnold (hip) sidelined after Week 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In the Rams' opener against San Francisco on September 14, Garrett recorded just his fourth career game without a tackle on 39 defensive snaps, his first scoreless game since Week 11 of the 2024 season.' This is inaccurate: the brief data_point says 'his first since Week 11 of the 2024 season,' not 'his first scoreless game.' A 'scoreless game' (no points scored by a player) is not the same as a game without a tackle. The brief says he had no tackle, not zero points.",
+     "The draft identifies Kyler Murray as 'Minnesota Vikings quarterback' but the brief data_point says he plays for Minnesota. However, no confirmation in the brief establishes Murray's team affiliation in the context provided\u2014only that he suffered a concussion. The source material should be checked for clarity, but the phrasing creates ambiguity about whether Murray was being identified correctly by team.",
+     "The draft lists 'Isiah Pacheco will not return until December after back surgery' but the data_point says he is with the Detroit Lions. The brief does not state which team Pacheco plays for in its data_points; this identification is not in the brief and is therefore smuggled.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c81",
+    "headline": "Bedard named Blackhawks captain at 21, second-youngest in franchise history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Bedard 'will miss the season start due to shoulder surgery, though the specific nature of the procedure and the expected recovery timeline are not documented in available reporting.' This framing violates the hard rule: a fact (shoulder surgery, season-start absence) must trace to the brief. The brief's data_points contain no mention of shoulder surgery or Bedard missing games. This is smuggled information not present in the research brief.",
+     "The bottom_line references 'Bedard's immediate absence due to surgery' and frames it as a strategic question about the organization's intentions. This entire narrative thread\u2014that Bedard will be absent, that he is undergoing surgery\u2014is not supported by any data_point in the brief. The brief contains no open_question or data_point about surgery or absence.",
+     "The brief's open_questions explicitly state 'The sources mention shoulder surgery will cause him to miss the season start but provide no details on the surgery type.' This indicates the source material the writer saw contained this claim, but it is NOT in the formal data_points provided to the approver. The writer is reporting from outside the brief."
     ]
    }
   ]
