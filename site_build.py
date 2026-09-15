@@ -963,6 +963,62 @@ def _fingerprint_assets(html):
 # The motion layer's shared guard: reduced-motion strips every video to its poster and
 # freezes the micro-details; otherwise videos play only while on screen and story cards
 # fade up once. Inline (one request), transform/opacity only, no layout shift.
+ATMOS_MOTION_JS = """<script>(function(){
+  /* A-16: five moves and no more.
+     (1) the live dot pulses, only while a game is live - CSS.
+     (2) the lead number counts up once on first paint.
+     (3) sparklines draw on, staggered in reading order, once.
+     (4) the band's slow zoom - CSS, desktop only, already shipped.
+     (5) card lift on hover - CSS, pointer devices only.
+     prefers-reduced-motion:reduce stops all five and the loop. */
+  try{
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    /* (2) COUNT-UP. The final text is already in the HTML, so a reader without
+       JavaScript sees the real number and the element reserves its own width - there is
+       no layout shift (A-17). The intermediate frames are formatted with the SAME
+       digits as the final value, so the number never reads as a rounded stand-in. */
+    document.querySelectorAll('[data-countup]').forEach(function(el){
+      var finalText = el.textContent;
+      var m = finalText.match(/-?[\d,]+(?:\.\d+)?/);
+      if (!m) return;
+      var target = parseFloat(m[0].replace(/,/g,''));
+      if (!isFinite(target) || target === 0) return;
+      var decimals = (m[0].split('.')[1] || '').length;
+      var prefix = finalText.slice(0, m.index), suffix = finalText.slice(m.index + m[0].length);
+      el.style.minWidth = el.getBoundingClientRect().width + 'px';
+      el.style.display = 'inline-block';
+      var t0 = null, DUR = 600;
+      function frame(t){
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, (t - t0) / DUR);
+        var v = target * (1 - Math.pow(1 - p, 3));
+        el.textContent = prefix + v.toLocaleString('en-US',
+          {minimumFractionDigits: decimals, maximumFractionDigits: decimals}) + suffix;
+        if (p < 1) requestAnimationFrame(frame); else el.textContent = finalText;
+      }
+      requestAnimationFrame(frame);
+    });
+
+    /* (3) DRAW-ON. The stroke is measured, dashed to its own length and the offset
+       animated to zero. The element keeps its size throughout, so again no shift. */
+    var lines = document.querySelectorAll('.tile-series polyline, .cb-leadchart polyline');
+    [].forEach.call(lines, function(ln, i){
+      var len;
+      try { len = ln.getTotalLength(); } catch(e) { return; }
+      if (!len) return;
+      ln.style.strokeDasharray = len + ' ' + len;
+      ln.style.strokeDashoffset = len;
+      setTimeout(function(){
+        ln.style.transition = 'stroke-dashoffset 900ms ease-out';
+        ln.style.strokeDashoffset = '0';
+      }, 60 * i);
+    });
+  }catch(e){}
+})();</script>
+"""
+
+
 MOTION_JS = (
     '<script>(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;'
     'var vids=[].slice.call(document.querySelectorAll(".motion-video"));'
@@ -1073,7 +1129,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {body}
 {footer(brand)}{beacon}
 {tab_bar(path)}
-{MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
+{MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -3091,7 +3147,7 @@ def scoreboard_band(sb, board, wx=None):
         <p class="sb-proof">Finals checked against the league feeds. Inactives within
           five minutes of posting. Every source linked.</p>
       </div>
-      <span class="sb-count">{esc(count_line)}</span>
+      <span class="sb-count" data-countup>{esc(count_line)}</span>
     </div>
     <div class="sb-head">
       <div class="sb-head-l"><span class="sb-lab">The Scoreboard</span>
@@ -3157,7 +3213,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         <p class="sb-proof">Updated {esc(_et(sb.get("fetched_at") or ""))}. Finals are
           checked against the league feeds.</p>
       </div>
-      <span class="sb-count">{esc(count_line)}</span>
+      <span class="sb-count" data-countup>{esc(count_line)}</span>
     </div>
   </div>
 </section>"""
