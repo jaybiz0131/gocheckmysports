@@ -2679,8 +2679,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                 f'<div class="sb-mq-foot">'
                 f'<a class="sb-link" href="{esc(_game_href(g))}">'
                 f'{"Game page" if g.get("league") == "NFL" else "All scores"}</a>'
-                f'<span class="sb-note">Marquee picks itself: closest live score, '
-                f'largest audience</span></div>{bar}</div>')
+                f'</div>{bar}</div>')
     return (f'<div class="game">'
             f'{_sb_team_row(g["away"], lose_a, started=_started)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
@@ -3502,40 +3501,31 @@ def _receipt_status(item):
     return ""
 
 
-def _lane_numbers(item):
-    """A chart only when the story carries numbers worth one. Two comparable money
-    figures, the same rule the receipts chart uses; anything else draws nothing."""
-    figs = []
+def _lane_figures(item):
+    """S-17. The lane's money figures as a chip.
+
+    This drew a two-bar chart comparing "$45M" against "$30 million", which invited a
+    reading it could not support: the bars looked like a part-to-whole when the two
+    figures are a total and a guarantee. The figures themselves were never the problem,
+    so they stay, as text, in the order they were found."""
+    figs, seen = [], set()
     blob = " ".join([item.get("title") or "", item.get("key_fact") or ""])
     for f in _MONEY_RX.findall(blob):
-        v = _usd(f if f.strip().startswith("$") else "$" + f)
-        if v:
-            figs.append((v, f.strip()))
-    uniq, seen = [], set()
-    for v, f in sorted(figs, key=lambda t: -t[0]):
-        if v in seen:
-            continue
-        seen.add(v)
-        uniq.append((v, f))
-    if len(uniq) < 2:
+        txt = f.strip()
+        v = _usd(txt if txt.startswith("$") else "$" + txt)
+        if v and v not in seen:
+            seen.add(v)
+            figs.append((v, txt))
+    if len(figs) < 2:
         return ""
-    (v1, f1), (v2, f2) = uniq[0], uniq[1]
-    W, BH = 240, 11
-    w2 = max(5, round((W - 60) * (v2 / v1)))
-    return (f'<svg class="bd-chart" width="{W}" height="42" viewBox="0 0 {W} 42" '
-            f'role="img" aria-label="{esc(f1)} against {esc(f2)}." '
-            f'style="max-width:100%">'
-            f'<rect x="0" y="4" width="{W-60}" height="{BH}" rx="3" fill="var(--rule)">'
-            f'</rect><text x="{W-54}" y="{4+BH-1}" font-family="var(--mono)" '
-            f'font-size="10.5" fill="var(--muted)">{esc(f1)}</text>'
-            f'<rect x="0" y="25" width="{w2}" height="{BH}" rx="3" fill="var(--rule)" '
-            f'opacity="0.55"></rect><text x="{w2+6}" y="{25+BH-1}" '
-            f'font-family="var(--mono)" font-size="10.5" fill="var(--muted)">'
-            f'{esc(f2)}</text></svg>')
+    figs.sort(key=lambda t: -t[0])
+    return (f'<span class="bd-chip lane-figs">'
+            f'{esc(" · ".join(f for _v, f in figs[:3]))}</span>')
 
 
-def lane_card_v3(item, lane_name):
-    """S-C. The v3 lane card."""
+def lane_card_v3(item, lane_name, stamp=None):
+    """S-C. The v3 lane card. `stamp` lets a lane show its count and newest date in
+    place of the piece's own dateline (S-17)."""
     pull = (item.get("bottom_line") or item.get("key_fact") or item.get("dek") or "").strip()
     if len(pull) > 300:
         pull = pull[:295].rsplit(" ", 1)[0] + "..."
@@ -3552,18 +3542,22 @@ def lane_card_v3(item, lane_name):
                 if outlets else "")
     return (f'<div class="bd-card lane-v3">'
             f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(lane_name)}</span>'
-            f'{status}{chip}<span class="bd-stamp">{esc(fmt_when(item))}</span></div>'
+            f'{status}{chip}<span class="bd-stamp">'
+            f'{stamp if stamp else esc(fmt_when(item))}</span></div>'
             f'<a class="bd-rec-hl" href="/articles/{esc(item["slug"])}.html">'
             f'{esc(item.get("title") or "")}</a>'
             + (f'<p class="bd-read" style="font-size:15px">{esc(pull)}</p>' if pull else "")
-            + _lane_numbers(item)
+            + _lane_figures(item)
             + receipts
             + f'<a class="bd-more" href="/articles/{esc(item["slug"])}.html">'
               f'Read the piece</a></div>')
 
 
-def extra_lanes_block(items, board):
-    """The Contracts and Fantasy facts lanes. An empty lane stays hidden."""
+def extra_lanes(items, board):
+    """S-17. The Contracts and Fantasy facts lane SECTIONS, with no wrapper of their
+    own. They used to render their own bd-mod with a second copy of the Record's
+    header, which is what printed the Record twice on the homepage. record_sections
+    owns the block and the header now; this returns lanes to go inside it."""
     live = [i for i in (items or [])
             if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
     live.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
@@ -3592,13 +3586,7 @@ def extra_lanes_block(items, board):
                  + '</div>')
         out.append(f'<section class="bd-rec-lane" id="{slugify(name)}">'
                    f'{lane_card_v3(feat, name)}{right}</section>')
-    if not out:
-        return ""
-    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">The Record</span>'
-            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
-            f'<a class="bd-more" href="/keepers.html">The full Record</a></div>'
-            f'{"".join(out)}</section>')
+    return "".join(out)
 
 
 # ---- S5: The Record -----------------------------------------------------------
@@ -3769,18 +3757,9 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
                 srcs.append(lab)
     receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
                 else "Receipts: every source linked on the piece")
-    dek = (feat.get("dek") or feat.get("key_fact") or "").strip()
-    left = (
-        f'<div class="bd-card bd-rec-feat">'
-        f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
-        f'{verdict_badge(feat.get("verdict"), feat)}'
-        f'<span class="bd-stamp">{status}</span></div>'
-        f'<a class="bd-rec-hl" href="/articles/{esc(feat["slug"])}.html">'
-        f'{esc(feat.get("title") or "")}</a>'
-        + (f'<p class="bd-read" style="font-size:15px">{esc(dek)}</p>' if dek else "")
-        + f'<div class="bd-brief-foot"><span class="bd-src">{receipts}</span>'
-          f'<a class="bd-more" href="/articles/{esc(feat["slug"])}.html">Read the piece</a>'
-          f'</div></div>')
+    # S-17: every lane uses the v3 card. Three used the v2 feature card and two used
+    # v3, which is what made one Record look like two.
+    left = lane_card_v3(feat, name, stamp=status)
     rows = "".join(
         f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
         f'{esc(i.get("title") or "")}</a>'
@@ -3812,9 +3791,10 @@ def _live_tables(items):
             if len(_table_rows(t, items)) >= t["min_rows"]}
 
 
-def record_sections(items, home=True):
-    """The Record: header plus one lane section per lane. Three lanes on the homepage,
-    every lane on /keepers.html."""
+def record_sections(items, home=True, board=None):
+    """The Record: ONE header and one block, five lanes on the homepage in the audit's
+    order (Lawsuits and rulings, Discipline, Media rights, Contracts, Fantasy facts),
+    every lane on /keepers.html. S-17."""
     by_lane, _picks = _record_inventory(items)
     hub_slugs = {h.get("slug") for h in coverage_hubs(items) if isinstance(h, dict)}
     lanes = "".join(
@@ -3822,6 +3802,7 @@ def record_sections(items, home=True):
                      tables=_live_tables(items))
         for slug, name, _tags, on_home in RECORD_LANES
         if (on_home or not home))
+    lanes += extra_lanes(items, board)
     if not lanes.strip():
         return ""
     head = (f'<div class="bd-sec"><div class="bd-sec-l">'
@@ -4096,8 +4077,7 @@ def render_home(items, dateline):
   {editions_html}
   {w2w_row}
   {track_html}
-  {record_sections(items, home=True)}
-  {extra_lanes_block(items, IA_BOARD)}
+  {record_sections(items, home=True, board=IA_BOARD)}
   {record_full_index(items)}
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
      right and keep the facts honest. The score is a fact; the story gets checked. Real sports
