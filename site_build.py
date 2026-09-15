@@ -2563,24 +2563,43 @@ def _sb_losers(g):
 
 
 def _sb_fantasy_strip(g, ia_index):
-    """S-B1. Designations for this game's two teams, from the inactives snapshot.
+    """S-B1/S-8. Designations for this game's two teams, from the inactives snapshot.
     Once a list has been seen the strip says so and links the board; before that it
-    says nothing at all rather than implying a clean bill of health."""
-    if not ia_index:
+    gives the posting time rather than implying a clean bill of health.
+
+    NFL ONLY, AND THE ID IS NOT AN IDENTITY (S-8). Inactives are an NFL gameday
+    concept. The strip was rendering on every league because the index keyed on the
+    bare team id, and ESPN's ids are scoped per league: MLB Chicago is id 4, NHL
+    Montreal is id 10, NBA Miami is 14, against NFL Denver 7 and Tennessee 10. So a
+    hockey card collected a football team's count and printed it as fact - the audit
+    caught "INACTIVES CHW 7 · CLE 7" on baseball. The league gate is the instruction;
+    keying the index by (league, id) is what stops the collision coming back through
+    some other surface."""
+    if (g.get("league") or "") != "NFL":
         return ""
     bits = []
     for side in ("away", "home"):
         tid = (g.get(side) or {}).get("id") or ""
         ab = (g.get(side) or {}).get("abbr") or ""
-        t = ia_index.get(tid)
+        t = (ia_index or {}).get(("NFL", str(tid)))
         if not t:
             continue
         bits.append(f'{esc(ab)} {t["count"]}')
-    if not bits:
-        return ""
-    return (f'<a class="sb-fan" href="/fantasy/inactives.html">'
-            f'<span class="sb-fan-k">Inactives</span>'
-            f'{esc(" · ".join(bits))}</a>')
+    if bits:
+        return (f'<a class="sb-fan" href="/fantasy/inactives.html">'
+                f'<span class="sb-fan-k">Inactives</span>'
+                f'{esc(" · ".join(bits))}</a>')
+    # Not posted yet. The league posts about ninety minutes before kickoff; say when
+    # rather than nothing, and only for a game that has not started.
+    if g.get("state") == "pre":
+        dt = _utc_dt(g.get("start_utc") or "")
+        if dt:
+            import datetime as _dt
+            when = _et_clock(dt - _dt.timedelta(minutes=90))
+            if when:
+                return (f'<span class="sb-fan sb-fan-pend">'
+                        f'<span class="sb-fan-k">Inactives</span>post {esc(when)}</span>')
+    return ""
 
 
 def _wx_for(g, wx):
@@ -2671,7 +2690,9 @@ def _ia_index(board):
     """Inactive counts by team id, for the card strips."""
     if not board:
         return {}
-    return {str(t.get("id")): t for t in board.get("teams") or [] if t.get("id")}
+    # (league, id): a bare id is not an identity across leagues - see _sb_fantasy_strip.
+    # The inactives feed is NFL, so that is the league these ids belong to.
+    return {("NFL", str(t.get("id"))): t for t in board.get("teams") or [] if t.get("id")}
 
 
 def scoreboard_band(sb, board, wx=None):
@@ -2987,7 +3008,7 @@ def render_game_page(g, points, board, wx, items, dateline):
     away, home = g.get("away") or {}, g.get("home") or {}
     inact = []
     for side in (away, home):
-        t = ia.get(str(side.get("id")))
+        t = ia.get(("NFL", str(side.get("id"))))   # game pages are NFL only
         if not t:
             continue
         names = ", ".join(f'{p.get("name")} ({p.get("pos")})' for p in t["players"])
