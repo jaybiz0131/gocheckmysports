@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-05",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c014",
-    "headline": "Mohamed Salah arrives in Turkey to sign for Trabzonspor",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Salah 'announced in March that he would leave Liverpool at the end of the season, despite having a year remaining on the contract he signed in 2025.' The brief data_point says he 'announced in March that he would leave Liverpool at the end of the season, despite having a year to run on the contract he signed in 2025.' Both are consistent, but the phrasing 'contract he signed in 2025' is problematic: if Salah left at the end of a season and has 9 years of service ('nine years at Liverpool'), and signed in 2025, this would place his contract signing in the middle or near end of his tenure. This internal date inconsistency traces back to the brief itself\u2014the draft faithfully reproduced it\u2014but the draft should have flagged this logical impossibility to research rather than publishing it. A contract signed in 2025 cannot logically coexist with 'nine years at the club' if he just departed. This is an accuracy failure: the draft published an internally incoherent claim from the brief without qualification.",
-     "The draft attributes the falling out to 'then-coach Arne Slot' but does not clarify when or whether Slot is still coach. The phrasing 'then-coach' suggests he is no longer in position, which is consistent with Salah's departure, but the brief does not specify Slot's current status. The draft should have either confirmed this in the source or presented it with appropriate caution given the ambiguity."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "Tour de France Femmes implements pre-race clothing checks over aerodynamic fairings",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Wind tunnel research by universities in Scotland and the Netherlands has found that fairings can produce \"significant drag aero reductions,\" with wider objects generating the largest gains' but the data_point specifies the mannequin was 'a male rider, 177cm in height' - the draft omits this material detail that the research was conducted on a male mannequin, not female riders, which is a critical qualifier given the story's focus on women's cycling enforcement."
-    ]
-   },
-   {
-    "id": "c113",
-    "headline": "Alcaraz withdraws from Cincinnati Open due to wrist injury ahead of US Open",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The injury has sidelined Alcaraz since an earlier withdrawal' but the brief specifies the earlier withdrawal was from Barcelona in April\u2014a specific tournament name and date that should appear in the draft for clarity and accuracy, not vague reference to 'an earlier withdrawal'.",
-     "Draft states 'No medical timeline for return to play, statement from Alcaraz or his team, or official injury assessment from the ATP is included in current coverage' as a limiting statement, but this reads as the writer editorializing about source gaps rather than reporting what is known from the brief. The brief's open_questions section is not the same as factual claims in the draft body; this paragraph smuggles uncertainty language into the story that wasn't explicitly in the brief's reported data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
   "approved": 2,
   "rejected": [
    {
@@ -8371,6 +8339,59 @@
     "reasons": [
      "The draft states 'The final score was not specified in available source material' but the brief's core_claim explicitly states the score was 97-79. This is a direct contradiction: the draft omits a key fact that the brief contains. The draft must report the score that appears in the brief's data_points.",
      "The draft reports a truncated quote: 'Team USA coach Kara Lawson said: \"Really proud of our players, they got this done. In the biggest moments, they...,\" according to Yahoo WNBA reporting.' The ellipsis and incomplete sentence suggest the full quote was not retrieved. The brief notes 'The full Lawson quote is truncated in the provided source text; her complete statement is not available,' which acknowledges the limitation. However, the draft should not run an incomplete quote in quotation marks; it should either paraphrase or note the incompleteness outside the quote. Running an incomplete quote suggests the full thought is preserved when it is not, which is misleading."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Mahomes, Nix return from major 2025 injuries in Week 1 matchup at Kansas City on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The core_claim and brief data state the game is on September 14, 2026, but the title and opening sentence state it is on September 16. The brief timestamp shows 2026-09-14T22:52:50Z and explicitly states 'Monday Night Football matchup between the Kansas City Chiefs and Denver Broncos on September 14, 2026.' Today is Tuesday, 2026-09-15, so September 14 is in the past (yesterday). The draft reports a past event as upcoming and contradicts the brief's date.",
+     "The draft states 'on Wednesday, September 16' but if September 14 was Monday (as implied by 'Monday Night Football' in brief), September 16 would be Wednesday\u2014but the brief clearly says September 14. This is an internal contradiction that traces to an accuracy failure: the brief's core date is September 14, not September 16."
+    ]
+   },
+   {
+    "id": "c256",
+    "headline": "Montreal Canadiens extend coach Martin St. Louis on multiyear deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the extension was signed 'on Monday, September 15, 2026,' but today is Tuesday, September 15, 2026. An event cannot have occurred 'on Monday' when today is Tuesday of the same week. The brief's data_point timestamp is '2026-09-14T15:39:39Z' (Monday), so the extension was announced Monday; the draft's date attribution is incorrect.",
+     "The draft also reports the game was played on 'Wednesday' but states today's date context makes this problematic for the Darnold injury story (c104), which correctly identifies Wednesday as the game day. The c256 draft itself contains no game-day reference, but the date error in the opening sentence is a factual accuracy problem.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday",
+     "the draft cites identifier '2021-22', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c108",
+    "headline": "Netflix 49ers-Rams game matches YouTube Brazil broadcast viewership, expands globally",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Netflix's 49ers-Rams game from Melbourne, Australia on Thursday, September 12, 2026.' Today is Tuesday, September 15, 2026. September 12 was Friday, not Thursday. The brief data_point does not specify the day of the week for the game, only that it was 'on a Thursday' in a separate data_point. This is a factual error: the game cannot have been both on Thursday AND on September 12, 2026.",
+     "The draft also claims 'YouTube's Chiefs-Chargers game from Brazil in Week 1 of the 2025 NFL season' was played 'on a Friday' per the brief, but the draft does not mention Friday in connection with YouTube's game\u2014it only mentions Thursday for Netflix. However, the draft's opening sentence conflates the date and day of week in a way that contradicts the calendar.",
+     "the draft dates September 12, 2026 as a Thursday; September 12, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Clippers accept NBA penalties; Kawhi Leonard trade to Raptors clears",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports 'On Monday, the Clippers successfully traded Kawhi Leonard back to the Toronto Raptors' as a completed fact. The brief's data point states 'On Monday, the Clippers successfully traded Kawhi Leonard back to the Toronto Raptors in a long-planned deal delayed by the league's investigation' with confidence 'reported', but today is Tuesday, September 15, 2026. Monday would be September 14, 2026\u2014the same day Ballmer announced acceptance at 11 p.m. ET. A trade announced/completed on the evening of September 14 and written about on September 15 should be presented as having just occurred or as upcoming finalization, not as a settled past event. The phrasing 'successfully traded' and past tense placement in the narrative body (paragraph 1: 'clearing the way for Kawhi Leonard's trade to the Toronto Raptors to move forward' vs. later paragraph: 'The finalized trade sends Leonard to Toronto') creates ambiguity about whether the trade has actually closed or is clearing to close. The core claim is that acceptance 'clears the way for' the trade to move forward\u2014not that it has been completed. The brief's open_question explicitly flags: 'The timeline for the trade's completion is not specified in the sources; the statement only says it 'will go through.''",
+     "the draft dates September 14, 2026 as a Sunday; September 14, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "USA defeats France 97-79 to win FIBA Women's World Cup, September 13",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game happened on 'Sunday, September 13, 2026,' but today is Tuesday, September 15, 2026. September 13, 2026 was a Friday, not a Sunday. The brief's core claim and data_points all place the event on 'September 13, 2026' with timestamp '2026-09-13T10:05:45Z', but do not specify day-of-week. The draft's insertion of 'Sunday' is a factual error. Additionally, the brief's open_questions flag that 'The source text from the primary story URL contains only a live-game preview without final game details, statistics, or post-game commentary' and that 'The quote from Kara Lawson is incomplete in the provided source text.' The draft presents a full Lawson quote ('the team was \"really proud of our players, they got this done,\"') as if complete, when the brief indicates it is incomplete. This is a fabrication of a complete quote from partial source material."
     ]
    }
   ]
