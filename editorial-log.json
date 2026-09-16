@@ -1,29 +1,5 @@
 [
  {
-  "date": "2026-08-14",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c116",
-    "headline": "Titans DB Nazeeh Johnson Suspended 6 Games for PED Violation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Johnson was signed on the eve of training camp' but the brief data_point says he was 'signed by the Titans to provide depth in the secondary'\u2014the brief does not confirm the timing of the signing relative to training camp. This is a factual assertion not present in the brief.",
-     "The draft claims 'Yahoo Sports reporting does not specify the nature of the PED violation' and lists multiple open questions as established fact in the body, but these are open_questions from the brief, not confirmed absences reported by Yahoo Sports. The draft should not state what reporting 'does not specify' without that being explicitly stated in the source."
-    ]
-   },
-   {
-    "id": "c178",
-    "headline": "Kalshi suspends sports-mention prediction markets amid federal investigation",
-    "category": "balance",
-    "reasons": [
-     "The bear_case item 'The rarity of the CFTC publicly weighing in on what is and isn't acceptable points toward a return in the U.S. being unlikely, meaning the suspension may be permanent rather than temporary' is not reflected in the draft. The draft describes the suspension as temporary and says 'the CFTC's public focus on manipulation risk suggests regulatory pressure may not lift quickly' without acknowledging the counter-argument that it may never lift\u2014that the suspension could be permanent.",
-     "The bear_case item 'Kalshi and other prediction markets continue to push back and argue for the legality of their operations, suggesting the platforms dispute the regulatory characterization' appears only in a thin final sentence ('Kalshi and other prediction market platforms continue to argue for the legality of their operations and dispute the regulatory characterization') that reads as a dismissal rather than substantive counterweight. The draft frames the NFL's concerns and regulatory pressure as the dominant narrative without proportionate space for the industry's legal defense or the weakness of the CFTC's position (small market share)."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-15",
   "approved": 4,
   "rejected": [
@@ -7770,6 +7746,48 @@
     "reasons": [
      "The brief's core_claim states 'the tour's global headquarters also relocating there from St. Petersburg, Florida,' but this claim does not appear anywhere in the draft body. The draft never mentions headquarters relocation, which is a significant omission from the core claim.",
      "The brief contains a data point about 'the tour's global headquarters also relocating there from St. Petersburg, Florida' as part of the core structural shift, but the draft does not report this fact. This is a material fact from the brief that was omitted entirely."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c046",
+    "headline": "LSU's Umanmielen served court papers in Ole Miss lawsuit on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Umanmielen 'was served with court papers in the parking lot outside LSU's football facility on September 16, 2026' and later 'was served on that date,' but the brief's core_claim and data_points refer to service on 'Tuesday,' not a specific date. Today is Wednesday 2026-09-16. If today (when the approval is being rendered) is Wednesday, then Tuesday was yesterday (2026-09-15), not today. The draft has backdated the service event by one day and presented it as happening on the same day this approval is being conducted, which is factually incorrect. The brief uses relative dating ('Tuesday'); the draft converts this to an absolute date (September 16) that does not align with 'Tuesday' if today is Wednesday 2026-09-16."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "Tempo guard Marina Mabrey out for rest of season with adductor injury (September 16)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Tempo selected Mabrey with the No. 6 pick in the 2024 expansion draft.' The brief data_point says 'The Tempo took Mabrey with the No. 6 pick in the expansion draft' with no year specified in the brief. However, the draft's insertion of '2024' as the expansion draft year is not supported by the brief, which contains no year for the expansion draft. This is a smuggled fact not in the research.",
+     "The draft characterizes both injury claims (missing remainder of season, no surgery needed, full recovery by 2027) as statements from the team ('according to the team'), but the brief marks both as 'announced-not-verified' confidence level. The draft's phrasing ('according to the team') treats these as verified official statements when the brief explicitly flags them as unconfirmed announcements.",
+     "The draft states 'She made 17 of 28 field goal attempts and connected on 9 of 18 three-pointers in 32 minutes in that game' but the brief data_point is 'Mabrey made 17-of-28 field goal attempts and connected on 9-of-18 three-pointers in 32 minutes in the 53-point game against the Los Angeles Sparks.' The draft omits the opponent name where the brief specifies it, though this is minor; more critically, the draft does not attribute these shooting splits inline to their source (Yahoo Sports), leaving the reader uncertain of attribution."
+    ]
+   },
+   {
+    "id": "c275",
+    "headline": "Ducks sign Cutter Gauthier to six-year, $81M extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the contract was signed 'on the evening of September 16' but the brief's timestamp shows 2026-09-16T02:02:16Z, which is early morning, not evening. More critically, the draft asserts this is current news ('announced'), but the brief data_point is marked 'announced-not-verified'\u2014a lower-confidence label that must be reflected in the prose. The draft presents the signing as settled fact without qualification.",
+     "The draft claims the Ducks 'cleared $6.5 million in salary-cap space by terminating Chris Kreider's contract last week' but this treats a complex cap maneuver as simple fact. The brief data_point says they 'freed up $6.5 million in cap space by terminating Chris Kreider's contract'\u2014a reported claim that does not specify whether that termination was recent or pre-planned, and a Ducks move involving a Rangers player requires additional scrutiny. The causality (cleared space 'after which' Gauthier was signed) is asserted but not supported by the brief's data structure."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "WNBA resumes after World Cup break with minimal player recovery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WNBA is set to resume play on September 20' but today is Wednesday, September 16, 2026. September 20 is four days away\u2014a future event. The draft's phrasing 'is set to resume' is correct for a scheduled future event, but the framing in the opening paragraph ('The WNBA is set to resume play on September 20 after a 16-day break for the FIBA Women's Basketball World Cup, according to Yahoo WNBA. The United States defeated France in the championship game on Sunday...') conflates a past event (the championship) with a future one (the league resumption) in a way that reads as though the resumption has already happened. The sentence structure needs repositioning to clearly signal that September 20 is upcoming, not a report of an event already concluded.",
+     "The brief's open_questions flag that 'The source texts do not provide details on how this scheduling issue has been addressed in prior seasons or whether this is a new problem,' yet the draft narrates this as a 'structural conflict' and 'collision between international duty and domestic playoff competition that may shift again if scheduling practices change' as though it is an established pattern. The draft should not narrativize the absence of comparative context as though the brief confirms a structural flaw; it should report only what is confirmed: that this particular window compresses recovery time."
     ]
    }
   ]
