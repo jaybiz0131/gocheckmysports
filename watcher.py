@@ -67,8 +67,6 @@ SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     # missed the day's only 17:01 watcher tick by 7 minutes; GitHub also skips most
     # 30-minute ticks under load, so the recovery window must open early enough that
     # the few ticks that DO fire land inside it).
-    ("morning-brief", 10 * 60 + 45, 14 * 60),        # cron 09:40; recover 10:45-14:00
-    ("afternoon-brief", 16 * 60 + 45, 20 * 60),      # cron 15:38; recover 16:45-20:00
     # THE EVENING WINDOW CROSSES MIDNIGHT (ported from the crypto desk 2026-09-03, the
     # first night after the hardening landed): with ticks at :17 and :47, a window of
     # 23:48-24:00 contains NO tick (23:47 is before the deadline, 00:17 is after the
@@ -76,6 +74,17 @@ SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     # GitHub's scheduler never fired the 23:38 cron at all. The window now runs to
     # 05:00 the next morning; wrap.py already dates a SLOT_NAME=evening-brief fire
     # before 05:00 to the previous day, and missed_slot below checks that day's file.
+    # PROGRAM 4, T-1 (2026-09-16). MORNING AND AFTERNOON ARE OUT OF THIS TABLE.
+    # The comment above is the rule and this is the case it warns about: a slot listed
+    # here with no cron is re-fired daily by the recovery logic. With those two slots
+    # disabled their editions are never written, so missed_slot() would report one on
+    # every tick, for the rest of time, and each report spends a full model run.
+    #
+    # It is worse than the retry crons were. Slot recovery is checked BEFORE the
+    # cooldown and before the cage, and it fires with breaking=False, so it does not
+    # count against the two-a-day breaking cap either. Measured tonight on the sports
+    # desk: a watcher tick at 22:21Z published the evening Edition an hour early by
+    # exactly this path.
     ("evening-brief", 23 * 60 + 48, 29 * 60),        # cron 23:38; recover 23:48-05:00(+1d)
     # (the run itself takes ~5-8 min; a still-running 23:38 slot at 23:48 just queues a
     # duplicate behind the publish lock and the one-edition-per-day guard skips it)
