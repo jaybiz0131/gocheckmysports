@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-08-13",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c070",
-    "headline": "Lakers sold to Iger and Kushner group for $12.5 billion after Mark Walter's 14-month hold",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Chris Broussard, Wright's cohost, offered speculation linking the sale to Walter's legal circumstances' and 'Broussard suggested the sale might be related to the federal investigation into Walter.' However, the brief marks Broussard's speculation that Walter 'might have gotten a tip that he would need money, motivating the quick resale' as 'unconfirmed' confidence level. The draft presents Broussard's unconfirmed speculation as direct attribution without the confidence qualifier that survival of the bear_case required\u2014this crosses from reporting commentary to endorsing an unverified causal claim.",
-     "The draft twice references 'per Awful Announcing' for the assertion that 'The Wall Street Journal reported that Mark Walter is under FBI investigation' but Awful Announcing is a commentary outlet, not the original reporting source. The brief's data_point correctly names WSJ as the source. The draft should attribute the FBI investigation to The Wall Street Journal directly, not route it through Awful Announcing's repetition of it.",
-     "The draft states no official statement from the named parties 'addressing the sale's timing or Walter's federal investigation appears in the provided source texts,' and later acknowledges Wright's own hedging ('I'm not doing the reporting'). However, the entire story rests on speculation from TV commentators framed as news analysis. A draft this thin on primary sourcing, built almost entirely on commentary speculation about motives and legal consequences, exceeds the brief's own transparency about what is and is not confirmed. The bottom_line correctly flags this, but the body does not maintain sufficient clarity that all causal linkages are speculative."
-    ]
-   },
-   {
-    "id": "c120",
-    "headline": "WNBA denounces Kanter and White draft declarations as bad-faith efforts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The WNBA's anti-hate task force issued a statement characterizing the WNBA Draft declarations by Enes Kanter and Royce White as bad-faith efforts' but the brief does not specify which WNBA body made the statement, only that 'The WNBA's anti-hate task force issued a statement.' However, the data_point in the brief says 'The WNBA's anti-hate task force issued a statement characterizing these declarations as 'bad-faith efforts.'' This matches the draft. But the brief itself contains a red flag in its open_questions: 'What specific language did the WNBA's anti-hate task force use in its statement?' indicating that even the source text does not clearly specify this attribution. The draft should not assert the 'anti-hate task force' issued it as fact when the source material's own questions suggest ambiguity about which WNBA entity made the statement.",
-     "The draft is extremely thin\u2014only two sentences of body reporting. The brief marks this as 'thin: true' and lists five open_questions. A draft this sparse offers no detail beyond what two sentences can hold. However, the more fundamental issue is that the draft presents the league's denunciation as a completed fact without any reported response, counterargument, or evidence of what the actual WNBA statement said. The entire story collapses if the Sporting News article does not reproduce or link the statement itself. The draft cannot verify it did."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Atletico Madrid agrees \u00a334.2m deal for Tottenham captain Romero",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Romero represented Argentina during their run to the World Cup final this summer, according to BBC Sport, missing just one match.' However, the brief contains a contradictory data point: 'ESPN's reporting stated separately that Romero made seven appearances for Argentina at the tournament.' These claims are incompatible\u2014missing one match in a knockout tournament run to the final does not equal seven total appearances. The draft attributes the first claim to BBC but the brief cites ESPN for the seven-appearance figure. The draft must resolve which is accurate or acknowledge the discrepancy; it cannot state both as settled fact from different sources without noting the conflict.",
-     "The draft references Romero winning 'the 2025 Europa League with Tottenham before the club endured the difficult season that followed,' attributing this to ESPN. However, no data point in the brief explicitly confirms Tottenham won the 2025 Europa League. The brief only cites ESPN for the statement that 'Romero won the 2025 Europa League with Tottenham before the club endured a difficult 2025-26 season fighting to escape relegation,' but this is presented as a conjunctive historical claim without independent verification of the Europa League trophy. The draft should not assert this trophy win without explicit confirmation in the brief data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
   "approved": 1,
   "rejected": [
    {
@@ -7917,6 +7883,41 @@
      "The draft states Manning 'laughed while discussing' the AI video and that 'Manning said: \"I saw an AI edit of Sark's interview...It's hilarious.\"' followed by 'The comment drew laughter from the press conference room.' The brief shows Manning's full quote was longer and more measured in context: 'I've seen a few AI edits, that's about it. I saw an AI edit of Sark's interview. Y'all seen that one? That's a good one. Of him slapping Holly Rowe. It's hilarious.' The draft's framing of Manning actively promoting the video as the lead action omits the opening qualifier 'I've seen a few AI edits, that's about it' which softens the claim. The lead presents the apology as caused by 'calling AI video of reporter being slapped \"hilarious\"' when the fuller context shows Manning framed it as one among several edits he'd seen.",
      "The draft states Manning 'is in his fourth season (his junior year, per Front Office Sports) as Texas's starting quarterback' but the brief data point says 'Manning is in his fourth season at Texas and is the nephew of former NFL stars Peyton and Eli Manning'\u2014those are separate claims. The brief does not confirm Manning is in his 'junior year'\u2014only Front Office Sports reports that designation. However, a fourth season typically indicates a senior, not a junior. This is a factual inconsistency that needed verification against the brief before printing.",
      "The draft attributes to Vieth a statement that 'Captioning Manning's response with 'gold' trivialized an AI video depicting violence against a colleague' but the brief's data point says he stated this 'in part' and is reported by Front Office Sports. The draft presents this as Vieth's own apology statement when it is Front Office Sports reporting what Vieth said, creating an attribution ambiguity."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c077",
+    "headline": "Minnesota Lynx (31-9) chase 2017 formula for first title since then; Collier aims past 2025 heartbreak",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Seimone Augustus added 14 points, 6 assists, and 6 rebounds' in Game 5 of the 2017 finals, but the brief's data_point says 'Seimone Augustus added 14 points, six assists and six rebounds in Game 5 of the 2017 finals.' The brief data_point is consistent with the draft on this claim, but an earlier sentence in the draft attributes a different injury to Augustus: 'Fowles had been dealing with knee problems throughout 2017' refers to Fowles, not Augustus. The draft's second paragraph says 'Fowles had been dealing with knee problems throughout 2017, and Whalen underwent hand surgery that disrupted the early part of the season.' However, the brief's data_point for Augustus states 'Seimone Augustus battled knee problems all season long in 2017.' The draft attributes knee problems only to Fowles and hand surgery only to Whalen, missing the claim that Augustus also had knee problems.",
+     "The draft states 'Sylvia Fowles recorded 17 points and 20 rebounds in Game 5 of that 2017 series, earning finals MVP honors,' but the brief's data_point says 'In Game 5 of the 2017 WNBA finals on October 4, 2017, Sylvia Fowles racked up 17 points and broke her own WNBA rebounds record with 20.' The draft does not note that this was a rebounds record, just states the number. This is a minor loss of detail but acceptable paraphrase.",
+     "The draft says Clare Duwelius is now 'executive vice-president and general manager of the three-on-three league Unrivaled,' and then immediately says 'Napheesa Collier, a co-founder and co-owner of Unrivaled alongside other WNBA players, remains integral to Minnesota's hopes.' The two sentences create an odd juxtaposition: Duwelius works for Unrivaled while Collier owns it. This is not inaccurate per the brief, but the flow is confusing. More critically, the draft does not mention that Collier is injured (the brief says 'Star forward Napheesa Collier injured both ankles during that series' in 2025), yet the bottom_line says 'A 2025-style early exit (top seed eliminated in conference semi-finals) would confirm external perception that Minnesota dominates the regular season but folds under playoff pressure.' If Collier is still dealing with ankle injuries heading into 2026 playoffs, that is relevant; the draft does not clarify her current status."
+    ]
+   },
+   {
+    "id": "c258",
+    "headline": "Ducks Lock In Gauthier With $81M Extension Before New CBA Takes Effect on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The title and opening sentence report the contract as signed on September 16, 2026, which is TODAY (per the instructions: 'Today is Wednesday, 2026-09-16'). A contract signed today cannot be written in past tense as 'signed' without qualification. The draft reports a scheduled/current-day event as already completed. The title reads 'Ducks Lock In Gauthier With $81M Extension Before New CBA Takes Effect on September 16' \u2014 this frames the signing as having occurred before the CBA change, but the timestamp on the brief data shows the signing occurred at 2026-09-16T02:02:16Z, meaning it happened early morning today. The phrasing 'before New CBA Takes Effect on September 16' is ambiguous about whether the signing happened or is happening today.",
+     "The draft also contains a factual error: it names 'Dunord' (misspelling) in the bottom_line ('Dundon's broader spending cuts'), but the brief and draft body consistently spell the owner's name as 'Dundon.' This is a transcription error that undermines accuracy.",
+     "The draft introduces a claim about 'Dundon's broader spending cuts' in the bottom_line that does not appear in the brief's data_points or bear_case. The brief mentions this as context elsewhere but the bottom_line is asserting it as fact without sourcing it to a data_point."
+    ]
+   },
+   {
+    "id": "c186",
+    "headline": "Guardians walk off White Sox to tighten AL Central race, September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the game occurred on 'September 16' (today's date) with past-tense language ('walk off White Sox'), but the story is being reviewed on 2026-09-16. The game cannot have already happened today if it is being reported as news. The brief's data_points carry timestamps of 2026-09-16T04:19:06Z, which suggests reporting on a game that has already occurred, but the deck instructions require: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The tense of the headline and opening ('defeated', 'pulled within', past tense throughout) treats a game as completed on the day it occurred, which is appropriate IF it occurred before publication, but the body contains forward-looking language ('The Guardians currently hold the wild card spot', 'The Guardians and White Sox continue their three-game series') that contradicts this, suggesting the game outcome is being mixed with pre-game analysis. The opening sentence reports a completed walk-off, but later sentences ('The Guardians currently hold...', 'The Guardians and White Sox continue their three-game series') read as pre-game framing. This internal contradiction makes it impossible to determine whether this is a game recap or a pre-game preview, which is an accuracy failure.",
+     "The draft states 'The Guardians and White Sox continue their three-game series at Progressive Field' in the bottom_line, but earlier states this was a walk-off game result. If the game has been played, they do not 'continue' the series; they are in the middle of it. This is contradictory."
     ]
    }
   ]
