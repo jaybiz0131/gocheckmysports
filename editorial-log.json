@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-08-15",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c105",
-    "headline": "NFL suspends Atlanta Falcons star James Pearce Jr. following alleged Rickea Jackson incident",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The NFL suspended Atlanta Falcons player James Pearce Jr.' as a settled fact, but the brief explicitly notes 'The source text is empty; the snippet mentions a suspension but provides no suspension length, specific dates, details of the alleged incident, or official NFL statement.' The core claim itself is unverified from the fetched source.",
-     "The brief is marked 'thin: true' with 'source_chars: 0', indicating no actual source material was retrieved. The draft presents the suspension as reported fact without any data_points in the brief to back it. This is smuggled information masquerading as sourced reporting."
-    ]
-   },
-   {
-    "id": "c154",
-    "headline": "Blue Jays surging up Wild Card standings -- but holding breath over Vladdy",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'The Blue Jays are reported to have defeated the Yankees' but the brief contains zero data_points and is marked 'thin: true'. The brief's open_questions explicitly state: 'The source text is a CSS font declaration and styling block with no game data, score, date, or injury details. The actual article content is missing.' The game outcome is unverified from the fetched source.",
-     "The draft claims 'facing an uncertainty over Vladimir Guerrero Jr.'s health following a collision during play' without any data_points in the brief to support the collision, the injury claim, or any official evaluation. This fact is smuggled; it does not appear in the source material according to the brief itself.",
-     "All core facts (game outcome, date, standings, Guerrero Jr.'s condition) are unverified. The draft should not have been written from a brief with zero data_points and no retrievable source content."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "PSG signs Ferran Torres from Barcelona on five-year deal",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Torres scored 21 goals in 49 appearances in all competitions for Barcelona last season with three assists, per BBC Sport' but brief data_points show BBC reported '21 goals in 49 appearances in all competitions' without attribution of '3 assists' to BBC. Brief also includes a separate ESPN data_point claiming 'Torres scored 19 goals in 45 matches for Barcelona in the previous campaign' which is a different figure entirely (19 vs 21, 45 vs 49). Draft conflates these figures and attributes only the 21-goal, 49-appearance version to BBC when ESPN separately reports 19 goals in 45 matches. This is a factual inconsistency that must trace cleanly to brief; the writer has not resolved which figure is current-season vs prior-season.",
-     "Draft states 'Robert Lewandowski joined the Chicago Fire, which triggered Barcelona's need for a new striker' but brief data_point says Lewandowski joined Chicago Fire only as context explaining Barcelona's need. This reads as causal fact-reporting when it is actually context/motivation from ESPN's reporting. The phrasing 'triggered Barcelona's need' overstates the relationship and should be more carefully attributed."
-    ]
-   },
-   {
-    "id": "c057",
-    "headline": "Steelers rookie QB impresses in preseason Week 1; Titans' Ward struggles",
-    "category": "accuracy",
-    "reasons": [
-     "The draft identifies the Steelers rookie QB only as 'a rookie signal-caller with the Steelers' without naming him. The brief data_point does not specify the QB's identity either, only that a 'Steelers rookie QB shined.' The source text is described in open_questions as 'mostly unreadable HTML/CSS markup' with no substantive content beyond the headline. The writer cannot verify the specific identity, statistics, or details of this performance against the source material, violating the hard rule that facts must trace to the brief.",
-     "Similarly, the draft refers to Cam Ward's performance as raising 'questions about his adjustment to the pro game,' but the brief does not contain a data_point elaborating on the nature, scope, or specific context of his 'struggle.' The draft paraphrases and interprets beyond what the brief data supports."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-15",
   "approved": 3,
   "rejected": [
    {
@@ -7788,6 +7745,38 @@
     "reasons": [
      "The draft states 'The WNBA is set to resume play on September 20' but today is Wednesday, September 16, 2026. September 20 is four days away\u2014a future event. The draft's phrasing 'is set to resume' is correct for a scheduled future event, but the framing in the opening paragraph ('The WNBA is set to resume play on September 20 after a 16-day break for the FIBA Women's Basketball World Cup, according to Yahoo WNBA. The United States defeated France in the championship game on Sunday...') conflates a past event (the championship) with a future one (the league resumption) in a way that reads as though the resumption has already happened. The sentence structure needs repositioning to clearly signal that September 20 is upcoming, not a report of an event already concluded.",
      "The brief's open_questions flag that 'The source texts do not provide details on how this scheduling issue has been addressed in prior seasons or whether this is a new problem,' yet the draft narrates this as a 'structural conflict' and 'collision between international duty and domestic playoff competition that may shift again if scheduling practices change' as though it is an established pattern. The draft should not narrativize the absence of comparative context as though the brief confirms a structural flaw; it should report only what is confirmed: that this particular window compresses recovery time."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "WTA Finals to Move to Charlotte for 2027-2029 Run",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2027-2029', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c102",
+    "headline": "NHL Teams Rush Eight-Year Deals Before September 16 Deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports events dated September 15 and September 16 as having 'announced' or already occurred on 'Tuesday morning' and 'before midnight on September 16,' but today is Wednesday, September 16. The phrase 'Several players announced eight-year agreements on Tuesday morning' correctly refers to September 15 (yesterday), but the lede and closing frame the deadline as still-impending ('racing to sign...before midnight on September 16') while simultaneously reporting signings as completed facts. This creates ambiguity about whether the midnight deadline has passed. Since today is Wednesday Sept 16, the deadline either passes today or has already passed. The brief timestamp is 2026-09-15, suggesting the story was written before the deadline expired. A story written prospectively about a deadline 'before midnight on September 16' should not be published after that deadline has passed or is about to pass within hours, as it will immediately read as stale or inaccurate to a reader checking the time.",
+     "the draft cites identifier '2027-28', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Texas defeats Ohio State 24-23 in historic fourth-quarter comeback; game averages 14 million viewers on ABC",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the Texas-Ohio State game as having already occurred ('Texas erased a 20-point fourth-quarter deficit to defeat Ohio State 24-23 on Saturday night'), but the brief's open_questions explicitly note: 'The sources do not specify when the Saturday night game took place (the date of the actual game broadcast).' Today is Wednesday 2026-09-16. The brief timestamp is 2026-09-16T14:32:24Z. If the game occurred this past Saturday (2026-09-13), it should be written as past. If it occurs this coming Saturday (2026-09-20), it must be written as upcoming. The brief does not confirm which Saturday, making it unsafe to narrate the event as completed. The draft treats an unconfirmed temporal fact as settled.",
+     "The draft attributes Arch Manning's fourth-quarter statistics ('Arch Manning completed 8 of 11 passes during the historic fourth quarter') to CBS Sports, but the brief data_point for this claim includes language about it being 'his historic fourth quarter as Texas roared back'\u2014which is consistent with the event having occurred. However, the open_question about the date of the game undermines the entire factual grounding of when these statistics apply."
     ]
    }
   ]
