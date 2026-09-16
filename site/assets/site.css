@@ -1599,3 +1599,81 @@ body>*:not(.ground){position:relative;z-index:1}
 
 /* copy item 18: the "All" chip closes the storylines row instead of a tagline. */
 .tracking .chip-all{font-weight:600;border-color:var(--rule);opacity:.85}
+
+/* N-4. The lead row's height is the lead card's content, never the rail's. The
+   sprint-A fix made the row align-items:stretch so the two columns matched; on a
+   day with no receipts ledger that stretched a headline-and-dek card down a
+   1,130px rail - 130px of content over 900px of nothing. The rail box carries no
+   intrinsic height (its child is absolutely placed), so the row measures the lead;
+   the rail then fills that height and clips rather than growing it. With the rail
+   cut to one window, two facts and six chips it no longer reaches the clip. */
+.sp-railbox{position:relative;min-height:100%}
+.sp-railbox>.sp-rail{position:absolute;inset:0;overflow:hidden}
+/* the storylines card is last, so a clip drops chips from the end (N-4). */
+.sp-railbox>.sp-rail>.tracking{overflow:hidden}
+/* The "Also today" block stands in for the receipts ledger on a day the lead
+   story carries no checkable figures. */
+.sp-also{display:flex;flex-direction:column;gap:0;margin-top:4px;
+  border-top:1px solid var(--rule)}
+.sp-also .bd-label{padding:12px 0 8px}
+.sp-also-r{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:9px 0;border-top:1px solid var(--rule);text-decoration:none}
+.sp-also-r:first-of-type{border-top:none}
+.sp-also-h{font:500 15px/1.35 var(--sans);color:var(--ink)}
+.sp-also-r:hover .sp-also-h{text-decoration:underline}
+.sp-also-r .bd-src{white-space:nowrap}
+@media (max-width:900px){
+  .sp-railbox{min-height:0}
+  .sp-railbox>.sp-rail{position:static}
+}
+/* N-4: the storylines card takes whatever height the two cards above it leave and
+   drops chips to fit. nowrap was the first cut and it cut a chip through the middle
+   at the right edge; the chips wrap instead, so what gets dropped is a whole row of
+   them. The mask fades the last few pixels, which is only ever a partial row. */
+.sp-railbox>.sp-rail>.tracking{flex:1 1 auto;min-height:0;overflow:hidden;margin:0;
+  align-content:flex-start;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 10px),transparent);
+  mask-image:linear-gradient(#000 calc(100% - 10px),transparent)}
+.sp-railbox>.sp-rail>.bd-card{flex:0 0 auto}
+/* N-4: the rail cards carried 20px/22px padding and 10px gaps for two or three
+   rows of content, which is what pushed the rail past the lead card. Rail density
+   is tighter than the lead's; the lead is the reading surface. */
+.sp-railbox>.sp-rail>.bd-card{padding:16px 18px 14px;gap:8px}
+.sp-railbox>.sp-rail .fx-asof{margin-top:4px}
+.sp-railbox>.sp-rail .w2w-win{padding-top:0}
+/* N-4: two lines of rail chrome were wrapping and each wrap cost the storylines
+   card a row of chips. The as-of line fits on one line at the rail's width, and the
+   carrier keeps its own line beside the kickoff. */
+.sp-railbox>.sp-rail .fx-asof{font-size:10.5px}
+.sp-railbox>.sp-rail .w2w-cars{font-size:12px;white-space:nowrap}
+/* N-4: "All storylines" must not be one of the chips that gets dropped. The label
+   and the All link take a header line of their own (the auto margin absorbs the
+   line's free space, so the chips start on the next row) and the drop applies to
+   the chips only. */
+.sp-railbox>.sp-rail>.tracking .lab{order:-2}
+.sp-railbox>.sp-rail>.tracking .chip-all{order:-1;margin-left:auto;border:none;
+  color:var(--link);font-family:var(--sans);font-weight:600;padding:0}
+/* The label and All own the first line; this zero-height item ends it so the chips
+   start on the next row and All never sits between the label and a chip. */
+.tracking-br{flex:1 0 100%;height:0;order:-1}
+/* N-4 asks for six chips on the rail. Two fit per row at the rail's width, so six
+   needs three rows and the card had room for two. The rows of the Also today list
+   were also tight at 9px; at 12px the lead reads better and the storylines card
+   gains the third row. The lead still sets the height - this is its own spacing,
+   not the rail dictating it. */
+.sp-also-r{padding:12px 0}
+/* The third chip row landed 1px past the card. A 6px chip gap on the rail (8px is
+   the full-width strip's) puts all six chips inside it. */
+.sp-railbox>.sp-rail>.tracking{gap:6px}
+/* Two of the six chips were 2px too wide to share a row, which cost a whole row and
+   pushed the sixth out of the card. 3px off each side of the rail chips fits them
+   two to a row, three rows, all six inside. */
+.sp-railbox>.sp-rail>.tracking .chip{padding-left:7px;padding-right:7px}
+/* The line-break item was taking a flex gap of its own, which cost the third chip
+   row the last few pixels of the card. Cancel it, tighten the card's own padding,
+   and shorten the fade to match. */
+.sp-railbox>.sp-rail>.tracking{padding:8px 12px 3px}
+.sp-railbox>.sp-rail>.tracking .tracking-br{margin-top:-6px}
+.sp-railbox>.sp-rail>.tracking{
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 3px),transparent);
+  mask-image:linear-gradient(#000 calc(100% - 3px),transparent)}

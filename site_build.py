@@ -2371,6 +2371,31 @@ def fantasy_asof(label, when_iso, source=""):
     return f'<p class="fx-asof">Updated {esc(when)}</p>'
 
 
+def _also_today(pool, n=3):
+    """N-4: the lead card without a receipts ledger was a headline, a dek and a
+    byline stretched down a 1,130px rail - two thirds of it empty. On a day whose
+    top story carries no checkable figures the ledger's place is taken by the next
+    three desk headlines and their times, so the card fills the row on its own
+    content and the row's height is the lead's, never the rail's."""
+    rows = []
+    for i in (pool or [])[:n]:
+        if not i.get("slug"):
+            continue
+        # A headline is never clamped (C-9, and the standing law that authored text is
+        # not truncated); it wraps. The stamp is the time only: every item on this list
+        # carries the same dateline as the lead beside it, so repeating the date three
+        # times is the chrome C-L1 removes.
+        _dt = _parse_utc(i)
+        _when = _et_clock(_dt) if _dt else fmt_when(i)
+        rows.append(f'<a class="sp-also-r" href="/articles/{esc(i["slug"])}.html">'
+                    f'<span class="sp-also-h">{esc(i.get("title") or "")}</span>'
+                    f'<span class="bd-src">{esc(_when)}</span></a>')
+    if not rows:
+        return ""
+    return (f'<div class="sp-also"><span class="bd-label">Also today</span>'
+            f'{"".join(rows)}</div>')
+
+
 def where_to_watch_card(data):
     """Homepage module 4, left. The next window or two, not the whole week."""
     if not data or not (data.get("weeks") or []):
@@ -2386,7 +2411,9 @@ def where_to_watch_card(data):
     for w in data["weeks"]:
         up, _played = _w2w_split(w)
         if up:
-            week, upcoming = w, up[:2]
+            # N-4: one window on the rail card, not two. The rail clamps to the lead
+            # card; the whole week is one click away on /where-to-watch.
+            week, upcoming = w, up[:1]
             break
     if not upcoming:
         return ""
@@ -2394,7 +2421,7 @@ def where_to_watch_card(data):
     for wname, games in upcoming:
         rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
                     f'<span class="bd-stamp">{esc(games[0].get("day_et") or "")}</span></div>')
-        for g in games[:4]:
+        for g in games[:3]:     # N-4: the rail card is a sample, not the window
             rows.append(
                 f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
                 f'{esc(g.get("home") or "")}</span>'
@@ -3359,6 +3386,7 @@ def _fantasy_tonight_card(sb, board, desig):
                     f'<span class="bd-src">{esc(", ".join(byes))}</span></div>')
     if not rows:
         return ""
+    rows = rows[:2]     # N-4: two facts of the day, the rest on /fantasy
     stamp = "" if before_kickoff else ((board or {}).get("last_change") or "")
     tail = (fantasy_asof("Designations", stamp, "the league injury report") if stamp
             else f'<p class="fx-asof">Week {wk} · nothing posted for this week yet</p>')
@@ -4736,7 +4764,8 @@ def render_home(items, dateline):
         # shipped on the live homepage; it is a section describing itself (C-L1).
         track_html = (f'<div class="tracking"><span class="lab">Storylines</span>'
                       f'{"".join(chips[:6])}'
-                      f'<a class="chip chip-all" href="/news.html">All</a></div>')
+                      f'<a class="chip chip-all" href="/news.html">All</a>'
+                      f'<i class="tracking-br"></i></div>')
 
     # S1, Artboard 4 module 3: the lead story with its receipts ledger, and beside it
     # the charted receipts and the Edition. The ledger is only rendered for a story
@@ -4765,7 +4794,7 @@ def render_home(items, dateline):
                  f'<a class="sp-lead-h" href="/articles/{esc(_lead["slug"])}.html">'
                  f'{esc(_lead.get("title") or "")}</a>'
                  + (f'<p class="sp-lead-dek">{esc(_dek)}</p>' if _dek else "")
-                 + _ledger
+                 + (_ledger or _also_today(stories))
                  + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando</span>'
                    f'<a class="bd-more" href="/articles/{esc(_lead["slug"])}.html">'
                    f'Read the story</a></div></div>')
@@ -4778,8 +4807,14 @@ def render_home(items, dateline):
                                    _fantasy_tonight_card(SB_DATA, IA_BOARD, IA_DESIG),
                                    track_html) if c]
         if _rail_cards:
+            # N-4: the rail sits in a box whose own content height is zero (the rail
+            # inside it is absolutely placed), so the grid row is sized by the lead
+            # card alone. The rail stretches to that height and clips; it never
+            # stretches the lead. On phone the row is one column and the box goes back
+            # to normal flow.
             lead_row = (f'<section class="sp-leadrow">{_left}'
-                        f'<div class="sp-rail">{"".join(_rail_cards)}</div></section>')
+                        f'<div class="sp-railbox">'
+                        f'<div class="sp-rail">{"".join(_rail_cards)}</div></div></section>')
             track_html = ""     # the rail is carrying the storylines now
         else:
             lead_row = f'<section class="sp-leadrow sp-leadrow-1col">{_left}</section>'
