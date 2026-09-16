@@ -1,48 +1,28 @@
 {
- "generated_utc": "2026-09-16T14:29:51Z",
- "stale_after_utc": "2026-09-16T17:29:51Z",
+ "generated_utc": "2026-09-16T15:19:22Z",
+ "stale_after_utc": "2026-09-16T18:19:22Z",
  "leagues": [
   {
    "league": "WTA",
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "D. Galfi",
-     "home": "A. Tubello",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-16T13:00Z",
-     "eid": "183654"
-    },
-    {
      "away": "F. Curmi",
      "home": "J. Lilly Sophie Steur",
      "away_score": 1,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
      "detail": "2nd",
      "start_utc": "2026-09-16T13:05Z",
      "eid": "183765"
     },
     {
-     "away": "V. Hruncakova",
-     "home": "S. Bandecchi",
-     "away_score": 1,
-     "home_score": 1,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-16T13:35Z",
-     "eid": "183718"
-    },
-    {
      "away": "D. Salkova",
      "home": "J. Bouzas Maneiro",
-     "away_score": 0,
-     "home_score": 1,
+     "away_score": 2,
+     "home_score": 0,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-16T14:05Z",
      "eid": "183851"
     },
@@ -50,21 +30,41 @@
      "away": "C. Alves",
      "home": "S. Lamens",
      "away_score": 1,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-16T14:05Z",
      "eid": "183846"
     },
     {
-     "away": "K. Quevedo",
-     "home": "A. Tikhonova",
+     "away": "A. Mintegi Del Olmo",
+     "home": "A. Lazaro Garcia",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-16T14:35Z",
+     "eid": "183766"
+    },
+    {
+     "away": "L. Pigato",
+     "home": "K. Rinaldo Persson",
      "away_score": 1,
      "home_score": 0,
      "state": "in",
      "detail": "1st",
-     "start_utc": "2026-09-16T14:05Z",
-     "eid": "183844"
+     "start_utc": "2026-09-16T14:55Z",
+     "eid": "183720"
+    },
+    {
+     "away": "C. Lee",
+     "home": "A. Blinkova",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "11:25 AM ET",
+     "start_utc": "2026-09-16T15:25Z",
+     "eid": "183842"
     }
    ]
   },
@@ -75,8 +75,8 @@
     {
      "away": "CWS",
      "home": "CLE",
-     "away_score": null,
-     "home_score": null,
+     "away_score": 0,
+     "home_score": 0,
      "state": "pre",
      "detail": "1:10 PM ET",
      "start_utc": "2026-09-16T17:10:00Z",
@@ -85,8 +85,8 @@
     {
      "away": "SF",
      "home": "STL",
-     "away_score": null,
-     "home_score": null,
+     "away_score": 0,
+     "home_score": 0,
      "state": "pre",
      "detail": "1:15 PM ET",
      "start_utc": "2026-09-16T17:15:00Z",
@@ -354,7 +354,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 91,
+   "games_seen": 88,
    "games_kept": 6
   }
  ]

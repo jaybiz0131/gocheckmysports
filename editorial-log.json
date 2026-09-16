@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-13",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c079",
-    "headline": "Phillies-Twins Field of Dreams Game airs on Netflix tonight at 7:30 ET",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the game 'airs on Netflix tonight at 7:30 ET' but the brief's open_questions explicitly flag that source texts contain 'only CSS font declarations and boilerplate HTML; no readable content about game specifics, player matchups, preview analysis, or viewing platform details beyond the headline and URL slug.' The writer cannot verify the core facts (date, time, platform, teams) are actually in the source material.",
-     "Draft claims 'according to MLB.com' multiple times, but the brief identifies the sources as containing no readable content\u2014only HTML boilerplate. Facts presented as verified cannot be traced to actual article content."
-    ]
-   },
-   {
-    "id": "c062",
-    "headline": "Reds ace Greene undergoes 2nd Tommy John surgery",
-    "category": "accuracy",
-    "reasons": [
-     "The draft asserts Greene 'underwent a second Tommy John surgery' and 'is expected to miss all of 2027' as facts attributed to MLB.com and CBS Sports. However, the brief's open_questions state: 'The source texts provided contain only CSS font declarations and boilerplate HTML; no readable content about surgery date, surgeon, expected recovery timeline, team statement, player comment, or medical prognosis beyond the headline and URL slug.' The writer cannot verify these claims trace to actual source content.",
-     "The brief explicitly notes 'No information on when the surgery occurred or when it was announced' and questions whether the 2027 timeline is definitive, yet the draft presents both as established fact without qualification."
-    ]
-   },
-   {
-    "id": "c075",
-    "headline": "Maryland EDGE Zahir Mathis out for season before critical Locksley year",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Maryland edge rusher Zahir Mathis is out for the season' as settled fact, but the brief's only data point on the injury itself is marked 'reported' (not 'confirmed'). The brief does not specify the nature, severity, or official status of the injury\u2014only that news 'came on Wednesday.' The draft presents this as definitive without the conditional language the confidence label requires.",
-     "The draft is 95 words and offers no substantive facts beyond the announcement. The brief lists five open_questions (nature of injury, when/where it occurred, player stats, depth chart impact, roster response) and marks thin=true. A thin brief should produce a tight, accurate short story; this one reads as incomplete reporting masquerading as finished copy. It does not meet the liability threshold for a health/injury claim without on-record medical detail or official team statement attribution."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
   "approved": 5,
   "rejected": [
    {
@@ -7879,6 +7846,28 @@
      "Draft states 'The extension was announced on Tuesday evening,' but today is Wednesday, 2026-09-16. The brief timestamp shows 2026-09-16T02:02:16Z (early Wednesday morning). A Tuesday announcement timestamp conflicts with the Wednesday publication date and the brief's actual timestamp. This is a factual error about when the announcement occurred.",
      "The draft also claims the Ducks 'freed up $6.5 million in cap space by terminating Chris Kreider's contract the week prior.' The brief data_point corroborates the $6.5 million figure and the Kreider termination, but 'the week prior' to September 16 is ambiguous and the brief does not confirm the timing as 'the week prior' to the Gauthier signing\u2014it only says the brief data includes the claim as reported. The language 'the week prior' is not explicitly confirmed in the brief's data points and reads as a writer's interpolation of a gap.",
      "The draft also states facts that trigger the open_questions issue: the brief flags 'The exact average annual value (AAV) of the deal is not stated' as an open question, yet the draft reports '$81 million over six years' without caveat. While the brief confirms the $81 million figure is 'reported,' it explicitly notes in open_questions that AAV is unconfirmed. The draft presents $81 million as fact without noting the $13.5M AAV implication is not confirmed by the source."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c276",
+    "headline": "Ovechkin appears in Putin campaign ad, faces backlash from NHL figures",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c184",
+    "headline": "Silver: next WNBA commissioner should help 'unify' league",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Cathy Engelbert announced her retirement earlier in September 2026' but the brief data_point says only 'Cathy Engelbert announced her retirement earlier in September 2026' with timestamp 2026-09-15. Both today (2026-09-16) and the source date (2026-09-15) fall within mid-September, so 'earlier in September' is technically accurate. However, no specific date is given in the brief for when the announcement occurred\u2014only that it was 'earlier in September 2026' and the source learned of it by 2026-09-15. This is acceptable. The core accuracy issue: the draft opens with 'Cathy Engelbert announced her retirement earlier in September 2026' but provides no new information. The data point itself just repeats the claim. The draft then says 'The search is unofficially underway, though Silver and his colleagues have not yet begun interviewing candidates.' This matches the brief. Then: 'According to Yahoo Sports, calls about the job opening have been flooding in since Engelbert's retirement announcement.' This traces to the brief's data_point. Then: 'Silver told The Athletic: \"I can tell by the calls I'm getting how much more attractive this job is and will be in 2027 than it was in 2019.\"' This is a direct quote from the brief. All facts present in the draft appear in the brief. However, there is a major structural problem: the draft does NOT state that Silver said the next commissioner should help 'unify' the league. The brief's core_claim is: 'NBA commissioner Adam Silver states that the next WNBA commissioner should help \"unify\" the league as Cathy Engelbert departs and the search for her successor begins.' The title is: 'Silver: next WNBA commissioner should help \"unify\" league.' But this quote/claim does NOT appear in the draft body. The draft never attributes the 'unify' language to Silver. This is a CRITICAL accuracy failure: the headline makes a factual claim (that Silver said 'unify') that is not supported by any sentence in the body. The 'unify' claim must be traced to a data_point in the brief to appear in the headline. Looking at the brief's data_points: there is NO data_point containing the word 'unify' or any quote from Silver using that language. The brief's core_claim includes it, but there is no corresponding data_point with sourcing. This means the headline contains a fact that has no data_point in the brief, violating the hard rule: no fact exists outside the brief."
     ]
    }
   ]
