@@ -1596,3 +1596,6 @@ body>*:not(.ground){position:relative;z-index:1}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .sb-loop,.cb-loop{display:none!important}
 }
+
+/* copy item 18: the "All" chip closes the storylines row instead of a tagline. */
+.tracking .chip-all{font-weight:600;border-color:var(--rule);opacity:.85}

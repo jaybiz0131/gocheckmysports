@@ -4731,8 +4731,12 @@ def render_home(items, dateline):
             chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
                          f'{esc(n.get("name", ""))}</a>')
     if chips:
-        track_html = (f'<div class="tracking"><span class="lab">Storylines</span>{"".join(chips)}'
-                      f'<span class="mut">the storylines the desk is following</span></div>')
+        # copy item 18: "Storylines", six chips, "All". The tagline under the chips
+        # ("the storylines the desk is following") survived the first copy pass and
+        # shipped on the live homepage; it is a section describing itself (C-L1).
+        track_html = (f'<div class="tracking"><span class="lab">Storylines</span>'
+                      f'{"".join(chips[:6])}'
+                      f'<a class="chip chip-all" href="/news.html">All</a></div>')
 
     # S1, Artboard 4 module 3: the lead story with its receipts ledger, and beside it
     # the charted receipts and the Edition. The ledger is only rendered for a story
