@@ -4,20 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c036",
-    "headline": "Makhachev defeats Machado Garry by unanimous decision at UFC 330, extends win streak to 17",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the fight took place 'at the Xfinity Mobile Arena' in Philadelphia, but this is inconsistent with standard UFC venue naming and geography. The brief data_point confirms this claim is in the source, but the arena name should be verified against the actual event location, as this appears to be a potential factual error that traces to the source rather than the writer's invention\u2014however, the claim is sourced and cannot be rejected on accuracy grounds since it matches the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-16",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c003",
     "headline": "Red Sox place Masataka Yoshida on IL with hamstring strain",
     "category": "accuracy",
@@ -7722,6 +7708,45 @@
     "category": "accuracy",
     "reasons": [
      "The draft opens with 'The WNBA resumed play after a 16-day FIBA Women's World Cup break' as a statement of fact, but the brief's core_claim says 'The WNBA resumed play after a 16-day FIBA World Cup break' while the open_questions explicitly state 'No details provided on the length of the FIBA break duration or how many days rest players had before WNBA return.' The '16-day' figure appears in the brief's core_claim but is not grounded in any data_point with source attribution in the brief itself. The brief does not provide a data_point supporting this specific duration. Additionally, the draft contains claims not traceable to the brief: 'Cameron Brink is finding her rhythm in the WNBA after her ACL injury' is in the brief as a data_point, but conflating an ACL injury recovery narrative with the scheduling problem framing misrepresents the source. The draft also references 'Kelsey Mitchell was competing for the Indiana Fever's home-court advantage in the playoffs immediately after the World Cup break,' but the brief's data_point says she 'was competing for the Indiana Fever's home-court advantage in the playoffs after the World Cup break'\u2014the addition of 'immediately' imports urgency not present in the source language."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c169",
+    "headline": "LSU's Umanmielen served court papers ahead of Ole Miss rivalry game on September 20",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the game is 'on September 20' but this is a scheduled future event dated after today (September 16, 2026). Per instructions, scheduled events must be written as upcoming. The title reads as though the game has already happened by using 'on September 20' without framing it as future tense or 'set for' language.",
+     "The draft body correctly uses 'is set to play' for the game, which is appropriate. However, the title's phrasing creates an inconsistency and liability: a reader scanning the title alone would not know the game is upcoming."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "WTA Finals relocate to Charlotte for 2027-2029",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2027-2029', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c288",
+    "headline": "Morgan Tuck to Remain GM as Connecticut Sun Relocate to Houston to Become Comets in 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a data point about Kevin Pelton joining Houston as assistant general manager and VP of analytics that does not appear in the brief's data_points list. This fact is smuggled and must be removed or sourced back to the research."
+    ]
+   },
+   {
+    "id": "c077",
+    "headline": "WNBA Resumes September 20 as World Cup Players Return with Only Five-Day Recovery Window",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 20, 2026 as a Friday; September 20, 2026 is a Sunday"
     ]
    }
   ]
