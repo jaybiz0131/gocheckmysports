@@ -3301,59 +3301,82 @@ def nfl_byes(week_no, w2w=None):
 
 
 def _fantasy_tonight_card(sb, board, desig):
-    """S-3. The lead rail's fantasy card: tonight's NFL games and when their lists
-    post, this week's designation counts, and the way to the board.
+    """S-3 / F-1 / N-6. The rail's fantasy card, and every figure on it belongs to the
+    week the card names.
 
-    Every line is a reading or it is absent. No game tonight, no line about games; no
-    designations held, no counts. If none of it holds, the card does not render and the
-    rail closes around it rather than showing a frame with nothing in it."""
+    The live card read "Week 2 · This week's designations · 33 out, 7 doubtful, 81
+    questionable · as of Sep 14, 8:00 PM ET". Those are WEEK 1's final designations
+    under a Week 2 heading, which is the stale board an owner sees. A figure renders
+    under the week it belongs to and no other: before this week's first kickoff the
+    card says what is coming and when the first report lands, and last week's numbers
+    are one tap away under "Week 1, final".
+    """
+    import datetime as _dt
+    wk, _ = nfl_week()
     rows = []
-    games = [g for L in ((sb or {}).get("leagues") or []) for g in (L.get("games") or [])
-             if g.get("league") == "NFL"]
-    ia = _ia_index(board)
-    for g in games:
-        if g.get("state") != "pre":
+    first, first_game = None, None
+    for w in ((W2W_DATA or {}).get("weeks") or []):
+        if w.get("week") != wk:
             continue
-        dt = _utc_dt(g.get("start_utc") or "")
-        if not dt:
-            continue
-        import datetime as _dt
-        aw = (g.get("away") or {}).get("abbr") or ""
-        hm = (g.get("home") or {}).get("abbr") or ""
-        posted = [t for t in (aw, hm)
-                  if ia.get(("NFL", str((g.get("away") if t == aw else g.get("home")) or {}
-                                        ).get("id")))]
-        when = (f'lists posted' if len(posted) == 2
-                else f'lists post about {_et_clock(dt - _dt.timedelta(minutes=90))}')
-        rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">{esc(aw)} at '
-                    f'{esc(hm)}</span><span class="bd-src">{esc(when)}</span></div>')
-        if len(rows) >= 2:
-            break
-    if desig and desig.get("groups"):
-        bits = [f'{len(v)} {k.lower()}' for k, v in desig["groups"].items() if v]
-        if bits:
-            rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">'
-                        f'This week\u2019s designations</span>'
-                        f'<span class="bd-src">{esc(" · ".join(bits))}</span></div>')
-    # S-B12: byes, on the days they matter. No byes in a week is a fact and renders
-    # nothing; an empty list is not an empty block.
-    _wk, _ = nfl_week()
-    _byes = nfl_byes(_wk) if _wk else []
-    if _byes:
+        for g in (w.get("games") or []):
+            k = _utc_dt(g.get("kickoff_utc") or "")
+            if k and (first is None or k < first):
+                first, first_game = k, g
+    before_kickoff = bool(first and _build_now() < first)
+
+    if before_kickoff:
+        rows.append('<div class="bd-rec-row"><span class="bd-rec-t">First practice '
+                    'report</span><span class="bd-src">Wednesday</span></div>')
+        if first_game:
+            rows.append(
+                f'<div class="bd-rec-row"><span class="bd-rec-t">'
+                f'{esc(first.astimezone(_ET).strftime("%A"))}: '
+                f'{esc(first_game.get("away") or "")} at '
+                f'{esc(first_game.get("home") or "")}</span>'
+                f'<span class="bd-src">{esc(_et_clock(first))}</span></div>')
+    else:
+        ia = _ia_index(board)
+        games = [g for L in ((sb or {}).get("leagues") or [])
+                 for g in (L.get("games") or []) if g.get("league") == "NFL"]
+        for g in games:
+            if g.get("state") != "pre":
+                continue
+            dt = _utc_dt(g.get("start_utc") or "")
+            if not dt:
+                continue
+            aw = (g.get("away") or {}).get("abbr") or ""
+            hm = (g.get("home") or {}).get("abbr") or ""
+            both = all(ia.get(("NFL", str((g.get(side) or {}).get("id"))))
+                       for side in ("away", "home"))
+            when = ("lists posted" if both
+                    else f"lists post about {_et_clock(dt - _dt.timedelta(minutes=90))}")
+            rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">{esc(aw)} at '
+                        f'{esc(hm)}</span><span class="bd-src">{esc(when)}</span></div>')
+            if len(rows) >= 2:
+                break
+        if desig and desig.get("groups"):
+            bits = [f"{len(v)} {k.lower()}" for k, v in desig["groups"].items() if v]
+            if bits:
+                rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">'
+                            f'Week {wk} designations</span>'
+                            f'<span class="bd-src">{esc(" · ".join(bits))}</span></div>')
+
+    byes = nfl_byes(wk) if wk else []
+    if byes:
         rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">On bye</span>'
-                    f'<span class="bd-src">{esc(", ".join(_byes))}</span></div>')
+                    f'<span class="bd-src">{esc(", ".join(byes))}</span></div>')
     if not rows:
         return ""
-    # F-1: the eyebrow names the week and the card carries its as-of line. Nothing here
-    # renders under "tonight" without the week beside it.
-    _stamp = (board or {}).get("last_change") or (board or {}).get("last_poll") or ""
+    stamp = "" if before_kickoff else ((board or {}).get("last_change") or "")
+    tail = (fantasy_asof("Designations", stamp, "the league injury report") if stamp
+            else f'<p class="fx-asof">Week {wk} · nothing posted for this week yet</p>')
+    prev = (wk - 1) if isinstance(wk, int) and wk > 1 else wk
     return (f'<div class="bd-card sp-railcard sp-fantasy">'
             f'<div class="bd-cardtop"><span class="bd-eyebrow">'
-            f'Fantasy{f", Week {_wk}" if _wk else ""}</span></div>'
-            f'<div class="bd-rec-rows">{"".join(rows)}</div>'
-            + fantasy_asof("Designations", _stamp, "the league injury report")
-            + f'<a class="bd-more" href="/fantasy/inactives.html">The inactives board</a>'
-              f'</div>')
+            f'Fantasy{f", Week {wk}" if wk else ""}</span></div>'
+            f'<div class="bd-rec-rows">{"".join(rows)}</div>{tail}'
+            f'<a class="bd-more" href="/fantasy/inactives.html">Week {prev}, final</a>'
+            f'</div>')
 
 
 def _inactives_pending(games, posted_ids):
