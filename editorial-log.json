@@ -1,42 +1,5 @@
 [
  {
-  "date": "2026-08-13",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c019",
-    "headline": "Reds pitcher Hunter Greene undergoes second Tommy John surgery, faces extended absence",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In Thursday's preseason game against Las Vegas, Jacoby Brissett had been scheduled to start, though Greene's surgery does not directly affect that game.' This sentence is confusing and appears to smuggle information not in the brief. The brief contains no data point about Jacoby Brissett or any preseason game against Las Vegas in relation to Greene's surgery. This appears to be conflated detail from a different story (the c008 brief mentions Brissett and Raiders) and should not appear here without sourcing in the brief."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Saints rookie WR Jordyn Tyson exits practice with leg injury",
-    "category": "compliance",
-    "reasons": [
-     "Draft contains medical speculation beyond the official injury report. The sentence 'The specific nature and severity of the injury, whether it involves the same hamstring that troubled him in the offseason...' presents as uncertain but the phrase 'injury pattern, soft-tissue to soft-tissue' in the bottom_line treats the current injury as soft-tissue without official confirmation from Coach Moore. Moore only said 'leg or lower body injury'\u2014not soft-tissue. The draft speculates about tissue type and connects it to prior hamstring issues in a way that exceeds the official record. This violates the compliance rule on health claims beyond official reports."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "NBA schedule release: 10 key dates to circle for 2026-27 season from big returns to rivalries renewed",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'LeBron James joining the 76ers at age 41' in the opening paragraph, but the brief's data point says 'LeBron James, 41 years old, joined the Philadelphia 76ers' with confidence 'announced-not-verified'. The draft presents this as a settled fact without any qualifier; the confidence level requires hedging language.",
-     "The draft claims 'the 2024 Finals MVP' refers to Jaylen Brown without qualification, but the brief lists 'Brown was the 2024 Finals MVP' with confidence 'reported'. This fact is embedded as though unquestionable when the source confidence suggests it should be marked as reported.",
-     "The draft states 'Shai Gilgeous-Alexander is the two-time reigning MVP' as fact, but the brief lists this claim with confidence 'reported', not verified. Without qualification, this reads as a settled current title rather than a reported claim.",
-     "The draft claims 'Victor Wembanyama is the Defensive Player of the Year' without noting this is a reported claim. The brief marks this with confidence 'reported'.",
-     "The draft introduces multiple 'announced-not-verified' trade claims (Giannis to Heat, Jaylen Brown to 76ers, LeBron to 76ers) as settled facts without any hedging language like 'according to reports' or 'reportedly'. These should carry qualification markers inline.",
-     "The draft states 'the Spurs reached the Finals last season, losing to New York in a five-game series that averaged 20.6 million viewers, making it the most-watched Finals series since 1998, per ESPN's reporting' but does not attribute the viewership figure inline to ESPN in the sentence structure; it only appears at the end of a multi-clause statement, creating ambiguity about which outlet reported which fact.",
-     "The draft includes the claim 'Paul George had a 25-game suspension for violating the NBA's anti-drug policy during his time with the 76ers' without noting the confidence level 'reported'; this should be hedged as a report, not stated as settled fact.",
-     "The draft includes 'Ja Morant returns to Memphis with the Trail Blazers on February 6' and other return matchups using definitive language ('returns') when the underlying brief claims are 'reported' confidence. The future-tense construction masks the fact these are reported claims, not confirmed future events."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-14",
   "approved": 5,
   "rejected": [
@@ -7866,6 +7829,23 @@
      "Bottom line avoids summarizing; points forward to the undisclosed terms as a pending detail.",
      "No reputationally damaging claims; story is celebratory institutional news.",
      "the draft cites identifier '2026-2027', which appears nowhere in the brief or its sourced text"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c087",
+    "headline": "WNBA resumes September 19 after World Cup; international stars face abbreviated recovery",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WNBA returns to play on Friday, September 19' as a past or imminent event, but today is Wednesday, September 16, 2026. September 19 is three days in the future and should be written as an upcoming event ('will return' or 'returns Friday'). The instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The phrasing 'returns to play on Friday, September 19' reads as scheduled/announced but the tense treatment is ambiguous; however, the core issue is that no fact in the brief specifies the exact date of the WNBA return or names which teams play or when the World Cup ended\u2014only that there was a 16-day break. The brief's data_points contain only that 'The WNBA returns Friday after a 16-day break' (no date confirmation in the brief itself). The draft invents the specific date 'September 19' without that date appearing anywhere in the research brief's data_points.",
+     "The draft claims 'For many of the league's most important players, the break barely qualifies as rest' and 'Dozens of WNBA players have only days to recover before the league enters its four-game sprint to the playoffs.' The brief's data_points say 'Dozens of WNBA players have only days to recover from the World Cup before the league's four-game sprint to the playoffs'\u2014which matches\u2014but the brief does not specify which players, how many days, or confirm the exact duration of recovery time. The brief is marked 'thin: true' and contains only 5 data_points, two of which concern the MVP race and are unrelated to the scheduling complaint. The open_questions explicitly ask 'Which specific WNBA players participated in the FIBA Women's Basketball World Cup and are affected by the 16-day break?' and 'How many days of rest will players have between the World Cup final and the first WNBA game?'\u2014indicating the brief itself lacks these specifics. The draft states these as settled facts when the research brief flags them as open.",
+     "The draft has no counter-evidence or bear_case paragraph, but the brief's bear_case is empty (an empty list), so this is not a balance failure per the instructions. However, the draft is extremely thin (two paragraphs, 134 words) for a story published today about an event three days away. The brief is thin (thin: true, 5 data_points, mostly about MVP race), but the draft reads as rumor or premise rather than reporting\u2014it asserts a 'scheduling mismatch' and 'structural problem' without naming a single player, a single World Cup result, a single game date, or a single WNBA statement on the issue. The story cannot be verified against the brief because the brief itself is incomplete and the draft adds no new reporting to fill the gaps; it simply asserts the premise as established fact.",
+     "the draft dates September 19, 2026 as a Friday; September 19, 2026 is a Saturday"
     ]
    }
   ]
