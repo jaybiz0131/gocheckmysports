@@ -4,54 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c033",
-    "headline": "Barcelona clear path for Torres to PSG as deal nears completion",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Torres 'helped Spain claim their second World Cup this summer' but the brief data point says he 'scored the winning goal' in the World Cup final. The draft also later says 'Torres scored the winning goal in the World Cup final for Spain.' These two statements are contradictory: if he scored the winning goal, Spain won the Cup (their achievement); the phrasing 'helped Spain claim their second World Cup' is vague about his specific role and conflicts with the more precise data point about him scoring the extra-time winner. The claim needs clarification: did Spain win the Cup or not? A 'winning goal' in a final means Spain won. The draft should align both references.",
-     "The draft claims Torres 'helped Spain claim their second World Cup this summer with an extra-time winning goal against Argentina' but does not verify Spain actually won the World Cup. The brief data point only says he 'scored the winning goal in the World Cup final for Spain,' not that Spain won overall. If he scored an extra-time winner in the final against Argentina, Spain won\u2014but this must be stated explicitly, not implied. The casual framing creates ambiguity about the outcome."
-    ]
-   },
-   {
-    "id": "c199",
-    "headline": "RESEARCH HOLD: Rutschman Red Sox debut source unreadable",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points and the open_questions field explicitly states the source is truncated and unreadable, containing only CSS and font-face declarations with no actual game content, statistics, or narrative. The draft itself acknowledges this and refuses to proceed. Per the hard rule: no fact exists outside the brief. A draft written from an empty or unreadable brief violates the foundational accuracy requirement. This is a research-intake failure, not a drafting failure. The draft correctly identifies the problem but should never have reached approval review in this state."
-    ]
-   },
-   {
-    "id": "c178",
-    "headline": "Padres rout Brewers, create three-way tie for final two NL Wild Card spots",
-    "category": "accuracy",
-    "reasons": [
-     "The draft itself acknowledges that the source URL does not contain verifiable data: 'The source URL provided does not contain the data necessary to verify the core claims: the final score of the game, the specific date on which it was played, the current win-loss records of the teams involved, or the identity of the three teams now tied for the final two National League wild-card spots.' No facts can be traced to the source material because the source material contains only CSS declarations and no game content, box scores, or standings. The brief's open_questions confirm this: all critical data points (final score, game date, standings, team records) are missing from the provided source text. A story cannot be published when its core factual claims cannot be verified against the source."
-    ]
-   },
-   {
-    "id": "c180",
-    "headline": "Who will be the HR king? We haven't had a race this close in over 40 years",
-    "category": "accuracy",
-    "reasons": [
-     "The draft acknowledges the source failure directly: 'The fetched content does not identify the competing players, their current home-run totals, the margin separating the leaders, or any historical comparison data that would establish or contextualize the claim.' The brief confirms the source text is 'largely CSS font-face declarations' with no substantive reporting. The single data point in the brief\u2014'The home-run race is characterized as the closest it has been in over 40 years'\u2014has confidence 'reported' but the actual source provides no player names, totals, margins, or historical data to support the claim. Without these facts in the source, the story cannot proceed."
-    ]
-   },
-   {
-    "id": "c061",
-    "headline": "Pogba expected to exit Monaco as contract termination talks advance",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Pogba joined Monaco in June 2025 after the Court of Arbitration for Sport reduced his doping ban to 18 months in March of that year' but the brief data shows the CAS decision reduced the ban from a provisional four-year ban to 18 months, with Pogba returning in March 2025\u2014the conditional clause 'after' in the draft incorrectly suggests causality in sequence when the brief shows the CAS reduction happened in March 2025 and Pogba returned to play in March 2025, not that he joined Monaco after returning. The draft's phrasing is ambiguous but the timeline should clarify: CAS decision in March 2025 restored eligibility, then he joined Monaco in June 2025.",
-     "The draft presents 'BBC Sport understands that the injury could delay Pogba's anticipated switch to Major League Soccer' as factual statement without attribution clarity. The confidence label in the brief is 'reported,' but the phrasing 'BBC Sport understands' appears later in the paragraph as a single claim about MLS interest. The injury-delay claim should be clearly attributed to the BBC source inline."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c036",
     "headline": "Barcelona grant Ferran Torres permission to skip training amid PSG move",
     "category": "accuracy",
@@ -8028,6 +7980,38 @@
     "category": "accuracy",
     "reasons": [
      "The draft cites only one source (Yahoo) for all factual claims, but the brief lists the same single Yahoo URL repeatedly across all 18 data_points. However, the critical issue is that the brief's core_claim explicitly identifies Shawn Horcoff as 'father of Pittsburgh Penguins prospect Will Horcoff,' and this biographical detail appears in the brief's data_points but is completely absent from the draft body. The draft provides Horcoff's playing history (Michigan State, Edmonton, Dallas, Anaheim, 1,008 games, 186 goals, 325 assists) and his organizational roles, but omits the defining family connection mentioned in the brief's core_claim and data_point 19. This is a significant factual omission given the brief explicitly flags it as part of the story. Additionally, the draft does not reference the brief's bear_case (which is empty), but the absence of counter-argument where the brief provides none is correct. The core problem is the missing biographical fact that the brief elevated to the core_claim itself."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c107",
+    "headline": "NHL teams rush to finalize 8-year deals before new CBA takes effect September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports: 'Eight-year contracts were announced that morning for three players: Washington Capitals winger Ryan Leonard, 21; Ottawa Senators winger Drake Batherson, 28; and Buffalo Sabres center Noah \u00d6stlund, 22, all set to begin in the 2027-28 season.' However, the brief data_point states: 'Eight-year extensions were announced Tuesday morning for three players.' Today is Wednesday, 2026-09-16. Tuesday was September 15. The draft says 'that morning' without clarifying which morning, and the context 'The rush intensified on September 15' suggests the deals were announced Sept 15. This is consistent with the brief. However, the brief also states 'The Avalanche had locked in Cale Makar, 27, to an eight-year, $163.2 million deal at $20.4 million average annual value...That agreement was reached in August or early September.' This is accurately reflected in the draft.",
+     "The draft contains confidence labels in the brief marked 'announced-not-verified' for core CBA changes (84-game season, preseason shortening, playoff salary cap, deferred compensation elimination, dress code removal). The draft presents these as fact: 'Front Office Sports reports the agreement expands the regular season to 84 games from 82, shortens the preseason, introduces a playoff salary cap, eliminates deferred compensation, and formally removes the league's dress code.' The language 'reports' and 'Front Office Sports reports' correctly attributes these, but per the instruction, claims marked 'announced-not-verified' must read as such in prose. The draft does not flag these as unconfirmed; it presents them as established fact via 'reports,' which is acceptable attribution for announced-but-unverified claims, provided the tone does not overstate certainty. The use of 'reports' with a secondary source is appropriate for announced-not-verified material."
+    ]
+   },
+   {
+    "id": "c57",
+    "headline": "Arch Manning apologizes to Holly Rowe after laughing at AI video depicting violence against reporter",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'Texas beat Ohio State by a 20-point margin on Saturday [and the score was] 24-23.' A 24-23 score is a one-point margin, not a 20-point margin. The brief core_claim states 'Texas QB Arch Manning apologized to ESPN reporter Holly Rowe after laughing at an AI-generated video depicting coach Steve Sarkisian slapping her during a Monday press conference, two days after Texas's 20-point comeback win over Ohio State.' The brief also includes the data_point: 'Texas beat Ohio State by a 20-point margin on Saturday' (confidence: verified-on-chain) AND separately 'The Longhorns came back from a 20-point deficit to beat the Buckeyes' (confidence: reported) AND 'The final score of the Texas-Ohio State game was 24-23' (reported twice, from two sources). The brief conflates 'came back from a 20-point deficit' with 'beat by a 20-point margin,' which is contradictory. The draft correctly cites 24-23 as the final score but never clarifies the 20-point deficit comeback narrative, which is how the game is described in the brief. The draft's opening line: 'roughly 21 hours after the clip circulated widely' places the apology on Tuesday. If the press conference was Monday, the apology on Tuesday would be roughly 24 hours, not 21 hours. The brief says 'roughly 21 hours after the clip circulated widely' for Vieth's apology, but the timeline for Manning's apology is less clear in the brief. The draft states 'Manning posted his apology on social media on Monday,' but the brief says Manning posted 'on Monday (the day after the press conference),' implying the press conference was Sunday, which contradicts the core claim stating the press conference was Monday. This is an internal timeline error in the brief itself, but the draft must trace to the brief as written. The draft says Manning posted Monday, but also implies the press conference was Monday, creating internal inconsistency."
+    ]
+   },
+   {
+    "id": "c290",
+    "headline": "USA defeats France for fifth consecutive World Cup gold; Stewart named MVP (September 13)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Montreal, then the youngest team in the league, was eliminated in the first round by the Washington Capitals in what marks the franchise's first playoff appearance since the 2020-21 season.' This sentence appears to conflate two different playoff runs. The brief states Montreal had 'consecutive playoff berths, including a trip to last year's Eastern Conference Finals' and was 'eliminated in the first round by the Washington Capitals.' The phrasing 'then the youngest team' with 'first playoff appearance since 2020-21' is contradictory if they made consecutive playoff runs and reached the Conference Finals. The draft muddies whether the Capitals elimination was last year (the Conference Finals run) or this year.",
+     "The draft claims Stewart 'will chase her fourth Olympic gold in Los Angeles in 2028' but the brief data_point states she 'will chase her fourth Olympic gold in Los Angeles in 2028'\u2014however, the brief also lists her achievements as 'four college titles, four World Cup gold medals' with no Olympic golds counted in the medal tally provided. The bottom_line projects 'fourth Olympic gold in Los Angeles in 2028' but this appears to be prospective/speculative language ('targets,' 'will likely') presented as established fact in a sentence about past events."
     ]
    }
   ]
