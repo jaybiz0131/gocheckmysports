@@ -639,41 +639,31 @@ footer.site .fnote b{color:var(--muted)}
 /* ---- motion layer: micro-details (transform/opacity only, zero layout shift) ---- */
 video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:block}
 .badge-anim{position:relative;display:inline-block;overflow:hidden;border-radius:50%;
-  animation:bfloat 6s ease-in-out infinite}
+  }
 .badge-anim img{display:block;transition:transform .25s ease}
 .badge-anim:hover img{transform:perspective(320px) rotate3d(.4,1,0,10deg)}
 .badge-anim::after{content:"";position:absolute;top:-60%;left:-60%;width:55%;height:220%;
   transform:rotate(25deg) translateX(0);pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-  animation:bshine 7s ease-in-out infinite}
-@keyframes bfloat{0%,100%{transform:translateY(0)}
-50%{transform:translateY(-3px)}
-}
-@keyframes bshine{0%,74%{transform:rotate(25deg) translateX(0)}
-92%,100%{transform:rotate(25deg) translateX(340%)}
-}
-.tick-colon{animation:cblink 1.6s steps(1) infinite}
-@keyframes cblink{0%,55%{opacity:1}
-56%,100%{opacity:.2}
-}
+  }
+.tick-colon{}
 .ed-kick .live-dot{margin-left:8px;vertical-align:1px}
 .sec-head .bar{position:relative;overflow:hidden}
+/* A-16b: tdrift (26s, infinite) rendered on .sec-head .bar::after across 18
+   Crypto and 21 Sports pages - a sixth move, on every page, from the retired
+   theme. The bar stays; the drift does not. bfloat, bshine, cblink and breathe
+   were dead keyframes nothing referenced. */
 .sec-head .bar::after{content:"";position:absolute;inset:0;width:200%;opacity:.35;
   background:repeating-linear-gradient(90deg,transparent 0 14px,var(--rule) 14px 18px);
-  animation:tdrift 26s linear infinite}
-@keyframes tdrift{0%{transform:translateX(0)}
-100%{transform:translateX(-72px)}
-}
+  }
 .mjs .reveal{opacity:0;transform:translateY(12px)}
 .mjs .reveal.in{opacity:1;transform:translateY(0);
   transition:opacity .2s ease-out,transform .2s ease-out}
 .card:hover{border-color:#b8722c;box-shadow:0 6px 22px rgba(184,114,44,.16)}
 .hero-bl::after{content:"";position:absolute;inset:-1px;
   border:2px solid var(--rule);border-radius:inherit;opacity:.15;pointer-events:none;
-  animation:breathe 5.5s ease-in-out infinite}
+  }
 .hero-bl{position:relative}
-@keyframes breathe{50%{opacity:.55}
-}
 /* Tier 3: near-invisible scan-line texture, hero band only */
 .hero-band::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
