@@ -4,46 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c080",
-    "headline": "Devon Witherspoon signs four-year, $132M extension with Seahawks, becomes NFL's highest-paid cornerback",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Witherspoon 'becomes NFL's highest-paid cornerback' in the title and 'the NFL's highest-paid cornerback' in the body. The brief data_point says only 'the Seahawks' highest-paid cornerback.' The draft inflates the claim beyond what the brief supports\u2014the brief does not contain evidence he is league-wide highest-paid, only that he became the Seahawks' highest-paid at this figure. This is a smuggled fact not in the research.",
-     "The draft states 'The move places direct pressure on teams such as the New England Patriots, whose cornerback Christian Gonzalez is expected to pursue terms that match or exceed Witherspoon's new ceiling.' The brief notes in open_questions that 'the full source text does not carry details about contract structure, salary breakdown, guaranteed money, or specific market comparisons' and the snippet only 'mentions Christian Gonzalez and the Patriots' future negotiation' but those details are not confirmed in the actual data_points provided. This appears to be speculation or interpretation beyond the brief."
-    ]
-   },
-   {
-    "id": "c159",
-    "headline": "Vladimir Guerrero Jr. placed on 7-day injured list with head injury",
-    "category": "accuracy",
-    "reasons": [
-     "The draft describes Guerrero Jr. as a 'six-time All-Star,' but this biographical fact is not present in the brief's data_points. The brief notes in open_questions that 'The source text provided is predominantly CSS styling code and does not contain narrative content describing the injury circumstances.' The draft has smuggled the All-Star designation from outside the research brief.",
-     "The draft states he 'exited a game with head injury symptoms,' but the brief only confirms he was 'placed on 7-day injured list' (verified-on-chain). The angle mentions 'after exiting a game with head injury symptoms' but the open_questions reveal 'No information is available about when Guerrero Jr. exited the game, against which opponent, or the specific head injury event that triggered the IL placement.' The draft treats 'exiting the game' and 'head injury symptoms' as established fact when they are not confirmed in available sources per the brief's own assessment."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "Blue Jays defeat Yankees 4-1; McAdoo delivers tiebreaking 7th-inning double",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The win marked the Blue Jays' 13th victory in their last 19 games' and 'The surge positions Toronto ahead of a Yankees team competing in the same division during the final stretch of the regular season.' The brief's open_questions note that the source text from ESPN is empty (source_chars: 0), meaning these claims cannot be verified against fetched material. The brief marks the '13th win in 19 games' as a data_point with 'reported' confidence, but the ESPN recap URL yielded no actual article content\u2014only a game result snippet. Claims about the pennant-race context and the Jays being 'ahead' of the Yankees in the division are not supported by the brief's available source material and represent smuggled facts beyond what was confirmed."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Cristian Romero completes transfer to Atl\u00e9tico Madrid from Tottenham",
-    "category": "accuracy",
-    "reasons": [
-     "Body paragraph 4 states: 'Postecoglou was sacked weeks after Tottenham's European success, which included an open-top bus parade through north London attended by an estimated 200,000 fans following a win in Bilbao, according to ESPN.' The brief's data_point claims 'Postecoglou was sacked weeks later and Romero waited for successor Thomas Frank to be announced'\u2014but the draft names Roberto De Zerbi as the new manager in paragraph 5 ('New Tottenham manager Roberto De Zerbi'), not Thomas Frank. The brief itself contains this contradiction (Thomas Frank vs. De Zerbi), but the draft has smuggled a resolution (De Zerbi) that does not appear in the brief's source citations. The writer cannot patch conflicting information; this must go back to research."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-15",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c031",
     "headline": "Vikings edge Giants 13-10 in preseason with Murray debut",
     "category": "accuracy",
@@ -7749,6 +7709,31 @@
     "reasons": [
      "The draft's opening states the U.S. women's U-20 team was eliminated 'on September 16' but the assignment specifies today is Wednesday, 2026-09-16. The brief's timestamp also shows 2026-09-16. The draft reports this event in past tense as having already occurred ('was eliminated', 'losing to Brazil') when it is being filed on the day it happened. More critically, the lead conflates timing: if today is September 16 and the event occurred on September 16, the phrasing should clarify whether this was this morning/afternoon or use 'Wednesday' to anchor it, not simply 'on September 16' after the fact. The greater problem: the draft then refers to 'Tuesday' for the open letter signing: 'On Tuesday, a group of current and former players including Alex Morgan, Marta, Crystal Dunn and Sophia Wilson signed an open letter.' If today is Wednesday and the U-20 match was Wednesday, Tuesday would be yesterday. The timeline is internally contradictory and the draft does not establish which events happened when relative to today's date (Wednesday, 2026-09-16).",
      "The draft states 'eight NWSL-contracted players who participated now have only days to recover before the WNBA's four-game sprint to the playoffs.' The brief lists 'Eight professional players made the U-20 World Cup cut, including Seattle Reign's Ainsley McCammon and Emeri Adames' but does NOT specify that eight players were WNBA-contracted. The brief's open_questions include 'Which WNBA teams have players competing in Poland who will face the compressed schedule?' This indicates the brief itself does not confirm the number of WNBA-contracted players specifically. The draft has smuggled a more definitive claim than the brief supports."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c059",
+    "headline": "WNBA season resumes September 16 with playoff seeding still undecided",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'whether the first-round home-court disadvantage lands among the Aces, Dream and Fever' in the bottom_line. This is inaccurate framing. The brief and data clearly indicate that one of these three teams will NOT get home-court advantage (i.e., will have disadvantage), but the draft's phrasing suggests all three will lack it or that disadvantage is being assigned. The correct framing from the brief is that one of the three will not get home-court advantage in the first round. The bottom_line misrepresents the fact.",
+     "the draft cites identifier '2017-21', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "WTA Finals Move to Charlotte Through 2029, Tour Relocates Headquarters",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a quote attributed to Valerie Camillo: 'We're not going to do everything ourselves, but we're taking control of this event. We're taking control of the creation of the revenues and the controlling of the expenses and the delivery of the entire thing. And that allows us to control our own destiny.' This quote appears verbatim in brief data_point 29, which is sourced to ESPN Tennis. However, earlier in the draft, a different Camillo quote is provided: 'The WTA Finals represents everything that makes women's tennis extraordinary...' which appears in brief data_point 17. The draft presents the second quote without attribution or source clarity, making it unclear which quote belongs to which outlet.",
+     "The draft states 'WTA Chair Valerie Camillo stated: \"We're not going to do everything ourselves...\"' but the attribution is inline without explicit outlet identification, while the prior Camillo statement in data_point 17 is a substantially longer and different quote that the draft does not include. The brief shows both quotes exist in ESPN data, but the draft's presentation could confuse readers about which statements are from which outlets or interviews.",
+     "The draft includes material from data_point 19 (Cincinnati Open relocation scenario) and data_point 20 (Beemok Capital ownership), neither of which appears in the draft body. The brief contains these details, but since the story does not include them, this is not an accuracy failure in the draft itself. However, the draft's bottom_line claims 'the tour's new revenue model and cost control under operational management generates the margins needed to stabilize the organization's balance sheet, which sources project to be critically depleted by year-end 2026' without citing which sources project this stabilization. The bear_case notes that 'no sources indicate replacement funding beyond the Charlotte deal,' but the bottom_line implies confident projections of margin generation are in the sources. This overstates the confidence level of the reporting."
     ]
    }
   ]
