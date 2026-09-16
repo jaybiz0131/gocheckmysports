@@ -2094,7 +2094,7 @@ def receipts_ledger(item, max_rows=2):
     # the story, not authored here, so they are never rewritten and never cut - they
     # wrap, exactly as they do on the board.
     shown = sorted(rows, key=lambda r: len(" ".join(str(r["claim"]).split())))[:max_rows]
-    head = (f'<div class="sp-strip-head"><span class="bd-label">The receipts</span>'
+    head = (f'<div class="sp-strip-head"><span class="bd-label">Sources</span>'
             f'<span class="bd-src">{len(rows)} of {len(rows)} '
             f'{"verified" if verified else "reported"}</span></div>')
     out = [f'<div class="sp-ledger sp-strip">', head]
@@ -2313,7 +2313,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Where to watch</p>
   <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))},
-     every window and the channel that carries it</h1>
+</h1>
   <p class="lx-dek">{n} games, grouped by kickoff window. Carriers as the league has
      announced them.</p>
   {_w2w_stamp(W2W_DATA)}
@@ -2406,12 +2406,10 @@ def where_to_watch_card(data):
             f'<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">Where to watch</span>'
             f'<span class="bd-h2" style="font-size:20px">NFL Week '
-            f'{esc(str(week.get("week") or ""))}, every window and the channel that '
-            f'carries it</span></div>'
-            f'<a class="bd-more" href="/where-to-watch.html">All windows</a></div>'
+            f'{esc(str(week.get("week") or ""))}</span></div>'
+            f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
             f'<div class="w2w">{"".join(rows)}</div>'
-            f'<p class="bd-src">Carriage as the league has announced it. Regional games '
-            f'vary by market.</p></div>')
+            '</div>')
 
 
 # ---- S6: the news hub ---------------------------------------------------------
@@ -4249,7 +4247,7 @@ def lane_card_v3(item, lane_name, stamp=None):
         nm = _bd_outlet(s)
         if nm and nm not in outlets:
             outlets.append(nm)
-    receipts = (f'<p class="bd-src">Receipts: {esc(", ".join(outlets[:3]))}</p>'
+    receipts = (f'<p class="bd-src">Source: {esc(", ".join(outlets[:3]))}</p>'
                 if outlets else "")
     return (f'<div class="bd-card lane-v3">'
             f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(lane_name)}</span>'
@@ -4261,7 +4259,7 @@ def lane_card_v3(item, lane_name, stamp=None):
             + _lane_figures(item)
             + receipts
             + f'<a class="bd-more" href="/articles/{esc(item["slug"])}.html">'
-              f'Read the piece</a></div>')
+              f'Read the story</a></div>')
 
 
 def extra_lanes(items, board, claimed=None):
@@ -4301,7 +4299,7 @@ def extra_lanes(items, board, claimed=None):
                      f'{board["total"]} players listed</a>'
                      f'<span class="bd-src">Living board</span></div>')
         right = (f'<div class="bd-card bd-rec-more">'
-                 f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
+                 f'<span class="bd-label">More</span>'
                  f'<div class="bd-rec-rows">{extra}{more}</div>'
                  + (f'<a class="bd-more" href="{href}">The fantasy hub</a>' if href else "")
                  + '</div>')
@@ -4468,15 +4466,14 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     rest = lane_items[1:4]
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
     # was "1 pieces in the Record"; the count carries no noun now, so it cannot disagree
-    status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
-              if newest else f"{len(lane_items)} in the Record")
+    status = f"{len(lane_items)} stor{'y' if len(lane_items) == 1 else 'ies'}"
     srcs = []
     for i in lane_items[:6]:
         for s in (i.get("sources") or []):
             lab = _bd_outlet(s)
             if lab and lab not in srcs:
                 srcs.append(lab)
-    receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
+    receipts = (f'Source: {esc(", ".join(srcs[:4]))}' if srcs
                 else "Receipts: every source linked on the piece")
     # S-17: every lane uses the v3 card. Three used the v2 feature card and two used
     # v3, which is what made one Record look like two.
@@ -4499,7 +4496,7 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     right = ""
     if rows:
         right = (f'<div class="bd-card bd-rec-more">'
-                 f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
+                 f'<span class="bd-label">More</span>'
                  f'<div class="bd-rec-rows">{rows}</div>'
                  f'<a class="bd-more" href="{all_href}">All {esc(name.lower())}</a></div>')
     return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
@@ -4543,9 +4540,8 @@ def record_sections(items, home=True, board=None):
     if not lanes.strip():
         return ""
     head = (f'<div class="bd-sec"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">The Record</span>'
-            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
-            + (f'<a class="bd-more" href="/keepers.html">The full Record</a>' if home else "")
+            f'<h2 class="bd-h2">The Record</h2></div>'
+            + (f'<a class="bd-more" href="/keepers.html">All</a>' if home else "")
             + '</div>')
     # S-24: five lane sections are 4,970px on a phone, over a third of the homepage.
     # The first lane stays; the rest go inside a details the phone closes. It ships
@@ -4555,8 +4551,8 @@ def record_sections(items, home=True, board=None):
     if home and len(parts) > 1:
         rest = "".join(parts[1:])
         lanes = (parts[0]
-                 + f'<details class="rec-more" open><summary>Show all '
-                   f'{len(parts)} lanes</summary>{rest}</details>')
+                 + f'<details class="rec-more" open><summary>All lanes</summary>'
+                   f'{rest}</details>')
     return (f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
             + (REC_MORE_JS if home else ""))
 
@@ -4655,9 +4651,8 @@ def render_home(items, dateline):
             for i in stories[:6])
         cards = ed_card + cards
         desk_html = (f'<div class="bd-sec"><div class="bd-sec-l">'
-                     f'<span class="bd-eyebrow">The desk</span>'
                      f'<h2 class="bd-h2">From the desk</h2></div>'
-                     f'<a class="bd-more" href="/news.html">All stories &rarr;</a></div>'
+                     f'<a class="bd-more" href="/news.html">All stories</a></div>'
                      f'<div class="sp-deskgrid">{cards}</div>')
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
@@ -4758,7 +4753,7 @@ def render_home(items, dateline):
             chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
                          f'{esc(n.get("name", ""))}</a>')
     if chips:
-        track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
+        track_html = (f'<div class="tracking"><span class="lab">Storylines</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
     # S1, Artboard 4 module 3: the lead story with its receipts ledger, and beside it
@@ -4789,11 +4784,9 @@ def render_home(items, dateline):
                  f'{esc(_lead.get("title") or "")}</a>'
                  + (f'<p class="sp-lead-dek">{esc(_dek)}</p>' if _dek else "")
                  + _ledger
-                 + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando, '
-                   f'The GoCheckMySports desk. Every figure links to the source the '
-                   f'story cites.</span>'
+                 + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando</span>'
                    f'<a class="bd-more" href="/articles/{esc(_lead["slug"])}.html">'
-                   f'Read the full breakdown</a></div></div>')
+                   f'Read the story</a></div></div>')
         # S-3: the rail rendered <div class="sp-rail"></div> whenever the receipts
         # chart and the edition card both came back empty - a blank third of the page
         # beside the lead. It carries the three cards the audit specifies now, and a
@@ -4826,7 +4819,6 @@ def render_home(items, dateline):
   {w2w_row}
   {track_html}
   {record_sections(items, home=True, board=IA_BOARD)}
-  {record_full_index(items)}
 </section></main>"""
     return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 
