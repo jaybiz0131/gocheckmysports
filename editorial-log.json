@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c067",
-    "headline": "Bears safety Coby Bryant injured in camp; recovery timeline unclear",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The headline references a 4-to-6-month absence, while the body text cites an 8-to-10-week recovery window.' This internal contradiction is presented as fact about what the source says, but the brief's bear_case notes this discrepancy exists in the source itself. The draft then pivots to treating the 8-10-week figure as the operative timeline ('Bryant's knee injury is confirmed, but the source reporting contradicts itself on recovery duration, ranging from 8-10 weeks to 4-6 months'). However, the brief data_point specifies only '8-10 weeks' as the expected recovery\u2014not both figures. By elevating the 4-6-month figure to equal weight without a second data_point in the brief confirming that figure appears in the source, the draft is smuggling unverified information. The writer should either quote the source directly or align with the single confirmed data_point (8-10 weeks)."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Vikings name Kyler Murray starting QB over J.J. McCarthy",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Kevin O'Connell named Kyler Murray the Week 1 starting quarterback on Tuesday, according to CBS Sports' but the brief explicitly states the source is 'corrupted/truncated' with only 'headline and snippet' available and no substantive reporting. The draft presents this as a confirmed fact when the brief's open_questions section flags that 'The source text is corrupted/truncated and does not contain substantive reporting.' The writer has smuggled a fact (the specific day, the explicit decision) beyond what the brief's source actually provides."
-    ]
-   },
-   {
-    "id": "c113",
-    "headline": "Fever president Krauskopf backs coach Stephanie White amid pressure",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's core_claim explicitly names the underlying incident: 'Sophie Cunningham\u2013DiJonai Carrington incident.' The draft omits this entirely and states only that 'Details of the incident that prompted calls for White's firing...have not been disclosed in available reporting.' This is inaccurate: the brief itself contains the incident identifier, even if source details are sparse. The draft should acknowledge what the brief establishes rather than claim the incident is unknown.",
-     "The brief characterizes Krauskopf's message as 'blunt' (from headline); the draft presents only 'publicly backed' without the tone detail that the brief source provided, understating the nature of the statement."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 2,
   "rejected": [
    {
@@ -8067,6 +8036,36 @@
     "reasons": [
      "The core claim in the brief is marked 'announced-not-verified' confidence level, but the draft presents the extension as a settled fact without any hedging language. The brief explicitly flags that the team 'announced' the extension but did not verify independent confirmation. The draft should signal this confidence level in the prose.",
      "The brief's open_questions include 'What specific positive results has Hynes achieved in his three seasons?' and 'Has the Wild officially announced the extension details beyond the fact of the agreement?' \u2014 these are cart-before-horse issues. The angle claims the extension signals 'confidence in his direction after positive results' but the brief contains no data_point about what those positive results actually are. The draft's lead implies positive results without evidence in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c193",
+    "headline": "Garrett, Brown, Darnold sidelined by Week 1 injuries; Rams, Patriots, Seahawks navigate early absences",
+    "category": "accuracy",
+    "reasons": [
+     "Myles Garrett is stated to play for the Los Angeles Rams, but the brief identifies him as a Cleveland Browns player (the brief references him earning 2025 DPOY for the Rams post-trade, but the injury occurred in Week 1 of the 2026 season after the trade). The draft states 'Myles Garrett, who earned 2025 NFL Defensive Player of the Year honors, was placed on injured reserve by the Los Angeles Rams following a knee injury'\u2014this is accurate per the brief, but the opening line 'According to CBS Sports' reporting, Myles Garrett, who earned 2025 NFL Defensive Player of the Year honors, was placed on injured reserve by the Los Angeles Rams' creates ambiguity by not clarifying the Rams acquired him before this season. However, re-reading the draft, it does state later 'who acquired him before this season by trading away Pro Bowl edge rusher Jared Verse,' so this is present. The core issue: the draft reports Garrett 'was placed on injured reserve by the Los Angeles Rams following a knee injury' and 'Rams head coach Sean McVay said on September 15 that there will be no timeline for Garrett's absence until after surgery scheduled for Monday.' The brief states McVay said 'there won't be a timeline for Garrett's absence until after surgery on Monday,' which matches. However, the brief data_point states 'Garrett missed most of training camp, including a joint practice against the Dallas Cowboys, with swelling in his knee,' and the draft says 'Garrett had missed most of training camp with swelling in his knee, including a joint practice against the Dallas Cowboys.' This is accurate. The issue is the second paragraph's claim about 'recorded just 39 defensive snaps and produced no tackles, marking only his fourth career game without a tackle and his first such performance since Week 11 of the 2024 season'\u2014all of this traces to brief data_point 3. All major claims in the Garrett section are traceable.",
+     "On A.J. Brown: The draft says he 'suffered a high right ankle sprain in Week 1 against the defending Super Bowl champion Seattle Seahawks' and 'was placed on injured reserve, meaning he will be out at least four games.' This matches brief data_points 13-14. The subsequent claim about Romeo Doubs is traceable to brief data_point 15: 'Romeo Doubs, signed this offseason to a four-year, $68 million contract with a $39 million guarantee, struggled in Week 1, failing to record a catch on three targets and dropping one pass that led to one of quarterback Drake Maye's career-high three interceptions on the ensuing play.' Brief data_point 16 confirms 'The drop by Romeo Doubs led to one of quarterback Drake Maye's career-high three interceptions a play later.' This is accurate.",
+     "On Sam Darnold: The draft says 'Seattle Seahawks quarterback Sam Darnold, a two-time Pro Bowl selection, suffered a hip injury on the team's opening drive of the 2026 season. ESPN reports, per CBS Sports, that Darnold has a \"very unique\" soft-tissue injury that did not cause structural damage to his hip joint.' Brief data_point 19 states 'ESPN reports Darnold has a \"very unique\" soft-tissue injury that did not actually cause structural damage to his hip joint,' and the draft paraphrases this accurately. The claim 'The Seahawks reported, per CBS Sports, that they expect Darnold's time on the sidelines will be short, though no recovery timeline has been established' traces to brief data_point 20. All accurate.",
+     "On Kyler Murray: The draft says 'Minnesota Vikings two-time Pro Bowl quarterback Kyler Murray suffered a concussion in Week 1 from a hit by Green Bay Packers safety Javon Bullard. Vikings head coach Kevin O'Connell said on Monday, per CBS Sports, that Murray is able to participate in meetings and the team is taking his health day-by-day while he works through the NFL's concussion protocol.' Brief data_point 22 matches this, including the Monday statement. Accurate.",
+     "On Ladd McConkey and Zay Flowers: Draft accurately traces both to brief data_points 23-24."
+    ]
+   },
+   {
+    "id": "c279",
+    "headline": "Ovechkin appears in United Russia campaign ad with sanctioned Lavrov; critics call for ban",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains a reputationally damaging claim about a named individual (Ovechkin) sourced to a single secondary outlet (Yahoo Sports). The core claim that Ovechkin appeared in the United Russia campaign ad with Lavrov is reported by Yahoo Sports (both source URLs provided are Yahoo). The brief's bear_case notes: 'The Washington Capitals statement asserts that Ovechkin was asked by his country to participate in a video campaign while in Russia and frames his participation as obligation rather than personal political choice.' The Capitals' statement (confidence 'announced-not-verified') provides a counter-frame, but the primary factual claim of his appearance comes from Yahoo reporting only.",
+     "More critically: The draft states 'critics call for ban' in the headline and later attributes condemnation to Dominik Hasek and Jos\u00e9 Andr\u00e9s. These are named figures with on-record statements (per the brief), so the criticism is properly attributed. However, the draft's opening paragraph frames the ad appearance as politically damaging without explicitly carrying the Capitals' counter-statement that Ovechkin was 'asked by his country to participate.' The Capitals' statement does appear later in the draft, but the lead narrative establishes a negative frame without the immediate counter-context. This violates the ownership rule (2026-08-21) on contested terminology: when a story touches politically charged framing, the desk reports what named people SAID, not adopting the framing as its own.",
+     "Specifically: The opening sentence states 'Alex Ovechkin, the NHL's all-time leading goalscorer, appeared in a campaign advertisement for Vladimir Putin's United Russia party, alongside U.S.-sanctioned Foreign Minister Sergey Lavrov and state-controlled media editor Margarita Simonyan.' The phrase 'state-controlled media editor' adopts a loaded characterization. The brief data_point 4 simply states 'Margarita Simonyan, editor-in-chief of the state-controlled propaganda network RT, appeared in the advertisement.' The term 'propaganda network' is in the brief, so the desk's language is drawn from the source material. However, the phrase in the draft should either quote the source or remain neutral: calling RT 'state-controlled media' rather than adopting 'propaganda' would be more appropriate for the desk's own voice, but this is a minor editorial choice, not a liability breach.",
+     "The real compliance issue: the headline 'critics call for ban' and the framing throughout the article present the ad appearance as inherently damaging without the Capitals' counter-argument in the opening. The sentence 'The Washington Capitals said on September 15 that Ovechkin was asked \"by his country to participate in a video campaign\" while still in Russia this summer' appears in paragraph two, which is the correct placement. However, the bear_case material is not integrated into the opening narrative to signal that this appearance is contested in its framing. Per the instruction: 'Did the brief's bear_case (the other side of the story) actually appear in the draft, or did it get sanded down in drafting?' The bear_case IS present (paragraphs 2-3), but it appears after the damage-framing lead, rather than alongside it.",
+     "the draft dates September 15, 2026 as a Monday; September 15, 2026 is a Tuesday"
     ]
    }
   ]
