@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-09-16T17:21:41Z",
- "stale_after_utc": "2026-09-16T20:21:41Z",
+ "generated_utc": "2026-09-16T17:41:02Z",
+ "stale_after_utc": "2026-09-16T20:41:02Z",
  "leagues": [
   {
    "league": "MLB",
@@ -12,7 +12,7 @@
      "away_score": 0,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 1",
+     "detail": "Top 3",
      "start_utc": "2026-09-16T17:10:00Z",
      "eid": "824382"
     },
@@ -22,7 +22,7 @@
      "away_score": 0,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Top 2",
      "start_utc": "2026-09-16T17:15:00Z",
      "eid": "823004"
     },
@@ -76,9 +76,9 @@
      "away": "OSA",
      "home": "ATM",
      "away_score": 0,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "19'",
+     "detail": "38'",
      "start_utc": "2026-09-16T17:00Z",
      "eid": "401882875"
     },
@@ -88,7 +88,7 @@
      "away_score": 0,
      "home_score": 0,
      "state": "in",
-     "detail": "20'",
+     "detail": "39'",
      "start_utc": "2026-09-16T17:00Z",
      "eid": "401882873"
     },
@@ -122,7 +122,7 @@
      "away": "C. Liu",
      "home": "M. Stoiana",
      "away_score": 0,
-     "home_score": 1,
+     "home_score": 2,
      "state": "in",
      "detail": "2nd",
      "start_utc": "2026-09-16T15:45Z",
@@ -132,9 +132,9 @@
      "away": "A. Sharma",
      "home": "N. Leme Da Silva",
      "away_score": 1,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-16T16:35Z",
      "eid": "183832"
     },
@@ -142,31 +142,21 @@
      "away": "M. Bassols Ribera",
      "home": "G. Maristany Zuleta De Reales",
      "away_score": 0,
-     "home_score": 1,
+     "home_score": 2,
      "state": "in",
-     "detail": "1st",
+     "detail": "2nd",
      "start_utc": "2026-09-16T16:35Z",
      "eid": "183767"
     },
     {
      "away": "A. Charaeva",
      "home": "X. You",
-     "away_score": 1,
-     "home_score": 2,
+     "away_score": 2,
+     "home_score": 1,
      "state": "in",
      "detail": "3rd",
      "start_utc": "2026-09-16T17:05Z",
      "eid": "183849"
-    },
-    {
-     "away": "G. Ce",
-     "home": "E. Lys",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "1:30 PM ET",
-     "start_utc": "2026-09-16T17:30Z",
-     "eid": "183848"
     },
     {
      "away": "S. Sierra",
@@ -174,9 +164,35 @@
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "1:30 PM ET",
-     "start_utc": "2026-09-16T17:30Z",
+     "detail": "1:45 PM ET",
+     "start_utc": "2026-09-16T17:45Z",
      "eid": "183840"
+    },
+    {
+     "away": "G. Ce",
+     "home": "E. Lys",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "2:00 PM ET",
+     "start_utc": "2026-09-16T18:00Z",
+     "eid": "183848"
+    }
+   ]
+  },
+  {
+   "league": "WNBA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "CON",
+     "home": "ATL",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "7:30 PM ET",
+     "start_utc": "2026-09-17T23:30Z",
+     "eid": "401857190"
     }
    ]
   },
@@ -282,10 +298,10 @@
   },
   {
    "league": "WNBA",
-   "status": "empty",
+   "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 0,
-   "games_kept": 0
+   "games_seen": 1,
+   "games_kept": 1
   },
   {
    "league": "NHL",
