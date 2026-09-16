@@ -4105,6 +4105,19 @@ def _ia_by_game(board, games):
             f'<div class="ia-grid">'
             + "".join(_inactives_team_card(t) for t in pair) + '</div></section>')
     rest = [t for t in board["teams"] if str(t.get("id") or "") not in used]
+    # THE SCHEDULE FILE ONLY CARRIES THE WEEKS AHEAD. Measured tonight: it holds Weeks
+    # 2 and 3, while the board holds Week 1's final lists, so nothing could be paired
+    # and every team fell into the remainder. One group headed "Not on this week's
+    # schedule" holding all 31 teams reads as a broken page, not as a grouping.
+    #
+    # With no game to place a team against, the page is the flat grid it was, which is
+    # the honest shape for "these lists are final and their fixtures have rolled off".
+    # From Thursday, when the board holds Week 2's lists and the file still has Week 2,
+    # the grouping appears on its own. Nothing to switch.
+    if not groups:
+        return ('<div class="ia-grid">'
+                + "".join(_inactives_team_card(t) for t in board["teams"])
+                + '</div>')
     if rest:
         groups.append(
             f'<section class="ia-game"><div class="ia-gh">'
