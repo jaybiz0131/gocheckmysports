@@ -1185,8 +1185,7 @@ def sig_block():
   <div class="sig">
     <span class="sig-script">Chuck Wando</span>
     <span class="sig-cap">The GoCheckMySports Desk</span>
-    <span class="sig-attest">Ranked, source-checked, and verified by the desk's
-      <a href="/method.html" rel="nofollow">independent review pass</a>.</span>
+    <span class="sig-attest"><a href="/method.html" rel="nofollow">How we work</a></span>
   </div>
   <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
     <svg viewBox="0 0 120 120" aria-hidden="true">
@@ -2315,10 +2314,8 @@ def render_where_to_watch(week, weeks, dateline, current=False):
   {_w2w_stamp(W2W_DATA)}
   <div class="w2w">{"".join(rows)}</div>
   <div class="lx-actions">{others}</div>
-  <p class="bd-src" style="margin-top:14px">Weather from the National Weather Service
-     via GoCheckMyWeather, for the hour of kickoff. Source: ESPN NFL scoreboard, read at build.
-     National and local carriage as the feed reports it; a game with no carrier listed
-     has not been announced yet.</p>
+  <p class="bd-src" style="margin-top:14px">Weather: National Weather Service.
+     Schedule and channels: ESPN.</p>
 </section></main>"""
     return shell(f"NFL Week {week.get('week')}: where to watch every game - {NAME}",
                  f"Every NFL Week {week.get('week')} game by kickoff window, with the "
@@ -2658,8 +2655,7 @@ def render_news_lane(lane, page, pages, dateline):
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/news.html">News desk</a> / {esc(lane["name"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
-  <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
-     {f"Page {page} of {pages}." if pages > 1 else ""}</p>
+  <p class="lx-dek">{len(lane["items"])} stories{_page_note(page, pages)}</p>
   <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
   <div class="lx-actions">{"".join(nav)}</div>
 </section></main>"""
@@ -2680,7 +2676,7 @@ def render_news_month(month, rows, dateline):
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/news.html">News desk</a> / Archive / {esc(label)}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(label)}</h1>
-  <p class="lx-dek">{len(rows)} checked stories published this month.</p>
+  <p class="lx-dek">{len(rows)} stories</p>
   <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
 </section></main>"""
     return shell(f"Sports news, {label} - {NAME}",
@@ -3798,9 +3794,10 @@ def render_scores_page(sb, board, dateline, wx=None):
 
 FANTASY_LINE = ("Facts, not advice. Official reports only. We never tell you whom to "
                 "start.")
-INACTIVES_NOTE = ("Times are when our check first saw each player's inactive flag, "
-                  "checked every five minutes. Teams post about 90 minutes before "
-                  "kickoff.")
+# Copy item 42 removed this from the inactives page: it is a sentence about how the
+# desk works, which C-L1 puts on How we work and nowhere else. Kept as the string the
+# explainer page can use, unreferenced by any board.
+INACTIVES_NOTE = ("Teams post about 90 minutes before kickoff.")
 
 
 def _et(iso):
@@ -4093,7 +4090,6 @@ def render_inactives(board, w2w, dateline):
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
   {_ia_tonight_block()}
-  <p class="bd-src">{esc(INACTIVES_NOTE)}</p>
   <div class="ia-grid">{cards}</div>
   {pend}
 </section></main>"""
@@ -4691,9 +4687,8 @@ def render_living_table(spec, items, dateline):
     <thead><tr><th>{esc(spec["col"])}</th><th>What changed</th><th>Reported</th>
       <th>Source</th></tr></thead>
     <tbody>{"".join(trs)}</tbody></table></div>
-  <p class="bd-src" style="margin-top:14px">Every row is a story this desk published
-     and checked. The table updates when the next one posts; it is not a survey of
-     every deal in the market.</p>
+  <p class="bd-src" style="margin-top:14px">Stories this desk published. Not a survey
+     of every deal in the market.</p>
 </section></main>"""
     return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "The Record", body,
                       dateline, path=url)
@@ -4909,7 +4904,18 @@ RECORD_LANE_MIN = 4
 _RECORD_EXPLAINER_SLUGS = set()   # this desk has no standing explainer pages yet
 
 
+def _page_note(page, pages):
+    """C-L6: counts are short. " \u00b7 page 2 of 3", or nothing on a single page."""
+    return f" \u00b7 page {page} of {pages}" if pages > 1 else ""
+
+
 def _record_type(item, hub_slugs):
+    """Retained for the Record page's own grouping; it no longer labels a card.
+
+    Copy item 24 removed "Checked story" and "Running story" from under every
+    read-further headline: the row is the headline and its date. The words were
+    shipping 707 times across the site, which is what the first copy pass missed by
+    grepping a narrower set of chrome classes than the law actually covers."""
     if (item.get("slug") or "") in _RECORD_EXPLAINER_SLUGS:
         return "Explainer"
     if (item.get("slug") or "") in hub_slugs:
@@ -5022,7 +5028,7 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     rows = "".join(
         f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
         f'{esc(i.get("title") or "")}</a>'
-        f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
+        f'<span class="bd-src">{esc(fmt_date(i.get("date")))}</span></div>'
         for i in rest)
     all_href = f"#{esc(slug)}" if page else f"/keepers.html#{esc(slug)}"
     # S3: a lane with a living table leads its read-further list with it. The table is
