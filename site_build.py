@@ -3414,24 +3414,24 @@ def _wk_suffix():
 
 
 def _ia_heading(board):
-    """S-19. "Today's inactives" on a Monday, for Sunday's lists, is wrong twice: it is
-    not today and the lists are not provisional any more. The board names the day it is
-    actually showing, and says "final" once that day's games have been played."""
-    # A CALENDAR DATE IS NOT AN INSTANT. board["day"] is "2026-09-15", the day the
-    # board is for. Parsing it as a UTC timestamp and converting to ET moved it back a
-    # day - midnight UTC is 8pm ET the evening before - so a board for TODAY was
-    # labelled "Monday's inactives, final". Parse it as the date it is.
-    try:
-        day = datetime.datetime.strptime(
-            str((board or {}).get("day") or "")[:10], "%Y-%m-%d").date()
-    except ValueError:
-        return "Today's inactives"
-    today = _build_now().astimezone(_ET).date()
-    if day == today:
-        return "Today's inactives"
-    if day == today - datetime.timedelta(days=1):
-        return f"{day.strftime('%A')}'s inactives, final"
-    return f"{day.strftime('%A %-d %B')} inactives, final"
+    """N-7: the board names the WEEK its lists belong to, not the day the file carries.
+
+    These lists are captured at games. Until the current week's first kickoff everything
+    held is the PREVIOUS week's and it is final, so the heading says that - rather than
+    "Today's inactives" over Sunday's lists, or the merged week file's own day, which on
+    a Tuesday evening is already tomorrow in UTC."""
+    wk, _last = nfl_week()
+    first = None
+    for w in ((W2W_DATA or {}).get("weeks") or []):
+        if w.get("week") != wk:
+            continue
+        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (w.get("games") or [])]
+        ks = [k for k in ks if k]
+        first = min(ks) if ks else None
+    if first and _build_now() < first:
+        prev = (wk - 1) if isinstance(wk, int) and wk > 1 else None
+        return f"Week {prev}, final" if prev else "Inactives, final"
+    return f"Week {wk} inactives" if wk else "Inactives"
 
 
 def _inactives_team_card(t):
@@ -3511,7 +3511,7 @@ def render_inactives(board, w2w, dateline):
                 + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Inactives</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}{_wk_suffix()}</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
   <p class="lx-dek">{board["total"]} players listed inactive across
      {len(board["teams"])} teams.</p>
   {fantasy_asof("First seen", (board or {}).get("last_change") or
