@@ -2928,6 +2928,444 @@ def _mq_vars(g):
     return f' style="--a:{esc(a)};--b:{esc(b)}"' if a and b else ""
 
 
+# ---- V-1 / SC-1..SC-9: the Ticket card ----------------------------------------
+# From ScoreboardC.dc.html (canvas row thirteen). The stub carries the matchup in the
+# two team colors, a perforation, then a spec list, the story line and two buttons.
+#
+# ONLY THE LINES THAT EXIST RENDER (SC-1). Every value below comes from a file the desk
+# already holds: the scoreboard feed, kickoff-weather.json, the inactives board and the
+# designations report. A fact the desk does not hold is omitted, never guessed and never
+# filled: that is the same law as "a module with no data is omitted".
+
+_TK_INK = "#EBE9E3"
+_TK_UP, _TK_DOWN, _TK_TIE = "#3DDC84", "#FF7A6B", "#F0C674"
+_TK_MID = " \u00b7 "     # the separator, kept out of f-string expressions
+
+
+def _tk_colors(g):
+    """The two team colors for the stub gradient, from the feed's own values."""
+    def one(side, fallback):
+        c = ((g.get(side) or {}).get("color") or "").strip()
+        return c if re.fullmatch(r"#[0-9a-fA-F]{6}", c or "") else fallback
+    return one("away", "#2A2D35"), one("home", "#1B1E25")
+
+
+def _tk_score(side):
+    try:
+        return int(side.get("score"))
+    except (TypeError, ValueError):
+        return None
+
+
+def _tk_sc9(g):
+    """SC-9: who is winning, in color. Returns (away_color, home_color).
+
+    Live and final only. A pre-game card carries no color on the teams, which is what
+    makes the two states read apart at a glance without reading a word."""
+    if g.get("state") not in ("in", "post"):
+        return "", ""
+    a, h = _tk_score(g.get("away") or {}), _tk_score(g.get("home") or {})
+    if a is None or h is None:
+        return "", ""
+    if a == h:
+        return _TK_TIE, _TK_TIE
+    return (_TK_UP, _TK_DOWN) if a > h else (_TK_DOWN, _TK_UP)
+
+
+def _tk_venue(g, wx):
+    """Venue, with the weather when the game is outdoors. WX is keyed by game id."""
+    w = ((wx or {}).get("games") or {}).get(str(g.get("id"))) or {}
+    venue = (w.get("venue") or "").strip()
+    if not venue:
+        return ""
+    if w.get("indoors") or g.get("venue_indoor"):
+        return f"{venue} \u00b7 roof"
+    bits = [venue]
+    if isinstance(w.get("temp_f"), (int, float)):
+        bits.append(f"{int(w['temp_f'])}\u00b0F at kickoff")
+    if isinstance(w.get("wind_mph"), (int, float)) and w["wind_mph"] >= 8:
+        bits.append(f"wind {int(w['wind_mph'])} mph")
+    if isinstance(w.get("precip_pct"), (int, float)) and w["precip_pct"] >= 40:
+        bits.append(f"{int(w['precip_pct'])}% rain")
+    return " \u00b7 ".join(bits)
+
+
+_TK_DESIG = {}
+
+
+def _tk_desig_index(desig):
+    """NFL designation counts per team nickname, built once.
+
+    The designations report names a team in full ("Arizona Cardinals"); the scoreboard
+    names it by nickname and abbreviation. Matching on the nickname is safe HERE and only
+    here: the report is NFL-only and no two NFL nicknames collide. It is not a general
+    key, and nothing outside this function may use it that way.
+    """
+    if _TK_DESIG:
+        return _TK_DESIG
+    for status, players in ((desig or {}).get("groups") or {}).items():
+        for p in players or []:
+            nick = (p.get("team") or "").split()[-1].lower()
+            if nick:
+                _TK_DESIG.setdefault(nick, {}).setdefault(status.lower(), 0)
+                _TK_DESIG[nick][status.lower()] += 1
+    return _TK_DESIG
+
+
+def _tk_avail(g, ia_index, desig):
+    """SC-1: the availability line in the league's own words.
+
+    NFL says designations and inactives, MLB says probables, NBA and NHL say injury
+    report. A league whose vocabulary the desk does not hold gets no line at all.
+    """
+    league = g.get("league")
+    if league != "NFL":
+        return []          # MLB probables and NBA/NHL reports are not held yet (W-5)
+    idx = _tk_desig_index(desig)
+    rows = []
+    parts = []
+    for side in ("away", "home"):
+        t = g.get(side) or {}
+        counts = idx.get((t.get("name") or "").split()[-1].lower())
+        if not counts:
+            continue
+        bits = [f"{n} {k}" for k, n in
+                sorted(counts.items(), key=lambda kv: ("out", "doubtful",
+                                                       "questionable").index(kv[0])
+                       if kv[0] in ("out", "doubtful", "questionable") else 9)]
+        if bits:
+            parts.append(f"{esc(t.get('abbr') or '')} " + " \u00b7 ".join(bits))
+    if parts:
+        rows.append(("Designations", " \u00b7 ".join(parts)))
+    if g.get("state") == "pre":
+        both = all(ia_index.get(("NFL", str((g.get(s) or {}).get("id"))))
+                   for s in ("away", "home"))
+        dt = _utc_dt(g.get("start_utc") or "")
+        if both:
+            rows.append(("Inactives", "posted"))
+        elif dt:
+            import datetime as _d
+            rows.append(("Inactives",
+                         f"post about {_et_clock(dt - _d.timedelta(minutes=90))}"))
+    else:
+        n = sum(1 for s in ("away", "home")
+                if ia_index.get(("NFL", str((g.get(s) or {}).get("id")))))
+        if n:
+            rows.append(("Inactives", "posted"))
+    return rows
+
+
+_TK_NICKS = {}
+
+
+def _tk_lead_team(league, title):
+    """The team nickname the headline opens with, lowercased, or "".
+
+    Only the first six words: a headline's subject is at its front, and scanning the
+    whole line would make every mention a subject, which is the thing this guards.
+    """
+    if not league:
+        return ""
+    if league not in _TK_NICKS:
+        pool = set()
+        for L in ((SB_DATA or {}).get("leagues") or []):
+            if L.get("league") != league:
+                continue
+            for gg in (L.get("games") or []):
+                for side in ("away", "home"):
+                    nm = ((gg.get(side) or {}).get("name") or "").strip().lower()
+                    if nm:
+                        pool.add(nm)
+        _TK_NICKS[league] = pool
+    pool = _TK_NICKS.get(league) or set()
+    if not pool:
+        return ""
+    for w in re.findall(r"[A-Za-z0-9'&.-]+", title)[:6]:
+        if w.lower() in pool:
+            return w.lower()
+    return ""
+
+
+_TK_FULLNAME = {}
+
+
+def _tk_full_name(league, team_id):
+    """The team's full name for a league and team id, or "".
+
+    NFL only, from the inactives board, which names every team it has seen in full and
+    carries the same ids the scoreboard uses. Keyed on (league, id): the pair is the
+    identity, the id alone is not (ids repeat across leagues).
+    """
+    if league != "NFL" or not team_id:
+        return ""
+    if not _TK_FULLNAME:
+        for t in ((IA_BOARD or {}).get("teams") or []):
+            if t.get("id") and t.get("team"):
+                _TK_FULLNAME[("NFL", str(t["id"]))] = t["team"]
+    return _TK_FULLNAME.get((league, str(team_id)), "")
+
+
+def _tk_story(g, items):
+    """SC-7: the newest desk story naming either team, inside three days before the
+    game, or the recap once it is final. No match, no line: there is never a filler.
+
+    The Wire (W-5, Sprint I) replaces this pool; the rule it is matched by does not
+    change, so this is the same function with a wider source later.
+
+    THE MATCH KNOWS THE LEAGUE. "Giants" is San Francisco in a story tagged MLB and New
+    York in one tagged NFL, and a nickname alone would hand a Yankees headline to the
+    Jets. A story qualifies only when its tags carry this game's league.
+    """
+    league = (g.get("league") or "").upper()
+    # A NICKNAME IS A SHALLOW KEY. The first cut matched the feed's team name against
+    # the story's title, dek and key fact, and handed the Lions-Bills card a story about
+    # television ratings: its key fact contained the word "bills". Half the NFL's
+    # nicknames are ordinary English (Bills, Giants, Saints, Chiefs, Rams, Bears,
+    # Titans, Commanders, Texans, Packers, Eagles, Cardinals, Falcons, Panthers), so a
+    # bare nickname will keep finding stories that are not about the team.
+    #
+    # The full name is the identity, and the inactives board holds it per team id for
+    # the NFL. Where it is known the match requires it. Where it is not, the nickname
+    # must appear in the HEADLINE, which is a claim about what the story is about,
+    # never in a key fact, which is a detail inside one. Case-sensitive either way.
+    full, nicks = [], []
+    for side in ("away", "home"):
+        t = g.get(side) or {}
+        nick = (t.get("name") or "").strip()
+        fn = _tk_full_name(league, t.get("id"))
+        if fn:
+            full.append(fn)
+        elif len(nick) > 2:
+            nicks.append(nick)
+    if not (full or nicks) or not items:
+        return ""
+    kick = _utc_dt(g.get("start_utc") or "")
+    if not kick:
+        return ""
+    import datetime as _d
+    lo = kick - _d.timedelta(days=3)
+    best = None
+    for it in items:
+        tags = [t.upper() for t in tags_for(it)] + [(it.get("league") or "").upper()]
+        if league and league not in tags:
+            continue
+        title = it.get("title") or ""
+        body = " ".join([title, it.get("dek") or ""])
+        hit = any(re.search(r"\b" + re.escape(n) + r"\b", body) for n in full) or \
+              any(re.search(r"\b" + re.escape(n) + r"\b", title) for n in nicks)
+        if not hit:
+            continue
+        # NAMING A TEAM IS NOT BEING ABOUT IT. "Dodgers clinch playoff berth ... ties
+        # Braves record" names the Braves and belongs on no Atlanta card. When the
+        # headline opens with a different team in the same league, that team is the
+        # subject and this is not the game's story.
+        subj = _tk_lead_team(league, title)
+        if subj and subj not in {n.lower() for n in nicks} | {
+                f.split()[-1].lower() for f in full}:
+            continue
+        when = _parse_utc(it)
+        if not when or when < lo:
+            continue
+        if g.get("state") != "post" and when > kick:
+            continue
+        if best is None or (_parse_utc(best) or when) < when:
+            best = it
+    if not best:
+        return ""
+    return (f'<div class="tk-stry">{verdict_badge(best.get("verdict"), best)}'
+            f'<a href="/articles/{esc(best["slug"])}.html">'
+            f'{esc(best.get("title") or "")}</a></div>')
+
+
+def _tk_leaders(g):
+    """Three leaders on a live or final card. The feed this desk holds carries no box
+    score, so there are none to render yet; L-2 brings them. An empty list means the
+    block is omitted, not that a placeholder is drawn."""
+    return []
+
+
+def _tk_kicker(g):
+    """The stub's top line: league, week and day, or the live state."""
+    league = esc(g.get("league") or "")
+    if g.get("state") == "in":
+        det = esc(g.get("detail") or g.get("status_short") or "Live")
+        return f'<span class="tk-k live"><span class="dot"></span>Live \u00b7 {league} \u00b7 {det}</span>'
+    if g.get("state") == "post":
+        return f'<span class="tk-k">{league} \u00b7 Final</span>'
+    bits = [league]
+    if league == "NFL":
+        wk, _ = nfl_week()
+        if wk:
+            bits.append(f"Week {wk}")
+    dt = _utc_dt(g.get("start_utc") or "")
+    if dt:
+        bits.append(dt.astimezone(_ET).strftime("%A"))
+    line = _TK_MID.join(bits)
+    return f'<span class="tk-k">{esc(line)}</span>'
+
+
+def _tk_matchup(g, big=40):
+    """The 40px matchup, with SC-9 colour on live and final."""
+    ca, ch = _tk_sc9(g)
+    a, h = g.get("away") or {}, g.get("home") or {}
+    sa, sh = _tk_score(a), _tk_score(h)
+    started = g.get("state") in ("in", "post")
+    def side(t, sc, col):
+        s = f'{esc(t.get("abbr") or "")}'
+        if started and sc is not None:
+            s += f" {sc}"
+        return f'<span style="color:{col or "#FFFFFF"}">{s}</span>'
+    return (f'<span class="tk-num" style="font-size:{big}px">'
+            f'{side(a, sa, ca)} <span class="tk-at">at</span> {side(h, sh, ch)}</span>')
+
+
+def _tk_records(g):
+    """Records and the clock, under the matchup."""
+    bits = []
+    for s in ("away", "home"):
+        t = g.get(s) or {}
+        if t.get("name") and t.get("record"):
+            bits.append(f"{t['name']} {t['record']}")
+    if g.get("state") == "in":
+        if g.get("situation"):
+            bits.append(g["situation"])
+    elif g.get("state") == "post":
+        pass
+    else:
+        dt = _utc_dt(g.get("start_utc") or "")
+        if dt:
+            bits.append(dt.astimezone(_ET).strftime("%a %-d %b"))
+            bits.append(_et_clock(dt))
+    return _TK_MID.join(b for b in bits if b)
+
+
+def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
+    """SC-1: the full Ticket card. Three states; only the lines that exist render."""
+    a_col, b_col = _tk_colors(g)
+    state = g.get("state")
+    net = (f'<span class="tk-chip">{esc(g.get("network"))}</span>'
+           if g.get("network") else "")
+    rows = []
+    venue = _tk_venue(g, wx)
+    if venue and state == "pre":
+        rows.append(("Venue", venue))
+    rows += _tk_avail(g, ia_index, desig)
+    spec = ""
+    if rows:
+        spec = '<div class="tk-spec">' + "".join(
+            f'<span class="sk">{esc(k)}</span><span class="sv">{esc(v)}</span>'
+            for k, v in rows) + '</div>'
+    leaders = _tk_leaders(g)
+    lead_html = ""
+    if leaders:
+        lead_html = '<div class="tk-l3">' + "".join(
+            f'<div><b>{esc(n)}</b>{esc(d)}</div>' for n, d in leaders) + '</div>'
+    story = _tk_story(g, items or [])
+    btns = ""
+    if buttons:
+        gp = f'/games/{esc(str(g.get("id")))}.html'
+        second = ('<a class="tk-btn ghost" href="/scores.html">Box score</a>'
+                  if state in ("in", "post")
+                  else '<a class="tk-btn ghost" href="/where-to-watch.html">Where to watch</a>')
+        btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
+                f'{second}</div>')
+    wide = " wide" if state in ("in", "post") else ""
+    return (f'<article class="tk-c{wide}" style="--a:{a_col};--b:{b_col}">'
+            f'<div class="tk-stub" style="--a:{a_col};--b:{b_col}">'
+            f'<div class="tk-stub-top">{_tk_kicker(g)}{net}</div>'
+            f'<div class="tk-mu">{_tk_matchup(g)}</div>'
+            f'<div class="tk-rec">{esc(_tk_records(g))}</div>'
+            f'</div><div class="tk-perf"></div>'
+            f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
+
+
+def _tk_fold(g, ia_index, desig=None):
+    """SC-2: the same card folded. A 6px bar per row, the teams, the score or time, the
+    status line, the network, and one fact line. Clicking it opens the full card in
+    place; with no script it is a link to the game page, which is the same information.
+    """
+    a_col, b_col = _tk_colors(g)
+    ca, ch = _tk_sc9(g)
+    state = g.get("state")
+    started = state in ("in", "post")
+    def row(side, col):
+        t = g.get(side) or {}
+        sc = _tk_score(t)
+        val = (f'<span class="s sc" style="color:{col}">{sc}</span>'
+               if started and sc is not None else '<span class="s"></span>')
+        ab = (f'<b style="color:{col}">{esc(t.get("abbr") or "")}</b>' if col
+              else f'<b>{esc(t.get("abbr") or "")}</b>')
+        return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
+                f'{ab}<span>{esc(t.get("name") or "")}'
+                f'{" " + esc(t.get("record")) if t.get("record") else ""}</span></div>{val}')
+    when = ""
+    if not started:
+        dt = _utc_dt(g.get("start_utc") or "")
+        if dt:
+            when = f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
+    status = (esc(g.get("detail") or g.get("status_short") or "") if started
+              else esc(when))
+    net = (f'<span class="tk-chip sm">{esc(g.get("network"))}</span>'
+           if g.get("network") else "")
+    facts = _tk_avail(g, ia_index, desig)
+    fact = f'<div class="x">{esc(facts[0][0])} {esc(facts[0][1])}</div>' if facts else ""
+    wide = " wide" if started else ""
+    return (f'<a class="tk-fold{wide}" style="--a:{a_col};--b:{b_col}" '
+            f'href="/games/{esc(str(g.get("id")))}.html">'
+            f'{row("away", ca)}{row("home", ch)}'
+            f'<div class="st"><span>{status}</span>{net}</div>{fact}</a>')
+
+
+def _tk_tabs(games, active="all", href="/scores.html"):
+    """SC-4: the league switcher. Each tab carries its count today or its next date.
+
+    A league with nothing today shows its next slate rather than a zero, because a zero
+    reads as "this league is off" when the truth is "not until Saturday". Tabs are real
+    links to /scores#nfl so they work with no script at all.
+    """
+    import datetime as _d
+    today = _build_now().astimezone(_ET).date()
+    by_league = {}
+    for g in games:
+        by_league.setdefault(g.get("league"), []).append(g)
+    out = []
+    n_today = sum(1 for g in games
+                  if (_utc_dt(g.get("start_utc") or "") or _d.datetime.max.replace(
+                      tzinfo=_d.timezone.utc)).astimezone(_ET).date() == today)
+    n_live = sum(1 for g in games if g.get("state") == "in")
+    sub_all = f"{n_today} today" if n_today else "next up"
+    if n_live:
+        sub_all = f"{n_live} live"
+    out.append((["", " on"][active == "all"], "All", sub_all, "all"))
+    for name in SB_TAB_ORDER:
+        gs = by_league.get(name)
+        if not gs:
+            continue
+        mine_today = [g for g in gs
+                      if (_utc_dt(g.get("start_utc") or "") or _d.datetime.max.replace(
+                          tzinfo=_d.timezone.utc)).astimezone(_ET).date() == today]
+        live = sum(1 for g in gs if g.get("state") == "in")
+        if live:
+            sub = f"{live} live"
+        elif mine_today:
+            sub = f"{len(mine_today)} today"
+        else:
+            nxt = sorted((_utc_dt(g.get("start_utc") or "") for g in gs
+                          if _utc_dt(g.get("start_utc") or "")), key=lambda d: d)
+            nxt = [d for d in nxt if d.astimezone(_ET).date() > today]
+            if not nxt:
+                continue
+            d0 = nxt[0].astimezone(_ET)
+            sub = (d0.strftime("%a") if (d0.date() - today).days < 7
+                   else d0.strftime("%b %-d"))
+        slug = name.lower().replace(" ", "-")
+        out.append((" on" if active == slug else "", name, sub, slug))
+    return ('<div class="tk-tabs">' + "".join(
+        f'<a class="tk-tab{on}" href="{href}#{slug}">{esc(label)}'
+        f'<small>{esc(sub)}</small></a>'
+        for on, label, sub, slug in out) + '</div>')
+
+
 def _sb_card(g, ia_index, marquee=False, wx=None):
     lose_a, lose_h = _sb_losers(g)
     _started = g.get("state") in ("in", "post")
@@ -3142,11 +3580,10 @@ def scoreboard_band(sb, board, wx=None):
     else:
         count_line = "No games scheduled"
         foot_link = "All games"
-    tabs = "".join(
-        f'<a class="tab{" on" if i == 0 else ""}" '
-        f'href="/scores.html{"" if i == 0 else "#" + esc(n.lower())}">{esc(n)}</a>'
-        for i, n in enumerate(["All live"] + present))
-    cards = "".join(_sb_card(g, ia, wx=wx) for g in rest[:8])
+    # SC-4: the tabs carry a count or a next date and switch the whole band.
+    tabs = _tk_tabs(games, active="all")
+    # SC-3: the marquee is the full Ticket card at 1.25 columns beside six folded ones.
+    cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in rest[:6])
     stamp = _et(sb.get("fetched_at") or "")
     # S-25: the next kickoff, from the feed. Absent when nothing is scheduled.
     nxt = ""
@@ -3178,7 +3615,7 @@ def scoreboard_band(sb, board, wx=None):
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     <div class="sb-grid">
-      {_sb_card(mq, ia, marquee=True, wx=wx) if mq else ""}
+      {_tk_card(mq, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS) if mq else ""}
       <div class="sb-cards">{cards}</div>
     </div>
     <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
@@ -3203,13 +3640,20 @@ def render_scores_page(sb, board, dateline, wx=None):
         rank = {"in": 0, "pre": 1, "post": 2}
         games = sorted(games, key=lambda g: (rank.get(g.get("state"), 9),
                                              g.get("start_utc") or ""))
+        # SC-5: every game as a full Ticket card, three across, grouped by league with
+        # a sticky league row. Live first, then upcoming, then final, which is the order
+        # the reader opened the page for.
+        n_live = sum(1 for g in games if g.get("state") == "in")
+        count = f'{len(games)} game{"" if len(games) == 1 else "s"}'
+        if n_live:
+            count += f' \u00b7 {n_live} live'
         secs.append(
             f'<section class="bd-mod" id="{esc(L["league"].lower())}">'
-            f'<div class="bd-sec sc-sticky"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">{esc(L["league"])}</span>'
-            f'<span class="bd-stamp">{len(games)} games</span></div></div>'
-            f'<div class="sb-cards sb-cards-light sc-grid">'
-            + "".join(_sb_card(g, ia, wx=wx) for g in games) + '</div></section>')
+            f'<div class="tk-lg"><span>{esc(L["league"])}</span><i></i>'
+            f'<span class="tk-lg-n">{esc(count)}</span></div>'
+            f'<div class="tk-g3">'
+            + "".join(_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)
+                      for g in games) + '</div></section>')
     n_live = sum(1 for L in sb["leagues"] for g in L["games"] if g.get("state") == "in")
     _all = [g for L in sb["leagues"] for g in L["games"]]
     _today, _nxt_lab, _nxt_n = _sb_day_split(_all)
@@ -3242,7 +3686,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     # Six cards, two rows of three. The homepage band carries a marquee and eight;
     # six without the marquee is the 60 percent A-14 asks for, and it is measured
     # from the content rather than pinned to a pixel height the slate would break.
-    _band_cards = "".join(_sb_card(g, ia, wx=wx) for g in _band_games[:6])
+    _band_cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in _band_games[:6])
     _orn = _sb_ornament(_all)
     band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
@@ -3257,6 +3701,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         <span class="sb-stamp">Updated {esc(_et(sb.get("fetched_at") or ""))}</span>
       </span>
     </div>
+    {_tk_tabs(_all, active="all")}
     <div class="sb-grid sb-grid-inner">
       <div class="sb-cards">{_band_cards}</div>
     </div>
@@ -4799,6 +5244,8 @@ def render_home(items, dateline):
     # receipts_ledger. Without one the lead keeps its normal shape and the row shows
     # the Edition alone, rather than an empty ledger frame.
     lead_row = ""
+    global ALL_ITEMS
+    ALL_ITEMS = items
     _lead, _ledger = _s1_lead, _s1_ledger
     # D-5: the row renders whenever there is a lead story. It used to require a receipts
     # ledger too, so on a day whose top story carried none the lead card AND the whole
@@ -4989,6 +5436,9 @@ IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
 WX_DATA = None       # set at build by kickoff_weather.load()
+ALL_ITEMS = []       # set at build: the published story pool the card story line draws
+                     # from (SC-7). The Wire replaces this source in Sprint I; the
+                     # matching rule does not change.
 
 NAV_UTILITY = frozenset({"Latest", "Sources"})   # N-1: Home is a nav item now
 

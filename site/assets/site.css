@@ -1699,3 +1699,138 @@ body>*:not(.ground){position:relative;z-index:1}
 @media (max-width:900px){
   .sb-grid-inner .sb-cards{grid-template-columns:1fr}
 }
+
+/* ===== V-1 / SC-1..SC-9: the Ticket card =====================================
+   Lifted from ScoreboardC.dc.html (canvas row thirteen): .c, .stub, .perf, .spec,
+   .stry, .fold, .tab, namespaced tk- so they cannot collide with the existing
+   scoreboard classes while both are on the page. */
+.tk-c{background:rgba(26,28,34,.88);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;position:relative;overflow:hidden;color:#EBE9E3;
+  display:flex;flex-direction:column;text-decoration:none}
+.tk-c::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.24;
+  background:linear-gradient(118deg,var(--a) 0%,transparent 46%,transparent 54%,var(--b) 100%)}
+.tk-c>*{position:relative}
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .tk-c{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+}
+.tk-stub{padding:18px 20px 16px;position:relative;
+  background:linear-gradient(118deg,var(--a) 0%,var(--a) 44%,var(--b) 56%,var(--b) 100%)}
+.tk-stub::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(19,20,25,.18),rgba(19,20,25,.55))}
+.tk-stub>*{position:relative}
+.tk-stub-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tk-k{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#FFFFFF}
+.tk-k.live{color:#3DDC84}
+.tk-mu{margin-top:10px}
+.tk-num{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1;
+  color:#FFFFFF}
+.tk-at{font-size:.5em;color:rgba(255,255,255,.7)}
+.tk-rec{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.85);margin-top:6px}
+/* SC-9: the two team rows sit wider apart on live and final than on pre-game. */
+.tk-c.wide .tk-mu{margin-top:16px}
+.tk-c.wide .tk-rec{margin-top:10px}
+.tk-perf{border-top:2px dashed rgba(255,255,255,.22);margin:2px 12px 0;position:relative}
+.tk-perf::before,.tk-perf::after{content:'';position:absolute;top:-9px;width:16px;
+  height:16px;border-radius:50%;background:#131419}
+.tk-perf::before{left:-20px}
+.tk-perf::after{right:-20px}
+.tk-body{padding:12px 18px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tk-spec{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:12.5px}
+.tk-spec .sk{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#A6ABB4;padding-top:2px}
+.tk-spec .sv{color:#EBE9E3}
+.tk-l3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tk-l3 div{background:rgba(255,255,255,.05);border-radius:6px;padding:7px 9px;
+  font-family:var(--mono);font-size:11px;color:#A6ABB4}
+.tk-l3 b{display:block;color:#EBE9E3;font-size:13px;font-family:var(--sans);
+  font-weight:600;margin-bottom:1px}
+.tk-stry{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:6px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06)}
+.tk-stry a{color:#EBE9E3;font-family:var(--serif);font-weight:600;font-size:15.5px;
+  line-height:1.25;text-decoration:none}
+.tk-stry a:hover{text-decoration:underline}
+.tk-chip{display:inline-flex;align-items:center;padding:4px 9px;border-radius:4px;
+  background:rgba(0,0,0,.35);font-family:var(--mono);font-size:11px;font-weight:700;
+  color:#EBE9E3;white-space:nowrap}
+.tk-chip.sm{padding:2px 7px;font-size:10.5px;background:rgba(255,255,255,.08)}
+.tk-btns{display:flex;gap:10px;margin-top:auto}
+.tk-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;
+  padding:0 16px;border-radius:6px;background:#3DDC84;color:#0F1512;font-weight:700;
+  font-size:14px;text-decoration:none}
+.tk-btn.ghost{background:transparent;color:#EBE9E3;border:1.5px solid rgba(255,255,255,.28)}
+.tk-btn:hover{text-decoration:none}
+/* SC-2: the folded card. */
+.tk-fold{background:rgba(26,28,34,.86);border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:10px 12px 8px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr auto;gap:9px 10px;align-items:center;
+  color:#EBE9E3;text-decoration:none}
+.tk-fold::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background:linear-gradient(90deg,var(--a) 0%,transparent 46%,transparent 54%,var(--b) 100%)}
+.tk-fold>*{position:relative}
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .tk-fold{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+}
+.tk-fold.wide{gap:15px 10px}     /* SC-9: wider split on live and final */
+.tk-fold .t{display:flex;align-items:center;gap:8px;min-width:0}
+.tk-fold .t i{width:5px;height:18px;border-radius:2px;display:inline-block;flex:none}
+.tk-fold .t b{font-family:var(--mono);font-size:12.5px;width:36px;flex:none}
+.tk-fold .t span{font-size:13px;color:#A6ABB4;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.tk-fold .s{font-family:var(--mono);font-size:12.5px;color:#A6ABB4;text-align:right}
+.tk-fold .s.sc{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1}
+.tk-fold .st{grid-column:1/-1;display:flex;justify-content:space-between;
+  align-items:center;font-family:var(--mono);font-size:11px;color:#A6ABB4;
+  border-top:1px solid rgba(255,255,255,.07);padding-top:6px;margin-top:2px}
+.tk-fold .x{grid-column:1/-1;font-family:var(--mono);font-size:11px;color:#A6ABB4}
+.tk-fold:hover{border-color:rgba(255,255,255,.2)}
+/* SC-4: the tabs. */
+.tk-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.tk-tabs::-webkit-scrollbar{display:none}
+.tk-tab{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;
+  padding:6px 12px;min-height:34px;border-radius:999px;font-size:13px;font-weight:600;
+  color:#A6ABB4;white-space:nowrap;text-decoration:none}
+.tk-tab small{display:block;font-size:9.5px;letter-spacing:.04em;opacity:.7;
+  font-weight:600;margin-top:2px}
+.tk-tab.on{background:#FBFAF6;color:#17181C}
+.tk-tab:hover{color:#EBE9E3}
+.tk-tab.on:hover{color:#17181C}
+/* SC-5: /scores, three across, grouped by league with a sticky league row. */
+.tk-g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tk-lg{display:flex;align-items:center;gap:12px;margin:26px 0 12px;position:sticky;
+  top:0;z-index:3;padding:6px 0;background:linear-gradient(180deg,#131419 70%,transparent)}
+.tk-lg span{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#F0C674}
+.tk-lg i{flex:1;height:1px;background:rgba(255,255,255,.12)}
+/* SC-6: phone. One card per row, the matchup at 32px, the tabs scroll. */
+@media (max-width:900px){
+  .tk-g3{grid-template-columns:1fr}
+  .tk-num{font-size:32px !important}
+  .tk-stub{padding:14px 16px 12px}
+  .tk-body{padding:10px 14px 12px}
+  .tk-btns{flex-wrap:wrap}
+}
+/* SC-5: the league row's count sits opposite its name. */
+.tk-lg-n{font-family:var(--mono);font-size:11px;color:#A6ABB4;
+  letter-spacing:0;text-transform:none;font-weight:400}
+/* /scores continues on the light page below the band, so the cards there sit on the
+   ground rather than on the band's dark. The Ticket keeps its own dark surface: it is
+   the card, not the band, and the board draws it that way on both pages. */
+.scoreband-page .tk-lg{background:linear-gradient(180deg,var(--paper) 70%,transparent)}
+.scoreband-page .tk-lg span{color:#8A6420}
+.scoreband-page .tk-lg i{background:var(--line)}
+.scoreband-page .tk-lg-n{color:var(--muted)}
+/* SC-6: on phone the band is the marquee and THREE folded rows, inside 1.5 screens.
+   Six rows put it at 1.8 and pushed the editorial page below two full screens. */
+@media (max-width:900px){
+  .sb-cards .tk-fold:nth-child(n+4){display:none}
+}
+/* N-4 applies to the band too: no stretched card anywhere. The Ticket marquee takes
+   its own content height. Today's pick is an MLB game and the desk holds no MLB venue,
+   probables or box leaders, so the card is a stub and two buttons; stretched to the
+   folded column it was 471px holding 190px of content, with 280px of hole inside a
+   card. Top-aligned, the space below it is the band's own photo, which is a surface
+   rather than a hole. When the marquee is a live NFL game it fills the row on its own
+   content, which is the board's shape. */
+.sb-grid{align-items:start}
+.sb-grid>.tk-c{align-self:start}
