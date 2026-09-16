@@ -1,28 +1,18 @@
 {
- "generated_utc": "2026-09-16T19:41:46Z",
- "stale_after_utc": "2026-09-16T22:41:46Z",
+ "generated_utc": "2026-09-16T19:54:12Z",
+ "stale_after_utc": "2026-09-16T22:54:12Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "CWS",
-     "home": "CLE",
-     "away_score": 3,
-     "home_score": 6,
-     "state": "in",
-     "detail": "Top 9",
-     "start_utc": "2026-09-16T17:10:00Z",
-     "eid": "824382"
-    },
-    {
      "away": "SF",
      "home": "STL",
      "away_score": 4,
      "home_score": 2,
      "state": "in",
-     "detail": "Bot 8",
+     "detail": "Bot 9",
      "start_utc": "2026-09-16T17:15:00Z",
      "eid": "823004"
     },
@@ -32,7 +22,7 @@
      "away_score": 0,
      "home_score": 2,
      "state": "in",
-     "detail": "Bot 7",
+     "detail": "Top 8",
      "start_utc": "2026-09-16T17:40:00Z",
      "eid": "823655"
     },
@@ -42,7 +32,7 @@
      "away_score": 1,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 2",
+     "detail": "Top 3",
      "start_utc": "2026-09-16T19:07:00Z",
      "eid": "822763"
     },
@@ -65,6 +55,16 @@
      "detail": "6:40 PM ET",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "822926"
+    },
+    {
+     "away": "MIL",
+     "home": "PIT",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "6:40 PM ET",
+     "start_utc": "2026-09-16T22:40:00Z",
+     "eid": "823332"
     }
    ]
   },
@@ -76,9 +76,9 @@
      "away": "RAC",
      "home": "BAR",
      "away_score": 0,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "7'",
+     "detail": "20'",
      "start_utc": "2026-09-16T19:30Z",
      "eid": "401882871"
     },
@@ -131,8 +131,8 @@
     {
      "away": "G. Ce",
      "home": "E. Lys",
-     "away_score": 2,
-     "home_score": 1,
+     "away_score": 1,
+     "home_score": 2,
      "state": "in",
      "detail": "3rd",
      "start_utc": "2026-09-16T19:20Z",
@@ -144,8 +144,8 @@
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "3:45 PM ET",
-     "start_utc": "2026-09-16T19:45Z",
+     "detail": "3:50 PM ET",
+     "start_utc": "2026-09-16T19:50Z",
      "eid": "183853"
     },
     {
@@ -406,7 +406,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 72,
+   "games_seen": 71,
    "games_kept": 6
   }
  ]

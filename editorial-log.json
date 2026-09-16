@@ -1,48 +1,5 @@
 [
  {
-  "date": "2026-08-15",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c031",
-    "headline": "Vikings edge Giants 13-10 in preseason with Murray debut",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'a player named Dart threw a touchdown pass for the team' but does not identify which team Dart plays for or clarify his role. The brief lists this as a data point but the draft's phrasing is ambiguous: it reads as though Dart is a Vikings player, but the context (following Murray's debut description) makes the attribution unclear. The sentence needs inline clarification of Dart's team affiliation to avoid reader confusion about which side scored the touchdown.",
-     "The draft contains a meta-commentary paragraph ('The ESPN recap confirms the final score...does not provide detailed statistics') that reads as editorial hedging rather than reporting. This undermines the story's credibility and should be removed; if stats are unavailable, the draft should simply omit them rather than announcing the omission to readers."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "McAdoo's go-ahead double lifts Blue Jays past Yankees 4-1",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the game occurred 'on Saturday' but the brief's timestamp is '2026-08-15T22:06:30Z', which is a Friday evening. If the game was reported Friday night (post-game recap), the draft's statement that it happened 'on Saturday' is inaccurate. The date must align with the actual game date in the source.",
-     "The draft contains a meta-commentary paragraph ('The ESPN recap confirms the final score...or the precise date in August') that reads as editorial hedging rather than reporting. If the precise date is unknown, the draft should either report what is known or note the limitation inline; announcing what the sources 'do not provide' reads as excuse-making and undermines credibility."
-    ]
-   },
-   {
-    "id": "c161",
-    "headline": "Guerrero Jr. placed on 7-day injured list",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The source material provided does not contain details about the nature of the injury' but brief's core_claim explicitly states the injury is 'a head injury' and 'a concussion.' The writer has access to this information in the brief and should have included it in the draft.",
-     "The brief's core_claim includes 'head injury during a game on August 15, 2026' which is a verified-on-chain data point that must appear in the draft. The draft's blanket statement that specifics are unavailable contradicts the brief's own core claim."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "Djokovic ousted from Cincinnati Open in second round by Tirante",
-    "category": "accuracy",
-    "reasons": [
-     "Draft quotes Tirante as saying 'I think this is the best win of my career. I think I really did a good job inside the court. I managed very well the nerves of playing against a legend like Novak.' per ESPN, but the BBC data point provides a different quote: 'This is the best win of my career. I managed the nerves of playing a legend like Novak. It was all so much pressure.' The draft used the ESPN version without noting the discrepancy between sources.",
-     "Draft states Djokovic 'marked his earliest exit at the tournament since making his debut there in 2005' but the BBC data point says 'had never failed to reach at least the last 32 of the tournament in Ohio since making his debut in it in 2005'\u2014these are meaningfully different claims about his historical record. The draft's phrasing oversimplifies.",
-     "Draft says BBC's reporting 'noted Djokovic appeared to vomit twice during the match' but must clarify that this is 'reported' confidence per brief, not definitive fact. The language 'appeared to' does this correctly, but pairing it with the medical details (physio, doctor assistance) without confidence qualification could mislead."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-16",
   "approved": 4,
   "rejected": [
@@ -7734,6 +7691,37 @@
      "The draft includes a quote attributed to Valerie Camillo: 'We're not going to do everything ourselves, but we're taking control of this event. We're taking control of the creation of the revenues and the controlling of the expenses and the delivery of the entire thing. And that allows us to control our own destiny.' This quote appears verbatim in brief data_point 29, which is sourced to ESPN Tennis. However, earlier in the draft, a different Camillo quote is provided: 'The WTA Finals represents everything that makes women's tennis extraordinary...' which appears in brief data_point 17. The draft presents the second quote without attribution or source clarity, making it unclear which quote belongs to which outlet.",
      "The draft states 'WTA Chair Valerie Camillo stated: \"We're not going to do everything ourselves...\"' but the attribution is inline without explicit outlet identification, while the prior Camillo statement in data_point 17 is a substantially longer and different quote that the draft does not include. The brief shows both quotes exist in ESPN data, but the draft's presentation could confuse readers about which statements are from which outlets or interviews.",
      "The draft includes material from data_point 19 (Cincinnati Open relocation scenario) and data_point 20 (Beemok Capital ownership), neither of which appears in the draft body. The brief contains these details, but since the story does not include them, this is not an accuracy failure in the draft itself. However, the draft's bottom_line claims 'the tour's new revenue model and cost control under operational management generates the margins needed to stabilize the organization's balance sheet, which sources project to be critically depleted by year-end 2026' without citing which sources project this stabilization. The bear_case notes that 'no sources indicate replacement funding beyond the Charlotte deal,' but the bottom_line implies confident projections of margin generation are in the sources. This overstates the confidence level of the reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c176",
+    "headline": "Ravens place Ja'Kobi Lane on injured reserve with wrist fracture requiring surgery",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'rookie wide receiver Ja'Kobi Lane' but the brief's open_questions flag explicitly states: 'The sources do not specify Lane's draft position or confirm he was a first-round pick in 2024, though the story premise asserts this.' The draft does not confirm Lane is a rookie; it asserts it. If Lane is a rookie, that fact must come from the Yahoo source (a data_point), not from outside inference. The story premise in the angle mentions 'first-round receiver prospect' but no data_point confirms draft round or class year.",
+     "Draft describes Lane as 'a promising first-round receiver prospect' in the angle but this descriptor does not appear in any data_point and contradicts the brief's own flag that draft position is unconfirmed by sources."
+    ]
+   },
+   {
+    "id": "c97",
+    "headline": "Ducks Sign Gauthier to Six-Year Extension",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Gauthier is 'the second-highest paid player on the roster' as a direct claim, but the brief marks this as 'reported' confidence with the caveat that the source text itself is extremely thin (6538 source_chars but minimal body content). The brief explicitly notes in open_questions that 'No official Ducks statement or announcement is provided in the source texts; the single line of available body content offers minimal detail.' The draft treats a thin secondary report as settled fact without qualification. The bottom_line correctly hedges by saying details 'remain unconfirmed,' but the opening sentence presents the ranking as established fact without the same hedging language present in the brief's core_claim framing."
+    ]
+   },
+   {
+    "id": "c51",
+    "headline": "WNBA Resumes After 16-Day FIBA Break; International Players Face Quick Return",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'The WNBA resumed play after a 16-day FIBA Women's World Cup break' as a statement of fact, but the brief's core_claim says 'The WNBA resumed play after a 16-day FIBA World Cup break' while the open_questions explicitly state 'No details provided on the length of the FIBA break duration or how many days rest players had before WNBA return.' The '16-day' figure appears in the brief's core_claim but is not grounded in any data_point with source attribution in the brief itself. The brief does not provide a data_point supporting this specific duration. Additionally, the draft contains claims not traceable to the brief: 'Cameron Brink is finding her rhythm in the WNBA after her ACL injury' is in the brief as a data_point, but conflating an ACL injury recovery narrative with the scheduling problem framing misrepresents the source. The draft also references 'Kelsey Mitchell was competing for the Indiana Fever's home-court advantage in the playoffs immediately after the World Cup break,' but the brief's data_point says she 'was competing for the Indiana Fever's home-court advantage in the playoffs after the World Cup break'\u2014the addition of 'immediately' imports urgency not present in the source language."
     ]
    }
   ]
