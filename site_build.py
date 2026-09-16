@@ -4143,6 +4143,12 @@ def render_inactives(board, w2w, dateline):
     _wkno, _ = _ia_week()
     _week = next((w for w in _wks if w.get("week") == _wkno), None)
     games = (_week or {}).get("games") or []
+    # S-B12's who-plays-when strip is about the week AHEAD, not the week these final
+    # lists came from: a reader on this page before Thursday wants to know when the
+    # next lists post. It names its own week so the two cannot be read as one.
+    _ahead_no, _ = nfl_week()
+    _ahead = next((w for w in _wks if w.get("week") == _ahead_no), None)
+    _ahead_games = (_ahead or {}).get("games") or []
     # Match on the team names the schedule uses, which are abbreviations; the board
     # holds full display names. Only teams we can match are shown as pending, so a
     # name we cannot resolve is left out rather than asserted as unposted.
@@ -4165,6 +4171,7 @@ def render_inactives(board, w2w, dateline):
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
   {_ia_tonight_block()}
+  {_sb12_who_plays_when(_ahead_games)}
   {cards}
   {pend}
 </section></main>"""
@@ -4400,6 +4407,114 @@ def render_fantasy_live(all_points, dateline):
                  "Fantasy", body, dateline, path="/fantasy/live.html")
 
 
+# ---- S-B12: byes and the schedule ---------------------------------------------
+# All of it from the schedule file the band already reads. A week with no byes has no
+# byes card; a week the file does not carry has no windows block. Nothing is invented
+# and nothing is drawn empty.
+
+# The windows a reader has to be told about, because they are not Sunday afternoon.
+_ODD_WINDOW = re.compile(r"thursday|saturday|monday|sunday night", re.I)
+
+
+def _sb12_week(wk):
+    for w in ((W2W_DATA or {}).get("weeks") or []):
+        if w.get("week") == wk:
+            return w
+    return None
+
+
+def _sb12_byes_card():
+    """S-B12: this week's byes and next week's, on the days it matters (Tue-Sat).
+
+    The NFL has no byes until week five or so, so for most of September this returns
+    nothing at all, which is the right answer rather than a card reading "none".
+    """
+    wk, _ = nfl_week()
+    if not wk:
+        return ""
+    dow = _build_now().astimezone(_ET).weekday()      # Mon 0 .. Sun 6
+    if dow not in (1, 2, 3, 4, 5):                    # Tuesday to Saturday
+        return ""
+    rows = []
+    for label, n in ((f"Week {wk}", wk), (f"Week {wk + 1}", wk + 1)):
+        teams = nfl_byes(n)
+        if teams:
+            rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">{esc(label)}'
+                        f'</span><span class="bd-src">{esc(", ".join(teams))}</span></div>')
+    if not rows:
+        return ""
+    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">On bye</span></div></div>'
+            f'<div class="bd-rec-rows">{"".join(rows)}</div></section>')
+
+
+def _sb12_windows():
+    """S-B12: the week's games by window, with the kickoff in ET and the network, and
+    the unusual windows flagged. Sunday afternoon is not flagged; it is the default."""
+    wk, _ = nfl_week()
+    week = _sb12_week(wk)
+    if not week:
+        return ""
+    by_win = {}
+    for g in (week.get("games") or []):
+        by_win.setdefault(g.get("window") or "", []).append(g)
+    if not by_win:
+        return ""
+    def _key(w):
+        gs = by_win[w]
+        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in gs]
+        ks = [k for k in ks if k]
+        return min(ks) if ks else _build_now()
+    out = []
+    for win in sorted(by_win, key=_key):
+        gs = sorted(by_win[win], key=lambda g: g.get("kickoff_utc") or "")
+        odd = bool(_ODD_WINDOW.search(win))
+        # The 9:30 AM ET international window is unusual and does not name itself.
+        if not odd:
+            odd = any((g.get("kickoff_et") or "").startswith("9:30 AM") for g in gs)
+        flag = '<span class="fw-odd">unusual window</span>' if odd else ""
+        rows = "".join(
+            f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
+            f'{esc(g.get("home") or "")}</span>'
+            f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
+            f'<span class="w2w-cars">{_w2w_carriers(g)}</span></div>' for g in gs)
+        out.append(f'<div class="fw-win"><div class="fw-wh">'
+                   f'<span class="bd-label">{esc(win)}</span>{flag}'
+                   f'<span class="bd-src">{esc(gs[0].get("day_et") or "")}</span></div>'
+                   f'<div class="w2w">{rows}</div></div>')
+    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Week {wk} windows</span></div>'
+            f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
+            f'{"".join(out)}</section>')
+
+
+def _sb12_who_plays_when(games):
+    """S-B12: the who-plays-when strip for the inactives board. One row per window with
+    the teams in it, so a reader scanning lists knows which games they belong to."""
+    if not games:
+        return ""
+    by_win = {}
+    for g in games:
+        by_win.setdefault(g.get("window") or "", []).append(g)
+    def _key(w):
+        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in by_win[w]]
+        ks = [k for k in ks if k]
+        return min(ks) if ks else _build_now()
+    rows = []
+    for win in sorted(by_win, key=_key):
+        gs = by_win[win]
+        teams = " \u00b7 ".join(f'{g.get("away") or ""} at {g.get("home") or ""}'
+                                for g in gs[:8])
+        more = f" and {len(gs) - 8} more" if len(gs) > 8 else ""
+        rows.append(f'<div class="wpw-row"><span class="bd-label">{esc(win)}</span>'
+                    f'<span class="bd-src">{esc(teams + more)}</span></div>')
+    wk, _ = nfl_week()
+    head = (f'<div class="wpw-h"><span class="bd-eyebrow">Week {wk}, who plays when'
+            f'</span><a class="bd-more" href="/where-to-watch.html">All games</a></div>'
+            if wk else "")
+    return f'{head}<div class="wpw">{"".join(rows)}</div>'
+
+
 def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     """S-B7. The hub: the official answer, then the surfaces that give it."""
     blocks = []
@@ -4411,28 +4526,28 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             f'<span class="bd-read">{t["count"]} inactive</span>'
             f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span></a>'
             for t in top)
-        blocks.append(
+        blocks.append(("inactives",
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(_ia_heading(board))}</span>'
             f'<span class="bd-stamp">{board["total"]} players</span></div>'
             f'<a class="bd-more" href="/fantasy/inactives.html">All teams</a>'
-            f'</div><div class="bd-cards4">{cards}</div></section>')
+            f'</div><div class="bd-cards4">{cards}</div></section>'))
     if desig:
         counts = " · ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
-        blocks.append(
+        blocks.append(("designations",
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">Designations{_wk_suffix()}</span>'
             f'<span class="bd-stamp">{counts}</span></div>'
             f'<a class="bd-more" href="/fantasy/injuries.html">All</a>'
-            f'</div></section>')
+            f'</div></section>'))
     merged = {}
     for pts in (all_points or {}).values():
         merged.update(pts)
     if merged:
-        blocks.append(_leaders_module(merged, "Live points", n=8, expand=False)
+        blocks.append(("live", _leaders_module(merged, "Live points", n=8, expand=False)
                       .replace('</section>',
                                '<a class="bd-more" href="/fantasy/live.html">'
-                               'The full board</a></section>'))
+                               'The full board</a></section>')))
     if not blocks:
         return None
     # S-E: the day's marquee games, as "Where to watch tonight". The network already
@@ -4460,12 +4575,41 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
                      f'<a class="bd-more" href="/where-to-watch.html">All games</a>'
                      f'</div><div class="w2w">{rows}</div></section>')
 
+      # S-B15: the hub is day-aware. The player check stays at the top; under it the
+    # blocks are ORDERED by the day, leading with the one that day is about.
+    #
+    # The order is over the blocks the desk actually holds. Tuesday's "week in numbers"
+    # (S-B13), Wednesday's practice reports (S-B9), the depth-chart changes (S-B10) and
+    # the roster moves (S-B11) are not built yet, so those days lead with the next
+    # block in their own list rather than with an empty frame: a module with no data is
+    # omitted, and that rule outranks the running order.
+    named = dict(blocks)
+    named["windows"] = _sb12_windows()
+    named["byes"] = _sb12_byes_card()
+    named["tonight"] = watch
+    DAY_ORDER = {
+        1: ["byes", "inactives", "designations", "windows", "tonight"],      # Tue
+        2: ["designations", "inactives", "byes", "windows", "tonight"],      # Wed
+        3: ["tonight", "inactives", "designations", "windows", "byes"],      # Thu
+        4: ["designations", "windows", "inactives", "byes", "tonight"],      # Fri
+        5: ["windows", "designations", "inactives", "byes", "tonight"],      # Sat
+        6: ["inactives", "live", "designations", "tonight", "windows"],      # Sun
+        0: ["live", "inactives", "designations", "tonight", "windows"],      # Mon
+    }
+    _dow = _build_now().astimezone(_ET).weekday()
+    _order = DAY_ORDER.get(_dow, ["inactives", "designations", "windows", "tonight"])
+    _seen, _out = set(), []
+    for key in _order + sorted(named):          # anything unlisted still renders, last
+        if key in _seen:
+            continue
+        _seen.add(key)
+        if named.get(key):
+            _out.append(named[key])
+
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:6px">Is he playing? Here's the official
-     answer.</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">Fantasy</h1>
   {player_check_block()}
-  {"".join(blocks)}
-  {watch}
+  {"".join(_out)}
 </section></main>"""
     return shell(f"Fantasy facts - {NAME}",
                  "Official inactives, designations and live points. Facts, not advice: "
@@ -4843,6 +4987,10 @@ def _lane_figures(item):
             f'{esc(" · ".join(f for _v, f in figs[:3]))}</span>')
 
 
+SPORTS_ACCENT = "#1F5E3F"
+LANE_COLORS = {"Lawsuits and rulings": "#4B5563"}
+
+
 def lane_card_v3(item, lane_name, stamp=None):
     """S-C. The v3 lane card. `stamp` lets a lane show its count and newest date in
     place of the piece's own dateline (S-17)."""
@@ -4860,8 +5008,15 @@ def lane_card_v3(item, lane_name, stamp=None):
             outlets.append(nm)
     receipts = (f'<p class="bd-src">Source: {esc(", ".join(outlets[:3]))}</p>'
                 if outlets else "")
-    return (f'<div class="bd-card lane-v3">'
-            f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(lane_name)}</span>'
+    # A-13: a 3px left rule in the lane colour, with the eyebrow in the same colour.
+    # The style tile is the reference where the board names only two lanes (V-15):
+    # ".card.lane { border-left:3px solid #1F5E3F }" is the default and "Sports rule
+    # #1F5E3F - Sports accent, lanes, links" confirms it, so lanes take the Sports
+    # accent and lawsuits is the single exception at #4B5563. Nothing invented.
+    _lc = LANE_COLORS.get(lane_name, SPORTS_ACCENT)
+    return (f'<div class="bd-card lane-v3" style="--lane:{_lc}">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow" style="color:{_lc}">'
+            f'{esc(lane_name)}</span>'
             f'{status}{chip}<span class="bd-stamp">'
             f'{stamp if stamp else esc(fmt_when(item))}</span></div>'
             f'<a class="bd-rec-hl" href="/articles/{esc(item["slug"])}.html">'
