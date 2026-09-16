@@ -2206,12 +2206,12 @@ def _w2w_wx(g, wx):
 
 def _w2w_carriers(g):
     if not g.get("carriers"):
-        return '<span class="bd-src">Not yet announced by the league</span>'
+        # item 31: the sentence explaining why goes; the column says what it knows.
+        return '<span class="w2w-car">TBA</span>'
     out = []
     for c in g["carriers"]:
         tag = "" if c.get("market") == "National" else '<span class="w2w-loc">Local</span>'
-        strm = '<span class="w2w-str">Streaming</span>' if c.get("type") == "Streaming" else ""
-        out.append(f'<span class="w2w-car">{esc(c.get("name") or "")}{tag}{strm}</span>')
+        out.append(f'<span class="w2w-car">{esc(c.get("name") or "")}{tag}</span>')
     return "".join(out)
 
 
@@ -2547,13 +2547,15 @@ def _news_section(lane, past=False):
     more = ""
     if len(rows) >= NEWS_MIN_STORIES and len(rows) > len(shown):
         more = (f'<a class="bd-more" href="/news/{esc(lane["slug"])}.html">'
-                f'All {len(rows)} in {esc(lane["name"].lower())}</a>')
-    newest = fmt_when(rows[0]) if rows else ""
+                f'All {len(rows)}</a>')
+    # C-L6: the count is short. The date is the day, not the full dateline.
+    _nd = _utc_dt((rows[0].get("published_utc") or rows[0].get("date") or "")) if rows else None
+    newest_short = fmt_short_date(_nd.astimezone(_ET).strftime("%Y-%m-%d")) if _nd else ""
     return (f'<section class="bd-mod" id="{esc(lane["slug"])}">'
             f'<div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(lane["name"])}</span>'
             f'<span class="bd-stamp">{len(rows)} stories'
-            f'{", newest " + esc(newest) if newest and not past else ""}</span>'
+            f'{" · " + esc(newest_short) if newest_short and not past else ""}</span>'
             f'</div>{more}</div>'
             f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
 
@@ -3545,8 +3547,9 @@ def render_inactives(board, w2w, dateline):
 # toggle client-side. The toggle is remembered on the device in localStorage and
 # nothing else: no account, no cookie sent anywhere, nothing logged.
 
-FANTASY_FOOT = ("Computed from the official box score at each refresh. Your league's "
-                "scoring may differ.")
+# item 38: "Computed from the official box score at each refresh" is process (C-L3).
+# The caveat a reader needs is what remains.
+FANTASY_FOOT = "Your league's scoring may differ."
 TWO_PT_NOTE = "Two-point conversions are not included live."
 
 FORMAT_JS = """<script>(function(){
@@ -3713,7 +3716,7 @@ def render_game_page(g, points, board, wx, items, dateline):
         if _rows:
             _desig = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
                       '<span class="bd-eyebrow">This week on the report</span></div>'
-                      '<a class="bd-more" href="/fantasy/injuries.html">All designations'
+                      '<a class="bd-more" href="/fantasy/injuries.html">All'
                       '</a></div><div class="pl-rows">' + "".join(_rows[:12])
                       + '</div></section>')
 
@@ -3722,7 +3725,7 @@ def render_game_page(g, points, board, wx, items, dateline):
     if W2W_LIVE and g.get("network"):
         _w2w = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
                 f'<span class="bd-eyebrow">Where to watch</span></div>'
-                f'<a class="bd-more" href="/where-to-watch.html">Every window</a></div>'
+                f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
                 f'<p class="bd-read">{esc(g.get("network"))} carries this game.</p>'
                 f'</section>')
     body = f"""<main class="wrap"><section class="page">
@@ -3777,17 +3780,17 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             for t in top)
         blocks.append(
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">Today\'s inactives</span>'
+            f'<span class="bd-eyebrow">{esc(_ia_heading(board))}</span>'
             f'<span class="bd-stamp">{board["total"]} players</span></div>'
-            f'<a class="bd-more" href="/fantasy/inactives.html">The full board</a>'
+            f'<a class="bd-more" href="/fantasy/inactives.html">All teams</a>'
             f'</div><div class="bd-cards4">{cards}</div></section>')
     if desig:
         counts = " · ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
         blocks.append(
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">This week\'s designations</span>'
+            f'<span class="bd-eyebrow">Designations{_wk_suffix()}</span>'
             f'<span class="bd-stamp">{counts}</span></div>'
-            f'<a class="bd-more" href="/fantasy/injuries.html">All designations</a>'
+            f'<a class="bd-more" href="/fantasy/injuries.html">All</a>'
             f'</div></section>')
     merged = {}
     for pts in (all_points or {}).values():
@@ -3820,8 +3823,8 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             + '</span></div>' for g in games[:6])
         if rows:
             watch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                     f'<span class="bd-eyebrow">Where to watch tonight</span></div>'
-                     f'<a class="bd-more" href="/where-to-watch.html">Every window</a>'
+                     f'<span class="bd-eyebrow">Tonight</span></div>'
+                     f'<a class="bd-more" href="/where-to-watch.html">All games</a>'
                      f'</div><div class="w2w">{rows}</div></section>')
 
     body = f"""<main class="wrap"><section class="page">
@@ -3933,7 +3936,7 @@ def render_player_page(p, board, dateline):
     rows = [d for d in (p.get("designations") or []) if d.get("status")]
     if rows:
         hist = ('<div class="bd-card pl-desig"><span class="bd-label">'
-                'This season on the report</span><div class="pl-rows">'
+                'This season</span><div class="pl-rows">'
                 + "".join(
                     f'<div class="pl-row"><span class="pl-d">'
                     f'{esc(fmt_short_date(d.get("date") or ""))}</span>'
@@ -3949,10 +3952,8 @@ def render_player_page(p, board, dateline):
     <span class="bd-eyebrow">{esc(p.get("team"))} {esc(p.get("pos"))}</span>{badge}</div>
   <p class="lx-dek">{esc(answer)}</p>
   {nxt}{hist}
-  <p class="bd-src">Status as the official report lists it, read on our own schedule.
-     See the <a href="/fantasy/inactives.html">inactives board</a> for today's posted
-     lists and <a href="/fantasy/injuries.html">this week's designations</a> for the
-     full report.</p>
+  <p class="bd-src"><a href="/fantasy/inactives.html">Inactives</a> ·
+     <a href="/fantasy/injuries.html">Designations</a></p>
   {fantasy_asof("Status", p.get("inactive_seen") or "", "the league injury report")}
 </section></main>"""
     return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
@@ -4006,7 +4007,7 @@ def render_designations(desig, board, dateline):
             f'<div class="dg-rows">{"".join(cards)}</div></section>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Designations</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">This week's designations{_wk_suffix()}</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">Designations{_wk_suffix()}</h1>
   <p class="lx-dek">{desig["total"]} players</p>
   {fantasy_asof("Designations", desig.get("last_poll") or "", "the league injury report")}
   <p class="bd-src">Out, Doubtful and Questionable as the official report lists them.
@@ -4970,7 +4971,7 @@ def crosscut_row(items, active=None):
     if not out:
         return ""
     return ('<nav class="xcut" aria-label="Across every league">'
-            '<span class="xc-lab">Across every league</span>' + "".join(out) + '</nav>')
+            + "".join(out) + '</nav>')
 
 
 def render_section(slug, title, nav_label, tags, blurb, items, dateline):
