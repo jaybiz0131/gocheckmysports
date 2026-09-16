@@ -1,72 +1,6 @@
 [
  {
   "date": "2026-08-13",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c167",
-    "headline": "Phillies and Twins set for Field of Dreams Game on Netflix",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly flags that the source text 'consists entirely of CSS font declarations and color variable definitions with no readable game details, date, time, or event information.' The draft contains no data_points in the brief to source from. The core claim itself cannot be verified against the fetched source. Every factual assertion in the draft (the teams, the year, the Netflix platform, the Field of Dreams concept) lacks a verified data_point in the brief to anchor it."
-    ]
-   },
-   {
-    "id": "c170",
-    "headline": "Rays complete perfect 9-0 road trip, a franchise first",
-    "category": "accuracy",
-    "reasons": [
-     "The brief flags that the fetched source 'consists entirely of CSS font declarations and color variable definitions with no readable content.' The brief contains zero data_points. The draft presents the 9-0 record, the franchise-first claim, the three-series structure, and the divisional context as fact, but none of these can be traced to verified source material. The source URL is unreachable content; the story is built on unconfirmed information."
-    ]
-   },
-   {
-    "id": "c118",
-    "headline": "Reports suggest countries reconsidering Infantino support amid World Cup privatization crisis",
-    "category": "accuracy",
-    "reasons": [
-     "The brief notes source_chars: 0 and flags the source as empty. The draft asserts 'Former FIFA Council member Isha Johansen has called on Infantino to step down' but this claim does not appear in any data_point in the brief. The core claim in the brief reads 'Countries are officially withdrawing support' but the draft hedges it as 'potentially withdrawing support' and 'remain unconfirmed'\u2014the draft walks back the brief's own claim, yet still presents Johansen's statement as fact without a verified source. No data_points exist to support any specific factual claim in the draft."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Chelsea Sets Friday Deadline on Enzo Fernandez at \u00a3120m",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'He helped Argentina reach the World Cup final, where he was sent off as Argentina lost to Spain 1-0.' This claim does not appear in the brief's data_points. The brief only mentions Fernandez was 'sent off' in a World Cup context but does not specify the opponent, score, or result. This is a factual detail imported from outside the brief.",
-     "The draft references 'Chelsea finished 10th in the Premier League last season and ended the campaign without a trophy after losing the FA Cup final to Manchester City' in the context of Chelsea's season context, but this claim appears in the brief's data_points (data_point 4) yet is completely absent from the draft body. However, the inverse problem is more serious: the draft includes World Cup final details (Spain, 1-0 score) not in the brief."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Manchester City Extends Doku, Pursues Reinders Exit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft refers to 'Arena midfielder Enzo Fern\u00e1ndez' but the brief identifies him as 'Argentina midfielder Enzo Fern\u00e1ndez.' 'Arena' appears to be a typo or corruption of 'Argentina' that was introduced in drafting rather than traced to the brief.",
-     "The draft states Reinders 'moved to Manchester from Milan last summer for \u00a346.5m' but the brief's data_point 7 states 'Reijnders moved to the Etihad from Milan last summer for \u00a346.5m.' The spelling of the player's name is 'Reijnders' in the brief but 'Reinders' throughout the draft. This is a factual name error that compounds across multiple mentions."
-    ]
-   },
-   {
-    "id": "c071",
-    "headline": "Russell Westbrook announces retirement after 17 seasons",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Westbrook played '17 seasons' but the brief's open_questions note states: 'The number of seasons played (17) comes from the headline, not from the source_text itself.' This fact is not verified in the actual source material provided to research; it was pulled from an HTML headline fragment, not from the article body. The hard rule is that facts go back to research; unverified claims cannot be patched by the writer.",
-     "The brief explicitly notes the source is 'truncated HTML' and the 'actual retirement announcement text, Westbrook's quoted statement, specific career highlights, or Hall of Fame commentary are not present in the provided source material.' The draft presents the story as though the source was complete, but it was not. This is a liability exposure: the writer cannot verify the retirement actually occurred from the material provided."
-    ]
-   },
-   {
-    "id": "c062",
-    "headline": "Bihina saves four penalties as Cameroon upsets Morocco to reach Wafcon final",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bihina plays for Benfica' but the brief's corresponding data_point reads 'Bihina plays for Benfica in her homeland.' The brief explicitly adds 'in her homeland,' implying Bihina plays for Benfica (which is in Portugal, not Cameroon). The draft omits this qualifier, changing the factual claim. Either the brief's language is imprecise or the draft has smuggled a correction\u2014either way, the draft does not match the brief.",
-     "The draft attributes the VAR decision to 'Nyadjou's arm' catching Ouzraoui 'in the face' but the brief's data_point specifies: 'The penalty that decided the match was awarded after a VAR review, with Togolese official Vincentia Amedome determining that Nyadjou had caught Ouzraoui in the face with her arm.' The draft omits the official's name and attribution. While the fact is substantially correct, the brief provides an official name that anchors the decision; omitting it weakens accountability and does not trace cleanly to the source material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
   "approved": 4,
   "rejected": [
    {
@@ -7918,6 +7852,50 @@
     "reasons": [
      "The title states the game occurred on 'September 16' (today's date) with past-tense language ('walk off White Sox'), but the story is being reviewed on 2026-09-16. The game cannot have already happened today if it is being reported as news. The brief's data_points carry timestamps of 2026-09-16T04:19:06Z, which suggests reporting on a game that has already occurred, but the deck instructions require: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The tense of the headline and opening ('defeated', 'pulled within', past tense throughout) treats a game as completed on the day it occurred, which is appropriate IF it occurred before publication, but the body contains forward-looking language ('The Guardians currently hold the wild card spot', 'The Guardians and White Sox continue their three-game series') that contradicts this, suggesting the game outcome is being mixed with pre-game analysis. The opening sentence reports a completed walk-off, but later sentences ('The Guardians currently hold...', 'The Guardians and White Sox continue their three-game series') read as pre-game framing. This internal contradiction makes it impossible to determine whether this is a game recap or a pre-game preview, which is an accuracy failure.",
      "The draft states 'The Guardians and White Sox continue their three-game series at Progressive Field' in the bottom_line, but earlier states this was a walk-off game result. If the game has been played, they do not 'continue' the series; they are in the middle of it. This is contradictory."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c107",
+    "headline": "NHL teams sign eight-year deals before CBA extension limits tighten on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports that the new CBA 'kicks in' and takes effect 'at midnight on September 16, 2026,' written in past tense as a completed event. Today is Wednesday, September 16, 2026. The draft does not clarify whether this event has already occurred or is scheduled to occur at midnight tonight. A reader cannot determine from the prose whether the window has already closed or is about to close. This is a material ambiguity: the entire news hook depends on the timing relative to publication.",
+     "The draft states 'Quinn Hughes (Minnesota), Cutter Gauthier (Anaheim), Adam Fantilli (Columbus), and Will Smith (San Jose) remained without extensions' using past tense 'remained,' but the brief's open_questions explicitly note 'Did Quinn Hughes, Cutter Gauthier, Adam Fantilli, and Will Smith ultimately sign extensions before the deadline, or did they miss the window?' The draft cannot know this because the deadline has not passed (or is passing tonight). Reporting these players as unsigned in past tense, when their status as of the deadline is unknown, is accuracy failure.",
+     "The draft should use future or conditional language ('remain unsigned as of today' or 'are potentially seeking deals before the deadline') rather than past tense, since the event is either ongoing or imminent, not concluded."
+    ]
+   },
+   {
+    "id": "c339",
+    "headline": "Senate votes 74-24 to advance Protect College Sports Act toward final passage",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 16, 2026 as a Tuesday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Alonso hits 300th career homer against Mets as Orioles win in extras on September 16, 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Alonso hit his 300th home run 'with the bases empty' (embedded in 'solo shot') and describes it as happening 'in the top of the ninth inning that tied the game.' However, the brief's data_point specifies 'with the bases empty and one out,' which adds a material detail\u2014the out count\u2014that the draft omits. More critically, the brief's open_questions note a discrepancy: 'Alonso's home run came off Kodai Senga in the top of the ninth inning with the bases empty and one out,' but the brief's own open_questions section asks 'What was the score before extra innings (the sources state Alonso's tying homer came with the Orioles trailing 1-0, but the game went to extra innings; clarification on the score progression would be helpful).' This reveals internal contradiction in the brief itself about game context, and the draft does not resolve or acknowledge this uncertainty.",
+     "More directly: the draft asserts Alonso 'became the third player to reach 300 homers against a team for which he played 1,000 or more games,' pulling this from the brief's data_point. However, this claim is marked 'reported' confidence in the brief, not 'verified,' and it is presented in the draft as a settled fact without hedging. The brief's open_questions note suggests this detail may benefit from verification but the draft runs it as established.",
+     "The draft reports Manaea's quote with one version ('It's just crazy how things unfolded...'), but the brief contains two separate, slightly different versions of Manaea's postgame statement in different data_points (one from CBS Sports, one from Sporting News). The draft selects one version but does not note that two sourced versions exist, creating potential liability if the other version was the one actually published and the draft's version does not match.",
+     "the draft dates September 16, 2026 as a Tuesday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c228",
+    "headline": "Montreal Canadiens extend Martin St. Louis on multiyear contract (September 15, 2026)",
+    "category": "compliance",
+    "reasons": [
+     "The core data point in the brief is marked 'announced-not-verified' confidence, which is a material qualifier. The draft presents the extension as an established fact ('The Montreal Canadiens announced a multiyear contract extension') without signaling that this claim remains unverified beyond the announcement. Per the approval rules, a claim marked 'announced-not-verified' must read that way in the prose to avoid misleading readers about the reliability of the information.",
+     "The draft does not include the confidence label that the brief requires be visible when a claim is not yet independently verified. Readers need to know the difference between 'the Canadiens announced' and 'the deal was verified by independent reporting.'"
     ]
    }
   ]
