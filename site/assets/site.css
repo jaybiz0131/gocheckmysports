@@ -1834,3 +1834,7 @@ body>*:not(.ground){position:relative;z-index:1}
    content, which is the board's shape. */
 .sb-grid{align-items:start}
 .sb-grid>.tk-c{align-self:start}
+/* SC-4: .sb-grid sets display:grid, which outranks the UA's [hidden]{display:none}.
+   Without this every league's panel renders and the band is eight bands tall: 5.4
+   phone screens instead of 1.2. The attribute has to be told it wins. */
+.tk-panel[hidden]{display:none !important}

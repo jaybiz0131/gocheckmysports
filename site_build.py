@@ -3470,6 +3470,52 @@ def _ia_index(board):
     return {("NFL", str(t.get("id"))): t for t in board.get("teams") or [] if t.get("id")}
 
 
+SB_TABS_JS = """
+<script>(function(){
+  /* SC-4: the tabs switch the band. Every league's panel is already in the page, so
+     this only moves the `hidden` attribute and the `on` class; nothing is fetched and
+     nothing is laid out from scratch.
+
+     WITHOUT THIS SCRIPT THE TABS STILL WORK: each one is a real link to that league's
+     section on /scores, and the browser follows it. This turns the same link into an
+     in-place switch when it can, and gets out of the way when it cannot. */
+  var tabs = document.querySelectorAll('.tk-tabs .tk-tab');
+  var panels = document.querySelectorAll('.tk-panel');
+  if (!tabs.length || !panels.length) return;
+  var KEY = 'gcm.league';
+  function slugOf(a){ var h = a.getAttribute('href') || ''; var i = h.indexOf('#');
+    return i < 0 ? 'all' : h.slice(i + 1); }
+  function show(slug){
+    var found = false;
+    panels.forEach(function(p){
+      var mine = p.getAttribute('data-league') === slug;
+      if (mine) found = true;
+      p.hidden = !mine;
+    });
+    if (!found) return false;
+    tabs.forEach(function(t){
+      t.classList.toggle('on', slugOf(t) === slug);
+    });
+    try { localStorage.setItem(KEY, slug); } catch (e) {}
+    return true;
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(ev){
+      var slug = slugOf(t);
+      /* Only take over the click when this page can actually show that league. On a
+         league the band is not carrying, the link does its job and goes to /scores. */
+      if (show(slug)) {
+        ev.preventDefault();
+        if (history.replaceState) history.replaceState(null, '', '#' + slug);
+      }
+    });
+  });
+  var want = (location.hash || '').slice(1);
+  if (!want) { try { want = localStorage.getItem(KEY) || ''; } catch (e) {} }
+  if (want) show(want);
+})();</script>
+"""
+
 SB_HERO_JS = """
 <script>(function(){
   /* Hero addendum item 3: the loop may replace the poster on desktop ONLY, and only
@@ -3582,8 +3628,29 @@ def scoreboard_band(sb, board, wx=None):
         foot_link = "All games"
     # SC-4: the tabs carry a count or a next date and switch the whole band.
     tabs = _tk_tabs(games, active="all")
-    # SC-3: the marquee is the full Ticket card at 1.25 columns beside six folded ones.
-    cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in rest[:6])
+    # SC-4: every league's own marquee and folded set is rendered, and the script shows
+    # one at a time. Rendering only the active league would mean a tab could not switch
+    # anything without a round trip, and rendering nothing but links would make the tabs
+    # a navigation rather than a switcher. The cost is about 8 KB gzipped for a band
+    # that then switches instantly and still works with no script at all, because every
+    # tab is a real link to that league's section on /scores.
+    def _panel(league):
+        pool = [g for g in games if league == "all" or g.get("league") == league]
+        if not pool:
+            return ""
+        m = _sb_marquee_pick(pool)
+        others = [g for g in pool if g is not m]
+        others.sort(key=lambda g: (rank.get(g.get("state"), 9),
+                                   g.get("start_utc") or ""))
+        slug = "all" if league == "all" else league.lower().replace(" ", "-")
+        return (f'<div class="sb-grid tk-panel" data-league="{esc(slug)}"'
+                f'{"" if slug == "all" else " hidden"}>'
+                f'{_tk_card(m, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS) if m else ""}'
+                f'<div class="sb-cards">'
+                + "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in others[:6])
+                + '</div></div>')
+
+    panels = "".join(_panel(n) for n in ["all"] + present)
     stamp = _et(sb.get("fetched_at") or "")
     # S-25: the next kickoff, from the feed. Absent when nothing is scheduled.
     nxt = ""
@@ -3614,16 +3681,13 @@ def scoreboard_band(sb, board, wx=None):
         <div class="sb-tabs">{tabs}</div></div>
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
-    <div class="sb-grid">
-      {_tk_card(mq, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS) if mq else ""}
-      <div class="sb-cards">{cards}</div>
-    </div>
+    {panels}
     <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
       &rarr;</a>{nxt}</div>
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS + SB_TABS_JS
 
 
 def render_scores_page(sb, board, dateline, wx=None):
