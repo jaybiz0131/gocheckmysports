@@ -1,28 +1,18 @@
 {
- "generated_utc": "2026-09-16T01:08:40Z",
- "stale_after_utc": "2026-09-16T04:08:40Z",
+ "generated_utc": "2026-09-16T01:19:56Z",
+ "stale_after_utc": "2026-09-16T04:19:56Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "LAD",
-     "home": "CIN",
-     "away_score": 4,
-     "home_score": 0,
-     "state": "in",
-     "detail": "Bot 9",
-     "start_utc": "2026-09-15T22:40:00Z",
-     "eid": "824466"
-    },
-    {
      "away": "CWS",
      "home": "CLE",
      "away_score": 6,
      "home_score": 5,
      "state": "in",
-     "detail": "Top 8",
+     "detail": "Top 9",
      "start_utc": "2026-09-15T22:40:00Z",
      "eid": "824384"
     },
@@ -30,21 +20,11 @@
      "away": "MIL",
      "home": "PIT",
      "away_score": 5,
-     "home_score": 0,
-     "state": "in",
-     "detail": "Bot 8",
-     "start_utc": "2026-09-15T22:40:00Z",
-     "eid": "823333"
-    },
-    {
-     "away": "PHI",
-     "home": "WSH",
-     "away_score": 3,
-     "home_score": 6,
+     "home_score": 1,
      "state": "in",
      "detail": "Top 9",
-     "start_utc": "2026-09-15T22:45:00Z",
-     "eid": "822683"
+     "start_utc": "2026-09-15T22:40:00Z",
+     "eid": "823333"
     },
     {
      "away": "DET",
@@ -52,7 +32,7 @@
      "away_score": 6,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 7",
+     "detail": "Top 8",
      "start_utc": "2026-09-15T23:07:00Z",
      "eid": "822762"
     },
@@ -62,9 +42,95 @@
      "away_score": 2,
      "home_score": 3,
      "state": "in",
-     "detail": "Bot 7",
+     "detail": "Top 8",
      "start_utc": "2026-09-15T23:10:00Z",
      "eid": "823574"
+    },
+    {
+     "away": "ATL",
+     "home": "CHC",
+     "away_score": 2,
+     "home_score": 3,
+     "state": "in",
+     "detail": "Bot 6",
+     "start_utc": "2026-09-15T23:40:00Z",
+     "eid": "824627"
+    },
+    {
+     "away": "NYY",
+     "home": "MIN",
+     "away_score": 3,
+     "home_score": 1,
+     "state": "in",
+     "detail": "Top 6",
+     "start_utc": "2026-09-15T23:40:00Z",
+     "eid": "823654"
+    }
+   ]
+  },
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "J. Tjen",
+     "home": "S. Stephens",
+     "away_score": 1,
+     "home_score": 0,
+     "state": "in",
+     "detail": "1st",
+     "start_utc": "2026-09-16T01:15Z",
+     "eid": "183803"
+    },
+    {
+     "away": "D. Zoldakova",
+     "home": "A. Sobolieva",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-16T08:00Z",
+     "eid": "183669"
+    },
+    {
+     "away": "S. De Stefano",
+     "home": "B. Palicova",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-16T08:00Z",
+     "eid": "183656"
+    },
+    {
+     "away": "J. Struplova",
+     "home": "N. Basiletti",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-16T08:00Z",
+     "eid": "183660"
+    },
+    {
+     "away": "D. Papamichail",
+     "home": "J. Ruggeri",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:00 AM ET",
+     "start_utc": "2026-09-16T09:00Z",
+     "eid": "183762"
+    },
+    {
+     "away": "M. Barthel",
+     "home": "F. Jones",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:30 AM ET",
+     "start_utc": "2026-09-16T09:30Z",
+     "eid": "183672"
     }
    ]
   },
@@ -173,72 +239,6 @@
      "detail": "Final",
      "start_utc": "2026-09-15T23:00Z",
      "eid": "401891541"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "J. Tjen",
-     "home": "S. Stephens",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "9:15 PM ET",
-     "start_utc": "2026-09-16T01:15Z",
-     "eid": "183803"
-    },
-    {
-     "away": "D. Zoldakova",
-     "home": "A. Sobolieva",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-16T08:00Z",
-     "eid": "183669"
-    },
-    {
-     "away": "S. De Stefano",
-     "home": "B. Palicova",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-16T08:00Z",
-     "eid": "183656"
-    },
-    {
-     "away": "J. Struplova",
-     "home": "N. Basiletti",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-16T08:00Z",
-     "eid": "183660"
-    },
-    {
-     "away": "D. Papamichail",
-     "home": "J. Ruggeri",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "5:00 AM ET",
-     "start_utc": "2026-09-16T09:00Z",
-     "eid": "183762"
-    },
-    {
-     "away": "M. Barthel",
-     "home": "F. Jones",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "5:30 AM ET",
-     "start_utc": "2026-09-16T09:30Z",
-     "eid": "183672"
     }
    ]
   }
