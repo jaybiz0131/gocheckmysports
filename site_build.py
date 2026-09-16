@@ -41,7 +41,7 @@ PUBLISHED = os.path.join(HERE, "out", "published")
 # (gocheckmysports.com), tied to the family hub through the "A GoCheckMy site" footer link.
 # One identity everywhere: the desk and the site share the name.
 NAME = "GoCheckMySports"
-SLOGAN = "The score is a fact. The story gets checked."   # the brand tagline
+SLOGAN = "Sports, checked."   # the brand tagline
 DESK_LINE = "The daily sports desk that checks the story before it runs."   # secondary descriptor
 FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmysports.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
@@ -181,8 +181,8 @@ DESC = ("GoCheckMySports is an independent daily sports news desk built with one
         "get the stories right and keep the facts honest. Scores are facts; stories get "
         "checked against their sources before they run. Never betting advice.")
 FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with live scores and the sourcing behind every story. No betting picks.")
-NFA = ("GoCheckMySports reports events. It never advises bets. Nothing here is betting or "
-       "gambling advice.")
+# C-L5: the one guard line. It appears in the footer and nowhere above the fold.
+NFA = "No betting advice."
 YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
@@ -856,7 +856,7 @@ def masthead(active, dateline, brand="site"):
                           f'{" class=active" if l == active else ""}>{esc(l)}</a>'
                           for l in _more)
                 + '</div></details>')
-    fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
+    fam = f''
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
     _base = "GoCheckMy"
@@ -874,7 +874,7 @@ def masthead(active, dateline, brand="site"):
 if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
   <div class="mh-top">
     {fam}
-    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> · Independent · No hype</span>
+    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span></span>
   </div>
   {brand_row}
 </div></header>
@@ -912,8 +912,10 @@ def trust_block():
 </div></section>"""
 
 
-def footer(brand="site"):
-    """One identity everywhere; the brand parameter is kept for the shared call sites."""
+def footer(brand="site", fantasy=False):
+    """One identity everywhere; the brand parameter is kept for the shared call sites.
+
+    C-L5: the guard line lives here and only here. Fantasy pages add a second line."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     # About and Archive live in the masthead nav; repeating them here gave
                     # every page two links to each and helped invert the link graph. The
@@ -925,15 +927,15 @@ def footer(brand="site"):
                      ("Contact", "mailto:desk@gocheckmysports.com"),
                      ("RSS", "/feed.xml")])
     who = f"{esc(NAME)}"
-    note = ("GoCheckMySports is an independent daily sports news desk, built with one "
-            "intention: get the stories right and keep the facts honest. The score is a "
-            "fact; the story gets checked. Sources are linked on every story.")
+    # C-L5 / item 4: one guard line, in one place, muted. The paragraph that used to sit
+    # here is the About page's job (C-L9); the footer links there.
+    note = ""
     return f"""<footer class="site"><div class="wrap">
   <div class="frow">
     <div class="fbrand">{who}</div>
     <div class="flinks">{links}</div>
   </div>
-  <p class="fnote"><b>{esc(NFA)}</b> {note}
+  <p class="fnote">{esc(NFA)}{" Official reports only." if fantasy else ""}
     {who} · <a href="{FAMILY_HUB}">A GoCheckMy site</a>.<br>&copy; {YEAR} Go Check My Brands LLC</p>
 </div></footer>"""
 
@@ -1128,7 +1130,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <div class="ground" aria-hidden="true"></div>
 {skip}{masthead(active, dateline, brand)}
 {body}
-{footer(brand)}{beacon}
+{footer(brand, fantasy=str(path or "").startswith("/fantasy"))}{beacon}
 {tab_bar(path)}
 {MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
 </body>
@@ -2808,7 +2810,7 @@ def _sb_status(g):
         return ('<span class="fin"><svg width="11" height="11" viewBox="0 0 11 11" '
                 'aria-hidden="true"><path d="M2 5.8L4.3 8 9 3" fill="none" '
                 'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
-                'stroke-linejoin="round"></path></svg>FINAL · checked</span>')
+                'stroke-linejoin="round"></path></svg>Final</span>')
     return f'<span class="soon">{esc(_sb_today_status(g))}</span>'
 
 
@@ -3111,14 +3113,14 @@ def scoreboard_band(sb, board, wx=None):
     if _today:
         count_line = (f"{len(_today)} game{'' if len(_today) == 1 else 's'} today"
                       f" · {n_live} live now")
-        foot_link = f"All {len(_today)} game{'' if len(_today) == 1 else 's'} today"
+        foot_link = f"All {len(_today)} game{'' if len(_today) == 1 else 's'}"
     elif _nxt_n:
         count_line = (f"No games today · {_nxt_n} "
                       f"{'game' if _nxt_n == 1 else 'games'} {_nxt_lab}")
-        foot_link = "The full scoreboard"
+        foot_link = "All games"
     else:
         count_line = "No games scheduled"
-        foot_link = "The full scoreboard"
+        foot_link = "All games"
     tabs = "".join(
         f'<a class="tab{" on" if i == 0 else ""}" '
         f'href="/scores.html{"" if i == 0 else "#" + esc(n.lower())}">{esc(n)}</a>'
@@ -3144,17 +3146,15 @@ def scoreboard_band(sb, board, wx=None):
   <div class="wrap sb-inner">
     <div class="sb-promise">
       <div class="sb-promise-l">
-        <h2 class="sb-claim">Every score. No odds. No noise.</h2>
-        <p class="sb-proof">Finals checked against the league feeds. Inactives within
-          five minutes of posting. Every source linked.</p>
+        <h2 class="sb-claim">Scoreboard</h2>
+
       </div>
       <span class="sb-count" data-countup>{esc(count_line)}</span>
     </div>
     <div class="sb-head">
-      <div class="sb-head-l"><span class="sb-lab">The Scoreboard</span>
+      <div class="sb-head-l">
         <div class="sb-tabs">{tabs}</div></div>
-      <span class="sb-stamp">Updated {esc(stamp)} · refreshes every 15 minutes
-        · finals checked against league feeds</span>
+      <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     <div class="sb-grid">
       {_sb_card(mq, ia, marquee=True, wx=wx) if mq else ""}
@@ -4820,7 +4820,7 @@ def render_home(items, dateline):
     # S-A: the band is the product and it sits directly under the masthead. The old
     # ticker strip stays available for pages that are not the front door.
     _band = scoreboard_band(SB_DATA, IA_BOARD, WX_DATA) or scores_strip()
-    body = _band + f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports: every score, checked</h1><section class="page">
+    body = _band + f"""<main class="wrap"><section class="page">
   {lead_row}
   {desk_html}
   {w2w_row}
