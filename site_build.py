@@ -3988,13 +3988,13 @@ def _wk_suffix():
     return f", Week {wk}" if wk else ""
 
 
-def _ia_heading(board):
-    """N-7: the board names the WEEK its lists belong to, not the day the file carries.
+def _ia_week():
+    """The week the held lists belong to, and whether it is final.
 
-    These lists are captured at games. Until the current week's first kickoff everything
-    held is the PREVIOUS week's and it is final, so the heading says that - rather than
-    "Today's inactives" over Sunday's lists, or the merged week file's own day, which on
-    a Tuesday evening is already tomorrow in UTC."""
+    ONE RULE, TWO USERS. The heading and the game grouping must name the same week or
+    the page groups Week 1's lists under Week 2's fixtures, which is what the first cut
+    of N-7 did: a Week 1, final heading over Thursday-of-Week-2 kickoffs.
+    """
     wk, _last = nfl_week()
     first = None
     for w in ((W2W_DATA or {}).get("weeks") or []):
@@ -4005,7 +4005,20 @@ def _ia_heading(board):
         first = min(ks) if ks else None
     if first and _build_now() < first:
         prev = (wk - 1) if isinstance(wk, int) and wk > 1 else None
-        return f"Week {prev}, final" if prev else "Inactives, final"
+        return prev, True
+    return wk, False
+
+
+def _ia_heading(board):
+    """N-7: the board names the WEEK its lists belong to, not the day the file carries.
+
+    These lists are captured at games. Until the current week's first kickoff everything
+    held is the PREVIOUS week's and it is final, so the heading says that - rather than
+    "Today's inactives" over Sunday's lists, or the merged week file's own day, which on
+    a Tuesday evening is already tomorrow in UTC."""
+    wk, final = _ia_week()
+    if final:
+        return f"Week {wk}, final" if wk else "Inactives, final"
     return f"Week {wk} inactives" if wk else "Inactives"
 
 
@@ -4059,21 +4072,70 @@ def _ia_tonight_block():
     return ""
 
 
+def _ia_by_game(board, games):
+    """N-7: the week's lists grouped by the game they belong to, with its kickoff.
+
+    A flat grid of 31 team cards is a list of teams; a reader looking at inactives is
+    looking at a game. Teams are matched to a game on ID, never on name: the schedule
+    writes abbreviations and the board writes display names, and a shallow key is not
+    an identity.
+
+    A team the schedule does not place (a bye, or a game the file does not carry) is
+    not dropped. It goes under its own heading at the end, because a list the desk
+    holds and does not show is worse than an ugly grouping.
+    """
+    by_id = {}
+    for t in board["teams"]:
+        if t.get("id"):
+            by_id[str(t["id"])] = t
+    used, groups = set(), []
+    for g in games:
+        pair = [by_id.get(str(g.get(k))) for k in ("away_id", "home_id")]
+        pair = [t for t in pair if t]
+        if not pair:
+            continue
+        for t in pair:
+            used.add(str(t["id"]))
+        head = (f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}')
+        when = " \u00b7 ".join(x for x in (g.get("day_et"), g.get("kickoff_et")) if x)
+        groups.append(
+            f'<section class="ia-game"><div class="ia-gh">'
+            f'<span class="ia-gh-t">{head}</span>'
+            f'<span class="ia-kick">{esc(when)}</span></div>'
+            f'<div class="ia-grid">'
+            + "".join(_inactives_team_card(t) for t in pair) + '</div></section>')
+    rest = [t for t in board["teams"] if str(t.get("id") or "") not in used]
+    if rest:
+        groups.append(
+            f'<section class="ia-game"><div class="ia-gh">'
+            f'<span class="ia-gh-t">Not on this week\u2019s schedule</span>'
+            f'<span class="ia-kick">{len(rest)} team'
+            f'{"" if len(rest) == 1 else "s"}</span></div>'
+            f'<div class="ia-grid">'
+            + "".join(_inactives_team_card(t) for t in rest) + '</div></section>')
+    return "".join(groups)
+
+
 def render_inactives(board, w2w, dateline):
     """/fantasy/inactives. Returns None when nothing is held, so the page and its nav
     entry withdraw together rather than showing an empty table."""
     if not board or not board.get("teams"):
         return None
     posted = {t["team"] for t in board["teams"]}
-    games = []
-    for wk in ((w2w or {}).get("weeks") or [])[:1]:
-        games = wk.get("games") or []
+    # N-7: the whole NFL week, and THE WEEK THESE LISTS BELONG TO. weeks[:1] was the
+    # same defect copy item 30 found on /where-to-watch, and taking the current week
+    # instead is the opposite error: before Week 2 kicks off everything held is Week 1,
+    # and grouping it under Week 2's fixtures puts Sunday's lists under Thursday night.
+    _wks = (w2w or {}).get("weeks") or []
+    _wkno, _ = _ia_week()
+    _week = next((w for w in _wks if w.get("week") == _wkno), None)
+    games = (_week or {}).get("games") or []
     # Match on the team names the schedule uses, which are abbreviations; the board
     # holds full display names. Only teams we can match are shown as pending, so a
     # name we cannot resolve is left out rather than asserted as unposted.
     pending = _inactives_pending(
         games, {a for t in board["teams"] for a in (t["team"], str(t.get("id") or ""))})
-    cards = "".join(_inactives_team_card(t) for t in board["teams"])
+    cards = _ia_by_game(board, games)
     pend = ""
     if pending:
         pend = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
@@ -4090,7 +4152,7 @@ def render_inactives(board, w2w, dateline):
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
   {_ia_tonight_block()}
-  <div class="ia-grid">{cards}</div>
+  {cards}
   {pend}
 </section></main>"""
     return shell(f"Today's NFL inactives - {NAME}",
