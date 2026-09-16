@@ -108,6 +108,50 @@ def load_snapshot(day=None):
         return None
 
 
+def load_week(days=8):
+    """N-7: the week's snapshots, merged, resolved on the READER'S clock.
+
+    The poller writes one file per UTC day and is not changed by this program. That is
+    fine for capture and wrong for reading: at 10 PM ET on a Tuesday it is already
+    Wednesday in UTC, so the day file is empty, board() returned None, the inactives
+    page went blank and "Fantasy" disappeared from the navigation entirely - which is
+    what the live site did tonight.
+
+    Reading the week instead of a UTC day fixes that without touching the poller. A
+    player captured once is kept with the FIRST sighting of them, because that is when
+    the list went up; later files never restamp an earlier capture."""
+    import datetime as _dt, glob as _glob, os as _os
+    files = sorted(_glob.glob(_os.path.join(SNAP_DIR, "inactives-*.json")))[-days:]
+    merged, seen_day = None, None
+    for f in files:
+        try:
+            snap = json.load(open(f, encoding="utf-8"))
+        except Exception:
+            continue
+        if merged is None:
+            merged = snap
+            seen_day = snap.get("day")
+            continue
+        for tid, t in (snap.get("teams") or {}).items():
+            cur = (merged.setdefault("teams", {})
+                         .setdefault(tid, {**t, "players": {}, "designations": {}}))
+            for pid, pl in (t.get("players") or {}).items():
+                if pid not in (cur.get("players") or {}):
+                    cur.setdefault("players", {})[pid] = pl
+            # designations describe the CURRENT report, so the newest file wins
+            cur["designations"] = t.get("designations") or cur.get("designations") or {}
+            for k in ("team", "id", "capped", "rows_returned"):
+                if t.get(k) is not None:
+                    cur[k] = t[k]
+        for k in ("last_poll", "last_change", "first_poll"):
+            if snap.get(k):
+                merged[k] = snap[k]
+        seen_day = snap.get("day") or seen_day
+    if merged is not None:
+        merged["day"] = seen_day
+    return merged
+
+
 def _blank(day):
     return {"day": day, "first_poll": None, "last_poll": None, "last_change": None,
             "source": "ESPN NFL injuries feed", "teams": {}}
@@ -308,8 +352,10 @@ def _reconcile(snap):
 
 def board(day=None):
     """What the page renders. Returns None when there is nothing to show, so the
-    page and its nav entry withdraw together rather than showing an empty table."""
-    snap = load_snapshot(day)
+    page and its nav entry withdraw together rather than showing an empty table.
+
+    N-7: reads the WEEK, not one UTC day. See load_week."""
+    snap = load_snapshot(day) if day else load_week()
     if not snap:
         return None
     teams = [t for t in snap["teams"].values() if t.get("players")]
@@ -351,7 +397,7 @@ def designations(day=None):
     """S-B4: this week's designations, grouped Out, Doubtful, Questionable. Returns
     None when nothing is held, so the page withdraws rather than showing an empty
     report."""
-    snap = load_snapshot(day)
+    snap = load_snapshot(day) if day else load_week()
     if not snap:
         return None
     groups = {k: [] for k in DESIGNATIONS}
