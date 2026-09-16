@@ -1,41 +1,6 @@
 [
  {
   "date": "2026-08-14",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c077",
-    "headline": "NBA 2026-27 season tips off Oct. 20 with Knicks-76ers championship rematch",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Prime Video's role in covering marquee matchups' in the bottom_line, but this claim does not appear in the brief's data_points. The brief's open_questions note that 'specific details about...Prime Video's Eastern Conference Finals broadcast details cannot be verified from the provided source text,' indicating this information was not confirmed in the source. The writer has smuggled an unverified claim about Prime Video coverage into the forward-looking section."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Cade Cavalli carries no-hitter into 7th, Nationals rout Cubs 7-0",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Nationals rookie Cavalli' in bottom_line, but brief data_points do not confirm Cavalli is a rookie. This is a smuggled fact not present in the brief.",
-     "Draft states 'to avoid sweep' in bottom_line, but brief only confirms win 'allowed Washington to avoid a three-game sweep' with 'reported' confidence\u2014the framing should reflect the broader series context, not assume this phrasing without source verification of exactly which game in a series this was.",
-     "Draft does not mention Cavalli's record (10-5) or that he turns 28 on Friday, both in the brief data_points with 'reported' confidence. While omission is not an error, the draft adds 'Nationals pitcher' description without grounding it; the omission of his record is acceptable but the bottom_line's claim of 'rookie' status invents a detail not in the brief."
-    ]
-   },
-   {
-    "id": "c202",
-    "headline": "Field of Dreams game: source verification failed",
-    "category": "accuracy",
-    "reasons": [
-     "The draft body consists of meta-commentary about source failure rather than reporting. No facts from the brief can be verified in the draft because the draft contains no substantive claims about the Field of Dreams game, teams, weather, or contingencies.",
-     "The brief's core_claim (Twins vs. Phillies, Thursday, contingency plans) appears nowhere in the draft prose. The brief's angle (rain risk, Hall of Famers, backup plan readiness) is not reported.",
-     "The data_points array is empty in the brief, meaning there are no facts to trace\u2014yet the draft was submitted as a finished piece rather than being rejected at research stage or held pending source acquisition.",
-     "This reads as a source-check memo, not a draft article. It should not have advanced to approval."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-14",
   "approved": 2,
   "rejected": [
    {
@@ -7846,6 +7811,20 @@
      "The draft claims 'For many of the league's most important players, the break barely qualifies as rest' and 'Dozens of WNBA players have only days to recover before the league enters its four-game sprint to the playoffs.' The brief's data_points say 'Dozens of WNBA players have only days to recover from the World Cup before the league's four-game sprint to the playoffs'\u2014which matches\u2014but the brief does not specify which players, how many days, or confirm the exact duration of recovery time. The brief is marked 'thin: true' and contains only 5 data_points, two of which concern the MVP race and are unrelated to the scheduling complaint. The open_questions explicitly ask 'Which specific WNBA players participated in the FIBA Women's Basketball World Cup and are affected by the 16-day break?' and 'How many days of rest will players have between the World Cup final and the first WNBA game?'\u2014indicating the brief itself lacks these specifics. The draft states these as settled facts when the research brief flags them as open.",
      "The draft has no counter-evidence or bear_case paragraph, but the brief's bear_case is empty (an empty list), so this is not a balance failure per the instructions. However, the draft is extremely thin (two paragraphs, 134 words) for a story published today about an event three days away. The brief is thin (thin: true, 5 data_points, mostly about MVP race), but the draft reads as rumor or premise rather than reporting\u2014it asserts a 'scheduling mismatch' and 'structural problem' without naming a single player, a single World Cup result, a single game date, or a single WNBA statement on the issue. The story cannot be verified against the brief because the brief itself is incomplete and the draft adds no new reporting to fill the gaps; it simply asserts the premise as established fact.",
      "the draft dates September 19, 2026 as a Friday; September 19, 2026 is a Saturday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c228",
+    "headline": "Blackhawks name Bedard captain at 21, second-youngest in franchise history",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bedard will miss the season start for shoulder surgery, according to the reporting.' This claim does not appear in the brief's data_points. The brief lists an open_question about 'The date of Bedard's shoulder surgery and expected return timeline' but does not confirm this fact as reported. The brief's open_questions section explicitly flags uncertainty about whether the captaincy 'was formally announced or remains under review per the story verdict NEEDS-HUMAN-REVIEW', suggesting the source material itself contains unresolved verification issues. A fact not in the brief cannot run in the draft."
     ]
    }
   ]
