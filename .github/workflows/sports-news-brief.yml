@@ -27,8 +27,19 @@ on:
     # with SLOT_DEADLINES in watcher.py, and keep each cron inside its edition's UTC
     # window (wrap.py derives the edition from the hour: morning < 14:00 UTC,
     # midday 14:00-20:00, evening 20:00-24:00).
-    - cron: "40 9 * * *"    # Morning Brief slot, 09:40 UTC = 5:40am Eastern
-    - cron: "38 15 * * *"   # Midday Update slot, 15:38 UTC = 11:38am Eastern
+    # PROGRAM 4, T-1 (2026-09-16). ONE BRIEF RUN A DAY. The three-slot day above cost
+    # three model runs and three Netlify builds a day per site for a page whose numbers
+    # come from the data lane, not from the brief. The evening slot survives and becomes
+    # the one Edition run a day (part 5); morning and midday are off.
+    #
+    # THEIR RETRIES GO WITH THEM. The slot guard stands a retry down only when that
+    # slot's edition is already on disk. With the primaries disabled those editions are
+    # never written, so every retry tick would pass the guard and spend a full run: the
+    # 09:40 slot would simply move to 10:55. Keeping them would have made T-1 a no-op.
+    # The evening slot's backstop is the Worker dispatch (T-2), which names the slot and
+    # so is not bound by the UTC edition window a cron retry would need.
+    # - cron: "40 9 * * *"    # Morning Brief slot - DISABLED T-1
+    # - cron: "38 15 * * *"   # Midday Update slot - DISABLED T-1
     - cron: "38 23 * * *"   # Evening Wrap slot, 23:38 UTC = 7:38pm Eastern
     # RETRY TICKS (2026-07-21: the midday slot drifted 4.7h and the whole afternoon
     # went dark). Each retry is inside its slot's edition window and COST-NEUTRAL:
@@ -36,9 +47,9 @@ on:
     # edition already exists, so a retry only spends when the primary was skipped or
     # failed. The evening slot has no retry (its window ends at midnight; the
     # watcher's 23:48 recovery covers it).
-    - cron: "55 10 * * *"   # Morning retry
-    - cron: "10 17 * * *"   # Midday retry
-    - cron: "25 11 * * *"   # Second morning retry: the morning cycle must be live before 12:00 UTC
+    # - cron: "55 10 * * *"   # Morning retry - DISABLED T-1 (its slot is off)
+    # - cron: "10 17 * * *"   # Midday retry - DISABLED T-1 (its slot is off)
+    # - cron: "25 11 * * *"   # Second morning retry - DISABLED T-1 (its slot is off)
   # AN EXTERNAL TRIGGER NEEDS TO NAME THE SLOT (2026-09-04). GitHub's scheduler has been
   # delivering this workflow's crons 1.5 to 4 hours late every day this week, so the fix
   # is a trigger that does not depend on it. A dispatch carries no schedule, so without

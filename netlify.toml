@@ -11,6 +11,12 @@
   # hiccup from failing the deploy; without Pillow the card render falls open to the
   # committed assets, so the site still ships, just without per-article cards.
   command = "pip install --quiet Pillow || true; python3 scores_pulse.py || true; python3 site_build.py"
+  # PROGRAM 4, T-3 (2026-09-16): build only when the site changes. Exit 0 skips, exit 1
+  # builds, and every unclear case in that script resolves to building. It skips the two
+  # commits that change no pixel: an inactives snapshot written outside a posting window,
+  # and an ops-ledger row. Inside a posting window the inactives board IS the product and
+  # it always builds.
+  ignore = "python3 netlify_ignore.py"
   publish = "site/publish"
 
 [build.environment]

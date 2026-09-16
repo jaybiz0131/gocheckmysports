@@ -9,11 +9,25 @@
 # QUEUES behind any in-flight scheduled publish: never races it (directive item 9).
 name: Breaking-news watcher
 
+# PROGRAM 4, T-1 (2026-09-16). DISABLED ON THIS DESK. The watcher fired a breaking
+# run twice an hour, and on 15 Sep it accounted for most of the desk's 30 brief runs:
+# a model run and a Netlify build each, for a page whose scores come from the data
+# lane, not from the brief. Sports has no equivalent of the Crypto desk's earning
+# categories, so it is off rather than caged.
+#
+# The schedule is commented out, not deleted, so this reverses in a minute (the
+# cadence change is reversible under the standing rule). workflow_dispatch stays, so
+# the watcher can still be run by hand if a slot needs recovering.
+#
+# WHAT THIS REMOVES: the :47 tick was the evening slot's 23:45 recovery. That job
+# passes to the Worker's Edition dispatch (T-2), which names the slot and so is not
+# bound by the UTC edition window a cron would need. Until that Worker deploy lands,
+# the evening slot has no automatic backstop; recover it by dispatching this workflow
+# or the brief directly with slot="evening-brief".
 on:
   schedule:
-    # :17/:47 (odd minutes drift far less on GitHub's scheduler than :00/:30). The :47
-    # tick also catches the evening slot's 23:45 recovery deadline same-day.
-    - cron: "17,47 * * * *"
+    # - cron: "17,47 * * * *"   # DISABLED T-1
+    - cron: "0 5 31 2 *"       # never fires (31 February); keeps the schedule key valid
   workflow_dispatch: {}
 
 permissions:
