@@ -218,7 +218,8 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
 # scrolling "THE RECORD" to "ECORD" on section pages. Nine now, in the audit's order,
 # with the product first. NAV above stays the full union: it is what the unreachable-lane
 # guard reads, and a lane that moved into More is still a lane that must be reachable.
-NAV_PRIMARY = ["Scores", "Fantasy", "Where to watch", "The Record", "The Edition",
+# N-1 amends S-1: Home is the first item; the wordmark stays a home link too.
+NAV_PRIMARY = ["Home", "Scores", "Fantasy", "Where to watch", "The Record", "The Edition",
                "NFL", "College Football", "MLB"]
 NAV_MORE = ["Soccer", "WNBA", "Tennis", "NBA", "College Basketball", "NHL",
             "More Sports", "Archive", "About"]
@@ -4931,7 +4932,7 @@ IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
 WX_DATA = None       # set at build by kickoff_weather.load()
 
-NAV_UTILITY = frozenset({"Home", "Latest", "The Edition", "Archive", "About", "Sources"})
+NAV_UTILITY = frozenset({"Latest", "Sources"})   # N-1: Home is a nav item now
 
 _nav_hrefs = {h for _l, h in NAV}
 _unreachable = [slug for slug, *_rest in SECTIONS
