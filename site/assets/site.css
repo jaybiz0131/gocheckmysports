@@ -1677,3 +1677,23 @@ body>*:not(.ground){position:relative;z-index:1}
 .sp-railbox>.sp-rail>.tracking{
   -webkit-mask-image:linear-gradient(#000 calc(100% - 3px),transparent);
   mask-image:linear-gradient(#000 calc(100% - 3px),transparent)}
+
+/* A-14: the inner band on /scores. Same photo, scrim, glass cards and ornament as
+   the homepage band, at about 60 percent of its height. No marquee (the homepage
+   band's left column) and no tabs, so the grid is one full-width row of cards. */
+.sb-grid-inner{grid-template-columns:1fr}
+.sb-grid-inner .sb-cards{grid-template-columns:repeat(3,1fr)}
+.sb-hero-inner .sb-orn{opacity:.5}
+/* The inner band is a hero, not a header strip: it gets the homepage band's vertical
+   rhythm at a reduced scale so it lands near the 60 percent A-14 asks for. */
+.sb-hero-inner .sb-promise{padding:34px 0 22px}
+.sb-hero-inner .sb-inner{padding-bottom:30px}
+/* The stamp sits beside the count, not inside it: the count-up animation (A-16)
+   rewrites its element's text and would eat a nested span. */
+.sb-countwrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+  padding-top:6px}
+.sb-hero-inner .sb-count{padding-top:0}
+.sb-countwrap .sb-stamp{font-size:12px}
+@media (max-width:900px){
+  .sb-grid-inner .sb-cards{grid-template-columns:1fr}
+}

@@ -3225,19 +3225,45 @@ def render_scores_page(sb, board, dateline, wx=None):
     # reduced height, then continues light. That amends S-10's "run the page inside the
     # band"; the addendum wins, and it is the better read - a page-length dark surface
     # is the thing the audit took off /pulse.
-    band = f"""<section class="scoreband sb-hero sb-hero-inner" aria-label="Scores">
+    # A-14: the inner band carries the same photo, scrim, glass cards and ornament as
+    # the homepage band, at about 60 percent of its height. It was a header strip with
+    # nothing in it but the promise line - the photo showed and nothing else did.
+    #
+    # The promise line itself goes with it: copy item 5 took "Every score. No odds. No
+    # noise." off the homepage band as an H1 and C-L2 bans a promise in a heading. It
+    # survived here because item 5 named the homepage. The page's name is its heading.
+    # Live first, then the next kickoffs in time order. The homepage band groups by
+    # league because it carries the league tabs; this one has no tabs, and grouping by
+    # league here put five Sunday NFL games under a header reading "6 games tomorrow"
+    # while the five games that are actually tomorrow sat below the fold.
+    _band_rank = {"in": 0, "pre": 1, "post": 2}
+    _band_games = sorted(_all, key=lambda g: (_band_rank.get(g.get("state"), 9),
+                                              g.get("start_utc") or ""))
+    # Six cards, two rows of three. The homepage band carries a marquee and eight;
+    # six without the marquee is the 60 percent A-14 asks for, and it is measured
+    # from the content rather than pinned to a pixel height the slate would break.
+    _band_cards = "".join(_sb_card(g, ia, wx=wx) for g in _band_games[:6])
+    _orn = _sb_ornament(_all)
+    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
     <div class="sb-promise">
       <div class="sb-promise-l">
-        <h1 class="sb-claim">Every score. No odds. No noise.</h1>
-        <p class="sb-proof">Updated {esc(_et(sb.get("fetched_at") or ""))}</p>
+        <h1 class="sb-claim">Scores</h1>
       </div>
-      <span class="sb-count" data-countup>{esc(count_line)}</span>
+      <span class="sb-countwrap">
+        <span class="sb-count" data-countup>{esc(count_line)}</span>
+        <span class="sb-stamp">Updated {esc(_et(sb.get("fetched_at") or ""))}</span>
+      </span>
+    </div>
+    <div class="sb-grid sb-grid-inner">
+      <div class="sb-cards">{_band_cards}</div>
     </div>
   </div>
-</section>"""
+  {_orn}
+</section>
+<div class="sb-fade" aria-hidden="true"></div>"""
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
 </section></main>"""
