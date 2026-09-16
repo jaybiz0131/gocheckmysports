@@ -1,68 +1,6 @@
 [
  {
   "date": "2026-08-13",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c069",
-    "headline": "Lakers sold for $12.5 billion to Iger-Kushner group 14 months after Walter purchase",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'According to Awful Announcing, the Wall Street Journal reported that Walter is under FBI investigation over $16 billion in potentially illegally issued loans to companies he owns.' The brief data_point says Walter is 'under FBI investigation over $16 billion in potentially illegally issued loans to companies he owns.' The draft's attribution is correct, but the phrase 'potentially illegally issued loans' is a paraphrase that softens the charge compared to how the brief frames it. More critically, the brief's bear_case notes 'No statement from the Iger-Kushner group, Walter, or the NBA directly addressing the timing or the federal investigation allegations appears in the provided source texts,' which means the story is built almost entirely on speculation from on-air commentators (Nick Wright, Chris Broussard) and lacks official response. The draft presents Chris Broussard's unconfirmed speculation ('I feel like this is definitely related to the investigation. Like maybe Mark Walter got a tip, whatever, that he's gonna need some money') as part of the narrative without sufficient distancing, and the bottom_line promises 'The NBA's official statement on the sale and approval of the new ownership structure, as well as Walter's or the buyers' public response to the timing questions, remain to be seen'\u2014which signals the story is fundamentally incomplete. This is rumor-laundering: presenting on-air punditry conjecture as reportage when no official or named investigative source confirms the motivation.",
-     "The draft does not include any bear_case material beyond speculation. The brief's bear_case identifies that source texts are truncated and no official denials exist, and the open_questions section makes clear the story lacks critical confirmations (NBA statement, Walter's response, official timeline). A responsible draft should flag this incompleteness more prominently or not run the story at all."
-    ]
-   },
-   {
-    "id": "c097",
-    "headline": "Xavi Hern\u00e1ndez appointed Netherlands head coach through 2030 World Cup",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The Spanish manager replaces Ronald Koeman, who stepped down following the Netherlands' last-32 defeat by Morocco.' The brief does confirm this data_point. However, the draft then states 'His appointment marks a departure from Dutch football tradition, as the first non-Dutch coach of the national team since 1978, ending a 48-year run of domestic managers.' The brief's open_questions explicitly state: 'The provided source text is truncated and does not contain the full article body; confirmation of the four-year contract duration, exact contract terms, and whether Xavi is the first non-Dutch coach since 1978 cannot be verified from the fetched text.' This claim about 'first non-Dutch coach since 1978' and the '48-year run' is not present in the five reported data_points in the brief. The writer has fabricated or smuggled a fact not in the research brief\u2014this is the hard-rule violation. The brief explicitly flags in open_questions that the source was truncated and this specific claim cannot be verified.",
-     "The bottom_line states 'Xavi Hern\u00e1ndez becomes the first Spanish coach and first non-Dutch manager of the Netherlands national team since 1978' again asserting an unverified fact. This is a central claim of the story, but it does not appear in the brief's data_points."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Atletico Madrid signs Tottenham captain Romero for \u00a334.2m",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Romero played seven appearances for Argentina during this summer's World Cup campaign in North America' and separately states he 'played seven appearances for Argentina at this summer's World Cup'\u2014but the brief data_point says 'Romero played for Argentina during their run to the World Cup final this summer, missing just one game' (which would be 6 games, not 7). The ESPN data_point explicitly claims 'Romero made seven appearances for Argentina at this summer's World Cup,' creating a direct conflict within the brief itself. The draft should not reconcile conflicting source claims without attribution or qualification.",
-     "Draft mentions Romero 'won the 2025 Europa League with Tottenham' is in the brief (data_point 18) but does NOT appear anywhere in the draft body. This is not a smuggled fact, but it is a notable omission given it's in the brief and supports the narrative. However, the inverse is more concerning: the draft does not flag any discrepancy between sources on the fee (brief open_questions note Guardian reports \u00a334.1m vs BBC's \u00a334.2m), yet title uses \u00a334.2m without hedging.",
-     "The draft attributes Copa America wins to ESPN but the brief lists them as 2021 and 2024\u2014the brief itself does not clarify whether both years are verified or announced-not-verified. The draft presents both as settled fact per ESPN without confidence qualifier."
-    ]
-   },
-   {
-    "id": "c203",
-    "headline": "Vikings name Kyler Murray starting quarterback",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points; the source material is truncated (brief explicitly states 'fetched source text is truncated and contains only navigation elements and font declarations'). The draft cites 'Sporting News' as the source but the brief's open_questions confirm 'No substantive reporting on the decision, timing, reasoning, or implications for McCarthy is present in the provided source material.' The writer has written a story when the brief contains no verified facts to anchor it. This violates the hard rule: no fact exists outside the brief. The core claim itself ('The Vikings named Kyler Murray as their starting quarterback before the first preseason game') cannot be traced to any data_point because none exist.",
-     "The draft acknowledges the source failure in its own body ('Details on the Vikings' reasoning for the move, Murray's performance in camp, J.J. McCarthy's status...are not available in the provided source material'), which is a red flag that the writer is writing around the absence of source material rather than from it. A story that spends two paragraphs describing what is NOT known is not a story; it is a placeholder that should not be published."
-    ]
-   },
-   {
-    "id": "c170",
-    "headline": "Rays complete first perfect 9-0 road trip in franchise history",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains only ONE data_point ('Rays completed first perfect three-series road trip in franchise history, verified-on-chain from MLB.com'), yet the source is confirmed truncated: brief's open_questions state 'The fetched source text appears to contain only CSS styling code and does not include the article body content.' The writer cannot verify the core claim from the source because the source did not load. The draft cannot be approved against a brief with a single unverified data_point sourced from a broken link.",
-     "The draft reproduces the core claim verbatim but then acknowledges ('Details on which three opponents the Rays faced, the specific dates of the road trip...are not provided in the available source material') that it has no supporting facts. A one-sentence story propped up by admissions of absence is not publication-ready. The brief itself is thin (true=true) but even a thin brief requires that the one claim be sourceable; this one is not."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "WTA Begins Genetic Sex Testing at Cincinnati Open Under New Eligibility Policy",
-    "category": "accuracy",
-    "reasons": [
-     "Aryna Sabalenka quote in brief ('I think it's really important to keep the fairness in our tour.') does not appear in the draft. The draft includes Coco Gauff's statement but omits Sabalenka's entirely, violating the rule that all facts in the brief must surface in the draft unless deliberately pruned for space.",
-     "The draft includes a sentence about Coco Gauff expressing concern that the policy 'has led to hatred toward the transgender community'\u2014this is in the bear_case and appears in the draft. However, the draft also attributes a second quote to Gauff ('As far as where I stand, I definitely support the trans community, but I also support the need of creating fairness in sport too.') and adds editorial framing ('She expressed concern...') that combines two separate statements from the brief into one paragraph. The structure is not false, but the pruning of Sabalenka entirely while keeping partial Gauff statements creates an imbalanced factual record.",
-     "More critically: the draft does not include the Indiana Fever/Sophie Cunningham data point at all. The brief lists it as a reported confidence fact, yet the draft omits it entirely. This is a smuggled gap\u2014a fact in the brief was available but not in the draft, which violates editorial transparency."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
   "approved": 4,
   "rejected": [
    {
@@ -7953,6 +7891,32 @@
      "The discrepancy between the brief's 'Thursday' and the draft's 'Friday, September 20' cannot both be correct. The brief's timestamp is 2026-09-15, making 'Thursday' tomorrow from that perspective (2026-09-16 in the brief's timeline). The draft shifts this to 'Friday, September 20,' which is four days later and contradicts the brief.",
      "the draft dates September 20, 2026 as a Friday; September 20, 2026 is a Sunday",
      "the draft dates September 20, 2026 as a Friday; September 20, 2026 is a Sunday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "F1 expands sprint races to 10, adds Portugal and Turkey for 2027 season (September 16)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The season opens in Bahrain on March 12' but the brief contains conflicting data: one point says 'scheduled to start in Bahrain on 12-14 March' and another says 'due to open in Bahrain on 14 March.' The draft uses a single date (March 12) when the brief indicates a range (12-14) or alternatively March 14. This is a factual discrepancy that must be resolved against source material before publication.",
+     "The draft claims 'Silverstone attributed a record 64,000-person attendance increase this year partly to holding a sprint' but the brief's confidence level is 'reported,' not 'verified-on-chain.' The phrasing 'Silverstone attributed' presents this as a direct statement, when the brief indicates it is reported commentary. The attribution should be softened to match the confidence level.",
+     "The draft states 'Middle East races in Bahrain and Saudi Arabia, scheduled to open the season, remain \"in doubt\"' but the brief data point 9 says 'All four races in the Middle East are scheduled to take place in their normal slots' with 'verified-on-chain' confidence. This directly contradicts the brief's verified claim. Additionally, the draft later says races 'remain \"in doubt\" due to the continuing regional conflict' based on a separate data point (25) marked 'reported.' The draft cannot simultaneously claim both that all Middle East races are scheduled (verified) and remain in doubt (reported)\u2014this is an accuracy failure."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "Manning apologizes after calling AI video of reporter being slapped \"hilarious\"",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Manning 'laughed while discussing' the AI video and that 'Manning said: \"I saw an AI edit of Sark's interview...It's hilarious.\"' followed by 'The comment drew laughter from the press conference room.' The brief shows Manning's full quote was longer and more measured in context: 'I've seen a few AI edits, that's about it. I saw an AI edit of Sark's interview. Y'all seen that one? That's a good one. Of him slapping Holly Rowe. It's hilarious.' The draft's framing of Manning actively promoting the video as the lead action omits the opening qualifier 'I've seen a few AI edits, that's about it' which softens the claim. The lead presents the apology as caused by 'calling AI video of reporter being slapped \"hilarious\"' when the fuller context shows Manning framed it as one among several edits he'd seen.",
+     "The draft states Manning 'is in his fourth season (his junior year, per Front Office Sports) as Texas's starting quarterback' but the brief data point says 'Manning is in his fourth season at Texas and is the nephew of former NFL stars Peyton and Eli Manning'\u2014those are separate claims. The brief does not confirm Manning is in his 'junior year'\u2014only Front Office Sports reports that designation. However, a fourth season typically indicates a senior, not a junior. This is a factual inconsistency that needed verification against the brief before printing.",
+     "The draft attributes to Vieth a statement that 'Captioning Manning's response with 'gold' trivialized an AI video depicting violence against a colleague' but the brief's data point says he stated this 'in part' and is reported by Front Office Sports. The draft presents this as Vieth's own apology statement when it is Front Office Sports reporting what Vieth said, creating an attribution ambiguity."
     ]
    }
   ]
