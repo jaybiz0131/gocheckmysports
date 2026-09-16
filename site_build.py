@@ -2288,8 +2288,11 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                 f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
                 f'<span class="w2w-cars">{_w2w_carriers(g)}{_w2w_wx(g, WX_DATA)}</span></div>')
     if done:
-        rows.append('<div class="w2w-win w2w-done"><span class="bd-label">Already played'
-                    '</span><span class="bd-stamp">final, per the league feed</span></div>')
+        # item 30: the finished games sit at the bottom under one plain noun. "per the
+        # league feed" is process (C-L3) and "Already played" is a sentence about the
+        # section rather than its name.
+        rows.append('<div class="w2w-win w2w-done">'
+                    '<span class="bd-label">Final</span></div>')
         for wname, games in done:
             for g in games:
                 sc = ""
@@ -2308,11 +2311,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
         for w in weeks if w.get("week") != week.get("week"))
     n = len(week.get("games") or [])
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/index.html">Home</a> / Where to watch</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))},
-</h1>
-  <p class="lx-dek">{n} games, grouped by kickoff window. Carriers as the league has
-     announced them.</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))}</h1>
   {_w2w_stamp(W2W_DATA)}
   <div class="w2w">{"".join(rows)}</div>
   <div class="lx-actions">{others}</div>
@@ -6024,7 +6023,11 @@ def build():
     W2W_DATA = _w2w if W2W_LIVE else None
     if W2W_LIVE:
         _wks = _w2w["weeks"]
-        w("where-to-watch.html", render_where_to_watch(_wks[0], _wks, dateline, current=True))
+        # item 30: the page opened with Week 1 - sixteen finished games - because it
+        # took the first week in the file. It opens with the week that still has a
+        # window ahead, the same rule the rail card uses (D-14).
+        _cur = next((w for w in _wks if _w2w_split(w)[0]), _wks[-1])
+        w("where-to-watch.html", render_where_to_watch(_cur, _wks, dateline, current=True))
         for _wk in _wks:
             w(f"where-to-watch/{_w2w_slug(_wk)}.html",
               render_where_to_watch(_wk, _wks, dateline))
