@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-09-16T22:32:40Z",
- "stale_after_utc": "2026-09-17T01:32:40Z",
+ "generated_utc": "2026-09-16T23:52:04Z",
+ "stale_after_utc": "2026-09-17T02:52:04Z",
  "leagues": [
   {
    "league": "MLB",
@@ -9,50 +9,50 @@
     {
      "away": "LAD",
      "home": "CIN",
-     "away_score": 0,
-     "home_score": 0,
+     "away_score": 1,
+     "home_score": 2,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Bot 4",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "824467"
     },
     {
      "away": "ATH",
      "home": "TB",
-     "away_score": 0,
-     "home_score": 0,
+     "away_score": 2,
+     "home_score": 4,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Bot 4",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "822926"
     },
     {
      "away": "MIL",
      "home": "PIT",
-     "away_score": 0,
-     "home_score": 0,
+     "away_score": 2,
+     "home_score": 1,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Bot 4",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "823332"
     },
     {
      "away": "PHI",
      "home": "WSH",
-     "away_score": 0,
+     "away_score": 2,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Bot 4",
      "start_utc": "2026-09-16T22:45:00Z",
      "eid": "822680"
     },
     {
      "away": "BAL",
      "home": "NYM",
-     "away_score": 0,
+     "away_score": 3,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 1",
+     "detail": "Top 3",
      "start_utc": "2026-09-16T23:10:00Z",
      "eid": "823576"
     },
@@ -61,8 +61,8 @@
      "home": "CHC",
      "away_score": 0,
      "home_score": 0,
-     "state": "pre",
-     "detail": "7:40 PM ET",
+     "state": "in",
+     "detail": "Bot 1",
      "start_utc": "2026-09-16T23:40:00Z",
      "eid": "824626"
     }
@@ -73,23 +73,13 @@
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "I. Jovic",
-     "home": "Z. Sonmez",
+     "away": "P. Badosa",
+     "home": "J. Mikulskyte",
      "away_score": 2,
      "home_score": 0,
      "state": "in",
      "detail": "2nd",
-     "start_utc": "2026-09-16T20:55Z",
-     "eid": "183804"
-    },
-    {
-     "away": "P. Badosa",
-     "home": "J. Mikulskyte",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "6:40 PM ET",
-     "start_utc": "2026-09-16T22:40Z",
+     "start_utc": "2026-09-16T22:50Z",
      "eid": "183854"
     },
     {
@@ -98,39 +88,49 @@
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "8:15 PM ET",
-     "start_utc": "2026-09-17T00:15Z",
+     "detail": "8:45 PM ET",
+     "start_utc": "2026-09-17T00:45Z",
      "eid": "183799"
     },
     {
-     "away": "A. Charaeva",
-     "home": "E. Avanesyan",
+     "away": "L. Samson",
+     "home": "A. Sobolieva",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "12:00 AM ET",
-     "start_utc": "2026-09-17T04:00Z",
-     "eid": "183829"
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-17T08:00Z",
+     "eid": "183679"
     },
     {
-     "away": "N. Podoroska",
-     "home": "E. Lys",
+     "away": "M. Ristic",
+     "home": "M. Barthel",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "12:00 AM ET",
-     "start_utc": "2026-09-17T04:00Z",
-     "eid": "183828"
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-17T08:00Z",
+     "eid": "183677"
     },
     {
-     "away": "V. Valdmannova",
-     "home": "A. Blinkova",
+     "away": "A. Tubello",
+     "home": "S. De Stefano",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "12:00 AM ET",
-     "start_utc": "2026-09-17T04:00Z",
-     "eid": "183830"
+     "detail": "4:30 AM ET",
+     "start_utc": "2026-09-17T08:30Z",
+     "eid": "183678"
+    },
+    {
+     "away": "E. Gorgodze",
+     "home": "N. Basiletti",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:30 AM ET",
+     "start_utc": "2026-09-17T09:30Z",
+     "eid": "183676"
     }
    ]
   },
@@ -426,7 +426,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 79,
+   "games_seen": 78,
    "games_kept": 6
   }
  ]

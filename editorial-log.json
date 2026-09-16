@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-16",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c003",
-    "headline": "Red Sox place Masataka Yoshida on IL with hamstring strain",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Yoshida himself noted Saturday that a prior hamstring injury sustained while playing in Japan cost him approximately a month of games, but the Red Sox have not confirmed such a projection for this season.' This phrasing creates ambiguity about whether the Red Sox explicitly denied the timeline or merely did not confirm it. The brief's data_point says 'Yoshida noted Saturday that the last time he injured his hamstring while playing in Japan, it cost him around a month's worth of games' without any claim that the Red Sox rejected this estimate. The draft's framing ('but the Red Sox have not confirmed') reads as the writer injecting editorial caution that is not supported by the brief's actual reporting\u2014it is not a fact from the source, but an inference about what the Red Sox did not say."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "RESEARCH INTAKE FAILURE: Source unreadable, no verifiable facts present",
-    "category": "accuracy",
-    "reasons": [
-     "The draft itself is a meta-commentary on research failure, not a news story. It violates the hard rule that no fact exists outside the brief: it claims the source is 'unreadable' and contains only 'CSS formatting code,' but these claims are the writer's inferences about the source quality, not facts from a research brief data_point. The brief's open_questions acknowledge source limitations, but the draft uses this as grounds to reject the entire story\u2014which is a research and editorial gatekeeping decision, not a drafting task. The draft should not have been submitted for approval; it should have been returned to research before reaching the approver. A draft that explains why it cannot be written is not a draft."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Ronaldo states 2026-27 will be his final season of professional football",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The 2026 World Cup in Qatar was earlier confirmed by Ronaldo as his final tournament appearance.' The brief confirms Ronaldo said the 2026 World Cup would be his last, but the brief does not specify the venue as Qatar. This detail is smuggled and not present in the source material cited.",
-     "The draft quotes Ronaldo as saying 'This is probably my last year of football, and I want to leave a spectacular legacy,' but the brief only confirms the quote 'This is probably my last year of football.' The addition of 'and I want to leave a spectacular legacy' is not in any data_point and is smuggled.",
-     "The draft presents the marriage detail ('The Vogue interview, according to ESPN, took place five days before Ronaldo's marriage to Georgina Rodr\u00edguez in Cascais, Portugal') as a factual framing device in the story's narrative arc, but this personal/lifestyle material beyond sport falls into compliance territory and should be handled with care or excluded given the desk's liability posture on personal athlete material outside sport."
-    ]
-   },
-   {
-    "id": "c45",
-    "headline": "Lottie Fry becomes first rider to retain both FEI World dressage titles",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Fry claimed the Grand Prix Special title in Aachen, Germany, on Friday' but the brief data_point says 'Fry claimed the Grand Prix Special title in Aachen, Germany, on Friday'\u2014however, the draft later says 'Fry won the Grand Prix Special and the Grand Prix Freestyle at the World Championships in Aachen, Germany, defending the titles she won four years earlier.' The brief's core_claim says she 'retain[ed] both individual dressage titles, winning the Grand Prix Special and Grand Prix Freestyle,' which matches the draft. However, the draft contains a factual claim unsupported by the brief: 'The victory marked the first time in 60 years of the competition that a rider achieved the double-double defense in the Grand Prix Freestyle event.' The brief data_point states 'Fry is the first rider in 60 years of the competition to achieve the 'double-double' in the Grand Prix Freestyle event,' which supports this claim. However, the draft also states 'Britain was the only nation to field three riders in the top seven of the Freestyle event, with Becky Moody and Jagerbomb finishing fifth overall and Carl Hester and Fame finishing seventh.' The brief says 'GB was the only nation to have three riders in the top seven' but does not specify these are results 'of the Freestyle event'\u2014the brief data_point is ambiguous about which event these placements reference, and the draft's specification may exceed the brief's scope."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-16",
   "approved": 3,
   "rejected": [
    {
@@ -7747,6 +7707,41 @@
     "category": "accuracy",
     "reasons": [
      "the draft dates September 20, 2026 as a Friday; September 20, 2026 is a Sunday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c145",
+    "headline": "Joe Buck signs six-year ESPN extension worth more than $100 million",
+    "category": "balance",
+    "reasons": [
+     "The bear_case in the brief explicitly identifies that the contract details come from Andrew Marchand of The Athletic reported secondhand by Awful Announcing, and that ESPN has not officially announced the deal. The draft opens with a definitive statement ('ESPN secured Joe Buck to a six-year extension...according to Andrew Marchand') but then sources only Awful Announcing, burying the secondary-source nature and the fact that ESPN has not confirmed. This presents an unconfirmed, secondhand report with the authority of a direct deal announcement.",
+     "The brief's bear_case notes Aikman's unsigned status creates booth uncertainty, and this appears in the draft only in the final paragraph as a minor closing note. The framing should weight this more heavily given that the partnership's future is genuinely in question and was flagged as a critical variable by the brief itself."
+    ]
+   },
+   {
+    "id": "c253",
+    "headline": "WNBA Regular Season Resumes September 16 with Playoff Seeds Still Undecided",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WNBA regular season resumed on September 16' but the brief's core_claim and data_point both say the season 'is resuming on Thursday' (future tense). Today is Wednesday, 2026-09-16. The draft reports a future event as having already occurred.",
+     "The brief's data_point for New York Liberty states they are '24-16' but the draft states they are '26-14' (tied with Washington and Dallas). This is a direct factual contradiction.",
+     "The draft claims 'A New York-Las Vegas first-round pairing would be a rematch of the 2023 WNBA Finals, which Las Vegas lost' but provides no source verification that Las Vegas lost that Finals matchup in the brief's data_points."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Aaron Judge Exits on September 16 with Right Lower Leg Tightness",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes Judge's home run as 'a shot to the upper deck down the left-field line' but the brief's data_point describes it as 'a prodigious shot to the upper deck down the left-field line.' The draft dropped a key descriptor ('prodigious') that was in the source material, which is acceptable paraphrase; however, the critical issue is that the brief contains a data_point stating 'Judge won the last two American League MVPs and had taken three of the previous four,' which the draft entirely omits. This is not balance-of-emphasis but a material fact in the brief that should appear in the story.",
+     "The draft claims 'Wednesday's loss dropped the Yankees to four games behind Tampa Bay in the AL East, pending the outcome of the Rays' Wednesday night game' but this treats a conditional outcome as a fact. The brief's data_point is identical, so the source carries it; however, the draft then states 'If Tampa goes 6-6 in their final 12 games, the Yankees would need to go 9-1 in their final 10 games to win the AL East if they sweep the four games and get the tiebreaker' which is presented as fact but contains conditional hypotheticals that muddy whether this is current standing or projection.",
+     "The brief includes a data_point about 'The Red Sox have a very left-handed-heavy pitching staff; Judge's righty presence would be sorely missed if he's unavailable for a potential Wild Card Series,' which does not appear in the draft. This is a material angle about postseason implications that was in the brief but was not included."
     ]
    }
   ]
