@@ -1059,7 +1059,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
           canonical_path=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
+             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
     # ONE URL PER PAGE (2026-08-17). Netlify's Pretty URLs serve every page at both
     # /articles/foo and /articles/foo.html, and rewrite internal links to the
     # extensionless form. Emitting a .html canonical meant Google crawled the linked

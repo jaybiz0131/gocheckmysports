@@ -715,8 +715,10 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
   white-space:nowrap}
 .xcut a:hover{color:var(--ink);border-color:var(--rule);text-decoration:none}
 .xcut a.xc-on{color:var(--ink);border-color:var(--ink)}
+/* A-17: 400, not 500. A mono weight is a whole font file and this count was the
+   only thing on the site asking for 500. */
 .xc-n{font-family:var(--mono);font-size:11px;font-variant-numeric:tabular-nums;
-  color:var(--faint);font-weight:500}
+  color:var(--faint);font-weight:400}
 .xcut a:hover .xc-n,.xcut a.xc-on .xc-n{color:var(--muted)}
 /* ---- evergreen picks: the front door's direct links to the desk's best work ------ */
 /* Two columns of plain headline links. Deliberately not cards: 25 cards would dominate
