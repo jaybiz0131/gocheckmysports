@@ -907,16 +907,34 @@ def _contract_ladder_canary(cfg):
     import datetime as _dt
     import tempfile
     import watcher
-    with tempfile.TemporaryDirectory() as td:
-        noon = _dt.datetime(2026, 7, 15, 13, 0, tzinfo=_dt.timezone.utc)
-        _check(watcher.missed_slot(noon, td) == "morning-brief", fails,
-               "watcher recovery: missed morning slot not detected")
-        open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
-        _check(watcher.missed_slot(noon, td) is None, fails,
+    # PROGRAM 4, T-1 (2026-09-16): this tested the MORNING slot, which no longer runs.
+    # The three properties it was checking are properties of slot recovery itself, not
+    # of the morning slot, so they are checked against the slot that survives: past the
+    # deadline with no edition it fires, with the edition present it stays quiet, and
+    # before the deadline it stays quiet.
+    #
+    # A fourth check is added, and it is the one that would have caught tonight: NO
+    # SLOT THE DESK NO LONGER RUNS MAY BE RECOVERABLE. A slot left in SLOT_DEADLINES
+    # with no cron is re-fired on every tick forever, and each fire spends a full model
+    # run. The table and the workflow's cron list must change together.
+    # These three run in their OWN directory. Writing the evening edition into the one
+    # the window audit below uses would satisfy that audit's "missed evening" case for
+    # it, and the test would pass for the wrong reason.
+    with tempfile.TemporaryDirectory() as td_r:
+        late = _dt.datetime(2026, 7, 16, 2, 0, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(late, td_r) == "evening-brief", fails,
+               "watcher recovery: past the deadline with no edition, did not fire")
+        open(os.path.join(td_r, "2026-07-15-evening-brief.json"), "w").write("{}")
+        _check(watcher.missed_slot(late, td_r) is None, fails,
                "watcher recovery: fired despite the edition existing")
-        early = _dt.datetime(2026, 7, 15, 10, 30, tzinfo=_dt.timezone.utc)
-        _check(watcher.missed_slot(early, td) is None, fails,
+        early = _dt.datetime(2026, 7, 15, 20, 0, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(early, td_r) is None, fails,
                "watcher recovery: fired before the deadline")
+    _check({s[0] for s in watcher.SLOT_DEADLINES} == {"evening-brief"}, fails,
+           "watcher recovery: a slot with no cron is in SLOT_DEADLINES and would be "
+           "re-fired on every tick for the rest of time")
+    with tempfile.TemporaryDirectory() as td:
+        open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
         # (f) closed-window audit: a served window stays quiet after it closes; a missed
         # evening is only checkable the next morning and must be reported then
         afternoon = _dt.datetime(2026, 7, 15, 15, 0, tzinfo=_dt.timezone.utc)
