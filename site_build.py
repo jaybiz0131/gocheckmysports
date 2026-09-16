@@ -3174,10 +3174,30 @@ def _tk_story(g, items):
 
 
 def _tk_leaders(g):
-    """Three leaders on a live or final card. The feed this desk holds carries no box
-    score, so there are none to render yet; L-2 brings them. An empty list means the
-    block is omitted, not that a placeholder is drawn."""
-    return []
+    """Punch item 12: three leaders on a live or final card, from the fantasy points the
+    desk already computes for every started game.
+
+    The marquee's live state was the stub, a story line and two buttons, with a couple
+    of hundred pixels under it and "Game page" alone at the bottom. That is the product
+    missing from the product: a reader watching a live game wants the names.
+
+    Nothing at all when the box score has no players yet, which is every game before
+    kickoff. There is no placeholder."""
+    if g.get("state") not in ("in", "post"):
+        return []
+    pts = (LIVE_POINTS or {}).get(g.get("id")) or \
+          (LIVE_POINTS or {}).get(str(g.get("id"))) or {}
+    if not pts:
+        return []
+    # fantasy_points.leaders is the desk's own ranking, and it is the one the live
+    # board and the game page already use. Reimplementing the sort here would be a
+    # second definition of "leader" that could disagree with the page it links to.
+    import fantasy_points as _fp
+    rows = []
+    for p in _fp.leaders(pts, n=3):
+        line = "; ".join(p.get("line") or [])
+        rows.append((f'{p.get("name", "")} {p.get("ppr", 0):.1f}', line[:34]))
+    return rows
 
 
 def _tk_kicker(g):
@@ -5736,6 +5756,7 @@ IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
 WX_DATA = None       # set at build by kickoff_weather.load()
+LIVE_POINTS = {}     # set at build: fantasy points per game id, for live/final cards
 ALL_ITEMS = []       # set at build: the published story pool the card story line draws
                      # from (SC-7). The Wire replaces this source in Sprint I; the
                      # matching rule does not change.
@@ -6919,10 +6940,15 @@ def build():
             print(f"inactives board: {IA_BOARD['total']} players, "
                   f"{len(IA_BOARD['teams'])} teams")
 
-    w("index.html", render_home(items, dateline))
     # S-B3/S-B8: points per game, then the game pages, the live board and the hub.
     # Only games that have started have a players block, so only those are fetched.
+    #
+    # PUNCH ITEM 12: this block now runs BEFORE the homepage. It used to run three
+    # lines after it, so the band's live marquee had nothing to show but its buttons no
+    # matter what the box score held.
+    global LIVE_POINTS
     _all_points = {}
+    _nfl = []
     if SB_DATA:
         import fantasy_points as _fpm
         _nfl = [g for L in SB_DATA["leagues"] if L["league"] == "NFL"
@@ -6932,6 +6958,9 @@ def build():
                 _pts = _fpm.for_game(_g["id"])
                 if _pts:
                     _all_points[_g["id"]] = _pts
+    LIVE_POINTS = _all_points
+    w("index.html", render_home(items, dateline))
+    if SB_DATA:
         _cards = 0
         for _g in _nfl:
             # S-F: the card is drawn from the same game record the page renders, so

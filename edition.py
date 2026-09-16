@@ -58,6 +58,20 @@ def esc(s):
     return _html.escape(str(s or ""), quote=True)
 
 
+# C-L4: a byline is a name. "By The GoCheckMySports Desk" was the desk introducing
+# itself on every Edition page; the desk is the site.
+BYLINE = "Chuck Wando"
+# Every story on the desk carries one of two generic author values, "The
+# GoCheckMySports Desk" or "GoCheckMySports". Neither is a name, and C-L4 is that a
+# byline is a name. A real person in the field is kept as written.
+_DESK_NAMES = {"the gocheckmysports desk", "gocheckmysports", "the desk"}
+
+
+def _byline(d):
+    a = (d.get("author") or "").strip()
+    return BYLINE if (not a or a.lower() in _DESK_NAMES) else a
+
+
 def _when(d):
     return str(d.get("published_utc") or d.get("date") or "")
 
@@ -309,13 +323,28 @@ def _human_date(day):
     return datetime.date.fromisoformat(day).strftime("%A, %B %-d, %Y")
 
 
-def _utc_stamp(d):
-    m = re.search(r"T(\d{2}):(\d{2})", _when(d))
+def _et_stamp(d):
+    """Punch item 7 / G-7: the Edition's times in ET, like every other surface.
+
+    This function used to read the UTC hour out of the timestamp and print it with the
+    letters UTC after it. No conversion was ever done: it was the right number under
+    the wrong label for a reader, and it was on every Edition page on the site, twice.
+    A reader in Buffalo saw 4:16 PM UTC for a story filed at 12:16 PM their time.
+    """
+    raw = _when(d)
+    m = re.search(r"T(\d{2}):(\d{2})", raw)
     if not m:
         return ""
-    hh, mm = int(m.group(1)), m.group(2)
-    ampm = "AM" if hh < 12 else "PM"
-    return f"{(hh % 12) or 12}:{mm} {ampm} UTC"
+    try:
+        from zoneinfo import ZoneInfo
+        when = datetime.datetime.strptime(raw[:16], "%Y-%m-%dT%H:%M").replace(
+            tzinfo=datetime.timezone.utc).astimezone(ZoneInfo("America/New_York"))
+    except Exception:
+        # No tz database is not a reason to print a wrong label. With no conversion
+        # available the stamp is omitted rather than asserted in the wrong zone.
+        return ""
+    ampm = "AM" if when.hour < 12 else "PM"
+    return f"{(when.hour % 12) or 12}:{when.minute:02d} {ampm} ET"
 
 
 def _story_url(d):
@@ -387,7 +416,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
   <span class="ed-kicker">{_kicker(desk, lead)}</span>
   <h2><a href="{_story_url(lead)}">{esc(lead.get("title"))}</a></h2>
   <p class="ed-dek">{esc(lead.get("dek"))}</p>
-  <p class="ed-byline">By {esc(lead.get("author") or "the desk")} · {esc(_utc_stamp(lead))}</p>
+  <p class="ed-byline">{esc(_byline(lead))} · {esc(_et_stamp(lead))}</p>
   <div class="ed-copy">{opening}</div>
   <p class="ed-continued"><a href="{_story_url(lead)}">Continued &#8594;</a></p>
 </article>"""
@@ -406,7 +435,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
         brief_html = f"""<section class="ed-brief" aria-label="{esc(_brief_name(ed))}">
   <div class="ed-brief-head">
     <span class="ed-kicker">{esc(_brief_name(ed))}</span>
-    <span class="ed-stamp">The desk's synthesis · {esc(_utc_stamp(ed))}</span>
+    <span class="ed-stamp">{esc(_et_stamp(ed))}</span>
   </div>
   <div class="ed-brief-cols">{"".join(f"<p>{p}</p>" for p in (ed.get("body") or []))}</div>
   <div class="ed-brief-cites">In this brief: {cites}</div>
