@@ -2226,10 +2226,7 @@ def _w2w_stamp(data):
     except Exception:
         return ""
     age = (_dt.datetime.now(_dt.timezone.utc) - t).total_seconds() / 3600
-    when = f'{_et_clock(t)}, {t.astimezone(_ET).strftime("%a %-d %b")}'
-    tail = ", not refreshed since" if age > 24 else ""
-    return (f'<p class="bd-src">Channels as listed by the league, as of {esc(when)}'
-            f'{tail}.</p>')
+    return f'<p class="bd-src">Updated {esc(_et_clock(t))}</p>'
 
 
 def _w2w_split(week):
@@ -2361,16 +2358,18 @@ def nfl_week(w2w=None):
     return (last_w.get("week"), max([k for k in ks if k], default=None))
 
 
-def fantasy_asof(label, when_iso, source):
-    """F-1: one as-of line, in ET, naming the source. Every fantasy surface carries one
-    and nothing renders under "today" or "this week" without it."""
-    wk, _ = nfl_week()
-    week_s = f"Week {wk}" if wk else ""
+def fantasy_asof(label, when_iso, source=""):
+    """C-L1 and item 41: one stamp, "Updated Sep 14, 8:00 PM ET".
+
+    F-1 asked for the week, the label and the source on every fantasy surface. The copy
+    pass overrules that and wins where they differ: the week is in the heading (N-7), and
+    the label and the source are the kind of chrome C-L1 removes. `label` and `source`
+    are kept in the signature so the call sites do not all have to change at once."""
     dt = _utc_dt(when_iso or "")
-    when = (f'{fmt_short_date(dt.astimezone(_ET).strftime("%Y-%m-%d"))}, {_et_clock(dt)}'
-            if dt else "")
-    bits = [b for b in (week_s, f"{label} as of {when}" if when else label, source) if b]
-    return f'<p class="fx-asof">{esc(" · ".join(bits))}</p>'
+    if not dt:
+        return ""
+    when = f'{fmt_short_date(dt.astimezone(_ET).strftime("%Y-%m-%d"))}, {_et_clock(dt)}'
+    return f'<p class="fx-asof">Updated {esc(when)}</p>'
 
 
 def where_to_watch_card(data):
@@ -2575,8 +2574,7 @@ def render_news_hub(items, dateline, pulse=None):
     # S-18: /news opened with the entire Record block before a single story. On the
     # news desk the Record is a pointer, not the page.
     rec = ('<p class="lx-dek" style="margin-top:10px">'
-           '<a href="/keepers.html">The Record: what stays true after the news moves on '
-           '&rarr;</a></p>')
+           '<a href="/keepers.html">The Record &rarr;</a></p>')
     months = _news_month_archive(live)
     marc = "".join(
         f'<a class="nh-mo" href="/news/archive/{esc(m)}.html">'
@@ -2599,12 +2597,9 @@ def render_news_hub(items, dateline, pulse=None):
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">The news desk</h1>
-  <p class="lx-dek">{len(live)} checked stories, grouped by the storyline they belong to.
-     Every source linked, every figure checkable.</p>
   {rec}
   <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
-    <span class="bd-eyebrow">Storylines</span>
-    <h2 class="bd-h2">What the desk is following</h2></div></div>
+    <h2 class="bd-h2">Storylines</h2></div></div>
   <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
   {"".join(_news_section(L) for L in current)}
   {past_html}
@@ -3209,16 +3204,14 @@ def render_scores_page(sb, board, dateline, wx=None):
     <div class="sb-promise">
       <div class="sb-promise-l">
         <h1 class="sb-claim">Every score. No odds. No noise.</h1>
-        <p class="sb-proof">Updated {esc(_et(sb.get("fetched_at") or ""))}. Finals are
-          checked against the league feeds.</p>
+        <p class="sb-proof">Updated {esc(_et(sb.get("fetched_at") or ""))}</p>
       </div>
       <span class="sb-count" data-countup>{esc(count_line)}</span>
     </div>
   </div>
 </section>"""
     body = band + f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/index.html">Home</a> / Scores</p>
-  <div class="scoreband scoreband-page">{"".join(secs)}</div>
+    <div class="scoreband scoreband-page">{"".join(secs)}</div>
 </section></main>"""
     return shell(f"Scores - {NAME}",
                  "Every live score across the leagues this desk covers, with the "
@@ -3473,8 +3466,8 @@ def _inactives_team_card(t):
            else '<span class="tc tc-none"></span>')
     return (f'<div class="bd-card ia-team">'
             f'<div class="bd-cardtop">{bar}<span class="bd-eyebrow">{esc(t["team"])}</span>'
-            f'<span class="bd-stamp">{t["count"]} inactive listed</span>'
-            f'<span class="bd-stamp">first seen {esc(_et(t["first_seen"]))}</span>'
+            f'<span class="bd-stamp">{t["count"]} inactive</span>'
+            f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span>'
             f'{flag}</div>'
             f'<div class="ia-rows">{rows}</div></div>')
 
@@ -3531,20 +3524,14 @@ def render_inactives(board, w2w, dateline):
                           for p in pending)
                 + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Inactives</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
-  <p class="lx-dek">{board["total"]} players listed inactive across
-     {len(board["teams"])} teams.</p>
+    <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
+  <p class="lx-dek">{board["total"]} players, {len(board["teams"])} teams</p>
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {_ia_tonight_block()}
   <p class="bd-src">{esc(INACTIVES_NOTE)}</p>
   <div class="ia-grid">{cards}</div>
   {pend}
-  <p class="bd-src" style="margin-top:14px">Last updated
-     {esc(_et(board.get("last_change") or ""))}. Source: the league injury feed, read on
-     our own schedule and kept as a dated record.</p>
 </section></main>"""
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
@@ -3739,9 +3726,7 @@ def render_game_page(g, points, board, wx, items, dateline):
                 f'<p class="bd-read">{esc(g.get("network"))} carries this game.</p>'
                 f'</section>')
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/scores.html">Scores</a> /
-     {esc(away.get("abbr") or "")} at {esc(home.get("abbr") or "")}</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">{esc(away.get("name") or "")} at
+    <h1 class="lx-h1" style="margin-bottom:6px">{esc(away.get("name") or "")} at
      {esc(home.get("name") or "")}</h1>
   {head}
   {_game_wx_block(g, wx)}
@@ -3752,7 +3737,6 @@ def render_game_page(g, points, board, wx, items, dateline):
   {rel_block}
   {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
                 "the league injury report")}
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
                  f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
@@ -3772,7 +3756,6 @@ def render_fantasy_live(all_points, dateline):
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Live points</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Live fantasy points</h1>
   <p class="lx-dek">Every player with a stat line today, across every game.</p>
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {_leaders_module(merged, "Today's leaders", n=25, expand=False)}
 </section></main>"""
     return shell(f"Live fantasy points - {NAME}",
@@ -3789,8 +3772,8 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
         cards = "".join(
             f'<a class="bd-card" href="/fantasy/inactives.html" '
             f'style="text-decoration:none"><span class="bd-label">{esc(t["team"])}</span>'
-            f'<span class="bd-read">{t["count"]} inactive listed</span>'
-            f'<span class="bd-stamp">first seen {esc(_et(t["first_seen"]))}</span></a>'
+            f'<span class="bd-read">{t["count"]} inactive</span>'
+            f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span></a>'
             for t in top)
         blocks.append(
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
@@ -3844,7 +3827,6 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">Is he playing? Here's the official
      answer.</h1>
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {player_check_block()}
   {"".join(blocks)}
   {watch}
@@ -3888,9 +3870,9 @@ PLAYER_SEARCH_JS = """<script>(function(){
     load().then(function(ps){
       var hits=ps.filter(function(p){return p.name.toLowerCase().indexOf(q)>-1;}).slice(0,8);
       out.innerHTML = hits.length ? hits.map(card).join('')
-        : '<p class="bd-src">No player by that name in today\\u2019s index.</p>';
-    }).catch(function(){ out.innerHTML='<p class="bd-src">The index could not be '
-      +'loaded. Try the boards below.</p>'; });
+        : '<p class="bd-src">No player by that name.</p>';
+    }).catch(function(){ out.innerHTML='<p class="bd-src">Could not load. Try the '
+      +'boards below.</p>'; });
   }
   var t; box.addEventListener('input',function(){clearTimeout(t);t=setTimeout(run,140);});
 })();</script>"""
@@ -3898,8 +3880,7 @@ PLAYER_SEARCH_JS = """<script>(function(){
 
 def player_check_block():
     return ('<section class="bd-mod pc"><div class="bd-sec"><div class="bd-sec-l">'
-            '<span class="bd-eyebrow">Player check</span>'
-            '<h2 class="bd-h2">Is he playing?</h2></div></div>'
+            '<h2 class="bd-h2">Player check</h2></div></div>'
             '<label class="sr-only" for="pc-q">Search a player by name</label>'
             '<div class="pc-field">'
             '<svg class="pc-ico" width="17" height="17" viewBox="0 0 17 17" '
@@ -3908,11 +3889,10 @@ def player_check_block():
             '<path d="M11.2 11.2L15.2 15.2" stroke="currentColor" stroke-width="1.7" '
             'stroke-linecap="round"></path></svg>'
             '<input id="pc-q" class="pc-q" type="search" autocomplete="off" '
-            'placeholder="Type a player\'s name" data-src="/data/players.json">'
+            'placeholder="Player name" data-src="/data/players.json">'
             '<button type="button" class="pc-go" data-pc-go>Check</button></div>'
             '<div id="pc-out" class="pc-out" aria-live="polite"></div>'
-            '<p class="bd-src">Searched on your device against today\'s index. '
-            'Nothing you type is sent anywhere.</p></section>')
+            '</section>')
 
 
 def render_player_page(p, board, dateline):
@@ -3930,7 +3910,7 @@ def render_player_page(p, board, dateline):
             day = ("today" if e.date() == today
                    else "yesterday" if e.date() == today - datetime.timedelta(days=1)
                    else e.strftime("%A"))
-            when = f" (first seen {day}, {fmt_short_date(e.strftime('%Y-%m-%d'))}, {_et_clock(seen)})"
+            when = f" (posted {day}, {fmt_short_date(e.strftime('%Y-%m-%d'))}, {_et_clock(seen)})"
         g = p.get("inactive_game") or (p.get("next") or {}).get("opponent") or ""
         where = f" for the game {'vs ' if (p.get('next') or {}).get('home') else 'at '}{g}" if g else ""
         answer = f"Inactive{where}{when}."
@@ -3974,7 +3954,6 @@ def render_player_page(p, board, dateline):
      lists and <a href="/fantasy/injuries.html">this week's designations</a> for the
      full report.</p>
   {fantasy_asof("Status", p.get("inactive_seen") or "", "the league injury report")}
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
 </section></main>"""
     return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
                  f'The official status for {p.get("name")}, {p.get("team")} '
@@ -4028,13 +4007,12 @@ def render_designations(desig, board, dateline):
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Designations</p>
   <h1 class="lx-h1" style="margin-bottom:6px">This week's designations{_wk_suffix()}</h1>
-  <p class="lx-dek">{desig["total"]} players carry an official designation.</p>
+  <p class="lx-dek">{desig["total"]} players</p>
   {fantasy_asof("Designations", desig.get("last_poll") or "", "the league injury report")}
   <p class="bd-src">Out, Doubtful and Questionable as the official report lists them.
      A player who is questionable and not on a posted inactive list is shown as active.
      Read on our own schedule; see the <a href="/fantasy/inactives.html">inactives
      board</a> for today's posted lists.</p>
-  <p class="bd-src fantasy-line">{esc(FANTASY_LINE)}</p>
   {"".join(secs)}
 </section></main>"""
     return shell(f"NFL injury designations this week - {NAME}",
@@ -4569,15 +4547,15 @@ def record_full_index(items, shown=12):
     links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                     for i in rest)
     return (f'<section class="bd-mod bd-rec-index">'
-            f'<div class="bd-cardtop"><span class="bd-label">The Record, full index</span>'
-            f'<a class="bd-more" href="/keepers.html">Open the Record</a></div>'
+            f'<div class="bd-cardtop"><span class="bd-label">More</span>'
+            f'<a class="bd-more" href="/keepers.html">All</a></div>'
             f'<div class="bd-rec-cols">{links}</div></section>')
 
 
 def render_keepers(items, dateline):
     """/keepers.html: every lane, same shape as the homepage sections."""
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="sr-only">The Record: what stays true after the news moves on</h1>
+  <h1 class="sr-only">The Record</h1>
   {record_sections(items, home=False)}
   {record_full_index(items, shown=0)}
 </section></main>"""
