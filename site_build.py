@@ -1334,11 +1334,11 @@ MOTION_JS = (
     'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
     'if(lz.length){var arm=function(){lz.forEach(function(v){vo.observe(v)});'
     'removeEventListener("scroll",arm)};addEventListener("scroll",arm,{passive:true})}'
-    'var ro=new IntersectionObserver(function(es){es.forEach(function(e){'
-    'if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},'
-    '{rootMargin:"0px 0px -5% 0px"});'
-    '[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){ro.observe(el)})}'
-    'else{[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){el.classList.add("in")})}'
+    '}'
+    # UX-18 (S-15): the reveal-on-scroll fade is gone. It held content back from the
+    # reader for the length of an observer callback, left blanks in print and in reader
+    # mode, and was never one of the five moves. Nothing replaces it: a card that is on
+    # the page is on the page.
     '})()</script>')
 
 
@@ -1800,7 +1800,7 @@ def card(item, drop=()):
     href = f'/articles/{esc(item["slug"])}.html'
     summ = dek_for(item, 180)
     nsrc = len(item.get("sources") or [])
-    return f"""<article class="card reveal">
+    return f"""<article class="card">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
   <p class="summary">{esc(summ)}</p>
@@ -2390,6 +2390,27 @@ def receipts_ledger(item, max_rows=2):
                    f'<span class="bd-src">{src}</span>{badge}</div>')
     out.append("</div>")
     return "".join(out)
+
+
+def fig_money(v):
+    """UX-18 (S-19). One format for a money figure in a chip. The desk was printing the
+    figures as each story happened to write them, so one chip read "$81 million ·
+    $13.5M": two spellings of the same unit, side by side, which makes a reader check
+    whether they are the same kind of number. The value is never changed, only its
+    spelling, and a figure that carries a decimal keeps it."""
+    def trim(x):
+        t = f"{x:.1f}"
+        return t[:-2] if t.endswith(".0") else t
+    a = abs(v)
+    if a >= 1e12:
+        return f"${trim(v / 1e12)}T"
+    if a >= 1e9:
+        return f"${trim(v / 1e9)}B"
+    if a >= 1e6:
+        return f"${trim(v / 1e6)}M"
+    if a >= 1e3:
+        return f"${trim(v / 1e3)}K"
+    return f"${v:,.0f}"
 
 
 def _usd(fig):
@@ -5620,33 +5641,69 @@ def player_check_block():
             '</section>')
 
 
-def render_player_page(p, board, dateline):
-    """/players/<slug>. Titled to the question people actually type."""
-    n = p.get("next") or {}
-    inactive = bool(p.get("inactive_seen"))
-    if inactive:
-        # S-21: "on today's posted inactive list" was read on a Monday about a Sunday
-        # game. The list belongs to a day and a fixture, so the sentence carries both.
+_KICK_RX = re.compile(r"^(\d{1,2}):(\d{2})\s*(AM|PM)", re.I)
+
+
+def _ia_post_phrase(n):
+    """UX-18 (S-17). When this game's inactives post. The player record carries the
+    kickoff as the reader sees it ("Sun 20 Sep", "4:25 PM ET"), so the line is built
+    from those and not from a clock the record does not hold. "About" is not hedging:
+    teams post about 90 minutes out, and a derived time is not presented as an
+    announced one. If the subtraction would cross back over midnight the day is left
+    off rather than guessed at."""
+    m = _KICK_RX.match((n or {}).get("kickoff_et") or "")
+    if not m:
+        return ""
+    h, mi = int(m.group(1)) % 12, int(m.group(2))
+    if m.group(3).upper() == "PM":
+        h += 12
+    mins = h * 60 + mi - 90
+    day = ((n.get("day") or "").split() or [""])[0]
+    if mins < 0:
+        mins += 24 * 60
+        day = ""
+    h2, m2 = divmod(mins, 60)
+    ampm = "AM" if h2 < 12 else "PM"
+    h12 = h2 % 12 or 12
+    when = f"{h12}:{m2:02d} {ampm} ET"
+    return f"Inactives post about {day} {when}.".replace("  ", " ")
+
+
+def _player_answer(p, n):
+    """UX-18 (S-17). The page asks one question in its H1 and used to answer it three
+    times: a badge, a sentence, and the first row of the season table. One line answers
+    it now, in the order a reader needs it: the status, what it is, and when the list
+    that settles it posts. The badge is gone; it said the same word twice."""
+    if p.get("inactive_seen"):
         seen = _utc_dt(p.get("inactive_seen") or "")
-        when = ""
+        bits = ["Inactive."]
+        g = p.get("inactive_game") or (n or {}).get("opponent") or ""
+        if g:
+            bits[0] = f"Inactive {'vs ' if (n or {}).get('home') else 'at '}{g}."
         if seen:
             e = seen.astimezone(_ET)
             today = _build_now().astimezone(_ET).date()
             day = ("today" if e.date() == today
                    else "yesterday" if e.date() == today - datetime.timedelta(days=1)
                    else e.strftime("%A"))
-            when = f" (posted {day}, {fmt_short_date(e.strftime('%Y-%m-%d'))}, {_et_clock(seen)})"
-        g = p.get("inactive_game") or (p.get("next") or {}).get("opponent") or ""
-        where = f" for the game {'vs ' if (p.get('next') or {}).get('home') else 'at '}{g}" if g else ""
-        answer = f"Inactive{where}{when}."
-        badge = '<span class="bd-badge dat">Inactive</span>'
-    elif p.get("designation"):
-        answer = (f'Listed {p["designation"].lower()} on the official report'
-                  + (f', {p["detail"].lower()}' if p.get("detail") else "") + ".")
-        badge = f'<span class="bd-badge dat">{esc(p["designation"])}</span>'
-    else:
-        answer = "No designation on the official report."
-        badge = '<span class="bd-badge ok">No designation</span>'
+            bits.append(f"Posted {day}, {_et_clock(seen)}.")
+        return " ".join(bits)
+    if p.get("designation"):
+        bits = [f'{p["designation"].strip().rstrip(".")}.']
+        inj = _injury_case(p.get("detail") or "")
+        if inj:
+            bits.append(f"{inj}.")
+        post = _ia_post_phrase(n)
+        if post:
+            bits.append(post)
+        return " ".join(bits)
+    return "No designation on the official report."
+
+
+def render_player_page(p, board, dateline):
+    """/players/<slug>. Titled to the question people actually type."""
+    n = p.get("next") or {}
+    answer = _player_answer(p, n)
     nxt = ""
     if n.get("opponent"):
         when = " ".join(x for x in (n.get("day"), n.get("kickoff_et")) if x)
@@ -5656,6 +5713,11 @@ def render_player_page(p, board, dateline):
                + (f' · {esc(n["network"])}' if n.get("network") else "") + '</p>')
     hist = ""
     rows = [d for d in (p.get("designations") or []) if d.get("status")]
+    # UX-18 (S-17): "This season" with one row that repeats the answer line is the
+    # third place the page answered its own question. A log needs something to log.
+    if len(rows) == 1 and (rows[0].get("status") or "").strip().lower() == \
+            (p.get("designation") or "").strip().lower():
+        rows = []
     if rows:
         hist = ('<div class="bd-card pl-desig"><span class="bd-label">'
                 'This season</span><div class="pl-rows">'
@@ -5671,8 +5733,8 @@ def render_player_page(p, board, dateline):
   <h1 class="lx-h1" style="margin-bottom:6px">Is {esc(p.get("name"))} playing this week?
      Official status</h1>
   <div class="bd-cardtop" style="margin-bottom:8px">
-    <span class="bd-eyebrow">{esc(p.get("team"))} {esc(p.get("pos"))}</span>{badge}</div>
-  <p class="lx-dek">{esc(answer)}</p>
+    <span class="bd-eyebrow">{esc(p.get("team"))} {esc(p.get("pos"))}</span></div>
+  <p class="lx-dek pl-answer">{esc(answer)}</p>
   {nxt}{hist}
   <p class="bd-src"><a href="/fantasy/inactives.html">Inactives</a> ·
      <a href="/fantasy/injuries.html">Designations</a></p>
@@ -5951,7 +6013,7 @@ def _lane_figures(item):
         return ""
     figs.sort(key=lambda t: -t[0])
     return (f'<span class="bd-chip lane-figs">'
-            f'{esc(" · ".join(f for _v, f in figs[:3]))}</span>')
+            f'{esc(" · ".join(fig_money(v) for v, _f in figs[:3]))}</span>')
 
 
 SPORTS_ACCENT = "#1F5E3F"
@@ -5994,7 +6056,7 @@ def lane_card_v3(item, lane_name, stamp=None):
               f'Read the story</a></div>')
 
 
-def extra_lanes(items, board, claimed=None):
+def extra_lanes(items, board, claimed=None, strip=False):
     """S-17. The Contracts and Fantasy facts lane SECTIONS, with no wrapper of their
     own. They used to render their own bd-mod with a second copy of the Record's
     header, which is what printed the Record twice on the homepage. record_sections
@@ -6023,6 +6085,23 @@ def extra_lanes(items, board, claimed=None):
         # telling the reader twice, and it costs the lane the story below it.
         rows = [r for r in rows if _claim(r.get("slug"))]
         if not rows:
+            continue
+        # UX-18 (S-16): on the homepage these two lanes wear the strip like the rest of
+        # the Record. They were the pair the old details collapse was hiding, and with
+        # the collapse gone they were 1,636px of a phone homepage on their own.
+        if strip:
+            feat, more_rows = rows[0], rows[1:3]
+            out.append(
+                f'<section class="bd-rec-lane rs">'
+                # No count on these two: the main lanes count an inventory of picks
+                # and these match the whole live corpus, so "105 stories" beside "12
+                # stories" would put two different units in one row of numbers.
+                f'<a class="rs-n" href="{esc(href or "/keepers.html")}">{esc(name)}</a>'
+                f'<a class="rs-f" href="/articles/{esc(feat["slug"])}.html">'
+                f'{esc(feat.get("title") or "")}</a>'
+                + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">'
+                          f'{esc(i.get("title") or "")}</a>' for i in more_rows)
+                + '</section>')
             continue
         feat = rows[0]
         more = "".join(
@@ -6207,6 +6286,33 @@ def _record_bars(lane_items, w=440, h=54, months=6):
             f'{"".join(parts)}</svg>')
 
 
+def _record_strip(slug, name, lane_items, hub_slugs):
+    """UX-18 (S-16). The homepage Record as a strip: the lane's name, its feature, and
+    two more. The full lane cards live on /keepers, which is the page for them.
+
+    The five full cards ran 1,858px at 1440 and 4,004px on a phone, where they were
+    82% of the homepage: the Record was not a section of the front page, it was the
+    back half of it. The existing mitigation hid four lanes inside a details a script
+    closed, which trades height for a page whose shape depends on JavaScript. A strip
+    needs no script and shows every lane at once."""
+    if len(lane_items) < RECORD_LANE_MIN:
+        return ""
+    picked = [i for i in lane_items if _claim(i.get("slug"))][:3]
+    if not picked:
+        return ""
+    feat, rest = picked[0], picked[1:]
+    rows = "".join(
+        f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">'
+        f'{esc(i.get("title") or "")}</a>' for i in rest)
+    return (f'<section class="bd-rec-lane rs" aria-labelledby="rs-{esc(slug)}">'
+            f'<a class="rs-n" id="rs-{esc(slug)}" href="/keepers.html#{esc(slug)}">'
+            f'{esc(name)}</a>'
+            f'<span class="rs-c">{len(lane_items)} stor'
+            f'{"y" if len(lane_items) == 1 else "ies"}</span>'
+            f'<a class="rs-f" href="/articles/{esc(feat["slug"])}.html">'
+            f'{esc(feat.get("title") or "")}</a>{rows}</section>')
+
+
 def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     """One lane: the featured piece on the left, three more on the right."""
     if len(lane_items) < RECORD_LANE_MIN:
@@ -6258,19 +6364,6 @@ def _live_tables(items):
             if len(_table_rows(t, items)) >= t["min_rows"]}
 
 
-REC_MORE_JS = """
-<script>(function(){
-  /* S-24. The Record ships expanded so the page is complete without JavaScript; this
-     collapses it on a phone, where five lanes are a third of the homepage. Desktop is
-     untouched and the summary is hidden there by CSS. */
-  try{
-    if (window.matchMedia && window.matchMedia('(max-width:640px)').matches){
-      document.querySelectorAll('details.rec-more').forEach(function(d){ d.open = false; });
-    }
-  }catch(e){}
-})();</script>"""
-
-
 def record_sections(items, home=True, board=None):
     """The Record: ONE header and one block, five lanes on the homepage in the audit's
     order (Lawsuits and rulings, Discipline, Media rights, Contracts, Fantasy facts),
@@ -6278,32 +6371,25 @@ def record_sections(items, home=True, board=None):
     by_lane, _picks = _record_inventory(items)
     hub_slugs = {h.get("slug") for h in coverage_hubs(items) if isinstance(h, dict)}
     lanes = "".join(
-        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home,
-                     tables=_live_tables(items))
+        (_record_strip(slug, name, by_lane.get(slug) or [], hub_slugs) if home
+         else _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=True,
+                           tables=_live_tables(items)))
         for slug, name, _tags, on_home in RECORD_LANES
         if (on_home or not home))
     _claimed = {i.get("slug") for v in by_lane.values() for i in v}
     if home and HOME_LEAD_SLUG:
         _claimed.add(HOME_LEAD_SLUG)
-    lanes += extra_lanes(items, board, claimed=_claimed)
+    lanes += extra_lanes(items, board, claimed=_claimed, strip=home)
     if not lanes.strip():
         return ""
     head = (f'<div class="bd-sec"><div class="bd-sec-l">'
             f'<h2 class="bd-h2">The Record</h2></div>'
             + (f'<a class="bd-more" href="/keepers.html">All</a>' if home else "")
             + '</div>')
-    # S-24: five lane sections are 4,970px on a phone, over a third of the homepage.
-    # The first lane stays; the rest go inside a details the phone closes. It ships
-    # OPEN, so a reader without JavaScript sees every lane exactly as before - the
-    # script only closes it where the height is the problem.
-    parts = re.findall(r'<section class="bd-rec-lane".*?</section>', lanes, re.S)
-    if home and len(parts) > 1:
-        rest = "".join(parts[1:])
-        lanes = (parts[0]
-                 + f'<details class="rec-more" open><summary>All lanes</summary>'
-                   f'{rest}</details>')
-    return (f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
-            + (REC_MORE_JS if home else ""))
+    # S-24's details collapse is gone with the cards it was hiding: the strip is short
+    # enough to show every lane, and the page no longer needs a script to have a shape.
+    wrap = f'<div class="rs-grid">{lanes}</div>' if home else lanes
+    return f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{wrap}</section>'
 
 
 def record_full_index(items, shown=12):
@@ -6447,7 +6533,7 @@ def render_home(items, dateline):
             fact = w.get("key_fact") or w.get("dek") or ""
             dot = '<span class="live-dot"></span>' if not ed_cards else ''
             ed_cards.append(
-                f'<a class="edition-card reveal" href="/articles/{esc(w["slug"])}.html">'
+                f'<a class="edition-card" href="/articles/{esc(w["slug"])}.html">'
                 f'<span class="ed-kick">{esc(kick)}{dot}</span>'
                 f'<span class="ed-title">{esc(hook.strip())}</span>'
                 f'<span class="ed-fact">{esc(fact)}</span>'
