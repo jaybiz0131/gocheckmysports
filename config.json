@@ -697,7 +697,7 @@
   }
  },
  "narratives": {
-  "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve.",
+  "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Seeded for July 2026; add narratives as they emerge, retire them when they resolve. UX-10: a seasonal storyline carries a `window` of [MM-DD, MM-DD] and is not offered outside it; an evergreen storyline carries none. The list is curated weekly by the editor-in-chief; these four windows are a first cut for review.",
   "watchlist": [
    {
     "name": "MLB trade deadline",
@@ -705,6 +705,10 @@
      "trade deadline",
      "deadline deal",
      "deadline trade"
+    ],
+    "window": [
+     "07-01",
+     "08-05"
     ]
    },
    {
@@ -713,6 +717,10 @@
      "training camp",
      "holdout",
      "camp battle"
+    ],
+    "window": [
+     "07-15",
+     "09-05"
     ]
    },
    {
@@ -728,13 +736,21 @@
      "sign-and-trade",
      "team option"
     ],
-    "note": "Keywords widened 2026-07-28: option decisions are free-agency chapters."
+    "note": "Keywords widened 2026-07-28: option decisions are free-agency chapters.",
+    "window": [
+     "06-25",
+     "08-15"
+    ]
    },
    {
     "name": "World Cup aftermath",
     "keywords": [
      "world cup",
      "fifa"
+    ],
+    "window": [
+     "06-11",
+     "09-01"
     ]
    },
    {

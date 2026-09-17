@@ -1997,3 +1997,19 @@ header.masthead{position:relative;z-index:300}
 /* UX-4: the game page's stamp, under the header card, updated by the poll. */
 .gp-head .sb-head{padding:8px 0 0;justify-content:flex-end}
 .gp-head .sb-stamp{color:var(--muted)}
+/* UX-12: the gap under the band is 40px. The fade was 130px tall and was the gap:
+   about 160px at 1440 between the band and the first thing a reader came to read. */
+.sb-fade{height:40px}
+/* UX-12: 40px between the band and the first thing the reader came to read. It was
+   94px on the homepage and 172px on /scores, made of the band's bottom padding, the
+   fade, and the first section's own top spacing stacked on each other. The fade IS the
+   gap treatment (A-6: the band dissolves into the paper rather than ending on an
+   edge), so it is the whole of it and the other two give way. */
+/* UX-12: the first league row on /scores carried its own 26px top margin on top of the
+   fade, putting 82px between the band and the board. The fade provides the gap. */
+.scoreband-page .bd-mod:first-child .tk-lg{margin-top:0}
+/* The remaining 56px on /scores was the page section's 34px top padding plus the first
+   module's 22px, both above the board. The fade is the gap; on a page that opens with
+   the band these two stand down. */
+.sb-fade + main .page{padding-top:0}
+.scoreband-page > .bd-mod:first-child{padding-top:0}

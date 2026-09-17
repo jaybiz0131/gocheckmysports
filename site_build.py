@@ -3007,7 +3007,9 @@ def _tk_venue(g, wx):
     if not venue and not w:
         return ""
     if w.get("indoors") or g.get("venue_indoor"):
-        return f"{venue} \u00b7 roof" if venue else "roof"
+        # UX-13: with the name withheld the line showed only its attribute, "roof",
+        # which reads as a field with its label missing. The value is the fact.
+        return f"{venue} \u00b7 roof" if venue else "Indoors"
     bits = [venue] if venue else []
     if isinstance(w.get("temp_f"), (int, float)):
         bits.append(f"{int(w['temp_f'])}\u00b0F at kickoff")
@@ -3071,9 +3073,14 @@ def _tk_avail(g, ia_index, desig):
         if both:
             rows.append(("Inactives", "posted"))
         elif dt:
+            # UX-13: "post about 11:30 AM ET" on a card for Sunday told a Thursday
+            # reader the wrong thing. Beyond a day out the line carries its day.
             import datetime as _d
-            rows.append(("Inactives",
-                         f"post about {_et_clock(dt - _d.timedelta(minutes=90))}"))
+            _at = dt - _d.timedelta(minutes=90)
+            _far = (dt - _build_now()).total_seconds() > 24 * 3600
+            _when = (f'{_at.astimezone(_ET).strftime("%a")} {_et_clock(_at)}'
+                     if _far else _et_clock(_at))
+            rows.append(("Inactives", f"post about {_when}"))
     else:
         n = sum(1 for s in ("away", "home") if _ia_for_game(g, ia_index, s))
         if n:
@@ -3313,6 +3320,49 @@ def _tk_matchup(g, big=40):
                 f'{esc(t.get("abbr") or "")} {sc if sc is not None else ""}</span></span>')
     return (f'<span class="tk-num tk-num-chips" style="font-size:{big}px">'
             f'{chip(a, sa, ca, "away")}{chip(h, sh, ch, "home")}</span>')
+
+
+def _edition_label(ed):
+    """UX-9 (S-7): the Edition card names the edition it links to.
+
+    It said "Read tonight's Edition" at 8 AM, over an edition published the previous
+    evening. The card names the edition by its date, and says "tonight's" only once
+    that evening's edition has actually published: the word is a claim about what is
+    behind the link, not a time of day.
+    """
+    when = _parse_utc(ed) if ed else None
+    if not when:
+        return "Read the Edition"
+    et = when.astimezone(_ET)
+    today = _build_now().astimezone(_ET).date()
+    if et.date() == today:
+        return "Read tonight\u2019s Edition"
+    return f'The Edition \u00b7 {MONTHS[et.month]} {et.day}'
+
+
+def _storyline_open(entry, now=None):
+    """UX-10: is this storyline inside its window today?
+
+    A storyline with no window is evergreen and always open. A window is [MM-DD, MM-DD]
+    and may wrap the new year, which is why this compares month-day rather than dates.
+    """
+    w = (entry or {}).get("window")
+    if not w or len(w) != 2:
+        return True
+    today = (now or _build_now()).astimezone(_ET).strftime("%m-%d")
+    start, end = w[0], w[1]
+    if start <= end:
+        return start <= today <= end
+    return today >= start or today <= end      # a window that crosses the new year
+
+
+def _day_time(g):
+    """UX-9: "Thu 8:15 PM ET". The site's one time format, from the game's own
+    timestamp rather than from whatever string the feed happened to send."""
+    dt = _utc_dt(g.get("start_utc") or g.get("kickoff_utc") or "")
+    if not dt:
+        return ""
+    return f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
 
 
 def _tk_rec_html(g):
@@ -3967,8 +4017,15 @@ def _sb_ornament(games):
         bh = max(12, (by_hour[h] / peak) * (H - 24))
         bars.append(f'<rect x="{x:.0f}" y="{H-bh:.0f}" width="46" height="{bh:.0f}" '
                     f'rx="3" fill="#3DDC84"></rect>')
+    # UX-12: the bars read as a rendering glitch because nothing said what they were.
+    # One bar per kickoff window in today's slate, its height the number of games in
+    # that window. The title is what a hover shows and what a screen reader reads.
+    _legend = (f"Kickoff windows today: {len(hours)} window"
+               f"{'' if len(hours) == 1 else 's'}, busiest carries {peak} game"
+               f"{'' if peak == 1 else 's'}.")
     return (f'<svg class="sb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
-            f'aria-hidden="true">{"".join(bars)}</svg>')
+            f'role="img" aria-label="{esc(_legend)}">'
+            f'<title>{esc(_legend)}</title>{"".join(bars)}</svg>')
 
 
 def _sb_day_split(games):
@@ -5113,7 +5170,10 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             f'<div class="w2w-row"><span class="w2w-game">'
             f'{esc((g.get("away") or {}).get("abbr",""))} at '
             f'{esc((g.get("home") or {}).get("abbr",""))}</span>'
-            f'<span class="bd-src">{esc(g.get("status_short") or "")}</span>'
+            # UX-9: ONE TIME FORMAT. This printed the feed's own string, "9/17 - 8:15
+            # PM EDT": a numeric date and a zone name that changes twice a year, on the
+            # one surface that disagreed with every other. Day then time, always ET.
+            f'<span class="bd-src">{esc(_day_time(g))}</span>'
             f'<span class="w2w-cars">'
             + (f'<span class="w2w-car">{esc(g.get("network"))}</span>'
                if g.get("network") else '<span class="bd-src">not announced</span>')
@@ -5970,7 +6030,7 @@ def render_home(items, dateline):
                        f'href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="bd-cardtop"><span class="bd-eyebrow">'
                        f'The Evening Edition</span></span>'
-                       f'<span class="sp-deskcard-h">Read tonight\u2019s Edition</span>'
+                       f'<span class="sp-deskcard-h">{esc(_edition_label(ed))}</span>'
                        f'<span class="dateline">{fmt_when(ed)}</span></a>')
         # S-6: six light cards, three across. League label, the desk's badge, the
         # headline clamped at a word boundary, the time in ET. No summary text, so
@@ -6035,7 +6095,7 @@ def render_home(items, dateline):
             f'the scores that settled and the stories that were checked.</p>'
             f'<div class="bd-cta">'
             f'<a class="bd-btn" href="/articles/{esc(_fresh_ed["slug"])}.html">'
-            f'Read tonight\'s Edition</a>'
+            f'{esc(_edition_label(_fresh_ed))}</a>'
             f'<a class="bd-more" href="/bottom-line.html">Past editions</a></div></div>')
 
     editions_html = ""
@@ -6059,6 +6119,14 @@ def render_home(items, dateline):
     for n in watch:
         rx = narrative_rx(n)
         if rx is None:
+            continue
+        # UX-10: the window is checked ONCE, at the top, for both chip sources. The
+        # first cut checked it only on the story-matched branch, so a storyline with a
+        # coverage hub kept its chip past its window: NFL training camp, NBA free agency
+        # and World Cup aftermath all still rendered in Week 2 while MLB trade deadline,
+        # which has no hub, correctly disappeared.
+        if not _storyline_open(n):
+            print(f"tracking: chip {n.get('name')!r} is outside its window; not offered")
             continue
         hub = _hub_by_name.get(n.get("name", ""))
         if hub:
