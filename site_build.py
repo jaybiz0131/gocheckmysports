@@ -1571,6 +1571,64 @@ def _fresh_hours(item, now):
         return 1e9
 
 
+# UX-5 (S-5): WHAT LEADS THE HOMEPAGE.
+#
+# On an NFL Thursday with a game that night the page led with Formula 1's 2027
+# calendar. It was the newest verified story, and newest-verified was the whole rule.
+#
+# lead value = league weight for today x recency x verification, and verification is
+# the FLOOR rather than a term: a story the verifier did not clear cannot lead however
+# big it is. The league weight comes from the calendar, because what a reader came for
+# on a Thursday in September is not what they came for on a Tuesday in March.
+LEAGUE_WEIGHT = {
+    # league: (base, {ET weekday: weight}); Monday is 0, Sunday is 6.
+    "NFL":    (1.6, {3: 4.0, 6: 4.5, 0: 3.5}),      # Thu, Sun, Mon in season
+    "CFB":    (1.2, {5: 3.5, 4: 1.6}),              # Saturday, and Thursday night games
+    "MLB":    (1.3, {}),                            # lifted in the pennant race below
+    "NBA":    (1.2, {}),
+    "NHL":    (1.1, {}),
+    "WNBA":   (1.0, {}),
+    "Soccer": (1.0, {}),
+}
+
+
+def _league_weight(league, now=None):
+    """Today's weight for a league. September and October lift MLB: that is the
+    pennant race, and it is the one month baseball leads a general sports desk."""
+    now = now or _build_now()
+    et = now.astimezone(_ET)
+    base, byday = LEAGUE_WEIGHT.get((league or "").upper() if league else "", (1.0, {}))
+    w = byday.get(et.weekday(), base)
+    if (league or "").upper() == "MLB" and et.month in (9, 10):
+        w = max(w, 2.6)
+    return w
+
+
+def _story_league(item):
+    """The league a story belongs to, from its own field or its tags."""
+    lg = (item.get("league") or "").upper()
+    if lg:
+        return lg
+    for t in tags_for(item):
+        if t.upper() in LEAGUE_WEIGHT:
+            return t.upper()
+    return ""
+
+
+def lead_value(item, now=None):
+    """UX-5. Zero for anything the verifier did not clear: that is the floor."""
+    if item.get("verdict") != "VERIFIED":
+        return 0.0
+    now = now or _build_now()
+    hours = _fresh_hours(item, now)
+    if hours is None:
+        return 0.0
+    # Recency decays by half every twelve hours, so a good story from this morning
+    # still beats a better one from two days ago, and nothing from last week leads.
+    recency = 0.5 ** (max(hours, 0.0) / 12.0)
+    return _league_weight(_story_league(item), now) * recency
+
+
 def home_stack(items, now=None):
     """One deterministic rule for the hero lead and The Bottom Line anchor, shared by
     render_home and bottom_line_card so the front page and /news never disagree.
@@ -2791,7 +2849,7 @@ def _sb_fantasy_strip(g, ia_index):
     some other surface."""
     if (g.get("league") or "") != "NFL":
         return ""
-    bits = []
+    bits, when = [], ""
     for side in ("away", "home"):
         tid = (g.get(side) or {}).get("id") or ""
         ab = (g.get(side) or {}).get("abbr") or ""
@@ -3257,18 +3315,37 @@ def _tk_matchup(g, big=40):
             f'{chip(a, sa, ca, "away")}{chip(h, sh, ch, "home")}</span>')
 
 
+def _tk_rec_html(g):
+    """The two lines, as markup. The second is omitted when there is nothing to say."""
+    recs, when = _tk_records(g)
+    out = f'<div class="tk-rec" data-role="rec">{esc(recs)}</div>'
+    if when:
+        out += f'<div class="tk-rec tk-when" data-role="when">{esc(when)}</div>'
+    return out
+
+
 def _tk_records(g):
-    """Records and the clock, under the matchup."""
+    """UX-3 (S-3): TWO LINES. Records on the first, day and time on the second.
+
+    H-9 put the whole line on one row and gave it white-space:nowrap with an ellipsis
+    to stop it wrapping before "ET". That stopped the wrap by cutting the time off
+    instead: "Steelers 1-0 \u00b7 Patriots 0-1 \u00b7 Sun 1:00 PM..." on /scores at 1440.
+    A time is never truncated anywhere on this site, and the fix for a line that is too
+    long is a second line, not an ellipsis.
+
+    Note for the next reader: the audit's test, grepping site/publish for "PM..." or
+    "AM...", cannot see this. The ellipsis was drawn by CSS text-overflow and never
+    existed in the HTML. The real test measures the rendered element.
+    """
     bits = []
     for s in ("away", "home"):
         t = g.get(s) or {}
         if t.get("name") and t.get("record"):
             bits.append(f"{t['name']} {t['record']}")
     if g.get("state") == "in":
-        if g.get("situation"):
-            bits.append(g["situation"])
+        when = g.get("situation") or ""
     elif g.get("state") == "post":
-        pass
+        when = ""
     else:
         dt = _utc_dt(g.get("start_utc") or "")
         if dt:
@@ -3277,8 +3354,8 @@ def _tk_records(g):
             # carried "Thu 17 Sep" and the clock as two parts, which wrapped before
             # "ET" on the marquee at 1440 and again on phone. The date is on the card
             # above it and on the page; the reader needs the day and the hour.
-            bits.append(f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}')
-    return _TK_MID.join(b for b in bits if b)
+            when = f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
+    return (_TK_MID.join(b for b in bits if b), when)
 
 
 def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
@@ -3328,7 +3405,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
             f'<div class="tk-stub-top"><span data-role="kicker">{_tk_kicker(g)}</span>'
             f'{net}</div>'
             f'<div class="tk-mu" data-role="mu">{_tk_matchup(g)}</div>'
-            f'<div class="tk-rec" data-role="rec">{esc(_tk_records(g))}</div>'
+            f'{_tk_rec_html(g)}'
             f'</div><div class="tk-perf"></div>'
             f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
 
@@ -3656,8 +3733,10 @@ SB_LIVE_JS = """
           k.textContent = (card.getAttribute('data-league') || '') + ' · Final';
         }
       }
-      var rec = card.querySelector('[data-role="rec"]');
-      if (rec && s.state === 'in' && s.situation) rec.textContent = s.situation;
+      /* UX-3: the situation belongs on the second line, beside where the kickoff
+         time was, not on the records line. */
+      var when = card.querySelector('[data-role="when"]');
+      if (when && s.state === 'in' && s.situation) when.textContent = s.situation;
     });
   }
 
@@ -4666,6 +4745,70 @@ def _game_wx_block(g, wx):
             '<p class="bd-src">National Weather Service, via GoCheckMyWeather.</p></div>')
 
 
+def _gp_designations(g, desig):
+    """UX-4 (S-4): WHO, not how many.
+
+    The page showed "DET 4 questionable \u00b7 BUF 1 out" to a reader who opened it to
+    find out which players. The report carries the name, the position and the injury
+    for every listed player, and the page has been throwing that away to print a count.
+
+    Grouped by team, ordered Out, Doubtful, Questionable, because that is the order a
+    reader cares about. A status the feed carries that this desk does not name renders
+    as the feed's own word rather than being dropped.
+    """
+    if (g.get("league") or "") != "NFL":
+        return ""
+    idx = {}
+    for status, players in ((desig or {}).get("groups") or {}).items():
+        for pl in players or []:
+            nick = (pl.get("team") or "").split()[-1].lower()
+            if nick:
+                idx.setdefault(nick, []).append(pl)
+    rank = {"out": 0, "doubtful": 1, "questionable": 2}
+    cols = []
+    for side in ("away", "home"):
+        t = g.get(side) or {}
+        rows = idx.get((t.get("name") or "").split()[-1].lower()) or []
+        if not rows:
+            continue
+        rows = sorted(rows, key=lambda p: (rank.get((p.get("status") or "").lower(), 9),
+                                           p.get("name") or ""))
+        items_html = "".join(
+            f'<div class="gp-dz-row"><span class="gp-dz-st s-'
+            f'{esc((p.get("status") or "").lower()[:1] or "x")}">'
+            f'{esc((p.get("status") or "")[:1].upper() or "?")}</span>'
+            f'<span class="gp-dz-n">{esc(p.get("name") or "")}</span>'
+            f'<span class="gp-dz-p">{esc(p.get("pos") or "")}</span>'
+            f'<span class="gp-dz-i">{esc(_injury_case(p.get("detail") or ""))}</span>'
+            f'<span class="gp-dz-f">{esc(p.get("status") or "")}</span></div>'
+            for p in rows)
+        cols.append(f'<div class="gp-dz-team"><div class="bd-label">'
+                    f'{esc(t.get("abbr") or "")} \u00b7 {len(rows)} listed</div>'
+                    f'{items_html}</div>')
+    if not cols:
+        return ""
+    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Designations</span></div>'
+            f'<a class="bd-more" href="/fantasy/injuries.html">All</a></div>'
+            f'<div class="gp-dz">{"".join(cols)}</div></section>')
+
+
+def _injury_case(text):
+    """S-17: the feed writes "knee - mcl"; a reader reads "Knee (MCL)"."""
+    t = (text or "").strip()
+    if not t:
+        return ""
+    parts = [x.strip() for x in t.replace(" - ", "|").replace(" / ", "|").split("|") if x.strip()]
+    # Uppercase the abbreviations a report actually uses, not every short word: the
+    # first cut keyed on length and turned "hip" into "HIP".
+    ABBR = {"acl", "mcl", "pcl", "lcl", "ucl", "mri", "cte", "ir", "pup", "nfi",
+            "acj", "ac", "it", "tbi", "nfl"}
+    def cap(w):
+        return w.upper() if w.lower() in ABBR else w[:1].upper() + w[1:]
+    parts = [" ".join(cap(w) for w in p.split()) for p in parts]
+    return parts[0] if len(parts) == 1 else f"{parts[0]} ({', '.join(parts[1:])})"
+
+
 def render_game_page(g, points, board, wx, items, dateline):
     """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
     the desk's recent stories for both teams."""
@@ -4688,19 +4831,40 @@ def render_game_page(g, points, board, wx, items, dateline):
                        f'<span class="bd-eyebrow">Inactives</span></div>'
                        f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a>'
                        f'</div>{"".join(inact)}</section>')
-    # The desk's own recent coverage of both teams, by tag.
-    import re as _re
-    names = [n for n in ((away.get("name") or ""), (home.get("name") or "")) if n]
-    rx = _re.compile("|".join(_re.escape(n) for n in names), _re.I) if names else None
+    # UX-4: ONLY STORIES ABOUT THESE TWO TEAMS. This matched a nickname against the
+    # title or the key fact, case-insensitively, which is how a Cowboys-Giants
+    # viewership story reached the Lions-Bills page. It is the same shallow key the
+    # card story line had, and it takes the same rule: the full team name where the
+    # desk knows it, the nickname in the HEADLINE only otherwise, and never a headline
+    # whose subject is a different team in the same league.
     live_items = [i for i in (items or [])
                   if not i.get("example") and not _is_wrap(i)][:120]
+    league = (g.get("league") or "").upper()
+    full, nicks = [], []
+    for _side in ("away", "home"):
+        _t = g.get(_side) or {}
+        _fn = _tk_full_name(league, _t.get("id"))
+        if _fn:
+            full.append(_fn)
+        elif len(_t.get("name") or "") > 2:
+            nicks.append(_t["name"])
     rel = []
-    if rx:
-        for i in live_items:
-            if rx.search(i.get("title") or "") or rx.search(i.get("key_fact") or ""):
-                rel.append(i)
-            if len(rel) == 4:
-                break
+    for i in live_items:
+        tags = [t.upper() for t in tags_for(i)] + [(i.get("league") or "").upper()]
+        if league and league not in tags:
+            continue
+        title = i.get("title") or ""
+        body = title + " " + (i.get("dek") or "")
+        if not (any(re.search(r"\b" + re.escape(n) + r"\b", body) for n in full)
+                or any(re.search(r"\b" + re.escape(n) + r"\b", title) for n in nicks)):
+            continue
+        subj = _tk_lead_team(league, title)
+        if subj and subj not in {n.lower() for n in nicks} | {
+                f.split()[-1].lower() for f in full}:
+            continue
+        rel.append(i)
+        if len(rel) == 4:
+            break
     rel_block = ""
     if rel:
         rel_block = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
@@ -4713,8 +4877,14 @@ def render_game_page(g, points, board, wx, items, dateline):
     # is the one surface SC-9 names that was still on the previous design. The
     # availability line under it follows H-1: a list counts for this game only when it
     # was first seen inside this game's window.
+    # UX-4: the page carries a stamp that MOVES WITH THE POLL, as the band's does. It
+    # read "Updated Sep 16, 7:57 AM ET" on game day, which is the build time, not the
+    # data's.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}</div>'
+            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}'
+            f'<div class="sb-head"><div class="sb-head-l"></div>'
+            f'<span class="sb-stamp">Updated '
+            f'{esc(_et((SB_DATA or {}).get("fetched_at") or ""))}</span></div></div>'
             + SB_LIVE_JS)
 
     # The inactives block says WHEN a list is expected rather than being absent, so a
@@ -4732,25 +4902,12 @@ def render_game_page(g, points, board, wx, items, dateline):
                 f'<p class="bd-read">Post about {esc(_post)}</p></section>')
 
     # Designations for both teams, from this week's report.
-    _desig = ""
-    if IA_DESIG and IA_DESIG.get("groups"):
-        _abbrs = {(away.get("name") or ""), (home.get("name") or "")}
-        _rows = []
-        for _st, _ps in IA_DESIG["groups"].items():
-            for _pl in _ps:
-                if _pl.get("team") in _abbrs:
-                    _rows.append(f'<div class="pl-row"><span class="pl-d">'
-                                 f'{esc(_pl.get("team") or "")}</span>'
-                                 f'<span class="pl-s">{esc(_pl.get("name") or "")}</span>'
-                                 f'<span class="bd-src">{esc(_st)}'
-                                 f'{" · " + esc(_pl.get("detail")) if _pl.get("detail") else ""}'
-                                 f'</span></div>')
-        if _rows:
-            _desig = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                      '<span class="bd-eyebrow">This week on the report</span></div>'
-                      '<a class="bd-more" href="/fantasy/injuries.html">All'
-                      '</a></div><div class="pl-rows">' + "".join(_rows[:12])
-                      + '</div></section>')
+    # UX-4: the per-player designations. The block that used to be here compared the
+    # game's team NICKNAMES ("Lions") against the report's full names ("Detroit Lions")
+    # and so never matched a single player: _rows was always empty and the section never
+    # rendered, which is why the page showed only the counts in the header. Another
+    # shallow key, silently returning nothing rather than the wrong thing.
+    _desig = _gp_designations(g, IA_DESIG)
 
     # Where to watch, when the feed has this game.
     _w2w = ""
@@ -5775,6 +5932,12 @@ def render_home(items, dateline):
     # decides: a lead with checkable figures becomes the receipts card above, and the
     # mosaic starts one story down. Without a ledger there is no lead row and the
     # mosaic leads as it always did.
+    # UX-5: the lead is the highest lead value among the top of the editor's rank, not
+    # simply the first. The rest of the stack keeps the editor's order.
+    _pool = stories[:12]
+    _best = max(_pool, key=lambda i: lead_value(i), default=None) if _pool else None
+    if _best is not None and lead_value(_best) > 0 and _best is not stories[0]:
+        stories = [_best] + [x for x in stories if x is not _best]
     _s1_lead = stories[0] if stories else None
     _s1_ledger = receipts_ledger(_s1_lead) if _s1_lead else ""
     global HOME_LEAD_SLUG

@@ -1882,7 +1882,12 @@ body>*:not(.ground){position:relative;z-index:1}
 @media (max-width:900px){.gp-head .tk-num{font-size:30px !important}}
 /* H-9: the records line is one line. It is short enough now not to wrap at 1440 or
    390, and this keeps it that way if a team name grows. */
-.tk-rec{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* UX-3: the records line is two lines and a time is never truncated. The nowrap and
+   ellipsis here were H-9's fix for the line wrapping before "ET"; they stopped the
+   wrap by cutting the time off instead. */
+.tk-rec{white-space:normal}
+.tk-when{margin-top:2px;color:rgba(255,255,255,.72)}
+.tk-c.wide .tk-when{margin-top:3px}
 /* H-3: the folded card and its full card share a slot; only one is ever shown. */
 .tk-pair{display:contents}
 .tk-pair>[hidden]{display:none !important}
@@ -1967,3 +1972,28 @@ header.masthead{position:relative;z-index:300}
 }
 /* UX-1 adjustment: the folded row's abbreviation is white; the chip carries colour. */
 .tk-fold .t b{color:#EBE9E3}
+
+/* UX-4: the per-player designations on a game page. Who, not how many. */
+.gp-dz{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.gp-dz-team .bd-label{display:block;padding-bottom:6px;border-bottom:1px solid var(--rule);
+  margin-bottom:4px}
+.gp-dz-row{display:grid;grid-template-columns:22px 1fr 34px 1fr auto;gap:10px;
+  align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.gp-dz-st{font-family:var(--mono);font-size:10.5px;font-weight:700;text-align:center;
+  border-radius:3px;padding:2px 0;color:#fff}
+.gp-dz-st.s-o{background:#C22619}
+.gp-dz-st.s-d{background:#B45309}
+.gp-dz-st.s-q{background:#5C616B}
+.gp-dz-n{font-weight:600;color:var(--ink)}
+.gp-dz-p,.gp-dz-i{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.gp-dz-f{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.06em}
+@media (max-width:900px){
+  .gp-dz{grid-template-columns:1fr;gap:14px}
+  .gp-dz-row{grid-template-columns:22px 1fr auto;row-gap:2px}
+  .gp-dz-i{grid-column:2/-1}
+  .gp-dz-f{display:none}
+}
+/* UX-4: the game page's stamp, under the header card, updated by the poll. */
+.gp-head .sb-head{padding:8px 0 0;justify-content:flex-end}
+.gp-head .sb-stamp{color:var(--muted)}
