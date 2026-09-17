@@ -3843,7 +3843,12 @@ def _tk_fold(g, ia_index, desig=None):
         # bare on the team wash with no chip under it, and PHI in red on the Phillies'
         # red was the case that proved it. The chip carries the colour and the bar; the
         # abbreviation carries the name.
-        ab = f'<b data-abbr="{side}">{esc(t.get("abbr") or "")}</b>' 
+        # data-abbr carried the side name here ("away"/"home") rather than the
+        # abbreviation, which is what the other two chip sites put in it. Anything
+        # reading data-abbr across the band therefore saw 34 "away" and 34 "home"
+        # before it saw a single team. The side has its own attribute.
+        ab = (f'<b data-side="{side}" data-abbr="{esc(t.get("abbr") or "")}">'
+              f'{esc(t.get("abbr") or "")}</b>')
         return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
                 f'{ab}<span>{esc(t.get("name") or "")}'
                 f'{" " + esc(t.get("record")) if t.get("record") else ""}</span></div>{val}')
@@ -4444,6 +4449,102 @@ MINI_SB_JS = """<script>(function(){
 })();</script>"""
 
 
+# ---- S-L3: my teams --------------------------------------------------------------
+# The audit's third lead item, and the sports twin of the crypto desk's coin pins: pin
+# teams, and their games lead the band while their injuries lead the hub. No account,
+# nothing sent, nothing logged; the choice lives in this browser and nowhere else.
+#
+# WHY THE REORDER IS CLIENT-SIDE. The desk cannot know what a reader has pinned, and
+# should not: that is the whole point of a device-only list. So the page ships in its
+# normal order, complete and correct for everyone, and the script moves what the reader
+# picked to the front. A reader with no pins gets exactly the page that shipped, and a
+# reader with no JavaScript gets it too.
+
+TEAM_PIN_JS = """<script>(function(){
+  var KEY='gcms_teams', store=null;
+  try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); store=localStorage; }
+  catch(e){ document.querySelectorAll('[data-tpin]').forEach(function(n){n.hidden=true;}); return; }
+  function get(){ try{ return JSON.parse(store.getItem(KEY)||'[]'); }catch(e){ return []; } }
+  function set(v){ try{ store.setItem(KEY, JSON.stringify(v.slice(0,12))); }catch(e){} }
+
+  function first(el, parent){          /* move to the front of its own container */
+    if(el && parent && el.parentElement===parent) parent.insertBefore(el, parent.firstChild);
+  }
+  function apply(){
+    var picks=get();
+    document.querySelectorAll('[data-tpick]').forEach(function(b){
+      b.setAttribute('aria-pressed', String(picks.indexOf(b.getAttribute('data-tpick'))>-1));
+    });
+    if(!picks.length) return;
+    /* The band: a game card whose either side is pinned goes to the front of its
+       league group, newest pick last so the order the reader picked in is kept. */
+    for(var i=picks.length-1;i>=0;i--){
+      var ab=picks[i];
+      document.querySelectorAll('.tk-c').forEach(function(card){
+        var hit=false;
+        card.querySelectorAll('[data-abbr]').forEach(function(x){
+          if(x.getAttribute('data-abbr')===ab) hit=true;
+        });
+        if(hit){
+          card.classList.add('tk-pinned');
+          /* The movable unit is whatever the band lays out: the grid's children are
+             tk-pair wrappers, and the marquee is the card itself. Moving the card out
+             of its wrapper would take it out of the grid entirely. */
+          var unit = card.closest('.tk-pair') || card;
+          first(unit, unit.parentElement);
+        }
+      });
+    }
+    /* The hub: a pinned team's inactives block goes to the front of the grid. */
+    var names={};
+    document.querySelectorAll('[data-tabbr][data-tname]').forEach(function(n){
+      names[n.getAttribute('data-tabbr')]=n.getAttribute('data-tname');
+    });
+    for(var j=picks.length-1;j>=0;j--){
+      var want=names[picks[j]];
+      if(!want) continue;
+      document.querySelectorAll('.ia-team[data-team]').forEach(function(blk){
+        if(blk.getAttribute('data-team')===want){
+          blk.classList.add('ia-pinned'); first(blk, blk.parentElement);
+        }
+      });
+    }
+  }
+  document.addEventListener('click', function(e){
+    var b=e.target.closest('[data-tpick]'); if(!b) return;
+    e.preventDefault();
+    var t=b.getAttribute('data-tpick'), v=get(), i=v.indexOf(t);
+    if(i>-1){ v.splice(i,1); } else { v.push(t); }
+    set(v); apply();
+  });
+  apply();
+})();</script>"""
+
+
+def team_pin(abbr, name=""):
+    """S-L3: pin this team. Device-only, on the same pattern as the crypto desk's coin
+    pins, and hidden outright where storage is unavailable rather than offering a
+    control that cannot remember anything."""
+    if not abbr:
+        return ""
+    nm = f' data-tabbr="{esc(abbr)}" data-tname="{esc(name)}"' if name else ""
+    return (f'<span class="tpinwrap" data-tpin{nm}>'
+            f'<button type="button" class="wl-pick tpin" data-tpick="{esc(abbr)}" '
+            f'aria-pressed="false">Pin {esc(abbr)}</button></span>')
+
+
+def _team_pin_index(team_data):
+    """Every team's abbreviation paired with its full name, so the script can match a
+    pinned abbreviation against the hub's blocks, which are named in full. Rendered
+    once per page that needs it, as data rather than as script."""
+    rows = sorted((team_data or {}).get("teams", {}).items())
+    if not rows:
+        return ""
+    return ('<span hidden>' + "".join(
+        f'<span data-tabbr="{esc(a)}" data-tname="{esc(t.get("name") or "")}"></span>'
+        for a, t in rows) + '</span>')
+
+
 def mini_scoreboard(sb):
     """A thin strip of the games actually in progress, for the top of the page."""
     if not sb or not sb.get("leagues"):
@@ -4625,7 +4726,7 @@ def scoreboard_band(sb, board, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS
 
 
 # ---- S-L1: standings and the college football rankings ---------------------------
@@ -4903,7 +5004,8 @@ def render_team_page(tm, items, dateline):
     body = f"""<main class="wrap"><section class="page">
   <h1 class="sr-only">{esc(name)}: schedule, results, injury report and standing</h1>
   <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
-    {f'<span class="sec-n">{esc(stand)}</span>' if stand else ""}</div>
+    {f'<span class="sec-n">{esc(stand)}</span>' if stand else ""}
+    {team_pin(abbr, name)}</div>
   {next_line}
   <div class="sec-head" style="margin-top:24px"><h2>Schedule and results</h2>
     <span class="bar"></span>
@@ -4918,7 +5020,7 @@ def render_team_page(tm, items, dateline):
     <a class="st-nav-a" href="/standings/nfl.html">NFL standings</a>
     <a class="st-nav-a" href="/fantasy/inactives.html">Inactives</a>
     <a class="st-nav-a" href="/scores.html">Scores</a></nav>
-</section></main>"""
+</section></main>""" + TEAM_PIN_JS
     return shell(f"{name}: schedule, results and injury report - {NAME}",
                  f"{name} schedule and results, the official injury report, the "
                  f"standing, and the desk's stories about the team.",
@@ -5106,7 +5208,7 @@ def render_scores_page(sb, board, dateline, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + SB_LIVE_JS + MINI_SB_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
@@ -5377,7 +5479,7 @@ def _inactives_team_card(t):
     col = _nfl_color(t.get("id"))
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
-    return (f'<div class="bd-card ia-team">'
+    return (f'<div class="bd-card ia-team" data-team="{esc(t["team"])}">'
             f'<div class="bd-cardtop">{bar}<span class="bd-eyebrow">{esc(t["team"])}</span>'
             f'<span class="bd-stamp">{t["count"]} inactive</span>'
             f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span>'
@@ -5513,7 +5615,7 @@ def render_inactives(board, w2w, dateline):
   {_sb12_who_plays_when(_ahead_games)}
   {cards}
   {pend}
-</section></main>"""
+</section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
                  "first saw each one. Facts, not advice.",

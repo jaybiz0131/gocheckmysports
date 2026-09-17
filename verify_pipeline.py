@@ -373,6 +373,20 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # S-L3 DATA-ABBR CARRIES AN ABBREVIATION. The folded band rows put the side name in
+    # data-abbr ("away", "home"), so anything reading that attribute across the band met
+    # 34 of each before it met a single team, and the my-teams reorder silently matched
+    # nothing. The attribute is a contract now: the side lives in data-side.
+    _fold = _sb._tk_fold({"league": "NFL", "state": "pre",
+                          "away": {"abbr": "BUF", "name": "Bills", "score": None},
+                          "home": {"abbr": "DET", "name": "Lions", "score": None}}, {}) \
+        if hasattr(_sb, "_tk_fold") else ""
+    if _fold:
+        import re as _re2
+        _abbrs = _re2.findall(r'data-abbr="([^"]*)"', _fold)
+        _check(_abbrs and not ({"away", "home"} & set(_abbrs)), fails,
+               f"band canary: data-abbr carries a side name, not a team: {_abbrs[:4]}")
+
     # TAG-INTEGRITY REGRESSION (owner directive 2026-07-28, proven test case): the
     # "Severe weather" chip once linked a Tour de France story whose dek mentioned a
     # wildfire once. That exact mismatch must fail the build forever.

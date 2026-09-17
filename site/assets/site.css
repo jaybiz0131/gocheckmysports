@@ -2191,3 +2191,12 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   .msb-all{display:none}
 }
 @media print{.msb{display:none}}
+
+/* ---- S-L3: my teams -------------------------------------------------------
+   A pinned team's card and inactives block carry a quiet mark, not a colour of
+   their own: the reader already knows which teams they picked, and the band's
+   own colours are the teams'. The reorder is the signal; this is the receipt. */
+.tpinwrap{margin-left:auto;flex:0 0 auto}
+.tpin{white-space:nowrap}
+.tk-c.tk-pinned{box-shadow:inset 3px 0 0 var(--rule)}
+.ia-team.ia-pinned{box-shadow:inset 3px 0 0 var(--rule)}
