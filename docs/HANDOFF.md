@@ -83,7 +83,22 @@ dispatch other than the agreed Edition backstop; every call must appear in
 - `netlify_ignore.py`: exit 0 skips, exit 1 builds, every unclear case builds. Skips
   inactives snapshots outside posting windows and ledger-only pushes.
 - `scripts/ops_ledger.py`: appends tokens and spend to `ledger.json`, idempotent on
-  the Actions run id, commits with `[skip netlify]`.
+  the Actions run id, commits with `[skip netlify]`. The file carries `since`
+  (2026-09-16T16:27Z) and every tally prints it: a tally never claims a day it does
+  not hold. Run counts for earlier days come from the Actions log.
+- **The slot guard (X-2, X-2b)** applies to EVERY run, not only crons. A run for a
+  slot whose Edition exists stands down at zero; a dispatch naming no slot stands
+  down; a dispatch naming a slot the desk no longer serves stands down. `breaking=true`
+  is the only bypass. The served list is read from `watcher.py`'s `SLOT_DEADLINES`.
+  Ten cases per desk in the canary, run against the guard extracted from the YAML.
+- **The live poll (L-2/L-3/L-4)** is in `SB_LIVE_JS`: 60s while a game on the page is
+  live, 10 min otherwise, visible tabs only, updating in place. Source is the public
+  scoreboard feed; L-1 swaps the URL for `/live/scores.json` and nothing else changes.
+  Three misses mark the band stale and drop the live dot. The stamp is the source's
+  own time or the build's, never the browser's.
+- `site/data/venue_corrections.json`: a correction only where the feed is wrong, keyed
+  `LEAGUE:TEAM`. The canary fails the day the feed changes its record; the monthly
+  aging job lists every entry with its owner and date.
 
 **Open:** Jack deploys the Worker (`cd ../gcm-newsroom/slot-trigger && npx wrangler
 deploy`). Until then the evening slot has no automatic backstop; if it has not
@@ -99,6 +114,15 @@ and note it in the report.
 | V-3 lead row N-4 + D-13 | done, verified not assumed | earlier |
 | V-4 fantasy surfaces | done | `ffd8983`, `7464d98` |
 | V-5 punch 12 and 7 | done | `133fa98` |
+| H-1, H-2, H-4, H-5, H-9, H-10, H-11 | done | `0f62903`, `157af75`, `9ed93e7` |
+| L-2, L-3, L-4 live poll | done | `a3fd5bd` |
+| X-1, X-2, X-2b, ledger `since` | done | `09ee73c`, `9ed93e7` |
+| **H-7 stale band renders the snapshot** | **open** | never the old strip |
+| **H-3 fold opens in place** | **open** | |
+| **H-6 count and Next follow the tab** | **open** | a league with a panel always has a tab |
+| **H-8 Box score links to the box score** | **open** | absent when there is none |
+| **H-5b byline carries the date when it differs** | **open** | |
+| H-12 Sunday grouping | check Sun 1:30 PM ET | |
 | **V-6 inner pages and phone** | **open** | A-14/A-15, Home tab first (N-1) |
 | **V-7 motion and weight** | **open** | see section 5 |
 | V-8..V-12 Crypto visual | open, Sprint I | see the Crypto handoff |
