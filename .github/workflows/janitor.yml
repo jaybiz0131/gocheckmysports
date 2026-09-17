@@ -34,7 +34,18 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
-            const cutoff = "${{ inputs.cutoff }}";
+            // C-5: ON A CRON THIS CLOSED NOTHING. inputs.cutoff is empty on a
+            // schedule event, and an empty string makes `i.created_at >= cutoff`
+            // true for every issue, so every one was skipped. The janitor ran, said
+            // "0 stale auto-alarm(s) closed" and looked like it was working.
+            //
+            // Unsupplied, the cutoff is seven days ago: an auto-alarm older than a
+            // week either was fixed or is not being read, and a recurrence opens a
+            // fresh issue either way.
+            const supplied = "${{ inputs.cutoff }}";
+            const cutoff = supplied || new Date(Date.now() - 7 * 864e5)
+              .toISOString().slice(0, 10);
+            console.log(`janitor: closing auto-alarms created before ${cutoff}`);
             const CLASSES = [
               "Edition stage failed:",
               "Edition gap:",
@@ -52,7 +63,7 @@ jobs:
               if (!auto) continue;
               if (i.created_at >= cutoff) continue;
               await github.rest.issues.createComment({ owner, repo, issue_number: i.number,
-                body: `Closed by the issue janitor: superseded by the 2026-08-17/18 fix wave (fail-loud gate, wrapcheck receipt repair, canary feed naming). A recurrence opens a fresh issue.` });
+                body: `Closed by the issue janitor: an auto-alarm older than the ${cutoff} cutoff. These are machine-written and self-clearing; the condition either was fixed or is no longer being reported. A recurrence opens a fresh issue.` });
               await github.rest.issues.update({ owner, repo, issue_number: i.number, state: "closed" });
               console.log(`closed #${i.number}: ${i.title}`);
               closed++;

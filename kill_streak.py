@@ -309,11 +309,21 @@ def main():
     # anything" by its own charter, yet it annotated every run with one ::error:: per
     # live streak, six to ten red lines on green runs, and the owner read every run as
     # failed. The digest issue below is the alarm; the annotation is the pointer to it.
+    # C-5: ONE LINE WITH THE COUNT, not one per streak. The comment above already
+    # names the problem this check caused - six to ten annotations on a green run, and
+    # the owner reading every run as failed - and then annotated per streak anyway. The
+    # digest issue below is the alarm; this is the pointer to it, and the per-streak
+    # detail stays in the log where it can be read at leisure.
     for g in hits:
+        print(f"kill_streak: '{g[-1]['headline'][:70]}' killed {len(g)}x "
+              f"consecutively ({g[0]['date']}..{g[-1]['date']}) with no publish.")
+    if hits:
+        _worst = max(hits, key=len)
         common.gh("warning",
-                  f"kill_streak: '{g[-1]['headline'][:70]}' killed {len(g)}x "
-                  f"consecutively ({g[0]['date']}..{g[-1]['date']}) with no publish; "
-                  f"the desk is abandoning a development it owns.")
+                  f"kill_streak: {len(hits)} development(s) killed repeatedly with no "
+                  f"publish, worst {len(_worst)}x: "
+                  f"'{_worst[-1]['headline'][:60]}'. Advisory; see the digest issue "
+                  f"and the run log for the full list.")
     _flag_digest(hits)
     return 0
 

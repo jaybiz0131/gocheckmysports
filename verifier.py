@@ -26,6 +26,29 @@ import llm as llmlib
 VALID = {"VERIFIED", "NEEDS-HUMAN-REVIEW", "REJECT"}
 
 
+_THIN = {}
+
+
+def _thin_count(url):
+    """C-5: count a thin extract per source host instead of annotating each URL."""
+    try:
+        host = url.split("/")[2].lower()
+    except Exception:
+        host = "(unparsed)"
+    _THIN[host] = _THIN.get(host, 0) + 1
+
+
+def thin_summary():
+    """One line per source per run, for the caller to print at the end."""
+    if not _THIN:
+        return ""
+    worst = sorted(_THIN.items(), key=lambda kv: -kv[1])
+    return ("source fetch thin: "
+            + ", ".join(f"{h} x{n}" for h, n in worst)
+            + "  (normal for paywalled or script-rendered pages; the pipeline "
+              "falls back to the summary)")
+
+
 def gather_sources(story, mode):
     """Fetch each cited source once. text_excerpt (article-extracted, 1500 chars) goes to the
     verifier model; source_text (the full extraction, ~6000 chars) is persisted downstream so
@@ -56,7 +79,12 @@ def gather_sources(story, mode):
             diag = (f"status={m['status']} final={str(m['final_url'])[:120]} "
                     f"ctype={str(m['content_type'])[:40]} bytes={m['bytes']} "
                     f"extract={len(text)}")
-            common.gh("warning", f"source fetch thin: {diag} :: {url}")
+            # C-5: ONE COUNT PER SOURCE PER RUN, not one annotation per URL. A thin
+            # extract is normal for a paywalled or script-rendered page and the
+            # pipeline already handles it; a wall of yellow for a known condition is
+            # how a real warning gets missed. The diagnostic stays in the log.
+            print(f"source fetch thin: {diag} :: {url}")
+            _thin_count(url)
         else:
             diag = f"status={code} extract={len(text)}"
         if len(text) >= 200:

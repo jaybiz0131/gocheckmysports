@@ -710,7 +710,10 @@ jobs:
               echo "::warning::Netlify build hook ping failed; the site will refresh on the next deploy."
             fi
           else
-            echo "::notice::NETLIFY_BUILD_HOOK not set; the site rebuilds only on pushes. Add the secret to enable the daily refresh."
+            # C-5: a log line, not an annotation. Push-only builds are T-3 by
+            # design, so this is a statement of the configuration, not something a
+            # person must act on.
+            echo "netlify: no build hook configured; the site rebuilds on pushes (T-3)."
           fi
           echo "pinged=$pinged" >> "$GITHUB_OUTPUT"
 
