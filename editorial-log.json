@@ -1,53 +1,5 @@
 [
  {
-  "date": "2026-08-16",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c000",
-    "headline": "Timpson's career-high 20 points lifts Fever past Dream in overtime",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Timpson 'scored Indiana's first three field goals in overtime' but the brief data_point says she 'scored Indiana's first three field goals in overtime'\u2014the draft then says she scored these to 'establish early momentum,' but does not clarify whether these were field goals (2-pointers) or three-pointers. The brief does not specify, and the draft's phrasing 'first three field goals' is ambiguous and potentially misleading if the source meant three consecutive field goals, not three individual possessions. This is unverified language beyond the brief.",
-     "Draft claims the game was 'critical WNBA playoff positioning' but the brief only says it 'protected the Fever's hold on fourth place' with no verification from the source that this was described as 'critical' or in a 'playoff positioning stretch.' The draft's framing of 'final playoff positioning stretch' in the body is supported by the brief, but the bottom_line's characterization of 'playoff positioning game' as a presupposition rather than a stated fact in the brief goes beyond what was sourced."
-    ]
-   },
-   {
-    "id": "c118",
-    "headline": "Vikings linebacker Jamal Adams out for season after preseason knee injury",
-    "category": "compliance",
-    "reasons": [
-     "Draft speculates on medical details ('whether it is an ACL, MCL, or other ligament damage, has not been disclosed') in a way that invites speculation about the nature of Adams's injury. The brief's open_question explicitly flags that 'The specific nature of the knee injury (ACL, MCL, other) is not stated in the sources,' indicating this is unconfirmed territory. The draft should not list specific injury types as possibilities without source attribution, as this crosses into medical speculation about an athlete's body beyond the official record.",
-     "Draft includes language in bottom_line ('whether Adams pursues any medical appeals or second opinions that could affect his recovery timeline') that is speculative and not grounded in any data_point or bear_case in the brief. This ventures into speculation about Adams's personal medical decisions without any reporting to support it."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "Padres defeat Guardians 5-0 as Mize records first win in San Diego uniform",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Four home runs' and 'The Padres' offense provided substantial support through four home runs' but only names two home run hitters (Rengifo and Sheets). The brief's open_questions explicitly flag that 'only two (Rengifo and Sheets) are named in the source text; the other two home run hitters are not identified.' The draft presents four home runs as a confirmed fact when the brief itself identifies this as an open question\u2014the source text does not verify who hit the other two home runs. This is a smuggled fact not traceable to the verified data_points."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Manchester Super Giants claim first Hundred title with five-wicket victory",
-    "category": "clarity",
-    "reasons": [
-     "The brief marks as 'thin: true' with only 5 core data_points and multiple open questions about Rockets' score, their first-innings total, and other key contributors. The draft fails to establish basic stakes: what was Rockets' target? The opening line says Manchester won 'by five wickets' but never states what score they were chasing or whether the chase was comfortable or a late wobble (which the brief's open_questions suggest might have occurred per BBC reporting). A reader cannot assess the significance of the victory without knowing Rockets' total. For a thin brief, the draft should be tight and precise; instead it is vague about the match itself while padding with generic commentary about Hundred format ('100-ball-per-side structure'). The bottom_line avoids forward stakes ('watch how the team builds momentum') which is permissible, but the body lacks the basic context needed to report the event clearly."
-    ]
-   },
-   {
-    "id": "c117",
-    "headline": "Bears activate Trapilo off PUP list after patellar tendon recovery",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Trapilo suffered a patellar tendon tear 'in January's wild-card playoff win over the Green Bay Packers,' but the brief data_point says 'tore his patellar tendon in the wild-card round playoff win over the Green Bay Packers in January' with confidence 'reported'\u2014not 'verified-on-chain.' The draft presents this as settled fact without the appropriate confidence qualifier; a patellar tendon injury sustained during a playoff game is a medical and factual claim that requires source confirmation language, especially given it is only 'reported,' not confirmed on-chain."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-17",
   "approved": 3,
   "rejected": [
@@ -7725,6 +7677,30 @@
      "The draft states the regular season 'resumed Thursday, September 16' but today is Thursday, September 17. A past-tense report of an event dated tomorrow is an accuracy error. The brief timestamp confirms the event occurred on 2026-09-16, but the draft must be written as a forward-looking or same-day story, not as already concluded.",
      "The brief's open_questions flag that 'the source text from the primary URL is truncated and does not provide the actual playoff matchups or current standings' and 'no specific seeding positions, team records, or win-loss gaps are provided.' The draft makes confident claims about playoff seeding ('seeding determines who faces whom in the opening round,' 'the final four regular-season games will sort teams into their first-round positions') without the detailed standing data to back them. The core story rests on specificity the brief does not carry.",
      "the draft dates September 16, 2026 as a Thursday; September 16, 2026 is a Wednesday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-17",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "USC receiver Mosley out vs. Rutgers on September 21, return timeline unclear",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title and body state the game is 'on September 21' and 'Saturday's game against Rutgers on September 21,' with a later sentence stating 'The game is scheduled for Saturday, September 21 at 3:30 p.m. ET on CBS.' However, the brief's data point states: 'Game is scheduled for Saturday, Sept. 19 at 3:30 p.m. ET at SHI Stadium in Piscataway, New Jersey, broadcast on CBS.' This is a factual discrepancy: the brief lists September 19, the draft lists September 21. Today is Thursday, September 17, 2026. September 19 would be Saturday (two days from today); September 21 would be Monday. The title commits the error by naming the wrong date as the game date. This is a hard accuracy failure\u2014the wrong date in the lead is unfixable by cutting sentences.",
+     "the draft dates September 21, 2026 as a Saturday; September 21, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "UNC defensive coordinator Steve Belichick resigns after investigation into program culture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a resignation effective 'October 27, 2026,' but today is Thursday, September 17, 2026. A resignation dated 40 days in the future cannot have already occurred. The draft treats a future event as having already happened ('resigned effective October 27, 2026') rather than presenting it as an announced future resignation or resignation agreement. This is a hard temporal error: the event date is after the publication date.",
+     "The brief states Belichick 'was on medical leave since early August 2026,' but the draft specifies 'August 6' as the announcement date. The brief's data_point confirms 'Bill Belichick announced his son's medical leave on Aug. 6, 2026,' so the announcement date is correct, but the draft's phrasing 'on medical leave since August 6' conflates the announcement with the start of leave without clarifying whether Aug. 6 was when the leave began or when it was announced."
     ]
    }
   ]
