@@ -123,8 +123,8 @@ and note it in the report.
 | H-7, H-3, H-6, H-8 | done | `69878d9` |
 | **H-5b byline carries the date when it differs** | **open** | |
 | H-12 Sunday grouping | check Sun 1:30 PM ET | |
-| **V-6 inner pages and phone** | **open** | A-14/A-15, Home tab first (N-1) |
-| **V-7 motion and weight** | **open** | see section 5 |
+| V-6 inner pages and phone | done | `89dd26a` |
+| V-7 fonts, poster, dead CSS | done | `0d1037e`, `00c618a` |
 | V-8..V-12 Crypto visual | open, Sprint I | see the Crypto handoff |
 | V-13 Crypto copy | **hold**, do not touch | Jack has not reviewed |
 | V-14 Wire + reader panel W-4/W-7 | open, Sprint I | |
@@ -135,10 +135,13 @@ and note it in the report.
 Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
 Sunday 12:30 to 8:30 PM ET.
 
-## 5. V-7 and the A-17 budget calls
+## 5. A-17 budgets, as measured
 
-Measured 2026-09-16, live, phone, median of three: **Sports LCP 5,076 ms**, **Crypto
-4,540 ms**. Budget is now absolute: **under 3,000 ms on both by the end of Sprint I.**
+Measured 2026-09-17, local build, canonical harness at 390, median of three:
+**Sports LCP 1,956 ms, Crypto 1,676 ms, CLS 0.0000 on both** (was 5,076 and 4,540
+live on 09-16). Budget is under 3,000 ms; re-measure against the live pages after
+the next deploy. Fonts: five files, 59.9 KB, same origin. Poster: phone variant at
+10.2 KB (Sports) and 9.2 KB (Crypto).
 
 - CSS 25.6 KB gz (Sports) / 23.8 (Crypto), JS 3.0 / 4.1. Budget 60 and 40. Pass.
 - Fonts: 6 files, 4 families. Target is **five files, under 60 KB, same origin**:
@@ -186,6 +189,17 @@ The copy grep must cover every chrome class the law names, not a subset. Greppin
 narrow set returned zero while 707 violations were shipping.
 
 ## 7. Traps this build has already paid for
+
+- **"Absent from today's build" is not "dead".** Grepping built HTML misses markup
+  behind a freshness gate (`.hero-bl` renders only when a Bottom Line edition is
+  fresh; `.live-dot` only when an edition is under 24h) and classes added at runtime
+  by JS (`.flash` / `.flash-dn` come from `pulse-live.js`). Before deleting CSS, check
+  `site_build.py` and the JS for a producer, not only the current output. A subagent
+  caught three of these after I had called them dead.
+- **A preload must request the same URL the page will.** The asset versioner rewrites
+  `/assets/...` in HTML but not inside `site.css`, so a preloaded font and the
+  `@font-face` url() were two URLs for the same bytes: seven requests for five files.
+  Fonts are exempt from versioning for that reason.
 
 - A nickname is a shallow key. "Bills" matched a story about legislation. Match the
   full team name, or the nickname in the headline only, case-sensitive.
