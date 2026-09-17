@@ -1965,3 +1965,5 @@ header.masthead{position:relative;z-index:300}
   .tk-num-chips{gap:6px}
   .tk-chip-score{padding:3px 10px}
 }
+/* UX-1 adjustment: the folded row's abbreviation is white; the chip carries colour. */
+.tk-fold .t b{color:#EBE9E3}

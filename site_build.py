@@ -1198,6 +1198,56 @@ def render_body(body):
     return "\n".join(out)
 
 
+def _independent_outlets(item):
+    """The distinct outlets that carried this story: its cited sources plus the
+    corroboration the aggregator recorded. Two of these is what "Verified" claims."""
+    outs = []
+    for src in (item.get("sources") or []):
+        nm = (src.get("title") or src.get("name") or "") if isinstance(src, dict) else ""
+        nm = (nm or "").strip().lower()
+        if nm and nm not in outs:
+            outs.append(nm)
+    for a in (item.get("also_reported_by") or []):
+        nm = ((a.get("outlet") or "") if isinstance(a, dict) else "").strip().lower()
+        if nm and nm not in outs:
+            outs.append(nm)
+    return outs
+
+
+def status_badge(item):
+    """UX-2 (S-2): ONE STATUS PER STORY, AND ONLY ONE.
+
+    Cards carried "Verified" and "Developing, single source" side by side, and
+    "Verified" beside "Reported \u00b7 ESPN", because two badge systems rendered on the
+    same card: verdict_badge for the verifier's verdict and _receipt_status for the
+    sourcing. A reader cannot tell from that whether the desk stands behind the story,
+    and the badge vocabulary is the site's promise: it cannot argue with itself.
+
+    The vocabulary, in order of precedence:
+      Developing            an event still in motion
+      Verified              the verifier cleared it AND two or more outlets carried it
+      Reported \u00b7 Outlet     one named outlet
+      (nothing)             no named outlet to stand behind
+
+    A story the verifier did not clear is never "Verified" however many outlets carried
+    it; corroboration is not the desk's own check.
+    """
+    if item is None:
+        return ""
+    if item.get("developing"):
+        return ('<span class="badge developing" title="An event still in motion. The '
+                'desk publishes it as developing rather than settled.">Developing</span>')
+    outs = _independent_outlets(item)
+    if item.get("verdict") == "VERIFIED" and len(outs) >= 2:
+        return '<span class="badge verified">Verified</span>'
+    if item.get("verdict") in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
+        return '<span class="badge review">Editor reviewed</span>'
+    if outs:
+        named = _bd_outlet((item.get("sources") or [{}])[0]) or outs[0].title()
+        return f'<span class="badge dat">Reported \u00b7 {esc(named)}</span>'
+    return ""
+
+
 def verdict_badge(verdict, item=None):
     """The verdict, plus a developing flag when the story rests on a single outlet.
 
@@ -1208,16 +1258,17 @@ def verdict_badge(verdict, item=None):
     independent outlet had corroborated it" as a contradiction the reader has to reconcile.
     A story with corroboration is NOT developing whatever its citation count: the badge
     discloses resting on one outlet's word, not a thin sources list."""
-    out = ""
-    if verdict == "VERIFIED":
-        out = '<span class="badge verified">Verified</span>'
-    elif verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
-        out = '<span class="badge review">Editor reviewed</span>'
-    if item is not None and item.get("developing"):
-        out += ('<span class="badge developing" title="Only one outlet has carried this so '
-                'far. The desk publishes it as developing rather than corroborated.">'
-                'Developing, single source</span>')
-    return out
+    # UX-2: this used to emit the verdict AND a developing flag, which is how a card
+    # ended up carrying two statuses that disagreed. It is now one call into
+    # status_badge, which decides. The signature stays so the nine call sites do not
+    # each have to change shape; where no item is available the verdict alone is used.
+    if item is None:
+        if verdict == "VERIFIED":
+            return '<span class="badge verified">Verified</span>'
+        if verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
+            return '<span class="badge review">Editor reviewed</span>'
+        return ""
+    return status_badge(item)
 
 
 def sig_block():
@@ -3303,8 +3354,11 @@ def _tk_fold(g, ia_index, desig=None):
                f'{_bar}{sc}</span>'
                if started and sc is not None
                else f'<span class="s" data-side="{side}"></span>')
-        ab = (f'<b data-abbr="{side}" style="color:{col}">{esc(t.get("abbr") or "")}</b>'
-              if col else f'<b data-abbr="{side}">{esc(t.get("abbr") or "")}</b>')
+        # UX-1 adjustment: on a folded row the abbreviation is WHITE. Coloured, it sat
+        # bare on the team wash with no chip under it, and PHI in red on the Phillies'
+        # red was the case that proved it. The chip carries the colour and the bar; the
+        # abbreviation carries the name.
+        ab = f'<b data-abbr="{side}">{esc(t.get("abbr") or "")}</b>' 
         return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
                 f'{ab}<span>{esc(t.get("name") or "")}'
                 f'{" " + esc(t.get("record")) if t.get("record") else ""}</span></div>{val}')
@@ -3925,7 +3979,18 @@ def scoreboard_band(sb, board, wx=None):
                         f"{'game' if _n_p == 1 else 'games'} {_lab_p}")
             _foot_p = "All games"
         else:
-            _count_p, _foot_p = "No games scheduled", "All games"
+            # H-6 follow-up: with the MLB tab reading "15 final" the count line read
+            # "No games scheduled", which contradicts the tab beside it. It names what
+            # the tab holds: the finals, and when the league next plays.
+            _done = sum(1 for g in pool if g.get("state") == "post")
+            _nxt_all = sorted((_utc_dt(g.get("start_utc") or "") for g in pool
+                               if _utc_dt(g.get("start_utc") or "")))
+            _nxt_all = [d for d in _nxt_all if d > _build_now()]
+            _count_p = f"{_done} final" if _done else "No games scheduled"
+            if _nxt_all:
+                _d0 = _nxt_all[0].astimezone(_ET)
+                _count_p += f" \u00b7 next {_d0.strftime('%a')} {_et_clock(_nxt_all[0])}"
+            _foot_p = "All games"
         _nxt_p = ""
         _pre_p = sorted((g for g in pool if g.get("state") == "pre"),
                         key=lambda g: g.get("start_utc") or "")
@@ -5287,8 +5352,9 @@ def _receipt_status(item):
         nm = _bd_outlet(s)
         if nm and nm not in outlets:
             outlets.append(nm)
-    if outlets:
-        return f'<span class="bd-badge dat">Reported · {esc(outlets[0])}</span>'
+    # UX-2: the sourcing badge is gone from here. status_badge owns the one status a
+    # card shows, and "Reported \u00b7 Outlet" is one of its three words. "Filed" above
+    # stays: it is a fact about a document, not a claim about the desk's confidence.
     return ""
 
 
