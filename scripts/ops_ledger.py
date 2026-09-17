@@ -168,6 +168,92 @@ def _commit_ledger(path, row):
     print("::warning::ledger.json committed but not pushed; the next run carries it")
 
 
+def health_line(day=None, runs=None):
+    """C-4: one line per desk, comparing the Actions log and the ledger to the register.
+
+    "Sports: 1 paid run $0.42, 38 poller runs, 4 builds, 0 failures, in range", or the
+    deviation by name. It is the first line of every report, so it has to say what is
+    wrong rather than only that something is.
+
+    `runs` is the Actions run list as the API returns it, so this is testable offline
+    and makes no network call of its own.
+    """
+    import datetime as _dt
+    reg = {}
+    try:
+        with open(os.path.join(REPO, "desk.json"), encoding="utf-8") as fh:
+            reg = json.load(fh) or {}
+    except Exception as exc:
+        return f"{os.path.basename(REPO)}: no desk register ({exc})"
+    name = (reg.get("desk") or os.path.basename(REPO)).replace("gocheckmy", "").title()
+    day = day or _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+
+    paid, spend = 0, 0.0
+    try:
+        with open(os.path.join(REPO, "ledger.json"), encoding="utf-8") as fh:
+            for r in (json.load(fh) or {}).get("runs", []):
+                if (r.get("t") or "")[:10] != day:
+                    continue
+                if (r.get("usd") or 0) > 0:
+                    paid += 1
+                    spend += float(r.get("usd") or 0)
+    except Exception:
+        pass
+
+    runs = runs or []
+    by_wf = {}
+    fails = []
+    for r in runs:
+        wf = r.get("name") or ""
+        by_wf[wf] = by_wf.get(wf, 0) + 1
+        if r.get("conclusion") == "failure":
+            fails.append(wf)
+
+    poller = sum(n for w, n in by_wf.items() if "poller" in w.lower()
+                 or "inactives" in w.lower())
+    builds = sum(n for w, n in by_wf.items() if "verify" in w.lower())
+
+    # Every deviation is named. "in range" means every one of these passed.
+    off = []
+    want_paid = reg.get("paid_runs_per_day")
+    want_break = reg.get("breaking_runs_per_day") or 0
+    if want_paid is not None and paid > want_paid + want_break:
+        off.append(f"{paid} paid runs against {want_paid}+{want_break} allowed")
+    cap = reg.get("spend_cap_usd_per_run")
+    if cap and paid and spend / max(paid, 1) > cap:
+        off.append(f"${spend/paid:.2f} average run against a ${cap:.2f} cap")
+    if fails:
+        seen = {}
+        for w in fails:
+            seen[w] = seen.get(w, 0) + 1
+        off.append("failures: " + ", ".join(f"{w} x{n}" for w, n in sorted(seen.items())))
+    nb = reg.get("netlify_builds_per_day") or {}
+    for wf, n in sorted(by_wf.items()):
+        want = ((reg.get("workflows") or {}).get(_wf_file(wf, reg)) or {}).get("runs_per_day")
+        if not want:
+            continue
+        if n < want.get("min", 0) or n > want.get("max", 10 ** 6):
+            off.append(f"{wf} ran {n}, register says {want.get('min')}-{want.get('max')}")
+
+    head = (f"{name}: {paid} paid run{'' if paid == 1 else 's'} ${spend:.2f}, "
+            f"{poller} poller runs, {builds} builds, {len(fails)} failures")
+    return f"{head}, in range" if not off else f"{head} - " + "; ".join(off)
+
+
+def _wf_file(display_name, reg):
+    """Map a workflow's display name to its file, via the register's own purposes."""
+    for fn, meta in (reg.get("workflows") or {}).items():
+        stem = fn.rsplit(".", 1)[0].replace("-", " ").lower()
+        if stem in display_name.lower() or display_name.lower() in stem:
+            return fn
+    low = display_name.lower()
+    for fn in (reg.get("workflows") or {}):
+        key = fn.rsplit(".", 1)[0].split("-")[-1].lower()
+        if key and key in low:
+            return fn
+    return ""
+
+
 def infer_repo():
     if os.environ.get("GITHUB_REPOSITORY"):
         return os.environ["GITHUB_REPOSITORY"]
@@ -266,6 +352,16 @@ def tally_file(path=None):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--health":
+        # C-4: the first line of every report. Reads the Actions log for the day from
+        # stdin as JSON (so it makes no network call of its own and is testable), or
+        # from an empty list when nothing is piped in.
+        try:
+            _runs = json.loads(sys.stdin.read() or "[]") if not sys.stdin.isatty() else []
+        except Exception:
+            _runs = []
+        print(health_line(sys.argv[2] if len(sys.argv) > 2 else None, _runs))
+        sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "--file":
         sys.exit(tally_file(sys.argv[2] if len(sys.argv) > 2 else None))
     if len(sys.argv) > 2 and sys.argv[1] == "--tally":

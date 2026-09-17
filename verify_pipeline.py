@@ -971,6 +971,46 @@ def _contract_ladder_canary(cfg):
                        f"{_e.get('feed_name')!r}; the source changed its record, so "
                        f"delete this entry")
 
+    # (j) C-4: THE DESK REGISTER AND THE WORKFLOW FILES MUST AGREE, EXACTLY. desk.json
+    # is how a person knows the newsroom is configured the way they think it is, and a
+    # register nobody checks is a comment. Every active cron in a file must be in the
+    # register, and every cron in the register must be in a file: no more and no less,
+    # so a stale cron or a placeholder that never fires cannot survive a push.
+    #
+    # Comment out a cron and forget the register and this fails. Add one to the register
+    # and forget the file and this fails. That is the point.
+    _dj = os.path.join(_here, "desk.json")
+    _wfdir = os.path.join(_here, ".github", "workflows")
+    if os.path.exists(_dj):
+        _reg = json.load(open(_dj, encoding="utf-8"))
+        _regwf = _reg.get("workflows") or {}
+        _seen = set()
+        for _fn in sorted(os.listdir(_wfdir)):
+            if not _fn.endswith((".yml", ".yaml")):
+                continue
+            _seen.add(_fn)
+            _txt = open(os.path.join(_wfdir, _fn), encoding="utf-8").read()
+            # active cron lines only: a commented one is not a schedule
+            # Strip the comment FIRST, then the quotes: a cron line reads
+            #   - cron: "38 23 * * *"   # Evening Wrap slot
+            # and stripping quotes before the comment leaves the closing one attached.
+            _live = set(re.findall(r'^\s*-\s*cron:\s*["\']([^"\']+)["\']',
+                                   _txt, re.M))
+            _check(_fn in _regwf, fails,
+                   f"desk register: {_fn} is not in desk.json")
+            _want = {c.get("utc") for c in (_regwf.get(_fn) or {}).get("crons") or []}
+            _check(_live == _want, fails,
+                   f"desk register: {_fn} crons {sorted(_live)} do not match the "
+                   f"register's {sorted(_want)}")
+        for _fn in _regwf:
+            _check(_fn in _seen, fails,
+                   f"desk register: desk.json lists {_fn}, which has no workflow file")
+        # the served slots are the recovery table, in one place (C-3)
+        _check(set(_reg.get("served_slots") or []) ==
+               {s[0] for s in watcher.SLOT_DEADLINES}, fails,
+               f"desk register: served_slots {_reg.get('served_slots')} do not match "
+               f"watcher.SLOT_DEADLINES")
+
     # (h) PROGRAM 4, X-2: THE SLOT GUARD, ON ITS NO-MODEL PATH. The guard lives in the
     # workflow YAML, so it is extracted and executed here with origin/main mocked. It
     # is the rule that makes "one Edition a day" true regardless of who dispatches, and
@@ -1015,6 +1055,20 @@ def _contract_ladder_canary(cfg):
     _code = _guard_code()
     _check(_code is not None, fails, "slot guard: could not read the guard from the workflow")
     if _code:
+        # C-1: THE EDITION PATH, AS ONE TEST. The desk promises one Edition a day and
+        # this is the rule that keeps that promise: at the slot, with no Edition file
+        # for that slot and day on origin/main, the run WRITES one, whatever else
+        # happened that day; with the file present it stands down at zero.
+        #
+        # On 2026-09-16 the crypto slot run never reached this guard. It died at the
+        # offline canary gate on an assertion about a slot that had been removed an
+        # hour earlier, and the desk got its Edition by luck, from a breaking run at
+        # 8:43 PM. The rule was never the problem; nothing was checking that the rule
+        # could be reached.
+        _check(_guard(_code, "schedule", "", "38 23 * * *", False, False) == "true", fails,
+               "C-1: at the slot with no Edition for the day, the run must write one")
+        _check(_guard(_code, "schedule", "", "38 23 * * *", False, True) == "false", fails,
+               "C-1: with the Edition already on origin/main, the run must stand down")
         _cases = [
             ("a cron for a slot already served must stand down",
              "schedule", "", "38 23 * * *", False, True, "false"),

@@ -10,6 +10,12 @@
 name: Issue janitor (close stale auto-alarms)
 
 on:
+  # C-5 (2026-09-17): DAILY, not dispatch only. The janitor closes stale
+  # auto-alarm issues, and dispatch-only meant alarms piled up until someone
+  # remembered it. An issue list nobody can read is the same problem as an
+  # Actions page nobody can read.
+  schedule:
+    - cron: "40 7 * * *"
   workflow_dispatch:
     inputs:
       cutoff:
