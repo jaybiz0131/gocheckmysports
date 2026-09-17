@@ -92,3 +92,46 @@ inline. Jack says the master list is in the close paste; as of 7:40 PM it had no
 in Downloads. Block 2 cannot start without it.
 
 **The merge undercount above (N-7b)**, until Friday morning.
+
+## Weekend additions (given 7:56 PM Thursday)
+
+None of these is a new surface. They decide whether anyone finds the sites and whether
+we know they are wrong before a reader does.
+
+**P-2, Friday, one hour, after N-7b.** Reachability for search engines. Confirm both
+sitemaps and the news sitemap are complete after today's additions (standings, 32 team
+pages, 100 coin pages), that every page carries one canonical, that the 301s from old
+URLs still resolve, that robots.txt allows everything meant to be crawled, and that the
+structured data validates. The report gives Jack the exact sitemap URLs and the
+verification method he needs for Google Search Console, Bing Webmaster Tools and the
+Google Publisher Center application. He submits; we supply.
+
+**P-1, Saturday, with R-5.** The live-page probe, in the Worker, which already wakes
+every five minutes. On each wake it fetches both live homepages with a cache-busting
+query, reads the stamps it finds there (the Sports band's "Updated", the Crypto Board's
+"As of", the Edition card's date) and the response headers, and writes the reading to a
+small KV record. When a stamp is older than the register's freshness for that surface, or
+a page fails to load twice running, it opens ONE issue on that desk's repo and adds a
+line to the morning health report. This is M-16's freshness column enforced against the
+live pages rather than the repo, which is the only place staleness is real.
+Test: set the Board's freshness to one minute, watch the probe flag it, set it back.
+
+**P-3, in the Saturday close report.** An accessibility pass: contrast on the dark cards
+and the chips at 4.5:1 or better, visible focus on every control including the folds and
+the tabs, the tab switcher and the fold open usable by keyboard and announced by a screen
+reader, and the reduced-motion path checked on both sites. Lighthouse accessibility
+scores for the homepage, /scores or /pulse, and a game or coin page, at both widths.
+
+### For the register, answered Thursday night
+
+Cloudflare Web Analytics is on BOTH sites, and has been since before the audit:
+
+| desk | since | commit |
+|---|---|---|
+| Crypto | 10 July 2026 | `99d0c4c`, "gated CF analytics" |
+| Sports | 19 July 2026 | `f6fbb13`, inherited when the chassis was cloned from Crypto |
+
+The beacon renders only when `CF_ANALYTICS_TOKEN` is set, so no key is in either repo;
+the token is set in both Netlify environments, and both live homepages carry the beacon
+tonight. Neither site loads Google Analytics. Jack can read traffic in Cloudflare now,
+before Netlify Analytics is decided.
