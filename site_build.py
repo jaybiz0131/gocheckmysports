@@ -198,6 +198,7 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("The Record", "/keepers.html"),
        ("Scores", "/scores.html"),
+       ("Standings", "/standings/nfl.html"),
        ("Where to watch", "/where-to-watch.html"),
        ("Fantasy", "/fantasy/inactives.html"),
        ("NFL", "/sections/nfl.html"),
@@ -222,8 +223,8 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
 # N-1 amends S-1: Home is the first item; the wordmark stays a home link too.
 NAV_PRIMARY = ["Home", "Scores", "Fantasy", "Where to watch", "The Record", "The Edition",
                "NFL", "College Football", "MLB"]
-NAV_MORE = ["Soccer", "WNBA", "Tennis", "NBA", "College Basketball", "NHL",
-            "More Sports", "Archive", "About"]
+NAV_MORE = ["Standings", "Soccer", "WNBA", "Tennis", "NBA", "College Basketball",
+            "NHL", "More Sports", "Archive", "About"]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -4558,6 +4559,187 @@ def scoreboard_band(sb, board, wx=None):
 <div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS
 
 
+# ---- S-L1: standings and the college football rankings ---------------------------
+# The audit's first lead item: the site had no standings anywhere, and standings are one
+# of the five things a reader opens a sports site for. They come from the same lane the
+# band reads, they are read on their own pages, and they carry a tab on /scores.
+#
+# THE RULE THIS MODULE IS BUILT AROUND. standings.py writes a league only when its teams
+# have played. In September the upstream endpoint answers for the 2026-27 basketball and
+# hockey seasons, thirty teams at 0-0, and a full table of zeros looks like a result. So
+# there is no "no data yet" table here and no placeholder: a league with nothing to show
+# is not on the page, which is the same law the Board tiles follow.
+
+ST_DATA = None            # set at build by standings.load()
+
+# The columns a reader actually reads, per league, in the order they read them. Anything
+# the source did not send for a row is blank, never a zero.
+ST_COLS = {
+    # Points for and against came out: nine stat columns did not fit two tables across
+    # at 1440 and the streak was clipped off the right edge of every one of them. The
+    # differential carries what PF and PA were there to say.
+    "nfl": [("wins", "W"), ("losses", "L"), ("ties", "T"), ("winPercent", "PCT"),
+            ("divisionRecord", "DIV"), ("differential", "DIFF"), ("streak", "STRK")],
+    "mlb": [("wins", "W"), ("losses", "L"), ("winPercent", "PCT"),
+            ("gamesBehind", "GB"), ("streak", "STRK")],
+    "nba": [("wins", "W"), ("losses", "L"), ("winPercent", "PCT"),
+            ("gamesBehind", "GB"), ("streak", "STRK")],
+    "nhl": [("wins", "W"), ("losses", "L"), ("winPercent", "PCT"), ("streak", "STRK")],
+}
+
+
+def _st_cell(v):
+    """A figure the source sent, or nothing. Never a zero standing in for a gap."""
+    return esc(str(v)) if v not in (None, "", "-") else ""
+
+
+def _st_table(key, group):
+    cols = ST_COLS.get(key) or ST_COLS["nfl"]
+    cols = [(k, lab) for k, lab in cols
+            if any(r.get(k) not in (None, "") for r in group["rows"])]
+    head = "".join(f'<th scope="col">{esc(lab)}</th>' for _k, lab in cols)
+    body = []
+    for n, r in enumerate(group["rows"], 1):
+        cells = "".join(f'<td>{_st_cell(r.get(k))}</td>' for k, _lab in cols)
+        body.append(
+            f'<tr><td class="st-pos">{n}</td>'
+            f'<td class="st-team"><span class="st-abbr">{esc(r.get("abbr") or "")}</span>'
+            f'<span class="st-name">{esc(r.get("team") or "")}</span></td>{cells}</tr>')
+    # "American League East" under a heading that already says American League: the
+    # conference prefix comes off the display, the way the venue map tidies a name
+    # without renaming it. The source's own spelling stays in standings.json.
+    label = group["name"]
+    conf = group.get("conference") or ""
+    if conf and label.startswith(conf + " "):
+        label = label[len(conf) + 1:]
+    return (f'<div class="st-block"><h3 class="st-h">{esc(label)}</h3>'
+            f'<div class="st-wrap"><table class="st-t">'
+            f'<thead><tr><th scope="col"><span class="sr-only">Position</span></th>'
+            f'<th scope="col">Team</th>{head}</tr></thead>'
+            f'<tbody>{"".join(body)}</tbody></table></div></div>')
+
+
+def _st_league_block(lg):
+    """One league: its groups, under the conference each sits in when it has one."""
+    by_conf = {}
+    for g in lg["groups"]:
+        by_conf.setdefault(g.get("conference") or "", []).append(g)
+    out = []
+    for conf, groups in by_conf.items():
+        if conf:
+            out.append(f'<div class="sec-head" style="margin-top:22px">'
+                       f'<h2>{esc(conf)}</h2><span class="bar"></span></div>')
+        out.append('<div class="st-grid">'
+                   + "".join(_st_table(lg["key"], g) for g in groups) + '</div>')
+    return "".join(out)
+
+
+def _st_stamp(st):
+    """One stamp, as the copy law asks, and the season year is not on it: the source
+    said 2027 for a table of 2026 results, so the year is not something this page can
+    assert. See the note at the top of standings.py."""
+    t = _utc_dt(st.get("fetched_at") or "")
+    if not t:
+        return ""
+    mark = " \u00b7 stale" if st.get("stale") else ""
+    return f'<span class="sec-n">Updated {_et_clock(t)}{mark}</span>'
+
+
+def render_standings_page(st, lg, dateline):
+    name = lg["league"]
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">{esc(name)} standings</h1>
+  <div class="sec-head"><h2>{esc(name)} standings</h2><span class="bar"></span>
+    {_st_stamp(st)}</div>
+  {_st_league_block(lg)}
+  {_st_nav(st, lg["key"])}
+</section></main>"""
+    return shell(f"{name} standings - {NAME}",
+                 f"{name} standings by division and conference, from the league feed.",
+                 "Scores", body, dateline, path=f'/standings/{lg["key"]}.html')
+
+
+def _st_rank_rows(rk):
+    rows = []
+    for r in rk["rows"]:
+        prev, cur = r.get("previous"), r.get("rank")
+        move = ""
+        try:
+            d = int(prev) - int(cur)
+            if int(prev) == 0:
+                move = '<span class="st-new">new</span>'
+            elif d > 0:
+                move = f'<span class="st-up">&#9650; {d}</span>'
+            elif d < 0:
+                move = f'<span class="st-dn">&#9660; {abs(d)}</span>'
+        except (TypeError, ValueError):
+            move = ""
+        fpv = r.get("first_place")
+        fp = (f'<span class="st-fp">{esc(str(fpv))} first-place '
+              f'vote{"" if fpv == 1 else "s"}</span>' if fpv else "")
+        who = " ".join(x for x in (r.get("school"), r.get("mascot")) if x)
+        rows.append(
+            f'<tr><td class="st-pos">{esc(str(cur))}</td>'
+            f'<td class="st-team"><span class="st-name">{esc(who)}</span>{fp}</td>'
+            f'<td>{esc(r.get("record") or "")}</td><td class="st-mv">{move}</td></tr>')
+    return "".join(rows)
+
+
+def render_rankings_page(st, dateline):
+    rk = st.get("rankings")
+    if not rk:
+        return None
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">College football rankings</h1>
+  <div class="sec-head"><h2>{esc(rk["poll"])}</h2><span class="bar"></span>
+    <span class="sec-n">{esc(rk.get("week") or "")}</span></div>
+  <div class="st-wrap"><table class="st-t st-rank">
+    <thead><tr><th scope="col"><span class="sr-only">Rank</span></th>
+      <th scope="col">Team</th><th scope="col">Record</th>
+      <th scope="col">Since last poll</th></tr></thead>
+    <tbody>{_st_rank_rows(rk)}</tbody></table></div>
+  {_st_nav(st, "college-football")}
+</section></main>"""
+    return shell(f"College football rankings - {NAME}",
+                 f"{rk['poll']}, {rk.get('week') or ''}: every ranked team with its "
+                 f"record and its movement since the last poll.",
+                 "Scores", body, dateline, path="/standings/college-football.html")
+
+
+def _st_nav(st, here):
+    """The other tables, from wherever the reader is. A league with nothing to show is
+    not listed, so this row never offers an empty page."""
+    links = [(lg["key"], lg["league"]) for lg in (st.get("leagues") or [])]
+    if st.get("rankings"):
+        links.append(("college-football", "College football"))
+    if len(links) < 2:
+        return ""
+    return ('<nav class="st-nav" aria-label="Other standings">'
+            + "".join(
+                (f'<span class="st-nav-a on">{esc(lab)}</span>' if k == here
+                 else f'<a class="st-nav-a" href="/standings/{esc(k)}.html">'
+                      f'{esc(lab)}</a>')
+                for k, lab in links)
+            + '</nav>')
+
+
+def standings_strip(st):
+    """S-L1 on /scores: the tab that takes a reader to the tables. The page is the
+    day's games; the standings are the season, and they get a door, not a copy."""
+    links = [(lg["key"], lg["league"]) for lg in (st.get("leagues") or [])]
+    if st.get("rankings"):
+        links.append(("college-football", "College football"))
+    if not links:
+        return ""
+    return (f'<section class="bd-mod st-strip">'
+            f'<div class="sec-head"><h2>Standings</h2><span class="bar"></span>'
+            f'{_st_stamp(st)}</div>'
+            + '<nav class="st-nav" aria-label="Standings">'
+            + "".join(f'<a class="st-nav-a" href="/standings/{esc(k)}.html">'
+                      f'{esc(lab)}</a>' for k, lab in links)
+            + '</nav></section>')
+
+
 def render_scores_page(sb, board, dateline, wx=None):
     """/scores: every game, grouped by league, with a Yesterday, Today, Tomorrow strip.
     The strip links only days we actually hold data for."""
@@ -4647,6 +4829,7 @@ def render_scores_page(sb, board, dateline, wx=None):
 <div class="sb-fade" aria-hidden="true"></div>""" + SB_LIVE_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
+    {standings_strip(ST_DATA) if ST_DATA else ""}
 </section></main>"""
     return shell(f"Scores - {NAME}",
                  "Every live score across the leagues this desk covers, with the "
@@ -7962,6 +8145,18 @@ def build():
     except Exception as _e:
         print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
 
+    # S-L1: the standings and the college football rankings. A league whose season has
+    # not started writes nothing, so a failure here costs the standings pages and
+    # nothing else on the site.
+    global ST_DATA
+    ST_DATA = None
+    try:
+        import standings as _stmod
+        _stmod.refresh()
+        ST_DATA = _stmod.load()
+    except Exception as _e:
+        print(f"standings: unavailable ({type(_e).__name__}); tables withheld")
+
     # S-B2: poll the injury feed and snapshot before rendering, so a build that lands
     # inside a posting window captures it. The board renders from the snapshot, never
     # from a live read; see inactives.py.
@@ -8104,6 +8299,21 @@ def build():
         if _sc:
             w("scores.html", _sc)
             print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
+
+    # S-L1: one page per league that has a table, plus the rankings.
+    if ST_DATA:
+        _st_n = 0
+        for _lg in (ST_DATA.get("leagues") or []):
+            w(f'standings/{_lg["key"]}.html', render_standings_page(ST_DATA, _lg, dateline))
+            _st_n += sum(len(g["rows"]) for g in _lg["groups"])
+        _rk = render_rankings_page(ST_DATA, dateline)
+        if _rk:
+            w("standings/college-football.html", _rk)
+        print(f"standings: {len(ST_DATA.get('leagues') or [])} league page(s), "
+              f"{_st_n} team(s)"
+              + (", rankings" if _rk else "")
+              + (f"; not started: {', '.join(ST_DATA['not_started'])}"
+                 if ST_DATA.get("not_started") else ""))
 
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
@@ -8286,6 +8496,14 @@ def build():
     topic_locs = ["/keepers.html"]
     topic_locs += [f"/news/{L['slug']}.html" for L in _s6_lanes
                    if len(L["items"]) >= NEWS_MIN_STORIES]
+    # S-L1: the standings pages are topic pages and a crawl path in their own right,
+    # and only the ones that actually built are listed, so a league whose season has
+    # not started never puts a 404 in the sitemap.
+    if ST_DATA:
+        topic_locs += [f'/standings/{lg["key"]}.html'
+                       for lg in (ST_DATA.get("leagues") or [])]
+        if ST_DATA.get("rankings"):
+            topic_locs.append("/standings/college-football.html")
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"

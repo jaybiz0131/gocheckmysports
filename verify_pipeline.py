@@ -312,6 +312,35 @@ def layer1_canary():
     clusters = aggregate.dedupe(dup, cfg)
     _check(len(clusters) == 2, fails, f"dedupe canary: expected 2 clusters, got {len(clusters)}")
 
+    # S-L1 STANDINGS: A TABLE OF ZEROS IS NOT A STANDING. The upstream endpoint answers
+    # for the season it thinks is current, and in September that is the 2026-27 NBA and
+    # NHL seasons: thirty teams at 0-0. Rendering that looks like a result and breaks the
+    # desk's oldest law. standings._played is the guard; this proves it both ways, so a
+    # refactor that "simplifies" it fails here rather than on the page.
+    import standings as _st
+    def _ent(w, l, t="0"):
+        return {"stats": [{"name": "wins", "displayValue": w},
+                          {"name": "losses", "displayValue": l},
+                          {"name": "ties", "displayValue": t}],
+                "team": {"displayName": "Acme Rockets", "abbreviation": "ACM"}}
+    _check(not _st._played(_ent("0", "0")), fails,
+           "standings canary: a 0-0 row was treated as a played standing")
+    _check(_st._played(_ent("1", "0")), fails,
+           "standings canary: a 1-0 row was not treated as played")
+    _check(_st._played(_ent("0", "1")), fails,
+           "standings canary: an 0-1 row was not treated as played")
+    _check(not _st._played({"stats": [], "team": {}}), fails,
+           "standings canary: a row with no stats was treated as played")
+    # and the committed file must never carry a group in which nobody has played
+    _stf = _st.load()
+    if _stf:
+        _bad = [f'{lg["league"]} {g["name"]}'
+                for lg in (_stf.get("leagues") or []) for g in lg["groups"]
+                if not any(str(r.get("wins") or "0") != "0" or str(r.get("losses") or "0") != "0"
+                           or str(r.get("ties") or "0") != "0" for r in g["rows"])]
+        _check(not _bad, fails,
+               f"standings canary: group(s) with no games played were written: {_bad[:3]}")
+
     # TAG-INTEGRITY REGRESSION (owner directive 2026-07-28, proven test case): the
     # "Severe weather" chip once linked a Tour de France story whose dek mentioned a
     # wildfire once. That exact mismatch must fail the build forever.
