@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-16T11:57:10Z",
+ "fetched_at": "2026-09-17T22:56:17Z",
  "leagues": [
   {
    "league": "NFL",
@@ -33,7 +33,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Highmark Stadium"
     },
     {
      "id": "401872933",
@@ -64,7 +65,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Mercedes-Benz Stadium"
     },
     {
      "id": "401872937",
@@ -95,7 +97,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Soldier Field"
     },
     {
      "id": "401872939",
@@ -126,7 +129,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Nissan Stadium"
     },
     {
      "id": "401872946",
@@ -157,7 +161,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Gillette Stadium"
     },
     {
      "id": "401872936",
@@ -188,7 +193,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "MetLife Stadium"
     },
     {
      "id": "401872935",
@@ -219,7 +225,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Raymond James Stadium"
     },
     {
      "id": "401872938",
@@ -250,7 +257,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "M&T Bank Stadium"
     },
     {
      "id": "401872934",
@@ -281,7 +289,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Reliant Stadium"
     },
     {
      "id": "401872940",
@@ -312,7 +321,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Empower Field at Mile High"
     },
     {
      "id": "401872941",
@@ -343,7 +353,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "SoFi Stadium"
     },
     {
      "id": "401872944",
@@ -374,7 +385,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "AT&T Stadium"
     },
     {
      "id": "401872943",
@@ -405,7 +417,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "State Farm Stadium"
     },
     {
      "id": "401872942",
@@ -436,7 +449,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Levi's Stadium"
     },
     {
      "id": "401872945",
@@ -467,7 +481,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Arrowhead Stadium"
     },
     {
      "id": "401872947",
@@ -498,7 +513,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "SoFi Stadium"
     }
    ]
   },
@@ -506,20 +522,84 @@
    "league": "MLB",
    "games": [
     {
-     "id": "401816943",
+     "id": "401816975",
      "league": "MLB",
      "state": "post",
      "completed": true,
      "status_short": "Final",
      "detail": "0:00",
      "period": 9,
-     "start_utc": "2026-09-15T22:40Z",
+     "start_utc": "2026-09-17T16:35Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "PIT",
+      "name": "Pirates",
+      "score": "7",
+      "record": "76-77",
+      "id": "23",
+      "color": "#000000"
+     },
+     "away": {
+      "abbr": "MIL",
+      "name": "Brewers",
+      "score": "4",
+      "record": "95-58",
+      "id": "8",
+      "color": "#13294b"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "PNC Park"
+    },
+    {
+     "id": "401816974",
+     "league": "MLB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 9,
+     "start_utc": "2026-09-17T16:40Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "CIN",
+      "name": "Reds",
+      "score": "2",
+      "record": "71-82",
+      "id": "17",
+      "color": "#c6011f"
+     },
+     "away": {
+      "abbr": "LAD",
+      "name": "Dodgers",
+      "score": "8",
+      "record": "93-60",
+      "id": "19",
+      "color": "#005a9c"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Great American Ball Park"
+    },
+    {
+     "id": "401816973",
+     "league": "MLB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 9,
+     "start_utc": "2026-09-17T17:10Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "TB",
       "name": "Rays",
-      "score": "2",
-      "record": "91-59",
+      "score": "10",
+      "record": "93-59",
       "id": "30",
       "color": "#092c5c"
      },
@@ -527,448 +607,207 @@
       "abbr": "ATH",
       "name": "Athletics",
       "score": "1",
-      "record": "61-90",
+      "record": "61-92",
       "id": "11",
       "color": "#003831"
      },
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Tropicana Field"
     },
     {
-     "id": "401816945",
+     "id": "401816980",
      "league": "MLB",
      "state": "post",
      "completed": true,
      "status_short": "Final",
      "detail": "0:00",
      "period": 9,
-     "start_utc": "2026-09-15T22:40Z",
+     "start_utc": "2026-09-17T19:10Z",
      "network": "ESPN Unlmtd",
-     "home": {
-      "abbr": "CLE",
-      "name": "Guardians",
-      "score": "7",
-      "record": "77-75",
-      "id": "5",
-      "color": "#002b5c"
-     },
-     "away": {
-      "abbr": "CHW",
-      "name": "White Sox",
-      "score": "6",
-      "record": "77-74",
-      "id": "4",
-      "color": "#000000"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816947",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T22:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "CIN",
-      "name": "Reds",
-      "score": "0",
-      "record": "70-81",
-      "id": "17",
-      "color": "#c6011f"
-     },
-     "away": {
-      "abbr": "LAD",
-      "name": "Dodgers",
-      "score": "4",
-      "record": "92-59",
-      "id": "19",
-      "color": "#005a9c"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816948",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T22:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "PIT",
-      "name": "Pirates",
-      "score": "1",
-      "record": "75-76",
-      "id": "23",
-      "color": "#000000"
-     },
-     "away": {
-      "abbr": "MIL",
-      "name": "Brewers",
-      "score": "5",
-      "record": "94-57",
-      "id": "8",
-      "color": "#13294b"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816949",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T22:45Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "WSH",
-      "name": "Nationals",
-      "score": "6",
-      "record": "71-81",
-      "id": "20",
-      "color": "#ab0003"
-     },
-     "away": {
-      "abbr": "PHI",
-      "name": "Phillies",
-      "score": "3",
-      "record": "83-68",
-      "id": "22",
-      "color": "#e81828"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816946",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T23:07Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "TOR",
-      "name": "Blue Jays",
-      "score": "1",
-      "record": "75-77",
-      "id": "14",
-      "color": "#134a8e"
-     },
-     "away": {
-      "abbr": "DET",
-      "name": "Tigers",
-      "score": "10",
-      "record": "72-79",
-      "id": "6",
-      "color": "#0a2240"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true
-    },
-    {
-     "id": "401816944",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final/11",
-     "detail": "0:00",
-     "period": 11,
-     "start_utc": "2026-09-15T23:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "NYM",
-      "name": "Mets",
-      "score": "5",
-      "record": "69-82",
-      "id": "21",
-      "color": "#002d72"
-     },
-     "away": {
-      "abbr": "BAL",
-      "name": "Orioles",
-      "score": "7",
-      "record": "74-78",
-      "id": "1",
-      "color": "#df4601"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816950",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T23:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "CHC",
-      "name": "Cubs",
-      "score": "3",
-      "record": "84-68",
-      "id": "16",
-      "color": "#0e3386"
-     },
-     "away": {
-      "abbr": "ATL",
-      "name": "Braves",
-      "score": "6",
-      "record": "89-63",
-      "id": "15",
-      "color": "#0c2340"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816953",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T23:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "MIN",
-      "name": "Twins",
-      "score": "1",
-      "record": "70-81",
-      "id": "9",
-      "color": "#031f40"
-     },
-     "away": {
-      "abbr": "NYY",
-      "name": "Yankees",
-      "score": "8",
-      "record": "88-63",
-      "id": "10",
-      "color": "#132448"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816954",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-15T23:45Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "STL",
-      "name": "Cardinals",
-      "score": "3",
-      "record": "75-77",
-      "id": "24",
-      "color": "#be0a14"
-     },
-     "away": {
-      "abbr": "SF",
-      "name": "Giants",
-      "score": "10",
-      "record": "63-89",
-      "id": "26",
-      "color": "#000000"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816951",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-16T00:05Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "TEX",
-      "name": "Rangers",
-      "score": "4",
-      "record": "75-76",
-      "id": "13",
-      "color": "#003278"
-     },
-     "away": {
-      "abbr": "BOS",
-      "name": "Red Sox",
-      "score": "2",
-      "record": "82-69",
-      "id": "2",
-      "color": "#0d2b56"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true
-    },
-    {
-     "id": "401816952",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-16T00:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "HOU",
-      "name": "Astros",
-      "score": "4",
-      "record": "76-75",
-      "id": "18",
-      "color": "#002d62"
-     },
-     "away": {
-      "abbr": "KC",
-      "name": "Royals",
-      "score": "2",
-      "record": "66-85",
-      "id": "7",
-      "color": "#004687"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true
-    },
-    {
-     "id": "401816955",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-16T00:40Z",
-     "network": "MLB.TV",
      "home": {
       "abbr": "COL",
       "name": "Rockies",
-      "score": "9",
-      "record": "56-95",
+      "score": "2",
+      "record": "56-97",
       "id": "27",
       "color": "#33006f"
      },
      "away": {
       "abbr": "SD",
       "name": "Padres",
-      "score": "3",
-      "record": "82-69",
+      "score": "9",
+      "record": "84-69",
       "id": "25",
       "color": "#2f241d"
      },
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Coors Field"
     },
     {
-     "id": "401816957",
+     "id": "401816976",
      "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/17 - 7:15 PM EDT",
      "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-16T01:38Z",
+     "period": 1,
+     "start_utc": "2026-09-17T23:15Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "NYM",
+      "name": "Mets",
+      "score": "0",
+      "record": "69-83",
+      "id": "21",
+      "color": "#002d72"
+     },
+     "away": {
+      "abbr": "PHI",
+      "name": "Phillies",
+      "score": "0",
+      "record": "84-68",
+      "id": "22",
+      "color": "#e81828"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Citi Field"
+    },
+    {
+     "id": "401816979",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/17 - 7:15 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-09-17T23:15Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "HOU",
+      "name": "Astros",
+      "score": "0",
+      "record": "76-76",
+      "id": "18",
+      "color": "#002d62"
+     },
+     "away": {
+      "abbr": "KC",
+      "name": "Royals",
+      "score": "0",
+      "record": "67-85",
+      "id": "7",
+      "color": "#004687"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Daikin Park"
+    },
+    {
+     "id": "401816978",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/17 - 7:40 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-09-17T23:40Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "CHW",
+      "name": "White Sox",
+      "score": "0",
+      "record": "77-75",
+      "id": "4",
+      "color": "#000000"
+     },
+     "away": {
+      "abbr": "DET",
+      "name": "Tigers",
+      "score": "0",
+      "record": "72-80",
+      "id": "6",
+      "color": "#0a2240"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Rate Field"
+    },
+    {
+     "id": "401816977",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/17 - 8:05 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-09-18T00:05Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "TEX",
+      "name": "Rangers",
+      "score": "0",
+      "record": "76-76",
+      "id": "13",
+      "color": "#003278"
+     },
+     "away": {
+      "abbr": "BOS",
+      "name": "Red Sox",
+      "score": "0",
+      "record": "82-70",
+      "id": "2",
+      "color": "#0d2b56"
+     },
+     "situation": "",
+     "possession": "",
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Globe Life Field"
+    },
+    {
+     "id": "401816981",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/17 - 9:38 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-09-18T01:38Z",
      "network": "MLB.TV",
      "home": {
       "abbr": "LAA",
       "name": "Angels",
-      "score": "2",
-      "record": "58-93",
+      "score": "0",
+      "record": "58-94",
       "id": "3",
       "color": "#ba0021"
      },
      "away": {
-      "abbr": "SEA",
-      "name": "Mariners",
-      "score": "1",
-      "record": "70-82",
-      "id": "12",
-      "color": "#005c5c"
+      "abbr": "MIN",
+      "name": "Twins",
+      "score": "0",
+      "record": "71-81",
+      "id": "9",
+      "color": "#031f40"
      },
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
-    },
-    {
-     "id": "401816956",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final/11",
-     "detail": "0:00",
-     "period": 11,
-     "start_utc": "2026-09-16T01:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "ARI",
-      "name": "Diamondbacks",
-      "score": "2",
-      "record": "80-72",
-      "id": "29",
-      "color": "#aa182c"
-     },
-     "away": {
-      "abbr": "MIA",
-      "name": "Marlins",
-      "score": "4",
-      "record": "75-77",
-      "id": "28",
-      "color": "#00a3e0"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true
+     "venue_indoor": false,
+     "venue": "Angel Stadium"
     }
    ]
   },
@@ -1004,7 +843,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Allegacy Federal Credit Union Stadium"
     },
     {
      "id": "401856811",
@@ -1035,7 +875,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Galaxy Stadium"
     },
     {
      "id": "401858455",
@@ -1066,7 +907,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Autzen Stadium"
     },
     {
      "id": "401856686",
@@ -1097,7 +939,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Donald W. Reynolds Razorback Stadium"
     },
     {
      "id": "401858454",
@@ -1128,7 +971,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Ohio Stadium"
     },
     {
      "id": "401858456",
@@ -1159,7 +1003,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Beaver Stadium"
     },
     {
      "id": "401856694",
@@ -1190,7 +1035,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Kyle Field"
     },
     {
      "id": "401856685",
@@ -1221,7 +1067,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Bryant-Denny Stadium"
     },
     {
      "id": "401858457",
@@ -1252,7 +1099,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "SHI Stadium"
     },
     {
      "id": "401858230",
@@ -1283,7 +1131,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "L&N Federal Credit Union Stadium"
     },
     {
      "id": "401856801",
@@ -1314,7 +1163,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Rice-Eccles Stadium"
     },
     {
      "id": "401858450",
@@ -1345,7 +1195,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Michigan Stadium"
     },
     {
      "id": "401858449",
@@ -1376,7 +1227,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Memorial Stadium (Bloomington, IN)"
     },
     {
      "id": "401858471",
@@ -1407,7 +1259,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Kinnick Stadium"
     },
     {
      "id": "401856689",
@@ -1438,7 +1291,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Memorial Stadium"
     },
     {
      "id": "401858453",
@@ -1469,7 +1323,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Notre Dame Stadium"
     },
     {
      "id": "401856688",
@@ -1500,7 +1355,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Vaught-Hemingway Stadium"
     },
     {
      "id": "401856795",
@@ -1531,7 +1387,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Canvas Stadium"
     },
     {
      "id": "401856690",
@@ -1562,7 +1419,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Memorial Stadium (Norman, OK)"
     },
     {
      "id": "401856802",
@@ -1593,7 +1451,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Bank of America Stadium"
     },
     {
      "id": "401856692",
@@ -1624,7 +1483,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "Neyland Stadium"
     },
     {
      "id": "401856693",
@@ -1655,7 +1515,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": false
+     "venue_indoor": false,
+     "venue": "DKR-Texas Memorial Stadium"
     }
    ]
   },
@@ -1671,7 +1532,7 @@
      "detail": "0'",
      "period": null,
      "start_utc": "2026-09-18T19:00Z",
-     "network": "",
+     "network": "USA Net",
      "home": {
       "abbr": "BRE",
       "name": "Brentford",
@@ -1691,7 +1552,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": null
+     "venue_indoor": null,
+     "venue": "Gtech Community Stadium"
     }
    ]
   },
@@ -1727,7 +1589,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Videotron Centre"
     }
    ]
   },
@@ -1763,7 +1626,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Scotiabank Arena"
     },
     {
      "id": "401881923",
@@ -1794,7 +1658,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Bell Centre"
     },
     {
      "id": "401886427",
@@ -1825,7 +1690,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Enterprise Center"
     },
     {
      "id": "401878099",
@@ -1856,7 +1722,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Rogers Place"
     },
     {
      "id": "401886258",
@@ -1887,7 +1754,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Grand Casino Arena"
     },
     {
      "id": "401879412",
@@ -1918,7 +1786,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Toyota Arena"
     },
     {
      "id": "401879652",
@@ -1949,7 +1818,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Climate Pledge Arena"
     }
    ]
   },
@@ -1985,7 +1855,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Gateway Center"
     },
     {
      "id": "401857191",
@@ -2016,7 +1887,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Wintrust Arena"
     },
     {
      "id": "401857192",
@@ -2047,7 +1919,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "College Park Center"
     },
     {
      "id": "401857193",
@@ -2078,7 +1951,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Moda Center"
     },
     {
      "id": "401857194",
@@ -2109,7 +1983,8 @@
      "situation": "",
      "possession": "",
      "progress": null,
-     "venue_indoor": true
+     "venue_indoor": true,
+     "venue": "Climate Pledge Arena"
     }
    ]
   }
