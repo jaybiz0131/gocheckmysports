@@ -6,6 +6,41 @@
    ONE source of truth for site styling; every page links this file.
    ============================================================================ */
 
+/* ===== V-7: the fonts are ours ==============================================
+   Five woff2 files in /assets/fonts, 59.9 KB together, same origin. Google Fonts
+   cost two DNS lookups, two TLS handshakes and a stylesheet round trip before the
+   first font byte moved, all of it on the LCP path.
+
+   Each face is subset to the glyphs this site renders and each variable axis is
+   pinned to the weights the design asks for: the serif at 400-600 roman and 500
+   italic, Inter at 400-700, Plex Mono as two static weights. Whole, these five files
+   are 339 KB; that is what a variable face with an optical-size axis costs.
+
+   font-display:swap on all of them: text is readable immediately in the fallback and
+   the metric overrides below mean it does not move when the real face lands. */
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400 600;
+  font-display:swap;src:url('/assets/fonts/newsreader-roman.woff2') format('woff2')}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:500;
+  font-display:swap;src:url('/assets/fonts/newsreader-italic.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;
+  font-display:swap;src:url('/assets/fonts/inter.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;
+  font-display:swap;src:url('/assets/fonts/plexmono-400.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;
+  font-display:swap;src:url('/assets/fonts/plexmono-700.woff2') format('woff2')}
+
+/* THE MASTHEAD DOES NOT MOVE WHEN THE SERIF LANDS. Measured from the two fonts' own
+   tables rather than guessed: Georgia matches Newsreader to 0.3 percent on the
+   wordmark, so width was never the problem. The shift is vertical, because Georgia
+   carries a 0.0967 em line gap that Newsreader does not, and the wordmark's line box
+   grew by roughly that when the swap happened. These overrides make the fallback
+   occupy exactly the space the real face will.
+
+   Local builds measured CLS 0.1118 against 0.0006 live, on the masthead, and the
+   difference was only ever timing: the shift is real wherever the font is slow. */
+@font-face{font-family:'Newsreader Fallback';src:local('Georgia'),local('Times New Roman');
+  size-adjust:99.73%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+
 :root{
   --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#17181C;
   --muted:#5C616B;      --faint:#6B707A;      --line:#E6E2D8;
@@ -16,7 +51,7 @@
   --tag-bg:#EEEBE2;      --tag-fg:#484C54;
   --up:#12803B;          --down:#C22619;      /* market semantics: green up, red down */
   --shadow:0 22px 50px -34px rgba(20,24,30,.45);
-  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --serif:'Newsreader','Newsreader Fallback',Georgia,'Times New Roman',serif;
   --sans:'Inter',system-ui,-apple-system,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',monospace;
 }
@@ -1860,3 +1895,9 @@ body>*:not(.ground){position:relative;z-index:1}
 /* H-6: each panel carries its own foot, so the link and the next kickoff follow the
    tab rather than describing a slate the reader is not looking at. */
 .tk-foot{margin-top:14px}
+
+/* V-7: the phone never fetches the full poster. This pairs with the media-gated
+   preload in the head, so exactly one of the two files is ever requested. */
+@media (max-width:720px){
+  .sb-hero .sb-bg{background-image:url("/assets/hero/hero-poster-phone.webp")}
+}

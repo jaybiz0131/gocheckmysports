@@ -969,7 +969,17 @@ def _fingerprint_assets(html):
                 _ASSET_VER[path] = "0"
         return _ASSET_VER[path]
 
-    return re.sub(r'((?:src|href)=")(/assets/[^"?#]+)(")',
+    # V-7: FONTS ARE EXEMPT, and they have to be. A woff2 is requested twice over: once
+    # by the preload in the HTML, which this function versions, and once by the
+    # @font-face url() inside site.css, which it does not. Two different URLs for the
+    # same bytes is two downloads, measured on the phone build: seven font requests for
+    # five files. The preload then preloads something the page never asks for, which is
+    # the opposite of what a preload is for.
+    #
+    # Cache-busting for fonts rides on the filename instead. They are subset artifacts
+    # that change only when the subsetting changes, and a changed subset ships under a
+    # new name.
+    return re.sub(r'((?:src|href)=")(/assets/(?!fonts/)[^"?#]+)(")',
                   lambda m: f'{m.group(1)}{m.group(2)}?v={ver(m.group(2))}{m.group(3)}', html)
 
 
@@ -1069,7 +1079,19 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
           canonical_path=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
+             # V-7: THE FONTS ARE OURS NOW. Five woff2 files in site/assets/fonts,
+             # 59.9 KB together, served from this origin. Google Fonts cost two DNS
+             # lookups, two TLS handshakes and a stylesheet round trip BEFORE the first
+             # font byte moved, all of it on the LCP path, and it was the slowest thing
+             # on the page that we controlled.
+             #
+             # Preload the two faces that block first paint: the serif the masthead and
+             # every headline use, and the sans the body uses. The mono and the italic
+             # are wanted below the fold and load on their own.
+             '<link rel="preload" as="font" type="font/woff2" crossorigin '
+             'href="/assets/fonts/newsreader-roman.woff2">'
+             '<link rel="preload" as="font" type="font/woff2" crossorigin '
+             'href="/assets/fonts/inter.woff2">')
     # ONE URL PER PAGE (2026-08-17). Netlify's Pretty URLs serve every page at both
     # /articles/foo and /articles/foo.html, and rewrite internal links to the
     # extensionless form. Emitting a .html canonical meant Google crawled the linked
@@ -1089,8 +1111,17 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # script and is never preloaded. 1280 wide, not the addendum's 1600: that is the
     # widest source in the repo and upscaling adds bytes without detail (owner call,
     # 2026-09-15). 80KB against the 120KB ceiling.
-    lcp = ('<link rel="preload" as="image" href="/assets/hero/hero-poster.webp" '
-           'fetchpriority="high">\n' if path == "/" else "")
+    # V-7: THE PHONE NEVER FETCHES THE FULL POSTER. The poster is a CSS background,
+    # not an <img>, so <picture> and imagesrcset do not apply: with imagesizes the
+    # browser still resolves a 390 CSS-pixel viewport at 2x to 780 and takes the large
+    # file. A media-gated preload is the tool that actually works here, and it pairs
+    # with the matching media query on the background in site.css, so exactly one of
+    # the two is ever requested.
+    lcp = (('<link rel="preload" as="image" media="(max-width:720px)" '
+            'href="/assets/hero/hero-poster-phone.webp" fetchpriority="high">\n'
+            '<link rel="preload" as="image" media="(min-width:721px)" '
+            'href="/assets/hero/hero-poster.webp" fetchpriority="high">\n')
+           if path == "/" else "")
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     robots = lcp + robots
     beacon = ""
