@@ -96,6 +96,9 @@ dispatch other than the agreed Edition backstop; every call must appear in
   scoreboard feed; L-1 swaps the URL for `/live/scores.json` and nothing else changes.
   Three misses mark the band stale and drop the live dot. The stamp is the source's
   own time or the build's, never the browser's.
+- **The band never withdraws (H-7).** `scoreboard.load()` returns the snapshot with
+  `stale: true` past `STALE_HOURS`; the band renders it and the stamp says
+  "· stale". `scores_strip`, `SCORES_JS` and `SCORES_AGE_JS` are deleted.
 - `site/data/venue_corrections.json`: a correction only where the feed is wrong, keyed
   `LEAGUE:TEAM`. The canary fails the day the feed changes its record; the monthly
   aging job lists every entry with its owner and date.
@@ -117,10 +120,7 @@ and note it in the report.
 | H-1, H-2, H-4, H-5, H-9, H-10, H-11 | done | `0f62903`, `157af75`, `9ed93e7` |
 | L-2, L-3, L-4 live poll | done | `a3fd5bd` |
 | X-1, X-2, X-2b, ledger `since` | done | `09ee73c`, `9ed93e7` |
-| **H-7 stale band renders the snapshot** | **open** | never the old strip |
-| **H-3 fold opens in place** | **open** | |
-| **H-6 count and Next follow the tab** | **open** | a league with a panel always has a tab |
-| **H-8 Box score links to the box score** | **open** | absent when there is none |
+| H-7, H-3, H-6, H-8 | done | `69878d9` |
 | **H-5b byline carries the date when it differs** | **open** | |
 | H-12 Sunday grouping | check Sun 1:30 PM ET | |
 | **V-6 inner pages and phone** | **open** | A-14/A-15, Home tab first (N-1) |
