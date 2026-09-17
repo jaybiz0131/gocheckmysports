@@ -2079,7 +2079,10 @@ header.masthead{position:relative;z-index:300}
    the team column was right-aligned and every name sat on a different left
    edge. The same cascade trap as the phone tab bar; the same answer. */
 .st-t td.st-team,.st-t th:nth-child(2){text-align:left;width:99%}
-.st-t td:not(.st-team):not(.st-pos),.st-t th:not(:nth-child(2)){width:1%}
+/* Standings tables only: the schedule table wants its opponent column wide, and
+   at equal specificity this rule kept winning the tie. Say which tables. */
+.st-t:not(.tm-t) td:not(.st-team):not(.st-pos),
+.st-t:not(.tm-t) th:not(:nth-child(2)){width:1%}
 .st-abbr{display:inline-block;min-width:36px;margin-right:9px;
   font:600 11.5px/1 var(--mono);letter-spacing:.04em;color:var(--muted)}
 .st-name{font-weight:600}
@@ -2099,4 +2102,56 @@ header.masthead{position:relative;z-index:300}
 @media (max-width:900px){
   .st-grid{grid-template-columns:1fr;gap:18px}
   .st-abbr{min-width:34px}
+}
+
+/* ---- S-L2: team pages -----------------------------------------------------
+   The schedule is read down the result column, so the result carries the weight
+   and everything else stays quiet. A fixture with no result shows its kickoff
+   and its network; it never shows a score, because there is not one yet. */
+.tm-t td{text-align:left}
+.tm-t td.tm-r,.tm-t td.tm-n,.tm-t th:nth-child(4),.tm-t th:nth-child(5){text-align:right}
+/* .st-t td:not(.st-team):not(.st-pos) sets width:1% at (0,3,1), which collapsed the
+   opponent column and pushed the whole schedule to the right edge. Third time today a
+   bare class lost a cascade it looked like it had won; the width rule takes the table
+   class with it. */
+.st-t.tm-t td.tm-wk{width:1%;color:var(--muted);font:500 11.5px/1 var(--mono)}
+.st-t.tm-t td.tm-dt{width:1%;color:var(--muted);font:500 12px/1 var(--mono);
+  white-space:nowrap}
+/* Auto table layout weighs the header cell too, so the column only takes the
+   slack when both say so. */
+.st-t.tm-t td.tm-opp,.st-t.tm-t th:nth-child(3){width:99%;text-align:left}
+/* Every column on this table states its width, header and cell alike. Leaving any
+   one unstated hands it the slack under auto layout, which is how the date column
+   ended up 815px wide. */
+.st-t.tm-t td.tm-r,.st-t.tm-t td.tm-n,
+.st-t.tm-t th:nth-child(1),.st-t.tm-t th:nth-child(2),
+.st-t.tm-t th:nth-child(4),.st-t.tm-t th:nth-child(5){width:1%}
+.tm-bye td{color:var(--muted)}
+.tm-at{display:inline-block;min-width:22px;color:var(--muted);
+  font:500 11px/1 var(--mono);letter-spacing:.04em}
+.tm-opp a{font-weight:600;text-decoration:none}
+.tm-opp a:hover{text-decoration:underline}
+.tm-res{display:inline-block;min-width:16px;font-weight:800}
+.tm-w{color:var(--up,#1a7f4b)}
+.tm-l{color:var(--down,#b3402f)}
+.tm-t.tm-res{color:var(--muted)}
+.tm-sc{margin-left:8px;font-variant-numeric:tabular-nums}
+.tm-time,.tm-net{color:var(--muted);font:500 12px/1 var(--mono);white-space:nowrap}
+.tm-next{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;
+  margin-top:14px;padding:12px 16px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card)}
+.tm-next-o{font:600 16px/1.2 var(--serif)}
+.st-t .st-team a{color:inherit;text-decoration:none}
+.st-t .st-team a:hover .st-name{text-decoration:underline}
+@media (max-width:640px){
+  .tm-n,.tm-t th:nth-child(5){display:none}
+}
+
+/* A section head is a name, a rule and a count on one line, which only works while
+   the count is short. "1-0 · 3rd in NFC North · W1" is 207px and pushed 13px past the
+   right edge of a 390 phone, and the page body must never scroll sideways. On a phone
+   the head wraps and the count takes its own line. */
+@media (max-width:640px){
+  .sec-head{flex-wrap:wrap}
+  .sec-head .sec-n{white-space:normal;margin-left:0;flex:1 0 100%}
 }

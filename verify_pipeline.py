@@ -341,6 +341,38 @@ def layer1_canary():
         _check(not _bad, fails,
                f"standings canary: group(s) with no games played were written: {_bad[:3]}")
 
+    # S-L2 TEAM PAGES: THE KEY FACT IS NOT THE SUBJECT. The first cut matched a team's
+    # full name anywhere in a story's summary fields and put a 49ers story on the Titans
+    # page, because the key fact named the Titans as the opponent. A page about a team
+    # takes the claim from the headline or the dek. This is the same family as the
+    # nickname rule below it and the tag-integrity case under that: a name appearing
+    # somewhere in a story is not a statement about what the story is about.
+    import site_build as _sb
+    _sf = {"slug": "shanahan-preseason", "title": "Shanahan to coach preseason opener",
+           "dek": "San Francisco 49ers head coach Kyle Shanahan intends to coach the "
+                  "team's preseason opener.",
+           "key_fact": "Shanahan intends to coach the 49ers' preseason opener Thursday "
+                       "against the Tennessee Titans.",
+           "published_utc": "2026-08-01T00:00:00Z"}
+    _real = {"slug": "titans-sign", "title": "Tennessee Titans sign veteran guard",
+             "dek": "The move fills the interior line.",
+             "published_utc": "2026-08-02T00:00:00Z"}
+    _sb._page_reset()
+    _got = [i["slug"] for i in _sb._team_stories("Tennessee Titans", "Titans",
+                                                 [_sf, _real])]
+    _check("shanahan-preseason" not in _got, fails,
+           "team-page canary: a story matched on a team named only in its key fact")
+    _check("titans-sign" in _got, fails,
+           "team-page canary: a story about the team was not matched")
+    # and the nickname rule the game page learned: a nickname counts in a headline only
+    _nick = {"slug": "tv-ratings", "title": "Sunday night ratings climb",
+             "dek": "The broadcast drew 25.7M viewers, with the Bills game leading.",
+             "published_utc": "2026-08-03T00:00:00Z"}
+    _sb._page_reset()
+    _check("tv-ratings" not in [i["slug"] for i in
+                                _sb._team_stories("", "Bills", [_nick])], fails,
+           "team-page canary: a nickname in a dek was treated as the subject")
+
     # TAG-INTEGRITY REGRESSION (owner directive 2026-07-28, proven test case): the
     # "Severe weather" chip once linked a Tour de France story whose dek mentioned a
     # wildfire once. That exact mismatch must fail the build forever.

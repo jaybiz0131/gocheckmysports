@@ -4588,6 +4588,10 @@ ST_COLS = {
 }
 
 
+def _team_page_exists(abbr):
+    return bool((TEAM_DATA or {}).get("teams", {}).get(abbr))
+
+
 def _st_cell(v):
     """A figure the source sent, or nothing. Never a zero standing in for a gap."""
     return esc(str(v)) if v not in (None, "", "-") else ""
@@ -4601,10 +4605,15 @@ def _st_table(key, group):
     body = []
     for n, r in enumerate(group["rows"], 1):
         cells = "".join(f'<td>{_st_cell(r.get(k))}</td>' for k, _lab in cols)
-        body.append(
-            f'<tr><td class="st-pos">{n}</td>'
-            f'<td class="st-team"><span class="st-abbr">{esc(r.get("abbr") or "")}</span>'
-            f'<span class="st-name">{esc(r.get("team") or "")}</span></td>{cells}</tr>')
+        # S-L2: a team in a standings table is a link to that team's page, where one
+        # was built. Only NFL has team pages today, so only NFL rows link; a row that
+        # linked to a page that does not exist is worse than a row that does not link.
+        who = (f'<span class="st-abbr">{esc(r.get("abbr") or "")}</span>'
+               f'<span class="st-name">{esc(r.get("team") or "")}</span>')
+        if key == "nfl" and r.get("abbr") and _team_page_exists(r["abbr"]):
+            who = f'<a href="/teams/{esc(r["abbr"].lower())}.html">{who}</a>'
+        body.append(f'<tr><td class="st-pos">{n}</td>'
+                    f'<td class="st-team">{who}</td>{cells}</tr>')
     # "American League East" under a heading that already says American League: the
     # conference prefix comes off the display, the way the venue map tidies a name
     # without renaming it. The source's own spelling stays in standings.json.
@@ -4643,6 +4652,208 @@ def _st_stamp(st):
         return ""
     mark = " \u00b7 stale" if st.get("stale") else ""
     return f'<span class="sec-n">Updated {_et_clock(t)}{mark}</span>'
+
+
+# ---- S-L2: team pages ------------------------------------------------------------
+# The audit's second lead item, and the missing third of a set: the game page and the
+# player page exist, /teams/det did not. Everything on it is furniture the desk already
+# owns, joined on the one key that is an identity here: the team's full name. The
+# schedules file names a team "Buffalo Bills", the inactives board names it "Buffalo
+# Bills", and the standings row names it "Buffalo Bills". Abbreviations collide across
+# leagues and nicknames are ordinary English; the full name is neither.
+
+TEAM_DATA = None          # set at build by schedules.load()
+
+
+def _team_standing(abbr):
+    """This team's standings row and the group it sits in, or (None, "")."""
+    for lg in ((ST_DATA or {}).get("leagues") or []):
+        if lg.get("key") != "nfl":
+            continue
+        for g in lg["groups"]:
+            for n, r in enumerate(g["rows"], 1):
+                if r.get("abbr") == abbr:
+                    return r, g["name"], n
+    return None, "", 0
+
+
+def _ord(n):
+    return f"{n}{'th' if 11 <= n % 100 <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
+
+
+def _team_standing_line(abbr):
+    r, group, pos = _team_standing(abbr)
+    if not r:
+        return ""
+    rec = "-".join(x for x in (r.get("wins"), r.get("losses"),
+                               r.get("ties") if r.get("ties") not in (None, "0") else None)
+                   if x is not None)
+    bits = [b for b in (rec, f"{_ord(pos)} in {group}" if group else "",
+                        r.get("streak")) if b]
+    return " \u00b7 ".join(bits)
+
+
+def _team_desig(full_name):
+    """Every player this team has on the official report, by name, with the injury and
+    the status. The same source the game page reads (IA_DESIG.groups), matched on the
+    team's FULL NAME, which is what those rows carry."""
+    order = {"out": 0, "doubtful": 1, "questionable": 2}
+    rows = []
+    for _status, players in ((IA_DESIG or {}).get("groups") or {}).items():
+        for p in (players or []):
+            if (p.get("team") or "").strip() == full_name and p.get("name"):
+                rows.append(p)
+    rows.sort(key=lambda p: (order.get((p.get("status") or "").lower(), 9),
+                             p.get("name") or ""))
+    return rows
+
+
+def _team_stories(full_name, nickname, items, n=6):
+    """The desk's stories about this team.
+
+    THE SAME RULE THE GAME PAGE LEARNED. A nickname is a shallow key: half the NFL's
+    are ordinary English, and matching "Bills" against a key fact once handed a
+    television-ratings story to a Lions-Bills card. The full name is required where the
+    desk knows it; a nickname qualifies only in the HEADLINE, which is a claim about
+    what a story is about, and never in a body detail. Case-sensitive either way.
+    """
+    out = []
+    for i in (items or []):
+        if i.get("example") or _is_wrap(i) or i.get("superseded_by"):
+            continue
+        title = i.get("title") or ""
+        # THE KEY FACT IS NOT THE SUBJECT. The first cut matched the full name anywhere
+        # in the story's summary fields, and put a 49ers story on the Titans page: the
+        # key fact named the Titans as the opponent Shanahan's team was playing. A team
+        # page is a page about a team, so the claim has to be in the headline or the
+        # dek, which are what a story says it is about; a detail inside one is not.
+        claim = " ".join([title, i.get("dek") or ""])
+        if (full_name and full_name in claim) or (nickname and len(nickname) > 2
+                                                  and nickname in title):
+            out.append(i)
+    out.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    return [i for i in out if _claim(i.get("slug"))][:n]
+
+
+def _team_row(e, colors):
+    """One fixture from this team's side. A score renders only when the game is over:
+    a scheduled game has no result, and a 0 standing in for one would be a reading the
+    desk never took."""
+    dt = _utc_dt(e.get("date") or "")
+    when = ""
+    if dt:
+        et = dt.astimezone(_ET)
+        when = f'{et.strftime("%a %-d %b")}'
+    if e.get("bye"):
+        return (f'<tr class="tm-bye"><td class="tm-wk">{esc(str(e.get("week") or ""))}</td>'
+                f'<td class="tm-dt"></td><td class="tm-opp"></td>'
+                f'<td class="tm-r"><span class="tm-time">Bye</span></td>'
+                f'<td class="tm-n"></td></tr>')
+    opp = esc(e.get("opp") or "")
+    at = "at" if not e.get("home") else "vs"
+    res = ""
+    if e.get("result"):
+        cls = {"W": "tm-w", "L": "tm-l"}.get(e["result"], "tm-t")
+        res = (f'<span class="tm-res {cls}">{esc(e["result"])}</span>'
+               f'<span class="tm-sc">{e.get("score")}-{e.get("opp_score")}</span>')
+    elif e.get("bye"):
+        res = '<span class="tm-time">Bye</span>'
+    elif dt and e.get("state") != "post":
+        # A kickoff the league has not set is not a kickoff. The feed says so with
+        # timeValid, and believing it printed "12:00 AM ET" against Week 18.
+        res = (f'<span class="tm-time">{_et_clock(dt)}</span>' if e.get("time_set", True)
+               else '<span class="tm-time">Time TBA</span>')
+    net = (f'<span class="tm-net">{esc(e["network"])}</span>'
+           if e.get("network") and not e.get("result") else "")
+    wk = e.get("week")
+    return (f'<tr><td class="tm-wk">{esc(str(wk)) if wk else ""}</td>'
+            f'<td class="tm-dt">{esc(when)}</td>'
+            f'<td class="tm-opp"><span class="tm-at">{at}</span>'
+            f'<a href="/teams/{opp.lower()}.html">{opp}</a></td>'
+            f'<td class="tm-r">{res}</td><td class="tm-n">{net}</td></tr>')
+
+
+def render_team_page(tm, items, dateline):
+    abbr = tm["abbr"]
+    name = tm.get("name") or abbr
+    stand = _team_standing_line(abbr)
+    evs = sorted(tm.get("events") or [], key=lambda e: e.get("date") or "")
+    played = [e for e in evs if e.get("result")]
+    # S-L2: the bye is a week of the season. Without it the table reads 5 then 7 and
+    # looks like a missing row rather than a week off.
+    fixtures = len(evs)          # the bye is a week, not a fixture, and is not counted
+    bye = tm.get("bye")
+    if bye:
+        weeks = [e.get("week") for e in evs]
+        if bye not in weeks:
+            at = next((n for n, w in enumerate(weeks) if w and w > bye), len(evs))
+            evs = evs[:at] + [{"week": bye, "bye": True}] + evs[at:]
+    nxt = next((e for e in evs if e.get("state") != "post"), None)
+
+    next_line = ""
+    if nxt:
+        dt = _utc_dt(nxt.get("date") or "")
+        when = f'{dt.astimezone(_ET).strftime("%a %-d %b")} {_et_clock(dt)}' if dt else ""
+        next_line = (
+            f'<div class="tm-next"><span class="bd-label">Next</span>'
+            f'<span class="tm-next-o">{"vs" if nxt.get("home") else "at"} '
+            f'{esc(nxt.get("opp_name") or nxt.get("opp") or "")}</span>'
+            + (f'<span class="bd-stamp">{esc(when)}</span>' if when else "")
+            + (f'<span class="bd-stamp">{esc(nxt["network"])}</span>'
+               if nxt.get("network") else "")
+            + '</div>')
+
+    desig = _team_desig(name)
+    inj = ""
+    if desig:
+        inj = ('<div class="sec-head" style="margin-top:26px"><h2>Injury report</h2>'
+               f'<span class="bar"></span><span class="sec-n">{len(desig)} '
+               f'player{"" if len(desig) == 1 else "s"}</span></div>'
+               '<div class="gp-dz-rows">'
+               + "".join(
+                   f'<div class="gp-dz-row"><span class="gp-dz-st s-'
+                   f'{esc((p.get("status") or "").lower()[:1] or "x")}">'
+                   f'{esc((p.get("status") or "")[:1].upper() or "?")}</span>'
+                   f'<span class="gp-dz-n">{esc(p.get("name"))}</span>'
+                   f'<span class="gp-dz-p">{esc(p.get("pos") or "")}</span>'
+                   f'<span class="gp-dz-i">{esc(_injury_case(p.get("detail") or ""))}</span>'
+                   f'</div>'
+                   for p in desig)
+               + '</div>')
+
+    stories = _team_stories(name, tm.get("nickname") or "", items)
+    news = ""
+    if stories:
+        news = ('<div class="sec-head" style="margin-top:26px"><h2>From the desk</h2>'
+                '<span class="bar"></span></div><div class="rs">'
+                + "".join(
+                    f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">'
+                    f'{esc(i.get("title") or "")}</a>' for i in stories)
+                + '</div>')
+
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">{esc(name)}: schedule, results, injury report and standing</h1>
+  <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
+    {f'<span class="sec-n">{esc(stand)}</span>' if stand else ""}</div>
+  {next_line}
+  <div class="sec-head" style="margin-top:24px"><h2>Schedule and results</h2>
+    <span class="bar"></span>
+    <span class="sec-n">{len(played)} played of {fixtures}</span></div>
+  <div class="st-wrap"><table class="st-t tm-t">
+    <thead><tr><th scope="col">Wk</th><th scope="col">Date</th>
+      <th scope="col">Opponent</th><th scope="col">Result</th>
+      <th scope="col">TV</th></tr></thead>
+    <tbody>{"".join(_team_row(e, None) for e in evs)}</tbody></table></div>
+  {inj}{news}
+  <nav class="st-nav" aria-label="Related">
+    <a class="st-nav-a" href="/standings/nfl.html">NFL standings</a>
+    <a class="st-nav-a" href="/fantasy/inactives.html">Inactives</a>
+    <a class="st-nav-a" href="/scores.html">Scores</a></nav>
+</section></main>"""
+    return shell(f"{name}: schedule, results and injury report - {NAME}",
+                 f"{name} schedule and results, the official injury report, the "
+                 f"standing, and the desk's stories about the team.",
+                 "Scores", body, dateline, path=f"/teams/{abbr.lower()}.html")
 
 
 def render_standings_page(st, lg, dateline):
@@ -8157,6 +8368,18 @@ def build():
     except Exception as _e:
         print(f"standings: unavailable ({type(_e).__name__}); tables withheld")
 
+    # S-L2: a team's own season, for the team pages. Cached for six hours, so a build
+    # that runs four times an hour costs one fetch. It reads its team list from the
+    # standings file, so a failure there simply means no team pages this build.
+    global TEAM_DATA
+    TEAM_DATA = None
+    try:
+        import schedules as _schmod
+        _schmod.refresh()
+        TEAM_DATA = _schmod.load()
+    except Exception as _e:
+        print(f"schedules: unavailable ({type(_e).__name__}); team pages withheld")
+
     # S-B2: poll the injury feed and snapshot before rendering, so a build that lands
     # inside a posting window captures it. The board renders from the snapshot, never
     # from a live read; see inactives.py.
@@ -8314,6 +8537,16 @@ def build():
               + (", rankings" if _rk else "")
               + (f"; not started: {', '.join(ST_DATA['not_started'])}"
                  if ST_DATA.get("not_started") else ""))
+
+    # S-L2: one page per team. Each page claims its own stories, so _page_reset runs
+    # per page and a story can lead one team's page and another's.
+    if TEAM_DATA and (TEAM_DATA.get("teams") or {}):
+        _tm_n = 0
+        for _abbr, _tm in sorted((TEAM_DATA.get("teams") or {}).items()):
+            _page_reset()
+            w(f"teams/{_abbr.lower()}.html", render_team_page(_tm, items, dateline))
+            _tm_n += 1
+        print(f"team pages: {_tm_n}")
 
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
@@ -8504,6 +8737,9 @@ def build():
                        for lg in (ST_DATA.get("leagues") or [])]
         if ST_DATA.get("rankings"):
             topic_locs.append("/standings/college-football.html")
+    if TEAM_DATA:
+        topic_locs += [f"/teams/{a.lower()}.html"
+                       for a in sorted((TEAM_DATA.get("teams") or {}))]
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"
