@@ -195,7 +195,7 @@ jobs:
           # decided what to COMPOSE from the cron, so the two could name different slots
           # in the same run. This map is wrap.CRON_SLOT expressed in edition slugs; keep
           # them in step.
-          import datetime, os, subprocess
+          import datetime, os, subprocess, sys
           serve = "true"
           slug = ""
           # X-2: A DISPATCH THAT NAMES NO SLOT STANDS DOWN, always. Resolving one from
@@ -264,6 +264,28 @@ jobs:
                         f"{day.isoformat()} (per {where}); standing down before any "
                         f"model call (retry ticks are free when the primary served "
                         f"the slot).")
+          # X-2b (2026-09-16): ONLY A SLOT THIS DESK STILL SERVES MAY PASS.
+          # A dispatch naming morning-brief passed the guard as built: it looked for an
+          # Edition for a slot that can never have one, found none, and spent a full
+          # run. The old Worker names slots on its old schedule until the deploy lands,
+          # so tomorrow's 09:40 and 15:38 UTC dispatches would have done exactly that.
+          #
+          # The served list is the recovery table, read from watcher.py so there is one
+          # definition. If it cannot be read the fallback is the slot the desk actually
+          # runs; an unreadable table must not open the gate.
+          served_slots = {"evening-brief"}
+          try:
+              sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) or ".")
+              import watcher as _w
+              served_slots = {x[0] for x in _w.SLOT_DEADLINES}
+          except Exception as _e:
+              print(f"::warning::Slot guard could not read SLOT_DEADLINES ({_e}); "
+                    f"falling back to {sorted(served_slots)}")
+          if serve == "true" and slug and slug not in served_slots:
+              serve = "false"
+              print(f"::notice::Slot guard: {slug} is not a slot this desk serves "
+                    f"(it serves {sorted(served_slots)}); standing down before any "
+                    f"model call.")
           # The resolved slot is published so later steps can act on WHICH slot this is,
           # not just whether to run. The Edition uses it (directive v2 2026-09-12: one
           # Edition a day), and it is written on every path so a log line always says

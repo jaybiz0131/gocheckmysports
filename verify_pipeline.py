@@ -934,6 +934,43 @@ def _contract_ladder_canary(cfg):
            "watcher recovery: a slot with no cron is in SLOT_DEADLINES and would be "
            "re-fired on every tick for the rest of time")
 
+    # (i) H-11: VENUE CORRECTIONS EXPIRE BY THEMSELVES. Each entry records the name
+    # the feed carried when it was entered. If the feed now says something else, the
+    # source has either fixed its record or drifted, and either way the entry must not
+    # sit there quietly: the canary fails naming it so it can be deleted.
+    _here = os.path.dirname(os.path.abspath(__file__))
+    _vc = os.path.join(_here, "site", "data", "venue_corrections.json")
+    _sb = os.path.join(_here, "site", "data", "scoreboard.json")
+    if os.path.exists(_vc):
+        _fix = (json.load(open(_vc, encoding="utf-8")) or {}).get("corrections") or {}
+        _feed = {}
+        if os.path.exists(_sb):
+            for _L in (json.load(open(_sb, encoding="utf-8")) or {}).get("leagues", []):
+                for _g in _L.get("games") or []:
+                    _ab = (_g.get("home") or {}).get("abbr")
+                    if _g.get("venue") and _ab:
+                        # LEAGUE:TEAM. HOU is the Texans at NRG and the Astros at
+                        # Daikin Park; the first cut keyed on the abbreviation alone
+                        # and this check failed on the collision, which is the whole
+                        # reason the key carries the league.
+                        _feed[f'{_L.get("league") or ""}:{_ab}'] = _g["venue"]
+        # A team not playing at home this week is simply absent from the feed; that is
+        # not evidence the correction is stale, so only a name we can actually see is
+        # compared.
+        for _vid, _e in _fix.items():
+            _check(bool(_e.get("feed_name") and _e.get("name") and _e.get("source")
+                        and _e.get("entered") and _e.get("owner")), fails,
+                   f"venue correction {_vid}: needs feed_name, name, source, entered "
+                   f"and owner")
+            _check(_e.get("feed_name") != _e.get("name"), fails,
+                   f"venue correction {_vid}: corrects a name to itself")
+            _seen = _feed.get(_vid)
+            if _seen:
+                _check(_seen == _e.get("feed_name"), fails,
+                       f"venue correction {_vid}: the feed now says {_seen!r}, not "
+                       f"{_e.get('feed_name')!r}; the source changed its record, so "
+                       f"delete this entry")
+
     # (h) PROGRAM 4, X-2: THE SLOT GUARD, ON ITS NO-MODEL PATH. The guard lives in the
     # workflow YAML, so it is extracted and executed here with origin/main mocked. It
     # is the rule that makes "one Edition a day" true regardless of who dispatches, and
@@ -989,6 +1026,14 @@ def _contract_ladder_canary(cfg):
              "workflow_dispatch", "", "", False, False, "false"),
             ("a breaking run must still pass the guard",
              "workflow_dispatch", "evening-brief", "", True, True, "true"),
+            # X-2b: the old Worker names slots on its old schedule until the deploy
+            # lands. A dispatch naming a slot the desk no longer serves must stand
+            # down even with nothing served, or it spends a run writing an Edition
+            # for a retired slot.
+            ("a dispatch naming a slot the desk no longer serves must stand down",
+             "workflow_dispatch", "morning-brief", "", False, False, "false"),
+            ("the same for afternoon-brief",
+             "workflow_dispatch", "afternoon-brief", "", False, False, "false"),
         ]
         for _label, _ev, _slot, _cron, _brk, _served, _want in _cases:
             _check(_guard(_code, _ev, _slot, _cron, _brk, _served) == _want, fails,
