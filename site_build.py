@@ -2862,7 +2862,8 @@ def _sb_fantasy_strip(g, ia_index):
     for side in ("away", "home"):
         tid = (g.get(side) or {}).get("id") or ""
         ab = (g.get(side) or {}).get("abbr") or ""
-        t = (ia_index or {}).get(("NFL", str(tid)))
+        # H-1: the list has to belong to THIS game, not merely to this team.
+        t = _ia_for_game(g, ia_index or {}, side)
         if not t:
             continue
         bits.append(f'{esc(ab)} {t["count"]}')
@@ -3034,8 +3035,7 @@ def _tk_avail(g, ia_index, desig):
     if parts:
         rows.append(("Designations", " \u00b7 ".join(parts)))
     if g.get("state") == "pre":
-        both = all(ia_index.get(("NFL", str((g.get(s) or {}).get("id"))))
-                   for s in ("away", "home"))
+        both = all(_ia_for_game(g, ia_index, s) for s in ("away", "home"))
         dt = _utc_dt(g.get("start_utc") or "")
         if both:
             rows.append(("Inactives", "posted"))
@@ -3044,8 +3044,7 @@ def _tk_avail(g, ia_index, desig):
             rows.append(("Inactives",
                          f"post about {_et_clock(dt - _d.timedelta(minutes=90))}"))
     else:
-        n = sum(1 for s in ("away", "home")
-                if ia_index.get(("NFL", str((g.get(s) or {}).get("id")))))
+        n = sum(1 for s in ("away", "home") if _ia_for_game(g, ia_index, s))
         if n:
             rows.append(("Inactives", "posted"))
     return rows
@@ -3484,6 +3483,34 @@ def _ia_index(board):
     # (league, id): a bare id is not an identity across leagues - see _sb_fantasy_strip.
     # The inactives feed is NFL, so that is the league these ids belong to.
     return {("NFL", str(t.get("id"))): t for t in board.get("teams") or [] if t.get("id")}
+
+
+def _ia_for_game(g, ia_index, side):
+    """H-1: the inactives list for ONE SIDE OF ONE GAME, or None.
+
+    A LIST BELONGS TO A GAME, and the day file does not say so. It is keyed by team id
+    and merges the last eight days (N-7), so on Wednesday of Week 2 it still holds the
+    lists captured at Week 1's games. Asking it "does this team have a list?" answered
+    yes for all 32 teams, and every Week 2 card read "Inactives: posted" three days
+    before a single Week 2 list existed. The fantasy rail on the same page said "Week 2,
+    nothing posted for this week yet", which was the true sentence.
+
+    A list counts for a game only when it was FIRST SEEN inside that game's window:
+    from three hours before kickoff to the end of that day, Eastern. Teams post about
+    ninety minutes out, so three hours is generous on the early side and the day end
+    closes it without needing to know when the game finished.
+    """
+    t = ia_index.get(("NFL", str((g.get(side) or {}).get("id"))))
+    if not t:
+        return None
+    kick = _utc_dt(g.get("start_utc") or "")
+    seen = _utc_dt(t.get("first_seen") or "")
+    if not kick or not seen:
+        return None
+    import datetime as _d
+    opens = kick - _d.timedelta(hours=3)
+    day_end = kick.astimezone(_ET).replace(hour=23, minute=59, second=59)
+    return t if opens <= seen <= day_end.astimezone(_d.timezone.utc) else None
 
 
 SB_TABS_JS = """
@@ -4306,8 +4333,11 @@ def render_game_page(g, points, board, wx, items, dateline):
     ia = _ia_index(board)
     away, home = g.get("away") or {}, g.get("home") or {}
     inact = []
-    for side in (away, home):
-        t = ia.get(("NFL", str(side.get("id"))))   # game pages are NFL only
+    for key in ("away", "home"):
+        side = g.get(key) or {}
+        # H-1: this game's list, not this team's most recent one. The page was listing
+        # Week 1's inactives under a Week 2 fixture, with the names.
+        t = _ia_for_game(g, ia, key)
         if not t:
             continue
         names = ", ".join(f'{p.get("name")} ({p.get("pos")})' for p in t["players"])
@@ -4339,10 +4369,13 @@ def render_game_page(g, points, board, wx, items, dateline):
                      '<div class="nh-rows">'
                      + "".join(_news_row(i) for i in rel) + '</div></section>')
     _pre = g.get("state") == "pre"
-    # S-20: the marquee header, not a small score card - pre-game it carries both
-    # records, the kickoff in ET, the network chips and the facts the desk holds.
+    # H-4 (SC-9): the header is the Ticket card, with its team-colour stub and the
+    # leader/trailer colours on live and final. It was the old dark marquee card, which
+    # is the one surface SC-9 names that was still on the previous design. The
+    # availability line under it follows H-1: a list counts for this game only when it
+    # was first seen inside this game's window.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'{_sb_card(g, ia, marquee=True, wx=wx)}</div>')
+            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}</div>')
 
     # The inactives block says WHEN a list is expected rather than being absent, so a
     # reader before kickoff learns something instead of nothing (S-20).
@@ -4355,9 +4388,8 @@ def render_game_page(g, points, board, wx, items, dateline):
                 f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
                 f'<span class="bd-eyebrow">Inactives</span></div>'
                 f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a></div>'
-                f'<p class="bd-read">Not posted yet. The league posts about ninety '
-                f'minutes before kickoff, so expect these lists around '
-                f'{esc(_post)}.</p></section>')
+                # C-L1: a stamp, not an explanation of how the league works.
+                f'<p class="bd-read">Post about {esc(_post)}</p></section>')
 
     # Designations for both teams, from this week's report.
     _desig = ""

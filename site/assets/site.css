@@ -1871,3 +1871,9 @@ body>*:not(.ground){position:relative;z-index:1}
 }
 .wpw-h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
   margin:22px 0 0}
+/* H-4: the game page header is the Ticket card. It sits on the light page, so it
+   keeps the card's own dark surface and gets a little more room than in the band. */
+.gp-head{padding:0;margin:0 0 18px}
+.gp-head .tk-c{border-radius:12px}
+.gp-head .tk-num{font-size:46px}
+@media (max-width:900px){.gp-head .tk-num{font-size:30px !important}}
