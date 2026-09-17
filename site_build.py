@@ -2979,6 +2979,41 @@ def _tk_sc9(g):
     return (_TK_UP, _TK_DOWN) if a > h else (_TK_DOWN, _TK_UP)
 
 
+_VENUE_FIX = None
+
+
+def _venue_name(g):
+    """H-11: the feed's venue name, with a correction only where the feed is wrong.
+
+    The feed is the source. venue_corrections.json is the single exception and it is
+    kept honest mechanically: every entry records the feed's name at the time it was
+    entered, and the canary asserts that name is still what the feed says. The day the
+    source corrects its record, the canary fails naming the entry and the entry goes.
+    A correction that stops being a correction cannot sit there quietly.
+    """
+    global _VENUE_FIX
+    name = (g.get("venue") or "").strip()
+    if not name:
+        return ""
+    if _VENUE_FIX is None:
+        _VENUE_FIX = {}
+        try:
+            with open(os.path.join(HERE, "site", "data", "venue_corrections.json"),
+                      encoding="utf-8") as fh:
+                _VENUE_FIX = (json.load(fh) or {}).get("corrections") or {}
+        except Exception:
+            _VENUE_FIX = {}
+    # Keyed by the HOME TEAM the feed names: the scoreboard record carries no venue id,
+    # and a bare name is not a key (two clubs can share a stadium name's words). The
+    # entry must also still name the string the feed is actually carrying, so a
+    # correction cannot outlive the error it corrects.
+    key = f'{g.get("league") or ""}:{(g.get("home") or {}).get("abbr") or ""}'
+    fix = _VENUE_FIX.get(key) or {}
+    if fix.get("feed_name") == name and fix.get("name"):
+        return fix["name"]
+    return name
+
+
 def _tk_venue(g, wx):
     """Venue, with the weather when the game is outdoors. WX is keyed by game id."""
     w = ((wx or {}).get("games") or {}).get(str(g.get("id"))) or {}
@@ -2987,7 +3022,7 @@ def _tk_venue(g, wx):
     # the card printed it as fact. The weather itself stays: it is keyed to the venue's
     # coordinates and the stadium did not move, so the temperature is true even when we
     # have no name to put in front of it.
-    venue = (g.get("venue") or "").strip()
+    venue = _venue_name(g)
     if not venue and not w:
         return ""
     if w.get("indoors") or g.get("venue_indoor"):
@@ -4354,8 +4389,10 @@ def _game_wx_block(g, wx):
         return ""
     if w.get("indoors"):
         return ('<div class="bd-card" style="padding:14px 16px"><span class="bd-label">'
+                # H-11: the game's own name, corrected, not the weather file's, which
+                # takes it from venues.json and was still saying Reliant.
                 'Kickoff weather</span><p class="bd-read">Indoors at '
-                f'{esc(w.get("venue") or "the venue")}.</p></div>')
+                f'{esc(_venue_name(g) or w.get("venue") or "the venue")}.</p></div>')
     bits = []
     if w.get("temp_f") is not None:
         bits.append(f'{w["temp_f"]}F')

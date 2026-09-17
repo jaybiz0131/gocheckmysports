@@ -43,6 +43,30 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 corrections.py
 
+      # H-11: the venue corrections, listed once a month with their owner and the date
+      # they were entered. The canary already fails the day a correction stops being
+      # one; this is the standing review, so an entry cannot simply be forgotten.
+      - name: List the venue corrections
+        if: always()
+        run: |
+          python3 - <<'PYEOF'
+          import json, os
+          p = os.path.join("site", "data", "venue_corrections.json")
+          if not os.path.exists(p):
+              print("no venue_corrections.json; nothing to review")
+              raise SystemExit(0)
+          fix = (json.load(open(p, encoding="utf-8")) or {}).get("corrections") or {}
+          if not fix:
+              print("venue corrections: none")
+              raise SystemExit(0)
+          print(f"venue corrections: {len(fix)} entry(s) for review")
+          for k, e in sorted(fix.items()):
+              print(f"  {k}: feed says {e.get('feed_name')!r}, we print "
+                    f"{e.get('name')!r} - entered {e.get('entered')} by "
+                    f"{e.get('owner')}, source {e.get('source')}")
+              print(f"    why: {e.get('reason')}")
+          PYEOF
+
       - name: Commit approved corrections (deploys)
         run: |
           git config user.name "Jack Berno"

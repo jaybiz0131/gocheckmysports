@@ -1,0 +1,13 @@
+{
+  "note": "A correction ONLY where the feed's own record is wrong. Not a venue the feed does not name, and not a venue we merely prefer to call something else. Keyed LEAGUE:TEAM, because the scoreboard record carries no venue id and a bare abbreviation is not an identity: HOU is the Texans at NRG in the NFL and the Astros at Daikin Park in MLB. The canary asserts each entry's feed_name is still what the feed says for that team's home games, so the day the source corrects its record the canary fails naming the entry and the entry is deleted.",
+  "corrections": {
+    "NFL:HOU": {
+      "feed_name": "Reliant Stadium",
+      "name": "NRG Stadium",
+      "source": "https://www.houstontexans.com/stadium/",
+      "reason": "Renamed from Reliant Stadium in 2014; the feed still carries the old name.",
+      "entered": "2026-09-16",
+      "owner": "Jack"
+    }
+  }
+}
