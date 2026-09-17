@@ -1823,6 +1823,10 @@ body>*:not(.ground){position:relative;z-index:1}
 /* SC-6: on phone the band is the marquee and THREE folded rows, inside 1.5 screens.
    Six rows put it at 1.8 and pushed the editorial page below two full screens. */
 @media (max-width:900px){
+  /* H-3 wrapped each fold in .tk-pair, so :nth-child stopped matching and all six
+     rows came back on phone: the band went from 1.08 screens to 1.7. The rule counts
+     pairs now. */
+  .sb-cards .tk-pair:nth-child(n+4){display:none}
   .sb-cards .tk-fold:nth-child(n+4){display:none}
 }
 /* N-4 applies to the band too: no stretched card anywhere. The Ticket marquee takes

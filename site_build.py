@@ -2538,7 +2538,12 @@ def render_news_month(month, rows, dateline):
 # person's own state, because there is no per-person state on this site to carry.
 
 TAB_BAR = [
-    ("Scores", "/index.html",
+    # N-1: HOME IS FIRST, and it is named Home. The first tab was labelled Scores and
+    # pointed at /index.html, so the tab bar had no way back to the front page and the
+    # scoreboard's own page was not reachable from it at all.
+    ("Home", "/index.html",
+     "M3 9l7-6 7 6v8H3z"),                                    # a roof over a door
+    ("Scores", "/scores.html",
      "M3 13h3l2-5 3 9 2.5-6 1.5 2h4"),                       # a scoreline
     ("Fantasy", "/fantasy/inactives.html",
      "M4 6h10M4 10h7M4 14h10M17 7v7M17 16.5v.5"),            # a list with a flag
@@ -3985,7 +3990,11 @@ def render_scores_page(sb, board, dateline, wx=None):
     # Six cards, two rows of three. The homepage band carries a marquee and eight;
     # six without the marquee is the 60 percent A-14 asks for, and it is measured
     # from the content rather than pinned to a pixel height the slate would break.
-    _band_cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in _band_games[:6])
+    # A-14: this band is 60 percent of the homepage's. The Ticket rebuild added the
+    # tabs and taller folded cards and pushed it to 84, which is not a reduced band,
+    # it is a second homepage above the board the reader came for. Three folds, not six:
+    # every game is a full card a few hundred pixels below.
+    _band_cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in _band_games[:3])
     _orn = _sb_ornament(_all)
     band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
