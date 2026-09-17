@@ -3301,13 +3301,17 @@ def _tk_matchup(g, big=40):
     a, h = g.get("away") or {}, g.get("home") or {}
     sa, sh = _tk_score(a), _tk_score(h)
     started = g.get("state") in ("in", "post")
-    def side(t, sc, col):
+    # L-3: each half is addressable so a poll can rewrite the score and the SC-9 colour
+    # in place without touching the rest of the card.
+    def side(t, sc, col, which):
         s = f'{esc(t.get("abbr") or "")}'
         if started and sc is not None:
             s += f" {sc}"
-        return f'<span style="color:{col or "#FFFFFF"}">{s}</span>'
+        return (f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
+                f'style="color:{col or "#FFFFFF"}">{s}</span>')
     return (f'<span class="tk-num" style="font-size:{big}px">'
-            f'{side(a, sa, ca)} <span class="tk-at">at</span> {side(h, sh, ch)}</span>')
+            f'{side(a, sa, ca, "away")} <span class="tk-at">at</span> '
+            f'{side(h, sh, ch, "home")}</span>')
 
 
 def _tk_records(g):
@@ -3365,11 +3369,14 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
         btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
                 f'{second}</div>')
     wide = " wide" if state in ("in", "post") else ""
-    return (f'<article class="tk-c{wide}" style="--a:{a_col};--b:{b_col}">'
+    return (f'<article class="tk-c{wide}" data-gid="{esc(str(g.get("id")))}" '
+            f'data-league="{esc(g.get("league") or "")}" data-state="{esc(state or "")}" '
+            f'style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub" style="--a:{a_col};--b:{b_col}">'
-            f'<div class="tk-stub-top">{_tk_kicker(g)}{net}</div>'
-            f'<div class="tk-mu">{_tk_matchup(g)}</div>'
-            f'<div class="tk-rec">{esc(_tk_records(g))}</div>'
+            f'<div class="tk-stub-top"><span data-role="kicker">{_tk_kicker(g)}</span>'
+            f'{net}</div>'
+            f'<div class="tk-mu" data-role="mu">{_tk_matchup(g)}</div>'
+            f'<div class="tk-rec" data-role="rec">{esc(_tk_records(g))}</div>'
             f'</div><div class="tk-perf"></div>'
             f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
 
@@ -3386,10 +3393,11 @@ def _tk_fold(g, ia_index, desig=None):
     def row(side, col):
         t = g.get(side) or {}
         sc = _tk_score(t)
-        val = (f'<span class="s sc" style="color:{col}">{sc}</span>'
-               if started and sc is not None else '<span class="s"></span>')
-        ab = (f'<b style="color:{col}">{esc(t.get("abbr") or "")}</b>' if col
-              else f'<b>{esc(t.get("abbr") or "")}</b>')
+        val = (f'<span class="s sc" data-side="{side}" style="color:{col}">{sc}</span>'
+               if started and sc is not None
+               else f'<span class="s" data-side="{side}"></span>')
+        ab = (f'<b data-abbr="{side}" style="color:{col}">{esc(t.get("abbr") or "")}</b>'
+              if col else f'<b data-abbr="{side}">{esc(t.get("abbr") or "")}</b>')
         return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
                 f'{ab}<span>{esc(t.get("name") or "")}'
                 f'{" " + esc(t.get("record")) if t.get("record") else ""}</span></div>{val}')
@@ -3404,10 +3412,13 @@ def _tk_fold(g, ia_index, desig=None):
     facts = _tk_avail(g, ia_index, desig)
     fact = f'<div class="x">{esc(facts[0][0])} {esc(facts[0][1])}</div>' if facts else ""
     wide = " wide" if started else ""
-    return (f'<a class="tk-fold{wide}" style="--a:{a_col};--b:{b_col}" '
+    return (f'<a class="tk-fold{wide}" data-gid="{esc(str(g.get("id")))}" '
+            f'data-league="{esc(g.get("league") or "")}" '
+            f'data-state="{esc(state or "")}" style="--a:{a_col};--b:{b_col}" '
             f'href="/games/{esc(str(g.get("id")))}.html">'
             f'{row("away", ca)}{row("home", ch)}'
-            f'<div class="st"><span>{status}</span>{net}</div>{fact}</a>')
+            f'<div class="st"><span data-role="status">{status}</span>{net}</div>'
+            f'{fact}</a>')
 
 
 def _tk_tabs(games, active="all", href="/scores.html"):
@@ -3591,6 +3602,188 @@ def _ia_for_game(g, ia_index, side):
     day_end = kick.astimezone(_ET).replace(hour=23, minute=59, second=59)
     return t if opens <= seen <= day_end.astimezone(_d.timezone.utc) else None
 
+
+SB_LIVE_JS = """
+<script>(function(){
+  /* L-2/L-3/L-4: the live poll.
+
+     The page is rendered from the last committed snapshot and is complete without this
+     script; crawlers and a reader with JS off see a finished board. This only rewrites
+     values that are already on the page, in place. It never adds or removes a card.
+
+     THE SOURCE IS THE PUBLIC SCOREBOARD FEED, the same one the build reads. L-1 swaps
+     the URL for the Worker's /live/scores.json route and nothing else here changes:
+     the reshape below is the site's own shape either way.
+
+     Cadence (L-2): 60s while any game on this page is live, 10 minutes otherwise, and
+     only while the tab is visible. Freshness (L-4): three consecutive misses mark the
+     band stale beside its stamp and drop the live dot, rather than leaving a wrong
+     score looking current. */
+  var CARDS = document.querySelectorAll('[data-gid]');
+  if (!CARDS.length) return;
+  var PATHS = {NFL:'football/nfl', MLB:'baseball/mlb', CFB:'football/college-football',
+               NBA:'basketball/nba', NHL:'hockey/nhl', WNBA:'basketball/wnba'};
+  var BASE = 'https://site.api.espn.com/apis/site/v2/sports/';
+  var UP = '#3DDC84', DOWN = '#FF7A6B', TIE = '#F0C674';
+  var FAST = 60000, SLOW = 600000, MISS = 0, timer = null;
+
+  var leagues = {};
+  [].forEach.call(CARDS, function(c){
+    var l = c.getAttribute('data-league'); if (PATHS[l]) leagues[l] = 1;
+  });
+  leagues = Object.keys(leagues);
+  if (!leagues.length) return;
+
+  function byId(gid){ return document.querySelectorAll('[data-gid="' + gid + '"]'); }
+
+  function colours(a, h){
+    if (a === null || h === null) return [null, null];
+    if (a === h) return [TIE, TIE];
+    return a > h ? [UP, DOWN] : [DOWN, UP];
+  }
+
+  function num(v){ var n = parseInt(v, 10); return isNaN(n) ? null : n; }
+
+  function paint(gid, s){
+    [].forEach.call(byId(gid), function(card){
+      var started = s.state === 'in' || s.state === 'post';
+      var c = colours(started ? s.away : null, started ? s.home : null);
+      card.setAttribute('data-state', s.state);
+      card.classList.toggle('wide', started);
+      ['away','home'].forEach(function(side, i){
+        var sc = side === 'away' ? s.away : s.home;
+        /* the full card's stub: abbreviation and score live in one span */
+        var big = card.querySelector('.tk-mu [data-side="' + side + '"]');
+        if (big) {
+          var ab = big.getAttribute('data-abbr') || '';
+          big.textContent = started && sc !== null ? ab + ' ' + sc : ab;
+          big.style.color = c[i] || '#FFFFFF';
+        }
+        /* the folded card: score and abbreviation are separate */
+        var cell = card.querySelector('.s[data-side="' + side + '"]');
+        if (cell) {
+          cell.textContent = started && sc !== null ? sc : '';
+          cell.className = started && sc !== null ? 's sc' : 's';
+          cell.style.color = c[i] || '';
+        }
+        var abb = card.querySelector('b[data-abbr="' + side + '"]');
+        if (abb) abb.style.color = c[i] || '';
+      });
+      var st = card.querySelector('[data-role="status"]');
+      if (st && started) st.textContent = s.status;
+      var k = card.querySelector('[data-role="kicker"] .tk-k');
+      if (k) {
+        if (s.state === 'in') {
+          k.className = 'tk-k live';
+          k.innerHTML = '<span class="dot"></span>Live · ' +
+                        (card.getAttribute('data-league') || '') + ' · ' +
+                        esc(s.status);
+        } else if (s.state === 'post') {
+          k.className = 'tk-k';
+          k.textContent = (card.getAttribute('data-league') || '') + ' · Final';
+        }
+      }
+      var rec = card.querySelector('[data-role="rec"]');
+      if (rec && s.state === 'in' && s.situation) rec.textContent = s.situation;
+    });
+  }
+
+  function esc(t){ var d = document.createElement('div'); d.textContent = t || '';
+                   return d.innerHTML; }
+
+  function stamp(when, stale){
+    var el = document.querySelector('.sb-head .sb-stamp, .sb-countwrap .sb-stamp');
+    if (el) {
+      /* L-3: THE STAMP IS THE SOURCE'S OWN TIME, NEVER THE BROWSER'S. The public feed
+         carries no response time, so until the Worker route does (L-1) the stamp stays
+         the one the build wrote and only the stale mark moves. Writing the browser's
+         clock here would be the page asserting a freshness the source never claimed,
+         which is the same class of error as a fabricated number. */
+      var base = (el.getAttribute('data-base') || el.textContent || '')
+                 .replace(/ · stale$/, '');
+      if (!el.getAttribute('data-base')) el.setAttribute('data-base', base);
+      var d = when ? new Date(when) : null;
+      if (d && !isNaN(d)) {
+        base = 'Updated ' + d.toLocaleTimeString('en-US', {timeZone:'America/New_York',
+                 hour:'numeric', minute:'2-digit'}) + ' ET';
+        el.setAttribute('data-base', base);
+      }
+      el.textContent = base + (stale ? ' · stale' : '');
+    }
+    document.querySelectorAll('.tk-k.live .dot').forEach(function(d){
+      d.style.visibility = stale ? 'hidden' : '';
+    });
+  }
+
+  function reshape(json){
+    var out = [], when = null;
+    ((json && json.events) || []).forEach(function(ev){
+      var comp = (ev.competitions || [])[0]; if (!comp) return;
+      var cs = comp.competitors || [];
+      var home = null, away = null;
+      cs.forEach(function(x){ if (x.homeAway === 'home') home = x; else away = x; });
+      var st = ((comp.status || {}).type) || {};
+      out.push({id: String(ev.id),
+                state: st.state || '',
+                status: st.shortDetail || st.detail || st.description || '',
+                away: away ? num(away.score) : null,
+                home: home ? num(home.score) : null,
+                situation: (comp.situation || {}).downDistanceText || ''});
+    });
+    if (json && json.day && json.day.date) when = json.day.date;
+    return {games: out, when: when};
+  }
+
+  function tick(){
+    var wanted = leagues.map(function(l){
+      return fetch(BASE + PATHS[l] + '/scoreboard', {cache:'no-store'})
+             .then(function(r){ return r.ok ? r.json() : null; })
+             .catch(function(){ return null; });
+    });
+    Promise.all(wanted).then(function(all){
+      var got = 0, live = 0, reshapedWhen = null;
+      all.forEach(function(j){
+        if (!j) return;
+        got++;
+        var r = reshape(j);
+        if (r.when) reshapedWhen = r.when;
+        r.games.forEach(function(s){
+          if (!byId(s.id).length) return;
+          paint(s.id, s);
+          if (s.state === 'in') live++;
+        });
+      });
+      if (!got) {
+        /* L-4: a miss changes nothing on the page. Three in a row says so. */
+        if (++MISS >= 3) stamp(null, true);
+      } else {
+        MISS = 0;
+        stamp(reshapedWhen, false);
+      }
+      schedule(live > 0);
+    });
+  }
+
+  function schedule(fast){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ if (!document.hidden) tick(); else schedule(fast); },
+                       fast ? FAST : SLOW);
+  }
+
+  /* Poll on load only if something on the page could change. */
+  var anyLive = false, anyPre = false;
+  [].forEach.call(CARDS, function(c){
+    var s = c.getAttribute('data-state');
+    if (s === 'in') anyLive = true;
+    if (s === 'pre') anyPre = true;
+  });
+  if (!anyLive && !anyPre) return;
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden) tick();
+  });
+  if (!document.hidden) tick(); else schedule(anyLive);
+})();</script>
+"""
 
 SB_TABS_JS = """
 <script>(function(){
@@ -3809,7 +4002,7 @@ def scoreboard_band(sb, board, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS + SB_TABS_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS
 
 
 def render_scores_page(sb, board, dateline, wx=None):
@@ -3894,7 +4087,7 @@ def render_scores_page(sb, board, dateline, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>"""
+<div class="sb-fade" aria-hidden="true"></div>""" + SB_LIVE_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
 </section></main>"""
@@ -4456,7 +4649,8 @@ def render_game_page(g, points, board, wx, items, dateline):
     # availability line under it follows H-1: a list counts for this game only when it
     # was first seen inside this game's window.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}</div>')
+            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}</div>'
+            + SB_LIVE_JS)
 
     # The inactives block says WHEN a list is expected rather than being absent, so a
     # reader before kickoff learns something instead of nothing (S-20).
