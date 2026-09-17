@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-09-16T23:52:04Z",
- "stale_after_utc": "2026-09-17T02:52:04Z",
+ "generated_utc": "2026-09-17T00:20:06Z",
+ "stale_after_utc": "2026-09-17T03:20:06Z",
  "leagues": [
   {
    "league": "MLB",
@@ -10,29 +10,29 @@
      "away": "LAD",
      "home": "CIN",
      "away_score": 1,
-     "home_score": 2,
+     "home_score": 3,
      "state": "in",
-     "detail": "Bot 4",
+     "detail": "Top 6",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "824467"
     },
     {
      "away": "ATH",
      "home": "TB",
-     "away_score": 2,
+     "away_score": 3,
      "home_score": 4,
      "state": "in",
-     "detail": "Bot 4",
+     "detail": "Bot 6",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "822926"
     },
     {
      "away": "MIL",
      "home": "PIT",
-     "away_score": 2,
+     "away_score": 3,
      "home_score": 1,
      "state": "in",
-     "detail": "Bot 4",
+     "detail": "Bot 5",
      "start_utc": "2026-09-16T22:40:00Z",
      "eid": "823332"
     },
@@ -42,17 +42,17 @@
      "away_score": 2,
      "home_score": 0,
      "state": "in",
-     "detail": "Bot 4",
+     "detail": "Top 6",
      "start_utc": "2026-09-16T22:45:00Z",
      "eid": "822680"
     },
     {
      "away": "BAL",
      "home": "NYM",
-     "away_score": 3,
+     "away_score": 6,
      "home_score": 0,
      "state": "in",
-     "detail": "Top 3",
+     "detail": "Bot 4",
      "start_utc": "2026-09-16T23:10:00Z",
      "eid": "823576"
     },
@@ -60,77 +60,11 @@
      "away": "ATL",
      "home": "CHC",
      "away_score": 0,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
-     "detail": "Bot 1",
+     "detail": "Top 3",
      "start_utc": "2026-09-16T23:40:00Z",
      "eid": "824626"
-    }
-   ]
-  },
-  {
-   "league": "WTA",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "P. Badosa",
-     "home": "J. Mikulskyte",
-     "away_score": 2,
-     "home_score": 0,
-     "state": "in",
-     "detail": "2nd",
-     "start_utc": "2026-09-16T22:50Z",
-     "eid": "183854"
-    },
-    {
-     "away": "L. Samsonova",
-     "home": "K. Day",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "8:45 PM ET",
-     "start_utc": "2026-09-17T00:45Z",
-     "eid": "183799"
-    },
-    {
-     "away": "L. Samson",
-     "home": "A. Sobolieva",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-17T08:00Z",
-     "eid": "183679"
-    },
-    {
-     "away": "M. Ristic",
-     "home": "M. Barthel",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:00 AM ET",
-     "start_utc": "2026-09-17T08:00Z",
-     "eid": "183677"
-    },
-    {
-     "away": "A. Tubello",
-     "home": "S. De Stefano",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "4:30 AM ET",
-     "start_utc": "2026-09-17T08:30Z",
-     "eid": "183678"
-    },
-    {
-     "away": "E. Gorgodze",
-     "home": "N. Basiletti",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "5:30 AM ET",
-     "start_utc": "2026-09-17T09:30Z",
-     "eid": "183676"
     }
    ]
   },
@@ -307,6 +241,72 @@
      "eid": "401891541"
     }
    ]
+  },
+  {
+   "league": "WTA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "L. Samsonova",
+     "home": "K. Day",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "8:45 PM ET",
+     "start_utc": "2026-09-17T00:45Z",
+     "eid": "183799"
+    },
+    {
+     "away": "L. Samson",
+     "home": "A. Sobolieva",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-17T08:00Z",
+     "eid": "183679"
+    },
+    {
+     "away": "M. Ristic",
+     "home": "M. Barthel",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:00 AM ET",
+     "start_utc": "2026-09-17T08:00Z",
+     "eid": "183677"
+    },
+    {
+     "away": "A. Tubello",
+     "home": "S. De Stefano",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:30 AM ET",
+     "start_utc": "2026-09-17T08:30Z",
+     "eid": "183678"
+    },
+    {
+     "away": "E. Gorgodze",
+     "home": "N. Basiletti",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "5:30 AM ET",
+     "start_utc": "2026-09-17T09:30Z",
+     "eid": "183676"
+    },
+    {
+     "away": "E. Malygina",
+     "home": "J. Vandromme",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "7:00 AM ET",
+     "start_utc": "2026-09-17T11:00Z",
+     "eid": "183719"
+    }
+   ]
   }
  ],
  "sources": [
@@ -426,7 +426,7 @@
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 78,
+   "games_seen": 76,
    "games_kept": 6
   }
  ]

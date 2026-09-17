@@ -4,47 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c008",
-    "headline": "Tommy John, Pitcher Whose Name Became Synonymous With Elbow Surgery, Dies",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains multiple factual claims not present in the research brief's data_points: the mid-1970s timing of John's return to pitching, the official name 'ulnar collateral ligament reconstruction,' ripple effects across football and basketball, and the prevalence of thousands of annual procedures. The brief explicitly lists 'Date of death,' 'Cause of death,' 'Location of death,' 'Career statistics and Hall of Fame status,' and 'Details of the surgical procedure' as open_questions with no data_points to support them. The draft asserts these details as established fact despite the brief marking them unconfirmed.",
-     "The draft presents speculative medical and career history (the procedure's adoption across sports, its prevalence in locker rooms worldwide) without sourcing to the single MLB.com data_point available. These are smuggled details beyond the brief."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "Bangladesh Defeats Australia by Nine Wickets in Test Series-Opener",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Hasan Mahmud was named player of the match after taking nine wickets' but the brief data_point says he 'took nine wickets,' not that he took nine wickets in a single innings or match performance. The phrase 'A nine-wicket haul by a single bowler in a Test match represents a commanding individual performance' goes beyond what the brief supports and implies context (dominance over extended period, sustained batting resistance) not present in the source.",
-     "The draft's second paragraph characterizes the nine-wicket performance without the brief providing match-by-match or innings-by-innings detail to support the assertion that this reflects 'dominance over an extended period.' This is interpretation beyond the data_points."
-    ]
-   },
-   {
-    "id": "c031",
-    "headline": "Rockets crush Sunrisers for first women's Hundred title",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case notes the match was 'disappointingly one-sided,' signaling lack of competitive balance, but the draft presents this only as Rockets' dominance without acknowledging the bear_case perspective that the final lacked drama or competitive interest. A reader could mistake this for a thrilling victory rather than an uncompetitive blowout that disappointed observers."
-    ]
-   },
-   {
-    "id": "c088",
-    "headline": "Ronaldo signals likely retirement after this year at age 41",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'told Vogue magazine in an interview published Sunday that this year is \"probably\" his last as a professional footballer, according to The Guardian's reporting.' This is a second-order report: The Guardian reported what Vogue published. The brief's open_questions note that 'The Guardian source did not fetch the Vogue interview itself; no direct quote from Ronaldo or Vogue's full framing is available to verify tone or conditions around the 'probably' qualifier.' The draft presents this as settled fact through The Guardian, but the actual source material (a navigation/header dump per the brief) does not contain the article body, full statement, or direct quotes. The writer has smuggled a fact\u2014the exact wording and conditions of Ronaldo's 'probably' statement\u2014that is not verifiable in the provided source material.",
-     "The draft claims 'the available reporting does not specify whether he means the calendar year, the end of the 2026 season, or another threshold,' which acknowledges ambiguity but does not address that the source itself was not fully fetched. This reads as the writer filling gaps with inference rather than sticking to what the brief's source material actually contains."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-16",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c000",
     "headline": "Timpson's career-high 20 points lifts Fever past Dream in overtime",
     "category": "accuracy",
@@ -7742,6 +7701,30 @@
      "The draft describes Judge's home run as 'a shot to the upper deck down the left-field line' but the brief's data_point describes it as 'a prodigious shot to the upper deck down the left-field line.' The draft dropped a key descriptor ('prodigious') that was in the source material, which is acceptable paraphrase; however, the critical issue is that the brief contains a data_point stating 'Judge won the last two American League MVPs and had taken three of the previous four,' which the draft entirely omits. This is not balance-of-emphasis but a material fact in the brief that should appear in the story.",
      "The draft claims 'Wednesday's loss dropped the Yankees to four games behind Tampa Bay in the AL East, pending the outcome of the Rays' Wednesday night game' but this treats a conditional outcome as a fact. The brief's data_point is identical, so the source carries it; however, the draft then states 'If Tampa goes 6-6 in their final 12 games, the Yankees would need to go 9-1 in their final 10 games to win the AL East if they sweep the four games and get the tiebreaker' which is presented as fact but contains conditional hypotheticals that muddy whether this is current standing or projection.",
      "The brief includes a data_point about 'The Red Sox have a very left-handed-heavy pitching staff; Judge's righty presence would be sorely missed if he's unavailable for a potential Wild Card Series,' which does not appear in the draft. This is a material angle about postseason implications that was in the brief but was not included."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-17",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c255",
+    "headline": "Ducks sign Cutter Gauthier to six-year, $81 million extension",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2026-27', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c270",
+    "headline": "WNBA Regular Season Resumes September 16 After World Cup Break, Playoff Seeding Still Uncertain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the regular season 'resumed Thursday, September 16' but today is Thursday, September 17. A past-tense report of an event dated tomorrow is an accuracy error. The brief timestamp confirms the event occurred on 2026-09-16, but the draft must be written as a forward-looking or same-day story, not as already concluded.",
+     "The brief's open_questions flag that 'the source text from the primary URL is truncated and does not provide the actual playoff matchups or current standings' and 'no specific seeding positions, team records, or win-loss gaps are provided.' The draft makes confident claims about playoff seeding ('seeding determines who faces whom in the opening round,' 'the final four regular-season games will sort teams into their first-round positions') without the detailed standing data to back them. The core story rests on specificity the brief does not carry.",
+     "the draft dates September 16, 2026 as a Thursday; September 16, 2026 is a Wednesday"
     ]
    }
   ]
