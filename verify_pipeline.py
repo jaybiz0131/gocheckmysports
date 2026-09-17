@@ -373,6 +373,40 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # H-6: THE COUNT LINE NAMES WHAT THE TAB HOLDS. A panel showing fifteen final
+    # scorecards said "No games today - 1 game Thursday", because the finals branch sat
+    # after the upcoming-games branch and a pool that holds yesterday's finals almost
+    # always holds the next fixture too. Finals are named first when the panel has them.
+    import datetime as _dt6
+    import re as _re6
+    import site_build as _sb
+    _now6 = _dt6.datetime.now(_dt6.timezone.utc)
+
+    def _g6(state, dd):
+        _t = (_now6 + _dt6.timedelta(days=dd)).replace(hour=23, minute=10, second=0,
+                                                       microsecond=0)
+        return {"league": "MLB", "id": f"x{dd}{state}", "state": state,
+                "status_short": "Final" if state == "post" else "",
+                "start_utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": "PHI", "name": "Phillies", "score": "4"},
+                "home": {"abbr": "NYM", "name": "Mets", "score": "2"}}
+
+    def _count6(games):
+        _h = _sb.scoreboard_band({"leagues": [{"league": "MLB", "games": games}],
+                                  "fetched_at": _now6.strftime("%Y-%m-%dT%H:%M:%SZ")},
+                                 None, None)
+        _m = _re6.findall(r'class="tk-count"[^>]*>([^<]*)<', _h)
+        return _m[0] if _m else ""
+
+    _c6 = _count6([_g6("post", -1) for _ in range(15)] + [_g6("pre", 7)])
+    _check(_c6.startswith("15 final"), fails,
+           f"H-6 canary: a panel of 15 finals plus an upcoming game said {_c6!r}")
+    _check("next" in _c6, fails,
+           f"H-6 canary: the finals line did not name the next fixture: {_c6!r}")
+    _c6b = _count6([_g6("pre", 1) for _ in range(3)])
+    _check(_c6b.startswith("No games today"), fails,
+           f"H-6 canary: a panel with only upcoming games said {_c6b!r}")
+
     # S-L3 DATA-ABBR CARRIES AN ABBREVIATION. The folded band rows put the side name in
     # data-abbr ("away", "home"), so anything reading that attribute across the band met
     # 34 of each before it met a single team, and the my-teams reorder silently matched

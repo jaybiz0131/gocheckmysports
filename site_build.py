@@ -4638,22 +4638,32 @@ def scoreboard_band(sb, board, wx=None):
             _count_p = (f"{len(_today_p)} game{'' if len(_today_p) == 1 else 's'} today"
                         f" \u00b7 {_live_p} live now")
             _foot_p = f"All {len(_today_p)} game{'' if len(_today_p) == 1 else 's'}"
-        elif _n_p:
-            _count_p = (f"No games today \u00b7 {_n_p} "
-                        f"{'game' if _n_p == 1 else 'games'} {_lab_p}")
-            _foot_p = "All games"
         else:
-            # H-6 follow-up: with the MLB tab reading "15 final" the count line read
-            # "No games scheduled", which contradicts the tab beside it. It names what
-            # the tab holds: the finals, and when the league next plays.
+            # H-6 follow-up: THE COUNT LINE NAMES WHAT THE TAB HOLDS. With the MLB tab
+            # reading "15 final" the count line read "No games scheduled", which
+            # contradicts the board beside it.
+            #
+            # The first cut of this fix only caught the case where the pool held
+            # nothing but finals, which almost never happens: a pool that holds
+            # yesterday's finals usually holds the next fixture too, and then the count
+            # read "No games today - 1 game Thursday" over fifteen final scorecards.
+            # Finals are named whenever the panel has them, before the no-games line
+            # gets a turn.
             _done = sum(1 for g in pool if g.get("state") == "post")
             _nxt_all = sorted((_utc_dt(g.get("start_utc") or "") for g in pool
                                if _utc_dt(g.get("start_utc") or "")))
             _nxt_all = [d for d in _nxt_all if d > _build_now()]
-            _count_p = f"{_done} final" if _done else "No games scheduled"
-            if _nxt_all:
-                _d0 = _nxt_all[0].astimezone(_ET)
-                _count_p += f" \u00b7 next {_d0.strftime('%a')} {_et_clock(_nxt_all[0])}"
+            if _done:
+                _count_p = f"{_done} final"
+                if _nxt_all:
+                    _d0 = _nxt_all[0].astimezone(_ET)
+                    _count_p += (f" \u00b7 next {_d0.strftime('%a')} "
+                                 f"{_et_clock(_nxt_all[0])}")
+            elif _n_p:
+                _count_p = (f"No games today \u00b7 {_n_p} "
+                            f"{'game' if _n_p == 1 else 'games'} {_lab_p}")
+            else:
+                _count_p = "No games scheduled"
             _foot_p = "All games"
         _nxt_p = ""
         _pre_p = sorted((g for g in pool if g.get("state") == "pre"),
