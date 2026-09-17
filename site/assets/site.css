@@ -1940,3 +1940,28 @@ body>*:not(.ground){position:relative;z-index:1}
    alone deliberately - the nav is sticky and must stay sticky. */
 nav.mh-nav{z-index:300}
 header.masthead{position:relative;z-index:300}
+
+/* ===== UX-1: the score chip ==================================================
+   SC-9's green and red sat directly on the team wash. A green score on a red wash
+   and a red score on a blue one were the worst two pairings the card could produce.
+   The chip gives both colours the same dark ground whatever is behind it. */
+.tk-num-chips{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.tk-chip-score{position:relative;display:inline-flex;align-items:center;
+  background:rgba(12,14,18,.58);border:1px solid rgba(255,255,255,.14);
+  border-radius:9px;padding:4px 12px;line-height:1.15;
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.tk-chip-score.lead{padding-left:16px}
+.tk-chip-score i{position:absolute;left:0;top:6px;bottom:6px;width:3px;
+  border-radius:0 2px 2px 0}
+/* The folded card's chip is the same object at row scale. */
+.tk-fold .s.sc{background:rgba(12,14,18,.58);border:1px solid rgba(255,255,255,.14);
+  border-radius:9px;padding:2px 10px;position:relative;display:inline-flex;
+  align-items:center;justify-content:center;min-width:44px}
+.tk-fold .s.sc.lead{padding-left:13px;font-weight:800}
+.tk-fold .s.sc.trail{font-weight:500}
+.tk-fold .s.sc i{position:absolute;left:0;top:3px;bottom:3px;width:3px;
+  border-radius:0 2px 2px 0}
+@media (max-width:900px){
+  .tk-num-chips{gap:6px}
+  .tk-chip-score{padding:3px 10px}
+}

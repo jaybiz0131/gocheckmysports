@@ -3173,17 +3173,37 @@ def _tk_matchup(g, big=40):
     a, h = g.get("away") or {}, g.get("home") or {}
     sa, sh = _tk_score(a), _tk_score(h)
     started = g.get("state") in ("in", "post")
-    # L-3: each half is addressable so a poll can rewrite the score and the SC-9 colour
-    # in place without touching the rest of the card.
-    def side(t, sc, col, which):
-        s = f'{esc(t.get("abbr") or "")}'
-        if started and sc is not None:
-            s += f" {sc}"
-        return (f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
-                f'style="color:{col or "#FFFFFF"}">{s}</span>')
-    return (f'<span class="tk-num" style="font-size:{big}px">'
-            f'{side(a, sa, ca, "away")} <span class="tk-at">at</span> '
-            f'{side(h, sh, ch, "home")}</span>')
+    # UX-1: THE SCORE COLOURS NEEDED A SURFACE OF THEIR OWN. SC-9's green and red sat
+    # straight on the team wash, so a green score on a red wash and a red score on a
+    # blue one were the two worst pairings on the card. Each team now sits in a smoke
+    # chip: a dark translucent fill that gives both colours the same ground whatever
+    # the wash behind it, with the leader carrying a bar in its own green and its text
+    # at 800, the trailer at 500, and a tie carrying no bar at all.
+    #
+    # Pre-game keeps the inline matchup in plain white: there is no leader before
+    # kickoff, and a chip with nothing to say is a box around a fact.
+    #
+    # L-3: each half stays addressable so a poll rewrites the score and the colour in
+    # place without touching the rest of the card.
+    if not started:
+        def plain(t, which):
+            return (f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
+                    f'style="color:#FFFFFF">{esc(t.get("abbr") or "")}</span>')
+        return (f'<span class="tk-num" style="font-size:{big}px">'
+                f'{plain(a, "away")} <span class="tk-at">at</span> '
+                f'{plain(h, "home")}</span>')
+
+    tie = ca == ch
+    def chip(t, sc, col, which):
+        lead = (col == _TK_UP) and not tie
+        cls = "tk-chip-score" + (" lead" if lead else "")
+        bar = (f'<i style="background:{col}"></i>' if lead else "")
+        return (f'<span class="{cls}" style="color:{col};'
+                f'font-weight:{800 if lead else 500}">{bar}'
+                f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}">'
+                f'{esc(t.get("abbr") or "")} {sc if sc is not None else ""}</span></span>')
+    return (f'<span class="tk-num tk-num-chips" style="font-size:{big}px">'
+            f'{chip(a, sa, ca, "away")}{chip(h, sh, ch, "home")}</span>')
 
 
 def _tk_records(g):
@@ -3274,7 +3294,13 @@ def _tk_fold(g, ia_index, desig=None):
     def row(side, col):
         t = g.get(side) or {}
         sc = _tk_score(t)
-        val = (f'<span class="s sc" data-side="{side}" style="color:{col}">{sc}</span>'
+        # UX-1: the same chip at row scale, with the leader's bar and weight.
+        _tie = ca == ch
+        _lead = (col == _TK_UP) and not _tie
+        _cls = "s sc" + (" lead" if _lead else (" trail" if col and not _tie else ""))
+        _bar = f'<i style="background:{col}"></i>' if _lead else ""
+        val = (f'<span class="{_cls}" data-side="{side}" style="color:{col}">'
+               f'{_bar}{sc}</span>'
                if started and sc is not None
                else f'<span class="s" data-side="{side}"></span>')
         ab = (f'<b data-abbr="{side}" style="color:{col}">{esc(t.get("abbr") or "")}</b>'
