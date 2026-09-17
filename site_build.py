@@ -6309,9 +6309,8 @@ def render_privacy(dateline):
      its own privacy policy. We do not receive or store that data ourselves.</p>
 
   <h2>Fonts</h2>
-  <p>Pages load their typefaces from Google Fonts (fonts.googleapis.com and fonts.gstatic.com),
-     so your browser makes a request to Google when a page loads. Google processes font requests
-     under its own privacy policy.</p>
+  <p>Typefaces are served from this site. Your browser makes no request to Google, or to any
+     other font host, when a page loads.</p>
 
   <h2>Links out</h2>
   <p>Stories link their sources. Once you leave this site, the site you land on operates
