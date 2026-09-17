@@ -88,12 +88,21 @@ def append():
         row["tokens"] = _b.get("tokens", 0)
         row["usd"] = round(float(_b.get("usd") or 0.0), 4)
         row["cap_usd"] = _b.get("max_usd")
+        row["outcome"] = "ran"
     except Exception:
-        # A run that stood down at the guard never built a Budget. That is a real and
-        # useful row: a run that cost nothing. It is recorded as zero, not omitted,
-        # because "how many runs spent nothing" is half the question T-4 asks.
+        # C-2: A ZERO IS NOT A ZERO. A run that stood down at the guard and a run that
+        # CRASHED before the model both arrive here with no run_report, and the first
+        # cut wrote both as a clean $0.0000. They are opposite events, and telling them
+        # apart is the difference between a quiet desk and a broken one: crypto run 295
+        # died at the canary gate before writing the day's Edition and its ledger row
+        # was indistinguishable from a healthy stand-down. I misread it twice.
+        #
+        # The guard publishes serve=false when it stands a run down. Anything else with
+        # no report did not get that far.
         row["tokens"] = 0
         row["usd"] = 0.0
+        row["outcome"] = ("stood down" if (os.environ.get("SERVE") or "") == "false"
+                          else "no report")
     # the edition's outcome for the slot (family audit 2026-09-02): synthesis, a
     # sentence-repaired synthesis, the digest floor, skip, abstain, or failed, so the
     # ledger answers "how often does the synthesis actually clear" as a lookup
@@ -343,6 +352,11 @@ def tally_file(path=None):
     spent = [r for r in rows if r.get("usd")]
     print(f"ledger since {since} (runs before it are not recorded; "
           f"use the Actions log for those days)")
+    stood = sum(1 for r in rows if r.get("outcome") == "stood down")
+    broke = sum(1 for r in rows if r.get("outcome") == "no report")
+    if stood or broke:
+        print(f"  of those: {stood} stood down at the guard, "
+              f"{broke} with no run report (a crash, not a stand-down)")
     print(f"{path}: {len(rows)} run(s), "
           f"{sum(r.get('tokens') or 0 for r in rows):,} tokens, "
           f"${sum(float(r.get('usd') or 0) for r in rows):.2f} total, "
