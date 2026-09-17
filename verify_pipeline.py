@@ -373,6 +373,45 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # H-1: THIS GAME'S LIST COMES FROM THIS GAME'S DAY, NOT THE WEEK'S MERGE.
+    # board() merges eight days and keeps a player's FIRST sighting, so a team that had
+    # a list in Week 1 carries a Week 1 stamp forever and the game-page window rejected
+    # it for every later game; a player inactive in both weeks also kept his Week 1
+    # stamp and vanished from Week 2's list. On 17 Sep that left tonight's game page
+    # saying "post about 6:45 PM ET" at 7:07 PM with both lists already up.
+    import tempfile as _tf, os as _os1, json as _js1, datetime as _dt1
+    import inactives as _ia1
+    _kick = _dt1.datetime.now(_dt1.timezone.utc) + _dt1.timedelta(hours=1)
+    _day = _kick.astimezone(_sb._ET).strftime("%Y-%m-%d")
+    _tmp = _tf.mkdtemp()
+    _js1.dump({"day": _day, "teams": {"2": {
+        "id": "2", "team": "Acme Rockets",
+        "players": {"p1": {"name": "Tonight Player", "pos": "DT",
+                           "first_seen": (_kick - _dt1.timedelta(minutes=90))
+                           .strftime("%Y-%m-%dT%H:%M:%SZ")}}}}},
+        open(_os1.path.join(_tmp, f"inactives-{_day}.json"), "w"))
+    _old_dir = _ia1.SNAP_DIR
+    try:
+        _ia1.SNAP_DIR = _tmp
+        _g1 = {"league": "NFL", "start_utc": _kick.strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "home": {"id": "2", "abbr": "ACM"}, "away": {"id": "99", "abbr": "OTH"}}
+        # the merged board says this team was last seen a week ago
+        _stale = {("NFL", "2"): {"team": "Acme Rockets", "id": "2", "count": 8,
+                                 "first_seen": (_kick - _dt1.timedelta(days=4))
+                                 .strftime("%Y-%m-%dT%H:%M:%SZ"), "players": []}}
+        _got1 = _sb._ia_for_game(_g1, _stale, "home")
+        _check(bool(_got1), fails,
+               "H-1 canary: tonight's day-file list was rejected because the week's "
+               "merge stamped the team with an earlier week")
+        _check(bool(_got1) and _got1.get("count") == 1, fails,
+               f"H-1 canary: wrong list returned: {_got1 and _got1.get('count')}")
+        # and a team with no list for this day still returns nothing
+        _g2 = dict(_g1, home={"id": "77", "abbr": "NON"})
+        _check(_sb._ia_for_game(_g2, {}, "home") is None, fails,
+               "H-1 canary: a team with no list for this game returned one")
+    finally:
+        _ia1.SNAP_DIR = _old_dir
+
     # H-6: THE COUNT LINE NAMES WHAT THE TAB HOLDS. A panel showing fifteen final
     # scorecards said "No games today - 1 game Thursday", because the finals branch sat
     # after the upcoming-games branch and a pool that holds yesterday's finals almost

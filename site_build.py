@@ -4053,17 +4053,57 @@ def _ia_for_game(g, ia_index, side):
     ninety minutes out, so three hours is generous on the early side and the day end
     closes it without needing to know when the game finished.
     """
-    t = ia_index.get(("NFL", str((g.get(side) or {}).get("id"))))
-    if not t:
-        return None
     kick = _utc_dt(g.get("start_utc") or "")
-    seen = _utc_dt(t.get("first_seen") or "")
-    if not kick or not seen:
+    tid = str((g.get(side) or {}).get("id") or "")
+    if not kick or not tid:
         return None
     import datetime as _d
     opens = kick - _d.timedelta(hours=3)
-    day_end = kick.astimezone(_ET).replace(hour=23, minute=59, second=59)
-    return t if opens <= seen <= day_end.astimezone(_d.timezone.utc) else None
+    day_end = kick.astimezone(_ET).replace(hour=23, minute=59, second=59) \
+                  .astimezone(_d.timezone.utc)
+
+    # THE WEEK'S BOARD CANNOT ANSWER THIS QUESTION, AND ASKING IT WAS THE BUG.
+    #
+    # board() merges eight days (N-7) and keeps a player's FIRST sighting, which is
+    # right for a page that lists the week and wrong for a page about one game. Two
+    # things follow from it. A team's merged first_seen is the MINIMUM across the
+    # week, so any team that had a list in Week 1 is stamped with Week 1 forever and
+    # this window rejects it for every later game. And a player inactive in both weeks
+    # keeps his Week 1 stamp, so he is missing from Week 2's list entirely: on 17 Sep
+    # Buffalo's merged entry was seven players dated 13 Sep plus one dated tonight,
+    # and tonight's actual list was seven.
+    #
+    # So this reads the DAY FILE for the game's own Eastern date, which is the capture
+    # the poller made at this game's list going up, with each player's real stamp. The
+    # merged board stays the source for the week's page, where it is correct.
+    day = kick.astimezone(_ET).strftime("%Y-%m-%d")
+    try:
+        import inactives as _iam
+        snap = _iam.load_snapshot(day)
+    except Exception:
+        snap = None
+    t = ((snap or {}).get("teams") or {}).get(tid) if snap else None
+    if t:
+        players = [p for p in (t.get("players") or {}).values()
+                   if p.get("first_seen")
+                   and opens <= _utc_dt(p["first_seen"]) <= day_end]
+        if players:
+            players.sort(key=lambda p: (p.get("first_seen") or "", p.get("name") or ""))
+            firsts = [p["first_seen"] for p in players]
+            return {"team": t.get("team"), "id": t.get("id"), "players": players,
+                    "count": len(players), "first_seen": min(firsts),
+                    "last_added": max(firsts),
+                    "incomplete": bool(t.get("unresolved")),
+                    "reconciled_at": t.get("reconciled_at")}
+
+    # Fall back to the merged board, with the same window, for a game whose day file
+    # is missing. A team stamped from an earlier week still fails it, which is the
+    # behaviour H-1 asked for in the first place.
+    t = ia_index.get(("NFL", tid))
+    if not t:
+        return None
+    seen = _utc_dt(t.get("first_seen") or "")
+    return t if seen and opens <= seen <= day_end else None
 
 
 SB_LIVE_JS = """
