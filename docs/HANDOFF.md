@@ -73,8 +73,10 @@ dispatch other than the agreed Edition backstop; every call must appear in
   retries commented out. Retries were removed because the slot guard stands a retry
   down only when that slot's edition exists; with the primary off it never does, so
   every retry would have spent a full run.
-- `watcher.yml`: schedule disabled (`0 5 31 2 *`, never fires). `workflow_dispatch`
-  kept for manual recovery.
+- `watcher.yml`: **deleted** (X-1). A commented-out cron is not disabled; GitHub kept
+  firing the old registration and one fire published the Edition an hour early. A file
+  that does not exist cannot be scheduled or dispatched. Recover a slot by dispatching
+  the brief with `slot=evening-brief`. `watcher.py` stays: the canary tests it.
 - `watcher.py` `SLOT_DEADLINES`: **evening-brief only**. A slot left here with no cron
   is re-fired on every tick forever, before the cooldown and before the cage, and each
   fire spends a run. The canary now guards this; putting a slot back fails it.

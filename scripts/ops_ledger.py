@@ -26,6 +26,12 @@ import urllib.request
 API = "https://api.github.com"
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# THE LEDGER STARTED HERE. Runs before this moment were never recorded and their
+# containers are gone, so their tokens cannot be recovered. Every tally prints this
+# date, so a tally can never silently claim a day it does not hold. Run counts for
+# earlier days come from the Actions log; spend comparisons start the day after.
+LEDGER_SINCE = "2026-09-16T16:27Z"
+
 
 def call(url, token=None, data=None):
     hdrs = {"User-Agent": "ops-ledger", "Accept": "application/vnd.github+json"}
@@ -119,7 +125,8 @@ def write_file_ledger(row):
         if not isinstance(doc, dict) or not isinstance(doc.get("runs"), list):
             raise ValueError("ledger.json is not the expected shape")
     except FileNotFoundError:
-        doc = {"desk": os.environ.get("GITHUB_REPOSITORY", ""), "runs": []}
+        doc = {"desk": os.environ.get("GITHUB_REPOSITORY", ""),
+               "since": LEDGER_SINCE, "runs": []}
     except Exception as exc:
         print(f"::warning::ledger.json unreadable ({exc}); starting a new one is NOT "
               f"done here, the row goes to the issue only")
@@ -243,7 +250,13 @@ def tally_file(path=None):
     except Exception as exc:
         print(f"no readable ledger at {path} ({exc})")
         return 1
+    try:
+        since = json.load(open(path, encoding="utf-8")).get("since") or LEDGER_SINCE
+    except Exception:
+        since = LEDGER_SINCE
     spent = [r for r in rows if r.get("usd")]
+    print(f"ledger since {since} (runs before it are not recorded; "
+          f"use the Actions log for those days)")
     print(f"{path}: {len(rows)} run(s), "
           f"{sum(r.get('tokens') or 0 for r in rows):,} tokens, "
           f"${sum(float(r.get('usd') or 0) for r in rows):.2f} total, "

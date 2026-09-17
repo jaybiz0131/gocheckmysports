@@ -933,6 +933,67 @@ def _contract_ladder_canary(cfg):
     _check({s[0] for s in watcher.SLOT_DEADLINES} == {"evening-brief"}, fails,
            "watcher recovery: a slot with no cron is in SLOT_DEADLINES and would be "
            "re-fired on every tick for the rest of time")
+
+    # (h) PROGRAM 4, X-2: THE SLOT GUARD, ON ITS NO-MODEL PATH. The guard lives in the
+    # workflow YAML, so it is extracted and executed here with origin/main mocked. It
+    # is the rule that makes "one Edition a day" true regardless of who dispatches, and
+    # it was gated on EVENT == "schedule" until tonight, which let every dispatch spend.
+    import re as _re
+    import tempfile as _tf
+    _wf = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       ".github", "workflows", "sports-news-brief.yml")
+
+    def _guard_code():
+        s = open(_wf, encoding="utf-8").read()
+        m = _re.search(r"python3 - <<'PYEOF'\n(.*?)\n          PYEOF", s, _re.S)
+        if not m:
+            return None
+        return "\n".join(l[10:] if l.startswith(" " * 10) else l
+                          for l in m.group(1).split("\n"))
+
+    def _guard(code, event, slot, cron, breaking, served):
+        out = _tf.NamedTemporaryFile("w+", delete=False, suffix=".txt"); out.close()
+        env = {"EVENT": event, "SLOT_NAME": slot, "SLOT_CRON": cron,
+               "BREAKING": "1" if breaking else "0", "GITHUB_OUTPUT": out.name}
+        old = dict(os.environ); os.environ.update(env)
+
+        class _R:
+            returncode = 0 if served else 1
+            stdout = stderr = b""
+        import io as _io
+        import subprocess as _sp
+        real, so = _sp.run, sys.stdout
+        _sp.run = lambda *a, **k: _R()
+        sys.stdout = _io.StringIO()
+        try:
+            exec(compile(code, "<guard>", "exec"), {"__name__": "__main__"})
+        finally:
+            sys.stdout = so; _sp.run = real
+            os.environ.clear(); os.environ.update(old)
+        res = dict(l.split("=", 1) for l in open(out.name).read().strip().split("\n")
+                   if "=" in l)
+        os.unlink(out.name)
+        return res.get("serve")
+
+    _code = _guard_code()
+    _check(_code is not None, fails, "slot guard: could not read the guard from the workflow")
+    if _code:
+        _cases = [
+            ("a cron for a slot already served must stand down",
+             "schedule", "", "38 23 * * *", False, True, "false"),
+            ("a cron for an unserved slot must run",
+             "schedule", "", "38 23 * * *", False, False, "true"),
+            ("a DISPATCH for a slot already served must stand down",
+             "workflow_dispatch", "evening-brief", "", False, True, "false"),
+            ("a dispatch naming no slot must stand down even with nothing served",
+             "workflow_dispatch", "", "", False, False, "false"),
+            ("a breaking run must still pass the guard",
+             "workflow_dispatch", "evening-brief", "", True, True, "true"),
+        ]
+        for _label, _ev, _slot, _cron, _brk, _served, _want in _cases:
+            _check(_guard(_code, _ev, _slot, _cron, _brk, _served) == _want, fails,
+                   "slot guard: " + _label)
+
     with tempfile.TemporaryDirectory() as td:
         open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
         # (f) closed-window audit: a served window stays quiet after it closes; a missed
