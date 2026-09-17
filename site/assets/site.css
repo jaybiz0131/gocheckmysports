@@ -1901,3 +1901,42 @@ body>*:not(.ground){position:relative;z-index:1}
 @media (max-width:720px){
   .sb-hero .sb-bg{background-image:url("/assets/hero/hero-poster-phone.webp")}
 }
+
+/* H-13: THE MORE MENU OPENED BEHIND THE BAND. The sheet sat at z-index 40 inside the
+   masthead, but the masthead's own z-index was 1 and the band that follows it paints
+   its scrim, poster and loop over everything the masthead contains. A hit test at the
+   first link's centre returned DIV.sb-promise at 1440 and the band's background at
+   390: the reader clicked More and the click went to the band.
+
+   z-index inside an element cannot escape that element's own stacking context, which
+   is the whole bug. The masthead and its nav get a context that sits above every band
+   layer, and the sheet's 40 then means something. */
+
+/* THE CLIP WAS THE REAL CAUSE, and z-index could never have fixed it. .mh-nav .wrap
+   is the horizontally scrolling strip (overflow-x:auto so a long nav can be swiped),
+   and an overflow ancestor CLIPS an absolutely positioned descendant no matter what
+   its z-index is. The sheet was 354px tall inside a 44px strip: everything below the
+   first few pixels was cut away, so the point the reader clicks has no sheet at it and
+   the hit lands on the band behind.
+
+   Above the phone breakpoint the nav is required to fit without scrolling (S-1, G-3),
+   so it does not need the scroll container and the sheet is simply not clipped. Below
+   it, the sheet is already position:fixed, which escapes the clip on its own. */
+@media (min-width:641px){
+  .mh-nav .wrap{overflow:visible}
+}
+
+/* H-13: THE MORE MENU OPENED UNDER THE BAND.
+   A hit test at the first link's centre returned DIV.sb-promise at 1440 and the band's
+   background at 390: the reader clicked More and the click went to the band.
+
+   z-index inside an element cannot lift it above something that outranks that
+   element's own stacking context. The nav and the band both resolved to z-index 1 and
+   the band comes later in the DOM, so the band won and the sheet's own z-index 40 was
+   capped by its ancestor. Raising the NAV is the fix; raising the sheet never could be.
+
+   nav.mh-nav, not .mh-nav: an element-plus-class selector outranks the bare class
+   wherever it sits in the file, so this cannot be undone by ordering. position is left
+   alone deliberately - the nav is sticky and must stay sticky. */
+nav.mh-nav{z-index:300}
+header.masthead{position:relative;z-index:300}
