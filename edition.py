@@ -326,7 +326,7 @@ def _human_date(day):
     return datetime.date.fromisoformat(day).strftime("%A, %B %-d, %Y")
 
 
-def _et_stamp(d):
+def _et_stamp(d, page_day=None):
     """Punch item 7 / G-7: the Edition's times in ET, like every other surface.
 
     This function used to read the UTC hour out of the timestamp and print it with the
@@ -347,7 +347,21 @@ def _et_stamp(d):
         # available the stamp is omitted rather than asserted in the wrong zone.
         return ""
     ampm = "AM" if when.hour < 12 else "PM"
-    return f"{(when.hour % 12) or 12}:{when.minute:02d} {ampm} ET"
+    clock = f"{(when.hour % 12) or 12}:{when.minute:02d} {ampm} ET"
+    # H-5b: A TIME ALONE IS ONLY HONEST UNDER ITS OWN DAY. The Edition of the 16th
+    # carried "Chuck Wando · 9:28 PM ET" over a story filed at 9:28 PM ET on the
+    # FIFTEENTH, and a reader has no way to see that from the page. Where the story's
+    # Eastern date is not the page's date, the byline carries the date too. One rule,
+    # every byline: the same function serves them all.
+    if page_day:
+        try:
+            pd = (page_day if isinstance(page_day, datetime.date)
+                  else datetime.datetime.strptime(str(page_day)[:10], "%Y-%m-%d").date())
+            if when.date() != pd:
+                return f"{when.strftime('%b')} {when.day} \u00b7 {clock}"
+        except Exception:
+            pass
+    return clock
 
 
 def _story_url(d):
@@ -419,7 +433,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
   <span class="ed-kicker">{_kicker(desk, lead)}</span>
   <h2><a href="{_story_url(lead)}">{esc(lead.get("title"))}</a></h2>
   <p class="ed-dek">{esc(lead.get("dek"))}</p>
-  <p class="ed-byline">{esc(_byline(lead))} · {esc(_et_stamp(lead))}</p>
+  <p class="ed-byline">{esc(_byline(lead))} · {esc(_et_stamp(lead, day))}</p>
   <div class="ed-copy">{opening}</div>
   <p class="ed-continued"><a href="{_story_url(lead)}">Continued &#8594;</a></p>
 </article>"""
@@ -438,7 +452,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
         brief_html = f"""<section class="ed-brief" aria-label="{esc(_brief_name(ed))}">
   <div class="ed-brief-head">
     <span class="ed-kicker">{esc(_brief_name(ed))}</span>
-    <span class="ed-stamp">{esc(_et_stamp(ed))}</span>
+    <span class="ed-stamp">{esc(_et_stamp(ed, day))}</span>
   </div>
   <div class="ed-brief-cols">{"".join(f"<p>{p}</p>" for p in (ed.get("body") or []))}</div>
   <div class="ed-brief-cites">In this brief: {cites}</div>
