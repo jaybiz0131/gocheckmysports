@@ -142,6 +142,11 @@ def _league(name, path, colorkey, cmap):
             "possession": (sit.get("possession") or "") if sit else "",
             "progress": _progress(ev, comp, name),
             "venue_indoor": (comp.get("venue") or {}).get("indoor"),
+            # H-11: the venue's name comes from the FEED. It used to come from our own
+            # venues.json, which still called Houston's stadium "Reliant" eleven years
+            # after it was renamed NRG. A table of ours goes stale silently; the feed
+            # does not. A game the feed does not name gets no venue line.
+            "venue": (comp.get("venue") or {}).get("fullName") or "",
         })
     return games
 

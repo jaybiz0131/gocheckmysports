@@ -301,14 +301,24 @@ def _parse_utc(item):
 
 
 def fmt_when(item):
-    """Dateline with the publish time when we have one: 'July 12, 2026 · 3:41 AM ET'.
-    Games end late and news breaks around the clock; a reader needs to know 2 hours old vs 20."""
-    base = esc(fmt_date(item.get("date")))
-    if item.get("published_utc"):
-        dt = _parse_utc(item)
-        if dt:
-            return f"{base} · {_et_clock(dt)}"
-    return base
+    """Dateline with the publish time: 'July 12, 2026 · 3:41 AM ET'.
+
+    H-5: ONE CONVERSION, THEN BOTH HALVES. This used to take the date from item["date"]
+    and the time from the UTC timestamp converted to Eastern, so the two halves were in
+    different zones. Every story published between 8 PM and midnight Eastern showed the
+    wrong day: the US Open story read "September 16, 2026 · 9:28 PM ET" for a timestamp
+    of 01:28Z on the 16th, which is 9:28 PM ET on the FIFTEENTH, and that byline sat on
+    an Edition published the evening of the 16th. It was on the desk cards, the Record
+    lists and the Edition bylines alike, because they all call this function.
+
+    The timestamp is converted once and the date and the time are both read off that
+    one value. item["date"] is the fallback only when there is no timestamp to convert,
+    where there is no better answer and no contradiction to create."""
+    dt = _parse_utc(item) if item.get("published_utc") else None
+    if dt:
+        et = dt.astimezone(_ET)
+        return f"{MONTHS[et.month]} {et.day}, {et.year} · {_et_clock(dt)}"
+    return esc(fmt_date(item.get("date")))
 
 
 def _rfc822(item):
@@ -2972,19 +2982,24 @@ def _tk_sc9(g):
 def _tk_venue(g, wx):
     """Venue, with the weather when the game is outdoors. WX is keyed by game id."""
     w = ((wx or {}).get("games") or {}).get(str(g.get("id"))) or {}
-    venue = (w.get("venue") or "").strip()
-    if not venue:
+    # H-11: the name is the feed's. kickoff-weather.json's `venue` comes from our own
+    # venues.json, which had "Reliant Stadium" for a stadium renamed NRG in 2014, and
+    # the card printed it as fact. The weather itself stays: it is keyed to the venue's
+    # coordinates and the stadium did not move, so the temperature is true even when we
+    # have no name to put in front of it.
+    venue = (g.get("venue") or "").strip()
+    if not venue and not w:
         return ""
     if w.get("indoors") or g.get("venue_indoor"):
-        return f"{venue} \u00b7 roof"
-    bits = [venue]
+        return f"{venue} \u00b7 roof" if venue else "roof"
+    bits = [venue] if venue else []
     if isinstance(w.get("temp_f"), (int, float)):
         bits.append(f"{int(w['temp_f'])}\u00b0F at kickoff")
     if isinstance(w.get("wind_mph"), (int, float)) and w["wind_mph"] >= 8:
         bits.append(f"wind {int(w['wind_mph'])} mph")
     if isinstance(w.get("precip_pct"), (int, float)) and w["precip_pct"] >= 40:
         bits.append(f"{int(w['precip_pct'])}% rain")
-    return " \u00b7 ".join(bits)
+    return " \u00b7 ".join(bits) if bits else ""
 
 
 _TK_DESIG = {}
@@ -3199,11 +3214,37 @@ def _tk_leaders(g):
     return rows
 
 
+_TK_CLOCK = re.compile(r"^\s*0*:?0*0?\s*$|^\s*0:00\s*$")
+
+
+def _tk_state(g):
+    """H-2: what state this game is in, in the feed's own words.
+
+    The cards read the feed's `detail`, which is a CLOCK. Baseball has no clock, so
+    every MLB card printed "0:00": folded finals said it in the status slot and the
+    live marquee said "Live \u00b7 MLB \u00b7 0:00", on all five live games. The same
+    holds for tennis and golf, and in this snapshot `detail` is "0:00" for every league
+    including football, because only a game actually in play populates it.
+
+    `status_short` is the feed's own human string and it is always right: "Final",
+    "Final/13", "Top 6th", "Bot 1st". It leads. The clock is appended only when it is a
+    real running clock, which is what makes "3rd Quarter 5:21" possible without letting
+    a zero through."""
+    short = (g.get("status_short") or "").strip()
+    detail = (g.get("detail") or "").strip()
+    clock_is_real = detail and not _TK_CLOCK.match(detail) and detail != "0:00"
+    if short and clock_is_real and detail not in short:
+        return f"{short} \u00b7 {detail}"
+    if short:
+        return short
+    return detail if clock_is_real else ""
+
+
 def _tk_kicker(g):
     """The stub's top line: league, week and day, or the live state."""
     league = esc(g.get("league") or "")
     if g.get("state") == "in":
-        det = esc(g.get("detail") or g.get("status_short") or "Live")
+        det = esc(_tk_state(g) or "Live")
         return f'<span class="tk-k live"><span class="dot"></span>Live \u00b7 {league} \u00b7 {det}</span>'
     if g.get("state") == "post":
         return f'<span class="tk-k">{league} \u00b7 Final</span>'
@@ -3249,8 +3290,12 @@ def _tk_records(g):
     else:
         dt = _utc_dt(g.get("start_utc") or "")
         if dt:
-            bits.append(dt.astimezone(_ET).strftime("%a %-d %b"))
-            bits.append(_et_clock(dt))
+            # H-9: the board's line is "Lions 1-0 \u00b7 Bills 1-0 \u00b7 Thu 8:15 PM
+            # ET": the weekday and the time, as one part, with no day of month. Mine
+            # carried "Thu 17 Sep" and the clock as two parts, which wrapped before
+            # "ET" on the marquee at 1440 and again on phone. The date is on the card
+            # above it and on the page; the reader needs the day and the hour.
+            bits.append(f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}')
     return _TK_MID.join(b for b in bits if b)
 
 
@@ -3318,8 +3363,7 @@ def _tk_fold(g, ia_index, desig=None):
         dt = _utc_dt(g.get("start_utc") or "")
         if dt:
             when = f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
-    status = (esc(g.get("detail") or g.get("status_short") or "") if started
-              else esc(when))
+    status = esc(_tk_state(g)) if started else esc(when)
     net = (f'<span class="tk-chip sm">{esc(g.get("network"))}</span>'
            if g.get("network") else "")
     facts = _tk_avail(g, ia_index, desig)

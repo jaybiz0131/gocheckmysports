@@ -43,7 +43,10 @@ DESK = {
     "name": "GoCheckMySports",
     "name_base": "GoCheckMy",
     "name_site": "Sports",
-    "motto": "The Result, and How It Happened.",
+    # H-10 / C-L2: the site has one tagline and this is it. The nameplate carried a
+    # second, "The Result, and How It Happened." The date line and "Evening Edition"
+    # stay; the print design is otherwise untouched (S-22).
+    "motto": "Sports, checked.",
     "folio": ("GoCheckMySports is a news desk of Go Check My Brands LLC · "
               "Every source linked · Never betting advice"),
     "place": "Charleston, S.C.",

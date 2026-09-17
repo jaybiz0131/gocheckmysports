@@ -1877,3 +1877,6 @@ body>*:not(.ground){position:relative;z-index:1}
 .gp-head .tk-c{border-radius:12px}
 .gp-head .tk-num{font-size:46px}
 @media (max-width:900px){.gp-head .tk-num{font-size:30px !important}}
+/* H-9: the records line is one line. It is short enough now not to wrap at 1440 or
+   390, and this keeps it that way if a team name grows. */
+.tk-rec{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
