@@ -2013,3 +2013,9 @@ header.masthead{position:relative;z-index:300}
    the band these two stand down. */
 .sb-fade + main .page{padding-top:0}
 .scoreband-page > .bd-mod:first-child{padding-top:0}
+
+/* UX-15 (S-14): a section carries its name and its count, and no sentence about
+   itself. The count sits at the end of the head row, muted, so the name leads. */
+.sec-head{align-items:baseline}
+.sec-head .sec-n{margin-left:auto;font:500 12px/1 var(--mono);letter-spacing:.04em;
+  color:var(--muted);white-space:nowrap;flex:0 0 auto}

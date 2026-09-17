@@ -275,6 +275,34 @@ def clamp_words(text, limit, tail="\u2026"):
     return (cut or head.rstrip()) + tail
 
 
+_SENT_END = re.compile(r"(?<=[.!?])\s+")
+
+
+def clamp_sentences(text, limit, tail="\u2026"):
+    """UX-11 (S-9, C-6): a dek ends at a sentence, never an ellipsis.
+
+    Takes as many whole sentences as fit. If not even the first one fits, the first
+    sentence runs long rather than being cut, because authored text is not truncated;
+    a first sentence more than half again the limit is the one case that still falls
+    back to a word cut, since a dek that swallows its card is its own defect."""
+    t = " ".join(str(text or "").split())
+    if len(t) <= limit:
+        return t
+    parts = [x for x in _SENT_END.split(t) if x]
+    out = ""
+    for p in parts:
+        nxt = (out + " " + p).strip() if out else p
+        if len(nxt) > limit:
+            break
+        out = nxt
+    if out:
+        return out
+    first = parts[0] if parts else t
+    if len(first) <= limit * 1.5 and re.search(r"[.!?][\"\u2019\u201d)]*$", first):
+        return first
+    return clamp_words(t, limit, tail)
+
+
 def _et_clock(dt):
     """An aware datetime to '6:45 PM ET'. Reader-facing times are Eastern (G-7)."""
     return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
@@ -787,6 +815,225 @@ def _destyle_item(obj):
                 _destyle_item(v)
 
 
+# ---- UX-15 (S-13): one headline style, sentence case -----------------------------
+# Older stories came in Title Case and newer ones in sentence case, so the homepage
+# carried both. Title Case is converted at load, once, so every surface that shows a
+# headline shows the same style: the card, the H1, the browser tab, the Edition, the
+# archive. Slugs are built from the original and never move.
+#
+# The hard part is knowing which capitals are the style and which are the subject.
+# A fixed word list would be wrong by the second week of a season, so the desk reads
+# its own corpus: a word that appears capitalised in the middle of body sentences,
+# and rarely lower-case there, is a name. "Lions", "Ballmer", "Rasmussen" survive;
+# "Teams", "Deals", "Deadline", "Expected" do not.
+
+_SC_KEEP = {
+    "NFL", "NBA", "MLB", "NHL", "MLS", "NCAA", "WNBA", "PGA", "LPGA", "UFC", "F1",
+    "ACC", "SEC", "PAC", "AFC", "NFC", "AL", "NL", "CFP", "CBA", "MVP", "OT", "TD",
+    "QB", "RB", "WR", "TE", "DE", "DT", "LB", "CB", "SS", "FS", "OL", "DL", "PK",
+    "ESPN", "CBS", "NBC", "ABC", "TNT", "TBS", "FOX", "BBC", "AP", "PFF", "PFT",
+    "US", "USA", "UK", "EU", "TV", "AI", "CEO", "GM", "IR", "PUP", "ACL", "MCL",
+    "UCL", "PCL", "TJ", "IL", "DFA", "DH", "ERA", "RBI", "OPS", "WAR", "EPA",
+    "NFLPA", "NBPA", "MLBPA", "NHLPA", "IOC", "FIFA", "UEFA", "USMNT", "USWNT",
+    "II", "III", "IV", "JR", "SR", "OKC", "LA", "NY", "SF", "DC", "KC", "TB",
+}
+
+_SC_WORD = re.compile(r"[A-Za-z][A-Za-z'\u2019]*")
+_SC_VOCAB = None
+
+
+def _sc_looks_title(t):
+    """A vocabulary-free shape test, used only while the vocabulary is being built."""
+    w = [x for x in _SC_WORD.findall(t)[1:] if len(x) > 3]
+    if len(w) < 4:
+        return False
+    return sum(1 for x in w if x[0].isupper()) / len(w) >= 0.75
+
+
+def _sc_vocab(items):
+    """The corpus's own usage. Counted only mid-sentence, because the first word of a
+    sentence is capitalised by grammar and says nothing about the word.
+
+    The first cut of this asked "is this word a name?" and lower-cased everything it
+    could not prove, which turned Fredd Young into fredd young and Bo Nix into bo Nix.
+    A desk that never invents a number does not guess at a name either, so the question
+    is inverted: a word is lower-cased only where the desk's own sentences use it
+    lower-case at least as often as capitalised. A word the corpus has never written in
+    lower case keeps the case it arrived in. Pairs are counted too: Ohio State and US
+    Open are capitalised together often enough that neither half is a common word."""
+    global _SC_VOCAB
+    if _SC_VOCAB is not None:
+        return _SC_VOCAB
+    cap, low, pair = {}, {}, {}
+    for it in items:
+        paras = [str(b) for b in (it.get("body") or [])]
+        if it.get("dek"):
+            paras.append(str(it["dek"]))
+        # A headline the desk already wrote in house style is the best evidence there
+        # is about which words the house lower-cases; Title Case ones say nothing.
+        t = it.get("title") or ""
+        if t and not _sc_looks_title(t):
+            paras.append(t)
+        for para in paras:
+            for sent in re.split(r"(?<=[.!?])\s+", para):
+                ws = _SC_WORD.findall(sent)[1:]
+                for n, w in enumerate(ws):
+                    k = w.lower()
+                    if w[0].isupper():
+                        cap[k] = cap.get(k, 0) + 1
+                        if n + 1 < len(ws) and ws[n + 1][:1].isupper():
+                            bk = (k, ws[n + 1].lower())
+                            pair[bk] = pair.get(bk, 0) + 1
+                    else:
+                        low[k] = low.get(k, 0) + 1
+    _SC_VOCAB = (cap, low, {k for k, n in pair.items() if n >= 3})
+    return _SC_VOCAB
+
+
+_SC_EN = None
+_SC_ROSTER = None
+
+
+def _sc_english():
+    """The common-noun and verb list, shipped with the desk rather than read from the
+    build machine, so a headline casts the same here as it does on the deploy. It is
+    the system word list with every capitalised entry dropped, which is what makes it
+    usable: it holds "clinic", "premiere" and "overwhelm" and does not hold "Ohio",
+    "September" or "Clippers"."""
+    global _SC_EN
+    if _SC_EN is None:
+        _SC_EN = set()
+        path = os.path.join(HERE, "site", "data", "common_words.txt.gz")
+        if os.path.exists(path):
+            import gzip
+            with gzip.open(path, "rt", encoding="utf-8") as f:
+                _SC_EN = {l.strip() for l in f if l.strip()}
+    return _SC_EN
+
+
+def _sc_roster():
+    """Every word of every name on the player index. A surname that is also an English
+    word (Moss, Young, Bowers) is a name first on a sports desk, and the index is the
+    league's own spelling of it rather than anything the desk inferred."""
+    global _SC_ROSTER
+    if _SC_ROSTER is None:
+        _SC_ROSTER = set()
+        try:
+            d = json.load(open(os.path.join(HERE, "site", "data", "players.json"),
+                              encoding="utf-8"))
+            for pl in (d.get("players") or []):
+                for w in _SC_WORD.findall(str(pl.get("name") or "")):
+                    if len(w) > 1:
+                        _SC_ROSTER.add(w.lower())
+        except Exception:
+            pass
+    return _SC_ROSTER
+
+
+def _sc_name(k, v):
+    """A name, by any of the three things the desk actually knows: the league's player
+    index, the site's own abbreviations, or its own writing. The last is a ratio, not a
+    majority: Cup is written capitalised three hundred times and lower-case three, and
+    Sports and Series are split down the middle, which is why World Cup holds together
+    and Championship Series does not."""
+    cap, low, _ = v
+    if k.upper() in _SC_KEEP or k in _sc_roster():
+        return True
+    return cap.get(k, 0) >= 3 and low.get(k, 0) * 10 <= cap.get(k, 0)
+
+
+_SC_SUFFIX = (("ing", ""), ("ing", "e"), ("ed", ""), ("ed", "e"), ("ies", "y"),
+              ("es", ""), ("s", ""), ("ly", ""))
+
+
+def _sc_common(k, v):
+    """A word the house writes in lower case: either the desk's own sentences say so,
+    or it is an ordinary English word. Inflections are settled by their stem, because
+    no list carries every "criticizes" and "intensifies"."""
+    cap, low, _ = v
+    if low.get(k, 0) >= 3 and low.get(k, 0) >= cap.get(k, 0):
+        return True
+    en = _sc_english()
+    if k in en:
+        return True
+    for suf, add in _SC_SUFFIX:
+        if k.endswith(suf) and len(k) - len(suf) >= 3:
+            stem = k[:-len(suf)] + add
+            if stem in en or (low.get(stem, 0) >= 3 and low.get(stem, 0) >= cap.get(stem, 0)):
+                return True
+    return False
+
+
+def _sc_is_title_case(t, v):
+    """Title Case capitalises the ordinary words, so only ordinary words are evidence.
+    Names, acronyms and the first word are capitalised in both styles and are ignored:
+    counting them read "Former All-Pro LB Fredd Young dies at 64", which is already in
+    house style, as Title Case."""
+    toks = [x for x in _SC_WORD.findall(t)]
+    ev = [x for x in toks[1:]
+          if len(x) > 3 and x.upper() not in _SC_KEEP and not x.isupper()
+          and _sc_common(x.lower(), v)]
+    if len(ev) < 2:
+        return False
+    return sum(1 for x in ev if x[0].isupper()) / len(ev) >= 0.6
+
+
+def _sc_token(tok, first, prev, nxt, v):
+    """One word, hyphen parts handled separately so "Eight-Year" becomes "eight-year"
+    while "All-Pro" keeps the name it carries."""
+    _, _, pairs = v
+    out, parts = [], tok.split("-")
+    for n, part in enumerate(parts):
+        m = _SC_WORD.match(part)
+        if not m:
+            out.append(part)
+            continue
+        word = m.group(0)
+        rest = part[len(word):]
+        k = word.lower()
+        # A pair only holds a common word up when the other half is a name: Ohio
+        # State and US Open survive, College Sports and Championship Series do not.
+        bound = False
+        if n == 0:
+            if (prev, k) in pairs and _sc_name(prev, v):
+                bound = True
+            if (k, nxt) in pairs and _sc_name(nxt, v):
+                bound = True
+        keep = (
+            (first and n == 0)
+            or word.upper() in _SC_KEEP
+            or word.isupper()
+            or (len(word) > 1 and any(c.isupper() for c in word[1:]))
+            or any(c.isdigit() for c in part)
+            or len(word) == 1
+            or bound
+            or _sc_name(k, v)
+            or not _sc_common(k, v)
+        )
+        out.append((word if keep else word.lower()) + rest)
+    return "-".join(out)
+
+
+def sentence_case(title, v):
+    """Title Case in, sentence case out. Anything already in sentence case is returned
+    untouched, so the rule never re-cases the desk's own writing."""
+    if not title or not _sc_is_title_case(title, v):
+        return title
+    toks = re.split(r"(\s+)", title)
+    words = [i for i, t in enumerate(toks) if t.strip()]
+    low = {}
+    for i in words:
+        m = _SC_WORD.match(toks[i].split("-")[0])
+        low[i] = m.group(0).lower() if m else ""
+    out, first = list(toks), True
+    for j, i in enumerate(words):
+        prev = low[words[j - 1]] if j else ""
+        nxt = low[words[j + 1]] if j + 1 < len(words) else ""
+        out[i] = _sc_token(toks[i], first, prev, nxt, v)
+        first = bool(re.search(r"[.!?:]$", toks[i].strip()))
+    return "".join(out)
+
+
 def load_content():
     items = []
     if os.path.isdir(CONTENT):
@@ -827,6 +1074,22 @@ def load_content():
         k = c.get("continued_by")
         if k and k not in _live:
             c.pop("continued_by", None)
+
+    # UX-15 (S-13): one headline style, applied once, here, so that every surface that
+    # shows a headline shows the same one: the card, the H1, the browser tab, the
+    # Edition, the archive, the feed. Slugs were set above from the original title and
+    # do not move, because a URL never changes.
+    v = _sc_vocab(items)
+    n = 0
+    for c in items:
+        t = c.get("title")
+        if t:
+            u = sentence_case(t, v)
+            if u != t:
+                c["title"] = u
+                n += 1
+    if n:
+        print(f"house style: {n} headline(s) cast to sentence case")
     return items
 
 
@@ -1496,19 +1759,51 @@ def render_article(item, all_items=None, hubs=None):
 
 # ---- cards / index / archive -------------------------------------------------
 
-def card(item):
+def _ends_sentence(t):
+    return bool(re.search(r"[.!?][\"\u2019\u201d)]*$", (t or "").strip()))
+
+
+def dek_for(item, limit):
+    """UX-11: the card's line, ending at a sentence. The desk writes four fields that
+    can serve as one, and a brief's dek is sometimes a single 400-character sentence
+    that no limit can end cleanly; rather than cut it, the card takes the first of the
+    four that does end at a sentence inside the limit. Only when none does is a cut
+    made, which is the case the audit's ellipsis rule cannot avoid."""
+    cands = [item.get("dek"), item.get("key_fact"), item.get("bottom_line")]
+    body = item.get("body") or []
+    if body:
+        b = body[0]
+        cands.append(b.get("h2") if isinstance(b, dict) else b)
+    for c in cands:
+        if not c:
+            continue
+        t = clamp_sentences(str(c), limit)
+        if _ends_sentence(t):
+            return t
+    for c in cands:
+        if c:
+            return clamp_sentences(str(c), limit)
+    return ""
+
+
+def card(item, drop=()):
+    """UX-15 (S-14). `drop` is the tag a page already is. On /sections/nfl every card
+    carried an "nfl" chip, which tells the reader where they already are and spends the
+    two chips a card has on nothing; the chips go to the tags that add something."""
     badge = verdict_badge(item.get("verdict"), item)
-    tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
-    tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
+    skip = {str(d).lower() for d in (drop or ())}
+    cat = item.get("category")
+    tag = (f'<span class="tag">{esc(cat)}</span>'
+           if cat and str(cat).lower() not in skip else "")
+    topics = [t for t in tags_for(item) if str(t).lower() not in skip]
+    tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in topics[:2])
     href = f'/articles/{esc(item["slug"])}.html'
-    summ = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else "")
-    if isinstance(summ, dict):
-        summ = summ.get("h2", "")
+    summ = dek_for(item, 180)
     nsrc = len(item.get("sources") or [])
     return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
-  <p class="summary">{esc(clamp_words(summ, 180))}</p>
+  <p class="summary">{esc(summ)}</p>
   <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
@@ -2361,8 +2656,10 @@ def _also_today(pool, n=3):
     three desk headlines and their times, so the card fills the row on its own
     content and the row's height is the lead's, never the rail's."""
     rows = []
-    for i in (pool or [])[:n]:
-        if not i.get("slug"):
+    for i in (pool or []):
+        if len(rows) >= n:
+            break
+        if not i.get("slug") or not _claim(i["slug"]):
             continue
         # A headline is never clamped (C-9, and the standing law that authored text is
         # not truncated); it wraps. The stamp is the time only: every item on this list
@@ -3338,6 +3635,45 @@ def _edition_label(ed):
     if et.date() == today:
         return "Read tonight\u2019s Edition"
     return f'The Edition \u00b7 {MONTHS[et.month]} {et.day}'
+
+
+def _unused(pool, n):
+    """UX-11: the first n stories not already on this page, claiming as it goes."""
+    out = []
+    for i in (pool or []):
+        if len(out) >= n:
+            break
+        if _claim(i.get("slug")):
+            out.append(i)
+    return out
+
+
+_PAGE_USED = set()
+
+
+def _page_reset():
+    """UX-11: a new page starts with nothing claimed."""
+    _PAGE_USED.clear()
+
+
+def _claim(slug):
+    """UX-11 (S-9): one appearance per story per page.
+
+    The homepage linked 29 distinct stories 47 times: one four times, another three,
+    thirteen twice. A story in "From the desk" and again in the Record's read-further
+    list is the same page telling the reader twice, and it costs the slot a second
+    story would have had.
+
+    Blocks claim in render order, so the earliest and most prominent placement keeps
+    the story and later blocks skip it. Returns False when the story is already on the
+    page.
+    """
+    if not slug:
+        return True
+    if slug in _PAGE_USED:
+        return False
+    _PAGE_USED.add(slug)
+    return True
 
 
 def _storyline_open(entry, now=None):
@@ -5491,9 +5827,7 @@ def render_living_table(spec, items, dateline):
             nm = _bd_outlet(s)
             if nm and nm not in outlets:
                 outlets.append(nm)
-        what = (i.get("key_fact") or i.get("dek") or "").strip()
-        if len(what) > 260:
-            what = what[:255].rsplit(" ", 1)[0] + "..."
+        what = clamp_sentences((i.get("key_fact") or i.get("dek") or "").strip(), 260)
         trs.append(
             f'<tr><td class="lt-prop">{esc(_table_property(i))}</td>'
             f'<td class="lt-what"><a href="/articles/{esc(i["slug"])}.html">'
@@ -5552,8 +5886,31 @@ def _contracts_lane(items):
     return out
 
 
+_ANON_RX = re.compile(
+    r"\b(anonymous(?:ly)? (?:source|sourced|estimate)|"
+    r"(?:a |two |multiple |league |team )?sources? (?:told|say|said|indicate|"
+    r"with knowledge|familiar)|per sources|according to sources|"
+    r"people familiar (?:with|who)|someone familiar|"
+    r"who (?:was |were )?(?:not authori[sz]ed|granted anonymity)|"
+    r"spoke on condition of anonymity|unnamed source)\b", re.I)
+
+
+def _official_report(item):
+    """UX-14 (S-12). The Fantasy facts lane is official reports only: the league's
+    injury report, a team's own statement, a filing. A story that rests on unnamed
+    sourcing may be true and may run everywhere else on the site; it does not set a
+    fantasy expectation, so it never features here. On 16 Sep the lane led with an
+    anonymous-source estimate of a three-to-four-week absence, which is exactly the
+    shape the doctrine excludes."""
+    blob = " ".join([item.get("title") or "", item.get("dek") or "",
+                     item.get("key_fact") or ""]
+                    + [str(b) for b in (item.get("body") or [])[:3]])
+    return not _ANON_RX.search(blob)
+
+
 def _fantasy_facts_lane(items):
-    return [i for i in items if "injuries" in {t.lower() for t in tags_for(i)}]
+    return [i for i in items
+            if "injuries" in {t.lower() for t in tags_for(i)} and _official_report(i)]
 
 
 def _receipt_status(item):
@@ -5604,9 +5961,8 @@ LANE_COLORS = {"Lawsuits and rulings": "#4B5563"}
 def lane_card_v3(item, lane_name, stamp=None):
     """S-C. The v3 lane card. `stamp` lets a lane show its count and newest date in
     place of the piece's own dateline (S-17)."""
-    pull = (item.get("bottom_line") or item.get("key_fact") or item.get("dek") or "").strip()
-    if len(pull) > 300:
-        pull = pull[:295].rsplit(" ", 1)[0] + "..."
+    pull = clamp_sentences(
+        (item.get("bottom_line") or item.get("key_fact") or item.get("dek") or "").strip(), 300)
     chip = _receipt_status(item)
     # A status chip only when the metadata has one. verdict_badge is the desk's own
     # and is present on every checked story; the receipt chip is not.
@@ -5662,6 +6018,12 @@ def extra_lanes(items, board, claimed=None):
         if len(rows) < RECORD_LANE_MIN:
             continue
         taken.update(i.get("slug") for i in rows[:4])
+        # UX-11: the lane takes the first story not already on this page. A lane
+        # featuring a story the desk grid or Also today already ran is the same page
+        # telling the reader twice, and it costs the lane the story below it.
+        rows = [r for r in rows if _claim(r.get("slug"))]
+        if not rows:
+            continue
         feat = rows[0]
         more = "".join(
             f'<div class="bd-rec-row">'
@@ -5981,6 +6343,16 @@ def render_home(items, dateline):
     information, not above it."""
     live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
 
+    # UX-11: one appearance per story per page, and blocks claim in render order, so
+    # this has to be the FIRST thing the page does. The first cut reset halfway down,
+    # after the desk grid had already claimed, which wiped its claims and let the same
+    # story render again below.
+    #
+    # The band's league panels are excluded deliberately: they are alternate views of
+    # the same slot and only one is ever on screen, so a story on the NFL card and the
+    # MLB card is not the page saying it twice.
+    _page_reset()
+
     # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
     # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
     # editions in their own strip below. No carousel: every ranked story is on screen.
@@ -6041,7 +6413,7 @@ def render_home(items, dateline):
             f'{verdict_badge(i.get("verdict"), i)}</span>'
             f'<span class="sp-deskcard-h">{esc(clamp_words(i.get("title") or "", 96))}</span>'
             f'<span class="dateline">{fmt_when(i)}</span></a>'
-            for i in stories[:6])
+            for i in _unused(stories, 6))
         cards = ed_card + cards
         desk_html = (f'<div class="bd-sec"><div class="bd-sec-l">'
                      f'<h2 class="bd-h2">From the desk</h2></div>'
@@ -6420,8 +6792,10 @@ def crosscut_row(items, active=None):
 
 def render_section(slug, title, nav_label, tags, blurb, items, dateline):
     live = section_items(items, tags)
+    drop = set(tags or ()) | {slug, nav_label, title}
     if live:
-        inner = '<div class="grid">' + "".join(card(i) for i in live[:60]) + "</div>"
+        inner = ('<div class="grid">'
+                 + "".join(card(i, drop) for i in live[:60]) + "</div>")
         if len(live) > 60:
             inner += (f'<p class="fine">Showing the 60 most recent of {len(live)} stories in '
                       f'this section. <a href="/archive.html">The full archive</a> has the rest.</p>')
@@ -6430,8 +6804,8 @@ def render_section(slug, title, nav_label, tags, blurb, items, dateline):
                  '<p style="margin:.6em 0 0">No published stories carry this section yet.</p></div>')
     plain = title.replace("&amp;", "and")
     body = f"""<main class="wrap"><h1 class="sr-only">{esc(plain)}</h1><section class="sec">
-    <div class="sec-head"><h2>{title}</h2><span class="bar"></span></div>
-    <p class="lede" style="margin:0 0 14px">{blurb}</p>
+    <div class="sec-head"><h2>{title}</h2><span class="bar"></span>
+      <span class="sec-n">{len(live)} {"story" if len(live) == 1 else "stories"}</span></div>
     {crosscut_row(items, nav_label)}
     {inner}
   </section></main>"""
@@ -6457,12 +6831,15 @@ def render_coverage_hub(hub, dateline):
     crawl attention into; the section pages organize by league, this layer organizes by
     storyline."""
     name = hub["name"]
+    # The description still goes to the tab and to search; the page itself carries the
+    # name and the count, the same law the section pages follow.
     intro = (f"Every story the desk has published on {_name_mid_sentence(name)}, "
-             f"newest first. This page updates with each new development.")
+             f"newest first.")
+    n = len(hub["stories"])
     inner = '<div class="grid">' + "".join(card(i) for i in hub["stories"]) + "</div>"
     body = f"""<main class="wrap"><h1 class="sr-only">{esc(name)}</h1><section class="sec">
-    <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span></div>
-    <p class="lede" style="margin:0 0 14px">{esc(intro)}</p>
+    <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
+      <span class="sec-n">{n} {"story" if n == 1 else "stories"}</span></div>
     {inner}
   </section></main>"""
     return shell(f"{name}: full coverage - {NAME}", intro, "Full coverage", body, dateline,
