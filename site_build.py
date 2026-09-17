@@ -1559,195 +1559,24 @@ _CLIENT_FEEDS = {
     "MLS": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
 }
 
-SCORES_AGE_JS = (
-    # DATA-AGE TRIPWIRE (owner directive 2026-07-28; teeth 2026-08-31): the strip's
-    # "as of" line is a promise. The client refresh (on load, on tab return, and on a
-    # 2-minute interval) rewrites it to the real refresh time, but ONLY when a feed
-    # actually matched a baked card (SCORES_JS gates the event on that now); if the
-    # committed snapshot is older than 3 hours AND no such refresh has landed, the
-    # widget says so itself AND the strip goes sb-frozen so its 'live' cards lose the
-    # green live styling instead of impersonating games in progress.
-    '<script>(function(){var n=document.getElementById("sb-note");if(!n)return;'
-    'var s=document.getElementById("scores-strip");'
-    'function two(x){return(x<10?"0":"")+x}'
-    'function mark(d,live){var t=d.toLocaleTimeString("en-US",{timeZone:"America/New_York",'
-    'hour:"numeric",minute:"2-digit"})+" ET";'
-    'n.textContent="League data, not news \u00b7 as of "+t+(live?"":"");}'
-    'var g=Date.parse(n.getAttribute("data-generated")||"");'
-    'function stale(){n.textContent="League data, not news \u00b7 last update may be "+'
-    '"delayed; scores below may not be current";n.classList.add("sb-stale");'
-    'if(s)s.classList.add("sb-frozen")}'
-    'if(!isNaN(g)&&Date.now()-g>108e5)stale();'
-    'window.addEventListener("gcm:scores-refreshed",function(){mark(new Date(),1);'
-    'n.classList.remove("sb-stale");if(s)s.classList.remove("sb-frozen")});'
-    '})();</script>')
+# H-7 (2026-09-16): THE SCORES STRIP IS DELETED, with SCORES_JS and SCORES_AGE_JS.
+#
+# It was the homepage's fallback when the scoreboard snapshot aged past six hours: the
+# band withdrew and this rendered instead, captioned "League data, not news · as of
+# ...". Two things were wrong with that. The caption is a sentence about the site, which
+# C-L1 removes. And a reader who meets one component at 8 AM and a different one at
+# 8 PM learns nothing from the swap; they cannot even tell that what they are looking
+# at is old.
+#
+# L-4 is the opposite rule and it is the one that holds: stale data renders, with its
+# own stamp and a stale mark. scoreboard.load() now returns the snapshot with
+# stale: true instead of None, the band renders it, and the stamp says
+# "Updated 7:57 AM ET · stale". The live poll (L-3) then updates it in place the moment
+# the source answers, which is the thing the strip could never do.
+#
+# Removed here rather than left unreferenced: about 200 lines of generator and two
+# inline scripts that no page called any more.
 
-
-# The client refresh (2026-08-31 rebuild after the frozen-'Bot 6' audit):
-#   - fetches ride a yesterday..today date range (StatsAPI startDate/endDate, ESPN
-#     dates=) so a game baked before midnight can still resolve to its Final; the
-#     bare URLs return only today's slate, which could never match yesterday's cards;
-#   - the gcm:scores-refreshed event fires ONLY when a feed matched at least one
-#     baked card; a parseable feed matching nothing is staleness, not freshness;
-#   - orphan retirement: a baked live card whose eid the league's own feed no longer
-#     carries can never resolve, so it loses the live class and says so;
-#   - a real 2-minute interval polls alongside load and tab-return (the 120000ms
-#     check in refresh() is the shared throttle).
-SCORES_JS = (
-    '<script>(function(){var s=document.getElementById("scores-strip");'
-    'if(!s||!window.fetch)return;var feeds=[];'
-    'try{feeds=JSON.parse(s.getAttribute("data-feeds")||"[]")}catch(e){return}'
-    'var last=0;'
-    'function two(x){return(x<10?"0":"")+x}'
-    'function iso(d){return d.getUTCFullYear()+"-"+two(d.getUTCMonth()+1)+"-"+two(d.getUTCDate())}'
-    'function apply(eid,as,hs,det,state){'
-    'var g=s.querySelector(\'[data-eid="\'+eid+\'"]\');'
-    'if(!g)return 0;'
-    'if(as==null||hs==null||state==="pre")return 1;'
-    'var rows=g.querySelectorAll(".sb-row"),st=g.querySelector(".sb-status");'
-    'if(rows.length<2)return 1;'
-    'rows[0].querySelector(".sb-score").textContent=as;'
-    'rows[1].querySelector(".sb-score").textContent=hs;'
-    'if(det&&st)st.textContent=det;'
-    'g.classList.toggle("live",state==="in");'
-    'if(state==="post"){var a=+as,h=+hs;'
-    'rows[0].classList.toggle("win",a>h);rows[1].classList.toggle("win",h>a)}'
-    'return 1}'
-    'function retire(lg,seen){'
-    's.querySelectorAll(\'.sb-game.live[data-lg="\'+lg+\'"]\').forEach(function(g){'
-    'if(seen[g.getAttribute("data-eid")])return;'
-    'g.classList.remove("live");'
-    'var st=g.querySelector(".sb-status");'
-    'if(st)st.textContent="Updated earlier"})}'
-    'function refresh(){var n=Date.now();if(n-last<120000)return;last=n;'
-    'var today=new Date(),yest=new Date(n-864e5);'
-    'var ok=function(){try{window.dispatchEvent(new Event("gcm:scores-refreshed"))}catch(e){}};'
-    'feeds.forEach(function(f){var lg=f[0],u=f[1];'
-    'u+=u.indexOf("statsapi")>-1?"&startDate="+iso(yest)+"&endDate="+iso(today):'
-    '(u.indexOf("?")>-1?"&":"?")+"dates="+iso(yest).replace(/-/g,"")+"-"+iso(today).replace(/-/g,"");'
-    'fetch(u).then(function(r){return r.json()})'
-    '.then(function(d){var seen={},got=0;'
-    'if(d&&d.events){d.events.forEach(function(ev){'
-    'var c=(ev.competitions||[{}])[0],sides={};'
-    '(c.competitors||[]).forEach(function(x){sides[x.homeAway]=x});'
-    'var st=(ev.status||{}).type||{};'
-    'seen[String(ev.id)]=1;'
-    'got+=apply(String(ev.id),(sides.away||{}).score,(sides.home||{}).score,'
-    'st.state==="post"?"Final":(st.state==="in"?(st.shortDetail||"Live"):null),st.state)})}'
-    'else if(d&&d.dates){d.dates.forEach(function(day){(day.games||[]).forEach(function(g){'
-    'var t=g.teams||{},ls=g.linescore||{},ab=(g.status||{}).abstractGameState,'
-    'state=ab==="Live"?"in":ab==="Final"?"post":"pre",'
-    'det=state==="post"?"Final":state==="in"?((ls.isTopInning?"Top ":"Bot ")+'
-    '(ls.currentInning||"")):null;'
-    'seen[String(g.gamePk)]=1;'
-    'got+=apply(String(g.gamePk),(t.away||{}).score,(t.home||{}).score,det,state)})})}'
-    'else return;'
-    'retire(lg,seen);'
-    'if(got)ok()'
-    '}).catch(function(){})})}'
-    'refresh();document.addEventListener("visibilitychange",function(){'
-    'if(document.visibilityState==="visible")refresh()});'
-    'setInterval(refresh,120000)})()</script>')
-
-
-def scores_strip():
-    """The live layer, scoreboard edition (owner call 2026-07-21: game cards, not a
-    stock-style ticker). Baked from site/data/scores.json (scores_pulse.py; fail-open).
-    League data, not news: it never passes the editorial pipeline and says so. Empty or
-    missing snapshot = no bar, no dead chrome. Client fetches (load, tab return,
-    2-minute interval; CORS verified on both feeds) update the cards in place; baked
-    values stand on any failure.
-    Nothing self-moves, so WCAG 2.2.2 never triggers; the rail is keyboard-scrollable."""
-    try:
-        snap = json.load(open(SCORES_PATH, encoding="utf-8"))
-    except Exception:
-        return ""
-    leagues = [l for l in snap.get("leagues", []) if l.get("games")]
-    if not leagues:
-        return ""
-    # BUILD-TIME FAIL-CLOSED GUARD (2026-08-31; the Bottom Line guard's rule applied
-    # to the strip: a stalled pipeline can never showcase an old inning as current).
-    # scores_pulse.py runs before every build, so a stale snapshot here means the
-    # fetch just failed and every 'in' state is a frozen inning, not a live game
-    # ('Bot 6' stood on the live page 13 hours after the game ended). Past the
-    # snapshot's own stale_after_utc hint (generated_utc + 3h when absent) live
-    # cards demote to plain 'as of' cards; past 24h the strip does not render.
-    now = _build_now()
-    gen_raw = snap.get("generated_utc") or ""
-    try:
-        gen = datetime.datetime.fromisoformat(gen_raw.replace("Z", "+00:00"))
-    except ValueError:
-        gen = None
-    if gen is None or (now - gen).total_seconds() > 24 * 3600:
-        return ""
-    try:
-        stale_after = datetime.datetime.fromisoformat(
-            (snap.get("stale_after_utc") or "").replace("Z", "+00:00"))
-    except ValueError:
-        stale_after = gen + datetime.timedelta(hours=3)
-    demote_live = now > stale_after
-    stamp = esc(_et(gen_raw))          # G-7: reader-facing clock is Eastern
-    cards, feeds = [], []
-    for l in leagues:
-        feed = _CLIENT_FEEDS.get(l.get("league", ""))
-        if feed:
-            # [league, url] pairs: the client needs to know WHICH league a feed
-            # covers so it only retires orphaned live cards from that league
-            feeds.append([l.get("league", ""), feed])
-        # ALWAYS label the league (2026-08-17). This was conditional on more than one
-        # league having games, so in a month where only MLB is playing the strip rendered
-        # as bare abbreviations and a start time ("TB DET 6:40 PM ET") with nothing saying
-        # what sport it is. The label costs one chip and is the difference between a
-        # scoreboard and a row of letters for anyone who is not already a fan.
-        cards.append(f'<span class="sb-league">{esc(l.get("league", ""))}</span>')
-        for g in l["games"]:
-            aw, hm = esc(g.get("away", "")), esc(g.get("home", ""))
-            a_s, h_s = g.get("away_score"), g.get("home_score")
-            state = g.get("state", "pre")
-            pre = state == "pre" or a_s is None or h_s is None
-            a_txt = "" if pre else str(a_s)
-            h_txt = "" if pre else str(h_s)
-            a_win = h_win = ""
-            if state == "post" and not pre:
-                a_win = " win" if a_s > h_s else ""
-                h_win = " win" if h_s > a_s else ""
-            live_cls = " live" if state == "in" else ""
-            detail = str(g.get("detail", ""))
-            if state == "in" and demote_live:
-                # a frozen inning is not a live game: the card keeps its last scores
-                # but loses the live treatment and says when they were taken
-                live_cls = ""
-                detail = f"as of {_et(gen_raw)}"
-            cards.append(
-                f'<span class="sb-game{live_cls}" data-eid="{esc(str(g.get("eid", "")))}" '
-                f'data-lg="{esc(l.get("league", ""))}">'
-                f'<span class="sb-row{a_win}"><span class="sb-team">{aw}</span>'
-                f'<span class="sb-score">{a_txt}</span></span>'
-                f'<span class="sb-row{h_win}"><span class="sb-team">{hm}</span>'
-                f'<span class="sb-score">{h_txt}</span></span>'
-                f'<span class="sb-status">{esc(detail)}</span></span>')
-    # a snapshot from a previous day says so: bare 'as of 01:45 UTC' read as
-    # this-morning when the bake was 13 hours old (2026-08-31)
-    gen_date, build_date = gen_raw[:10], now.date().isoformat()
-    note_when = (f"{esc(fmt_date(gen_date))}, {stamp}" if gen_date != build_date
-                 else stamp)
-    return (f'<section class="scorebar" aria-label="Today\'s scores">'
-            f'<div class="wrap"><span class="sb-lab">Scores</span>'
-            f'<div class="sb-rail" tabindex="0" role="group" '
-            f'aria-label="Scores, scroll horizontally" id="scores-strip" '
-            f"data-feeds='{json.dumps(feeds)}'>"
-            f'{"".join(cards)}</div>'
-            f'<span class="sb-note" id="sb-note" '
-            f'data-generated="{esc(snap.get("generated_utc") or "")}">'
-            f'League data, not news · as of {note_when}'
-            f'</span></div></section>') + SCORES_JS + SCORES_AGE_JS
-
-
-# STALENESS GUARD (owner directive 2026-07-22: the Bottom Line is a powerful piece or
-# it is not on the page). Build time: an edition from a previous day is labeled
-# honestly. View time: the band carries its timestamp and the reader's browser retires
-# it into an archive pointer past 20 hours, so a stalled pipeline can never showcase
-# an old read as current.
 _BL_GUARD_SCRIPT = (
     '<script>(function(){var b=document.querySelector("[data-bl-published]");'
     'if(!b)return;var t=Date.parse(b.getAttribute("data-bl-published"));'
@@ -3363,9 +3192,18 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     btns = ""
     if buttons:
         gp = f'/games/{esc(str(g.get("id")))}.html'
-        second = ('<a class="tk-btn ghost" href="/scores.html">Box score</a>'
-                  if state in ("in", "post")
-                  else '<a class="tk-btn ghost" href="/where-to-watch.html">Where to watch</a>')
+        # H-8: a button that does not go where it says is filler. "Box score" pointed
+        # at /scores.html, which is the board the reader just came from. It links to
+        # this game's leaders block when the desk holds one, and when it does not the
+        # button is absent rather than pointing somewhere plausible.
+        if state in ("in", "post"):
+            has_box = bool((LIVE_POINTS or {}).get(g.get("id"))
+                           or (LIVE_POINTS or {}).get(str(g.get("id"))))
+            second = (f'<a class="tk-btn ghost" href="{gp}#box">Box score</a>'
+                      if has_box else "")
+        else:
+            second = ('<a class="tk-btn ghost" href="/where-to-watch.html">'
+                      'Where to watch</a>')
         btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
                 f'{second}</div>')
     wide = " wide" if state in ("in", "post") else ""
@@ -3458,11 +3296,17 @@ def _tk_tabs(games, active="all", href="/scores.html"):
             nxt = sorted((_utc_dt(g.get("start_utc") or "") for g in gs
                           if _utc_dt(g.get("start_utc") or "")), key=lambda d: d)
             nxt = [d for d in nxt if d.astimezone(_ET).date() > today]
-            if not nxt:
-                continue
-            d0 = nxt[0].astimezone(_ET)
-            sub = (d0.strftime("%a") if (d0.date() - today).days < 7
-                   else d0.strftime("%b %-d"))
+            if nxt:
+                d0 = nxt[0].astimezone(_ET)
+                sub = (d0.strftime("%a") if (d0.date() - today).days < 7
+                       else d0.strftime("%b %-d"))
+            else:
+                # H-6: A LEAGUE WITH A PANEL ALWAYS HAS A TAB. This used to skip a
+                # league whose games were all in the past, so at 7:57 AM the MLB panel
+                # existed with fifteen finals and no tab could reach it. A board the
+                # reader cannot open is worse than no board.
+                done = sum(1 for g in gs if g.get("state") == "post")
+                sub = f"{done} final" if done else f"{len(gs)} games"
         slug = name.lower().replace(" ", "-")
         out.append((" on" if active == slug else "", name, sub, slug))
     return ('<div class="tk-tabs">' + "".join(
@@ -3811,6 +3655,12 @@ SB_TABS_JS = """
     tabs.forEach(function(t){
       t.classList.toggle('on', slugOf(t) === slug);
     });
+    /* H-6: the count in the band header describes the panel on screen, not the whole
+       slate. Each panel carries its own; this moves it up. */
+    var panel = document.querySelector('.tk-panel[data-league="' + slug + '"]');
+    var count = panel && panel.querySelector('.tk-count');
+    var head = document.querySelector('.sb-count');
+    if (count && head) head.textContent = count.textContent;
     try { localStorage.setItem(KEY, slug); } catch (e) {}
     return true;
   }
@@ -3828,6 +3678,33 @@ SB_TABS_JS = """
   var want = (location.hash || '').slice(1);
   if (!want) { try { want = localStorage.getItem(KEY) || ''; } catch (e) {} }
   if (want) show(want);
+
+  /* H-3 (SC-2): a fold opens the full card in place, by click or tap. The card is
+     already in the page beside it, so this only moves the hidden attribute. Without
+     this script the fold is still a link to the game page, which is where the reader
+     was going anyway. */
+  document.querySelectorAll('.tk-pair').forEach(function(pair){
+    var fold = pair.querySelector('.tk-fold');
+    var open = pair.querySelector('.tk-open');
+    if (!fold || !open) return;
+    fold.setAttribute('role', 'button');
+    fold.setAttribute('aria-expanded', 'false');
+    function set(on){
+      fold.hidden = on;
+      open.hidden = !on;
+      fold.setAttribute('aria-expanded', on ? 'true' : 'false');
+    }
+    fold.addEventListener('click', function(ev){
+      /* A modifier or a middle click is a reader asking for the game page. */
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
+      ev.preventDefault();
+      set(true);
+    });
+    var close = open.querySelector('.tk-close');
+    if (close) close.addEventListener('click', function(ev){
+      ev.preventDefault(); set(false); fold.focus();
+    });
+  });
 })();</script>
 """
 
@@ -3958,15 +3835,60 @@ def scoreboard_band(sb, board, wx=None):
         others.sort(key=lambda g: (rank.get(g.get("state"), 9),
                                    g.get("start_utc") or ""))
         slug = "all" if league == "all" else league.lower().replace(" ", "-")
+        # H-6: the count and the next kickoff belong to the panel, so they follow the
+        # tab. They used to sit in the band header and describe the whole slate, so
+        # picking NFL left "No games today \u00b7 6 games tomorrow" and "Next: CON at
+        # ATL" above a board of NFL games.
+        _today_p, _lab_p, _n_p = _sb_day_split(pool)
+        _live_p = sum(1 for g in pool if g.get("state") == "in")
+        if _today_p:
+            _count_p = (f"{len(_today_p)} game{'' if len(_today_p) == 1 else 's'} today"
+                        f" \u00b7 {_live_p} live now")
+            _foot_p = f"All {len(_today_p)} game{'' if len(_today_p) == 1 else 's'}"
+        elif _n_p:
+            _count_p = (f"No games today \u00b7 {_n_p} "
+                        f"{'game' if _n_p == 1 else 'games'} {_lab_p}")
+            _foot_p = "All games"
+        else:
+            _count_p, _foot_p = "No games scheduled", "All games"
+        _nxt_p = ""
+        _pre_p = sorted((g for g in pool if g.get("state") == "pre"),
+                        key=lambda g: g.get("start_utc") or "")
+        if _pre_p:
+            _pg = _pre_p[0]
+            _pd = _utc_dt(_pg.get("start_utc") or "")
+            if _pd:
+                _nxt_p = (f'<span class="sb-next">Next: '
+                          f'{esc((_pg.get("away") or {}).get("abbr") or "")} at '
+                          f'{esc((_pg.get("home") or {}).get("abbr") or "")} '
+                          f'{esc(_et_clock(_pd))}</span>')
+        # H-3: each fold carries its own full card beside it, hidden. The panel already
+        # holds every game, so opening one is a class swap with nothing fetched and no
+        # layout built from scratch. A reader with no script still gets the fold's link
+        # to the game page, which is the same information.
+        def _pair(gg):
+            return (f'<div class="tk-pair" data-gid="{esc(str(gg.get("id")))}">'
+                    f'{_tk_fold(gg, ia, desig=IA_DESIG)}'
+                    f'<div class="tk-open" hidden>'
+                    f'{_tk_card(gg, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)}'
+                    f'<button class="tk-close" type="button" aria-label="Close">'
+                    f'Close</button></div></div>')
         return (f'<div class="sb-grid tk-panel" data-league="{esc(slug)}"'
                 f'{"" if slug == "all" else " hidden"}>'
                 f'{_tk_card(m, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS) if m else ""}'
                 f'<div class="sb-cards">'
-                + "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in others[:6])
-                + '</div></div>')
+                + "".join(_pair(g) for g in others[:6])
+                + f'</div><div class="sb-foot tk-foot">'
+                  f'<a class="sb-link" href="/scores.html#{esc(slug)}">{esc(_foot_p)}'
+                  f' &rarr;</a>{_nxt_p}</div>'
+                  f'<span class="tk-count" hidden>{esc(_count_p)}</span>'
+                + '</div>')
 
     panels = "".join(_panel(n) for n in ["all"] + present)
     stamp = _et(sb.get("fetched_at") or "")
+    # H-7: the stale mark rides beside the stamp, and the live dot goes with it.
+    if sb.get("stale"):
+        stamp += " \u00b7 stale"
     # S-25: the next kickoff, from the feed. Absent when nothing is scheduled.
     nxt = ""
     _pre = sorted((g for g in games if g.get("state") == "pre"),
@@ -3997,8 +3919,6 @@ def scoreboard_band(sb, board, wx=None):
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     {panels}
-    <div class="sb-foot"><a class="sb-link" href="/scores.html">{esc(foot_link)}
-      &rarr;</a>{nxt}</div>
   </div>
   {_orn}
 </section>
@@ -4557,7 +4477,7 @@ def _leader_rows(rows, rank_from=1):
     return "".join(out)
 
 
-def _leaders_module(points, title, n=8, expand=True):
+def _leaders_module(points, title, n=8, expand=True, anchor=""):
     if not points:
         return ""
     import fantasy_points as _fp
@@ -4570,7 +4490,8 @@ def _leaders_module(points, title, n=8, expand=True):
         more = (f'<details class="fp-more"><summary>Every player in this game '
                 f'({len(rest)} more)</summary><div class="fp-rows">'
                 f'{_leader_rows(rest, n + 1)}</div></details>')
-    return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+    return (f'<section class="bd-mod"{f" id={anchor}" if anchor else ""}>'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(title)}</span></div>{_fmt_toggle()}</div>'
             f'<div class="fp-rows">{_leader_rows(top)}</div>{more}'
             f'<p class="bd-src">{esc(FANTASY_FOOT)} {esc(TWO_PT_NOTE)}</p></section>')
@@ -4703,7 +4624,7 @@ def render_game_page(g, points, board, wx, items, dateline):
   {inact_block}
   {_desig}
   {_w2w}
-  {"" if _pre else _leaders_module(points, "Fantasy leaders")}
+  {"" if _pre else _leaders_module(points, "Fantasy leaders", anchor="box")}
   {rel_block}
   {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
                 "the league injury report")}
@@ -5929,7 +5850,12 @@ def render_home(items, dateline):
     # The live layer rides above the fold, before the editorial page begins.
     # S-A: the band is the product and it sits directly under the masthead. The old
     # ticker strip stays available for pages that are not the front door.
-    _band = scoreboard_band(SB_DATA, IA_BOARD, WX_DATA) or scores_strip()
+    # H-7: no fallback. The band renders the last snapshot, marked stale when it is,
+    # and renders nothing at all when there is no snapshot to render. The old strip and
+    # its copy are deleted: "League data, not news" was a sentence about the site, and
+    # a reader meeting a different component at 8 AM than at 8 PM learns nothing from
+    # the swap.
+    _band = scoreboard_band(SB_DATA, IA_BOARD, WX_DATA)
     body = _band + f"""<main class="wrap"><section class="page">
   {lead_row}
   {desk_html}

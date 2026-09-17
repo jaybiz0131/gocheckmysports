@@ -184,10 +184,17 @@ def load():
     except Exception:
         return None
     age = (datetime.datetime.now(datetime.timezone.utc) - t).total_seconds() / 3600
-    if age > STALE_HOURS:
-        print(f"scoreboard: file is {age:.0f}h old, past {STALE_HOURS}h; band withheld")
-        return None
     d["age_hours"] = round(age, 1)
+    # H-7 / L-4: A STALE SNAPSHOT IS RENDERED, MARKED. This used to return None past
+    # STALE_HOURS, which withdrew the whole band and dropped the homepage onto the old
+    # scores strip. L-4 is the opposite rule: stale data renders with its own stamp and
+    # a stale mark, and nothing on the page shows a number the source did not send. A
+    # reader who arrives at 7:57 AM to a band that says "Updated 7:57 AM ET · stale"
+    # knows exactly what they have; one who arrives to a different component does not.
+    d["stale"] = age > STALE_HOURS
+    if d["stale"]:
+        print(f"scoreboard: file is {age:.0f}h old, past {STALE_HOURS}h; "
+              f"band renders marked stale")
     return d
 
 

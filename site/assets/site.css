@@ -1880,3 +1880,15 @@ body>*:not(.ground){position:relative;z-index:1}
 /* H-9: the records line is one line. It is short enough now not to wrap at 1440 or
    390, and this keeps it that way if a team name grows. */
 .tk-rec{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* H-3: the folded card and its full card share a slot; only one is ever shown. */
+.tk-pair{display:contents}
+.tk-pair>[hidden]{display:none !important}
+.tk-fold[role="button"]{cursor:pointer}
+.tk-open{position:relative}
+.tk-close{position:absolute;top:10px;right:10px;z-index:2;border:1px solid rgba(255,255,255,.28);
+  background:rgba(0,0,0,.35);color:#EBE9E3;font:600 11px/1 var(--sans);
+  padding:6px 10px;border-radius:5px;cursor:pointer}
+.tk-close:hover{background:rgba(0,0,0,.55)}
+/* H-6: each panel carries its own foot, so the link and the next kickoff follow the
+   tab rather than describing a slate the reader is not looking at. */
+.tk-foot{margin-top:14px}
