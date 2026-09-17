@@ -4410,6 +4410,75 @@ def _sb_day_split(games):
     return todays, lab, len(by_day[d0])
 
 
+# ---- S-L4: the sticky mini-scoreboard --------------------------------------------
+# The audit's fourth lead item: when the reader scrolls past the band, a thin strip with
+# the live scores stays at the top of the page, the way ESPN and Yahoo keep scores in
+# view while you read.
+#
+# ONLY WHEN THERE IS SOMETHING LIVE. A strip of scheduled games is a strip of zeros, and
+# a strip of finals is yesterday's news pinned to the top of today's page. With no game
+# in progress the strip is not rendered at all, which is also why it costs nothing on
+# the days it would say nothing.
+#
+# It is fixed rather than sticky because the nav above it is already sticky, and two
+# sticky siblings at top:0 land on top of each other. The offset is measured from the
+# nav at runtime rather than written as a number here: the nav is 44px today and that
+# is not a promise it makes.
+
+MINI_SB_JS = """<script>(function(){
+  var strip=document.querySelector('.msb'), band=document.querySelector('.scoreband');
+  if(!strip||!band||!('IntersectionObserver' in window)) return;
+  var nav=document.querySelector('nav.mh-nav');
+  function offset(){
+    var h = nav ? Math.round(nav.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--msb-top', h+'px');
+  }
+  offset();
+  addEventListener('resize', offset, {passive:true});
+  /* The strip appears once the band has left the top of the viewport and goes away
+     again when it returns. Nothing is delayed by this: the strip is extra, and the
+     page is complete without it. */
+  new IntersectionObserver(function(es){
+    strip.hidden = es[0].isIntersecting;
+  }, {rootMargin:'-1px 0px 0px 0px', threshold:0}).observe(band);
+})();</script>"""
+
+
+def mini_scoreboard(sb):
+    """A thin strip of the games actually in progress, for the top of the page."""
+    if not sb or not sb.get("leagues"):
+        return ""
+    live = [g for L in sb["leagues"] for g in L["games"] if g.get("state") == "in"]
+    if not live:
+        return ""
+    cells = []
+    for g in live[:6]:
+        a, h = g.get("away") or {}, g.get("home") or {}
+        ca, ch = _tk_colors(g)
+        sa, sh = a.get("score"), h.get("score")
+        # SC-9's colours, and the same rule: nobody leads a tie, and a score the feed
+        # did not send is not a zero.
+        def side(t, sc, col, lead):
+            val = "" if sc is None else esc(str(sc))
+            return (f'<span class="msb-t"><b style="color:{col}">'
+                    f'{esc(t.get("abbr") or "")}</b>'
+                    f'<span class="msb-s{" msb-lead" if lead else ""}">{val}</span></span>')
+        try:
+            ia, ih = int(sa), int(sh)
+            tie = ia == ih
+        except (TypeError, ValueError):
+            ia = ih = None
+            tie = True
+        cells.append(
+            f'<a class="msb-g" href="{esc(_game_href(g))}">'
+            + side(a, sa, ca, ia is not None and not tie and ia > ih)
+            + side(h, sh, ch, ih is not None and not tie and ih > ia)
+            + f'<span class="msb-st">{esc(g.get("status_short") or "")}</span></a>')
+    return (f'<div class="msb" role="region" aria-label="Live scores" hidden>'
+            f'<div class="msb-in">{"".join(cells)}'
+            f'<a class="msb-all" href="/scores.html">All scores</a></div></div>')
+
+
 def scoreboard_band(sb, board, wx=None):
     """The dark band under the masthead. Returns "" when there is nothing to show, so
     the homepage simply does not carry it rather than carrying an empty shell."""
@@ -4556,7 +4625,7 @@ def scoreboard_band(sb, board, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS
 
 
 # ---- S-L1: standings and the college football rankings ---------------------------
@@ -5037,7 +5106,7 @@ def render_scores_page(sb, board, dateline, wx=None):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + SB_LIVE_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + SB_LIVE_JS + MINI_SB_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}

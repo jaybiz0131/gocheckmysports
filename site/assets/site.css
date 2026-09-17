@@ -2155,3 +2155,39 @@ header.masthead{position:relative;z-index:300}
   .sec-head{flex-wrap:wrap}
   .sec-head .sec-n{white-space:normal;margin-left:0;flex:1 0 100%}
 }
+
+/* ---- S-L4: the sticky mini-scoreboard --------------------------------------
+   A thin strip of the games actually in progress, under the nav, once the band
+   has scrolled away. Fixed rather than sticky, because the nav above it is
+   already sticky and two sticky siblings at top:0 land on each other; the offset
+   comes from measuring the nav, not from a number written here. */
+/* body > :not(.ground){position:relative} from the A-14 atmosphere is (0,1,1) and
+   beats a bare .msb at (0,1,0), which quietly made this strip position:relative and
+   sent it 1,199px up the page. Fourth time today, after the phone tab bar, the
+   standings team column and the schedule table. Give it the element. */
+body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
+  background:var(--card);border-bottom:1px solid var(--line);
+  box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.msb-in{display:flex;align-items:center;gap:0;max-width:1240px;margin:0 auto;
+  padding:0 20px;overflow-x:auto;scrollbar-width:none}
+.msb-in::-webkit-scrollbar{display:none}
+.msb-g{display:flex;align-items:center;gap:10px;padding:9px 16px;flex:0 0 auto;
+  text-decoration:none;border-right:1px solid var(--line);white-space:nowrap}
+.msb-g:first-child{padding-left:0}
+.msb-g:hover{background:var(--paper);text-decoration:none}
+.msb-t{display:flex;align-items:baseline;gap:6px}
+.msb-t b{font:700 11.5px/1 var(--mono);letter-spacing:.04em}
+.msb-s{font:500 14px/1 var(--sans);font-variant-numeric:tabular-nums;color:var(--muted)}
+/* Namespaced: a bare "lead" collided with the stylesheet's own .lead and the
+   score grew to 59px inside a strip meant to be thin. Same reason the Ticket
+   card namespaces everything to .tk-. */
+.msb-s.msb-lead{font-weight:800;color:var(--ink)}
+.msb-st{font:500 10.5px/1 var(--mono);letter-spacing:.04em;color:var(--muted)}
+.msb-all{margin-left:auto;padding-left:16px;flex:0 0 auto;
+  font:600 12px/1 var(--sans);white-space:nowrap}
+@media (max-width:640px){
+  .msb-in{padding:0 14px}
+  .msb-g{padding:8px 12px;gap:8px}
+  .msb-all{display:none}
+}
+@media print{.msb{display:none}}
