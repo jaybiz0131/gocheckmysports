@@ -8898,9 +8898,19 @@ def build():
     print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/news.html"] + [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [
+    # P-2: THE FRONT DOORS WERE NOT IN THE SITEMAP. This list was written once and never
+    # grew with the site: /scores, the four fantasy hubs, the Record and Where to watch
+    # were all missing, which is to say the two pages a sports reader actually lands on
+    # were not in the crawl path at all. Everything a reader can reach from the nav
+    # belongs here.
+    locs = ["/", "/news.html", "/scores.html",
+            "/fantasy/index.html", "/fantasy/inactives.html", "/fantasy/injuries.html",
+            "/fantasy/live.html"] + \
+           [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
+    # only the ones that were actually written this build
+    locs = [u for u in locs if os.path.exists(os.path.join(PUBLISH, u.lstrip("/")))]
     # SPLIT SITEMAP (2026-08-25). Search Console showed 207 of 369 submitted articles
     # still uncrawled: a new domain gets a small crawl budget and a single flat sitemap
     # spends it uniformly, so a story from six weeks ago competes with this morning's.
@@ -8985,7 +8995,26 @@ def build():
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"
                        for _wk in (W2W_DATA.get("weeks") or [])]
     prio = locs + topic_locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
-    archive = [f"/news/archive/{m}.html" for m in _news_month_archive(_s6_live)] \
+    # P-2: player, game and Edition pages are real pages a reader can land on and were
+    # in no tier at all. They ride the archive tier rather than the priority one, which
+    # is kept small on purpose so a new domain's crawl budget reads it whole.
+    # The Edition pages are written LAST (they must win the /news.html route), so at
+    # this point their directory is empty: the build wipes publish on every run. Asking
+    # the filesystem gave nothing. The Edition is asked what days it will write instead.
+    _extra = []
+    try:
+        import edition as _ed_sm
+        _extra += [f"/edition/{_d}.html" for _d in _ed_sm.edition_days(items)]
+    except Exception as _e:
+        print(f"::warning::sitemap: edition days unavailable ({type(_e).__name__})")
+    # the living tables, which write to /keepers/<slug>.html earlier in the build
+    _extra += list(_lt_urls)
+    for _sub in ("players", "games"):
+        _dir = os.path.join(PUBLISH, _sub)
+        if os.path.isdir(_dir):
+            _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))
+                       if _f.endswith(".html")]
+    archive = _extra + [f"/news/archive/{m}.html" for m in _news_month_archive(_s6_live)] \
         + [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
