@@ -108,6 +108,56 @@ def load_snapshot(day=None):
         return None
 
 
+def _prev_day(d):
+    import datetime as _d
+    try:
+        return (_d.date.fromisoformat(d) - _d.timedelta(days=1)).isoformat()
+    except Exception:
+        return ""
+
+
+def _sighting_key(players, pid, day):
+    """N-7b: which listing this sighting belongs to.
+
+    A list put up for a Sunday 1:00 PM game is still on the feed on Monday, and the
+    poller writes a file a day, so the same seven players are captured again under the
+    next date. Those are one listing, not two. An NFL team never plays on consecutive
+    days, so a player seen on the day after a day he was already seen is the same list
+    still standing, and it keeps the earlier day's key. A gap of a day or more is a new
+    listing and gets its own, which is what makes the 13th and the 17th two rows and
+    the 13th and the 14th one."""
+    prev = _prev_day(day)
+    while prev:
+        k = f"{pid}@{prev}"
+        if k in players:
+            return k
+        # walk back only through an unbroken run of days this player was seen on
+        prev2 = _prev_day(prev)
+        if f"{pid}@{prev2}" in players:
+            prev = prev2
+            continue
+        break
+    return f"{pid}@{day}"
+
+
+def _et_day(stamp):
+    """N-7b: the day a sighting belongs to, on the READER'S clock.
+
+    Keying on the poller's UTC file split one list across two days: a Thursday 8:15 PM
+    ET kickoff is 00:15 UTC on Friday, so Buffalo's single list appeared under both the
+    17th and the 18th and the team counted twice what it actually had. The day a list
+    belongs to is the Eastern day it was seen, which is the same clock N-7 moved the
+    week to and the same one every stamp on the site uses."""
+    try:
+        from zoneinfo import ZoneInfo
+        import datetime as _d
+        t = _d.datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=_d.timezone.utc)
+        return t.astimezone(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+    except Exception:
+        return (stamp or "")[:10]
+
+
 def load_week(days=8):
     """N-7: the week's snapshots, merged, resolved on the READER'S clock.
 
@@ -117,11 +167,30 @@ def load_week(days=8):
     page went blank and "Fantasy" disappeared from the navigation entirely - which is
     what the live site did tonight.
 
-    Reading the week instead of a UTC day fixes that without touching the poller. A
-    player captured once is kept with the FIRST sighting of them, because that is when
-    the list went up; later files never restamp an earlier capture."""
-    import datetime as _dt, glob as _glob, os as _os
-    files = sorted(_glob.glob(_os.path.join(SNAP_DIR, "inactives-*.json")))[-days:]
+    Reading the week instead of a UTC day fixes that without touching the poller.
+
+    N-7b: EVERY SIGHTING IS KEPT, WITH ITS OWN DATE. This used to keep a player once, at
+    the first sighting of them, on the reasoning that that is when the list went up.
+    That is right within one list and wrong across weeks: a player inactive on the 13th
+    and again on the 17th is two listings, not one, and keeping only the first meant the
+    17th's list was missing him and the week page undercounted it. Sightings are keyed
+    by (player, day) now, so a repeat survives as its own row under its own day. Within
+    a day the first capture still wins, which is the rule that was actually wanted: a
+    re-poll of the same list never restamps it."""
+    import datetime as _dt, glob as _glob, os as _os, re as _re
+    # THE WINDOW IS DAYS, NOT FILES. This sliced the last N FILENAMES, so anything else
+    # sitting in the directory took a real day's place: three Finder-style " 2" copies
+    # pushed the 13th out of an eight-file window and Week 1's list appeared to start on
+    # the 14th. The name has to parse as a date, and the window is the last N distinct
+    # dates, so a stray file costs nothing and a missing day does not pull an extra one
+    # forward.
+    _named = {}
+    for _f in _glob.glob(_os.path.join(SNAP_DIR, "inactives-*.json")):
+        _m = _re.fullmatch(r"inactives-(\d{4}-\d{2}-\d{2})\.json",
+                           _os.path.basename(_f))
+        if _m:
+            _named[_m.group(1)] = _f
+    files = [_named[d] for d in sorted(_named)[-days:]]
     merged, seen_day = None, None
     for f in files:
         try:
@@ -129,15 +198,30 @@ def load_week(days=8):
         except Exception:
             continue
         if merged is None:
-            merged = snap
+            # Re-keyed like every other file, so nothing depends on which came first.
+            merged = {**snap, "teams": {}}
+            _d0 = snap.get("day") or ""
+            for tid, t in (snap.get("teams") or {}).items():
+                merged["teams"][tid] = {**t, "players": {}}
+                for pid, pl in (t.get("players") or {}).items():
+                    _dd = _et_day(pl.get("first_seen") or "") or _d0
+                    _k = _sighting_key(merged["teams"][tid]["players"], pid, _dd)
+                    if _k not in merged["teams"][tid]["players"]:
+                        merged["teams"][tid]["players"][_k] = {
+                            **pl, "day": _k.split("@")[-1], "player_id": pid}
             seen_day = snap.get("day")
             continue
+        _day = snap.get("day") or ""
         for tid, t in (snap.get("teams") or {}).items():
             cur = (merged.setdefault("teams", {})
                          .setdefault(tid, {**t, "players": {}, "designations": {}}))
             for pid, pl in (t.get("players") or {}).items():
-                if pid not in (cur.get("players") or {}):
-                    cur.setdefault("players", {})[pid] = pl
+                _dd = _et_day(pl.get("first_seen") or "") or _day
+                cur.setdefault("players", {})
+                key = _sighting_key(cur["players"], pid, _dd)
+                if key not in cur["players"]:
+                    cur["players"][key] = {**pl, "day": key.split("@")[-1],
+                                           "player_id": pid}
             # designations describe the CURRENT report, so the newest file wins
             cur["designations"] = t.get("designations") or cur.get("designations") or {}
             for k in ("team", "id", "capped", "rows_returned"):
@@ -377,15 +461,29 @@ def board(day=None):
         # What keeps a partial list from reading as complete is the page's wording, not
         # a badge: it says "N inactive listed" and never "all" or "the N inactives".
         incomplete = bool(t.get("unresolved"))
+        # N-7b: A TEAM IS STAMPED BY ITS LATEST LIST, NOT ITS OLDEST. first_seen was the
+        # minimum across the week, so a team that had a list in Week 1 read as Week 1
+        # for the rest of the week and every consumer that asked "when did this go up?"
+        # got the wrong answer. The oldest is still carried, as first_sighting, for
+        # anything that wants the span.
+        days = {}
+        for p in ps:
+            days.setdefault(p.get("day") or "", []).append(p)
+        by_day = [{"day": d, "players": v, "count": len(v),
+                   "first_seen": min((x.get("first_seen") or "") for x in v)}
+                  for d, v in sorted(days.items(), reverse=True)]
         out.append({
             "team": t["team"], "id": t.get("id"),
             "players": ps, "count": len(ps),
-            "first_seen": min(firsts) if firsts else "",
+            "first_seen": max(firsts) if firsts else "",
+            "first_sighting": min(firsts) if firsts else "",
             "last_added": max(firsts) if firsts else "",
+            "by_day": by_day,
             "incomplete": incomplete,
             "reconciled_at": t.get("reconciled_at"),
         })
-    out.sort(key=lambda t: (t["first_seen"] or "z", t["team"]))
+    # Newest list first: the team whose list just went up is the one a reader came for.
+    out.sort(key=lambda t: (t["first_seen"] or "", t["team"]), reverse=True)
     return {"day": snap.get("day"), "first_poll": snap.get("first_poll"),
             "last_poll": snap.get("last_poll"),
             "last_change": snap.get("last_change") or snap.get("last_poll"),

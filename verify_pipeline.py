@@ -373,6 +373,74 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # N-7b: A LISTING BELONGS TO THE DAY IT WAS SEEN, AND A REPEAT IS TWO LISTINGS.
+    # The merge kept a player once, at his first sighting, so a player inactive on the
+    # 13th and again on the 17th carried only the 13th and the 17th's list undercounted
+    # him. It keeps every sighting now, keyed on the Eastern day it was seen, with one
+    # exception that is not an exception: a list put up for a Sunday game is still on
+    # the feed on Monday, and an NFL team never plays on consecutive days, so a sighting
+    # on the day after a day the player was already seen is the same list still
+    # standing.
+    import tempfile as _tf7, os as _os7, json as _js7
+    import inactives as _ia7
+    _t7 = _tf7.mkdtemp()
+
+    def _snap7(day, stamp, names):
+        _js7.dump({"day": day, "last_poll": stamp, "teams": {"2": {
+            "id": "2", "team": "Acme Rockets",
+            "players": {n: {"name": n, "pos": "DT", "first_seen": stamp}
+                        for n in names}}}},
+            open(_os7.path.join(_t7, f"inactives-{day}.json"), "w"))
+
+    # Sunday's list, the same list still on the feed on Monday, then Thursday's list.
+    _snap7("2026-09-13", "2026-09-13T18:03:08Z", ["Repeat Player", "Week One Only"])
+    _snap7("2026-09-14", "2026-09-14T13:00:00Z", ["Repeat Player", "Week One Only"])
+    _snap7("2026-09-17", "2026-09-17T23:06:43Z", ["Repeat Player", "Week Two Only"])
+    _old7 = _ia7.SNAP_DIR
+    try:
+        _ia7.SNAP_DIR = _t7
+        _b7 = _ia7.board()
+        _tm7 = _b7["teams"][0]
+        _days7 = {d["day"]: [p["name"] for p in d["players"]] for d in _tm7["by_day"]}
+        _check(sorted(_days7) == ["2026-09-13", "2026-09-17"], fails,
+               f"N-7b canary: listings grouped under {sorted(_days7)}, expected the "
+               f"13th and the 17th (Monday is Sunday's list still standing)")
+        _check("Repeat Player" in _days7.get("2026-09-13", []), fails,
+               "N-7b canary: the repeat is missing from the 13th")
+        _check("Repeat Player" in _days7.get("2026-09-17", []), fails,
+               "N-7b canary: the repeat is missing from the 17th")
+        _check("Week Two Only" in _days7.get("2026-09-17", []), fails,
+               "N-7b canary: the 17th's own listing is missing")
+        _check(_tm7["first_seen"].startswith("2026-09-17"), fails,
+               f"N-7b canary: the team is stamped {_tm7['first_seen']}, "
+               f"not its latest list")
+        _seen7 = {}
+        for d in _tm7["by_day"]:
+            for _pp in d["players"]:
+                _seen7.setdefault(_pp["name"], set()).add(_pp.get("first_seen"))
+        _check(len(_seen7.get("Repeat Player", set())) == 2, fails,
+               "N-7b canary: the repeat's two listings do not carry their own dates")
+        # and a stray file in the directory must not take a real day's place
+        _js7.dump({"day": "x", "teams": {}},
+                  open(_os7.path.join(_t7, "inactives-2026-09-17 2.json"), "w"))
+        _js7.dump({"day": "x", "teams": {}},
+                  open(_os7.path.join(_t7, "inactives-backup.json"), "w"))
+        # A window of three must be the three latest DATES, not the three last
+        # filenames: with the old slice the two strays and one real file were the
+        # window and two real days fell out.
+        _w7 = _ia7.load_week(days=3) or {"teams": {}}
+        _days7b = sorted({p.get("day") for t in (_w7.get("teams") or {}).values()
+                          for p in (t.get("players") or {}).values() if p.get("day")})
+        # Two days, not three: the 14th is the 13th's list still standing, so it
+        # carries the 13th's date. What this proves is that the 13th survived a window
+        # of three; with the old filename slice the strays took its place and the
+        # window held only the 17th.
+        _check(_days7b == ["2026-09-13", "2026-09-17"], fails,
+               f"N-7b canary: stray files took a real day's place; window held "
+               f"{_days7b}")
+    finally:
+        _ia7.SNAP_DIR = _old7
+
     # H-1: THIS GAME'S LIST COMES FROM THIS GAME'S DAY, NOT THE WEEK'S MERGE.
     # board() merges eight days and keeps a player's FIRST sighting, so a team that had
     # a list in Week 1 carries a Week 1 stamp forever and the game-page window rejected

@@ -5513,15 +5513,32 @@ def _ia_heading(board):
     return f"Week {wk} inactives" if wk else "Inactives"
 
 
-def _inactives_team_card(t):
-    rows = "".join(
+def _ia_rows(players, stamp):
+    return "".join(
         f'<div class="ia-row"><span class="ia-name">{esc(p.get("name") or "")}</span>'
         f'<span class="ia-pos">{esc(p.get("pos") or "")}</span>'
         f'<span class="bd-src">{esc(p.get("reason") or "")}</span>'
         + (f'<span class="ia-upd">updated {esc(_et(p.get("first_seen") or ""))}</span>'
-           if p.get("first_seen") and p["first_seen"] != t["first_seen"] else "")
+           if p.get("first_seen") and p["first_seen"] != stamp else "")
         + '</div>'
-        for p in t["players"])
+        for p in players)
+
+
+def _inactives_team_card(t):
+    # N-7b: a team's card shows each list under the day it belongs to. A player inactive
+    # on the 13th and again on the 17th is two listings and appears under both, which is
+    # what the board holds now; with one list there is no heading and the card is the
+    # card it always was.
+    by_day = t.get("by_day") or []
+    if len(by_day) > 1:
+        rows = "".join(
+            f'<div class="ia-day"><span class="ia-day-h">'
+            f'{esc(fmt_short_date(d["day"]))}</span>'
+            f'<span class="ia-day-n">{d["count"]} inactive</span></div>'
+            + _ia_rows(d["players"], d.get("first_seen"))
+            for d in by_day)
+    else:
+        rows = _ia_rows(t["players"], t["first_seen"])
     flag = ('<span class="bd-badge dat">list may be incomplete</span>'
             if t.get("incomplete") else "")
     # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
@@ -5531,8 +5548,10 @@ def _inactives_team_card(t):
            else '<span class="tc tc-none"></span>')
     return (f'<div class="bd-card ia-team" data-team="{esc(t["team"])}">'
             f'<div class="bd-cardtop">{bar}<span class="bd-eyebrow">{esc(t["team"])}</span>'
-            f'<span class="bd-stamp">{t["count"]} inactive</span>'
-            f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span>'
+            + (f'<span class="bd-stamp">{len(by_day)} lists, {t["count"]} '
+               f'listings</span>' if len(by_day) > 1 else
+               f'<span class="bd-stamp">{t["count"]} inactive</span>')
+            + f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span>'
             f'{flag}</div>'
             f'<div class="ia-rows">{rows}</div></div>')
 

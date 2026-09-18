@@ -2200,3 +2200,11 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .tpin{white-space:nowrap}
 .tk-c.tk-pinned{box-shadow:inset 3px 0 0 var(--rule)}
 .ia-team.ia-pinned{box-shadow:inset 3px 0 0 var(--rule)}
+
+/* N-7b: a team with more than one list shows each under the day it belongs to. */
+.ia-day{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  margin:12px 0 2px;padding-top:9px;border-top:1px solid var(--line)}
+.ia-day:first-child{margin-top:2px;padding-top:0;border-top:0}
+.ia-day-h{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--rule)}
+.ia-day-n{font:500 11px/1 var(--mono);color:var(--muted)}
