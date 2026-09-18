@@ -4,51 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c010",
-    "headline": "Bangladesh defeats Australia by 5 runs in Test in Darwin",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Bangladesh defeated Australia 95-91' but the core_claim and data_points establish the final score as 95-91 with Bangladesh winning by 5 runs in a Test match, not 95-91 total runs. The draft opens with a confusing score format that conflates the victory margin with what appears to be a limited-overs or ODI score, creating factual ambiguity.",
-     "Draft claims 'Hasan Mahmud took the wickets of Jake Weatherald and Travis Head in the first innings' but this data_point does not appear in the brief's data_points list; it is mentioned only in open_questions as something not yet confirmed. This fact is smuggled outside the brief.",
-     "Draft includes 'Australia dropped five catches; the first was dropped in the second over of Bangladesh's reply' in the body text, but this claim does not appear anywhere in the draft body provided\u2014however, the brief lists this as a data_point marked 'reported' confidence. The draft fails to include this claim despite it being in the brief, suggesting selective omission of counter-evidence.",
-     "Draft mentions 'Pat Cummins reported the pitch as rock hard underneath, and the ball moved significantly for only a two-hour window early in Australia's first innings' but conflates two separate claims: the bear_case states 'Pat Cummins admitted the ball moved significantly in only a two-hour window early in Australia's first innings,' placing the movement window in the first innings. The draft's phrasing is consistent but the claim about movement is attributed to Cummins when the brief shows it as a separate reported observation about the pitch deterioration."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Tottenham goalkeeper Vicario joins Juventus on season-long loan with purchase option",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Emiliano Mart\u00ednez had 'an injured finger' making him 'unavailable for selection,' but the brief's confidence label is 'reported' only\u2014this reads as a medical diagnosis presented as settled fact. The brief says Mart\u00ednez was 'known to have an injured finger and is currently unavailable for selection,' which is closer to reporting the unavailability claim, but the draft's phrasing ('whose injured finger has made him unavailable') implies a causal medical certainty that exceeds the source's precision.",
-     "The draft introduces outbound player destinations (Vuskovic to Brighton, Lankshear to Middlesbrough, Solomon to West Ham) that are not explicitly listed in the brief's data_points, only referenced generically in the brief's data_point 18. The brief says these moves occurred but does not specify destinations for all three players in the data_points themselves\u2014the draft has added specificity (Brighton, Middlesbrough, West Ham) not present in the research."
-    ]
-   },
-   {
-    "id": "c108",
-    "headline": "Cycling community mobilizes for safety reforms after Finlay Tarling's death",
-    "category": "balance",
-    "reasons": [
-     "The brief identifies no bear_case items, and the draft correctly reports unknown details (investigation scope, specific safety reforms demanded, official statements pending). However, the draft's structure and tone treat unknowns as placeholders without offering any counterweight or perspective that might contextualize the incident within broader cycling safety norms or prior reforms. The brief is thin (four data_points only), and the draft is appropriate in length, but it reads as pure statement-of-unknowns without acknowledging whether this incident represents an anomaly or a systemic problem. The opening reports the death and 'furious response' but then pivots entirely to what is *not* known, leaving the reader with no sense of whether the cycling community's mobilization is justified by patterns or is reactive to a singular tragedy.",
-     "The draft relies on Yahoo Sports as sole source and repeatedly qualifies claims as 'not yet confirmed in reporting' and 'remain unaddressed,' which is accurate disclosure but creates a hollow story. A thin brief with one outlet should either find additional confirmation or acknowledge in the opening that details remain sparse; instead, the draft frontloads the death and outrage, then backtracks to uncertainties, creating a mismatch between stakes and substance."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "England's Whaley wins US Amateur at Merion, joins elite historical lineage",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Whaley was ranked 90th' but brief data_point 5 says 'Whaley was ranked 67 places lower than Leng Jr' (23rd). 67 places lower than 23rd is 90th, which is mathematically correct, but the brief does not contain the explicit '90th' ranking claim. The writer inferred a specific number not stated in the research brief.",
-     "Draft claims The Open is 'at St Andrews in 2027' as a specific fact, but data_point 15 only says 'The Open at St Andrews in 2027' without confirming that The Open will be held at St Andrews in 2027 (this is stated as part of the prize, not as independently verified championship information). If St Andrews hosting in 2027 is not in the brief, it is smuggled.",
-     "Draft references Fitzpatrick's broader career achievements ('Before Fitzpatrick, Harold Hilton won the title in 1911') and mentions 'the championship's honors roll includes Arnold Palmer, Jack Nicklaus, Tiger Woods, Bryson DeChambeau, and Viktor Hovland'\u2014all of which trace to data_points. However, data_point 14 mentions Fitzpatrick won at Brookline in 2022 (the US Open), information not used in the draft but present in the brief, suggesting selective sourcing is not the issue. The core issue is the '90th ranking' inference, which violates the hard rule."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c121",
     "headline": "Jets coach Aaron Glenn gives positive update on Breece Hall training camp injury",
     "category": "accuracy",
@@ -7701,6 +7656,74 @@
     "reasons": [
      "The draft reports a resignation effective 'October 27, 2026,' but today is Thursday, September 17, 2026. A resignation dated 40 days in the future cannot have already occurred. The draft treats a future event as having already happened ('resigned effective October 27, 2026') rather than presenting it as an announced future resignation or resignation agreement. This is a hard temporal error: the event date is after the publication date.",
      "The brief states Belichick 'was on medical leave since early August 2026,' but the draft specifies 'August 6' as the announcement date. The brief's data_point confirms 'Bill Belichick announced his son's medical leave on Aug. 6, 2026,' so the announcement date is correct, but the draft's phrasing 'on medical leave since August 6' conflates the announcement with the start of leave without clarifying whether Aug. 6 was when the leave began or when it was announced."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-18",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c162",
+    "headline": "Dodgers clinch NL West title for fifth straight year, September 17",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the clinching game occurred on September 17, but today is Friday, September 18. The brief timestamp shows the event occurred on 2026-09-17T22:37:00Z, which is a past event and correctly reported as having happened. However, the draft uses past tense ('clinched on September 17') which is accurate. The title and opening are correct.",
+     "The draft includes a quote from Manager Dave Roberts: 'There is certainly a higher expectation when, if you don't win the World Series, you fail. But that's kind of part of what you signed up with the Dodgers.' The brief shows this quote with confidence 'reported' and attributes it only to 'the report.' However, the draft does not include the longer Friedman quote, the Muncy quote, the Skubal quotes, or the Mookie Betts quote that appear in the brief with 'reported' confidence. The writer selected which quotes to use, which is appropriate editorial discretion.",
+     "All major facts trace to data_points: the 8-2 victory, fifth consecutive title, 13 in 14 years, 14 consecutive postseason berths, Kyle Tucker's performance, the bullpen game details, Ohtani and Pages on IL, rotation reduced from six to four, four-game lead over Braves, 24 division titles since 1969, back-to-back titles 2024-2025, and the 1998-2000 Yankees three-peat. All claims are verified-on-chain or reported confidence and are accurately paraphrased."
+    ]
+   },
+   {
+    "id": "c307",
+    "headline": "Angel Reese sets WNBA record with 30th double-double, September 17",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states the record was set on September 17, but the brief data_point timestamps show 2026-09-18T16:15:05Z (September 18). The story reports the event as occurring on September 17 ('Angel Reese set a WNBA single-season record on September 17'), but the source timestamp in the brief is September 18. Today is Friday, September 18. The event timestamp in the brief contradicts the date stated in the draft body.",
+     "The brief's open_question asks: 'What was the prior WNBA single-season double-double record before Reese's 30th, and who held it?' This question exists in the brief but appears nowhere in the draft or sources provided. The draft does not establish what record Reese broke or who previously held it, leaving a factual gap that the research identified as an open question."
+    ]
+   },
+   {
+    "id": "c256",
+    "headline": "Utah locks up Keyonte George with five-year, $157.5 million extension on September 18, 2026",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2031-32', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "Steve Belichick Announces Resignation From North Carolina, Effective October 27",
+    "category": "accuracy",
+    "reasons": [
+     "All facts trace to brief data points with correct confidence labels.",
+     "Announced-not-verified claims ('certain actions violated Carolina's values', 'isolated in scope') are properly attributed to university characterization and sourcing.",
+     "Bear case present: university's statement that findings are isolated and not systemic appears in draft.",
+     "No betting or gambling language; compliance disclaimer present.",
+     "Event dated October 27 is correctly written as future/scheduled ('resignation effective October 27').",
+     "Player discipline (Chapman arrest, Sadler citation) traced to multiple reports via Front Office Sports.",
+     "Bottom line looks forward to upcoming Clemson game and defensive performance, testing university's 'isolated' claim.",
+     "the draft dates September 16, 2026 as a Tuesday; September 16, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c28",
+    "headline": "Bills Defeat Lions 41-31 in Highmark Stadium Inaugural Game",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports the game as having already occurred ('The Buffalo Bills opened Highmark Stadium with a 41-31 victory... on Thursday, September 17'). Today is Friday, 2026-09-18. September 17 is yesterday. The brief data point confirms this as 'verified-on-chain', indicating the game has been played. However, the instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' September 17 is not after today; it is before today. This is actually a correctly reported past event. Re-reading the instruction: the rule applies only to events AFTER today reported as already happened. September 17 is in the past relative to today (Friday 2026-09-18), so reporting it in past tense is correct.",
+     "However, upon re-examination: the brief's 'open_questions' section explicitly flags that 'The headline claims the stadium cost $2.2 billion, but this figure does not appear in any of the provided source texts; source confirmation is needed.' The draft does NOT mention the $2.2 billion figure, so this is not an offense in the draft itself. The brief's open_question is noting a gap, not a draft problem.",
+     "Critical issue: The draft sources are BBC Sport and CBS Sports with a FanDuel promotional URL. The CBS Sports URL ending '...use-fanduel-promo-code-to-land-350-bonus-bets...' is a betting/gambling advertisement page. This is a compliance liability: the draft is being sourced from and cited to a page explicitly promoting gambling products. The not_financial_advice disclaimer does not cure this; the sourcing itself is compromised.",
+     "The bottom line states: 'The 41-31 final exceeded the pre-game over-under by 22 points, raising the question...' This sentence uses the over-under (a betting line) as a framing device for analysis. While the sentence does not recommend a bet, it uses betting-line movement as the primary lens through which to frame the story's significance. This reads as gambling-adjacent framing."
+    ]
+   },
+   {
+    "id": "c86",
+    "headline": "Kylian Mbapp\u00e9 ends 20-year Nike partnership to sign with Swiss brand On",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mbapp\u00e9 ended his 20-year partnership with Nike on September 18, 2026' but the brief data_point specifies only that 'Mbapp\u00e9's contract with Nike concluded after the summer World Cup' with confidence 'reported'. The draft presents as fact on a specific date (today) what the brief only establishes as having occurred sometime after the summer World Cup. The brief does not confirm September 18 as the date the partnership ended\u2014only that the announcement occurred on that date.",
+     "The draft claims 'Mbapp\u00e9 began his journey with Nike when he was nine years old' and 'Mbapp\u00e9 first signed with Nike in 2006 at age 9.' The brief contains two conflicting data_points on this: one marked 'announced-not-verified' stating the journey began at nine, and another marked 'reported' stating he signed in 2006 at age 9. If Mbapp\u00e9 was born in 1998 (age 27 in 2026), he would have been 8 in 2006, not 9. The draft should not present this math without flagging the discrepancy or choosing the source more carefully."
     ]
    }
   ]
