@@ -5490,8 +5490,11 @@ def _fantasy_tonight_card(sb, board, desig):
                 continue
             aw = (g.get("away") or {}).get("abbr") or ""
             hm = (g.get("home") or {}).get("abbr") or ""
-            both = all(ia.get(("NFL", str((g.get(side) or {}).get("id"))))
-                       for side in ("away", "home"))
+            # N-7c: THE SAME TEST THE PAGE USES. This asked whether the team appears
+            # anywhere in the board, which is true for all 31 all week, so the rail told
+            # a Friday reader that Sunday's lists were posted. A list counts for a game
+            # only inside that game's window.
+            both = all(_ia_for_game(g, ia, side) for side in ("away", "home"))
             when = ("lists posted" if both
                     else f"lists post about {_et_clock(dt - _dt.timedelta(minutes=90))}")
             rows.append(f'<div class="bd-rec-row"><span class="bd-rec-t">{esc(aw)} at '
@@ -5684,6 +5687,100 @@ def _ia_tonight_block():
     return ""
 
 
+def _ia_week_switch(board, games):
+    """A link to the earlier lists, only when there are some."""
+    if not _ia_earlier(board, games):
+        return ""
+    _wkno, _ = _ia_week()
+    return ('<nav class="st-nav" aria-label="Weeks">'
+            f'<span class="st-nav-a on">Week {_wkno}</span>'
+            '<a class="st-nav-a" href="/fantasy/inactives/week-earlier.html">'
+            'Earlier</a></nav>')
+
+
+def _ia_week_summary(board, games):
+    """N-7c: the header counts THIS WEEK'S LISTS, and says when the rest post.
+
+    It read "207 players, 31 teams", which is every sighting the board holds across the
+    whole eight-day window, under a heading that says Week 2. Week 2 had two lists and
+    fourteen players.
+    """
+    by_id = {str(t["id"]): t for t in board.get("teams") or [] if t.get("id")}
+    lists, players, waiting = 0, 0, []
+    for g in games or []:
+        for k in ("away_id", "home_id"):
+            t = by_id.get(str(g.get(k)))
+            got = _ia_team_for_game(t, g) if t else None
+            if got:
+                lists += 1
+                players += got["count"]
+            else:
+                waiting.append(g)
+    bits = [f"{lists} list{'' if lists == 1 else 's'} posted, "
+            f"{players} player{'' if players == 1 else 's'}"] if lists else []
+    if waiting:
+        nxt = min(waiting, key=lambda g: g.get("kickoff_utc") or "")
+        k = _utc_dt(nxt.get("kickoff_utc") or "")
+        if k:
+            import datetime as _d
+            at = k - _d.timedelta(minutes=90)
+            day = k.astimezone(_ET).strftime("%A")
+            bits.append(f"{day}'s lists post about {_et_clock(at)}")
+    if not bits:
+        bits = ["no lists yet"]
+    return "; ".join(bits)
+
+
+def _ia_expected(g):
+    """When this game's list is expected: about ninety minutes before kickoff, on the
+    game's own day. The same phrasing the game cards use."""
+    k = _utc_dt(g.get("kickoff_utc") or g.get("start_utc") or "")
+    if not k:
+        return "posting time not set"
+    import datetime as _d
+    at = (k - _d.timedelta(minutes=90)).astimezone(_ET)
+    far = (k - _build_now()).total_seconds() > 24 * 3600
+    return (f'posts about {at.strftime("%a")} {_et_clock(k - _d.timedelta(minutes=90))}'
+            if far else f'posts about {_et_clock(k - _d.timedelta(minutes=90))}')
+
+
+def _ia_window(g):
+    """H-1's window for a scheduled game: from three hours before kickoff to the end of
+    that Eastern day. The same window the game page uses, so the two pages cannot
+    disagree about which list belongs to which fixture."""
+    import datetime as _d
+    k = _utc_dt(g.get("kickoff_utc") or g.get("start_utc") or "")
+    if not k:
+        return None, None
+    end = k.astimezone(_ET).replace(hour=23, minute=59, second=59) \
+           .astimezone(_d.timezone.utc)
+    return k - _d.timedelta(hours=3), end
+
+
+def _ia_team_for_game(t, g):
+    """N-7c: A LISTING BELONGS TO A GAME. The board holds every sighting of the week
+    (N-7b), and a team's card under a fixture must hold that fixture's list and no
+    other. On Friday morning Detroit's section under DET at BUF carried its 13
+    September list as well, which is Week 1's game sitting under Week 2's.
+
+    Returns None when this team has no list for this game, so the team goes to the
+    pending column with the time its list is expected rather than showing an old one.
+    """
+    opens, end = _ia_window(g)
+    if not opens:
+        return None
+    ps = [p for p in (t.get("players") or [])
+          if p.get("first_seen") and opens <= _utc_dt(p["first_seen"]) <= end]
+    if not ps:
+        return None
+    firsts = [p["first_seen"] for p in ps]
+    return {**t, "players": ps, "count": len(ps),
+            "first_seen": max(firsts), "first_sighting": min(firsts),
+            # one list, so the card renders without day headings
+            "by_day": [{"day": ps[0].get("day") or "", "players": ps,
+                        "count": len(ps), "first_seen": min(firsts)}]}
+
+
 def _ia_by_game(board, games):
     """N-7: the week's lists grouped by the game they belong to, with its kickoff.
 
@@ -5702,43 +5799,96 @@ def _ia_by_game(board, games):
             by_id[str(t["id"])] = t
     used, groups = set(), []
     for g in games:
-        pair = [by_id.get(str(g.get(k))) for k in ("away_id", "home_id")]
-        pair = [t for t in pair if t]
-        if not pair:
-            continue
-        for t in pair:
-            used.add(str(t["id"]))
+        # N-7c: this fixture's list, not the team's week. A side with no list for this
+        # game shows when its list is expected, in the same section, rather than being
+        # given an older one or dropped out of the page.
+        cards = []
+        for _k in ("away_id", "home_id"):
+            _t = by_id.get(str(g.get(_k)))
+            _got = _ia_team_for_game(_t, g) if _t else None
+            if _got:
+                used.add(str(_got["id"]))
+                cards.append(_inactives_team_card(_got))
+            else:
+                _abbr = g.get("away") if _k == "away_id" else g.get("home")
+                cards.append(
+                    f'<div class="bd-card ia-team ia-await">'
+                    f'<div class="bd-cardtop"><span class="tc tc-none"></span>'
+                    f'<span class="bd-eyebrow">{esc(_abbr or "")}</span>'
+                    f'<span class="bd-stamp">{esc(_ia_expected(g))}</span>'
+                    f'</div></div>')
         head = (f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}')
         when = " \u00b7 ".join(x for x in (g.get("day_et"), g.get("kickoff_et")) if x)
         groups.append(
             f'<section class="ia-game"><div class="ia-gh">'
             f'<span class="ia-gh-t">{head}</span>'
             f'<span class="ia-kick">{esc(when)}</span></div>'
-            f'<div class="ia-grid">'
-            + "".join(_inactives_team_card(t) for t in pair) + '</div></section>')
-    rest = [t for t in board["teams"] if str(t.get("id") or "") not in used]
-    # THE SCHEDULE FILE ONLY CARRIES THE WEEKS AHEAD. Measured tonight: it holds Weeks
-    # 2 and 3, while the board holds Week 1's final lists, so nothing could be paired
-    # and every team fell into the remainder. One group headed "Not on this week's
-    # schedule" holding all 31 teams reads as a broken page, not as a grouping.
-    #
-    # With no game to place a team against, the page is the flat grid it was, which is
-    # the honest shape for "these lists are final and their fixtures have rolled off".
-    # From Thursday, when the board holds Week 2's lists and the file still has Week 2,
-    # the grouping appears on its own. Nothing to switch.
-    if not groups:
-        return ('<div class="ia-grid">'
-                + "".join(_inactives_team_card(t) for t in board["teams"])
-                + '</div>')
-    if rest:
-        groups.append(
-            f'<section class="ia-game"><div class="ia-gh">'
-            f'<span class="ia-gh-t">Not on this week\u2019s schedule</span>'
-            f'<span class="ia-kick">{len(rest)} team'
-            f'{"" if len(rest) == 1 else "s"}</span></div>'
-            f'<div class="ia-grid">'
-            + "".join(_inactives_team_card(t) for t in rest) + '</div></section>')
+            f'<div class="ia-grid">' + "".join(cards) + '</div></section>')
+    # THE WEEK'S PAGE IS THE WEEK'S GAMES. Teams whose lists belong to an earlier week
+    # are not shown here at all: they live under their own week. A flat remainder of 29
+    # teams carrying Week 1's lists under a Week 2 heading is the defect N-7c names.
     return "".join(groups)
+
+
+def _ia_earlier(board, games):
+    """Every sighting that does not belong to one of this week's fixtures. The schedule
+    file carries the weeks AHEAD, so an earlier week's games cannot be paired against
+    it; those lists are shown by team under the day they went up, which is what the
+    board holds and all it can honestly say."""
+    windows = [w for w in (_ia_window(g) for g in games or []) if w[0]]
+    out = []
+    for t in board.get("teams") or []:
+        keep = []
+        for pl in (t.get("players") or []):
+            fs = _utc_dt(pl.get("first_seen") or "")
+            if not fs:
+                continue
+            if any(a <= fs <= b for a, b in windows):
+                continue
+            keep.append(pl)
+        if not keep:
+            continue
+        firsts = [p["first_seen"] for p in keep]
+        days = {}
+        for pl in keep:
+            days.setdefault(pl.get("day") or "", []).append(pl)
+        out.append({**t, "players": keep, "count": len(keep),
+                    "first_seen": max(firsts), "first_sighting": min(firsts),
+                    "by_day": [{"day": d, "players": v, "count": len(v),
+                                "first_seen": min(x["first_seen"] for x in v)}
+                               for d, v in sorted(days.items(), reverse=True)]})
+    out.sort(key=lambda t: (t["first_seen"] or "", t["team"]), reverse=True)
+    return out
+
+
+def render_inactives_earlier(board, w2w, dateline):
+    """N-7c: the lists from before this week, on their own page. The CURRENT week keeps
+    /fantasy/inactives and that URL never changes; this is where the earlier ones live
+    so they are neither lost nor sitting under the wrong week's heading."""
+    if not board or not board.get("teams"):
+        return None
+    _wks = (w2w or {}).get("weeks") or []
+    _wkno, _ = _ia_week()
+    _week = next((w for w in _wks if w.get("week") == _wkno), None)
+    teams = _ia_earlier(board, (_week or {}).get("games") or [])
+    if not teams:
+        return None
+    n = sum(t["count"] for t in teams)
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="lx-h1" style="margin-bottom:6px">Earlier inactives</h1>
+  <p class="lx-dek">{n} listing{"" if n == 1 else "s"} across
+     {len(teams)} team{"" if len(teams) == 1 else "s"}, before Week {_wkno}</p>
+  <nav class="st-nav" aria-label="Weeks">
+    <a class="st-nav-a" href="/fantasy/inactives.html">Week {_wkno}</a>
+    <span class="st-nav-a on">Earlier</span></nav>
+  <div class="ia-grid" style="margin-top:18px">
+    {"".join(_inactives_team_card(t) for t in teams)}
+  </div>
+</section></main>"""
+    return shell(f"Earlier NFL inactives - {NAME}",
+                 "The inactive lists from before this week, by team, each under the day "
+                 "it went up.",
+                 "Fantasy", body, dateline, path="/fantasy/inactives/week-earlier.html")
 
 
 def render_inactives(board, w2w, dateline):
@@ -5779,7 +5929,8 @@ def render_inactives(board, w2w, dateline):
                 + '</div></section>')
     body = f"""<main class="wrap"><section class="page">
     <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
-  <p class="lx-dek">{board["total"]} players, {len(board["teams"])} teams</p>
+  <p class="lx-dek">{esc(_ia_week_summary(board, games))}</p>
+  {_ia_week_switch(board, games)}
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
   {_ia_tonight_block()}
@@ -8776,6 +8927,11 @@ def build():
         _ia_html = render_inactives(IA_BOARD, W2W_DATA, dateline)
         if _ia_html:
             w("fantasy/inactives.html", _ia_html)
+            # N-7c: the earlier week's lists, where they are neither lost nor filed
+            # under this week's heading.
+            _ia_earlier_html = render_inactives_earlier(IA_BOARD, W2W_DATA, dateline)
+            if _ia_earlier_html:
+                w("fantasy/inactives/week-earlier.html", _ia_earlier_html)
             print(f"inactives board: {IA_BOARD['total']} players, "
                   f"{len(IA_BOARD['teams'])} teams")
 
@@ -9007,7 +9163,7 @@ def build():
     # belongs here.
     locs = ["/", "/news.html", "/scores.html",
             "/fantasy/index.html", "/fantasy/inactives.html", "/fantasy/injuries.html",
-            "/fantasy/live.html"] + \
+            "/fantasy/live.html", "/fantasy/inactives/week-earlier.html"] + \
            [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]

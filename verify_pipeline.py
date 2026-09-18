@@ -518,6 +518,67 @@ def layer1_canary():
     finally:
         _ia7.SNAP_DIR = _old7
 
+    # N-7c: A LISTING BELONGS TO A GAME. N-7b kept every sighting with its own date,
+    # which is right, and the page still grouped by team across the whole eight-day
+    # window: on Friday /fantasy/inactives read "Week 2 inactives, 207 players, 31
+    # teams" when Week 2 had two lists and fourteen players, Detroit's section under DET
+    # at BUF carried its 13 September list as well, and the homepage rail said Sunday's
+    # lists were posted.
+    import datetime as _dt7c
+    _ET7 = _sb._ET
+
+    def _gm7(away, home, aid, hid, kick_et):
+        _k = _dt7c.datetime.fromisoformat(kick_et).replace(tzinfo=_ET7) \
+                  .astimezone(_dt7c.timezone.utc)
+        return {"away": away, "home": home, "away_id": aid, "home_id": hid,
+                "kickoff_utc": _k.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "kickoff_et": "8:15 PM ET", "day_et": "Thu 17 Sep"}
+
+    def _pl7(name, seen_et, day):
+        _t = _dt7c.datetime.fromisoformat(seen_et).replace(tzinfo=_ET7) \
+                  .astimezone(_dt7c.timezone.utc)
+        return {"name": name, "pos": "DT", "day": day,
+                "first_seen": _t.strftime("%Y-%m-%dT%H:%M:%SZ")}
+
+    # Detroit carries both weeks' listings, as the board does after N-7b.
+    _det7 = {"team": "Detroit Lions", "id": "8", "count": 3,
+             "players": [_pl7("Week Two Player", "2026-09-17T19:05", "2026-09-17"),
+                         _pl7("Both Weeks", "2026-09-17T19:05", "2026-09-17"),
+                         _pl7("Week One Only", "2026-09-13T14:03", "2026-09-13")],
+             "first_seen": "2026-09-17T23:05:00Z"}
+    _buf7 = {"team": "Buffalo Bills", "id": "2", "count": 2,
+             "players": [_pl7("Bills One", "2026-09-17T19:06", "2026-09-17"),
+                         _pl7("Bills Two", "2026-09-17T19:06", "2026-09-17")],
+             "first_seen": "2026-09-17T23:06:00Z"}
+    _car7 = {"team": "Carolina Panthers", "id": "29", "count": 2,
+             "players": [_pl7("Panther One", "2026-09-13T14:03", "2026-09-13"),
+                         _pl7("Panther Two", "2026-09-13T14:03", "2026-09-13")],
+             "first_seen": "2026-09-13T18:03:00Z"}
+    _board7 = {"teams": [_det7, _buf7, _car7], "total": 7}
+    _games7 = [_gm7("DET", "BUF", "8", "2", "2026-09-17T20:15"),
+               _gm7("CAR", "ATL", "29", "1", "2026-09-20T13:00")]
+
+    _got7 = _sb._ia_team_for_game(_det7, _games7[0])
+    _check(_got7 and _got7["count"] == 2, fails,
+           f"N-7c canary: Detroit's section under DET at BUF held "
+           f"{_got7 and _got7['count']} listings, not the two from that game")
+    _check(_got7 and all("Week One" not in p["name"] for p in _got7["players"]), fails,
+           "N-7c canary: a 13 September listing appeared under the 17 September game")
+    _check(_sb._ia_team_for_game(_car7, _games7[1]) is None, fails,
+           "N-7c canary: Carolina showed a list for a game whose list has not posted")
+    _sum7 = _sb._ia_week_summary(_board7, _games7)
+    _check(_sum7.startswith("2 lists posted, 4 players"), fails,
+           f"N-7c canary: the header read {_sum7!r}, not this week's lists")
+    _check("post about 11:30 AM ET" in _sum7, fails,
+           f"N-7c canary: the header did not say when the rest post: {_sum7!r}")
+    _check("posts about" in _sb._ia_expected(_games7[1]), fails,
+           f"N-7c canary: the awaiting card read {_sb._ia_expected(_games7[1])!r}")
+    # and nothing is lost: what is not this week's is on the earlier page
+    _earlier7 = _sb._ia_earlier(_board7, _games7)
+    _n7 = sum(t["count"] for t in _earlier7)
+    _check(_n7 == 3, fails,
+           f"N-7c canary: {_n7} earlier listings kept, expected the 3 from 13 September")
+
     # H-1: THIS GAME'S LIST COMES FROM THIS GAME'S DAY, NOT THE WEEK'S MERGE.
     # board() merges eight days and keeps a player's FIRST sighting, so a team that had
     # a list in Week 1 carries a Week 1 stamp forever and the game-page window rejected
