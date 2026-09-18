@@ -373,6 +373,83 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # SC-3 (M-20, M-21): THE MARQUEE. Four shapes, on one fixture slate, because the
+    # rule is about WHEN it is asked, not about what is on the board. On 17 Sep the
+    # front page put a 0-0 Mets game in the marquee eight minutes before the only NFL
+    # game of the night, and by 9 the next morning it had replaced the Bills result with
+    # a 3 PM soccer fixture.
+    import datetime as _dt3
+    _ET3 = _sb._ET
+
+    def _g3(league, away, home, kick_et, state, sa=None, sh=None):
+        _k = _dt3.datetime.fromisoformat(kick_et).replace(tzinfo=_ET3) \
+                 .astimezone(_dt3.timezone.utc)
+        return {"league": league, "id": f"{away}{home}{kick_et}", "state": state,
+                "start_utc": _k.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": away, "name": away, "score": sa},
+                "home": {"abbr": home, "name": home, "score": sh}}
+
+    def _at3(s):
+        return _dt3.datetime.fromisoformat(s).replace(tzinfo=_ET3) \
+                   .astimezone(_dt3.timezone.utc)
+
+    def _mq3(games, when):
+        m = _sb._sb_marquee_pick(games, _at3(when))
+        return f"{m['away']['abbr']} at {m['home']['abbr']}" if m else None
+
+    # Thursday night: the NFL game at 8:15, live MLB and WNBA alongside, and Sunday's
+    # NFL slate already on the board.
+    _thu = [_g3("NFL", "DET", "BUF", "2026-09-17T20:15", "pre"),
+            _g3("MLB", "CHC", "CIN", "2026-09-17T19:10", "in", "2", "1"),
+            _g3("WNBA", "CON", "ATL", "2026-09-17T19:30", "in", "70", "69"),
+            _g3("NFL", "CAR", "ATL", "2026-09-20T13:00", "pre"),
+            _g3("Soccer", "CHE", "BRE", "2026-09-18T15:00", "pre")]
+    _check(_mq3(_thu, "2026-09-17T19:30") == "DET at BUF", fails,
+           f"SC-3 canary: 45 minutes before kickoff the marquee was "
+           f"{_mq3(_thu, '2026-09-17T19:30')}, not the NFL game")
+    # the exact build that got it wrong: the 8:06 PM inactives snapshot
+    _check(_mq3(_thu, "2026-09-17T20:06") == "DET at BUF", fails,
+           f"SC-3 canary: the last snapshot before kickoff chose "
+           f"{_mq3(_thu, '2026-09-17T20:06')}")
+    # and two hours out it is NOT yet imminent, so a live game of another league leads
+    _check(_mq3(_thu, "2026-09-17T18:00") != "DET at BUF", fails,
+           "SC-3 canary: an NFL game two hours out took the marquee from a live game")
+
+    _live = [dict(g) for g in _thu]
+    _live[0].update(state="in", away={"abbr": "DET", "name": "DET", "score": "10"},
+                    home={"abbr": "BUF", "name": "BUF", "score": "14"})
+    _check(_mq3(_live, "2026-09-17T21:00") == "DET at BUF", fails,
+           f"SC-3 canary: a live NFL game lost the marquee to "
+           f"{_mq3(_live, '2026-09-17T21:00')}")
+
+    # By Friday morning last night's games are all final: a Thursday 7:10 PM baseball
+    # game is not still live at 9 AM, and a fixture that says so is testing a board that
+    # cannot happen.
+    _fin = [dict(g) for g in _thu]
+    _fin[0].update(state="post", away={"abbr": "DET", "name": "DET", "score": "31"},
+                   home={"abbr": "BUF", "name": "BUF", "score": "41"})
+    _fin[1].update(state="post")
+    _fin[2].update(state="post")
+    _check(_mq3(_fin, "2026-09-18T09:00") == "DET at BUF", fails,
+           f"SC-3 canary: the morning after, the marquee was "
+           f"{_mq3(_fin, '2026-09-18T09:00')}, not the night's result")
+    _check(_mq3(_fin, "2026-09-18T12:30") != "DET at BUF", fails,
+           "SC-3 canary: the final still held the marquee after noon the next day")
+    # Sunday: the 1 PM slate takes over from inside ninety minutes
+    _check(_mq3(_fin, "2026-09-20T12:30") == "CAR at ATL", fails,
+           f"SC-3 canary: at 12:30 on Sunday the marquee was "
+           f"{_mq3(_fin, '2026-09-20T12:30')}, not the 1 PM slate")
+    # M-20: upcoming sorts by league before kickoff
+    _up = [_g3("Soccer", "CHE", "BRE", "2026-09-19T15:00", "pre"),
+           _g3("NFL", "CAR", "ATL", "2026-09-20T13:00", "pre")]
+    _check(_mq3(_up, "2026-09-19T09:00") == "CAR at ATL", fails,
+           f"SC-3 canary: an earlier soccer fixture outranked the NFL game "
+           f"({_mq3(_up, '2026-09-19T09:00')})")
+    # M-21: a recent final outranks an upcoming game in the card order
+    _check(_sb._sb_state_rank(_fin[0], _at3("2026-09-18T09:00"))
+           < _sb._sb_state_rank(_thu[3], _at3("2026-09-18T09:00")), fails,
+           "SC-3 canary: a final from last night ranked below a fixture three days out")
+
     # N-7b: A LISTING BELONGS TO THE DAY IT WAS SEEN, AND A REPEAT IS TWO LISTINGS.
     # The merge kept a player once, at his first sighting, so a player inactive on the
     # 13th and again on the 17th carried only the 13th and the 17th's list undercounted

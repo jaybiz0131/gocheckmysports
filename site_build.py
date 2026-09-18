@@ -3904,7 +3904,18 @@ def _tk_tabs(games, active="all", href="/scores.html"):
         if live:
             sub = f"{live} live"
         elif mine_today:
-            sub = f"{len(mine_today)} today"
+            # M-21: A TAB THAT HOLDS A FINAL SAYS SO. "1 today" over a board of one
+            # finished game tells a reader there is something to come. The count line
+            # below carries the full sentence with the next kickoff.
+            _fin_t = [x for x in mine_today if x.get("state") == "post"]
+            sub = (f"{len(_fin_t)} final" if len(_fin_t) == len(mine_today)
+                   else f"{len(mine_today)} today")
+        elif [x for x in gs if _sb_state_rank(x) == 1]:
+            # A final from last night is still the thing this tab holds, even though it
+            # is not today's. "NFL Sun" over the Bills result is the front page telling
+            # a reader to come back in three days.
+            _rf = [x for x in gs if _sb_state_rank(x) == 1]
+            sub = f"{len(_rf)} final"
         else:
             nxt = sorted((_utc_dt(g.get("start_utc") or "") for g in gs
                           if _utc_dt(g.get("start_utc") or "")), key=lambda d: d)
@@ -4003,28 +4014,123 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
             f'{f"<div class=sb-fanrow>{fan}</div>" if fan else ""}{bar}</div>')
 
 
-def _sb_marquee_pick(games):
-    """The marquee picks itself: the closest live score in the largest-audience league,
-    else the next kickoff. No editor touches it."""
+MARQUEE_HOLD_NOON = 12        # a marquee final holds until noon ET the next day
+MARQUEE_IMMINENT_MIN = 90     # and an upcoming marquee game holds from 90 minutes out
+RECENT_FINAL_HOURS = 18       # "a final from last night" as the band counts it
+
+
+def _sb_state_rank(g, now=None):
+    """M-21: live, then a final from the last eighteen hours, then upcoming by kickoff,
+    then older finals. The band used to put every final last, so a result from four
+    hours ago sat below a fixture three days out, and the homepage's six-card cut
+    dropped the final entirely."""
+    st = g.get("state")
+    if st == "in":
+        return 0
+    if st == "post":
+        k = _utc_dt(g.get("start_utc") or "")
+        now = now or _build_now()
+        if k and (now - k).total_seconds() / 3600 <= RECENT_FINAL_HOURS:
+            return 1
+        return 3
+    return 2
+
+
+def _marquee_league(games, now=None):
+    """The league that leads today, by the same calendar weighting the lead story uses
+    (UX-5). On a Thursday in September that is the NFL; on a Saturday, college
+    football; in a week with neither, whatever is playing."""
+    ls = {g.get("league") for g in games if g.get("league")}
+    if not ls:
+        return None
+    now = now or _build_now()
+    return max(sorted(ls), key=lambda l: _league_weight(l, now))
+
+
+def _mins_to_kick(g, now):
+    k = _utc_dt(g.get("start_utc") or "")
+    return (k - now).total_seconds() / 60 if k else None
+
+
+def _final_holds(g, now):
+    """M-21: a marquee-league final holds the marquee until noon ET the day after the
+    game. The Bills beat the Lions at 11:20 PM and by 9 the next morning the front page
+    had replaced them with a 3 PM soccer fixture, which is not what a reader opens a
+    sports site for on a Friday."""
+    k = _utc_dt(g.get("start_utc") or "")
+    if not k:
+        return False
+    import datetime as _d
+    et = k.astimezone(_ET)
+    deadline = (et + _d.timedelta(days=1)).replace(hour=MARQUEE_HOLD_NOON, minute=0,
+                                                   second=0, microsecond=0)
+    return now.astimezone(_ET) < deadline
+
+
+def _sb_marquee_pick(games, now=None):
+    """The marquee picks itself, and nothing about it is an editor's choice.
+
+    THE ORDER, AND WHY EACH STEP IS THERE.
+
+    A marquee-league game inside ninety minutes of kickoff comes first (M-20). The poll
+    rewrites values in place and never moves a card, so the marquee is whatever the last
+    BUILD chose. On 17 Sep the last build before kickoff was the 8:06 PM inactives
+    snapshot, which had DET at BUF as upcoming and three live games elsewhere, so it put
+    a 0-0 Mets game in the marquee eight minutes before the Bills kicked off and the
+    only NFL game of the night ran its whole first hour as a row.
+
+    Then a marquee-league game that is live. Then a marquee-league final, until noon ET
+    the next day (M-21), which is the case that put the biggest result of the week off
+    the front page by breakfast.
+
+    Only then does everything else get a turn: live by league and closeness, upcoming by
+    LEAGUE FIRST and kickoff second (M-20; it was kickoff first, which is how a 3 PM
+    soccer fixture outranked the night's NFL game), and finals last.
+    """
+    now = now or _build_now()
     order = {n: i for i, n in enumerate(SB_TAB_ORDER)}
+    ml = _marquee_league(games, now)
+    mine = [g for g in games if g.get("league") == ml]
+
+    imminent = [g for g in mine if g.get("state") == "pre"
+                and (_mins_to_kick(g, now) or 1e9) <= MARQUEE_IMMINENT_MIN
+                and (_mins_to_kick(g, now) or -1) > -1e9]
+    if imminent:
+        return sorted(imminent, key=lambda g: g.get("start_utc") or "")[0]
+
+    def closeness(g):
+        try:
+            d = abs(int(g["away"]["score"]) - int(g["home"]["score"]))
+        except Exception:
+            d = 99
+        return (order.get(g["league"], 99), d)
+
+    ml_live = [g for g in mine if g.get("state") == "in"]
+    if ml_live:
+        return sorted(ml_live, key=closeness)[0]
+
+    # A FINAL IS JUDGED BY THE MARQUEE LEAGUE AT ITS OWN KICKOFF, not today's. Friday
+    # lifts MLB for the pennant race (2.60) above an out-of-window NFL (1.60), so asking
+    # "is this today's marquee league?" on Friday morning said no about a Thursday night
+    # NFL game and the hold never fired. At kickoff on Thursday the NFL was 4.00, which
+    # is the weight that made it the marquee in the first place.
+    ml_final = [g for g in games
+                if g.get("state") == "post" and _final_holds(g, now)
+                and g.get("league") == _marquee_league(
+                    games, _utc_dt(g.get("start_utc") or "") or now)]
+    if ml_final:
+        return sorted(ml_final, key=lambda g: g.get("start_utc") or "", reverse=True)[0]
+
     live = [g for g in games if g.get("state") == "in"]
     if live:
-        # SC-3b (R-3): LEAGUE ORDER FIRST, CLOSENESS SECOND. Both keys were already
-        # here and in this order, which is right, but the rule is worth stating because
-        # tonight is when it matters: DET at BUF shares the evening with three live
-        # WNBA games, and a one-point WNBA game must not take the marquee from the only
-        # NFL game of the night. Within a league, closeness still decides, so on a
-        # Sunday the eight live NFL games sort by margin as before.
-        def closeness(g):
-            try:
-                d = abs(int(g["away"]["score"]) - int(g["home"]["score"]))
-            except Exception:
-                d = 99
-            return (order.get(g["league"], 99), d)
+        # SC-3b (R-3): LEAGUE ORDER FIRST, CLOSENESS SECOND. A one-point WNBA game must
+        # not take the marquee from the only NFL game of the night.
         return sorted(live, key=closeness)[0]
     up = [g for g in games if g.get("state") == "pre" and g.get("start_utc")]
     if up:
-        return sorted(up, key=lambda g: (g["start_utc"], order.get(g["league"], 99)))[0]
+        # M-20: league first, kickoff second. The other way round put CHE at BRE at 3 PM
+        # above the night's NFL game.
+        return sorted(up, key=lambda g: (order.get(g["league"], 99), g["start_utc"]))[0]
     fin = [g for g in games if g.get("state") == "post"]
     return sorted(fin, key=lambda g: order.get(g["league"], 99))[0] if fin else None
 
@@ -4632,8 +4738,7 @@ def scoreboard_band(sb, board, wx=None):
     mq = _sb_marquee_pick(games)
     rest = [g for g in games if g is not mq]
     # Live first, then upcoming, then finals: what a reader opened the page for.
-    rank = {"in": 0, "pre": 1, "post": 2}
-    rest.sort(key=lambda g: (rank.get(g.get("state"), 9),
+    rest.sort(key=lambda g: (_sb_state_rank(g),
                              SB_TAB_ORDER.index(g["league"])
                              if g["league"] in SB_TAB_ORDER else 99,
                              g.get("start_utc") or ""))
@@ -4665,8 +4770,7 @@ def scoreboard_band(sb, board, wx=None):
             return ""
         m = _sb_marquee_pick(pool)
         others = [g for g in pool if g is not m]
-        others.sort(key=lambda g: (rank.get(g.get("state"), 9),
-                                   g.get("start_utc") or ""))
+        others.sort(key=lambda g: (_sb_state_rank(g), g.get("start_utc") or ""))
         slug = "all" if league == "all" else league.lower().replace(" ", "-")
         # H-6: the count and the next kickoff belong to the panel, so they follow the
         # tab. They used to sit in the band header and describe the whole slate, so
@@ -5183,8 +5287,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         games = L["games"]
         if not games:
             continue
-        rank = {"in": 0, "pre": 1, "post": 2}
-        games = sorted(games, key=lambda g: (rank.get(g.get("state"), 9),
+        games = sorted(games, key=lambda g: (_sb_state_rank(g),
                                              g.get("start_utc") or ""))
         # SC-5: every game as a full Ticket card, three across, grouped by league with
         # a sticky league row. Live first, then upcoming, then final, which is the order
@@ -5226,8 +5329,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     # league because it carries the league tabs; this one has no tabs, and grouping by
     # league here put five Sunday NFL games under a header reading "6 games tomorrow"
     # while the five games that are actually tomorrow sat below the fold.
-    _band_rank = {"in": 0, "pre": 1, "post": 2}
-    _band_games = sorted(_all, key=lambda g: (_band_rank.get(g.get("state"), 9),
+    _band_games = sorted(_all, key=lambda g: (_sb_state_rank(g),
                                               g.get("start_utc") or ""))
     # Six cards, two rows of three. The homepage band carries a marquee and eight;
     # six without the marquee is the 60 percent A-14 asks for, and it is measured
