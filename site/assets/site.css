@@ -1849,6 +1849,16 @@ body>*:not(.ground){position:relative;z-index:1}
 .page h2.ia-win.past{color:var(--muted)}
 .ia-win-n{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
   text-transform:none;color:var(--muted)}
+/* N-9: the official designations stand in the card until the inactive list posts. The
+   game page's row is a five-column grid built for a full-width page; inside a board
+   card it drops the spare columns and lets the injury wrap under the name. */
+.ia-dz{margin-top:4px}
+.ia-dz .gp-dz-row{grid-template-columns:20px 1fr auto;gap:3px 9px;padding:6px 0;
+  font-size:13.5px}
+.ia-dz .gp-dz-i{grid-column:2/-1;font-size:11px}
+.ia-dz .gp-dz-row:last-child{border-bottom:0}
+.ia-dz-more{padding-top:7px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.ia-await .bd-cardtop{flex-wrap:wrap;gap:4px 8px}
 .ia-gh{cursor:pointer;list-style:none;align-items:center}
 .ia-gh::-webkit-details-marker{display:none}
 /* The chevron is the affordance, and it turns when the section opens. */
@@ -1870,6 +1880,9 @@ body>*:not(.ground){position:relative;z-index:1}
   .ia-st{order:2}
   .ia-kick{order:3}
   .ia-gh::after{order:4;margin-left:auto}
+  /* The reading takes its own line: it does not fit beside a kickoff at 390px, and an
+     unordered flex item would otherwise sort ahead of the matchup. */
+  .ia-gh .w2w-wx{order:5;flex:1 1 100%}
   .page h2.ia-win{margin-top:24px;font-size:12px}
   .ia-game{margin-top:14px}
 }
