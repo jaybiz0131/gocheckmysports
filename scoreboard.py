@@ -134,6 +134,13 @@ def _league(name, path, colorkey, cmap):
                 # concatenate. No location in the feed, no school: the card falls back
                 # to the short name rather than inventing one.
                 "school": team.get("location") or "",
+                # CFB-2: THE MASCOT, SEPARATELY. `name` is the mascot in every league
+                # ("Hurricanes", "Dolphins", "Scarlet Knights"); `shortDisplayName`,
+                # which the line above prefers, is the mascot in the pro leagues but
+                # the school again in college ("Rutgers"). Kept as its own field so a
+                # card can say which Miami it means without the pairs being concatenated
+                # at the source, which is the mistake standings.py already learned.
+                "mascot": team.get("name") or "",
                 "rank": rank,
                 "score": c.get("score"),
                 "record": rec,

@@ -3149,6 +3149,30 @@ def _team_label(g, t):
     return (t.get("abbr") or "").strip()
 
 
+def _team_mascot(g, t):
+    """The mascot, when it says something the card has not already said.
+
+    CFB-2: WHICH MIAMI. The label is the place, and the place is not the team: "Miami"
+    is the Hurricanes on a Saturday and the Dolphins on a Sunday, and the board printed
+    both the same. The mascot is what tells them apart, so it rides under the name.
+
+    Suppressed when it would only repeat what is above it. The feed's mascot for a
+    college side is the real one ("Scarlet Knights"), but the older field it falls back
+    to is the school again, and a card reading "Rutgers / Rutgers" is noise. The first
+    word is compared too, so "Western Kentucky" does not pick up "Western KY".
+    """
+    m = (t.get("mascot") or t.get("name") or "").strip()
+    if not m:
+        return ""
+    label = _team_label(g, t).strip()
+    if m.lower() == label.lower():
+        return ""
+    first = lambda s: (s.split() or [""])[0].lower()
+    if label and first(m) == first(label):
+        return ""
+    return m
+
+
 def _rank_html(g, t, cls="tk-rk"):
     """The rank badge, or nothing. Kept as its own element outside any node the live
     poll rewrites, so a score update cannot take the rank off the card."""
@@ -3982,11 +4006,11 @@ def _tk_fold(g, ia_index, desig=None):
         ab = (f'<b{_bcls} data-side="{side}" '
               f'data-abbr="{esc(t.get("abbr") or "")}">'
               f'{_rank_html(g, t)}{esc(_team_label(g, t))}</b>')
-        # With the school already in the bold slot the grey line would say it twice, so
-        # there it carries the record alone. Every other league is unchanged.
-        _tail = (esc(t.get("record") or "") if _full
-                 else (esc(t.get("name") or "")
-                       + (" " + esc(t.get("record")) if t.get("record") else "")))
+        # CFB-2: the grey line is the mascot and the record, which is what makes one
+        # "Miami" the Hurricanes and the other the Dolphins. The mascot drops out on its
+        # own where it would only repeat the bold slot, and then the record stands alone.
+        _tail = " ".join(x for x in (esc(_team_mascot(g, t)),
+                                     esc(t.get("record") or "")) if x)
         return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
                 f'{ab}<span>{_tail}</span></div>{val}')
     when = ""
