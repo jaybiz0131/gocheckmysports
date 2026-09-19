@@ -5922,6 +5922,55 @@ def _ia_team_for_game(t, g):
 
 
 IA_RUNTIME_H = 4        # an NFL game is ~3h10m; past that a kickoff is history
+# Most severe first, which is also most useful first: a player ruled out is a lineup
+# change, a questionable one is a thing to watch.
+IA_SEV = ("Out", "Doubtful", "Questionable")
+
+
+def _ia_full_name(abbr):
+    """The team's full name from its abbreviation, which is the key the designations
+    report is written in. The schedules file carries both, so the join is a lookup
+    rather than a guess; an abbreviation it does not carry returns "" and the card
+    simply shows no report."""
+    t = ((TEAM_DATA or {}).get("teams") or {}).get((abbr or "").strip().upper())
+    return (t or {}).get("name") or ""
+
+
+def _ia_desig_rows(abbr, n=6):
+    """(rows html, counts html) for a team's official injury report.
+
+    N-9: WHAT THE PAGE HOLDS BEFORE THE LIST POSTS. An inactive list posts about 90
+    minutes before kickoff, so for most of the week every fixture on this page was two
+    cards saying "posts about 1:00 PM ET" and nothing else, on the surface a fantasy
+    owner opens precisely to decide a lineup. The official designations are known days
+    earlier and are the best answer available until the list lands, so they fill the
+    card and the list replaces them when it posts.
+
+    Ruled out first. The desk's own report is the source, so a player it does not carry
+    is not invented, and a team with an empty report shows the stamp alone.
+    """
+    rows = _team_desig(_ia_full_name(abbr))
+    if not rows:
+        return "", ""
+    counts = {s: 0 for s in IA_SEV}
+    for p in rows:
+        s = (p.get("status") or "").strip().title()
+        if s in counts:
+            counts[s] += 1
+    cn = " · ".join(f"{v} {k.lower()}" for k, v in counts.items() if v)
+    shown = rows[:n]
+    body = "".join(
+        f'<div class="gp-dz-row">'
+        f'<span class="gp-dz-st s-{esc((p.get("status") or "x").lower()[:1])}">'
+        f'{esc((p.get("status") or "?")[:1].upper())}</span>'
+        f'<span class="gp-dz-n">{esc(p.get("name") or "")}</span>'
+        f'<span class="gp-dz-p">{esc(p.get("pos") or "")}</span>'
+        f'<span class="gp-dz-i">{esc(_injury_case(p.get("detail") or ""))}</span>'
+        f'</div>' for p in shown)
+    if len(rows) > len(shown):
+        body += (f'<div class="ia-dz-more">and {len(rows) - len(shown)} more on '
+                 f'<a href="/fantasy/injuries.html">the injury report</a></div>')
+    return body, cn
 
 
 def _ia_phase(g, now=None):
@@ -5993,12 +6042,21 @@ def _ia_by_game(board, games):
                 cards.append(_inactives_team_card(_got))
             else:
                 _abbr = g.get("away") if _k == "away_id" else g.get("home")
+                # N-9: the list has not posted, so the card carries the official
+                # designations until it does rather than standing empty.
+                _dz, _cn = _ia_desig_rows(_abbr)
+                _col = _nfl_color(g.get(_k))
+                _bar = (f'<span class="tc" style="background:{esc(_col)}"></span>'
+                        if _col else '<span class="tc tc-none"></span>')
                 cards.append(
                     f'<div class="bd-card ia-team ia-await">'
-                    f'<div class="bd-cardtop"><span class="tc tc-none"></span>'
+                    f'<div class="bd-cardtop">{_bar}'
                     f'<span class="bd-eyebrow">{esc(_abbr or "")}</span>'
-                    f'<span class="bd-stamp">{esc(_ia_expected(g))}</span>'
-                    f'</div></div>')
+                    + (f'<span class="bd-stamp">{esc(_cn)}</span>' if _cn else "")
+                    + f'<span class="bd-stamp">{esc(_ia_expected(g))}</span>'
+                    f'</div>'
+                    + (f'<div class="gp-dz-rows ia-dz">{_dz}</div>' if _dz else "")
+                    + '</div>')
         head = (f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}')
         when = " \u00b7 ".join(x for x in (g.get("day_et"), g.get("kickoff_et")) if x)
         _ph, _ = _ia_phase(g)
@@ -6020,7 +6078,11 @@ def _ia_by_game(board, games):
             f'data-window="{esc(g.get("window") or "")}"{_open}>'
             f'<summary class="ia-gh">'
             f'<span class="ia-gh-t">{head}</span>{_mark}'
-            f'<span class="ia-kick">{esc(when)}</span></summary>'
+            f'<span class="ia-kick">{esc(when)}</span>'
+            # N-9: wind and cold decide a fantasy lineup as surely as a designation
+            # does, and the desk already takes the reading for the schedule page.
+            + (_w2w_wx(g, WX_DATA) if _ph != 2 else "")
+            + '</summary>'
             f'<div class="ia-grid">' + "".join(cards) + '</div></details>')
     # THE WEEK'S PAGE IS THE WEEK'S GAMES. Teams whose lists belong to an earlier week
     # are not shown here at all: they live under their own week. A flat remainder of 29
@@ -6090,18 +6152,21 @@ def render_inactives_earlier(board, w2w, dateline):
 
 
 IA_FOLD_JS = """<script>(function(){
-  /* N-8: on a phone the page opens to the window that is next, and the rest wait behind
-     their headings. Desktop keeps every upcoming fixture open: the two-column grid has
-     the room and folding there would cost a reader clicks for nothing. A browser with
-     no matchMedia, or JS off, gets the markup's own state, which is readable either way. */
+  /* N-8/N-9: on a phone the page opens to the next fixture alone and the rest wait
+     behind their headings. Once each card carries an injury report the whole week
+     expanded is fifteen phone screens, and the next window alone is eight; one fixture
+     is four, and it is the one a reader at kickoff is looking at. It stays open rather
+     than folding everything so the first thing on the page is an answer, and so the
+     fold is visibly a fold. Desktop keeps every upcoming fixture open: the two-column
+     grid has the room and folding there would cost a reader clicks for nothing. A
+     browser with no matchMedia, or JS off, gets the markup's own state, which is
+     readable either way. */
   try{
     if(!window.matchMedia || !matchMedia('(max-width:700px)').matches) return;
-    var first=null;
+    var seen=false;
     document.querySelectorAll('details.ia-game').forEach(function(d){
       if(d.getAttribute('data-phase')==='2'){ d.open=false; return; }
-      var w=d.getAttribute('data-window')||'';
-      if(first===null) first=w;
-      d.open=(w===first);
+      d.open=!seen; seen=true;
     });
   }catch(e){}
 })();</script>"""
