@@ -1838,6 +1838,41 @@ body>*:not(.ground){position:relative;z-index:1}
 .ia-kick{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
 .ia-game .ia-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:900px){.ia-game .ia-grid{grid-template-columns:1fr}}
+/* N-8: the fixture sections fold, and the page runs in kickoff order with the finished
+   windows at the bottom. A phone opened to sixteen expanded fixtures was about nine
+   screens of scrolling to reach the 4:25 lists; folded, the week is a short menu and
+   the reader opens the game they are actually setting a lineup for. */
+/* .page h2 sets a 25px serif, so the window heading has to out-rank it by name. */
+.page h2.ia-win{display:flex;align-items:baseline;gap:10px;margin:30px 0 2px;
+  font:600 13px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink)}
+.page h2.ia-win.past{color:var(--muted)}
+.ia-win-n{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+  text-transform:none;color:var(--muted)}
+.ia-gh{cursor:pointer;list-style:none;align-items:center}
+.ia-gh::-webkit-details-marker{display:none}
+/* The chevron is the affordance, and it turns when the section opens. */
+.ia-gh::after{content:"";flex:0 0 auto;width:7px;height:7px;margin-left:2px;
+  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:rotate(45deg) translateY(-2px);transition:transform .15s ease}
+.ia-game[open]>.ia-gh::after{transform:rotate(-135deg) translateY(-2px)}
+.ia-gh-t{flex:1 1 auto;min-width:0}
+.ia-st{flex:0 0 auto;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:3px}
+.ia-st.done{color:var(--tag-fg);background:var(--tag-bg)}
+.ia-st.live{color:#0B3B23;background:#3DDC84}
+.ia-game[data-phase="2"]>.ia-gh .ia-gh-t{color:var(--muted);font-weight:500}
+.ia-gh:hover .ia-gh-t{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:700px){
+  /* Phone: the kickoff drops under the matchup rather than squeezing it to an ellipsis. */
+  .ia-gh{flex-wrap:wrap;gap:4px 10px;padding-bottom:7px;margin-bottom:10px}
+  .ia-gh-t{flex:1 1 100%;order:1;font-size:16px}
+  .ia-st{order:2}
+  .ia-kick{order:3}
+  .ia-gh::after{order:4;margin-left:auto}
+  .page h2.ia-win{margin-top:24px;font-size:12px}
+  .ia-game{margin-top:14px}
+}
 /* A-13: the Record lane card carries a 3px left rule in its lane colour. */
 .lane-v3{border-left:3px solid var(--lane,#1F5E3F)}
 
@@ -1857,9 +1892,15 @@ body>*:not(.ground){position:relative;z-index:1}
   border-bottom:1px solid var(--line)}
 .wpw-row .bd-label{flex:0 0 220px}
 .wpw-row .bd-src{overflow:hidden;text-overflow:ellipsis}
+/* N-8: a window already played keeps its row, quietly, at the foot of the strip. */
+.wpw-row.past .bd-label,.wpw-row.past .bd-src{color:var(--muted)}
+.wpw-done{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--tag-fg);background:var(--tag-bg);
+  padding:1px 5px;border-radius:3px;flex:0 0 auto;align-self:center}
 @media (max-width:900px){
   .wpw-row{flex-direction:column;gap:2px}
   .wpw-row .bd-label{flex:none}
+  .wpw-done{align-self:flex-start}
 }
 .wpw-h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
   margin:22px 0 0}

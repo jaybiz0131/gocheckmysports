@@ -5921,6 +5921,45 @@ def _ia_team_for_game(t, g):
                         "count": len(ps), "first_seen": min(firsts)}]}
 
 
+IA_RUNTIME_H = 4        # an NFL game is ~3h10m; past that a kickoff is history
+
+
+def _ia_phase(g, now=None):
+    """(phase, when) for a fixture: 0 in progress, 1 still to come, 2 finished.
+
+    N-8: AN INACTIVE LIST IS ONLY NEWS BEFORE KICKOFF. The page ordered fixtures the way
+    the schedule file happens to list them, which is chronological, so on a Friday the
+    reader opened to Thursday night's final and had to scroll past it to reach the lists
+    that still decide a lineup. Finished games keep their section and go to the bottom.
+
+    The feed's own state leads, because it knows about a delay the clock does not. When
+    the file carries no state the kickoff decides, with one game's runtime allowed.
+    """
+    now = now or _build_now()
+    k = _utc_dt(g.get("kickoff_utc") or "")
+    st = (g.get("state") or "").strip()
+    if st == "post" or g.get("completed"):
+        ph = 2
+    elif st == "in":
+        ph = 0
+    elif not k:
+        ph = 1                                   # unplaceable: treat as ahead, never buried
+    elif k > now:
+        ph = 1
+    else:
+        ph = 0 if (now - k).total_seconds() < IA_RUNTIME_H * 3600 else 2
+    return ph, k
+
+
+def _ia_game_key(g, now=None):
+    """Sort fixtures for a reader standing in the present: what is on now, then what is
+    next, then what is over. Finished games run newest first, so the game that just
+    ended sits above last Thursday's."""
+    ph, k = _ia_phase(g, now)
+    ts = k.timestamp() if k else 0.0
+    return (ph, -ts if ph == 2 else ts)
+
+
 def _ia_by_game(board, games):
     """N-7: the week's lists grouped by the game they belong to, with its kickoff.
 
@@ -5938,7 +5977,10 @@ def _ia_by_game(board, games):
         if t.get("id"):
             by_id[str(t["id"])] = t
     used, groups = set(), []
-    for g in games:
+    _cur_win = object()     # a sentinel: the first fixture always writes its heading
+    # N-8: kickoff order, present first. Windows come out grouped because the fixtures
+    # inside one share a kickoff, so sorting the games sorts the windows with them.
+    for g in sorted(games, key=_ia_game_key):
         # N-7c: this fixture's list, not the team's week. A side with no list for this
         # game shows when its list is expected, in the same section, rather than being
         # given an older one or dropped out of the page.
@@ -5959,11 +6001,27 @@ def _ia_by_game(board, games):
                     f'</div></div>')
         head = (f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}')
         when = " \u00b7 ".join(x for x in (g.get("day_et"), g.get("kickoff_et")) if x)
+        _ph, _ = _ia_phase(g)
+        _win = g.get("window") or ""
+        if _win != _cur_win:
+            _cur_win = _win
+            groups.append(
+                f'<h2 class="ia-win{" past" if _ph == 2 else ""}">{esc(_win)}'
+                + ('<span class="ia-win-n">played</span>' if _ph == 2 else "")
+                + '</h2>')
+        # N-8: EVERY SECTION FOLDS, AND A FINISHED ONE ARRIVES FOLDED. <details> because
+        # the open/shut state belongs to the element, not to a script: with JS off the
+        # page is still readable and every section still opens.
+        _open = "" if _ph == 2 else " open"
+        _mark = ('<span class="ia-st done">Final</span>' if _ph == 2
+                 else '<span class="ia-st live">Live</span>' if _ph == 0 else "")
         groups.append(
-            f'<section class="ia-game"><div class="ia-gh">'
-            f'<span class="ia-gh-t">{head}</span>'
-            f'<span class="ia-kick">{esc(when)}</span></div>'
-            f'<div class="ia-grid">' + "".join(cards) + '</div></section>')
+            f'<details class="ia-game" data-phase="{_ph}" '
+            f'data-window="{esc(g.get("window") or "")}"{_open}>'
+            f'<summary class="ia-gh">'
+            f'<span class="ia-gh-t">{head}</span>{_mark}'
+            f'<span class="ia-kick">{esc(when)}</span></summary>'
+            f'<div class="ia-grid">' + "".join(cards) + '</div></details>')
     # THE WEEK'S PAGE IS THE WEEK'S GAMES. Teams whose lists belong to an earlier week
     # are not shown here at all: they live under their own week. A flat remainder of 29
     # teams carrying Week 1's lists under a Week 2 heading is the defect N-7c names.
@@ -6031,6 +6089,24 @@ def render_inactives_earlier(board, w2w, dateline):
                  "Fantasy", body, dateline, path="/fantasy/inactives/week-earlier.html")
 
 
+IA_FOLD_JS = """<script>(function(){
+  /* N-8: on a phone the page opens to the window that is next, and the rest wait behind
+     their headings. Desktop keeps every upcoming fixture open: the two-column grid has
+     the room and folding there would cost a reader clicks for nothing. A browser with
+     no matchMedia, or JS off, gets the markup's own state, which is readable either way. */
+  try{
+    if(!window.matchMedia || !matchMedia('(max-width:700px)').matches) return;
+    var first=null;
+    document.querySelectorAll('details.ia-game').forEach(function(d){
+      if(d.getAttribute('data-phase')==='2'){ d.open=false; return; }
+      var w=d.getAttribute('data-window')||'';
+      if(first===null) first=w;
+      d.open=(w===first);
+    });
+  }catch(e){}
+})();</script>"""
+
+
 def render_inactives(board, w2w, dateline):
     """/fantasy/inactives. Returns None when nothing is held, so the page and its nav
     entry withdraw together rather than showing an empty table."""
@@ -6077,7 +6153,7 @@ def render_inactives(board, w2w, dateline):
   {_sb12_who_plays_when(_ahead_games)}
   {cards}
   {pend}
-</section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS
+</section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + IA_FOLD_JS
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
                  "first saw each one. Facts, not advice.",
@@ -6486,18 +6562,22 @@ def _sb12_who_plays_when(games):
     by_win = {}
     for g in games:
         by_win.setdefault(g.get("window") or "", []).append(g)
+    # N-8: the strip is a menu for the sections below it, so it runs in the same order:
+    # the window that is next at the top, the ones already played at the foot. A window
+    # takes the standing of its own games, which is what min() over the fixture key is.
     def _key(w):
-        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in by_win[w]]
-        ks = [k for k in ks if k]
-        return min(ks) if ks else _build_now()
+        return min(_ia_game_key(g) for g in by_win[w])
     rows = []
     for win in sorted(by_win, key=_key):
         gs = by_win[win]
+        _past = _key(win)[0] == 2
         teams = " \u00b7 ".join(f'{g.get("away") or ""} at {g.get("home") or ""}'
                                 for g in gs[:8])
         more = f" and {len(gs) - 8} more" if len(gs) > 8 else ""
-        rows.append(f'<div class="wpw-row"><span class="bd-label">{esc(win)}</span>'
-                    f'<span class="bd-src">{esc(teams + more)}</span></div>')
+        rows.append(f'<div class="wpw-row{" past" if _past else ""}">'
+                    f'<span class="bd-label">{esc(win)}</span>'
+                    + ('<span class="wpw-done">played</span>' if _past else "")
+                    + f'<span class="bd-src">{esc(teams + more)}</span></div>')
     wk, _ = nfl_week()
     head = (f'<div class="wpw-h"><span class="bd-eyebrow">Week {wk}, who plays when'
             f'</span><a class="bd-more" href="/where-to-watch.html">All games</a></div>'
