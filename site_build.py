@@ -3100,7 +3100,7 @@ SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
 # scoreboard fetch. Both are ESPN and the join is abbreviation to abbreviation inside
 # one sport, so "MIA" here is the Hurricanes and cannot become the Marlins. No match,
 # no rank: the omission table, not a guess.
-FULL_NAME_LEAGUES = {"CFB"}   # leagues whose cards print the school, not the initials
+FULL_NAME_LEAGUES = {"NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"}  # leagues that show full names/cities instead of abbreviations
 AP_TOP = 25
 _AP_INDEX = {"key": None, "map": {}}
 
@@ -3134,9 +3134,8 @@ def _team_rank(g, t):
 
 
 def _team_label(g, t):
-    """What a card calls this team. College football prints the school in full, because
-    "UGA at ARK" is a puzzle and "Georgia at Arkansas" is a score. Every other league
-    keeps the abbreviation the board has always used."""
+    """What a card calls this team. Shows full team names (city/school) for all leagues.
+    For example: "Georgia" instead of "UGA", "Buffalo" instead of "BUF"."""
     if (g.get("league") or "") in FULL_NAME_LEAGUES:
         return (t.get("school") or t.get("name") or t.get("abbr") or "").strip()
     return (t.get("abbr") or "").strip()
