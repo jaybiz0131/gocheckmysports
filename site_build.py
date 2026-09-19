@@ -3100,7 +3100,15 @@ SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
 # scoreboard fetch. Both are ESPN and the join is abbreviation to abbreviation inside
 # one sport, so "MIA" here is the Hurricanes and cannot become the Marlins. No match,
 # no rank: the omission table, not a guess.
-FULL_NAME_LEAGUES = {"NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"}  # leagues that show full names/cities instead of abbreviations
+# Two different questions, and they must not share a set. What a card CALLS a team is
+# every league's business; whether a team has a POLL RANK is college football's alone.
+# These were one constant once, and widening it so the NFL could print "Buffalo" also
+# opened the rank lookup to the NFL: the AP index is keyed on abbreviation, so the
+# Dolphins took Miami's rank, the Texans took Houston's and the Rangers took Texas's.
+# That is exactly the collision the note above says cannot happen, and it cannot only
+# while the lookup is fenced to one sport.
+FULL_NAME_LEAGUES = {"NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"}
+RANKED_LEAGUES = {"CFB"}     # the only league here that has a poll worth printing
 AP_TOP = 25
 _AP_INDEX = {"key": None, "map": {}}
 
@@ -3125,7 +3133,7 @@ def _ap_rank_index():
 def _team_rank(g, t):
     """This team's poll rank for this game, or None. Only college football has a poll
     the band prints, so no other league is looked up at all."""
-    if (g.get("league") or "") not in FULL_NAME_LEAGUES:
+    if (g.get("league") or "") not in RANKED_LEAGUES:
         return None
     n = t.get("rank")
     if isinstance(n, int) and 1 <= n <= AP_TOP:
