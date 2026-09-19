@@ -4412,7 +4412,7 @@ SB_LIVE_JS = """
           cell.className = started && sc !== null ? 's sc' : 's';
           cell.style.color = c[i] || '';
         }
-        var abb = card.querySelector('b[data-abbr="' + side + '"]');
+        var abb = card.querySelector('b[data-side="' + side + '"]');
         if (abb) abb.style.color = c[i] || '';
       });
       var st = card.querySelector('[data-role="status"]');
