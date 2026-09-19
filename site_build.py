@@ -3085,6 +3085,112 @@ SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener
 SB_TAB_ORDER = ["NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"]
 
 
+# ---- CFB-1: the school in full, the poll rank, and an order that follows the day ----
+# Three complaints, one shape. A college card reading "UGA at ARK" asks the reader to
+# know a hundred and thirty abbreviations, where the NFL's thirty-two are read faster
+# than the names. The poll rank is the single most useful fact about a college game and
+# the band did not carry it anywhere. And MLB sat above college football on a Saturday
+# in September because SB_TAB_ORDER is a constant, while the marquee beside it, which
+# does read the calendar weighting, had already led with a college game: the band
+# disagreed with itself.
+#
+# WHERE A RANK COMES FROM. The game's own feed first (curatedRank, the rank at that
+# kickoff), then the committed AP Top 25. The second source is what makes the band
+# carry ranks on the build after a poll refresh instead of waiting for the next
+# scoreboard fetch. Both are ESPN and the join is abbreviation to abbreviation inside
+# one sport, so "MIA" here is the Hurricanes and cannot become the Marlins. No match,
+# no rank: the omission table, not a guess.
+FULL_NAME_LEAGUES = {"NFL", "MLB", "CFB", "Soccer", "NBA", "NHL", "WNBA"}  # leagues that show full names/cities instead of abbreviations
+AP_TOP = 25
+_AP_INDEX = {"key": None, "map": {}}
+
+
+def _ap_rank_index():
+    """{ABBR: rank} for the committed AP Top 25, memoised on the poll it came from.
+    Empty when the poll has not been fetched, which reads the same as every team being
+    unranked: nothing is printed."""
+    rk = ((ST_DATA or {}).get("rankings") or {})
+    key = f"{(ST_DATA or {}).get('fetched_at') or ''}|{rk.get('week') or ''}"
+    if _AP_INDEX["key"] == key:
+        return _AP_INDEX["map"]
+    out = {}
+    for r in (rk.get("rows") or []):
+        ab, n = (r.get("abbr") or "").strip().upper(), r.get("rank")
+        if ab and isinstance(n, int) and 1 <= n <= AP_TOP:
+            out[ab] = n
+    _AP_INDEX.update(key=key, map=out)
+    return out
+
+
+def _team_rank(g, t):
+    """This team's poll rank for this game, or None. Only college football has a poll
+    the band prints, so no other league is looked up at all."""
+    if (g.get("league") or "") not in FULL_NAME_LEAGUES:
+        return None
+    n = t.get("rank")
+    if isinstance(n, int) and 1 <= n <= AP_TOP:
+        return n
+    return _ap_rank_index().get((t.get("abbr") or "").strip().upper())
+
+
+def _team_label(g, t):
+    """What a card calls this team. Shows full team names (city/school) for all leagues.
+    For example: "Georgia" instead of "UGA", "Buffalo" instead of "BUF"."""
+    if (g.get("league") or "") in FULL_NAME_LEAGUES:
+        return (t.get("school") or t.get("name") or t.get("abbr") or "").strip()
+    return (t.get("abbr") or "").strip()
+
+
+def _rank_html(g, t, cls="tk-rk"):
+    """The rank badge, or nothing. Kept as its own element outside any node the live
+    poll rewrites, so a score update cannot take the rank off the card."""
+    n = _team_rank(g, t)
+    return f'<span class="{cls}">{n}</span>' if n else ""
+
+
+def _game_rank(g):
+    """The better of a game's two poll ranks, for ordering: 26 when neither side is
+    ranked, so every ranked game sorts above every unranked one and a top-five game
+    sorts above a 24 against a 25."""
+    ns = [n for n in (_team_rank(g, g.get("away") or {}),
+                      _team_rank(g, g.get("home") or {})) if n]
+    return min(ns) if ns else AP_TOP + 1
+
+
+def _day_league_order(now=None):
+    """Today's league order, heaviest first, by the same calendar weighting the lead
+    story (UX-5) and the marquee already use. Ties keep SB_TAB_ORDER's own order, so a
+    day whose leagues carry no weighting of their own looks exactly as it did before
+    this rule existed."""
+    return sorted(SB_TAB_ORDER,
+                  key=lambda n: (-_league_weight(n, now), SB_TAB_ORDER.index(n)))
+
+
+def _league_rank(league, now=None):
+    """A league's place in today's order. 99 for a league the board does not tab."""
+    order = _day_league_order(now)
+    return order.index(league) if league in order else 99
+
+
+def _sb_sort_key(g, now=None):
+    """The band's running order: state first (live, then a recent final, then upcoming,
+    then old finals), then today's league weighting, then the poll rank, then kickoff.
+
+    The rank sits BELOW the league and ABOVE the clock on purpose. It must not lift a
+    ranked college game over a live NFL game, which is what putting it first would do;
+    within college football it must put the top-ten game above the noon fixture that
+    happens to kick first, which is what putting it below the clock would prevent.
+    """
+    return (_sb_state_rank(g, now), _league_rank(g.get("league") or "", now),
+            _game_rank(g), g.get("start_utc") or "")
+
+
+def _sb_sort_key_in_league(g, now=None):
+    """The same order inside one league's panel, where the league term is a constant
+    and only the poll rank and the clock can separate two games."""
+    return (_sb_state_rank(g, now), _game_rank(g), g.get("start_utc") or "")
+
+
 def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
     # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
     # matched on team id. No match, no bar: a neutral rule rather than a wrong colour.
@@ -3604,6 +3710,13 @@ def _tk_kicker(g):
 
 def _tk_matchup(g, big=40):
     """The 40px matchup, with SC-9 colour on live and final."""
+    # CFB-1: two school names do not fit the 40px a three-letter code was sized for.
+    # The TYPE steps down rather than the names being cut, because a truncated school
+    # is the abbreviation problem again with an ellipsis on the end.
+    _full = (g.get("league") or "") in FULL_NAME_LEAGUES
+    _fcls = " tk-num-full" if _full else ""
+    if _full:
+        big = 24
     ca, ch = _tk_sc9(g)
     a, h = g.get("away") or {}, g.get("home") or {}
     sa, sh = _tk_score(a), _tk_score(h)
@@ -3622,9 +3735,14 @@ def _tk_matchup(g, big=40):
     # place without touching the rest of the card.
     if not started:
         def plain(t, which):
-            return (f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
-                    f'style="color:#FFFFFF">{esc(t.get("abbr") or "")}</span>')
-        return (f'<span class="tk-num" style="font-size:{big}px">'
+            # CFB-1: the rank sits OUTSIDE the polled node. The live poll rewrites
+            # [data-side] by textContent, so a badge inside it would be wiped by the
+            # first score that arrived. data-label tells the poll what to print back.
+            return (f'{_rank_html(g, t)}'
+                    f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
+                    f'data-label="{esc(_team_label(g, t))}" '
+                    f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>')
+        return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
                 f'{plain(a, "away")} <span class="tk-at">at</span> '
                 f'{plain(h, "home")}</span>')
 
@@ -3634,10 +3752,11 @@ def _tk_matchup(g, big=40):
         cls = "tk-chip-score" + (" lead" if lead else "")
         bar = (f'<i style="background:{col}"></i>' if lead else "")
         return (f'<span class="{cls}" style="color:{col};'
-                f'font-weight:{800 if lead else 500}">{bar}'
-                f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}">'
-                f'{esc(t.get("abbr") or "")} {sc if sc is not None else ""}</span></span>')
-    return (f'<span class="tk-num tk-num-chips" style="font-size:{big}px">'
+                f'font-weight:{800 if lead else 500}">{bar}{_rank_html(g, t)}'
+                f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
+                f'data-label="{esc(_team_label(g, t))}">'
+                f'{esc(_team_label(g, t))} {sc if sc is not None else ""}</span></span>')
+    return (f'<span class="tk-num tk-num-chips{_fcls}" style="font-size:{big}px">'
             f'{chip(a, sa, ca, "away")}{chip(h, sh, ch, "home")}</span>')
 
 
@@ -3847,11 +3966,21 @@ def _tk_fold(g, ia_index, desig=None):
         # abbreviation, which is what the other two chip sites put in it. Anything
         # reading data-abbr across the band therefore saw 34 "away" and 34 "home"
         # before it saw a single team. The side has its own attribute.
-        ab = (f'<b data-side="{side}" data-abbr="{esc(t.get("abbr") or "")}">'
-              f'{esc(t.get("abbr") or "")}</b>')
+        # CFB-1: the bold slot carries whatever this league calls the team, and the
+        # poll rank rides in front of it. data-abbr keeps the ABBREVIATION whatever is
+        # printed, because the team pin and the live poll both match on it.
+        _full = (g.get("league") or "") in FULL_NAME_LEAGUES
+        _bcls = ' class="full"' if _full else ""
+        ab = (f'<b{_bcls} data-side="{side}" '
+              f'data-abbr="{esc(t.get("abbr") or "")}">'
+              f'{_rank_html(g, t)}{esc(_team_label(g, t))}</b>')
+        # With the school already in the bold slot the grey line would say it twice, so
+        # there it carries the record alone. Every other league is unchanged.
+        _tail = (esc(t.get("record") or "") if _full
+                 else (esc(t.get("name") or "")
+                       + (" " + esc(t.get("record")) if t.get("record") else "")))
         return (f'<div class="t"><i style="background:{_tk_colors(g)[0 if side == "away" else 1]}"></i>'
-                f'{ab}<span>{esc(t.get("name") or "")}'
-                f'{" " + esc(t.get("record")) if t.get("record") else ""}</span></div>{val}')
+                f'{ab}<span>{_tail}</span></div>{val}')
     when = ""
     if not started:
         dt = _utc_dt(g.get("start_utc") or "")
@@ -3893,7 +4022,9 @@ def _tk_tabs(games, active="all", href="/scores.html"):
     if n_live:
         sub_all = f"{n_live} live"
     out.append((["", " on"][active == "all"], "All", sub_all, "all"))
-    for name in SB_TAB_ORDER:
+    # CFB-1: the tab strip is the band's order, so the tabs and the cards under them
+    # cannot disagree about which league leads today.
+    for name in _day_league_order():
         gs = by_league.get(name)
         if not gs:
             continue
@@ -4088,7 +4219,10 @@ def _sb_marquee_pick(games, now=None):
     soccer fixture outranked the night's NFL game), and finals last.
     """
     now = now or _build_now()
-    order = {n: i for i, n in enumerate(SB_TAB_ORDER)}
+    # CFB-1: the marquee already picked its LEAGUE by the calendar weighting; its
+    # tie-breaks used the fixed tab order, so the two halves of one decision read two
+    # different tables. Both read the day now.
+    order = {n: i for i, n in enumerate(_day_league_order(now))}
     ml = _marquee_league(games, now)
     mine = [g for g in games if g.get("league") == ml]
 
@@ -4264,7 +4398,10 @@ SB_LIVE_JS = """
         /* the full card's stub: abbreviation and score live in one span */
         var big = card.querySelector('.tk-mu [data-side="' + side + '"]');
         if (big) {
-          var ab = big.getAttribute('data-abbr') || '';
+          /* CFB-1: data-label is what this league calls the team ("Georgia"), and
+             data-abbr stays the abbreviation the pin and this poll match on. Without
+             the label the first poll rewrote every college name back to its initials. */
+          var ab = big.getAttribute('data-label') || big.getAttribute('data-abbr') || '';
           big.textContent = started && sc !== null ? ab + ' ' + sc : ab;
           big.style.color = c[i] || '#FFFFFF';
         }
@@ -4707,7 +4844,12 @@ def mini_scoreboard(sb):
         # did not send is not a zero.
         def side(t, sc, col, lead):
             val = "" if sc is None else esc(str(sc))
-            return (f'<span class="msb-t"><b style="color:{col}">'
+            # CFB-1: the sticky strip keeps the ABBREVIATION. Six games of school names
+            # do not fit a one-line ticker, and this strip is not the board the reader
+            # came for. It carries the rank, which costs two characters and is the one
+            # fact that tells them which of six games to look at first.
+            return (f'<span class="msb-t">{_rank_html(g, t, cls="tk-rk msb-rk")}'
+                    f'<b style="color:{col}">'
                     f'{esc(t.get("abbr") or "")}</b>'
                     f'<span class="msb-s{" msb-lead" if lead else ""}">{val}</span></span>')
         try:
@@ -4738,11 +4880,11 @@ def scoreboard_band(sb, board, wx=None):
     mq = _sb_marquee_pick(games)
     rest = [g for g in games if g is not mq]
     # Live first, then upcoming, then finals: what a reader opened the page for.
-    rest.sort(key=lambda g: (_sb_state_rank(g),
-                             SB_TAB_ORDER.index(g["league"])
-                             if g["league"] in SB_TAB_ORDER else 99,
-                             g.get("start_utc") or ""))
-    present = [n for n in SB_TAB_ORDER if any(g["league"] == n for g in games)]
+    # CFB-1: today's weighting, then the poll rank, then the clock. It was
+    # SB_TAB_ORDER's fixed index, which is why MLB sat above college football on a
+    # Saturday in September.
+    rest.sort(key=_sb_sort_key)
+    present = [n for n in _day_league_order() if any(g["league"] == n for g in games)]
     n_live = sum(1 for g in games if g.get("state") == "in")
     _today, _nxt_lab, _nxt_n = _sb_day_split(games)
     if _today:
@@ -4770,7 +4912,7 @@ def scoreboard_band(sb, board, wx=None):
             return ""
         m = _sb_marquee_pick(pool)
         others = [g for g in pool if g is not m]
-        others.sort(key=lambda g: (_sb_state_rank(g), g.get("start_utc") or ""))
+        others.sort(key=_sb_sort_key_in_league)
         slug = "all" if league == "all" else league.lower().replace(" ", "-")
         # H-6: the count and the next kickoff belong to the panel, so they follow the
         # tab. They used to sit in the band header and describe the whole slate, so
@@ -4817,8 +4959,8 @@ def scoreboard_band(sb, board, wx=None):
             _pd = _utc_dt(_pg.get("start_utc") or "")
             if _pd:
                 _nxt_p = (f'<span class="sb-next">Next: '
-                          f'{esc((_pg.get("away") or {}).get("abbr") or "")} at '
-                          f'{esc((_pg.get("home") or {}).get("abbr") or "")} '
+                          f'{esc(_team_label(_pg, _pg.get("away") or {}))} at '
+                          f'{esc(_team_label(_pg, _pg.get("home") or {}))} '
                           f'{esc(_et_clock(_pd))}</span>')
         # H-3: each fold carries its own full card beside it, hidden. The panel already
         # holds every game, so opening one is a class swap with nothing fetched and no
@@ -4856,8 +4998,8 @@ def scoreboard_band(sb, board, wx=None):
         _dt = _utc_dt(_g.get("start_utc") or "")
         if _dt:
             nxt = (f'<span class="sb-next">Next: '
-                   f'{esc((_g.get("away") or {}).get("abbr") or "")} at '
-                   f'{esc((_g.get("home") or {}).get("abbr") or "")} '
+                   f'{esc(_team_label(_g, _g.get("away") or {}))} at '
+                   f'{esc(_team_label(_g, _g.get("home") or {}))} '
                    f'{esc(_et_clock(_dt))}</span>')
     _orn = _sb_ornament(games)
     return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" aria-label="The Scoreboard">
@@ -5287,8 +5429,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         games = L["games"]
         if not games:
             continue
-        games = sorted(games, key=lambda g: (_sb_state_rank(g),
-                                             g.get("start_utc") or ""))
+        games = sorted(games, key=_sb_sort_key_in_league)
         # SC-5: every game as a full Ticket card, three across, grouped by league with
         # a sticky league row. Live first, then upcoming, then final, which is the order
         # the reader opened the page for.
@@ -5329,8 +5470,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     # league because it carries the league tabs; this one has no tabs, and grouping by
     # league here put five Sunday NFL games under a header reading "6 games tomorrow"
     # while the five games that are actually tomorrow sat below the fold.
-    _band_games = sorted(_all, key=lambda g: (_sb_state_rank(g),
-                                              g.get("start_utc") or ""))
+    _band_games = sorted(_all, key=_sb_sort_key)
     # Six cards, two rows of three. The homepage band carries a marquee and eight;
     # six without the marquee is the 60 percent A-14 asks for, and it is measured
     # from the content rather than pinned to a pixel height the slate would break.
@@ -6407,13 +6547,12 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     if sb:
         games = [g for L in sb["leagues"] for g in L["games"]
                  if g.get("state") in ("pre", "in")]
-        games.sort(key=lambda g: (SB_TAB_ORDER.index(g["league"])
-                                  if g["league"] in SB_TAB_ORDER else 99,
-                                  g.get("start_utc") or ""))
+        games.sort(key=lambda g: (_league_rank(g.get("league") or ""),
+                                  _game_rank(g), g.get("start_utc") or ""))
         rows = "".join(
             f'<div class="w2w-row"><span class="w2w-game">'
-            f'{esc((g.get("away") or {}).get("abbr",""))} at '
-            f'{esc((g.get("home") or {}).get("abbr",""))}</span>'
+            f'{esc(_team_label(g, g.get("away") or {}))} at '
+            f'{esc(_team_label(g, g.get("home") or {}))}</span>'
             # UX-9: ONE TIME FORMAT. This printed the feed's own string, "9/17 - 8:15
             # PM EDT": a numeric date and a zone name that changes twice a year, on the
             # one surface that disagreed with every other. Day then time, always ET.
