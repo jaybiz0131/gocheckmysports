@@ -2208,3 +2208,32 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .ia-day-h{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;
   color:var(--rule)}
 .ia-day-n{font:500 11px/1 var(--mono);color:var(--muted)}
+
+/* ---- CFB-1: the school in full, and the AP rank ----------------------------------
+   College football cards print the school rather than its initials, so the three slots
+   that were sized for a three-letter code have to give. The folded row's bold slot
+   loses its fixed 36px and ellipsises instead; the stub matchup steps its type down
+   rather than truncating a school, because a cut name is the abbreviation problem
+   again with an ellipsis on the end. The rank badge reuses the amber the league rule
+   already carries on this surface. Every rule here is keyed on a class the builder
+   only writes for a full-name league, so no other league is touched.
+
+   The phone sizes carry !important because SC-6's .tk-num rule does, and an inline
+   font-size loses to it: without these, two school names were back at 32px at 390. */
+.tk-rk{font-family:var(--mono);font-size:.62em;font-weight:700;color:#F0C674;
+  letter-spacing:0;margin-right:.36em}
+.tk-fold .t b.full{font-family:var(--serif);font-size:14px;font-weight:600;
+  width:auto;flex:0 1 auto;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-fold .t b.full .tk-rk{font-size:.74em}
+/* With the school in the bold slot the grey line carries the record alone, so it takes
+   its own width rather than the name column's. */
+.tk-fold .t b.full+span{flex:none}
+.tk-num-full{font-size:24px}
+.tk-num-full .tk-at{font-size:.6em}
+.gp-head .tk-num-full{font-size:34px}
+@media (max-width:900px){
+  .tk-num-full{font-size:19px !important}
+  .gp-head .tk-num-full{font-size:22px !important}
+  .tk-fold .t b.full{font-size:13px}
+}

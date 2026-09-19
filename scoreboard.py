@@ -118,9 +118,23 @@ def _league(name, path, colorkey, cmap):
                 if r.get("type") == "total":
                     rec = r.get("summary") or ""
                     break
+            # CFB-1: THE POLL RANK RIDES WITH THE GAME. curatedRank is the rank the
+            # feed had for this team at this kickoff, which is the one a card should
+            # print: a game played in week 3 is not relabelled when the week 4 poll
+            # lands. The feed says 99 for unranked, so anything outside the top 25 is
+            # dropped here rather than being printed as a rank of 99.
+            cr = (c.get("curatedRank") or {}).get("current")
+            rank = cr if isinstance(cr, int) and 1 <= cr <= 25 else None
             sides[c.get("homeAway")] = {
                 "abbr": ab,
                 "name": team.get("shortDisplayName") or team.get("name") or ab,
+                # CFB-1: the school in full, for the leagues whose cards print it.
+                # `location` is the school ("Ohio State"), `name` is the mascot
+                # ("Buckeyes"); the pair is what standings.py already learned not to
+                # concatenate. No location in the feed, no school: the card falls back
+                # to the short name rather than inventing one.
+                "school": team.get("location") or "",
+                "rank": rank,
                 "score": c.get("score"),
                 "record": rec,
                 "id": str(team.get("id") or ""),
