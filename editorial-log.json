@@ -4,56 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c121",
-    "headline": "Jets coach Aaron Glenn gives positive update on Breece Hall training camp injury",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Hall, a key offensive piece for the Jets, suffered the injury during camp' and 'Jets head coach Aaron Glenn delivered positive news regarding running back Breece Hall's training camp injury'\u2014but the brief contains zero data_points and explicitly lists as open_questions 'No source text was fetched; the specific nature of Hall's injury is unknown' and 'The exact nature of the positive news from Glenn is not stated in available material.' The writer has smuggled facts (that there is an injury, that Glenn gave positive news about it) that do not exist in the brief's evidentiary record.",
-     "The brief is marked 'thin: true' with 'source_chars: 0'\u2014no source text was successfully retrieved. The draft should not have been written without source confirmation, or should have been rejected by research before assignment. The writer proceeded from a core_claim alone, inventing a narrative frame the evidence cannot support."
-    ]
-   },
-   {
-    "id": "c081",
-    "headline": "Lynx post 14-win streak heading into final stretch of WNBA regular season",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Minnesota Lynx won 14 of their last 15 games and posted a significant victory over Las Vegas on Saturday night'\u2014but the brief's data_points show confidence label 'reported' for both the 14-of-15 claim and the Las Vegas win. The draft presents both as settled fact without any hedging language ('according to reporting', 'per reporting'), which is appropriate only for 'confirmed' confidence; 'reported' claims must carry source attribution inline.",
-     "The draft states 'The specific date of the Las Vegas victory is not stated in available source material' (correctly flagging a gap) yet still reports the win as fact in the opening sentence without noting this is from reporting. The narrative inconsistently acknowledges the incompleteness midway through after presenting it as news."
-    ]
-   },
-   {
-    "id": "c057",
-    "headline": "Hunt wins four golds at European Athletics Championships",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'according to BBC Sport' but provides no attribution for the core claim. The brief's data_points show only that BBC Sport reported Hunt won four golds in those events, yet the draft omits any mention of the location, date, or winning times\u2014which are critical facts for verifying the claim actually happened. The sources are listed but the body text does not trace the facts to them inline.",
-     "The draft acknowledges 'The sources do not specify the exact dates or location of the championships' in the body, but this is not a limitation to flag\u2014it is a red flag that the core factual claim (which championships, when, where) cannot be verified from the brief's data_points. A four-gold achievement is meaningless without confirming which championship and when it occurred."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "Dolphins activate WR Chris Bell from injury list",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'In an October game against Miami, he finished with 136 yards and two touchdowns on nine catches, per ESPN.' The brief's data_point states: 'In an upset win over the Miami Hurricanes in October, Bell finished with 136 yards and two touchdowns on nine catches.' The brief makes clear this was a college game against the University of Miami (the Hurricanes), not a game 'against Miami' the NFL team. The draft's wording creates ambiguity about whether this was an NFL performance, which it was not. The writer failed to preserve the college context from the brief."
-    ]
-   },
-   {
-    "id": "c143",
-    "headline": "San Francisco announced as 2028 MLB All-Star Game host at Oracle Park",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'MLB has announced that San Francisco will host the 2028 All-Star Game' in the opening sentence, but the brief identifies the source as 'Axios via Google News' with confidence 'reported' and explicitly notes in open_questions that 'No official MLB announcement URL or primary source is available in the fetched source text\u2014only a Google News RSS redirect.' The draft presents this as a direct MLB announcement when it is actually reported by a news outlet. The disclaimer in paragraph 2 ('an official MLB statement or press release is not yet independently available from a primary league source') contradicts the headline's framing and should have appeared in the lede, not buried. This is a smuggled confidence level violation: a 'reported' claim cannot open as 'MLB has announced.'",
-     "The sources list contains only a Google News RSS redirect URL, which is not a primary source and does not meet GoCheckMySports' attribution standard. The brief explicitly flags this as an open question; the draft should not present this as settled fact without acknowledging the source limitation in the opening."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c006",
     "headline": "Buss family exits Lakers after 57 years, selling remaining stake to Iger and Kushner",
     "category": "accuracy",
@@ -7724,6 +7674,55 @@
     "reasons": [
      "The draft states 'Mbapp\u00e9 ended his 20-year partnership with Nike on September 18, 2026' but the brief data_point specifies only that 'Mbapp\u00e9's contract with Nike concluded after the summer World Cup' with confidence 'reported'. The draft presents as fact on a specific date (today) what the brief only establishes as having occurred sometime after the summer World Cup. The brief does not confirm September 18 as the date the partnership ended\u2014only that the announcement occurred on that date.",
      "The draft claims 'Mbapp\u00e9 began his journey with Nike when he was nine years old' and 'Mbapp\u00e9 first signed with Nike in 2006 at age 9.' The brief contains two conflicting data_points on this: one marked 'announced-not-verified' stating the journey began at nine, and another marked 'reported' stating he signed in 2006 at age 9. If Mbapp\u00e9 was born in 1998 (age 27 in 2026), he would have been 8 in 2006, not 9. The draft should not present this math without flagging the discrepancy or choosing the source more carefully."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-19",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c307",
+    "headline": "Utah State LB Taggart transported by ambulance with head and neck injury on September 19",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'Utah State officials reported that Taggart is in concussion protocol with a neck injury, per ESPN.' The brief marks both 'Utah State officials said Taggart is in concussion protocol' and 'Utah State officials said Taggart has a neck injury' with confidence label 'announced-not-verified.' The draft presents these claims as simple factual assertions ('is in concussion protocol with a neck injury') without signaling their unverified status. Per the desk's hard rule on confidence labels, claims marked 'announced-not-verified' must read as announced, not settled. The prose should indicate these are program statements awaiting medical verification, not confirmed diagnoses.",
+     "The bottom_line reads 'Serious injury during camp season with concussion and neck injury protocol; on-record official statement.' But the game is occurring during the regular season (September 19, 2026, is Week 3-4 timeframe), not 'camp season.' This is a factual error about the calendar context of the event."
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "Judge placed on injured list with right calf strain; no return timeline given",
+    "category": "accuracy",
+    "reasons": [
+     "All factual claims trace to the brief's data_points with appropriate confidence labels preserved.",
+     "Boone's uncertainty about playoff return and lack of timeline are reported as stated, not presented as settled fact.",
+     "The bear_case (severity unknown, rushed previous return, injury pattern) appears in body paragraphs discussing Boone's refusal to disclose severity, Judge's 4-for-23 performance, and his April-to-September injury arc.",
+     "Recovery timeline (two to three weeks per MLB.com) is attributed inline as a general guideline, not a guarantee.",
+     "Bottom_line looks forward to October 1 deadline and what would invalidate the premise (recovery beyond two to three weeks).",
+     "No gambling language, no contested terminology, no single-sourced misconduct claims, no fabricated quotes.",
+     "Not-betting-advice disclaimer present.",
+     "the draft dates September 18, 2026 as a Thursday; September 18, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c084",
+    "headline": "No. 23 Louisville defeats No. 16 SMU 41-31 in seven-lead-change ACC opener",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'SMU defeated Florida State in Week 1 in Tallahassee despite a power outage' and 'beat UC Davis 56-10 the following week' without attributing these wins to SMU's pre-game record. However, the brief does not contain data confirming the specific weeks these games occurred or the power outage detail. The brief's data_point says 'SMU beat Florida State in Week 1 in Tallahassee, and the victory came despite a power outage and sloppy play,' which supports the draft. This is not an error.",
+     "The draft states 'SMU's Kevin Jennings, the ACC active leader in career passing yards with 8,476 and career total yards with 9,072, entered the game 21-7 as a starter.' This is supported by the brief. However, the brief does not contain a data_point stating that Jennings 'had thrown for 337 yards and five touchdowns in one half of action against UC Davis' as claimed in the draft. The brief's data_point says 'SMU defeated UC Davis 56-10 with Jennings throwing for 337 yards and five touchdowns in one half of action,' which the draft does not explicitly state. The writer has paraphrased correctly.",
+     "The draft reports the game result as having already occurred: 'No. 23 Louisville defeated No. 16 SMU 41-31 on Saturday.' The brief's data_point is timestamped 2026-09-19T23:27:46Z with confidence 'verified-on-chain,' indicating the game occurred on Saturday, September 19, 2026. Today is Saturday, September 19, 2026. The game is described as a past event ('defeated'), which is correct if it occurred earlier on Saturday the 19th, but the timestamp 23:27:46Z suggests it was verified late in the evening. This is a borderline case, but reporting a game as completed when today is the day of the game and verification time is late evening is appropriate."
+    ]
+   },
+   {
+    "id": "c234",
+    "headline": "Cleveland Cavaliers Promote Brandon Weems to General Manager",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the promotion occurred without qualification ('have promoted'), but the brief's data_point carries only 'announced' confidence, sourced to a September 18 Yahoo article. The phrasing 'promoted Brandon Weems to the position of General Manager' reads as a completed action, when the source date is September 18 and today is September 19\u2014this is a minor temporal slip but the confidence level suggests the announcement occurred on the 18th, not that the promotion was finalized before today.",
+     "More critically: the brief's open_questions explicitly state 'The sources do not specify the exact date of the promotion announcement' and 'The sources do not clarify Weems's specific role or tenure with the Cavaliers prior to this promotion.' The draft should flag that the prior role within the organization remains unreported, as the bottom_line does, but the lead sentence 'have promoted' without attribution or conditional language misrepresents the certainty of the sourcing. The brief flags this as a promotion (forward-looking or newly announced); the draft should reflect announced-not-yet-confirmed language or clearer attribution."
     ]
    }
   ]
