@@ -1,52 +1,5 @@
 [
  {
-  "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c006",
-    "headline": "Buss family exits Lakers after 57 years, selling remaining stake to Iger and Kushner",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'ending a family ownership era that began when Jerry Buss purchased the franchise from Jack Kent Cooke in May 1979' and later says 'Under the Buss family's 47-year stewardship.' May 1979 to August 2026 is approximately 47 years, but the brief's core_claim states '57 years' and the title says '57 years.' The brief data_point confirms Jerry Buss purchased in May 1979, but the math does not support 57 years from 1979 to 2026. The draft contains an internal inconsistency with its own headline and the brief's core claim.",
-     "The draft omits material bear_case information: 'Jeanie Buss is contesting the family vote to sell the stake, per the headline on a separate ESPN story.' The draft mentions this once in passing ('However, Jeanie Buss is contesting the family vote, according to a separate ESPN headline') but does not emphasize it as a countervailing fact that could derail the transaction or create legal/governance risk. The bear case appears but is buried and not proportionately weighted.",
-     "The draft states 'Walter has agreed to sell roughly 65% of the franchise to Kushner and Iger' but does not attribute this figure inline to ESPN or trace it to the brief's data_point confirming it. While the figure is in the brief, the draft should cite it at point of use.",
-     "The draft includes a new claim not in the brief: 'Walter, who built his financial empire in the insurance industry, is under federal investigation for alleged tax fraud by other companies tied to the billionaire.' This appears in the brief as a data_point ('Walter, who built his financial empire in the insurance industry, is under federal investigation for alleged tax fraud by other companies tied to the billionaire') with confidence 'reported,' but the draft does not include this material fact about ongoing federal investigation into the new owner. Omitting this is a material gap given liability implications, though it is not a smuggled fact."
-    ]
-   },
-   {
-    "id": "c166",
-    "headline": "MLB approves Padres sale to Feliciano and Jones",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states the source text is 'incomplete and consists primarily of CSS styling information; the actual news content is not present, making it impossible to verify the sale price, closing date, or any further details about the transaction.' The draft presents the $3.9 billion price as fact, but the brief marks confidence as 'announced-not-verified' and notes the source cannot be verified. The draft should reflect this uncertainty.",
-     "The brief's open_questions note that 'No statement from Feliciano, Jones, Seidler, or MLB Commissioner is available in the source text,' yet the draft presents the approval as a settled fact without any caveating language about source limitations.",
-     "The brief is explicitly marked 'thin: true' with only one data_point and severe source validation issues. The draft reads with false certainty given the brief's own finding that the source material is incomplete."
-    ]
-   },
-   {
-    "id": "c085",
-    "headline": "NBA disputes ESPN report on Ballmer, Kawhi, cap circumvention",
-    "category": "balance",
-    "reasons": [
-     "The brief is marked 'thin: true' with only two data_points and multiple critical open_questions, yet the draft reads as though substantial reporting and investigation details are known. The brief explicitly notes: 'What was the original ESPN report's central claim and what evidence did it present?' but the draft describes ESPN's allegation with apparent authority ('ESPN's investigation alleged such a scheme occurred') without having confirmed the content or specifics of ESPN's original reporting in the source material provided.",
-     "The draft asserts facts about what 'ESPN's investigation alleged' without those allegations being present in the brief's data_points. The brief contains no data_point about the content of ESPN's report itself\u2014only that the NBA disputed it. The draft has smuggled the ESPN reporting's substance into the narrative without a source in the brief to back it.",
-     "The open_questions include 'What was the original ESPN report's central claim and what evidence did it present?'\u2014indicating the brief writer was uncertain about ESPN's actual allegations. The draft should not write ESPN's claims as established fact when the brief itself questions what those claims were."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Rodri completes Barcelona transfer, ends seven-year Manchester City tenure",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Rodri joined Manchester City from Atletico Madrid in 2019 for what was then a club record \u20ac62.8 million' but the brief data_point says '\u20ac62.8m' without currency conversion context in that specific claim. The draft then earlier states the transfer fee as '\u00a365 million, valued at \u20ac76.5 million' which creates an internal contradiction: if the fee is \u00a365m = \u20ac76.5m, then \u20ac62.8m (the 2019 Atletico fee) cannot also equal \u00a362.8m. The brief does not clarify this conversion discrepancy, making the draft's assertion potentially inaccurate without supporting data.",
-     "Draft states Rodri 'won the Champions League in 2023' but brief data_point specifies 'the Champions League in 2022-23' and a separate ESPN data_point notes 'Rodri scored the only goal when Manchester City beat Inter Milan in the 2023 Champions League final.' The draft's phrasing omits the specific season and the fact that he scored in that final, which is in the brief but not mentioned in the draft\u2014not a fatal omission, but the year reference is imprecise.",
-     "Draft refers to 'Enzo Maresca' as Manchester City manager, but the brief's data_point attributes the Maresca quote to 'Manchester City manager' without confirming Maresca was the manager at the time of the article (August 2026). The timestamp and context suggest this may be accurate, but the brief does not explicitly confirm Maresca held that position in August 2026; this is presented as fact without brief support for the attribution timing."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-18",
   "approved": 3,
   "rejected": [
@@ -7723,6 +7676,61 @@
     "reasons": [
      "The draft states the promotion occurred without qualification ('have promoted'), but the brief's data_point carries only 'announced' confidence, sourced to a September 18 Yahoo article. The phrasing 'promoted Brandon Weems to the position of General Manager' reads as a completed action, when the source date is September 18 and today is September 19\u2014this is a minor temporal slip but the confidence level suggests the announcement occurred on the 18th, not that the promotion was finalized before today.",
      "More critically: the brief's open_questions explicitly state 'The sources do not specify the exact date of the promotion announcement' and 'The sources do not clarify Weems's specific role or tenure with the Cavaliers prior to this promotion.' The draft should flag that the prior role within the organization remains unreported, as the bottom_line does, but the lead sentence 'have promoted' without attribution or conditional language misrepresents the certainty of the sourcing. The brief flags this as a promotion (forward-looking or newly announced); the draft should reflect announced-not-yet-confirmed language or clearer attribution."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c059",
+    "headline": "Ernie Accorsi, former Giants GM who secured Eli Manning trade, dies at 84",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim (Accorsi died at age 84, orchestrated Eli Manning trade) is in brief and well-sourced.",
+     "All factual claims about Accorsi's tenure (1998\u20132006), playoff record (four times), division titles (two), Super Bowl XXXV advancement, Ring of Honor induction (2016), and career span (37 years in NFL, 16 years as GM) trace to brief data_points.",
+     "Manning trade details (2004, visionary decision, led to Super Bowls 2007 and 2011) are in brief.",
+     "Accorsi received Super Bowl rings from Giants \u2014 in brief.",
+     "All quotes from Roger Goodell, Tom Coughlin, Eli Manning, and John Mara are in brief data_points and accurately attributed.",
+     "Coughlin quote about Manning from Ole Miss and the risky nature of the trade matches brief.",
+     "Eli Manning's quote about calling Accorsi every draft week for 12 years matches brief data_point.",
+     "Accorsi's stops at Baltimore Colts and Cleveland Browns are in brief.",
+     "Nine playoff teams and six division champions across his 16-year GM career is in brief.",
+     "No betting language, no health speculation beyond confirmed death, not-financial-advice present.",
+     "Bottom line is forward-looking and reflective, not a betting pick.",
+     "Brief has no bear_case; draft carries none, which is correct.",
+     "Today is September 20, 2026; draft reports death on 'Saturday, September 20' \u2014 this is present/past tense, correctly written for an event on today's date.",
+     "the draft dates September 20, 2026 as a Saturday; September 20, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c192",
+    "headline": "Packers WR Jayden Reed hospitalized with neck injury after hit by Jets linebacker, September 20",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains a speculative medical claim beyond the official record. The phrase 'remained hospitalized overnight in New York under medical observation' and the bottom_line's mention of whether 'imaging has ruled out spinal fracture or paralysis' invokes specific medical conditions not in the brief or sourced statements. The brief states Reed 'remained hospitalized in New York overnight with reported movement in his extremities' but provides no information about what imaging may or may not have ruled out.",
+     "The draft's bottom_line speculates about medical imaging and surgical outcomes ('whether surgery will be required') without source basis. The brief's open_questions explicitly note that imaging results and estimated return timeline are NOT provided by sources; the draft should not predict what formal evaluation will reveal.",
+     "The phrase 'serious spine injury' in the angle and 'serious neck injury' in the lede are not calibrated to the source material. The brief describes this as a neck injury with movement in extremities reported; 'serious' adds editorial judgment about severity beyond what is confirmed."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Cubs 3B Alex Bregman struck in face by foul ball, September 20",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains medical speculation beyond the official record. The bottom_line states 'Imaging results and a formal injury assessment from the Cubs medical staff will determine whether Bregman sustained a concussion' but the brief's open_questions explicitly note that sources state 'Hopefully it's not too serious and Bregman doesn't have a concussion' but provide no diagnostic confirmation. The draft presents uncertainty about concussion as a live medical question pending evaluation, but speculating about what imaging *will* determine when no imaging has been reported violates the compliance rule against speculation about medical state.",
+     "The brief's data_points make clear all information is 'reported' confidence level (swelling, laceration, placement in on-deck circle); the draft does not misstate these, but the bottom_line crosses into forbidden speculation by predicting what formal evaluation will find, rather than simply noting that evaluation results have not been disclosed.",
+     "No reputational issues or gambling language, but the medical speculation violates the compliance boundary on health claims."
+    ]
+   },
+   {
+    "id": "c077",
+    "headline": "Report: Patriots G Mike Onwenu has a broken ankle",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents a report of a broken ankle ('ankle is broken, an injury that would sideline him') as fact, but the brief's confidence label for this claim is 'reported'\u2014meaning it is a secondary report from Mike Reiss via Yahoo, not an official confirmation. The draft should signal this uncertainty more clearly, such as 'According to ESPN.com's Mike Reiss, Onwenu's ankle is broken' (which it does do once), but then later says 'Confirmation of a break would remove' as if the break is already established, when in fact confirmation is still pending. The open_questions explicitly state 'The sources cite a report of a broken ankle from Mike Reiss but do not carry an official injury confirmation from the Patriots or NFL.' The prose conflates 'a report says it's broken' with 'it is broken.'"
     ]
    }
   ]
