@@ -4721,8 +4721,13 @@ SB_LIVE_JS = """
                 habbr: (home && home.team && home.team.abbreviation) || '',
                 situation: (comp.situation || {}).downDistanceText || ''});
     });
-    if (json && json.day && json.day.date) when = json.day.date;
-    return {games: out, when: when};
+    /* NOT A TIME. json.day.date is the scoreboard's CALENDAR DAY, "2026-09-20", and
+       passing it to stamp() rendered it as one: new Date() reads it as UTC midnight,
+       which in Eastern is 8:00 PM the day before, so the live band read "Updated 8:00
+       PM ET" all Sunday afternoon. The rule stamp() already states is the right one
+       and was not being followed: the public feed carries no response time, so the
+       build's stamp stands and only the stale mark moves. */
+    return {games: out, when: null};
   }
 
   function tick(){
@@ -4732,12 +4737,11 @@ SB_LIVE_JS = """
              .catch(function(){ return null; });
     });
     Promise.all(wanted).then(function(all){
-      var got = 0, live = 0, reshapedWhen = null;
+      var got = 0, live = 0;
       all.forEach(function(j){
         if (!j) return;
         got++;
         var r = reshape(j);
-        if (r.when) reshapedWhen = r.when;
         r.games.forEach(function(s){
           /* A-2: EVERY game the feed names enters the slate, whether or not the band
              renders a card for it. The counts are about the day, not about the six
@@ -4757,7 +4761,7 @@ SB_LIVE_JS = """
         if (++MISS >= 3) stamp(null, true);
       } else {
         MISS = 0;
-        stamp(reshapedWhen, false);
+        stamp(null, false);
       }
       schedule(live > 0);
     });
@@ -6880,8 +6884,10 @@ def render_fantasy_live(all_points, dateline):
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Live points</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Live fantasy points</h1>
-  <p class="lx-dek">Every player with a stat line today, across every game.</p>
-  {_leaders_module(merged, "Today's leaders", n=25, expand=False)}
+  <p class="lx-dek">Every player with a stat line this week, across every game.</p>
+  {fantasy_asof("Points", _build_now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "the official box score")}
+  {_leaders_module(merged, f"Week {nfl_week()[0]} leaders", n=25, expand=False)}
 </section></main>"""
     return shell(f"Live fantasy points - {NAME}",
                  "Live fantasy points in PPR, half-PPR and standard, computed from the "
