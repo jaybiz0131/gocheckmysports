@@ -2307,3 +2307,11 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   .gp-head .tk-num-full{font-size:22px !important}
   .tk-fold .t b.full{font-size:13px}
 }
+
+/* A-4: a card whose live state came from a build older than three hours carries no
+   live dot and no live wash until the poll answers for it. The page stops asserting
+   a liveness it cannot support; it does not assert the opposite. */
+.tk-c[data-baked-stale] .live-dot,
+.tk-c[data-baked-stale] .flash,
+.tk-c[data-baked-stale] .flash-dn{display:none!important;animation:none!important}
+.tk-c[data-baked-stale] .tk-stub{filter:saturate(.72)}

@@ -135,3 +135,53 @@ The beacon renders only when `CF_ANALYTICS_TOKEN` is set, so no key is in either
 the token is set in both Netlify environments, and both live homepages carry the beacon
 tonight. Neither site loads Google Analytics. Jack can read traffic in Cloudflare now,
 before Netlify Analytics is decided.
+
+## Program 5 (Sunday 20 September), and Jack's decisions
+
+**Backdrop: A, the velvet blend.** Jack chose it on the 20th over the analysis's
+recommendation of B ("stadium lights"). B-2 builds the velvet: the two team colours
+meeting in a soft blend, with grain and one skewed sash. The glow-and-field-lines option
+is not the fallback, it is off. C, the crest, still belongs on the share card only.
+
+Still Jack's to decide: the sportsbook links question (needs the state rules read first),
+the default lens (recommended All), and whether the countdown shows on the band's rows or
+only the marquee (recommended both).
+
+**The law that changed on the 20th.** Lines come onto the site as facts: spread, total and
+moneyline from the feed's odds object, the provider named on the card ("DraftKings via
+ESPN"), the line at open beside the line now once the poller logs it, and on finals
+whether the favourite covered and whether the total went over. No picks, no advice, no
+sportsbook links. The share card's "No odds" line retires and the Standards page gains a
+paragraph saying lines are shown as reported and attributed. Everything else stands.
+
+**Blocks:** A Monday 6 AM (the morning after: build hooks, counts from the cards, the
+mini-scoreboard, expiring live state, fantasy corrections). B Tuesday and Wednesday (the
+Ticket second cut, the ordering law, the lenses, the week). C Thursday and Friday (lines,
+leaders and linescores, win probability, pinned reordering, the share card). D on Crypto
+Monday and Tuesday (L-1 live Board, C-13, CR-1 and CR-2, D-2, the phone, the watchlist).
+E is the desk: the lead rule gains the day, and the Wire and reader panel land the week
+after Block C.
+
+**A-1 needs Jack**, and nothing else in Block A does: one Netlify build hook per site
+(Site configuration, Build and deploy, Build hooks), the URLs into the Worker's secrets,
+never logged.
+
+## Sunday 20 September: the four checkpoints
+
+Evidence, not build tasks. A defect found at a checkpoint is RECORDED, not fixed, until
+the freeze lifts at 8:30 PM. Each one: clock time, the build stamp read back with a
+cache-busting query, the DOM facts, and two screenshots (375px and 1440px) under
+shots/checkpoints/2026-09-20/ with the checkpoint number in the filename.
+
+| # | Time | What |
+|---|---|---|
+| 1 | 11:45 AM | The lists. 1 PM games read "posted 11:3x" with a count; 4:05 and 4:25 still "post about"; the inactive flag only where a list posted; the hub counts Week 2. Record the poller's snapshot times and whether the builds landed inside ten minutes. |
+| 2 | 1:30 PM (H-12) | The slate live. Marquee and why under SC-3; the order of the eight; header and tab counts; the mini-scoreboard's six; situation, possession, clock; chips; five scoreboard requests in five minutes; the points page's top ten and stamp; one game page against its card. |
+| 3 | 4:45 PM | The turn. Finals' delineation; how many finals still carry a situation line (expected non-zero until A-4); order across finals and live; the late inactives at about 2:35 and 2:55; points for finished games; counts; the "Next" line (expected IND at KC 8:20 PM ET). |
+| 4 | 8:35 PM | The day. Marquee (expected IND at KC live); the Edition's run time, cost and push from the ledger (expected one paid run at 7:38 PM); the lead story under the day rule; the Edition card's date line; the week page; the health lines; and the first two Block A items ready to push at 6 AM with their tests named. |
+
+All four go in one U-5 table in Monday's first report, with a line per difference naming
+the Program 5 item that covers it, or "new".
+
+Sports pushes: nothing 12:30 to 8:30 PM ET. Crypto is NOT under the freeze; D-1 to D-6
+may push today outside the Edition quiet hour, 6:30 to 8:15 PM ET.

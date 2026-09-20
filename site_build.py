@@ -3938,8 +3938,15 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
         btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
                 f'{second}</div>')
     wide = " wide" if state in ("in", "post") else ""
+    # A-2: the card carries what the recount needs, so the counts and the "Next" line
+    # are read off the board rather than baked into the header.
+    _kd = _utc_dt(g.get("start_utc") or "")
     return (f'<article class="tk-c{wide}" data-gid="{esc(str(g.get("id")))}" '
             f'data-league="{esc(g.get("league") or "")}" data-state="{esc(state or "")}" '
+            f'data-kick="{esc(g.get("start_utc") or "")}" '
+            f'data-kick-et="{esc(_et_clock(_kd) if _kd else "")}" '
+            f'data-away="{esc((g.get("away") or {}).get("abbr") or "")}" '
+            f'data-home="{esc((g.get("home") or {}).get("abbr") or "")}" '
             f'style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub" style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub-top"><span data-role="kicker">{_tk_kicker(g)}</span>'
@@ -4078,7 +4085,7 @@ def _tk_tabs(games, active="all", href="/scores.html"):
         slug = name.lower().replace(" ", "-")
         out.append((" on" if active == slug else "", name, sub, slug))
     return ('<div class="tk-tabs">' + "".join(
-        f'<a class="tk-tab{on}" href="{href}#{slug}">{esc(label)}'
+        f'<a class="tk-tab{on}" data-league="{esc(label)}" href="{href}#{slug}">{esc(label)}'
         f'<small>{esc(sub)}</small></a>'
         for on, label, sub, slug in out) + '</div>')
 
@@ -4400,11 +4407,42 @@ SB_LIVE_JS = """
 
   function num(v){ var n = parseInt(v, 10); return isNaN(n) ? null : n; }
 
+  /* A-4: A BAKED LIVE STATE EXPIRES. The page is built from a snapshot, and between
+     builds that snapshot ages: on Sunday morning the 8:00 PM Saturday build still
+     painted six MLB games as live in the first inning, and on a hidden tab the poll
+     does not run at all (L-2), so a phone resuming from the background showed
+     Saturday's first quarter as "Live" until the reader looked at it.
+
+     If the build is older than STALE_BUILD_MS, every card baked live is marked as of
+     the build's own time, with no live dot, until the poll answers for it. This removes
+     a claim; it never invents one. The poll clears the mark the moment it has a real
+     state for that card. */
+  var STALE_BUILD_MS = 3 * 3600 * 1000;
+  var BAND = document.querySelector('[data-built]');
+  var BUILT = BAND ? Date.parse(BAND.getAttribute('data-built') || '') : NaN;
+  var BUILD_STALE = isFinite(BUILT) && (Date.now() - BUILT) >= STALE_BUILD_MS;
+  (function expireBakedLive(){
+    var band = BAND;
+    if (!band || !BUILD_STALE) return;
+    var asof = band.getAttribute('data-built-et') || '';
+    [].forEach.call(CARDS, function(c){
+      if (c.getAttribute('data-state') !== 'in') return;
+      c.setAttribute('data-baked-stale', '1');
+      var k = c.querySelector('[data-role="kicker"]');
+      if (k) k.textContent = (c.getAttribute('data-league') || '')
+                             + (asof ? ' \u00b7 as of ' + asof : '');
+      var w = c.querySelector('[data-role="when"]');
+      if (w && asof) w.textContent = 'as of ' + asof;
+    });
+  })();
+  setTimeout(recount, 0);   /* A-2: correct the baked counts even before the first poll */
+
   function paint(gid, s){
     [].forEach.call(byId(gid), function(card){
       var started = s.state === 'in' || s.state === 'post';
       var c = colours(started ? s.away : null, started ? s.home : null);
       card.setAttribute('data-state', s.state);
+      card.removeAttribute('data-baked-stale');   /* A-4: the poll has answered */
       card.classList.toggle('wide', started);
       ['away','home'].forEach(function(side, i){
         var sc = side === 'away' ? s.away : s.home;
@@ -4445,8 +4483,89 @@ SB_LIVE_JS = """
       /* UX-3: the situation belongs on the second line, beside where the kickoff
          time was, not on the records line. */
       var when = card.querySelector('[data-role="when"]');
-      if (when && s.state === 'in' && s.situation) when.textContent = s.situation;
+      if (when) {
+        /* A-4: A FINAL HAS NO SITUATION. The poll wrote the situation on a live game
+           and never took it back, so ten Saturday finals sat under their final scores
+           reading "3rd & 4 at MSU 31" all Sunday morning. A card that leaves the live
+           state drops the line with it. */
+        if (s.state === 'in' && s.situation) when.textContent = s.situation;
+        else if (s.state === 'post') when.textContent = s.short || 'Final';
+        else if (s.state === 'pre' && s.kick) when.textContent = s.kick;
+      }
     });
+    recount();        /* A-2: the header, the tabs and "Next" follow the cards */
+  }
+
+  /* A-2: THE COUNTS COME FROM THE CARDS, NEVER FROM THE BUILD. "49 games today · 16
+     live now" was baked at 8:00 PM Saturday and survived a poll that had just turned
+     every one of those games into a final, so the header claimed sixteen live games
+     above a board showing none. The tab counts and the "Next" line had the same
+     problem. They are recomputed from the cards' CURRENT state after every paint.
+
+     "Next" is the first card whose state is pre, by kickoff. It named LSU at Ole Miss,
+     a game that had already started at build time: a game that has kicked off is never
+     the next one. */
+  /* THE SLATE, not the page. The band renders a marquee and six cards per panel, so
+     counting the DOM said "NFL 7 today" on a sixteen-game Sunday. The feed carries
+     every game in every league the page shows, so the counts are computed from that
+     and seeded from the cards only until the first answer arrives. */
+  var SLATE = {};
+  [].forEach.call(document.querySelectorAll('.tk-c[data-gid]'), function(c){
+    var gid = c.getAttribute('data-gid');
+    if (gid && !SLATE[gid]) SLATE[gid] = {
+      lg: c.getAttribute('data-league') || '', state: c.getAttribute('data-state'),
+      kick: c.getAttribute('data-kick') || '', ket: c.getAttribute('data-kick-et') || '',
+      a: c.getAttribute('data-away') || '', h: c.getAttribute('data-home') || '',
+      /* a live state the poll has not confirmed counts as live only while the build
+         it came from is recent; past that it is A-4's expired state */
+      baked: BUILD_STALE ? 1 : 0};
+  });
+
+  function etTime(iso){
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleTimeString('en-US', {
+        timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit'}) + ' ET';
+    } catch (e) { return ''; }
+  }
+
+  function recount(){
+    var byLeague = {}, live = 0, today = 0, upcoming = [];
+    Object.keys(SLATE).forEach(function(gid){
+      var g = SLATE[gid], lg = g.lg, st = g.state;
+      byLeague[lg] = byLeague[lg] || {live:0, total:0, fin:0};
+      byLeague[lg].total++;
+      today++;
+      /* a baked live state that the poll has not confirmed is not counted as live */
+      if (st === 'in' && !g.baked) { live++; byLeague[lg].live++; }
+      if (st === 'post') byLeague[lg].fin++;
+      if (st === 'pre') upcoming.push({k:g.kick, t:g.ket || etTime(g.kick),
+                                       a:g.a, h:g.h});
+    });
+    var head = document.querySelector('.sb-count');
+    if (head) {
+      /* "0 live now" is said out loud rather than dropped: on a Sunday morning it
+         tells the reader nothing has started, which is the thing they came to learn. */
+      head.textContent = today + ' game' + (today === 1 ? '' : 's') + ' today'
+                       + ' \u00b7 ' + live + ' live now';
+    }
+    [].forEach.call(document.querySelectorAll('.tk-tab'), function(tab){
+      var lg = tab.getAttribute('data-league'), sm = tab.querySelector('small');
+      if (!sm || !lg) return;
+      var b = byLeague[Object.keys(byLeague).filter(function(k){
+        return k.toLowerCase() === lg.toLowerCase(); })[0]];
+      if (!b) return;
+      if (b.live) sm.textContent = b.live + ' live';
+      else if (b.fin === b.total && b.total) sm.textContent = b.fin + ' final';
+      else if (b.total) sm.textContent = b.total + ' today';
+    });
+    var nx = document.querySelector('.sb-next');
+    if (nx) {
+      upcoming.sort(function(x, y){ return x.k < y.k ? -1 : x.k > y.k ? 1 : 0; });
+      var n = upcoming[0];
+      nx.textContent = n ? ('Next: ' + n.a + ' at ' + n.h + (n.t ? ' ' + n.t : '')) : '';
+      nx.hidden = !n;
+    }
   }
 
   function esc(t){ var d = document.createElement('div'); d.textContent = t || '';
@@ -4476,6 +4595,12 @@ SB_LIVE_JS = """
     });
   }
 
+  function leagueOf(json){
+    var l = (((json || {}).leagues || [])[0] || {}).abbreviation || '';
+    if (l === 'NCAAF') l = 'CFB';
+    return l;
+  }
+
   function reshape(json){
     var out = [], when = null;
     ((json && json.events) || []).forEach(function(ev){
@@ -4487,8 +4612,12 @@ SB_LIVE_JS = """
       out.push({id: String(ev.id),
                 state: st.state || '',
                 status: st.shortDetail || st.detail || st.description || '',
+                short: st.shortDetail || st.description || 'Final',
+                kick: ev.date || '',
                 away: away ? num(away.score) : null,
                 home: home ? num(home.score) : null,
+                aabbr: (away && away.team && away.team.abbreviation) || '',
+                habbr: (home && home.team && home.team.abbreviation) || '',
                 situation: (comp.situation || {}).downDistanceText || ''});
     });
     if (json && json.day && json.day.date) when = json.day.date;
@@ -4509,6 +4638,14 @@ SB_LIVE_JS = """
         var r = reshape(j);
         if (r.when) reshapedWhen = r.when;
         r.games.forEach(function(s){
+          /* A-2: EVERY game the feed names enters the slate, whether or not the band
+             renders a card for it. The counts are about the day, not about the six
+             cards that fit. */
+          var prev = SLATE[s.id] || {};
+          SLATE[s.id] = {lg: prev.lg || leagueOf(j) || '', state: s.state,
+                         kick: s.kick || prev.kick || '', ket: prev.ket || '',
+                         a: s.aabbr || prev.a || '', h: s.habbr || prev.h || '',
+                         baked: 0};
           if (!byId(s.id).length) return;
           paint(s.id, s);
           if (s.state === 'in') live++;
@@ -5015,7 +5152,7 @@ def scoreboard_band(sb, board, wx=None):
                    f'{esc(_team_label(_g, _g.get("home") or {}))} '
                    f'{esc(_et_clock(_dt))}</span>')
     _orn = _sb_ornament(games)
-    return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" aria-label="The Scoreboard">
+    return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="The Scoreboard">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
@@ -5493,7 +5630,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     # every game is a full card a few hundred pixels below.
     _band_cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in _band_games[:3])
     _orn = _sb_ornament(_all)
-    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="Scores">
+    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
