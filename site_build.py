@@ -3274,13 +3274,16 @@ def _sb_sort_key(g, now=None):
     happens to kick first, which is what putting it below the clock would prevent.
     """
     return (_sb_state_rank(g, now), _league_rank(g.get("league") or "", now),
+            _live_urgency(g) if g.get("state") == "in" else (0, ""),
             _game_rank(g), g.get("start_utc") or "")
 
 
 def _sb_sort_key_in_league(g, now=None):
     """The same order inside one league's panel, where the league term is a constant
     and only the poll rank and the clock can separate two games."""
-    return (_sb_state_rank(g, now), _game_rank(g), g.get("start_utc") or "")
+    return (_sb_state_rank(g, now),
+            _live_urgency(g) if g.get("state") == "in" else (0, ""),
+            _game_rank(g), g.get("start_utc") or "")
 
 
 def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
@@ -4249,21 +4252,74 @@ MARQUEE_IMMINENT_MIN = 90     # and an upcoming marquee game holds from 90 minut
 RECENT_FINAL_HOURS = 18       # "a final from last night" as the band counts it
 
 
+IMMINENT_MIN = 60             # B-1: "upcoming inside sixty minutes"
+DELAYED_WORDS = ("postpon", "delay", "suspend", "canc")
+
+
+def _is_delayed(g):
+    """A game the league has stopped. B-1 puts these at the end of the bucket they came
+    from, with the word on the card, rather than mixed in among games that are on."""
+    blob = " ".join([str(g.get("status_short") or ""), str(g.get("detail") or ""),
+                     str(g.get("status") or "")]).lower()
+    return any(w in blob for w in DELAYED_WORDS)
+
+
 def _sb_state_rank(g, now=None):
-    """M-21: live, then a final from the last eighteen hours, then upcoming by kickoff,
-    then older finals. The band used to put every final last, so a result from four
-    hours ago sat below a fixture three days out, and the homepage's six-card cut
-    dropped the final entirely."""
+    """B-1, THE ORDERING LAW, and the only function that decides it.
+
+    Live, then anything kicking off inside the hour, then today's finals, then the rest
+    of upcoming, then older finals. A delayed or postponed game sits at the end of the
+    bucket it came from.
+
+    The sixty-minute step is what M-21 was missing. M-21 put every recent final above
+    every upcoming game, which is right at nine on a Sunday morning and wrong at 12:55:
+    a game kicking off in five minutes belongs above one that finished last night. The
+    two rules are the same rule with the clock added.
+    """
+    now = now or _build_now()
     st = g.get("state")
+    late = 1 if _is_delayed(g) else 0
     if st == "in":
-        return 0
+        return (0, late)
+    k = _utc_dt(g.get("start_utc") or "")
+    if st == "pre":
+        mins = ((k - now).total_seconds() / 60) if k else 1e9
+        return (1, late) if 0 <= mins <= IMMINENT_MIN else (3, late)
     if st == "post":
-        k = _utc_dt(g.get("start_utc") or "")
-        now = now or _build_now()
         if k and (now - k).total_seconds() / 3600 <= RECENT_FINAL_HOURS:
-            return 1
-        return 3
-    return 2
+            return (2, late)
+        return (4, late)
+    return (3, late)
+
+
+def _live_urgency(g):
+    """B-1: live games lead by urgency, the closest game adjusted by how little time is
+    left. A three-point game in the fourth is more urgent than a three-point game in the
+    first, and a blowout is not urgent at any hour.
+
+    Returns a sort key, so smaller is more urgent. A game whose feed carries no clock
+    falls back to its margin alone rather than being guessed at.
+    """
+    try:
+        margin = abs(int((g.get("away") or {}).get("score"))
+                     - int((g.get("home") or {}).get("score")))
+    except (TypeError, ValueError):
+        return (99, g.get("start_utc") or "")
+    # The period the feed reports, as a fraction of a normal game: later is more urgent.
+    per = g.get("period")
+    try:
+        per = int(per)
+    except (TypeError, ValueError):
+        per = 0
+    total = {"NFL": 4, "CFB": 4, "NBA": 4, "NHL": 3, "MLB": 9, "WNBA": 4}.get(
+        (g.get("league") or "").upper(), 4)
+    left = max(0.0, (total - per) / float(total)) if per else 1.0
+    # A one-score game in the last period scores near zero; a rout early scores high.
+    # The second term breaks a tie between equal margins toward the game with less
+    # time left: a 7-7 first quarter and a 7-7 fourth both score zero on margin, and
+    # the fourth is the one a reader wants first.
+    return (round(margin * (0.4 + left), 2), round(left, 3),
+            g.get("start_utc") or "")
 
 
 def _marquee_league(games, now=None):

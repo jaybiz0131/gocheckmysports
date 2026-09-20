@@ -373,6 +373,75 @@ def layer1_canary():
                                 _sb._team_stories("", "Bills", [_nick])], fails,
            "team-page canary: a nickname in a dek was treated as the subject")
 
+    # B-1: THE ORDERING LAW. One function decides it for the band, the scoreboard and
+    # the strip: live by urgency, then anything kicking off inside the hour, then
+    # today's finals, then the rest of upcoming, then older finals, with a delayed game
+    # at the end of the bucket it came from.
+    import datetime as _dtb
+    _ETb = _sb._ET
+
+    def _gb(lg, a, h, kick_et, st, sa=None, sh=None, per=None, short=""):
+        _k = _dtb.datetime.fromisoformat(kick_et).replace(tzinfo=_ETb) \
+                  .astimezone(_dtb.timezone.utc)
+        return {"league": lg, "id": a + h, "state": st, "period": per,
+                "status_short": short,
+                "start_utc": _k.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": a, "score": sa}, "home": {"abbr": h, "score": sh}}
+
+    def _ordb(games, when):
+        _n = _dtb.datetime.fromisoformat(when).replace(tzinfo=_ETb) \
+                  .astimezone(_dtb.timezone.utc)
+        return [x["away"]["abbr"] for x in
+                sorted(games, key=lambda q: _sb._sb_sort_key_in_league(q, _n))]
+
+    # Sunday 4:30: the slate live, one game kicking at 4:25 already gone, a final from
+    # the morning, and tonight's game hours away.
+    _sun = [_gb("NFL", "BLOW", "OUT", "2026-09-20T13:00", "in", "38", "3", 4),
+            _gb("NFL", "CLOSE", "GAME", "2026-09-20T13:00", "in", "20", "17", 4),
+            _gb("NFL", "TIED", "LATE", "2026-09-20T13:00", "in", "21", "21", 4),
+            _gb("NFL", "SOON", "KICK", "2026-09-20T17:20", "pre"),
+            _gb("NFL", "MORN", "FINAL", "2026-09-20T09:30", "post", "17", "14"),
+            _gb("NFL", "NIGHT", "GAME", "2026-09-20T20:20", "pre")]
+    _o = _ordb(_sun, "2026-09-20T16:30")
+    _check(_o[0] == "TIED", fails,
+           f"B-1 canary: the closest live game did not lead: {_o}")
+    _check(_o.index("BLOW") > _o.index("CLOSE"), fails,
+           f"B-1 canary: a blowout outranked a one-score game: {_o}")
+    _check(_o.index("SOON") < _o.index("MORN"), fails,
+           f"B-1 canary: a game kicking inside the hour ranked below a final: {_o}")
+    _check(_o.index("MORN") < _o.index("NIGHT"), fails,
+           f"B-1 canary: today's final ranked below a fixture hours away: {_o}")
+
+    # Sunday 9 AM: nothing live, last night's final still holds above today's slate.
+    _morn = [_gb("NFL", "LAST", "NIGHT", "2026-09-19T20:15", "post", "24", "21"),
+             _gb("NFL", "ONE", "PM", "2026-09-20T13:00", "pre")]
+    _check(_ordb(_morn, "2026-09-20T09:00")[0] == "LAST", fails,
+           "B-1 canary: on Sunday morning last night's final did not lead")
+    # and by 12:30 the 1 PM game is inside the hour and takes it
+    _check(_ordb(_morn, "2026-09-20T12:30")[0] == "ONE", fails,
+           "B-1 canary: at 12:30 the 1 PM game did not take the lead from the final")
+
+    # A delayed game sits at the end of the live bucket, not among the games that are on.
+    _dly = [_gb("NFL", "RAIN", "DELAY", "2026-09-20T13:00", "in", "0", "0", 1,
+                "Delayed"),
+            _gb("NFL", "PLAY", "ING", "2026-09-20T13:00", "in", "10", "7", 2)]
+    _check(_ordb(_dly, "2026-09-20T14:00")[0] == "PLAY", fails,
+           "B-1 canary: a delayed game ranked above a game in progress")
+
+    # Thursday 7:30, and the line between the two rules. WITHIN a tab, live beats
+    # upcoming, so live baseball leads the baseball board; it is the MARQUEE that an
+    # imminent marquee-league game takes, which is M-20 and lives in the picker, not in
+    # this sort. Asserting the sort here would have been asserting the wrong rule.
+    _thu = [_gb("MLB", "LIVE", "BALL", "2026-09-17T19:10", "in", "2", "1", 5),
+            _gb("NFL", "DET", "BUF", "2026-09-17T20:15", "pre")]
+    _check(_ordb(_thu, "2026-09-17T19:30")[0] == "LIVE", fails,
+           "B-1 canary: within a tab a live game did not outrank an upcoming one")
+    _mq_thu = _sb._sb_marquee_pick(
+        _thu, _dtb.datetime.fromisoformat("2026-09-17T19:30").replace(tzinfo=_ETb)
+                   .astimezone(_dtb.timezone.utc))
+    _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
+           "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
+
     # SC-3 (M-20, M-21): THE MARQUEE. Four shapes, on one fixture slate, because the
     # rule is about WHEN it is asked, not about what is on the board. On 17 Sep the
     # front page put a 0-0 Mets game in the marquee eight minutes before the only NFL
