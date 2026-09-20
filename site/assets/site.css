@@ -1701,21 +1701,46 @@ body>*:not(.ground){position:relative;z-index:1}
 @supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
   .tk-c{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 }
+/* ---- B-2: THE VELVET STUB (backdrop A, Jack's choice, 20 Sep) -------------------
+   The two-tone split met at a hard seam at 44/56 and the shoulder yoke drew eleven
+   stripes over it. Both retire. The two colours meet in a SOFT BLEND instead, so the
+   seam becomes a third colour the eye reads as depth rather than as a join; a single
+   skewed sash replaces the eleven stripes; and grain over the whole thing kills the
+   flat vector look that made a large field of one colour look unfinished.
+
+   The known risk, from the board: two loud colours still fight in the blend. The scrim
+   below is what keeps them in their place, and the names and chips sit on top of it. */
 .tk-stub{padding:18px 20px 16px;position:relative;
-  background:linear-gradient(118deg,var(--a) 0%,var(--a) 44%,var(--b) 56%,var(--b) 100%)}
-.tk-stub::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(19,20,25,.18),rgba(19,20,25,.55))}
-/* SC-12: THE SHOULDER YOKE. Angled stripe groups in the two corners, the way a stripe
-   sits on a jersey shoulder. Drawn entirely from the two colours the card already
-   carries, so it costs nothing to license and works for every club in every league: no
-   mark, no logo, no helmet. It rides UNDER the scrim and under the type (::before is
-   the stub's first child, so it paints below both), and the corners are left to it
-   alone, which is why the stub's own content is centred below. */
+  background:linear-gradient(118deg,
+    var(--a) 0%, var(--a) 18%,
+    color-mix(in oklab, var(--a) 55%, var(--b)) 50%,
+    var(--b) 82%, var(--b) 100%)}
+/* Browsers without color-mix get the same shape with a wider crossfade: the stops
+   overlap far enough that the seam is still a blend and not a line. */
+@supports not (background: color-mix(in oklab, red 50%, blue)){
+  .tk-stub{background:linear-gradient(118deg,
+    var(--a) 0%, var(--a) 26%, var(--b) 74%, var(--b) 100%)}
+}
+/* ONE SKEWED SASH, for light. It crosses the stub once, off-centre, and is masked to
+   fade at both ends so it reads as a fall of light rather than as a drawn band. */
 .tk-stub::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(118deg,
-    rgba(255,255,255,.40) 0 6px,transparent 6px 14px);
-  -webkit-mask:linear-gradient(118deg,#000 0 11%,transparent 11% 89%,#000 89% 100%);
-          mask:linear-gradient(118deg,#000 0 11%,transparent 11% 89%,#000 89% 100%)}
+  background:linear-gradient(118deg,
+    transparent 0 38%,
+    rgba(255,255,255,.13) 44%,
+    rgba(255,255,255,.20) 49%,
+    rgba(255,255,255,.10) 54%,
+    transparent 60% 100%);
+  -webkit-mask:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);
+          mask:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent)}
+/* The scrim, and the grain on top of it. The grain is one small tile repeated, so it
+   costs one gradient rather than an image request, and it is nearly invisible on its
+   own: what it removes is the flatness, not the colour. */
+.tk-stub::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%, transparent 0% 50%)
+      0 0/3px 3px,
+    linear-gradient(180deg,rgba(19,20,25,.20),rgba(19,20,25,.58))}
+@media (prefers-reduced-motion:reduce){.tk-stub::before{opacity:.8}}
 .tk-stub>*{position:relative}
 /* The type runs down the middle so the yoke never crosses a team name. The score chips
    are a flex column, so centring the text is not enough: they take align-items too, or
