@@ -518,6 +518,90 @@ def layer1_canary():
     finally:
         _ia7.SNAP_DIR = _old7
 
+    # A-5: THE FANTASY CORRECTIONS. Each one was a shallow test answering yes about
+    # the whole week when the question was about one game.
+    import datetime as _dt5
+    _ET5 = _sb._ET
+
+    def _gm5(away, home, aid, hid, kick_et):
+        _k = _dt5.datetime.fromisoformat(kick_et).replace(tzinfo=_ET5) \
+                  .astimezone(_dt5.timezone.utc)
+        return {"away": away, "home": home, "away_id": aid, "home_id": hid,
+                "kickoff_utc": _k.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "kickoff_et": "1:00 PM ET", "day_et": "Sun 20 Sep"}
+
+    def _pl5(name, seen_et):
+        _t = _dt5.datetime.fromisoformat(seen_et).replace(tzinfo=_ET5) \
+                  .astimezone(_dt5.timezone.utc)
+        return {"name": name, "pos": "WR", "day": seen_et[:10],
+                "first_seen": _t.strftime("%Y-%m-%dT%H:%M:%SZ")}
+
+    # ATL's list is up for the 1 PM game; TEN's 4:25 list is not.
+    _atl5 = {"team": "Atlanta Falcons", "id": "1", "count": 1,
+             "players": [_pl5("Posted Player", "2026-09-20T11:31")],
+             "first_seen": "2026-09-20T15:31:00Z"}
+    _ten5 = {"team": "Tennessee Titans", "id": "10", "count": 1,
+             "players": [_pl5("Last Week Only", "2026-09-13T14:03")],
+             "first_seen": "2026-09-13T18:03:00Z"}
+    _board5 = {"teams": [_atl5, _ten5], "total": 2}
+    _w2w5 = {"weeks": [{"week": 2, "games": [
+        _gm5("CAR", "ATL", "29", "1", "2026-09-20T13:00"),
+        _gm5("PHI", "TEN", "21", "10", "2026-09-20T16:25")]}]}
+
+    _old5 = getattr(_sb, "W2W_DATA", None)
+    _oldwk = _sb._ia_week
+    try:
+        _sb.W2W_DATA = _w2w5
+        _sb._ia_week = lambda: (2, False)
+        # the flag only where the list has posted
+        _r_atl = _sb._dg_ruling({"team": "Atlanta Falcons", "name": "Posted Player"},
+                                _board5, _w2w5, set())
+        _check("active" in _r_atl, fails,
+               f"A-5 canary: a posted list produced no ruling: {_r_atl!r}")
+        _r_ten = _sb._dg_ruling({"team": "Tennessee Titans", "name": "Someone"},
+                                _board5, _w2w5, set())
+        _check("active" not in _r_ten and "inactive" not in _r_ten, fails,
+               f"A-5 canary: a team whose list has not posted was ruled on: {_r_ten!r}")
+        _check("posts about" in _r_ten, fails,
+               f"A-5 canary: the row did not say when the list posts: {_r_ten!r}")
+        # the hub counts the week, not the merge
+        _lists, _players = _sb._ia_week_totals(_board5, _w2w5)
+        _check((_lists, _players) == (1, 1), fails,
+               f"A-5 canary: the hub counted {_lists} lists and {_players} players, "
+               f"not this week's one and one")
+    finally:
+        _sb.W2W_DATA = _old5
+        _sb._ia_week = _oldwk
+
+    # the league tag is checked against the teams the story names
+    _sb._TEAM_VOCAB = {"NFL": {"Buffalo Bills", "Detroit Lions", "Atlanta Falcons"},
+                       "CFB": {"Vanderbilt", "NC State"}}
+    _vandy = {"title": "Vanderbilt defeats NC State 35-31 on a final-play fumble",
+              "dek": "", "tags": ["nfl", "scores-results", "college"]}
+    _check(_sb._league_from_teams(_vandy) == "CFB", fails,
+           "A-5 canary: a college recap did not read as college from its teams")
+    _check("nfl" not in [t.lower() for t in _sb.display_tags(_vandy)], fails,
+           f"A-5 canary: the nfl chip survived on a college recap: "
+           f"{_sb.display_tags(_vandy)}")
+    _bills = {"title": "Buffalo Bills open Highmark Stadium against the Detroit Lions",
+              "dek": "", "tags": ["nfl"]}
+    _check(_sb._league_from_teams(_bills) == "NFL", fails,
+           "A-5 canary: an NFL story did not read as NFL from its teams")
+    # NO EVIDENCE MEANS NO OVERRIDE. The vocabulary is full names, because half the
+    # NFL's nicknames are ordinary English, so a story that only says "Bills" gives
+    # this check nothing to go on and keeps exactly the tags the desk gave it.
+    _nick = {"title": "Bills open Highmark Stadium in a Lions matchup", "dek": "",
+             "tags": ["nfl"]}
+    _check(_sb._league_from_teams(_nick) == "", fails,
+           "A-5 canary: a bare nickname was treated as evidence of a league")
+    _check([t.lower() for t in _sb.display_tags(_nick)] == ["nfl"], fails,
+           f"A-5 canary: a story with no team evidence lost its tag: "
+           f"{_sb.display_tags(_nick)}")
+    _sb._TEAM_VOCAB = {"NFL": set(), "CFB": {"Buffalo"}}
+    _check(_sb._league_from_teams(_bills) == "", fails,
+           "A-5 canary: the check ran without an NFL vocabulary to subtract")
+    _sb._TEAM_VOCAB = None
+
     # N-7c: A LISTING BELONGS TO A GAME. N-7b kept every sighting with its own date,
     # which is right, and the page still grouped by team across the whole eight-day
     # window: on Friday /fantasy/inactives read "Week 2 inactives, 207 players, 31

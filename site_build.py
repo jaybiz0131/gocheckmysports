@@ -1584,7 +1584,7 @@ def render_article(item, all_items=None, hubs=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
-    topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
+    topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in display_tags(item))
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
@@ -1777,7 +1777,7 @@ def card(item, drop=()):
     cat = item.get("category")
     tag = (f'<span class="tag">{esc(cat)}</span>'
            if cat and str(cat).lower() not in skip else "")
-    topics = [t for t in tags_for(item) if str(t).lower() not in skip]
+    topics = [t for t in display_tags(item) if str(t).lower() not in skip]
     tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in topics[:2])
     href = f'/articles/{esc(item["slug"])}.html'
     summ = dek_for(item, 180)
@@ -1881,14 +1881,93 @@ def _league_weight(league, now=None):
     return w
 
 
+_TEAM_VOCAB = None
+
+
+def _team_vocab():
+    """A-5: the teams each league actually has, for checking a tag against a story.
+
+    Nicknames are not usable here (half the NFL's are ordinary English), so the NFL
+    vocabulary is full names from the schedule file and the college one is school
+    names from the colour table. A name shorter than five characters is left out: "UCF"
+    and "Duke" are fine as evidence and "Navy" and "Rice" are not, and the cost of
+    dropping a few is a check that never fires wrongly.
+    """
+    global _TEAM_VOCAB
+    if _TEAM_VOCAB is not None:
+        return _TEAM_VOCAB
+    v = {"NFL": set(), "CFB": set()}
+    for _a, t in ((TEAM_DATA or {}).get("teams") or {}).items():
+        n = (t.get("name") or "").strip()
+        if len(n) >= 5:
+            v["NFL"].add(n)
+    try:
+        tc = json.load(open(os.path.join(HERE, "site", "data", "team-colors.json"),
+                            encoding="utf-8"))
+        for _a, t in (tc.get("college-football") or {}).items():
+            n = (t.get("name") or "").strip()
+            if len(n) >= 5:
+                v["CFB"].add(n)
+    except Exception:
+        pass
+    # A school that is also an NFL city name is evidence for neither.
+    both = v["CFB"] & {n.rsplit(" ", 1)[0] for n in v["NFL"]}
+    v["CFB"] -= both
+    _TEAM_VOCAB = v
+    return v
+
+
+def _league_from_teams(item):
+    """The league the story's own teams belong to, or "" when they do not agree.
+
+    A story tagged both nfl and college, naming Vanderbilt and NC State, led the desk
+    grid as NFL on an NFL Sunday. The teams in the headline are the better evidence
+    than either tag, and where they are unambiguous they win.
+    """
+    v = _team_vocab()
+    # FAIL CLOSED. The college list is only safe once the NFL list has been subtracted
+    # from it: without the schedule file loaded there is no NFL vocabulary, "Buffalo"
+    # stays in the college set, and a Bills story would read as college football. No
+    # NFL names, no check.
+    if not v["NFL"]:
+        return ""
+    claim = " ".join([item.get("title") or "", item.get("dek") or ""])
+    hits = {lg: sum(1 for n in names if n in claim) for lg, names in v.items()}
+    live = [lg for lg, n in hits.items() if n]
+    return live[0] if len(live) == 1 else ""
+
+
+def display_tags(item):
+    """A-5: the tags a card SHOWS, with a league tag the story's own teams contradict
+    removed. The desk tagged a Vanderbilt at NC State recap both nfl and college, and
+    the grid printed the nfl chip on an NFL Sunday. The teams in the headline are the
+    better evidence, and where they are unambiguous the chip that disagrees comes off.
+    Nothing is added: a story with no evidence keeps exactly the tags it had."""
+    tags = list(tags_for(item))
+    lg = _league_from_teams(item)
+    if not lg:
+        return tags
+    wrong = {k.lower() for k in LEAGUE_WEIGHT} - {lg.lower()}
+    kept = [t for t in tags if t.lower() not in wrong] or tags
+    # and where the story already carries the right league, it leads: a card that has
+    # just lost its "nfl" chip should say "college", not fall back to a generic tag.
+    right = [t for t in kept if t.lower() in (lg.lower(), "college")]
+    return (right + [t for t in kept if t not in right]) if right else kept
+
+
 def _story_league(item):
     """The league a story belongs to, from its own field or its tags."""
     lg = (item.get("league") or "").upper()
     if lg:
         return lg
-    for t in tags_for(item):
-        if t.upper() in LEAGUE_WEIGHT:
-            return t.upper()
+    # A-5: the teams the story names outrank a tag that disagrees with them.
+    byteam = _league_from_teams(item)
+    tags = [t.upper() for t in tags_for(item)]
+    if byteam and byteam not in tags[:1]:
+        return byteam
+    for t in tags:
+        if t in LEAGUE_WEIGHT:
+            return t
     return ""
 
 
@@ -5924,6 +6003,78 @@ def _wk_suffix():
     return f", Week {wk}" if wk else ""
 
 
+def _ia_hub_count(board):
+    """The phrase the hub and the rail both use, from one model."""
+    lists, players = _ia_week_totals(board, W2W_DATA)
+    if not lists:
+        return "no lists posted yet"
+    return (f"{lists} list{'' if lists == 1 else 's'}, "
+            f"{players} player{'' if players == 1 else 's'}")
+
+
+def _ia_week_totals(board, w2w):
+    """A-5: this week's lists and players, the number N-7c put on the week page.
+
+    The hub said "Week 2 inactives, 319 players", which is every sighting in the
+    eight-day board under a heading naming one week. Week 2 had two lists and
+    fourteen players. One model, one number, wherever the week is named.
+    """
+    if not board or not w2w:
+        return 0, 0
+    _wkno, _ = _ia_week()
+    wk = next((w for w in (w2w.get("weeks") or []) if w.get("week") == _wkno), None)
+    if not wk:
+        return 0, 0
+    by_id = {str(t["id"]): t for t in (board.get("teams") or []) if t.get("id")}
+    lists = players = 0
+    for g in (wk.get("games") or []):
+        for k in ("away_id", "home_id"):
+            t = by_id.get(str(g.get(k)))
+            got = _ia_team_for_game(t, g) if t else None
+            if got:
+                lists += 1
+                players += got["count"]
+    return lists, players
+
+
+def _dg_list_state(team, board, w2w):
+    """A-5: has THIS team's list posted for its next fixture?
+
+    The page printed "Out · ACTIVE" on the same row all Sunday morning, because the
+    test was whether the team appeared anywhere in the eight-day board, which is true
+    for all 31 teams all week. A fantasy owner reading "Out · Active" at 9 AM makes the
+    wrong decision, which is the whole cost of a shallow key on this desk.
+
+    Returns (posted, when): posted is the team's list for its next game if it is up,
+    otherwise None, and when is the time it is expected.
+    """
+    if not board or not w2w:
+        return None, ""
+    _wkno, _ = _ia_week()
+    wk = next((w for w in (w2w.get("weeks") or []) if w.get("week") == _wkno), None)
+    tm = next((t for t in (board.get("teams") or []) if t.get("team") == team), None)
+    if not wk or not tm:
+        return None, ""
+    for g in (wk.get("games") or []):
+        if str(g.get("away_id")) != str(tm.get("id")) and \
+           str(g.get("home_id")) != str(tm.get("id")):
+            continue
+        got = _ia_team_for_game(tm, g)
+        return got, _ia_expected(g)
+    return None, ""
+
+
+def _dg_ruling(p, board, w2w, ia_names):
+    """The flag, only once the list it depends on exists."""
+    posted, when = _dg_list_state(p.get("team"), board, w2w)
+    if posted is None:
+        # Before the list, the honest line is when it comes, not a guess at the answer.
+        return (f'<span class="bd-src dg-wait">{esc(when)}</span>' if when else "")
+    if (p.get("team"), p.get("name")) in ia_names:
+        return '<span class="bd-badge dat">inactive</span>'
+    return '<span class="bd-badge ok">active</span>'
+
+
 def _ia_week():
     """The week the held lists belong to, and whether it is final.
 
@@ -6864,7 +7015,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
         blocks.append(("inactives",
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(_ia_heading(board))}</span>'
-            f'<span class="bd-stamp">{board["total"]} players</span></div>'
+            f'<span class="bd-stamp">{_ia_hub_count(board)}</span></div>'
             f'<a class="bd-more" href="/fantasy/inactives.html">All teams</a>'
             f'</div><div class="bd-cards4">{cards}</div></section>'))
     if desig:
@@ -7143,12 +7294,7 @@ def render_designations(desig, board, dateline):
             # S-B1's rule, applied here too: a player carrying a designation who is NOT
             # on a posted inactive list is active. Saying so is the single most useful
             # thing this page does on a Sunday.
-            ruled = ""
-            if (p.get("team"), p.get("name")) in ia_names:
-                ruled = '<span class="bd-badge dat">inactive</span>'
-            elif board and any(t.get("team") == p.get("team")
-                               for t in board.get("teams") or []):
-                ruled = '<span class="bd-badge ok">active</span>'
+            ruled = _dg_ruling(p, board, W2W_DATA, ia_names)
             cards.append(
                 f'<div class="dg-row"><span class="dg-name">{esc(p.get("name") or "")}</span>'
                 f'<span class="ia-pos">{esc(p.get("pos") or "")}</span>'
@@ -7484,7 +7630,7 @@ def extra_lanes(items, board, claimed=None, strip=False):
         if name == "Fantasy facts" and board:
             extra = (f'<div class="bd-rec-row"><a class="bd-rec-t" '
                      f'href="/fantasy/inactives.html">This week\'s inactives, '
-                     f'{board["total"]} players listed</a>'
+                     f'{_ia_hub_count(board)}</a>'
                      f'<span class="bd-src">Living board</span></div>')
         right = (f'<div class="bd-card bd-rec-more">'
                  f'<span class="bd-label">More</span>'
@@ -7834,7 +7980,9 @@ def render_home(items, dateline):
     hero_pool = stories[1:] if _s1_lead else stories
 
     def _hero_tag(item):
-        tags = tags_for(item)
+        # A-5: the grid's league chip, with a tag the story's own teams contradict
+        # removed. This printed "nfl" on a Vanderbilt at NC State recap, on NFL Sunday.
+        tags = display_tags(item)
         return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
 
     desk_html = ""
@@ -8029,8 +8177,10 @@ def render_home(items, dateline):
         # beside the lead. It carries the three cards the audit specifies now, and a
         # rail with nothing in it collapses the row to one column rather than shipping
         # an empty one.
-        _rail_cards = [c for c in (where_to_watch_card(W2W_DATA),
-                                   _fantasy_tonight_card(SB_DATA, IA_BOARD, IA_DESIG),
+        # M-9 (H-14): the Where to Watch card is off the homepage. Its button is on
+        # every game card and its page is in the nav, so the rail was carrying a third
+        # copy of the same fixtures and a game appeared three times above the fold.
+        _rail_cards = [c for c in (_fantasy_tonight_card(SB_DATA, IA_BOARD, IA_DESIG),
                                    track_html) if c]
         if _rail_cards:
             # N-4: the rail sits in a box whose own content height is zero (the rail
