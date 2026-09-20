@@ -2315,3 +2315,5 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .tk-c[data-baked-stale] .flash,
 .tk-c[data-baked-stale] .flash-dn{display:none!important;animation:none!important}
 .tk-c[data-baked-stale] .tk-stub{filter:saturate(.72)}
+/* A-3: a pinned team's game carries the same quiet mark on the strip as on the band. */
+.msb-g.msb-pinned{box-shadow:inset 3px 0 0 var(--rule)}

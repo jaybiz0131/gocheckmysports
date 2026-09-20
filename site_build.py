@@ -4493,6 +4493,28 @@ SB_LIVE_JS = """
         else if (s.state === 'pre' && s.kick) when.textContent = s.kick;
       }
     });
+    /* A-3: the strip moves with the cards. Same game, same source, same paint. */
+    [].forEach.call(document.querySelectorAll('.msb-g[data-gid="' + gid + '"]'),
+      function(it){
+        it.setAttribute('data-state', s.state);
+        var started = s.state === 'in' || s.state === 'post';
+        ['away', 'home'].forEach(function(side){
+          var el = it.querySelector('.msb-s[data-side="' + side + '"]');
+          if (!el) return;
+          var v = side === 'away' ? s.away : s.home;
+          el.textContent = (started && v !== null && v !== undefined) ? String(v) : '';
+        });
+        var a = s.away, h = s.home, tie = (a === h);
+        ['away', 'home'].forEach(function(side){
+          var el = it.querySelector('.msb-s[data-side="' + side + '"]');
+          if (!el) return;
+          var mine = side === 'away' ? a : h, other = side === 'away' ? h : a;
+          var lead = (mine !== null && other !== null && !tie && mine > other);
+          el.classList.toggle('msb-lead', !!lead);
+        });
+        var st = it.querySelector('[data-role="msb-status"]');
+        if (st) st.textContent = started ? (s.status || '') : (st.textContent || '');
+      });
     recount();        /* A-2: the header, the tabs and "Next" follow the cards */
   }
 
@@ -4928,6 +4950,15 @@ TEAM_PIN_JS = """<script>(function(){
         }
       });
     }
+    /* A-3: the strip leads with the reader's teams. */
+    for(var m=picks.length-1;m>=0;m--){
+      var ab2=picks[m];
+      document.querySelectorAll('.msb-g').forEach(function(it){
+        if(it.getAttribute('data-away')===ab2 || it.getAttribute('data-home')===ab2){
+          it.classList.add('msb-pinned'); first(it, it.parentElement);
+        }
+      });
+    }
     /* The hub: a pinned team's inactives block goes to the front of the grid. */
     var names={};
     document.querySelectorAll('[data-tabbr][data-tname]').forEach(function(n){
@@ -4979,40 +5010,59 @@ def _team_pin_index(team_data):
 
 
 def mini_scoreboard(sb):
-    """A thin strip of the games actually in progress, for the top of the page."""
+    """A-3: the thin strip, with ids so the poll can move it.
+
+    It carried no data-gid, so the poll could not touch it: at 2:23 PM on NFL Sunday
+    the strip still showed one soccer match from the build while seventeen games were
+    live on the board above it. Every item now carries its game id, league and state,
+    and the same paint() that moves a card moves the strip.
+
+    WHAT IT HOLDS. Live games first, then the next kickoffs, so a strip is never empty
+    on a morning before the slate starts, which is when a reader most wants to know
+    what is coming. The reader's pinned teams are moved to the front on the client
+    (S-L3's store), because the desk does not know what they pinned and should not.
+    """
     if not sb or not sb.get("leagues"):
         return ""
-    live = [g for L in sb["leagues"] for g in L["games"] if g.get("state") == "in"]
-    if not live:
+    games = [g for L in sb["leagues"] for g in L["games"]]
+    live = [g for g in games if g.get("state") == "in"]
+    nxt = sorted((g for g in games if g.get("state") == "pre" and g.get("start_utc")),
+                 key=lambda g: g["start_utc"])
+    show = (live + nxt)[:8]
+    if not show:
         return ""
     cells = []
-    for g in live[:6]:
+    for g in show:
         a, h = g.get("away") or {}, g.get("home") or {}
         ca, ch = _tk_colors(g)
         sa, sh = a.get("score"), h.get("score")
-        # SC-9's colours, and the same rule: nobody leads a tie, and a score the feed
-        # did not send is not a zero.
-        def side(t, sc, col, lead):
-            val = "" if sc is None else esc(str(sc))
-            # CFB-1: the sticky strip keeps the ABBREVIATION. Six games of school names
-            # do not fit a one-line ticker, and this strip is not the board the reader
-            # came for. It carries the rank, which costs two characters and is the one
-            # fact that tells them which of six games to look at first.
+        started = g.get("state") in ("in", "post")
+
+        def side(t, sc, col, lead, which):
+            val = "" if (sc is None or not started) else esc(str(sc))
             return (f'<span class="msb-t">{_rank_html(g, t, cls="tk-rk msb-rk")}'
-                    f'<b style="color:{col}">'
-                    f'{esc(t.get("abbr") or "")}</b>'
-                    f'<span class="msb-s{" msb-lead" if lead else ""}">{val}</span></span>')
+                    f'<b style="color:{col}">{esc(t.get("abbr") or "")}</b>'
+                    f'<span class="msb-s{" msb-lead" if lead else ""}" '
+                    f'data-side="{which}">{val}</span></span>')
         try:
             ia, ih = int(sa), int(sh)
             tie = ia == ih
         except (TypeError, ValueError):
             ia = ih = None
             tie = True
+        _kd = _utc_dt(g.get("start_utc") or "")
+        status = (g.get("status_short") or "") if started else (
+            _et_clock(_kd) if _kd else "")
         cells.append(
-            f'<a class="msb-g" href="{esc(_game_href(g))}">'
-            + side(a, sa, ca, ia is not None and not tie and ia > ih)
-            + side(h, sh, ch, ih is not None and not tie and ih > ia)
-            + f'<span class="msb-st">{esc(g.get("status_short") or "")}</span></a>')
+            f'<a class="msb-g" data-gid="{esc(str(g.get("id") or ""))}" '
+            f'data-league="{esc(g.get("league") or "")}" '
+            f'data-state="{esc(g.get("state") or "")}" '
+            f'data-away="{esc(a.get("abbr") or "")}" '
+            f'data-home="{esc(h.get("abbr") or "")}" '
+            f'href="{esc(_game_href(g))}">'
+            + side(a, sa, ca, ia is not None and not tie and ia > ih, "away")
+            + side(h, sh, ch, ih is not None and not tie and ih > ia, "home")
+            + f'<span class="msb-st" data-role="msb-status">{esc(status)}</span></a>')
     return (f'<div class="msb" role="region" aria-label="Live scores" hidden>'
             f'<div class="msb-in">{"".join(cells)}'
             f'<a class="msb-all" href="/scores.html">All scores</a></div></div>')
