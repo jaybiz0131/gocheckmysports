@@ -1266,31 +1266,12 @@ ATMOS_MOTION_JS = """<script>(function(){
   try{
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    /* (2) COUNT-UP. The final text is already in the HTML, so a reader without
-       JavaScript sees the real number and the element reserves its own width - there is
-       no layout shift (A-17). The intermediate frames are formatted with the SAME
-       digits as the final value, so the number never reads as a rounded stand-in. */
-    document.querySelectorAll('[data-countup]').forEach(function(el){
-      var finalText = el.textContent;
-      var m = finalText.match(/-?[\d,]+(?:\.\d+)?/);
-      if (!m) return;
-      var target = parseFloat(m[0].replace(/,/g,''));
-      if (!isFinite(target) || target === 0) return;
-      var decimals = (m[0].split('.')[1] || '').length;
-      var prefix = finalText.slice(0, m.index), suffix = finalText.slice(m.index + m[0].length);
-      el.style.minWidth = el.getBoundingClientRect().width + 'px';
-      el.style.display = 'inline-block';
-      var t0 = null, DUR = 600;
-      function frame(t){
-        if (t0 === null) t0 = t;
-        var p = Math.min(1, (t - t0) / DUR);
-        var v = target * (1 - Math.pow(1 - p, 3));
-        el.textContent = prefix + v.toLocaleString('en-US',
-          {minimumFractionDigits: decimals, maximumFractionDigits: decimals}) + suffix;
-        if (p < 1) requestAnimationFrame(frame); else el.textContent = finalText;
-      }
-      requestAnimationFrame(frame);
-    });
+    /* (2) COUNT-UP: REMOVED (C-13). It animated from zero to the value over 600ms,
+       so for 600ms the page showed a price that was not the price: screenshots on two
+       consecutive days caught the Bitcoin tile at $11,953.88 and $13,908.07 on its way
+       to eighty thousand. A number that is not the number, even for a frame, is a
+       fabricated number on the front page, and no amount of polish buys that. The
+       figure is set at once; the tile's wash settles instead, which is move (1). */
 
     /* (3) DRAW-ON. The stroke is measured, dashed to its own length and the offset
        animated to zero. The element keeps its size throughout, so again no shift. */
@@ -5043,7 +5024,7 @@ def scoreboard_band(sb, board, wx=None):
         <h2 class="sb-claim">Scoreboard</h2>
 
       </div>
-      <span class="sb-count" data-countup>{esc(count_line)}</span>
+      <span class="sb-count">{esc(count_line)}</span>
     </div>
     <div class="sb-head">
       <div class="sb-head-l">
@@ -5521,7 +5502,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         <h1 class="sb-claim">Scores</h1>
       </div>
       <span class="sb-countwrap">
-        <span class="sb-count" data-countup>{esc(count_line)}</span>
+        <span class="sb-count">{esc(count_line)}</span>
         <span class="sb-stamp">Updated {esc(_et(sb.get("fetched_at") or ""))}</span>
       </span>
     </div>
