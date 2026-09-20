@@ -1,8 +1,8 @@
 {
  "day": "2026-09-20",
  "first_poll": "2026-09-20T15:01:20Z",
- "last_change": "2026-09-20T15:55:59Z",
- "last_poll": "2026-09-20T15:56:07Z",
+ "last_change": "2026-09-20T16:01:26Z",
+ "last_poll": "2026-09-20T16:01:40Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -167,7 +167,7 @@
     "4429607": {
      "changed_at": "2026-09-20T15:41:02Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-09-20T15:34Z",
+     "feed_date": "2026-09-20T15:50Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "Cor'Dale Flott",
      "pos": "CB",
@@ -176,7 +176,7 @@
     "4431613": {
      "changed_at": "2026-09-20T15:41:02Z",
      "detail": "Elbow",
-     "feed_date": "2026-09-20T15:34Z",
+     "feed_date": "2026-09-20T15:54Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "James Williams Sr.",
      "pos": "LB",
@@ -771,7 +771,7 @@
     "4599739": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-09-20T15:40Z",
+     "feed_date": "2026-09-20T15:53Z",
      "first_seen": "2026-09-20T15:55:59Z",
      "name": "Kendre Miller",
      "pos": "RB",
@@ -1196,7 +1196,7 @@
     "4372414": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-09-20T15:48Z",
+     "feed_date": "2026-09-20T15:32Z",
      "first_seen": "2026-09-20T15:41:02Z",
      "name": "Elijah Moore",
      "pos": "WR",
@@ -1806,22 +1806,67 @@
   "29": {
    "capped": true,
    "designations": {
-    "4036063": {
+    "4035232": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T15:45Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "name": "Tyrel Dodson",
+     "pos": "LB",
+     "status": "Out"
+    },
+    "4036063": {
+     "changed_at": "2026-09-20T16:01:26Z",
      "detail": "Back",
-     "feed_date": "2026-09-18T21:45Z",
+     "feed_date": "2026-09-20T15:45Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "Patrick Jones II",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4372518": {
      "changed_at": null,
      "detail": "Back",
-     "feed_date": "2026-09-18T21:39Z",
+     "feed_date": "2026-09-20T15:45Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "Bobby Brown III",
      "pos": "DT",
+     "status": "Out"
+    },
+    "4428993": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T15:54Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "name": "Haynes King",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4431588": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T15:53Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "name": "Ja'Tavion Sanders",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4683506": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T15:45Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "name": "Albert Reese IV",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4697636": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T15:45Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "name": "Chau Smith-Wade",
+     "pos": "CB",
      "status": "Out"
     }
    },
@@ -1842,6 +1887,15 @@
      "jersey": "",
      "name": "Patrick Jones II",
      "pos": "LB",
+     "reason": "Back",
+     "via": "poll"
+    },
+    "4372518": {
+     "feed_date": "2026-09-20T15:45Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "jersey": "",
+     "name": "Bobby Brown III",
+     "pos": "DT",
      "reason": "Back",
      "via": "poll"
     },
@@ -1869,6 +1923,15 @@
      "jersey": "",
      "name": "Albert Reese IV",
      "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4697636": {
+     "feed_date": "2026-09-20T15:45Z",
+     "first_seen": "2026-09-20T16:01:26Z",
+     "jersey": "",
+     "name": "Chau Smith-Wade",
+     "pos": "CB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -1902,7 +1965,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-09-20T15:51Z",
+     "feed_date": "2026-09-20T15:56Z",
      "first_seen": "2026-09-20T15:35:57Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
