@@ -1,8 +1,8 @@
 {
  "day": "2026-09-20",
  "first_poll": "2026-09-20T15:01:20Z",
- "last_change": "2026-09-20T18:56:01Z",
- "last_poll": "2026-09-20T18:56:11Z",
+ "last_change": "2026-09-20T19:01:14Z",
+ "last_poll": "2026-09-20T19:01:34Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -381,6 +381,15 @@
      "name": "Aidan O'Connell",
      "pos": "QB",
      "reason": "Personal",
+     "via": "poll"
+    },
+    "4430330": {
+     "feed_date": "2026-09-18T18:57Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "jersey": "",
+     "name": "Darien Porter",
+     "pos": "CB",
+     "reason": "Foot",
      "via": "poll"
     },
     "4430896": {
@@ -1174,7 +1183,7 @@
     "4002046": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-09-20T18:25Z",
+     "feed_date": "2026-09-20T18:24Z",
      "first_seen": "2026-09-20T18:46:00Z",
      "name": "David Onyemata",
      "pos": "DT",
@@ -1720,7 +1729,7 @@
     "4690171": {
      "changed_at": "2026-09-20T18:46:00Z",
      "detail": "Abdomen",
-     "feed_date": "2026-09-20T18:39Z",
+     "feed_date": "2026-09-20T18:41Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "Deane Leonard",
      "pos": "CB",
@@ -2057,7 +2066,17 @@
     }
    },
    "id": "28",
-   "players": {},
+   "players": {
+    "4428343": {
+     "feed_date": "2026-09-14T15:24Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "jersey": "",
+     "name": "Ricky Barber",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-09-20T16:47:31Z",
    "rows_returned": 25,
@@ -2335,7 +2354,71 @@
   },
   "30": {
    "capped": true,
-   "designations": {},
+   "designations": {
+    "4360964": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Daniel Faalele",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4427716": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Jack Kiser",
+     "pos": "LB",
+     "status": "Out"
+    },
+    "4832922": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Wesley Williams",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4889929": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Quinn Ewers",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4912185": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Jalen Huskey",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4917427": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "Tanner Koziol",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "5085024": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "name": "CJ Williams",
+     "pos": "WR",
+     "status": "Out"
+    }
+   },
    "id": "30",
    "players": {
     "4360964": {
@@ -2380,6 +2463,15 @@
      "jersey": "",
      "name": "Jalen Huskey",
      "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4917427": {
+     "feed_date": "2026-09-20T18:49Z",
+     "first_seen": "2026-09-20T19:01:14Z",
+     "jersey": "",
+     "name": "Tanner Koziol",
+     "pos": "TE",
      "reason": "Coach's Decision",
      "via": "poll"
     },
@@ -2876,7 +2968,7 @@
     "4379397": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-09-18T22:49Z",
+     "feed_date": "2026-09-20T16:04Z",
      "first_seen": "2026-09-20T15:01:20Z",
      "name": "Tyson Campbell",
      "pos": "CB",
