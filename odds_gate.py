@@ -1,17 +1,32 @@
 #!/usr/bin/env python3
-"""odds_gate.py: no betting data reaches disk or a page. HARD GATE (ruling 6).
+"""odds_gate.py: picks and sportsbooks reach no file and no page. HARD GATE.
 
-WHY A GATE AND NOT A HABIT. The game-summary endpoint returns `odds`, `pickcenter`,
-`againstTheSpread` and `predictor` in the SAME payload as the box score, so every
-fantasy surface this program builds holds betting data in memory while it works. The
-doctrine is absolute (standing rule 3: no odds, no props, no sportsbook language
-anywhere), and the distance between "we do not read that key" and "somebody wrote
-json.dump(payload)" is one careless line.
+THE LAW CHANGED ON 20 SEPTEMBER 2026 and this gate changed with it. Lines now come onto
+the site as FACTS: the spread, the total and the moneyline from the feed's odds object,
+with the provider named on the card, the line at open beside the line now, and on finals
+whether the favourite covered and whether the total went over. So `odds` is no longer
+contraband, and a gate that still blocked it would have blocked the thing the desk now
+publishes.
 
-So this checks the OUTPUT rather than trusting the code: every written data file and
-every rendered page, for the four field names and for sportsbook vocabulary.
+WHAT IS STILL ABSOLUTE, and what this gate is now for:
 
-Exit 1 on any hit. The count is reported on every ship whether it is zero or not.
+  pickcenter          somebody else's pick
+  againstTheSpread    a record presented as a betting guide
+  predictor           a forecast
+
+Those three are predictions and opinions, not readings, and the desk publishes neither.
+A sportsbook LINK is also still banned: showing a line is reporting, sending a reader to
+a book is a different business and a state-law question Jack decides separately.
+
+AND A LINE WITHOUT ITS PROVIDER IS NOT A FACT. A spread is a number one company is
+offering at one moment. Printing it unattributed makes it look like the desk's own
+estimate, which is exactly the thing the desk does not do. So a page carrying a line
+must name who set it.
+
+The vocabulary scan stays advisory on the desk's own chrome and never fails the build:
+the first cut of this file failed on eight legitimate pages, including a Lions story
+naming the player Juice Scruggs and coverage of an Arizona gaming investigation.
+Reporting a betting scandal is journalism.
 
 USAGE  python3 odds_gate.py            # check site/data and site/publish
        python3 odds_gate.py --quiet    # summary line only
@@ -26,8 +41,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "site", "data")
 PUBLISH = os.path.join(HERE, "site", "publish")
 
-# The four field names named in the ruling.
-FIELDS = ("odds", "pickcenter", "againstTheSpread", "predictor")
+# The three that are still contraband. "odds" came off the list on 20 Sep: the desk
+# publishes the line now, attributed.
+FIELDS = ("pickcenter", "againstTheSpread", "predictor")
+
+# A sportsbook a reader could be sent to. Naming a provider is required; linking to one
+# is not allowed, so this looks for the link and not for the name.
+# A line on the page, and the attribution that has to sit with it.
+# THE CONTAINER, not its children. "class=\"...tk-line\b" also matched tk-line-v and
+# tk-line-ml, so one line counted three times and the check failed on a correct page.
+LINE_SHOWN = re.compile(r'data-line-spread="')
+PROVIDER_SHOWN = re.compile(r'data-line-provider="[^"]+"')
+
+BOOKS = ("draftkings.com", "fanduel.com", "caesars.com", "betmgm.com", "pointsbet",
+         "bet365", "barstoolsportsbook", "espnbet.com", "sportsbook.")
 
 # SCOPE IS THE FOUR FIELD NAMES, and the first cut of this file proved why it has to
 # be. A broader scan for sportsbook vocabulary failed the build on eight pages, and
@@ -97,6 +124,23 @@ def check_pages():
             rel = os.path.relpath(p, PUBLISH)
             for m in HTML_FIELD.findall(h):
                 hits.append((rel, f"betting field {m!r}"))
+            # A sportsbook a reader could be sent to.
+            low = h.lower()
+            for b in BOOKS:
+                if f'href="http' in low and b in low:
+                    for href in re.findall(r'href="(https?://[^"]+)"', low):
+                        if b in href:
+                            hits.append((rel, f"sportsbook link {href[:52]!r}"))
+                            break
+            # A LINE WITHOUT ITS PROVIDER. A page that prints a spread must say who set
+            # it, or the number reads as the desk's own estimate.
+            # PER LINE, NOT PER PAGE. Asking whether the page names a provider
+            # anywhere lets one unattributed line hide among attributed ones, which is
+            # exactly the line that would mislead. Every line gets its own.
+            n_lines = len(LINE_SHOWN.findall(h))
+            n_prov = len(PROVIDER_SHOWN.findall(h))
+            if n_lines > n_prov:
+                hits.append((rel, f"{n_lines - n_prov} line(s) with no provider named"))
     return hits
 
 

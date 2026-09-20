@@ -2342,3 +2342,19 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .tk-c[data-baked-stale] .tk-stub{filter:saturate(.72)}
 /* A-3: a pinned team's game carries the same quiet mark on the strip as on the band. */
 .msb-g.msb-pinned{box-shadow:inset 3px 0 0 var(--rule)}
+
+/* ---- B-2: the line and the countdown in the stub ---------------------------
+   The stub was two words in the middle of a large field of colour. Before
+   kickoff it carries the countdown and the line; the line names who set it,
+   because an unattributed spread reads as the desk's own estimate. */
+.tk-count-dn{display:block;margin-top:6px;font:600 12px/1 var(--mono);
+  letter-spacing:.04em;color:rgba(255,255,255,.72)}
+.tk-line{margin-top:9px;display:flex;flex-direction:column;gap:2px;align-items:center}
+.tk-line-v{font:600 12.5px/1.2 var(--mono);letter-spacing:.02em;
+  color:rgba(255,255,255,.92)}
+.tk-line-ml{font:500 11.5px/1.2 var(--mono);color:rgba(255,255,255,.66)}
+.tk-line-src{font:500 10px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;
+  color:rgba(255,255,255,.48)}
+@media (max-width:640px){
+  .tk-line-ml{display:none}
+}

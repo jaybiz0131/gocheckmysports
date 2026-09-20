@@ -49,6 +49,39 @@ LEAGUES = [
 BASE = "https://site.api.espn.com/apis/site/v2/sports/{path}/scoreboard"
 
 
+def _line(comp):
+    """The line as the feed reports it, with the provider that set it.
+
+    Returns None unless BOTH a provider and at least one number are present: an
+    unattributed spread would read as the desk's own estimate, which is the one thing
+    the new law does not allow."""
+    o = (comp.get("odds") or [None])[0]
+    if not o:
+        return None
+    prov = ((o.get("provider") or {}).get("name") or "").strip()
+    if not prov:
+        return None
+    out = {"provider": prov}
+    if o.get("details"):
+        out["detail"] = str(o["details"]).strip()
+    if o.get("spread") is not None:
+        out["spread"] = o["spread"]
+    if o.get("overUnder") is not None:
+        out["total"] = o["overUnder"]
+    for side, key in (("awayTeamOdds", "ml_away"), ("homeTeamOdds", "ml_home")):
+        t = o.get(side) or {}
+        ml = t.get("moneyLine")
+        if ml is None:
+            ml = (t.get("current") or {}).get("moneyLine")
+        if isinstance(ml, dict):
+            ml = ml.get("american") or ml.get("value")
+        if ml not in (None, ""):
+            out[key] = ml
+        if t.get("favorite"):
+            out["favorite"] = "away" if side == "awayTeamOdds" else "home"
+    return out if len(out) > 1 else None
+
+
 def _get(url):
     req = urllib.request.Request(url, headers={
         "User-Agent": common.ua_for(url), "Accept": "application/json"})
@@ -168,6 +201,7 @@ def _league(name, path, colorkey, cmap):
             # after it was renamed NRG. A table of ours goes stale silently; the feed
             # does not. A game the feed does not name gets no venue line.
             "venue": (comp.get("venue") or {}).get("fullName") or "",
+            "line": _line(comp),
         })
     return games
 

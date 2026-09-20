@@ -3803,6 +3803,46 @@ def _tk_kicker(g):
     return f'<span class="tk-k">{esc(line)}</span>'
 
 
+def _tk_line(g):
+    """B-2 and the 20 September law: the line, as a fact, with the provider named.
+
+    The number and its attribution are built together and returned together, so there
+    is no path through this function that prints a spread nobody set. odds_gate checks
+    the rendered page for exactly that.
+
+    No pick, no advice, no link to a book: what the card says is what one company was
+    offering, and who was offering it.
+    """
+    ln = g.get("line") or {}
+    prov = ln.get("provider")
+    if not prov:
+        return ""
+    bits = []
+    if ln.get("detail"):
+        bits.append(esc(str(ln["detail"])))
+    if ln.get("total") is not None:
+        bits.append(f'O/U {esc(str(ln["total"]))}')
+    ml = [f'{side.upper()} {esc(str(ln[key]))}'
+          for side, key in (("away", "ml_away"), ("home", "ml_home")) if ln.get(key)]
+    if not bits:
+        return ""
+    return (f'<div class="tk-line" data-line-spread="{esc(str(ln.get("spread", "")))}">'
+            f'<span class="tk-line-v">{" &middot; ".join(bits)}</span>'
+            + (f'<span class="tk-line-ml">{" &middot; ".join(ml)}</span>' if ml else "")
+            + f'<span class="tk-line-src" data-line-provider="{esc(prov)}">'
+              f'{esc(prov)} via ESPN</span></div>')
+
+
+def _tk_countdown(g):
+    """B-2: the stub is never empty before kickoff. The countdown is written by the
+    client from the kickoff the card already carries, because a countdown baked at
+    build time is wrong the moment it is served."""
+    if g.get("state") != "pre" or not g.get("start_utc"):
+        return ""
+    return ('<span class="tk-count-dn" data-countdown '
+            f'data-kick="{esc(g.get("start_utc") or "")}"></span>')
+
+
 def _tk_matchup(g, big=40):
     """The 40px matchup, with SC-9 colour on live and final."""
     # CFB-1: two school names do not fit the 40px a three-letter code was sized for.
@@ -4035,6 +4075,8 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
             f'{net}</div>'
             f'<div class="tk-mu" data-role="mu">{_tk_matchup(g)}</div>'
             f'{_tk_rec_html(g)}'
+            f'{_tk_countdown(g)}'
+            f'{_tk_line(g)}'
             f'</div><div class="tk-perf"></div>'
             f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
 
@@ -4571,6 +4613,29 @@ SB_LIVE_JS = """
     });
   })();
   setTimeout(recount, 0);   /* A-2: correct the baked counts even before the first poll */
+
+  /* B-2: THE COUNTDOWN. Written by the client, never baked: a countdown rendered at
+     build time is wrong the moment it is served, and on this desk a build can be hours
+     old. It ticks once a minute, which is the resolution it shows, and it stops the
+     moment the game is no longer upcoming so a started game never reads "kicks in". */
+  function countdowns(){
+    var now = Date.now();
+    document.querySelectorAll('[data-countdown]').forEach(function(el){
+      var card = el.closest('[data-gid]');
+      if (card && card.getAttribute('data-state') !== 'pre') { el.textContent = ''; return; }
+      var k = Date.parse(el.getAttribute('data-kick') || '');
+      if (!isFinite(k)) { el.textContent = ''; return; }
+      var mins = Math.round((k - now) / 60000);
+      if (mins < 0) { el.textContent = ''; return; }
+      if (mins < 60) { el.textContent = 'kicks in ' + mins + 'm'; return; }
+      var h = Math.floor(mins / 60), m = mins % 60;
+      el.textContent = h < 24
+        ? 'kicks in ' + h + 'h ' + (m < 10 ? '0' : '') + m + 'm'
+        : '';
+    });
+  }
+  countdowns();
+  setInterval(countdowns, 60000);
 
   function paint(gid, s){
     [].forEach.call(byId(gid), function(card){
