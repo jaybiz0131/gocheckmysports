@@ -123,6 +123,31 @@ def _lost(g, side):
     return (a < h) if side == "away" else (h < a)
 
 
+def line_text(g):
+    """C-5: what the card says about the line, and who it says set it, decided together.
+
+    Returns ("", "") whenever there is no provider, so there is no path that paints a
+    spread with nobody's name under it. It is a function rather than a branch inside the
+    drawing code so it can be tested: a card is a PNG, and a canary cannot read one.
+
+    A card is the part of this site that travels furthest from it and the part a reader
+    is least able to check, which is the argument for the rule rather than against it.
+    """
+    line = g.get("line") or {}
+    prov = line.get("provider") or ""
+    if not prov:
+        return ("", "")
+    ruling = (g.get("ruling") or "").strip()
+    if ruling:
+        return (ruling, f"{prov} via ESPN")
+    bits = [str(line["detail"])] if line.get("detail") else []
+    if line.get("total") is not None:
+        bits.append(f"O/U {line['total']}")
+    if not bits:
+        return ("", "")
+    return ("  \u00b7  ".join(bits), f"{prov} via ESPN")
+
+
 def game_card(g, out_path):
     """Score, status and network. Nothing for a game with no score yet: the kickoff
     time is what an upcoming game has, and that is what it shows."""
@@ -155,6 +180,20 @@ def game_card(g, out_path):
         tw = d.textlength(net, font=_mono(24, True))
         d.rectangle([60, H - 150, 60 + tw + 34, H - 150 + 46], fill=(42, 45, 53))
         d.text((77, H - 139), net, font=_mono(24, True), fill=LIGHT)
+
+    # C-5: THE LINE TRAVELS WITH THE LINK, under the same law as the card on the page.
+    # The number and the name that set it are drawn together, in one call, so there is
+    # no path through this function that paints a spread with nobody's name under it.
+    # A card is the part of this site that travels furthest from it and the part a
+    # reader is least able to check, which is the argument for the rule rather than
+    # against applying it here.
+    txt, src = line_text(g)
+    if txt and src:
+        f1, f2 = _mono(26, True), _mono(20)
+        x = W - 60 - d.textlength(txt, font=f1)
+        d.text((x, H - 152), txt, font=f1, fill=LIGHT)
+        d.text((W - 60 - d.textlength(src, font=f2), H - 118), src,
+               font=f2, fill=(166, 171, 180))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     im.save(out_path, "PNG", optimize=True)
     return out_path

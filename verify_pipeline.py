@@ -442,6 +442,35 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # C-5: THE SHARE CARD carries the line, under the same law as the page. A card is a
+    # PNG: the gate greps written files and cannot read one, and no reader can check it
+    # against anything. So the decision is a function and this tests the function.
+    import share_cards as _scm
+    _check(_scm.line_text({"line": {"provider": "DraftKings", "detail": "KC -6.5",
+                                    "total": 47.5}})
+           == ("KC -6.5  \u00b7  O/U 47.5", "DraftKings via ESPN"), fails,
+           "C-5 canary: the card's line and its attribution are not produced together")
+    for _bad, _why in (
+            ({"line": {"detail": "KC -6.5", "total": 47.5}}, "a spread with no provider"),
+            ({"line": {}, "ruling": "KC covered"}, "a cover ruling with no provider"),
+            ({"line": {"provider": "DraftKings"}}, "a provider with no number")):
+        _check(_scm.line_text(_bad) == ("", ""), fails,
+               f"C-5 canary: the share card would paint {_why}: "
+               f"{_scm.line_text(_bad)}")
+    # The ruling on the card comes from the same function as the ruling on the page.
+    _sb.LINES_DATA = None
+    _gsc = {"id": "SC", "state": "post", "league": "NFL",
+            "away": {"abbr": "IND", "score": "10"}, "home": {"abbr": "KC", "score": "24"},
+            "line": {"provider": "DraftKings", "detail": "KC -6.5", "total": 47.5}}
+    _txt = _sb._ruling_text(_gsc)
+    _check("KC covered" in _txt and "Under 47.5" in _txt, fails,
+           f"C-5 canary: the card's ruling text does not match the page's: {_txt!r}")
+    _check("<" not in _txt and "&" not in _txt, fails,
+           f"C-5 canary: markup reached the card's text: {_txt!r}")
+    _check("via ESPN" not in _txt, fails,
+           "C-5 canary: the attribution is inside the ruling text, so the card would "
+           "draw it twice")
+
     # C-4: THE PINS PANEL. The behaviour is in the browser and was proved there; what
     # this checks is the contract the build is responsible for, which is that a reader
     # with no pins and no script is shown nothing at all rather than an empty box

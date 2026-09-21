@@ -4012,6 +4012,20 @@ def _tk_redzone(g, t):
     return " rz" if tid and str(g.get("possession") or "") == tid else ""
 
 
+def _ruling_text(g):
+    """The cover and total ruling as plain text, for the share card. The same function
+    decides it as decides the page, and the markup is stripped rather than the logic
+    being written twice: two implementations of "did the favourite cover" is two answers
+    waiting to disagree on the one artefact a reader cannot check.
+    """
+    h = _tk_ruling(g)
+    if not h:
+        return ""
+    import re as _re
+    body = h.split('<span class="tk-ruling-src"')[0]
+    return _re.sub(r"<[^>]+>", "", body).replace("&middot;", "\u00b7").strip()
+
+
 def _tk_ruling(g):
     """The law of 20 September, the last clause: on finals, whether the favourite
     covered and whether the total went over.
@@ -10406,6 +10420,11 @@ def build():
             # the number in a group chat and the number on the page cannot disagree.
             try:
                 import share_cards as _sc
+                # S-F: the card is drawn from the same record the page renders, so
+                # the ruling is computed once, here, and handed over rather than
+                # re-derived inside the drawing code where it could drift from the page.
+                _g = dict(_g, line=(_tk_logged(_g)[0] or {}),
+                          ruling=_ruling_text(_g))
                 _sc.game_card(_g, os.path.join(PUBLISH, "share", "games",
                                                f'{_g["id"]}.png'))
                 _cards += 1
