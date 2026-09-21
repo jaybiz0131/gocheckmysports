@@ -95,9 +95,16 @@ way, and keep advisory checks (kill streaks, dupe audit, coverage gaps) at warni
 Priority is by reader impact: a correct story nobody can reach is worse than a missing
 one, and a wrong story is worse than both.
 
-### P0. Push the pending gate fix (crypto)
-`~/Downloads/newsroom-gate-fix-2026-09-03/gocheckmycrypto/0001-*.patch`. Until it lands,
-any cross-surface collision still discards a whole crypto run.
+### P0. DONE, landed. The crypto gate fix is on main
+Landed as `78bb4ab` on gocheckmycrypto, "consistency gate: withhold the colliding
+surface, never the whole run". A cross-surface collision no longer discards a run.
+
+**The patch file in `~/Downloads/newsroom-gate-fix-2026-09-03/` is STALE and can be
+deleted.** This entry sat here as an open P0 after the fix had shipped, so a session
+reading this file would go looking for a patch that was already on main. Verified
+2026-09-21 against origin/main before this line was written.
+
+**P2 is now the top of this list.**
 
 ### P1. DONE, pending push: false supersedes were hiding 22 correct stories
 Patch: `~/Downloads/newsroom-supersede-fix/`. Sports and news only; crypto updates in
