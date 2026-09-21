@@ -106,9 +106,17 @@ reading this file would go looking for a patch that was already on main. Verifie
 
 **P2 is now the top of this list.**
 
-### P1. DONE, pending push: false supersedes were hiding 22 correct stories
-Patch: `~/Downloads/newsroom-supersede-fix/`. Sports and news only; crypto updates in
-place and never writes `superseded_by`.
+### P1. DONE, landed. False supersedes were hiding 22 correct stories
+`supersede_ok` is on origin/main on BOTH sports and news, verified 2026-09-21. The
+patch directory `~/Downloads/newsroom-supersede-fix/` is stale and can be deleted.
+
+This said "pending push" for long enough that it stopped meaning anything, which is the
+same defect the P0 line above had: a list that records intent and is never re-read
+against the repo sends every cold session after work that is already done. The rule
+this file now keeps is that "pending" is a claim about origin/main and gets checked
+there before it is written.
+
+Crypto updates in place and never writes `superseded_by`, so it was never affected.
 
 **What was happening.** `site_build.find_superseded` had a declared path that obeyed the
 editor with no check of any kind:
