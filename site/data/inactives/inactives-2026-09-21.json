@@ -1,8 +1,8 @@
 {
  "day": "2026-09-21",
  "first_poll": "2026-09-21T09:17:00Z",
- "last_change": "2026-09-21T23:05:25Z",
- "last_poll": "2026-09-21T23:05:32Z",
+ "last_change": "2026-09-21T23:10:27Z",
+ "last_poll": "2026-09-21T23:10:40Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -625,6 +625,15 @@
   "14": {
    "capped": true,
    "designations": {
+    "3912189": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:56Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Bill Murray",
+     "pos": "G",
+     "status": "Out"
+    },
     "4426515": {
      "changed_at": "2026-09-21T23:00:43Z",
      "detail": "Hip",
@@ -635,21 +644,39 @@
      "status": "Out"
     },
     "4569382": {
-     "changed_at": null,
+     "changed_at": "2026-09-21T23:10:27Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-09-19T18:50Z",
+     "feed_date": "2026-09-21T22:59Z",
      "first_seen": "2026-09-21T09:17:00Z",
      "name": "Jordan Whittington",
      "pos": "WR",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "4596363": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-09-19T21:07Z",
+     "feed_date": "2026-09-21T22:56Z",
      "first_seen": "2026-09-21T09:17:00Z",
      "name": "Kamren Kinchens",
      "pos": "S",
+     "status": "Out"
+    },
+    "4605951": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:56Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "CJ Daniels",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:56Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
      "status": "Out"
     }
    },
@@ -1351,27 +1378,99 @@
   "19": {
    "capped": true,
    "designations": {
-    "4371961": {
+    "4240706": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Jason Pinnock",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4371961": {
+     "changed_at": "2026-09-21T23:10:27Z",
      "detail": "Neck",
-     "feed_date": "2026-09-17T21:35Z",
+     "feed_date": "2026-09-21T22:59Z",
      "first_seen": "2026-09-21T09:17:00Z",
      "name": "Micah McFadden",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4426542": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Darius Alexander",
+     "pos": "DT",
+     "status": "Out"
     },
     "4428328": {
-     "changed_at": null,
+     "changed_at": "2026-09-21T23:10:27Z",
      "detail": "Calf",
-     "feed_date": "2026-09-19T19:44Z",
+     "feed_date": "2026-09-21T22:59Z",
      "first_seen": "2026-09-21T09:17:00Z",
      "name": "Deonte Banks",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4590292": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Thomas Fidone II",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "5082353": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "J.C. Davis",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5159928": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "name": "Bobby Jamison-Travis",
+     "pos": "DT",
+     "status": "Out"
     }
    },
    "id": "19",
    "players": {
+    "4240706": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "Jason Pinnock",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4371961": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "Micah McFadden",
+     "pos": "LB",
+     "reason": "Neck",
+     "via": "poll"
+    },
+    "4426542": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "Darius Alexander",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4428328": {
      "feed_date": "2026-09-19T19:44Z",
      "first_seen": "2026-09-21T23:05:25Z",
@@ -1379,6 +1478,33 @@
      "name": "Deonte Banks",
      "pos": "CB",
      "reason": "Calf",
+     "via": "poll"
+    },
+    "4590292": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "Thomas Fidone II",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5082353": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "J.C. Davis",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5159928": {
+     "feed_date": "2026-09-21T22:59Z",
+     "first_seen": "2026-09-21T23:10:27Z",
+     "jersey": "",
+     "name": "Bobby Jamison-Travis",
+     "pos": "DT",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
