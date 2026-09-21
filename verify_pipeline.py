@@ -531,12 +531,26 @@ def layer1_canary():
            "now builds, so the fix just switched the file off")
     _check(_ni.decide(["ledger.json"], _q)[0] is True, fails,
            "netlify ignore canary: an ops-ledger row now builds")
+    # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
+    # opposite until 21 September, when Netlify paused every site on the team over
+    # 1,188 deploys in a period and that rule was found to be the largest single source
+    # of them. The board is still the product inside a window; it now reaches the page
+    # from the committed JSON on the client instead of from a deploy.
     _iw = _dw.datetime(2026, 9, 20, 18, 0, tzinfo=_dw.timezone.utc)
     _check(_ni.in_posting_window(_iw) is True, fails,
-           "netlify ignore canary: the Sunday-slate fixture is not in a posting window")
-    _check(_ni.decide(["site/data/inactives/x.json"], _iw)[0] is False, fails,
-           "netlify ignore canary: an inactives snapshot inside a posting window did "
-           "not build, and inside the window the board is the product")
+           "netlify ignore canary: the Sunday-slate fixture is not in a posting window, "
+           "so the check below proves nothing")
+    _check(_ni.decide(["site/data/inactives/x.json"], _iw)[0] is True, fails,
+           "netlify ignore canary: an inactives snapshot inside a posting window still "
+           "builds the site; the poller pushes every 15 minutes and that is 1,188 "
+           "deploys a period")
+    # And the page must be able to refresh itself, or the line above is just staleness.
+    _iap = os.path.join(_sb.PUBLISH, "fantasy", "inactives.html")
+    if os.path.exists(_iap):
+        _iah = open(_iap, encoding="utf-8", errors="ignore").read()
+        _check("data-ia-board" in _iah and "raw.githubusercontent" in _iah, fails,
+               "netlify ignore canary: the inactives board no longer builds on a "
+               "snapshot and cannot fetch one either, so it would simply go stale")
 
     # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
     # so what has to hold is that it reports only what is real and in the right order.

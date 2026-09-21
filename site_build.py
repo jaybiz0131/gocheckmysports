@@ -7589,6 +7589,97 @@ def _ia_earlier(board, games):
     return out
 
 
+IA_POLL_JS = """<script>(function(){
+  /* THE BOARD REFRESHES WITHOUT A DEPLOY (deploy budget, 21 September 2026).
+
+     The poller writes a snapshot every 15 minutes through a game window, and every one
+     of those pushes used to build the site: 1,188 production deploys in a month, and at
+     about 2 PM on 21 September Netlify paused every site on the team.
+
+     The rule now is that a deploy changes what the page SAYS and a number changing is
+     not a deploy. So the page fetches the day's committed snapshot itself, straight
+     from the repository, and the board is as fresh as the poller with nothing built in
+     between. No API key, no server, and the file is the same one the build reads.
+
+     WITHOUT THIS SCRIPT THE PAGE IS STILL COMPLETE: it is rendered from the snapshot
+     that was committed when the site was last built, which is exactly what it showed
+     before. This only adds what has landed since. */
+  var RAW = 'https://raw.githubusercontent.com/jaybiz0131/gocheckmysports/main/' +
+            'site/data/inactives/inactives-';
+  var board = document.querySelector('[data-ia-board]');
+  if (!board) return;
+  var day = board.getAttribute('data-ia-day') || '';
+  if (!day) return;
+
+  function et(iso){
+    try {
+      return new Date(iso).toLocaleTimeString('en-US',
+        {timeZone:'America/New_York', hour:'numeric', minute:'2-digit'}) + ' ET';
+    } catch (e) { return ''; }
+  }
+
+  function rows(players){
+    return Object.keys(players || {}).map(function(k){
+      var p = players[k] || {};
+      return '<div class="ia-row"><span class="ia-name">' + (p.name || '') +
+             '</span><span class="ia-pos">' + (p.pos || '') +
+             '</span><span class="bd-src">' + (p.detail || '') + '</span></div>';
+    }).join('');
+  }
+
+  function paint(doc){
+    var teams = (doc && doc.teams) || {};
+    var added = 0, changed = 0, players = 0, lists = 0;
+    var late = document.querySelector('[data-ia-late]');
+    Object.keys(teams).forEach(function(id){
+      var t = teams[id] || {};
+      var name = t.team || '';
+      var ps = t.players || {};
+      var n = Object.keys(ps).length;
+      if (!name || !n) return;
+      lists++; players += n;
+      var card = board.querySelector('.ia-team[data-team="' + name + '"]');
+      if (card) {
+        var box = card.querySelector('.ia-rows');
+        var have = box ? box.querySelectorAll('.ia-row').length : 0;
+        if (box && have !== n) { box.innerHTML = rows(ps); changed++; }
+        var st = card.querySelectorAll('.bd-stamp');
+        if (st[0]) st[0].textContent = n + ' inactive';
+        return;
+      }
+      /* A LIST THAT POSTED AFTER THIS PAGE WAS BUILT. Its game group is decided by the
+         build, which has not run, so it goes in a block of its own at the top rather
+         than being guessed into a group. A reader sees it; nothing is invented. */
+      if (!late) return;
+      late.insertAdjacentHTML('beforeend',
+        '<div class="bd-card ia-team" data-team="' + name + '">' +
+        '<div class="bd-cardtop"><span class="bd-eyebrow">' + name +
+        '</span><span class="bd-stamp">' + n + ' inactive</span>' +
+        '<span class="bd-stamp">posted ' + et(t.reconciled_at || doc.last_poll) +
+        '</span></div><div class="ia-rows">' + rows(ps) + '</div></div>');
+      added++;
+    });
+    if (late) late.hidden = !late.querySelector('.ia-team');
+    var sum = document.querySelector('[data-ia-count]');
+    if (sum && lists) {
+      sum.textContent = lists + ' list' + (lists === 1 ? '' : 's') + ' posted, ' +
+                        players + ' player' + (players === 1 ? '' : 's');
+    }
+    var stamp = document.querySelector('[data-ia-stamp]');
+    if (stamp && doc.last_poll) stamp.textContent = 'Updated ' + et(doc.last_poll);
+  }
+
+  function tick(){
+    fetch(RAW + day + '.json?t=' + Date.now(), {cache: 'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if (d) paint(d); })
+      .catch(function(){ /* the committed render stands */ });
+  }
+  tick();
+  setInterval(function(){ if (!document.hidden) tick(); }, 300000);
+})();</script>"""
+
+
 def render_inactives_earlier(board, w2w, dateline):
     """N-7c: the lists from before this week, on their own page. The CURRENT week keeps
     /fantasy/inactives and that URL never changes; this is where the earlier ones live
@@ -7676,9 +7767,16 @@ def render_inactives(board, w2w, dateline):
                           f'<span class="bd-src">expected {esc(p["expected"])}</span></div>'
                           for p in pending)
                 + '</div></section>')
-    body = f"""<main class="wrap"><section class="page">
+    # The hooks the client poll needs. The day names the snapshot to fetch; the board
+    # is the element it paints into; the late block is where a list that posted after
+    # this build lands, because its game group is the build's decision and the build
+    # has not run.
+    _ia_day = (board or {}).get("day") or ((board or {}).get("last_poll") or "")[:10]
+    body = f"""<main class="wrap"><section class="page" data-ia-board
+       data-ia-day="{esc(_ia_day)}">
     <h1 class="lx-h1" style="margin-bottom:6px">{esc(_ia_heading(board))}</h1>
-  <p class="lx-dek">{esc(_ia_week_summary(board, games))}</p>
+  <p class="lx-dek" data-ia-count>{esc(_ia_week_summary(board, games))}</p>
+  <div class="ia-grid" data-ia-late hidden style="margin-bottom:18px"></div>
   {_ia_week_switch(board, games)}
   {fantasy_asof("First seen", (board or {}).get("last_change") or
                 (board or {}).get("last_poll") or "", "the league injury feed")}
@@ -7686,7 +7784,7 @@ def render_inactives(board, w2w, dateline):
   {_sb12_who_plays_when(_ahead_games)}
   {cards}
   {pend}
-</section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + IA_FOLD_JS
+</section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + IA_FOLD_JS + IA_POLL_JS
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
                  "first saw each one. Facts, not advice.",

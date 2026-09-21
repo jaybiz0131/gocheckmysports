@@ -80,8 +80,19 @@ def decide(paths, now=None):
                    if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES)]
     if unskippable:
         return False, f"{len(unskippable)} file(s) that change the site, e.g. {unskippable[0]}"
-    if any(p.startswith(SKIPPABLE_PREFIXES) for p in paths) and in_posting_window(now):
-        return False, "inactives changed inside a posting window; the board is the product"
+    # AN INACTIVES SNAPSHOT NEVER BUILDS THE SITE, in a window or out of one.
+    #
+    # This used to build inside a posting window on the grounds that the board IS the
+    # product there, and it is, but the cost was not visible from this file: the poller
+    # runs every 15 minutes across nine hours on a Sunday and every 20 minutes on four
+    # other nights, and every one of those pushes was a production deploy. 1,188 deploys
+    # in the 23 Aug to 22 Sep period at 15 credits each is 17,820 of the team's 15,000,
+    # and at about 2 PM on 21 September Netlify paused every site on the team.
+    #
+    # The rule that replaces it: a deploy changes what the site SAYS; a number changing
+    # is not a deploy. The snapshot still lands every 15 minutes, and the board still
+    # shows it within one poll, because the page fetches the committed JSON itself.
+    # Freshness is unchanged and the builds behind it are gone.
     return True, f"{len(paths)} file(s), none of which change the site"
 
 
