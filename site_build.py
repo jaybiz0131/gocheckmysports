@@ -1869,15 +1869,106 @@ LEAGUE_WEIGHT = {
 }
 
 
+_DAY_SLATE = None
+
+
+def _day_slate(now=None):
+    """E-1: what is actually being played today, per league, from the board.
+
+    Returns {league: (games, started)} or {} when the board did not answer, which is
+    the signal to fall back on the table alone.
+
+    Today is the board's own day in Eastern, which is the day the reader is having.
+    """
+    global _DAY_SLATE
+    if _DAY_SLATE is not None:
+        return _DAY_SLATE
+    now = now or _build_now()
+    today = now.astimezone(_ET).date()
+    out = {}
+    for lg in ((SB_DATA or {}).get("leagues") or []):
+        key = (lg.get("league") or "").upper()
+        gs = lg.get("games") or []
+        if not key or not gs:
+            continue
+        n = started = 0
+        for g in gs:
+            k = _utc_dt(g.get("start_utc") or "")
+            if not k:
+                continue
+            # THE BOARD IS NOT A DAY. Each league's endpoint answers with its own
+            # window: on a Monday morning the NFL board carries the whole week (one
+            # game on the 17th, fourteen on the 20th, one tonight), the college board
+            # carries NEXT weekend, and the NBA board carries a game in October.
+            # Counting what the board returned would have made Saturday's college
+            # slate the story on a Monday, which is worse than the calendar this is
+            # replacing.
+            #
+            # A game counts when it is today in Eastern, or when it finished recently
+            # enough to still be today's news: last night's baseball is what a desk
+            # writes about this morning, and the board will not call it today.
+            if k.astimezone(_ET).date() == today:
+                n += 1
+                if g.get("state") in ("in", "post"):
+                    started += 1
+            elif (g.get("state") == "post"
+                  and 0 <= (now - k).total_seconds() / 3600 <= RECENT_FINAL_HOURS):
+                n += 1
+                started += 1
+        if n:
+            out[key] = (n, started)
+    _DAY_SLATE = out
+    return out
+
+
 def _league_weight(league, now=None):
-    """Today's weight for a league. September and October lift MLB: that is the
-    pennant race, and it is the one month baseball leads a general sports desk."""
+    """Today's weight for a league.
+
+    E-1: THE DAY IS MEASURED, NOT LOOKED UP. The weekday table below is a calendar kept
+    by hand: it gives the NFL 4.5 on a Sunday in June, when there is no NFL, and holds
+    college football at 3.5 every Saturday including the ones in March. This desk has
+    already learned three times that a hand-kept list is stale in both directions, and
+    the correction each time was to measure the thing instead.
+
+    The board is the measurement, and it is already on disk. A league with fifteen games
+    today is having its day whatever the calendar thinks; a league with none is not,
+    however good its Sunday usually is.
+
+    The table is still the prior, because "how much does a sports reader care about this
+    league at all" is a judgement and not a count, and a league with two games can still
+    be the wrong lead. What the slate does is stop the calendar asserting a day that is
+    not happening, and let one that is happening through.
+
+    The lift saturates at eight games: a fifteen-game Sunday is not twice the day a
+    seven-game one is, and without a ceiling the biggest slate would always lead no
+    matter what was on it.
+
+    When the board is unavailable the table stands alone, unchanged, which is the same
+    fail-safe every other surface here keeps.
+    """
     now = now or _build_now()
     et = now.astimezone(_ET)
-    base, byday = LEAGUE_WEIGHT.get((league or "").upper() if league else "", (1.0, {}))
+    key = (league or "").upper() if league else ""
+    base, byday = LEAGUE_WEIGHT.get(key, (1.0, {}))
     w = byday.get(et.weekday(), base)
-    if (league or "").upper() == "MLB" and et.month in (9, 10):
+    if key == "MLB" and et.month in (9, 10):
         w = max(w, 2.6)
+
+    slate = _day_slate(now)
+    if slate:
+        n, started = slate.get(key, (0, 0))
+        if n == 0:
+            # The calendar claimed this league's day and nothing is being played. The
+            # prior is cut to the base rather than to zero: a league can be the story
+            # on a day it does not play, and often is.
+            w = min(w, base)
+        else:
+            lift = 1.0 + (min(n, 8) / 8.0) * 1.6
+            w = max(w, base * lift)
+            if started:
+                # A game that has kicked off produces news; a slate still hours away
+                # has produced none yet.
+                w *= 1.12
     return w
 
 
@@ -1932,8 +2023,27 @@ def _league_from_teams(item):
     if not v["NFL"]:
         return ""
     claim = " ".join([item.get("title") or "", item.get("dek") or ""])
-    hits = {lg: sum(1 for n in names if n in claim) for lg, names in v.items()}
-    live = [lg for lg, n in hits.items() if n]
+    # A SINGLE ONE-WORD NAME IS NOT EVIDENCE. The college vocabulary has 639 schools in
+    # it and some are ordinary words and ordinary first names: a romance-scam story
+    # about a fake 49ers player was filed as COLLEGE FOOTBALL because its dek named a
+    # suspect "Taylor Chan" and there is a Taylor University. That is the fourth time
+    # this desk has been bitten by a matcher that one shared token can satisfy, after
+    # RECURRING_ACTORS, the date-stamp trap and the supersede floor, and the rule each
+    # time is the same: the floor comes from the structure, never from a list kept by
+    # hand.
+    #
+    # The structure here is the name itself. "Ohio State", "Texas A&M" and "NC State"
+    # cannot be anything else; "Taylor", "Buffalo" and "Miami" can be almost anything.
+    # So a multi-word name stands on its own, and a one-word name needs a second name
+    # from the same league to corroborate it.
+    hits = {}
+    for lg, names in v.items():
+        found = [n for n in names if re.search(r"\b" + re.escape(n) + r"\b", claim)]
+        if not found:
+            continue
+        if any(" " in n for n in found) or len(set(found)) >= 2:
+            hits[lg] = len(found)
+    live = list(hits)
     return live[0] if len(live) == 1 else ""
 
 
@@ -1955,6 +2065,21 @@ def display_tags(item):
     return (right + [t for t in kept if t not in right]) if right else kept
 
 
+# E-1: THE DESK'S TAGS AND THE WEIGHT TABLE'S KEYS WERE NEVER CONNECTED. The desk
+# writes "college"; the scoreboard, and therefore the weight table, says "CFB". So a
+# correctly tagged college story could not resolve to a league at all, the scan fell
+# through to whatever other league tag happened to be on it, and a Senate bill about
+# college sports, tagged college and nhl, read as ICE HOCKEY and was weighted as such.
+#
+# Only aliases belong here. This is a spelling table, not a judgement about what a story
+# is about: that question is A-5's, and the teams a story names still outrank every tag.
+TAG_LEAGUE = {
+    "college": "CFB", "ncaaf": "CFB", "college-football": "CFB", "cfb": "CFB",
+    "football": "NFL", "baseball": "MLB", "basketball": "NBA", "hockey": "NHL",
+    "ncaa": "CFB", "wnba": "WNBA", "soccer": "Soccer", "futbol": "Soccer",
+}
+
+
 def _story_league(item):
     """The league a story belongs to, from its own field or its tags."""
     lg = (item.get("league") or "").upper()
@@ -1966,6 +2091,10 @@ def _story_league(item):
     if byteam and byteam not in tags[:1]:
         return byteam
     for t in tags:
+        # tags arrive upper-cased from the line above; the alias table is keyed in the
+        # spelling the desk writes. Lower-casing the lookup, not the table, keeps the
+        # table readable as the desk's own vocabulary.
+        t = TAG_LEAGUE.get(t.lower(), t)
         if t in LEAGUE_WEIGHT:
             return t
     return ""

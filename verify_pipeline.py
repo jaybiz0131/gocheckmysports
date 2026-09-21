@@ -442,6 +442,127 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # E-1: THE LEAD RULE GAINS THE DAY. The weekday table it used is a calendar kept by
+    # hand: it gives the NFL 4.5 on a Sunday in June and college football 3.5 every
+    # Saturday including the ones in March. The board says what is actually being played.
+    import datetime as _de
+    _sb._DAY_SLATE = None
+    _nowe = _sb._build_now()
+    _tdy = _nowe.astimezone(_sb._ET)
+
+    def _ge(dd, state="pre", hours=0):
+        _k = (_tdy + _de.timedelta(days=dd, hours=hours))
+        return {"state": state,
+                "start_utc": _k.astimezone(_de.timezone.utc)
+                               .strftime("%Y-%m-%dT%H:%M:%SZ")}
+
+    # The shape the board actually returns on a Monday morning: the NFL board carries
+    # the whole week, and the college board carries NEXT weekend.
+    _sb.SB_DATA = {"leagues": [
+        {"league": "NFL", "games": [_ge(0, "post", -12), _ge(0, "post", -12), _ge(0)]},
+        {"league": "CFB", "games": [_ge(5), _ge(5), _ge(5), _ge(5), _ge(5)]}]}
+    _sb._DAY_SLATE = None
+    _sl = _sb._day_slate(_nowe)
+    _check("CFB" not in _sl, fails,
+           f"E-1 canary: college games five days away counted as today's slate, which "
+           f"would make Saturday's football the story on a Monday: {_sl}")
+    _check(_sl.get("NFL", (0, 0))[0] == 3, fails,
+           f"E-1 canary: last night's finals and tonight's game are not today's slate: "
+           f"{_sl}")
+    # A league with nothing on today cannot be lifted above its base by the calendar.
+    # TESTED ON A SATURDAY, because that is the only day the calendar lifts college
+    # football at all: asked on a Monday this passes with the cut deleted, since the
+    # table was not lifting anything to begin with.
+    _satd = _tdy + _de.timedelta(days=(5 - _tdy.weekday()) % 7 or 7)
+    _satu = _satd.astimezone(_de.timezone.utc)
+    _check(_satd.weekday() == 5, fails, "E-1 canary: the Saturday fixture is not a "
+                                        "Saturday")
+    _check(_sb.LEAGUE_WEIGHT["CFB"][1].get(5) == 3.5, fails,
+           "E-1 canary: the table no longer lifts college football on a Saturday, so "
+           "the check below proves nothing")
+    _sb.SB_DATA = {"leagues": [{"league": "NFL", "games": [
+        {"state": "pre", "start_utc": _satu.strftime("%Y-%m-%dT%H:%M:%SZ")}]}]}
+    _sb._DAY_SLATE = None
+    _wc = _sb._league_weight("CFB", _satu)
+    _check(_wc <= _sb.LEAGUE_WEIGHT["CFB"][0] + 1e-9, fails,
+           f"E-1 canary: on a Saturday with no college game on the board, college "
+           f"football kept its calendar lift: {_wc}")
+    _sb._DAY_SLATE = None
+    # And the board being unavailable leaves the table exactly as it was.
+    _sb.SB_DATA = None
+    _sb._DAY_SLATE = None
+    _sat = _tdy.replace(year=2026, month=9, day=26)   # a Saturday
+    _check(_sb._league_weight("CFB", _sat.astimezone(_de.timezone.utc)) == 3.5, fails,
+           "E-1 canary: with no board the weekday table no longer stands alone, so a "
+           "failed fetch changes the front page's judgement")
+    _sb._DAY_SLATE = None
+
+    # THE LIFT SATURATES. A fifteen-game Sunday is not twice the day a seven-game one
+    # is, and without a ceiling the league with the biggest slate leads every time
+    # regardless of what is on it: a forty-game midweek baseball card would outweigh a
+    # conference championship.
+    def _slate_w(league, count):
+        _sb.SB_DATA = {"leagues": [{"league": league, "games": [
+            _ge(0, "post", -2) for _ in range(count)]}]}
+        _sb._DAY_SLATE = None
+        return _sb._league_weight(league, _nowe)
+
+    _w8, _w40 = _slate_w("MLB", 8), _slate_w("MLB", 40)
+    _check(abs(_w40 - _w8) < 1e-9, fails,
+           f"E-1 canary: the slate lift does not saturate, so the biggest card of the "
+           f"day always leads: 8 games gave {_w8:.2f} and 40 gave {_w40:.2f}")
+    _check(_slate_w("MLB", 2) < _w8, fails,
+           "E-1 canary: the lift is flat below the ceiling too, so the size of the "
+           "day's slate no longer counts for anything")
+    _sb.SB_DATA = None
+    _sb._DAY_SLATE = None
+
+    # THE DESK'S TAGS AND THE TABLE'S KEYS. The desk writes "college"; the table says
+    # "CFB". Unconnected, a correctly tagged college story fell through to whatever
+    # other league tag was on it.
+    _check(_sb.TAG_LEAGUE.get("college") == "CFB", fails,
+           "E-1 canary: the desk's own college tag does not map to a league")
+    # Tags are DERIVED from the text here, not read from a field, so the fixture is
+    # text. Before the alias table this resolved to nothing at all: the tag the desk
+    # writes was not a key the weight table knew, so the league fell through and the
+    # story was weighted as if it belonged to no sport.
+    _st = {"title": "college football realignment bill advances in the Senate",
+           "dek": "", "key_fact": "", "body": []}
+    _check("college-football" in _sb.tags_for(_st), fails,
+           f"E-1 canary: the fixture no longer produces a college tag, so the check "
+           f"below proves nothing: {_sb.tags_for(_st)}")
+    _check(_sb._story_league(_st) == "CFB", fails,
+           f"E-1 canary: a story whose league tag is the desk's own college spelling "
+           f"resolved to {_sb._story_league(_st)!r} instead of CFB")
+
+    # THE ONE-WORD FLOOR. The college vocabulary has 639 schools in it and some are
+    # ordinary first names.
+    # THE VOCABULARY IS SET HERE, not read from the schedule file. Guarding this on
+    # TEAM_DATA being loaded meant the canary never ran it at all: the build loads that
+    # file and the canary does not, so the whole block was skipped in silence and
+    # deleting the floor left the canary green.
+    _vsave = _sb._TEAM_VOCAB
+    _sb._TEAM_VOCAB = {"NFL": {"San Francisco 49ers", "Buffalo Bills"},
+                       "CFB": {"Taylor", "Ohio State", "Texas A&M", "Miami"}}
+    try:
+        _fake = {"title": "FBI case against fake 49ers player expands",
+                 "dek": "women defrauded by Daejon Love and Taylor Chan in a scam"}
+        _check(_sb._league_from_teams(_fake) == "", fails,
+               "E-1 canary: a single one-word school name decided a story's league, so "
+               "a romance scam is filed as college football because a suspect is "
+               "called Taylor and there is a Taylor University")
+        _real = {"title": "Jeremiah Smith becomes Ohio State's receiving leader",
+                 "dek": ""}
+        _check(_sb._league_from_teams(_real) == "CFB", fails,
+               "E-1 canary: a multi-word school name no longer decides, so the floor "
+               "above is just switching the check off")
+        _two = {"title": "Miami and Taylor agree to a series", "dek": ""}
+        _check(_sb._league_from_teams(_two) == "CFB", fails,
+               "E-1 canary: two one-word school names together did not corroborate "
+               "each other, which is the other half of the floor")
+    finally:
+        _sb._TEAM_VOCAB = _vsave
+
     # C-5: THE SHARE CARD carries the line, under the same law as the page. A card is a
     # PNG: the gate greps written files and cannot read one, and no reader can check it
     # against anything. So the decision is a function and this tests the function.
