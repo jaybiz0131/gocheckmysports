@@ -442,6 +442,44 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # D-2: A FORECAST IS ONLY A FORECAST WHILE IT IS IN THE FUTURE. Checkpoint 4 read
+    # "Sunday's lists post about 6:50 PM ET" at 9:20 PM on Sunday, beside the page's own
+    # count of 29 lists already posted, because the summary forecast from the earliest
+    # game still without a list whether or not that game had kicked off hours earlier.
+    # Checkpoint 3 found the same shape on the 4:05 and 4:25 cards. Third sighting.
+    import datetime as _d2
+    _n2 = _sb._build_now()
+
+    def _g2(hours):
+        _k = _n2 + _d2.timedelta(hours=hours)
+        return {"id": f"g{hours}", "away_id": "1", "home_id": "2",
+                "kickoff_utc": _k.strftime("%Y-%m-%dT%H:%M:%SZ")}
+
+    # One game three hours gone with no list, one kicking the evening after next. The
+    # gap is 30 hours and not 21 deliberately: at 21 the forecast time and the passed
+    # game's time are the same clock reading a day apart, so a test that quoted one
+    # would silently accept the other.
+    _sum = _sb._ia_week_summary({"teams": []}, [_g2(-3), _g2(30)])
+    _check("no list yet for 2 teams" in _sum, fails,
+           f"D-2 canary: a game three hours past kickoff with no list was not reported "
+           f"as one the desk is holding nothing for, counted per team: {_sum!r}")
+    _check(_sum.count("post about") == 1, fails,
+           f"D-2 canary: the summary forecast more than one posting time: {_sum!r}")
+    _fc = _n2 + _d2.timedelta(hours=30) - _d2.timedelta(minutes=90)
+    _check(_sb._et_clock(_fc) in _sum, fails,
+           f"D-2 canary: the forecast did not come from the game still ahead: {_sum!r}")
+    # and the past game's own time must not be the one quoted.
+    _past = _sb._et_clock(_n2 - _d2.timedelta(hours=3) - _d2.timedelta(minutes=90))
+    _check(_past not in _sum, fails,
+           f"D-2 canary: the summary forecast a posting time that has already passed "
+           f"({_past}): {_sum!r}")
+    # with nothing waiting at all, neither sentence appears.
+    _clean = _sb._ia_week_summary(
+        {"teams": [{"id": "1", "count": 5, "first_seen": "2026-09-20",
+                    "by_day": {}}]}, [])
+    _check("post about" not in _clean and "no list yet" not in _clean, fails,
+           f"D-2 canary: a week with nothing waiting still forecast something: {_clean!r}")
+
     # C-1: THE LINE AT OPEN. ESPN carries its odds object only while a game is still
     # scheduled and drops it at kickoff: measured on the Sunday night slate, 0 of 61
     # finals and 0 of 6 live games carried one. So the open line is whatever the last
@@ -805,8 +843,22 @@ def layer1_canary():
     _sum7 = _sb._ia_week_summary(_board7, _games7)
     _check(_sum7.startswith("2 lists posted, 4 players"), fails,
            f"N-7c canary: the header read {_sum7!r}, not this week's lists")
-    _check("post about 11:30 AM ET" in _sum7, fails,
-           f"N-7c canary: the header did not say when the rest post: {_sum7!r}")
+    # D-2: this assertion used to read "post about 11:30 AM ET" from a 20 September
+    # fixture, which is a forecast of a time that passed months ago and is the exact
+    # defect checkpoint 4 found on the live page. The fixture keeps its posted lists and
+    # gains a game that is genuinely ahead, so the header is still tested for saying
+    # when the rest post, against a game where "the rest" are still to come.
+    import datetime as _d7
+    _ahead7 = (_sb._build_now() + _d7.timedelta(hours=26))
+    _games7b = _games7 + [_gm7("NYJ", "MIA", "20", "15",
+                               _ahead7.astimezone(_sb._ET).strftime("%Y-%m-%dT%H:%M"))]
+    _sum7b = _sb._ia_week_summary(_board7, _games7b)
+    _check("post about " + _sb._et_clock(_ahead7 - _d7.timedelta(minutes=90))
+           in _sum7b, fails,
+           f"N-7c canary: the header did not say when the rest post: {_sum7b!r}")
+    _check("post about" not in _sum7, fails,
+           f"N-7c canary: a slate whose games have all kicked off still forecast a "
+           f"posting time (D-2): {_sum7!r}")
     _check("posts about" in _sb._ia_expected(_games7[1]), fails,
            f"N-7c canary: the awaiting card read {_sb._ia_expected(_games7[1])!r}")
     # and nothing is lost: what is not this week's is on the earlier page

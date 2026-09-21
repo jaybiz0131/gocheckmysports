@@ -5000,7 +5000,22 @@ SB_LIVE_JS = """
                  hour:'numeric', minute:'2-digit'}) + ' ET';
         el.setAttribute('data-base', base);
       }
-      el.textContent = base + (stale ? ' · stale' : '');
+      /* D-1, found at checkpoint 4: at 9:16 PM the stamp read "Updated 8:00 PM ET"
+         while the scores under it were seconds old, because this function rewrites the
+         numbers and leaves the stamp at the build's time. One page, two ages, and the
+         older one is the one in words.
+
+         The rule above still holds and is not being relaxed: we do not know when the
+         SOURCE last updated, so we do not say. But we do know, exactly, when this page
+         last asked and got an answer, and that is a different claim: "updated" is about
+         the feed, "checked" is about us. Saying the second is honest, and it is the fact
+         the reader actually wants when the board is moving. */
+      var seen = '';
+      if (!stale && when !== undefined) {
+        seen = ' · checked ' + new Date().toLocaleTimeString('en-US',
+                 {timeZone:'America/New_York', hour:'numeric', minute:'2-digit'});
+      }
+      el.textContent = base + seen + (stale ? ' · stale' : '');
     }
     document.querySelectorAll('.tk-k.live .dot').forEach(function(d){
       d.style.visibility = stale ? 'hidden' : '';
@@ -6524,14 +6539,37 @@ def _ia_week_summary(board, games):
                 waiting.append(g)
     bits = [f"{lists} list{'' if lists == 1 else 's'} posted, "
             f"{players} player{'' if players == 1 else 's'}"] if lists else []
+    # D-2, found at checkpoint 4: at 9:20 PM on Sunday this line still read "Sunday's
+    # lists post about 6:50 PM ET", beside its own count of 29 lists already posted. It
+    # forecast from the earliest game still without a list, whether or not that game had
+    # long since kicked off, so the forecast outlived the thing it forecast. Checkpoint 3
+    # found the same shape on the 4:05 and 4:25 cards.
+    #
+    # A forecast is only a forecast while it is in the future. Games still waiting are
+    # split by that line and nothing else: the ones whose posting time has not arrived
+    # get the forecast, and the ones whose time has passed are reported as what the desk
+    # actually knows, which is that it is holding no list for them. "Not posted" would be
+    # a claim about the team; "no list" is a claim about this desk, and only the second
+    # one is ours to make.
     if waiting:
-        nxt = min(waiting, key=lambda g: g.get("kickoff_utc") or "")
-        k = _utc_dt(nxt.get("kickoff_utc") or "")
-        if k:
-            import datetime as _d
+        import datetime as _d
+        _now = _build_now()
+        ahead, passed = [], []
+        for g in waiting:
+            k = _utc_dt(g.get("kickoff_utc") or "")
+            (ahead if (k and (k - _d.timedelta(minutes=90)) > _now) else passed).append(g)
+        if ahead:
+            nxt = min(ahead, key=lambda g: g.get("kickoff_utc") or "")
+            k = _utc_dt(nxt.get("kickoff_utc") or "")
             at = k - _d.timedelta(minutes=90)
             day = k.astimezone(_ET).strftime("%A")
             bits.append(f"{day}'s lists post about {_et_clock(at)}")
+        if passed:
+            # COUNTED IN TEAMS, because that is what this list holds: a game appends once
+            # for each side still missing, and a game where one team has posted and the
+            # other has not is exactly the case a count of games would hide.
+            n = len(passed)
+            bits.append(f"no list yet for {n} team{'' if n == 1 else 's'}")
     if not bits:
         bits = ["no lists yet"]
     return "; ".join(bits)
