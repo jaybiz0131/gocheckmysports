@@ -5734,7 +5734,7 @@ def scoreboard_band(sb, board, wx=None):
     <div class="sb-head">
       <div class="sb-head-l">
         <div class="sb-tabs">{tabs}</div>
-        {lens_control()}</div>
+        {lens_control()}{_week_link()}</div>
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     {panels}
@@ -6042,6 +6042,132 @@ def render_team_page(tm, items, dateline):
                  "Scores", body, dateline, path=f"/teams/{abbr.lower()}.html")
 
 
+WEEK_COUNT = 18
+
+
+def _sched_week(team_data, wk):
+    """B-4: one week's fixtures, rebuilt from the 32 team schedules.
+
+    WHY FROM THERE. The scoreboard feed is today and only today: it cannot answer "what
+    happened in week 1" or "who plays next Sunday", which is most of what a reader wants
+    from a board in September. The team schedules already on file carry every fixture of
+    the season with its result, so the week is a regroup of data the desk holds rather
+    than a new request to anyone.
+
+    Each game appears twice, once in each team's file, so the id is the identity and the
+    two views are merged. A game seen from its home team's side is the one that decides
+    who is home, because that is the only side that states it without inference.
+    """
+    out = {}
+    for abbr, t in ((team_data or {}).get("teams") or {}).items():
+        for e in t.get("events") or []:
+            if e.get("week") != wk or not e.get("id"):
+                continue
+            gid = str(e["id"])
+            home_ab = abbr if e.get("home") else e.get("opp") or ""
+            away_ab = (e.get("opp") or "") if e.get("home") else abbr
+            g = out.setdefault(gid, {"id": gid, "date": e.get("date"),
+                                     "state": e.get("state") or "",
+                                     "time_set": e.get("time_set", True),
+                                     "network": e.get("network") or "",
+                                     "home": home_ab, "away": away_ab,
+                                     "home_score": None, "away_score": None})
+            if not g.get("network") and e.get("network"):
+                g["network"] = e["network"]
+            if e.get("score") is not None and e.get("opp_score") is not None:
+                if e.get("home"):
+                    g["home_score"], g["away_score"] = e["score"], e["opp_score"]
+                else:
+                    g["away_score"], g["home_score"] = e["score"], e["opp_score"]
+    return sorted(out.values(), key=lambda g: (g.get("date") or "", g["away"]))
+
+
+def _week_row(g, names):
+    """One fixture. A result where there is one, a kickoff where there is not, and
+    never a zero standing in for a game that has not been played."""
+    dt = _utc_dt(g.get("date") or "")
+    when = ""
+    if dt:
+        d = dt.astimezone(_ET)
+        # schedules.py carries the feed's own timeValid: week 18 comes back at 05:00Z
+        # with the clock unset, and printing it would be a precise time the league has
+        # not announced.
+        when = (f'{d.strftime("%a %-d %b")} &middot; {_et_clock(dt)}'
+                if g.get("time_set", True) else d.strftime("%a %-d %b"))
+    hs, as_ = g.get("home_score"), g.get("away_score")
+    played = hs is not None and as_ is not None
+    def side(ab, sc, won):
+        nm = esc(names.get(ab) or ab)
+        cls = " wk-w" if won else ""
+        val = (f'<span class="wk-sc{cls}">{sc}</span>' if played else "")
+        return (f'<span class="wk-t{cls}"><a href="/teams/{esc(ab.lower())}.html">'
+                f'{nm}</a></span>{val}')
+    aw = side(g["away"], as_, played and as_ > hs)
+    hm = side(g["home"], hs, played and hs > as_)
+    right = (f'<span class="wk-when">{when}</span>'
+             + (f'<span class="wk-net">{esc(g["network"])}</span>'
+                if g.get("network") and not played else ""))
+    return (f'<li class="wk-r{" wk-done" if played else ""}">'
+            f'<span class="wk-sides">{aw}<span class="wk-at">at</span>{hm}</span>'
+            f'{right}</li>')
+
+
+def _week_link():
+    """B-4: the board is today. This is the way to every other day of the season, and
+    it names the week it goes to rather than saying "schedule", because a reader who
+    wants last Sunday's results is looking for a number."""
+    wk, _ = nfl_week()
+    if not wk:
+        return ""
+    return (f'<a class="wk-link" href="/nfl/week-{wk}.html">'
+            f'NFL week {wk} and the season</a>')
+
+
+def week_selector(active, week_now=None):
+    """The strip of weeks. Eighteen links, the current one marked, and the one being
+    read marked differently: "this week" and "the week you are looking at" are two
+    different facts and a reader in week 6 in November needs both."""
+    bits = []
+    for w in range(1, WEEK_COUNT + 1):
+        cls = "wk-b"
+        if w == active:
+            cls += " on"
+        if week_now and w == week_now:
+            cls += " now"
+        bits.append(f'<a class="{cls}" href="/nfl/week-{w}.html" '
+                    + (f'aria-current="page" ' if w == active else "")
+                    + f'>{w}</a>')
+    return ('<nav class="wk-nav" aria-label="NFL week">'
+            '<span class="wk-k">Week</span>' + "".join(bits) + '</nav>')
+
+
+def render_week_page(team_data, wk, dateline, week_now=None):
+    games = _sched_week(team_data, wk)
+    names = {a: (t.get("short") or t.get("name") or a)
+             for a, t in ((team_data or {}).get("teams") or {}).items()}
+    played = sum(1 for g in games if g.get("home_score") is not None)
+    if not games:
+        body = '<p class="wk-none">No fixtures on file for this week.</p>'
+        count = ""
+    else:
+        body = '<ul class="wk-l">' + "".join(_week_row(g, names) for g in games) + '</ul>'
+        count = (f'{len(games)} game{"" if len(games) == 1 else "s"}'
+                 + (f', {played} played' if played else ''))
+    head = (f'<div class="wk-head"><h1>NFL week {wk}</h1>'
+            + (f'<span class="wk-c">{esc(count)}</span>' if count else "") + '</div>')
+    note = ('<p class="bd-src">Fixtures and results as the league reports them. '
+            'Today\'s games are live on the '
+            '<a href="/scores.html">scoreboard</a>.</p>')
+    return shell(
+        f"NFL week {wk} - {NAME}",
+        (f"Every NFL game in week {wk}: the fixtures, the kickoff times and the "
+         f"results, as the league reports them."),
+        "Scores",
+        f'<section class="page wrap wk-page">{head}'
+        f'{week_selector(wk, week_now)}{body}{note}</section>',
+        dateline, path=f"/nfl/week-{wk}.html")
+
+
 def render_standings_page(st, lg, dateline):
     name = lg["league"]
     body = f"""<main class="wrap"><section class="page">
@@ -6213,7 +6339,7 @@ def render_scores_page(sb, board, dateline, wx=None):
       </span>
     </div>
     {_tk_tabs(_all, active="all")}
-    {lens_control()}
+    {lens_control()}{_week_link()}
     <div class="sb-grid sb-grid-inner">
       <div class="sb-cards">{_band_cards}</div>
     </div>
@@ -10153,6 +10279,21 @@ def build():
             w("scores.html", _sc)
             print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
 
+    # B-4: one page per NFL week, from the team schedules already on file. A week that
+    # has no fixtures on file writes nothing rather than an empty page.
+    if TEAM_DATA:
+        _wk_now, _ = nfl_week()
+        _wk_n = _wk_g = 0
+        for _w in range(1, WEEK_COUNT + 1):
+            _gs = _sched_week(TEAM_DATA, _w)
+            if not _gs:
+                continue
+            w(f"nfl/week-{_w}.html", render_week_page(TEAM_DATA, _w, dateline, _wk_now))
+            _wk_n += 1
+            _wk_g += len(_gs)
+        print(f"weeks: {_wk_n} page(s), {_wk_g} fixture(s)"
+              + (f", this week is {_wk_now}" if _wk_now else ""))
+
     # S-L1: one page per league that has a table, plus the rankings.
     if ST_DATA:
         _st_n = 0
@@ -10380,6 +10521,11 @@ def build():
     if TEAM_DATA:
         topic_locs += [f"/teams/{a.lower()}.html"
                        for a in sorted((TEAM_DATA.get("teams") or {}))]
+        # B-4: the eighteen week pages, listed the same way and for the same reason
+        # P-2 exists. A page written by the build and named in no sitemap is a page the
+        # desk has decided nobody will find. Only the weeks actually written are listed.
+        topic_locs += [f"/nfl/week-{_w}.html" for _w in range(1, WEEK_COUNT + 1)
+                       if _sched_week(TEAM_DATA, _w)]
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"

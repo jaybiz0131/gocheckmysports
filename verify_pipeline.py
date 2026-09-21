@@ -442,6 +442,58 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # B-4: THE WEEK, rebuilt from the 32 team schedules because the scoreboard feed is
+    # today and only today. Every game is in the file TWICE, once from each side, so the
+    # two things that can go wrong are a doubled slate and a flipped fixture, and a
+    # flipped fixture is the worse one: it is silent, it reads perfectly well, and it
+    # says a team played away when it played at home.
+    _sch = {"teams": {
+        "KC": {"short": "Chiefs", "events": [
+            {"id": "g1", "week": 4, "home": True, "opp": "DEN", "state": "post",
+             "date": "2026-09-28T00:20Z", "score": 31, "opp_score": 10,
+             "network": "NBC", "time_set": True},
+            {"id": "g2", "week": 5, "home": False, "opp": "BUF", "state": "pre",
+             "date": "2026-10-05T05:00Z", "time_set": False}]},
+        "DEN": {"short": "Broncos", "events": [
+            {"id": "g1", "week": 4, "home": False, "opp": "KC", "state": "post",
+             "date": "2026-09-28T00:20Z", "score": 10, "opp_score": 31}]},
+        "BUF": {"short": "Bills", "events": [
+            {"id": "g2", "week": 5, "home": True, "opp": "KC", "state": "pre",
+             "date": "2026-10-05T05:00Z", "time_set": False}]}}}
+    _w4 = _sb._sched_week(_sch, 4)
+    _check(len(_w4) == 1, fails,
+           f"B-4 canary: a game in both teams' files produced {len(_w4)} fixtures")
+    _check(_w4 and _w4[0]["home"] == "KC" and _w4[0]["away"] == "DEN", fails,
+           f"B-4 canary: the fixture is the wrong way round: "
+           f"{_w4 and _w4[0].get('away')} at {_w4 and _w4[0].get('home')}")
+    _check(_w4 and _w4[0]["home_score"] == 31 and _w4[0]["away_score"] == 10, fails,
+           f"B-4 canary: the scores went to the wrong sides: {_w4 and _w4[0]}")
+    _w5 = _sb._sched_week(_sch, 5)
+    _check(_w5 and _w5[0]["home"] == "BUF" and _w5[0]["away"] == "KC", fails,
+           "B-4 canary: a fixture seen only from the away side lost which team is home")
+    _check(_w5 and _w5[0]["home_score"] is None
+           and _w5[0]["away_score"] is None, fails,
+           f"B-4 canary: an unplayed game carries a score: {_w5 and _w5[0]}")
+    _names = {"KC": "Chiefs", "DEN": "Broncos", "BUF": "Bills"}
+    _r4 = _sb._week_row(_w4[0], _names)
+    _check(">31<" in _r4 and ">10<" in _r4, fails,
+           "B-4 canary: the played fixture did not print its result")
+    _r5 = _sb._week_row(_w5[0], _names)
+    _check("0" not in _r5.replace("2026", "").replace("05", ""), fails,
+           f"B-4 canary: an unplayed fixture printed a zero: {_r5!r}")
+    # timeValid false means the league has not set the clock, only the date.
+    _check("PM ET" not in _r5 and "AM ET" not in _r5, fails,
+           f"B-4 canary: a kickoff the league has not set printed a precise time: {_r5!r}")
+    _check("PM ET" in _r4, fails,
+           "B-4 canary: a kickoff the league HAS set printed no time, so the check "
+           "above passes for the wrong reason")
+    _sel = _sb.week_selector(3, 2)
+    _check(_sel.count('aria-current="page"') == 1, fails,
+           "B-4 canary: the week being read is not marked for a screen reader")
+    _check('wk-b on' in _sel and 'wk-b now' in _sel, fails,
+           "B-4 canary: the week being read and the week the season is in are not "
+           "distinguished, so a reader in week 6 in November cannot tell them apart")
+
     # B-3: THE LENS. A tab chooses which games are on the board; a lens chooses which
     # facts each card shows. The whole mechanism is one attribute per part, so what has
     # to hold is the CONTRACT: the parts that belong to a lens declare it, and the parts

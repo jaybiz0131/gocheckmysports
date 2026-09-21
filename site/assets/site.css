@@ -2499,3 +2499,51 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
      find it. */
   .lens-b{padding:0 14px;min-height:44px;font-size:13px}
 }
+
+/* B-4: THE WEEK. Eighteen numbers, the one being read filled and the one the season is
+   actually in ringed, because "this week" and "the week you are looking at" are two
+   different facts and a reader in week 6 in November needs both. */
+.wk-nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 20px}
+.wk-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#A6ABB4;margin-right:2px}
+.wk-b{display:inline-flex;align-items:center;justify-content:center;min-width:36px;
+  min-height:36px;padding:0 8px;border:1px solid rgba(255,255,255,.14);border-radius:8px;
+  color:rgba(255,255,255,.74);font-family:var(--mono);font-size:13px;font-weight:700;
+  text-decoration:none;font-variant-numeric:tabular-nums}
+.wk-b:hover{color:#fff;border-color:rgba(255,255,255,.34)}
+.wk-b.now{border-color:rgba(61,220,132,.55);color:#EBE9E3}
+.wk-b.on{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.45);color:#fff}
+.wk-b:focus-visible{outline:2px solid #3DDC84;outline-offset:2px}
+.wk-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:16px}
+.wk-head h1{margin:0}
+.wk-c{font-family:var(--mono);font-size:12px;color:#A6ABB4;
+  font-variant-numeric:tabular-nums}
+.wk-l{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;
+  gap:8px}
+.wk-r{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
+  padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07)}
+.wk-sides{display:flex;align-items:center;gap:10px;flex:1;min-width:0;flex-wrap:wrap}
+.wk-t{display:inline-flex;align-items:center;gap:8px}
+.wk-t a{color:#EBE9E3;text-decoration:none;font-weight:600;font-size:15px}
+.wk-t a:hover{text-decoration:underline}
+.wk-t.wk-w a{color:#fff}
+.wk-at{color:#A6ABB4;font-size:12.5px}
+.wk-sc{font-family:var(--mono);font-size:16px;font-weight:700;color:rgba(255,255,255,.7);
+  font-variant-numeric:tabular-nums;min-width:26px;text-align:right}
+.wk-sc.wk-w{color:#fff}
+.wk-when{font-family:var(--mono);font-size:12px;color:#A6ABB4;white-space:nowrap}
+.wk-net{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;
+  color:#EBE9E3;background:rgba(0,0,0,.35);border-radius:4px;padding:3px 8px}
+.wk-done{background:rgba(255,255,255,.02)}
+.wk-none{color:#A6ABB4}
+/* The board's way in. */
+.wk-link{display:inline-flex;align-items:center;min-height:30px;color:rgba(255,255,255,.76);
+  font-size:12.5px;font-weight:600;text-decoration:none;text-underline-offset:3px}
+.wk-link:hover{color:#fff;text-decoration:underline}
+@media (max-width:640px){
+  .wk-nav{gap:5px}
+  .wk-b{min-width:40px;min-height:40px;font-size:13px}
+  .wk-r{padding:10px 12px;gap:6px 10px}
+  .wk-t a{font-size:14px}
+}
