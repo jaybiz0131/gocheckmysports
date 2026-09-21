@@ -7668,10 +7668,31 @@ IA_POLL_JS = """<script>(function(){
          build, which has not run, so it goes in a block of its own at the top rather
          than being guessed into a group. A reader sees it; nothing is invented. */
       if (!late) return;
+      /* WHICH GAME. Matched on the team id against the games this page already
+         lists, so the answer comes from the build. Exactly one match names the
+         opponent and the kickoff; none or more than one names nothing, because a
+         wrong opponent is worse than no opponent. */
+      var where = '';
+      var hits = [];
+      document.querySelectorAll('.wpw-g').forEach(function(gx){
+        if (gx.getAttribute('data-aid') === id || gx.getAttribute('data-hid') === id) {
+          hits.push(gx);
+        }
+      });
+      if (hits.length === 1) {
+        var gx = hits[0];
+        var home = gx.getAttribute('data-hid') === id;
+        var opp = home ? gx.getAttribute('data-away') : gx.getAttribute('data-home');
+        var kick = gx.getAttribute('data-kick') || '';
+        if (opp) {
+          where = '<span class="bd-stamp">' + (home ? 'v ' : 'at ') + opp +
+                  (kick ? ', ' + kick : '') + '</span>';
+        }
+      }
       late.insertAdjacentHTML('beforeend',
         '<div class="bd-card ia-team" data-team="' + name + '">' +
         '<div class="bd-cardtop"><span class="bd-eyebrow">' + name +
-        '</span><span class="bd-stamp">' + n + ' inactive</span>' +
+        '</span><span class="bd-stamp">' + n + ' inactive</span>' + where +
         '<span class="bd-stamp">posted ' + et(t.reconciled_at || doc.last_poll) +
         '</span></div><div class="ia-rows">' + rows(ps) + '</div></div>');
       added++;
@@ -8229,10 +8250,26 @@ def _sb12_who_plays_when(games):
         teams = " \u00b7 ".join(f'{g.get("away") or ""} at {g.get("home") or ""}'
                                 for g in gs[:8])
         more = f" and {len(gs) - 8} more" if len(gs) > 8 else ""
+        # The row carries its games as DATA as well as as text, keyed on the team id.
+        # A list that posts after the build is painted by the client, and the reader's
+        # question about it is which game it belongs to; the client answers by matching
+        # the id it already has against this, which is the page's own list rather than a
+        # guess at a group. Full names come from the schedule file, which stores the
+        # feed's displayName.
+        _teamnames = {a: (t.get("name") or a)
+                      for a, t in ((TEAM_DATA or {}).get("teams") or {}).items()}
+        _gdata = "".join(
+            f'<span class="wpw-g" hidden'
+            f' data-aid="{esc(str(g.get("away_id") or ""))}"'
+            f' data-hid="{esc(str(g.get("home_id") or ""))}"'
+            f' data-away="{esc(_teamnames.get(g.get("away") or "", g.get("away") or ""))}"'
+            f' data-home="{esc(_teamnames.get(g.get("home") or "", g.get("home") or ""))}"'
+            f' data-kick="{esc(g.get("kickoff_et") or "")}"></span>'
+            for g in gs)
         rows.append(f'<div class="wpw-row{" past" if _past else ""}">'
                     f'<span class="bd-label">{esc(win)}</span>'
                     + ('<span class="wpw-done">played</span>' if _past else "")
-                    + f'<span class="bd-src">{esc(teams + more)}</span></div>')
+                    + f'<span class="bd-src">{esc(teams + more)}</span>{_gdata}</div>')
     wk, _ = nfl_week()
     head = (f'<div class="wpw-h"><span class="bd-eyebrow">Week {wk}, who plays when'
             f'</span><a class="bd-more" href="/where-to-watch.html">All games</a></div>'

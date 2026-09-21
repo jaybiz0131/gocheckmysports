@@ -568,6 +568,16 @@ def layer1_canary():
         _check("data-ia-day=" in _iah, fails,
                "S-budget canary: the fallback day is not on the page, so a Sunday night "
                "reader, already on Monday in UTC, loses the Sunday night list")
+        # A LATE LIST SAYS WHICH GAME. The answer comes from the page's own list of
+        # games, matched on the team id, so the build still owns it. Exactly one match
+        # names the opponent; none or more than one names nothing, because a wrong
+        # opponent on an inactives list is worse than no opponent.
+        _check('class="wpw-g"' in _iah and "data-aid=" in _iah, fails,
+               "S-budget canary: the who-plays-when panel carries no game data, so a "
+               "list painted after the build cannot say which game it belongs to")
+        _check("hits.length === 1" in _iah, fails,
+               "S-budget canary: the late block names a game without requiring exactly "
+               "one match, so an ambiguous team gets an opponent picked for it")
 
     # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
     # so what has to hold is that it reports only what is real and in the right order.
