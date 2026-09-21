@@ -4,48 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c178",
-    "headline": "Cubs' Swanson placed on injured list with oblique strain",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Cubs shortstop Dansby Swanson was placed on the injured list with an oblique strain' but the brief's only data_point says 'Dansby Swanson is on the injured list with an oblique strain' sourced from 'https://www.mlb.com/news/dansby-swanson-exits-with-left-side-discomfort'. The source URL mentions 'left-side discomfort' not 'oblique strain'\u2014the specific injury diagnosis is not confirmed in the source material and cannot be stated as fact. The brief itself flags this: 'the source text is heavily corrupted with font-face CSS and provides no detail on injury grade.' The draft presents an unverified injury classification as settled fact."
-    ]
-   },
-   {
-    "id": "c071",
-    "headline": "Jeanie Buss Contests Family Vote to Sell Lakers Stake",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'CNBC published a letter from Jeanie Buss's lawyer' but the brief data_point says the letter was 'published by Front Office Sports' (the only source cited). The draft invents CNBC as the publisher of the letter\u2014this fact does not appear in the brief and represents smuggled information. The brief explicitly identifies Front Office Sports as the source reporting the letter.",
-     "Draft states 'Jeanie Buss has served as governor since 2025' but the brief data_point says 'Jeanie Buss has remained team governor since her family sold a majority stake to Mark Walter last year.' The year 2025 is not in the brief and contradicts the temporal framing ('last year'). Without explicit year confirmation in the source, stating '2025' as fact is smuggled.",
-     "Draft states the franchise is 'worth 12.5 billion dollars under new majority owners Joshua Kushner and Bob Iger' but the brief data_point attributes this valuation to 'Mark Walter sold the Lakers last week to the group led by Kushner and Iger at a $12.5 billion valuation.' The draft does not attribute the valuation figure to any outlet inline and conflates who owns it with what it was valued at in the transaction\u2014this reads as imprecise on a $12.5B fact."
-    ]
-   },
-   {
-    "id": "c177",
-    "headline": "MLB Approves Padres Sale to Feliciano and Jones",
-    "category": "clarity",
-    "reasons": [
-     "The draft's body and bottom_line acknowledge that critical information is missing ('does not detail the transaction price, closing date, or additional terms'; 'refer to MLB's official announcement'), but this framing makes the story itself read as incomplete filler rather than reportage. The brief is confirmed thin (one data_point only), and the correct output for a thin brief is a tight, honest story\u2014but this draft explicitly admits it has nothing to say beyond the bare approval fact. A one-sentence story would be more honest: 'MLB approved the sale of the Padres to Jos\u00e9 E. Feliciano and Kwanza Jones, according to MLB.com.' The current draft pads the void with meta-commentary about what it doesn't know, which reads as placeholder copy."
-    ]
-   },
-   {
-    "id": "c159",
-    "headline": "Pete Crow-Armstrong achieves second straight 30-30 season",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks the core claim as 'announced-not-verified' with a corrupted source that contains only CSS and no article body. The draft presents the achievement as settled fact ('has recorded') without qualification. The confidence label 'announced-not-verified' must survive in the prose\u2014the draft should signal that this is an announcement pending verification, not a confirmed milestone.",
-     "The brief flags the source as corrupted with no substantive detail available. The draft constructs narrative authority ('according to MLB.com') from a source that provided no verifiable body text. The writer cannot substantiate the claim beyond an unverified announcement.",
-     "The brief explicitly notes that 'no details are available on when Crow-Armstrong achieved the 30-30, against which opponent, in what game context, or what his exact stats are.' The draft offers none of these details either, which is appropriate for a thin brief\u2014but combined with the unverified source status, publishing this as fact is premature and creates liability if the announcement is later corrected or retracted."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c008",
     "headline": "Sydney Swans board meets on stand-downs as police investigation into sexual assault allegations continues",
     "category": "compliance",
@@ -7731,6 +7689,58 @@
     "category": "compliance",
     "reasons": [
      "The draft presents a report of a broken ankle ('ankle is broken, an injury that would sideline him') as fact, but the brief's confidence label for this claim is 'reported'\u2014meaning it is a secondary report from Mike Reiss via Yahoo, not an official confirmation. The draft should signal this uncertainty more clearly, such as 'According to ESPN.com's Mike Reiss, Onwenu's ankle is broken' (which it does do once), but then later says 'Confirmation of a break would remove' as if the break is already established, when in fact confirmation is still pending. The open_questions explicitly state 'The sources cite a report of a broken ankle from Mike Reiss but do not carry an official injury confirmation from the Patriots or NFL.' The prose conflates 'a report says it's broken' with 'it is broken.'"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-21",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c248",
+    "headline": "Mike Babcock Returns to NHL as Oilers Coach; Five Teams Hire New Head Coaches for 2026-27 Season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Ertz is '35 years old' in the opening paragraph. The brief contains conflicting data: one data point says 'Ertz is 36 years old' (CBS Sports) and another says 'Ertz is 35 years old' (ESPN reporting, with note about conflicting ages). The draft chose one age without flagging the discrepancy or noting the conflict in sources. This is a factual claim that should either name the contradiction or defer to the most recent/authoritative source with notation.",
+     "The draft reports 'Sidney Crosby, who played for Babcock for back-to-back Olympic championships' without the brief confirming Crosby played for Babcock at both 2010 and 2014 Olympics. The brief data point on this claim says Babcock 'guided Canada to gold at the Olympics in 2010 and 2014' but does not specify that Crosby was on both teams under Babcock. The draft's statement goes beyond what the brief confirms about Crosby's participation in both Olympic cycles under Babcock.",
+     "The draft includes a data point about 'Toronto Maple Leafs camps are shorter this year' from the brief ('Toronto Maple Leafs camps are shorter this year', confidence 'reported'). This fact appears nowhere in the draft body, suggesting either the brief contained extraneous information or the writer correctly omitted an unrelated detail. However, the fact that it appears in the brief but not the draft is not itself an error; the error would be if the draft had included it falsely. This is not a rejection point."
+    ]
+   },
+   {
+    "id": "c269",
+    "headline": "Angel Reese becomes first WNBA player to record 500 rebounds in a season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Angel Reese became the first WNBA player to record 500 rebounds in a single season when the Atlanta Dream defeated the Chicago Sky 106-81 on September 19.' Today is Monday, September 21, 2026. September 19 is two days in the past. The draft correctly reports this as a completed event (past tense 'became,' 'defeated'). The brief's data point confirms: 'Angel Reese recorded her 31st double-double of the season and became the first WNBA player to collect 500 rebounds in a single year' with a timestamp of '2026-09-21T15:08:52Z.' However, the timestamp in the brief is dated September 21, not September 19. The draft claims the game was played on September 19, but the source timestamp in the brief is from September 21. This is a discrepancy: either the game was on September 19 (and the story is reporting a two-day-old event) or the timestamp is the actual date. The draft's statement 'when the Atlanta Dream defeated the Chicago Sky 106-81 on September 19' cannot be verified against the brief as written, since the brief's data point does not specify the date September 19 explicitly\u2014only the source timestamp of September 21 is provided. The draft introduced a specific date (September 19) that does not appear in the research brief's data points. This is a SMUGGLED fact."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Tigers' ballpark renamed Fifth Third Park, ending 27-year Comerica era",
+    "category": "accuracy",
+    "reasons": [
+     "All factual claims trace to data_points in the brief with appropriate confidence labels.",
+     "The announced-not-verified claims (new ballpark name, signage updates) are presented factually without hedging, which is correct for announced plans.",
+     "The core claim about the naming change, merger trigger, and 2027 effective date all verified.",
+     "The ballpark history (opened 2000), Comerica extension (2018 to 2034), and nine-team comparison all present in brief.",
+     "Minor league affiliates and their Fifth Third naming history accurately sourced.",
+     "Arizona merger comparison (Bank One/Chase) matches brief.",
+     "Bottom line appropriately notes the brief's open_questions about financial terms and agreement length.",
+     "No betting or gambling language present; compliance disclaimer included.",
+     "Balance: brief has empty bear_case, so absence of counter-evidence is not a balance failure.",
+     "Quality: story opens with stakes (27-year era ends), attributes sources inline, bottom_line looks forward to 2027 season and notes information gaps.",
+     "the draft dates March 25, 2026 as a Thursday; March 25, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c141",
+    "headline": "Braves clinch NL East with 4-2 victory over Astros on September 21",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports that the game occurred 'on Sunday, September 21' but today is Monday, September 21, 2026. The brief timestamp shows 2026-09-21T01:01:00Z, indicating the game was played early on Monday morning (likely overnight/early morning coverage), not Sunday. The draft's day-of-week is factually incorrect.",
+     "The opening sentence states 'on Sunday, September 21' which is impossible if today is Monday, September 21. This is an accuracy failure: the event date/day cannot be corrected by paraphrase\u2014it's a fundamental factual error about when the clinch occurred.",
+     "the draft dates September 21, 2026 as a Sunday; September 21, 2026 is a Monday"
     ]
    }
   ]
