@@ -20,7 +20,7 @@ on:
 jobs:
   canary:
     name: Layer 1 canary (offline hard gate)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -34,7 +34,7 @@ jobs:
     # dev day emailed the owner once per push for the same known runner-IP feed blocks.
     # Pushes keep the Layer 1 hard gate; live-feed health is a weekly signal.
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       issues: write
       contents: read

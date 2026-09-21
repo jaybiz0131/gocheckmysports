@@ -98,7 +98,7 @@ permissions:
 
 jobs:
   brief:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # CHECK OUT THE BRANCH TIP, NOT THE TRIGGER SHA (duplicate root cause 2026-08-25).
       # Bare checkout pins github.sha, the commit the run was SCHEDULED against. The
