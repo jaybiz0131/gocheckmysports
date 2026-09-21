@@ -7608,8 +7608,25 @@ IA_POLL_JS = """<script>(function(){
             'site/data/inactives/inactives-';
   var board = document.querySelector('[data-ia-board]');
   if (!board) return;
-  var day = board.getAttribute('data-ia-day') || '';
-  if (!day) return;
+  var built = board.getAttribute('data-ia-day') || '';
+
+  /* THE FILE IS NAMED BY THE DAY OF THE POLL, NOT THE DAY OF THE BUILD, and those are
+     different for most of a Sunday. The poller names its file by the UTC date of the
+     poll: Sunday 20 September's file opened at 15:01Z. The desk's morning build runs at
+     09:40Z, which is still SATURDAY in UTC, so a page built Sunday morning carried
+     Saturday's day and fetched Saturday's file all morning. The 11:30 AM lists, which
+     are the ones this board is measured on, would not have appeared until the kickoff
+     build: the exact case this whole change exists to cover.
+
+     Today's UTC date is tried first. The build's own day stays as the fallback and is
+     not decoration: a page read at 8:30 PM Eastern on Sunday is already on Monday's UTC
+     date, while the Sunday night list sits in Sunday's file. */
+  function days(){
+     var out = [], now = new Date();
+     out.push(now.toISOString().slice(0, 10));
+     if (built && out.indexOf(built) < 0) out.push(built);
+     return out;
+  }
 
   function et(iso){
     try {
@@ -7670,10 +7687,15 @@ IA_POLL_JS = """<script>(function(){
   }
 
   function tick(){
-    fetch(RAW + day + '.json?t=' + Date.now(), {cache: 'no-store'})
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){ if (d) paint(d); })
-      .catch(function(){ /* the committed render stands */ });
+    var want = days(), i = 0;
+    (function next(){
+      if (i >= want.length) return;            /* the committed render stands */
+      var d = want[i++];
+      fetch(RAW + d + '.json?t=' + Date.now(), {cache: 'no-store'})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(doc){ if (doc) { paint(doc); } else { next(); } })
+        .catch(next);
+    })();
   }
   tick();
   setInterval(function(){ if (!document.hidden) tick(); }, 300000);

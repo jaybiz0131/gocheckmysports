@@ -551,6 +551,23 @@ def layer1_canary():
         _check("data-ia-board" in _iah and "raw.githubusercontent" in _iah, fails,
                "netlify ignore canary: the inactives board no longer builds on a "
                "snapshot and cannot fetch one either, so it would simply go stale")
+        # THE FILE IS NAMED BY THE DAY OF THE POLL, NOT THE DAY OF THE BUILD. The poller
+        # names its file by the UTC date of the poll and the morning build runs at
+        # 09:40Z, which is still the previous day in UTC, so a page built on a Sunday
+        # morning asked for SATURDAY's file all morning and the 11:30 lists never
+        # appeared until the kickoff build. That is the one case this whole change
+        # exists to cover, so the order is checked and not just the presence.
+        _check("toISOString().slice(0, 10)" in _iah, fails,
+               "S-budget canary: the board does not try today's UTC date, so a page "
+               "built before 00:00Z asks for yesterday's snapshot all day")
+        _i_now = _iah.find("toISOString().slice(0, 10)")
+        _i_built = _iah.find("out.indexOf(built)")
+        _check(0 < _i_now < _i_built, fails,
+               "S-budget canary: the build's own day is tried before today's, which is "
+               "the bug with the order reversed")
+        _check("data-ia-day=" in _iah, fails,
+               "S-budget canary: the fallback day is not on the page, so a Sunday night "
+               "reader, already on Monday in UTC, loses the Sunday night list")
 
     # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
     # so what has to hold is that it reports only what is real and in the right order.
