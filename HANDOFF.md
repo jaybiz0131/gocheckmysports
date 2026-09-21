@@ -185,3 +185,74 @@ the Program 5 item that covers it, or "new".
 
 Sports pushes: nothing 12:30 to 8:30 PM ET. Crypto is NOT under the freeze; D-1 to D-6
 may push today outside the Edition quiet hour, 6:30 to 8:15 PM ET.
+
+---
+
+# Monday 21 September 2026, the deploy budget and what runs on its own
+
+No tokens, no keys, no hook URLs in this file. The repos are public.
+
+## Jack's action, and it is the only one outstanding: deploy the Worker
+
+The window-open and window-close rule is on `main` in gcm-newsroom and **is not live**.
+Until it is deployed the old 30-minute cadence still fires: about eight firings for a
+single Monday night game, and 32 on an NFL Sunday.
+
+| | |
+|---|---|
+| repo | `gcm-newsroom` |
+| commit | `15e1188` on `main` |
+| worker | `gcm-slot-trigger` |
+| command | `cd slot-trigger && npx wrangler deploy` |
+
+Run it from the Mac, from the repo root's `slot-trigger` directory. Wrangler uses the
+login already on that machine; nothing here needs a token and none is printed. Before
+Sunday is what matters, because Sunday is where the 32 firings are.
+
+## Where the inactives lists are live now, so the next session does not "fix" it
+
+**The inactives page is the live surface.** `/fantasy/inactives.html` fetches the day's
+committed snapshot itself, every five minutes, and the file carries `max-age=300`, so
+the board is inside ten minutes of a poller run with no deploy behind it.
+
+**The game pages and the scoreboard cards are built content.** The lists on a game page
+and the word "posted" on a card arrive with the window-open hook at kickoff and the
+last-final hook, not with every poll. That is inside the budget and it is deliberate.
+
+## The day's deploy count, in two halves
+
+The desk cannot read the Netlify list and should not use Jack's login, so the number is
+assembled from two places.
+
+**What the desk counts itself**, printed in the handoff and the U-5 report with the
+date: production pushes to `main` that the ignore script let through (merges, the 6 AM
+batch, the Edition, story pushes), plus the hook firings the Worker logs.
+
+**What only Netlify knows**, and Jack's setup: each project's Notifications gain an
+outgoing webhook on "Deploy succeeded" posting to a Worker route; the Worker keeps a
+per-site count per day in KV and answers `/deploys/today`; the desk reads that at
+handoff time and prints it beside its own tally. Until that exists, Jack's weekly read
+of the Netlify list is the reconciliation.
+
+Netlify project names are the domains: gocheckmysports.com, gocheckmycrypto.com,
+gocheckmyweather.com, gocheckmyparents.com, gocheckmypet.com, gocheckmynews.com,
+gocheckmy.com, api.gocheckmy.com. The project IDs are on each project's configuration
+page, which is Jack's read.
+
+**21 September, what this desk can count:** 4 production pushes to main (the three at
+4:23 PM plus the 11:39 AM gate fix), 1 branch deploy (`search-s1-canonical-urls`), and
+the Netlify list itself was rate-limiting all afternoon and would not load. The two
+4:2x pushes are confirmed built and spent from the publish times Jack read: sports at
+4:25 PM, crypto at 4:26 PM.
+
+## The allowance
+
+Sports 12 a day, 16 on Sunday. Crypto 5. The newsroom's six sites one each. Weather,
+Parents and Pet 6 a day between them for previews and merges.
+
+## What is paused, and why
+
+**S-1 and S-2** are paused until the period resets. The branch exists
+(`search-s1-canonical-urls`, `64fe43f`), the generator is written and tested, and the
+work is five sites: Weather, Estate, Sports, Crypto and News. Parents and Pet already
+pass the whole test in production. One preview per branch from tomorrow.
