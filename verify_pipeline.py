@@ -663,6 +663,21 @@ def layer1_canary():
     # C-5: THE SHARE CARD carries the line, under the same law as the page. A card is a
     # PNG: the gate greps written files and cannot read one, and no reader can check it
     # against anything. So the decision is a function and this tests the function.
+    # THIS CANARY RUNS WITH NOTHING INSTALLED. It is stdlib-only by design and the
+    # workflow pip-installs nothing, so any module it imports must be importable with a
+    # bare Python. share_cards imported PIL at module level, this line imported
+    # share_cards, and the entire hard gate died on CI with ModuleNotFoundError while
+    # passing here, because Pillow is installed on this machine. A check that only runs
+    # where the author sits is not a gate.
+    import re as _re_pil
+    _sc_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "share_cards.py"), encoding="utf-8").read()
+    _top_pil = [ln for ln in _sc_src.splitlines()
+                if _re_pil.match(r"^(from PIL|import PIL)", ln)]
+    _check(not _top_pil, fails,
+           f"C-5 canary: share_cards imports PIL at module level ({_top_pil[:1]}), so "
+           f"this canary cannot import it on CI, where nothing is installed. Import it "
+           f"inside the functions that draw.")
     import share_cards as _scm
     _check(_scm.line_text({"line": {"provider": "DraftKings", "detail": "KC -6.5",
                                     "total": 47.5}})

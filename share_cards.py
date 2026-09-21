@@ -16,7 +16,16 @@ import datetime as _dt
 import os
 from zoneinfo import ZoneInfo
 
-from PIL import Image, ImageDraw, ImageFont
+# PIL IS IMPORTED WHERE IT IS DRAWN WITH, not here. The offline canary is deliberately
+# standard-library only and installs nothing, so a module-level PIL import made this
+# file unimportable on CI: the C-5 check imports it to test line_text(), which is pure
+# logic with no drawing in it, and the whole hard gate died with
+# "ModuleNotFoundError: No module named 'PIL'". It passed locally because Pillow is
+# installed here, which is exactly the shape of failure a local-only check has.
+#
+# Nothing else changes: the two functions that draw import it on the way in, and a
+# missing Pillow still fails the build that actually makes a card, loudly, where it
+# should.
 
 _ET = ZoneInfo("America/New_York")
 
@@ -71,8 +80,10 @@ LIGHT = (235, 233, 227)
 def _font(name, size):
     p = os.path.join(FONTS, name)
     try:
+        from PIL import ImageFont
         return ImageFont.truetype(p, size)
     except Exception:
+        from PIL import ImageFont
         return ImageFont.load_default()
 
 
@@ -93,6 +104,7 @@ def _fit(draw, text, font, max_w):
 
 
 def _base(dark=False, wordmark=True):
+    from PIL import Image, ImageDraw
     im = Image.new("RGB", (W, H), BAND if dark else PAPER)
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, W, 10], fill=GREEN)
