@@ -442,6 +442,71 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
+    # so what has to hold is that it reports only what is real and in the right order.
+    import datetime as _dw
+    _noww = _sb._build_now()
+
+    def _ago(h):
+        return (_noww - _dw.timedelta(hours=h)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    _wi = [{"slug": "fresh", "title": "A story from this morning", "verdict": "VERIFIED",
+            "published_utc": _ago(3)},
+           {"slug": "stale", "title": "A story from last week", "verdict": "VERIFIED",
+            "published_utc": _ago(200)},
+           {"slug": "gone", "title": "A retired story", "verdict": "VERIFIED",
+            "published_utc": _ago(2), "superseded_by": "fresh"},
+           {"slug": "ex", "title": "An example", "example": True,
+            "published_utc": _ago(1)}]
+    _sbsave = _sb.SB_DATA
+    _sb.SB_DATA = {"leagues": [{"league": "NFL", "games": [
+        {"id": "G1", "state": "post", "league": "NFL", "start_utc": _ago(6),
+         "away": {"abbr": "DET", "score": "31"}, "home": {"abbr": "BUF", "score": "41"}},
+        {"id": "G2", "state": "post", "league": "NFL", "start_utc": _ago(300),
+         "away": {"abbr": "OLD", "score": "1"}, "home": {"abbr": "OLD2", "score": "2"}},
+        {"id": "G3", "state": "in", "league": "NFL", "start_utc": _ago(1),
+         "away": {"abbr": "LIV", "score": "7"}, "home": {"abbr": "LIV2", "score": "3"}},
+        {"id": "G4", "state": "post", "league": "NFL", "start_utc": _ago(5),
+         "away": {"abbr": "NOS", "score": None}, "home": {"abbr": "NOS2"}}]}]}
+    try:
+        _rows = _sb._wire_rows(_wi, _noww)
+        _txt = [r["text"] for r in _rows]
+        _check("A story from this morning" in _txt, fails,
+               f"E-2 canary: this morning's story is not on the wire: {_txt}")
+        _check("A story from last week" not in _txt, fails,
+               "E-2 canary: a story from last week is on a 48-hour wire")
+        _check("A retired story" not in _txt, fails,
+               "E-2 canary: a superseded story is on the wire, where it is unreachable "
+               "everywhere else on the site")
+        _check("An example" not in _txt, fails,
+               "E-2 canary: an example story is on the wire as if it were real")
+        _check("DET 31, BUF 41" in _txt, fails,
+               f"E-2 canary: a final from six hours ago is not on the wire: {_txt}")
+        _check(not any("OLD" in x for x in _txt), fails,
+               "E-2 canary: a final from twelve days ago is on a 48-hour wire")
+        _check(not any("LIV" in x for x in _txt), fails,
+               "E-2 canary: a game still in play is on the wire as a final")
+        _check(not any("NOS" in x for x in _txt), fails,
+               "E-2 canary: a final with no score on it reached the wire, which is the "
+               "fabricated-number rule with a timestamp on it")
+        _check(_rows == sorted(_rows, key=lambda r: r["t"], reverse=True), fails,
+               "E-2 canary: the wire is not newest first")
+        _check(len(_txt) == len(set(_txt)), fails,
+               f"E-2 canary: the wire repeats itself: {_txt}")
+        # The filter names its kinds in real English, and offers nothing when there is
+        # only one kind on the page to filter.
+        _f = _sb._wire_filter(_rows)
+        _check("Stories" in _f and "Storys" not in _f, fails,
+               f"E-2 canary: the wire filter's plural is built by adding an s: {_f}")
+        _check(" hidden" in _f, fails,
+               "E-2 canary: the wire filter ships visible, so a reader with no script "
+               "gets buttons that do nothing")
+        _one = [r for r in _rows if r["kind"] == "Final"]
+        _check(_sb._wire_filter(_one) == "", fails,
+               "E-2 canary: a wire with one kind on it still drew a filter")
+    finally:
+        _sb.SB_DATA = _sbsave
+
     # E-1: THE LEAD RULE GAINS THE DAY. The weekday table it used is a calendar kept by
     # hand: it gives the NFL 4.5 on a Sunday in June and college football 3.5 every
     # Saturday including the ones in March. The board says what is actually being played.

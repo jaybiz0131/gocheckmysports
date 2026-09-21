@@ -5729,6 +5729,37 @@ TEAM_PIN_JS = """<script>(function(){
   /* C-4: THE PANEL. The reader's teams, in the order the board will use, with the two
      controls that change it. Buttons and not drag: drag needs a pointer, fights a
      scrolling phone, and is invisible to a keyboard and a screen reader. */
+  function nextFor(ab){
+    /* The best line this board can give about one team, in order of what a reader
+       wants: a game in play, then a result from today, then the next kickoff. Read off
+       the cards' own attributes, so the panel cannot disagree with the card. */
+    var best=null, rank={'in':0, 'post':1, 'pre':2};
+    document.querySelectorAll('.tk-c[data-gid]').forEach(function(c){
+      var aw=c.getAttribute('data-away'), hm=c.getAttribute('data-home');
+      if(aw!==ab && hm!==ab) return;
+      var st=c.getAttribute('data-state')||'pre';
+      var r=rank[st]; if(r===undefined) r=3;
+      if(best===null || r<best.r) best={r:r, c:c, st:st, aw:aw, hm:hm};
+    });
+    if(!best) return '';
+    var other = (best.aw===ab) ? best.hm : best.aw;
+    var vs = (best.aw===ab) ? 'at '+other : 'v '+other;
+    if(best.st==='pre'){
+      var k=best.c.getAttribute('data-kick-et')||'';
+      return k ? vs+', '+k : vs;
+    }
+    /* A score belongs to a side, so it is read from the card's own halves rather than
+       assembled from two numbers whose order this function would have to guess. */
+    var mine=best.c.querySelector('[data-side="'+(best.aw===ab?'away':'home')+'"]');
+    var theirs=best.c.querySelector('[data-side="'+(best.aw===ab?'home':'away')+'"]');
+    function num(el){ if(!el) return null; var n=el.querySelector('.tk-sc');
+      var t=(n?n.textContent:el.textContent)||''; t=t.replace(/[^0-9-]/g,'');
+      return t===''?null:t; }
+    var a=num(mine), b=num(theirs);
+    if(a===null||b===null) return vs;
+    return (best.st==='in'?'live ':'')+a+'-'+b+' '+vs;
+  }
+
   function nameOf(ab){
     var n=document.querySelector('[data-tabbr="'+ab+'"][data-tname]');
     return (n && n.getAttribute('data-tname')) || ab;
@@ -5743,12 +5774,19 @@ TEAM_PIN_JS = """<script>(function(){
       if(!v.length){ ol.innerHTML=''; return; }
       ol.innerHTML = v.map(function(ab,i){
         var nm = nameOf(ab);
+        /* E-2, THE READER PANEL: the row says what is NEXT for this team, not just
+           that it is pinned. A list of names the reader already knows is a list of
+           names; the fact they came for is when their team plays and what happened
+           last time. Both are on this page already, on the cards, so the panel reads
+           them off the board rather than asking anyone for anything. */
+        var nx = nextFor(ab);
         /* The first row cannot move up and the last cannot move down. A disabled
            button that says what it would do is clearer than one that silently does
            nothing, and a screen reader announces the state. */
         return '<li class="mine-r" data-ab="'+ab+'">'
              + '<span class="mine-p">'+(i+1)+'</span>'
-             + '<span class="mine-nm">'+nm+'</span>'
+             + '<span class="mine-nm">'+nm+(nx?'<span class="mine-w">'+nx+'</span>':'')
+               +'</span>'
              + '<span class="mine-b">'
              + '<button type="button" class="mine-x" data-act="up" data-ab="'+ab+'"'
              + (i===0?' disabled':'')+' aria-label="Move '+nm+' up">&#9650;</button>'
@@ -5785,7 +5823,17 @@ TEAM_PIN_JS = """<script>(function(){
     }
     if (again) again.focus();
   });
-  apply(); panel();
+  /* THE FIRST PASS WAITS FOR THE DOCUMENT, for the same reason the lens does: this
+     script is attached to the band, and on /scores the band is parsed before the card
+     grid. apply() only needed storage and survived it; panel() reads the CARDS to say
+     what is next for each team, so run early it found none and every row rendered as a
+     bare name. The rows looked right, which is how it would have shipped. */
+  function boot(){ apply(); panel(); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();</script>"""
 
 
@@ -6473,6 +6521,166 @@ def render_week_page(team_data, wk, dateline, week_now=None):
         f'<section class="page wrap wk-page">{head}'
         f'{week_selector(wk, week_now)}{body}{note}</section>',
         dateline, path=f"/nfl/week-{wk}.html")
+
+
+WIRE_HOURS = 48
+WIRE_MAX = 120
+
+
+def _wire_rows(items, now=None):
+    """E-2: THE WIRE. Everything this desk did, newest first, with the time it happened.
+
+    A returning reader's question is "what has happened since I last looked", and no
+    page answered it. The front page answers "what matters now", the archive answers
+    "what exists", and between them the desk's own working day was invisible: a story
+    published at 10:42, a list posted at 11:32, a game final at 4:25 and an Edition at
+    7:48 were four facts on four different surfaces with nothing putting them in order.
+
+    A LOG, NOT A LIVE BLOG. Every line is something that happened, stamped when it
+    happened, linking to the thing itself. Nothing is written for the Wire: if a line is
+    here, the fact is somewhere else on this site and this is the index to it in time.
+
+    Built from what is already on disk, so it costs no request and cannot disagree with
+    the pages it points at.
+    """
+    now = now or _build_now()
+    cut = now - datetime.timedelta(hours=WIRE_HOURS)
+    rows = []
+
+    for it in (items or []):
+        if it.get("example") or it.get("superseded_by"):
+            continue
+        t = _parse_utc(it)
+        if not t or t < cut:
+            continue
+        wrap = _is_wrap(it)
+        rows.append({
+            "t": t, "kind": "Edition" if wrap else "Story",
+            "text": it.get("title") or "",
+            "href": (f'/articles/{esc(it.get("slug") or "")}.html'),
+            "note": "" if wrap else (_story_league(it) or ""),
+        })
+
+    for lg in ((SB_DATA or {}).get("leagues") or []):
+        for g in (lg.get("games") or []):
+            if g.get("state") != "post":
+                continue
+            k = _utc_dt(g.get("start_utc") or "")
+            if not k or k < cut:
+                continue
+            a, h = g.get("away") or {}, g.get("home") or {}
+            sa, sh = _tk_score(a), _tk_score(h)
+            if sa is None or sh is None:
+                continue
+            # The FINAL is the event, and the desk does not know the minute it ended.
+            # The kickoff is what is on file, so that is what is stamped, and the line
+            # says "Final" rather than pretending to a time nobody recorded.
+            rows.append({
+                "t": k, "kind": "Final",
+                "text": (f'{a.get("abbr") or ""} {sa}, {h.get("abbr") or ""} {sh}'),
+                "href": f'/games/{esc(str(g.get("id")))}.html',
+                "note": g.get("league") or "",
+            })
+
+    seen, out = set(), []
+    for r in sorted(rows, key=lambda r: r["t"], reverse=True):
+        key = (r["kind"], r["text"])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+        if len(out) >= WIRE_MAX:
+            break
+    return out
+
+
+def _wire_filter(rows):
+    """Forty-five of this weekend's fifty-one entries are final scores, so the desk's
+    own five stories are buried under them and the page fails the question it exists to
+    answer. The filter is the board's lens mechanism and not a second invention: the
+    reader has met these buttons already, and a kind that is not on the page today gets
+    no button, because a control that filters nothing is noise.
+    """
+    # The plural is written out, not built by adding an s: the first cut produced a
+    # button reading "Storys" on the finished page.
+    kinds = [(k, pl) for k, pl in (("Story", "Stories"), ("Final", "Finals"),
+                                   ("Edition", "Editions"))
+             if any(r["kind"] == k for r in rows)]
+    if len(kinds) < 2:
+        return ""
+    bs = "".join(
+        f'<button type="button" class="lens-b" data-wire="{k.lower()}" '
+        f'aria-pressed="false">{esc(pl)}</button>' for k, pl in kinds)
+    return ('<div class="lens wr-f" role="group" hidden '
+            'aria-label="Filter the wire by what happened">'
+            '<span class="lens-k">Show</span>'
+            '<button type="button" class="lens-b on" data-wire="all" '
+            'aria-pressed="true">All</button>' + bs + '</div>')
+
+
+WIRE_JS = """<script>(function(){
+  var g = document.querySelector('.wr-f');
+  if (!g) return;
+  g.hidden = false;
+  function apply(v){
+    document.querySelectorAll('.wr-r').forEach(function(r){
+      r.hidden = (v !== 'all' && r.getAttribute('data-kind') !== v);
+    });
+    /* A day heading with nothing under it is a date that did not happen. */
+    document.querySelectorAll('.wr-l').forEach(function(l){
+      var any = l.querySelector('.wr-r:not([hidden])');
+      l.hidden = !any;
+      var h = l.previousElementSibling;
+      if (h && h.classList.contains('wr-d')) h.hidden = !any;
+    });
+    g.querySelectorAll('.lens-b').forEach(function(b){
+      var on = b.getAttribute('data-wire') === v;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('.lens-b');
+    if (!b) return;
+    e.preventDefault();
+    apply(b.getAttribute('data-wire'));
+  });
+})();</script>"""
+
+
+def render_wire(items, dateline, now=None):
+    now = now or _build_now()
+    rows = _wire_rows(items, now)
+    if not rows:
+        return None
+    body, day = [], None
+    for r in rows:
+        et = r["t"].astimezone(_ET)
+        d = et.strftime("%A %-d %B")
+        if d != day:
+            if day is not None:
+                body.append("</ol>")
+            body.append(f'<h2 class="wr-d">{esc(d)}</h2><ol class="wr-l">')
+            day = d
+        note = (f'<span class="wr-n">{esc(r["note"])}</span>' if r["note"] else "")
+        body.append(
+            f'<li class="wr-r" data-kind="{esc(r["kind"].lower())}">'
+            f'<span class="wr-t">{esc(_et_clock(r["t"]))}</span>'
+            f'<span class="wr-k wr-k-{esc(r["kind"].lower())}">{esc(r["kind"])}</span>'
+            f'<a class="wr-x" href="{r["href"]}">{esc(r["text"])}</a>{note}</li>')
+    body.append("</ol>")
+    return shell(
+        f"The Wire - {NAME}",
+        "Everything this desk published and every game that finished, newest first, "
+        "with the time it happened.",
+        "News",
+        '<section class="page wrap wr-page">'
+        '<div class="wr-head"><h1>The Wire</h1>'
+        f'<span class="wr-c">{len(rows)} entries, last {WIRE_HOURS} hours</span></div>'
+        '<p class="bd-src">Nothing is written for this page. Every line is something '
+        'that happened, stamped when it happened, linking to the thing itself.</p>'
+        + _wire_filter(rows) + "".join(body) + '</section>' + WIRE_JS,
+        dateline, path="/wire.html")
 
 
 def render_standings_page(st, lg, dateline):
@@ -10613,6 +10821,13 @@ def build():
             w("scores.html", _sc)
             print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
 
+    # E-2: the Wire, the desk's own day in order. Written before the week pages so a
+    # failure here costs one page and nothing after it.
+    _wire = render_wire(items, dateline)
+    if _wire:
+        w("wire.html", _wire)
+        print(f"wire: {len(_wire_rows(items))} entr(ies)")
+
     # B-4: one page per NFL week, from the team schedules already on file. A week that
     # has no fixtures on file writes nothing rather than an empty page.
     if TEAM_DATA:
@@ -10768,7 +10983,7 @@ def build():
     # were all missing, which is to say the two pages a sports reader actually lands on
     # were not in the crawl path at all. Everything a reader can reach from the nav
     # belongs here.
-    locs = ["/", "/news.html", "/scores.html",
+    locs = ["/", "/news.html", "/scores.html", "/wire.html",
             "/fantasy/index.html", "/fantasy/inactives.html", "/fantasy/injuries.html",
             "/fantasy/live.html", "/fantasy/inactives/week-earlier.html"] + \
            [f"/sections/{sl}.html" for sl, _t, _n, _g, _b in SECTIONS] + [
