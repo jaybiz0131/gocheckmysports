@@ -442,6 +442,89 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # C-1: THE LINE AT OPEN. ESPN carries its odds object only while a game is still
+    # scheduled and drops it at kickoff: measured on the Sunday night slate, 0 of 61
+    # finals and 0 of 6 live games carried one. So the open line is whatever the last
+    # build logged before kickoff, the cover ruling on a final has no other source, and
+    # a logger that quietly forgets the open reading takes both clauses of the law with
+    # it while every page still builds clean.
+    import lines as _ln
+    import tempfile as _tf, os as _lo
+    _lsave = _ln.OUT
+    _ln.OUT = _lo.path.join(tempfile_dir := _tf.mkdtemp(), "lines.json")
+    try:
+        def _lg(detail, total, kick="2026-09-27T17:00:00Z"):
+            return [{"id": "L1", "start_utc": kick,
+                     "line": {"provider": "DraftKings", "detail": detail,
+                              "spread": -6.5, "total": total}}]
+        _d1 = _ln.log(_lg("KC -6", 46.5))
+        _d2 = _ln.log(_lg("KC -6.5", 47.5))
+        _r = _ln.for_game(_d2, "L1")
+        _check(_r and (_r["open"] or {}).get("detail") == "KC -6", fails,
+             f"C-1 canary: the open line was overwritten by a later reading: "
+             f"{(_r or {}).get('open')}")
+        _check(_r and (_r["now"] or {}).get("detail") == "KC -6.5", fails,
+             "C-1 canary: the latest reading was not kept")
+        _check(_r and int(_r.get("moves") or 0) == 1, fails,
+             f"C-1 canary: the move was not counted: {(_r or {}).get('moves')}")
+
+        # An expired game leaves the file; a live one does not go with it.
+        _old = _ln.log([{"id": "OLD", "start_utc": "2020-01-01T00:00:00Z",
+                         "line": {"provider": "DraftKings", "detail": "X -1"}}])
+        _check("OLD" not in (_old.get("games") or {}), fails,
+             "C-1 canary: a game months past its kickoff stayed in the file")
+        _check("L1" in (_old.get("games") or {}), fails,
+             "C-1 canary: the expiry sweep took a live game with it")
+
+        # THE RULING. Arithmetic on two numbers, stated only about a named provider's
+        # line, and a tie on either number is a push.
+        _sb.LINES_DATA = _d2
+
+        def _fin(sa, sh, total=47.5, detail="KC -6.5"):
+            return {"id": "L1", "state": "post", "league": "NFL",
+                    "away": {"abbr": "IND", "score": str(sa), "id": "11"},
+                    "home": {"abbr": "KC", "score": str(sh), "id": "12"},
+                    "line": {"provider": "DraftKings", "detail": detail,
+                             "total": total}}
+        _cov = _sb._tk_ruling(_fin(10, 24))      # KC by 14, over 6.5, 34 under 47.5
+        _check("KC covered" in _cov, fails,
+             f"C-1 canary: a 14-point win by a 6.5-point favourite did not cover: {_cov}")
+        _check("Under 47.5" in _cov, fails,
+             f"C-1 canary: 34 points did not read as under 47.5: {_cov}")
+        _no = _sb._tk_ruling(_fin(21, 24))       # KC by 3, under 6.5, 45 under
+        _check("KC did not cover" in _no, fails,
+             f"C-1 canary: a 3-point win by a 6.5-point favourite covered: {_no}")
+        _psh = _sb._tk_ruling(_fin(20, 26, 46, "KC -6"))   # exactly 6, exactly 46
+        _check("KC pushed" in _psh and "Pushed 46" in _psh, fails,
+             f"C-1 canary: an exact spread and an exact total were not pushes: {_psh}")
+        _ovr = _sb._tk_ruling(_fin(31, 24, 47.5))
+        _check("Over 47.5" in _ovr, fails,
+             f"C-1 canary: 55 points did not read as over 47.5: {_ovr}")
+        # The favourite comes from the detail string, never from the spread's sign: the
+        # away side favoured must rule on the away side's margin.
+        _awy = _sb._tk_ruling(_fin(30, 10, 47.5, "IND -6.5"))
+        _check("IND covered" in _awy, fails,
+             f"C-1 canary: an away favourite was ruled on the home team's margin: {_awy}")
+        # No provider, no ruling, WHATEVER THE NUMBERS SAY. The first cut of this test
+        # stripped the provider and the numbers together, so the ruling came back empty
+        # because there was nothing to rule on, and the test passed with the attribution
+        # guard deleted. The fixture keeps every number and removes only the name.
+        _bare = dict(_fin(10, 24))
+        _bare["line"] = {"detail": "KC -6.5", "total": 47.5}
+        _sb.LINES_DATA = {"games": {}}
+        _check(_sb._tk_ruling(_bare) == "", fails,
+             "C-1 canary: a cover was ruled with no provider named")
+        # and the same line WITH a name does rule, so the test above is about the name
+        # and not about the fixture being unrulable.
+        _named = dict(_bare)
+        _named["line"] = dict(_bare["line"], provider="DraftKings")
+        _check("KC covered" in _sb._tk_ruling(_named), fails,
+             "C-1 canary: the attribution fixture cannot be ruled even when named, so "
+             "the guard above proves nothing")
+    finally:
+        _ln.OUT = _lsave
+        _sb.LINES_DATA = None
+
     # SC-3 (M-20, M-21): THE MARQUEE. Four shapes, on one fixture slate, because the
     # rule is about WHEN it is asked, not about what is on the board. On 17 Sep the
     # front page put a 0-0 Mets game in the marquee eight minutes before the only NFL

@@ -52,6 +52,11 @@ FIELDS = ("pickcenter", "againstTheSpread", "predictor")
 # tk-line-ml, so one line counted three times and the check failed on a correct page.
 LINE_SHOWN = re.compile(r'data-line-spread="')
 PROVIDER_SHOWN = re.compile(r'data-line-provider="[^"]+"')
+# The law's last clause has the same requirement as its first: a cover is a
+# statement about one company's number, so a ruling with no name on it is the
+# desk asserting a spread of its own.
+RULING_SHOWN = re.compile(r'class="tk-ruling"')
+RULING_PROVIDER = re.compile(r'data-ruling-provider="[^"]+"')
 
 BOOKS = ("draftkings.com", "fanduel.com", "caesars.com", "betmgm.com", "pointsbet",
          "bet365", "barstoolsportsbook", "espnbet.com", "sportsbook.")
@@ -141,6 +146,14 @@ def check_pages():
             n_prov = len(PROVIDER_SHOWN.findall(h))
             if n_lines > n_prov:
                 hits.append((rel, f"{n_lines - n_prov} line(s) with no provider named"))
+            # A RULING WITHOUT ITS PROVIDER, counted the same way and for the same
+            # reason. "KC covered" is arithmetic on somebody's spread; unattributed it
+            # is the desk saying what the spread was.
+            n_rule = len(RULING_SHOWN.findall(h))
+            n_rprov = len(RULING_PROVIDER.findall(h))
+            if n_rule > n_rprov:
+                hits.append((rel, f"{n_rule - n_rprov} cover ruling(s) with no "
+                                  f"provider named"))
     return hits
 
 

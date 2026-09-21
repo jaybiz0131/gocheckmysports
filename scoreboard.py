@@ -194,6 +194,13 @@ def _league(name, path, colorkey, cmap):
             "home": sides.get("home") or {}, "away": sides.get("away") or {},
             "situation": (sit.get("downDistanceText") or "") if sit else "",
             "possession": (sit.get("possession") or "") if sit else "",
+            # B-2: the three facts a live football card is missing, all of them already
+            # in the situation object the down-and-distance line came from. Timeouts are
+            # carried as they are given, INCLUDING zero, which is a fact a reader wants
+            # ("no timeouts left") and not an absence; None means the feed said nothing.
+            "red_zone": bool(sit.get("isRedZone")) if sit else False,
+            "to_home": sit.get("homeTimeouts") if sit else None,
+            "to_away": sit.get("awayTimeouts") if sit else None,
             "progress": _progress(ev, comp, name),
             "venue_indoor": (comp.get("venue") or {}).get("indoor"),
             # H-11: the venue's name comes from the FEED. It used to come from our own

@@ -3813,7 +3813,7 @@ def _tk_line(g):
     No pick, no advice, no link to a book: what the card says is what one company was
     offering, and who was offering it.
     """
-    ln = g.get("line") or {}
+    ln, opened = _tk_logged(g)
     prov = ln.get("provider")
     if not prov:
         return ""
@@ -3829,6 +3829,7 @@ def _tk_line(g):
     return (f'<div class="tk-line" data-line-spread="{esc(str(ln.get("spread", "")))}">'
             f'<span class="tk-line-v">{" &middot; ".join(bits)}</span>'
             + (f'<span class="tk-line-ml">{" &middot; ".join(ml)}</span>' if ml else "")
+            + opened
             + f'<span class="tk-line-src" data-line-provider="{esc(prov)}">'
               f'{esc(prov)} via ESPN</span></div>')
 
@@ -3860,6 +3861,147 @@ def _tk_disc(g, t, side):
         return ""
     return (f'<span class="tk-disc" style="--d:{col}" aria-hidden="true">'
             f'{esc(ab)}</span>')
+
+
+_TK_FAV = re.compile(r"^([A-Z&.\-]{2,5})\s*([+-]\d+(?:\.\d+)?)$")
+
+
+def _tk_logged(g):
+    """C-1 and the law's second clause: the line now, and the line at open beside it.
+
+    Returns (line, opened_markup). The line is the feed's when the feed has one and the
+    logged reading when it does not, which is every game that has kicked off: ESPN drops
+    the odds object at kickoff, so on the Sunday night slate 0 of 61 finals and 0 of 6
+    live games carried one. Without the log there is no line on any card after kickoff
+    and no cover ruling on any final, ever.
+
+    The open line prints only when it MOVED. "Opened KC -6" beside "KC -6" is the same
+    fact twice, and a card that says everything twice is a card nobody reads.
+    """
+    feed = g.get("line") or {}
+    try:
+        import lines as _lnmod
+        rec = _lnmod.for_game(LINES_DATA, g.get("id"))
+    except Exception:
+        rec = None
+    if not rec:
+        return (feed, "")
+    now = dict(rec.get("now") or {})
+    now["provider"] = rec.get("provider") or feed.get("provider") or ""
+    use = feed if feed.get("provider") else now
+    op = rec.get("open") or {}
+    moved = int(rec.get("moves") or 0) and op.get("detail") and \
+        op.get("detail") != (use.get("detail") or now.get("detail"))
+    if not moved:
+        return (use, "")
+    return (use, f'<span class="tk-line-open">Opened {esc(str(op["detail"]))}</span>')
+
+
+def _tk_marks(g, t, side):
+    """B-2: possession and timeouts, for the side that has them.
+
+    All three of these were already in the situation object the down-and-distance line
+    came from, and none of them were being read. A live football card without the ball
+    is a card that cannot tell you who is driving.
+
+    Timeouts print at zero. "No timeouts" is the single most consequential fact in a
+    two-minute drill, and treating it as an absence prints nothing at the moment the
+    reader most wants it.
+    """
+    if g.get("state") != "in":
+        return ""
+    out = ""
+    tid = str(t.get("id") or "")
+    if tid and str(g.get("possession") or "") == tid:
+        out += '<span class="tk-poss" title="Has the ball" aria-label="Has the ball">' \
+               '&#9679;</span>'
+    n = g.get("to_away") if side == "away" else g.get("to_home")
+    if isinstance(n, int) and 0 <= n <= 3:
+        pips = "".join(f'<i class="{"on" if i < n else "off"}"></i>' for i in range(3))
+        out += (f'<span class="tk-to" aria-label="{n} timeout'
+                f'{"" if n == 1 else "s"} left">{pips}</span>')
+    return out
+
+
+def _tk_redzone(g, t):
+    """The tint goes on the chip of the team INSIDE the twenty, which is the team with
+    the ball. The feed's isRedZone says a game is in one; it does not say whose."""
+    if g.get("state") != "in" or not g.get("red_zone"):
+        return ""
+    tid = str(t.get("id") or "")
+    return " rz" if tid and str(g.get("possession") or "") == tid else ""
+
+
+def _tk_ruling(g):
+    """The law of 20 September, the last clause: on finals, whether the favourite
+    covered and whether the total went over.
+
+    A ruling, not a verdict on anyone's bet: it is arithmetic on two numbers the card
+    already prints, and it is only ever stated about the line one named provider set.
+    No line, no provider, no ruling. A tie on either number is a push and says so.
+
+    The FAVOURITE comes from the feed's own detail string ("KC -6.5"), never from the
+    sign of the spread field, because the sign's frame of reference is the feed's and a
+    silent flip would print the wrong team as the one that covered.
+    """
+    if g.get("state") != "post":
+        return ""
+    ln, _ = _tk_logged(g)
+    if not ln.get("provider"):
+        return ""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    sa, sh = _tk_score(a), _tk_score(h)
+    if sa is None or sh is None:
+        return ""
+    bits = []
+    m = _TK_FAV.match(str(ln.get("detail") or "").strip())
+    if m:
+        fav_ab, num = m.group(1), float(m.group(2))
+        by = abs(num)
+        if fav_ab == (h.get("abbr") or ""):
+            margin = sh - sa
+        elif fav_ab == (a.get("abbr") or ""):
+            margin = sa - sh
+        else:
+            margin = None
+        if margin is not None and num < 0:
+            bits.append(f"{fav_ab} covered" if margin > by else
+                        (f"{fav_ab} did not cover" if margin < by else
+                         f"{fav_ab} pushed"))
+    if ln.get("total") is not None:
+        try:
+            tot = float(ln["total"])
+        except (TypeError, ValueError):
+            tot = None
+        if tot is not None:
+            pts = sa + sh
+            bits.append(f"Over {_fmt_line_num(tot)}" if pts > tot else
+                        (f"Under {_fmt_line_num(tot)}" if pts < tot else
+                         f"Pushed {_fmt_line_num(tot)}"))
+    if not bits:
+        return ""
+    return (f'<div class="tk-ruling">{esc(_TK_MID.join(bits))}'
+            f'<span class="tk-ruling-src" data-ruling-provider="{esc(ln.get("provider") or "")}">'
+            f'vs {esc(ln.get("provider") or "")} via ESPN</span></div>')
+
+
+def _fmt_line_num(v):
+    """46.5 stays 46.5; 47.0 becomes 47. A trailing zero on a total reads as a
+    precision the line does not have."""
+    return f"{v:.1f}".rstrip("0").rstrip(".")
+
+
+def _tk_trec(t):
+    """B-2: A RECORD BELONGS TO THE TEAM, not to a line under both of them.
+
+    The card joined them into one line, "Steelers 1-0 \u00b7 Patriots 0-1", which reads
+    as a sentence about the game rather than a fact about each side, and once the rows
+    stacked it sat under the pair naming them again in the order they already appear in.
+    The record rides with its team, in mono, and the joined line stays on the layouts
+    that still run the names inline (see .tk-rec[data-role=rec] in the stylesheet).
+    """
+    r = (t or {}).get("record") or ""
+    return f'<span class="tk-trec">{esc(r)}</span>' if r else ""
 
 
 def _tk_matchup(g, big=40):
@@ -3898,7 +4040,8 @@ def _tk_matchup(g, big=40):
                     f'{_rank_html(g, t)}'
                     f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                     f'data-label="{esc(_team_label(g, t))}" '
-                    f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span></span>')
+                    f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>'
+                    f'{_tk_trec(t)}</span>')
         return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
                 f'{plain(a, "away")} <span class="tk-at">at</span> '
                 f'{plain(h, "home")}</span>')
@@ -3906,13 +4049,15 @@ def _tk_matchup(g, big=40):
     tie = ca == ch
     def chip(t, sc, col, which):
         lead = (col == _TK_UP) and not tie
-        cls = "tk-chip-score" + (" lead" if lead else "")
+        cls = "tk-chip-score" + (" lead" if lead else "") + _tk_redzone(g, t)
         bar = (f'<i style="background:{col}"></i>' if lead else "")
         return (f'<span class="{cls}" style="color:{col};'
                 f'font-weight:{800 if lead else 500}">{bar}{_tk_disc(g, t, which)}{_rank_html(g, t)}'
                 f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                 f'data-label="{esc(_team_label(g, t))}">'
-                f'{esc(_team_label(g, t))} {sc if sc is not None else ""}</span></span>')
+                f'<span class="tk-nm">{esc(_team_label(g, t))}</span>'
+                f'<span class="tk-sc">{sc if sc is not None else ""}</span>'
+                f'</span>{_tk_trec(t)}{_tk_marks(g, t, which)}</span>')
     return (f'<span class="tk-num tk-num-chips{_fcls}" style="font-size:{big}px">'
             f'{chip(a, sa, ca, "away")}{chip(h, sh, ch, "home")}</span>')
 
@@ -4103,6 +4248,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
             f'{_tk_rec_html(g)}'
             f'{_tk_countdown(g)}'
             f'{_tk_line(g)}'
+            f'{_tk_ruling(g)}'
             f'</div><div class="tk-perf"></div>'
             f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
 
@@ -4688,7 +4834,16 @@ SB_LIVE_JS = """
              data-abbr stays the abbreviation the pin and this poll match on. Without
              the label the first poll rewrote every college name back to its initials. */
           var ab = big.getAttribute('data-label') || big.getAttribute('data-abbr') || '';
-          big.textContent = started && sc !== null ? ab + ' ' + sc : ab;
+          /* B-2: the score is its own node now so it can be set at 64px against a name
+             at 15px. textContent on the parent would delete both children, which is
+             how the first cut of this silently erased every score it painted. */
+          var nm = big.querySelector('.tk-nm'), scn = big.querySelector('.tk-sc');
+          if (nm) {
+            nm.textContent = ab;
+            if (scn) scn.textContent = started && sc !== null ? sc : '';
+          } else {
+            big.textContent = started && sc !== null ? ab + ' ' + sc : ab;
+          }
           big.style.color = c[i] || '#FFFFFF';
         }
         /* the folded card: score and abbreviation are separate */
@@ -8505,6 +8660,7 @@ EDITION_HREF = None  # set at build: the newest dated edition (S-1 nav)
 IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
+LINES_DATA = None    # set at build by lines.log(): the line at open per game
 WX_DATA = None       # set at build by kickoff_weather.load()
 LIVE_POINTS = {}     # set at build: fantasy points per game id, for live/final cards
 ALL_ITEMS = []       # set at build: the published story pool the card story line draws
@@ -8743,6 +8899,13 @@ def render_standards(dateline):
      line that arrives without a provider is not published at all, because an
      unattributed number would read as this desk's estimate, and this desk does not
      estimate.</p>
+  <p>Two things follow from a line being a reading at a moment. When a line moves, the
+     card shows where it opened beside where it is now, both from the same provider, and
+     the opening figure is whatever was published the first time this desk saw the game:
+     the feed does not keep it, so the desk logs it. And once a game is final, the card
+     states whether the favourite covered and whether the total went over. That is
+     arithmetic on the score and on that provider's number, attributed to them, and it
+     is not a judgement on anyone's wager.</p>
 
   <h2>Oversight</h2>
   <p>A human editor-in-chief oversees the desk, can hold or remove anything, and owns the
@@ -9648,7 +9811,7 @@ def build():
     # S-A: the Scoreboard band's own data. scores_pulse.py is frozen and writes a
     # ticker's worth of each game; the band needs networks, records, period and
     # situation, so this reads the public scoreboards itself.
-    global SB_DATA
+    global SB_DATA, LINES_DATA
     SB_DATA = None
     try:
         import scoreboard as _sbmod
@@ -9656,6 +9819,18 @@ def build():
         SB_DATA = _sbmod.load()
     except Exception as _e:
         print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
+
+    # C-1: log the line while the game is still scheduled, because the feed drops its
+    # odds object at kickoff and a line nobody logged before then is gone for good.
+    # This runs on every build, which is why the Worker's build hooks matter to it: the
+    # open line is only as early as the first build that saw the game.
+    LINES_DATA = None
+    try:
+        import lines as _lnmod
+        LINES_DATA = _lnmod.log([g for L in (SB_DATA or {}).get("leagues") or []
+                                 for g in L.get("games") or []])
+    except Exception as _e:
+        print(f"lines: unavailable ({type(_e).__name__}); open lines withheld")
 
     # S-L1: the standings and the college football rankings. A league whose season has
     # not started writes nothing, so a failure here costs the standings pages and

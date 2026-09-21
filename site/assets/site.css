@@ -2392,3 +2392,67 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   align-items:flex-start;gap:4px;text-align:left;white-space:normal}
 .sb-grid.tk-panel > .tk-c .tk-side{display:inline-flex;align-items:center;min-width:0}
 .sb-grid.tk-panel > .tk-c .tk-at{display:none}
+
+/* B-2, THE MARQUEE'S TYPE. The card was one size of everything: a 40px team name beside
+   a 40px score, with the records joined into a sentence underneath. Nothing on it said
+   which fact the reader came for.
+
+   The score is the answer, so it gets the size: 64px on the desktop card, 44px on the
+   phone, tabular so a 7 and a 1 occupy the same width and the two rows line up down the
+   page. The name steps back to 20px and the record sits with its own team in mono at
+   12px, which is why the joined line is switched off here (.tk-trec carries it instead).
+
+   Everything is on the 8px grid: 24px of padding, 16px between the rows, 8px inside the
+   chip's own stack. The one number that is not a multiple of eight is the 64px score,
+   which is eight of them. */
+.sb-grid.tk-panel > .tk-c .tk-stub{padding:24px}
+.sb-grid.tk-panel > .tk-c .tk-num{gap:16px;width:100%}
+.sb-grid.tk-panel > .tk-c .tk-side{width:100%;gap:16px}
+.sb-grid.tk-panel > .tk-c .tk-chip-score{width:100%;padding:8px 16px;gap:16px}
+.sb-grid.tk-panel > .tk-c .tk-chip-score.lead{padding-left:24px}
+.sb-grid.tk-panel > .tk-c [data-side]{display:flex;align-items:center;gap:16px;
+  flex:1;min-width:0}
+.sb-grid.tk-panel > .tk-c .tk-nm{font-size:20px;line-height:1.15;min-width:0}
+.sb-grid.tk-panel > .tk-c .tk-sc{margin-left:auto;font-size:64px;line-height:.9;
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.sb-grid.tk-panel > .tk-c .tk-trec{display:block;font-family:var(--mono);font-size:12px;
+  color:rgba(255,255,255,.78);flex:none}
+/* The joined line named both teams again, in the order they already appear in. */
+.sb-grid.tk-panel > .tk-c .tk-rec[data-role="rec"]{display:none}
+@media (max-width:640px){
+  .sb-grid.tk-panel > .tk-c .tk-stub{padding:16px}
+  .sb-grid.tk-panel > .tk-c .tk-num{gap:8px}
+  .sb-grid.tk-panel > .tk-c .tk-side,
+  .sb-grid.tk-panel > .tk-c [data-side]{gap:8px}
+  .sb-grid.tk-panel > .tk-c .tk-chip-score{padding:8px;gap:8px}
+  .sb-grid.tk-panel > .tk-c .tk-nm{font-size:16px}
+  .sb-grid.tk-panel > .tk-c .tk-sc{font-size:44px}
+  .sb-grid.tk-panel > .tk-c .tk-trec{font-size:11px}
+}
+/* Outside the marquee the names still run inline and the joined line is the record, so
+   the per-team copy stays off. One record per team per card, never both. */
+.tk-trec{display:none}
+.tk-nm,.tk-sc{display:inline}
+.tk-num-chips .tk-sc{margin-left:.28em;font-variant-numeric:tabular-nums}
+
+/* B-2, THE LIVE AND FINAL STATES. Three facts that were in the feed all along and were
+   not being read: who has the ball, how many timeouts each side has left, and whether
+   the game is inside the twenty. */
+.tk-poss{flex:none;margin-left:8px;font-size:11px;line-height:1;color:#3DDC84}
+.tk-to{flex:none;display:inline-flex;gap:2px;margin-left:8px}
+.tk-to i{width:8px;height:3px;border-radius:2px;background:rgba(255,255,255,.28)}
+.tk-to i.on{background:rgba(255,255,255,.85)}
+/* The tint marks the chip of the team INSIDE the twenty, and it is amber rather than
+   SC-9's green or red: those two mean "ahead" and "behind" on this card and a third
+   meaning would make all three unreadable. It is a wash and a left edge, not a fill,
+   so the score's own colour still carries. */
+.tk-chip-score.rz{background:linear-gradient(90deg,rgba(240,198,116,.22),rgba(12,14,18,.58) 60%);
+  border-color:rgba(240,198,116,.45);box-shadow:inset 3px 0 0 rgba(240,198,116,.85)}
+/* The final's ruling: arithmetic on the line the card already printed, attributed to
+   the same provider, because a cover is a statement about one company's number. */
+.tk-ruling{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;color:#EBE9E3;
+  padding-top:8px;margin-top:8px;border-top:1px solid rgba(255,255,255,.10)}
+.tk-ruling-src{font-size:10px;color:#A6ABB4;letter-spacing:.04em;text-transform:uppercase}
+/* The open line, printed only when it moved. */
+.tk-line-open{font-family:var(--mono);font-size:10.5px;color:#A6ABB4;letter-spacing:.03em}
