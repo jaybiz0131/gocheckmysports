@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-21T09:17:11Z",
+ "fetched_at": "2026-09-21T23:01:06Z",
  "leagues": [
   {
    "league": "NFL",
@@ -22,6 +22,7 @@
       "rank": null,
       "score": "0",
       "record": "0-1",
+      "periods": [],
       "id": "14",
       "color": "#003594"
      },
@@ -33,14 +34,45 @@
       "rank": null,
       "score": "0",
       "record": "1-0",
+      "periods": [],
       "id": "19",
       "color": "#003c7f"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Dart",
+       "line": "230 YDS, 3 TD",
+       "team": "19"
+      },
+      {
+       "cat": "RUSH",
+       "name": "C. Skattebo",
+       "line": "18 CAR, 81 YDS, 1 TD",
+       "team": "19"
+      },
+      {
+       "cat": "REC",
+       "name": "I. Likely",
+       "line": "8 REC, 78 YDS, 2 TD",
+       "team": "19"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "SoFi Stadium"
+     "venue": "SoFi Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "LAR -6.5",
+      "spread": -6.5,
+      "total": 47.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401872932",
@@ -60,6 +92,12 @@
       "rank": null,
       "score": "41",
       "record": "2-0",
+      "periods": [
+       "14",
+       "13",
+       "7",
+       "7"
+      ],
       "id": "2",
       "color": "#00338d"
      },
@@ -71,14 +109,44 @@
       "rank": null,
       "score": "31",
       "record": "1-1",
+      "periods": [
+       "0",
+       "10",
+       "7",
+       "14"
+      ],
       "id": "8",
       "color": "#0076b6"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Goff",
+       "line": "26/38, 327 YDS, 4 TD",
+       "team": "8"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Cook III",
+       "line": "21 CAR, 135 YDS, 1 TD",
+       "team": "2"
+      },
+      {
+       "cat": "REC",
+       "name": "A. St. Brown",
+       "line": "9 REC, 142 YDS, 2 TD",
+       "team": "8"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Highmark Stadium"
+     "venue": "Highmark Stadium",
+     "line": null
     },
     {
      "id": "401872933",
@@ -98,6 +166,12 @@
       "rank": null,
       "score": "3",
       "record": "0-2",
+      "periods": [
+       "0",
+       "3",
+       "0",
+       "0"
+      ],
       "id": "1",
       "color": "#a71930"
      },
@@ -109,14 +183,44 @@
       "rank": null,
       "score": "34",
       "record": "1-1",
+      "periods": [
+       "10",
+       "10",
+       "14",
+       "0"
+      ],
       "id": "29",
       "color": "#0085ca"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "B. Young",
+       "line": "23/36, 287 YDS, 3 TD",
+       "team": "29"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Robinson",
+       "line": "16 CAR, 72 YDS",
+       "team": "1"
+      },
+      {
+       "cat": "REC",
+       "name": "T. McMillan",
+       "line": "5 REC, 101 YDS",
+       "team": "29"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Mercedes-Benz Stadium"
+     "venue": "Mercedes-Benz Stadium",
+     "line": null
     },
     {
      "id": "401872937",
@@ -136,6 +240,12 @@
       "rank": null,
       "score": "3",
       "record": "1-1",
+      "periods": [
+       "3",
+       "0",
+       "0",
+       "0"
+      ],
       "id": "3",
       "color": "#0b1c3a"
      },
@@ -147,14 +257,44 @@
       "rank": null,
       "score": "9",
       "record": "2-0",
+      "periods": [
+       "3",
+       "3",
+       "0",
+       "3"
+      ],
       "id": "16",
       "color": "#4f2683"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "C. Wentz",
+       "line": "11/20, 143 YDS",
+       "team": "16"
+      },
+      {
+       "cat": "RUSH",
+       "name": "A. Jones Sr.",
+       "line": "23 CAR, 105 YDS",
+       "team": "16"
+      },
+      {
+       "cat": "REC",
+       "name": "J. Jefferson",
+       "line": "3 REC, 55 YDS",
+       "team": "16"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Soldier Field"
+     "venue": "Soldier Field",
+     "line": null
     },
     {
      "id": "401872939",
@@ -174,6 +314,12 @@
       "rank": null,
       "score": "20",
       "record": "0-2",
+      "periods": [
+       "7",
+       "3",
+       "7",
+       "3"
+      ],
       "id": "10",
       "color": "#4495d2"
      },
@@ -185,14 +331,44 @@
       "rank": null,
       "score": "24",
       "record": "2-0",
+      "periods": [
+       "0",
+       "14",
+       "3",
+       "7"
+      ],
       "id": "21",
       "color": "#06424d"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Hurts",
+       "line": "26/37, 264 YDS, 2 TD, 2 INT",
+       "team": "21"
+      },
+      {
+       "cat": "RUSH",
+       "name": "T. Pollard",
+       "line": "14 CAR, 64 YDS",
+       "team": "10"
+      },
+      {
+       "cat": "REC",
+       "name": "D. Smith",
+       "line": "10 REC, 117 YDS, 1 TD",
+       "team": "21"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Nissan Stadium"
+     "venue": "Nissan Stadium",
+     "line": null
     },
     {
      "id": "401872946",
@@ -212,6 +388,12 @@
       "rank": null,
       "score": "20",
       "record": "1-1",
+      "periods": [
+       "7",
+       "3",
+       "3",
+       "7"
+      ],
       "id": "17",
       "color": "#002a5c"
      },
@@ -223,14 +405,44 @@
       "rank": null,
       "score": "3",
       "record": "1-1",
+      "periods": [
+       "0",
+       "3",
+       "0",
+       "0"
+      ],
       "id": "23",
       "color": "#000000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Maye",
+       "line": "14/22, 208 YDS, 1 INT",
+       "team": "17"
+      },
+      {
+       "cat": "RUSH",
+       "name": "T. Henderson",
+       "line": "16 CAR, 76 YDS, 1 TD",
+       "team": "17"
+      },
+      {
+       "cat": "REC",
+       "name": "R. Doubs",
+       "line": "3 REC, 96 YDS",
+       "team": "17"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Gillette Stadium"
+     "venue": "Gillette Stadium",
+     "line": null
     },
     {
      "id": "401872936",
@@ -250,6 +462,13 @@
       "rank": null,
       "score": "17",
       "record": "1-1",
+      "periods": [
+       "0",
+       "7",
+       "7",
+       "3",
+       "0"
+      ],
       "id": "20",
       "color": "#115740"
      },
@@ -261,14 +480,45 @@
       "rank": null,
       "score": "20",
       "record": "1-1",
+      "periods": [
+       "0",
+       "7",
+       "0",
+       "10",
+       "3"
+      ],
       "id": "9",
       "color": "#204e32"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "G. Smith",
+       "line": "27/41, 247 YDS, 1 TD",
+       "team": "20"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Johnson",
+       "line": "8 CAR, 32 YDS",
+       "team": "9"
+      },
+      {
+       "cat": "REC",
+       "name": "B. Hall",
+       "line": "5 REC, 63 YDS",
+       "team": "20"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "MetLife Stadium"
+     "venue": "MetLife Stadium",
+     "line": null
     },
     {
      "id": "401872935",
@@ -288,6 +538,12 @@
       "rank": null,
       "score": "19",
       "record": "0-2",
+      "periods": [
+       "6",
+       "3",
+       "7",
+       "3"
+      ],
       "id": "27",
       "color": "#bd1c36"
      },
@@ -299,14 +555,44 @@
       "rank": null,
       "score": "23",
       "record": "1-1",
+      "periods": [
+       "3",
+       "3",
+       "10",
+       "7"
+      ],
       "id": "5",
       "color": "#472a08"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Watson",
+       "line": "24/30, 238 YDS, 2 TD",
+       "team": "5"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Irving",
+       "line": "17 CAR, 89 YDS",
+       "team": "27"
+      },
+      {
+       "cat": "REC",
+       "name": "D. Boston",
+       "line": "5 REC, 95 YDS, 1 TD",
+       "team": "5"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Raymond James Stadium"
+     "venue": "Raymond James Stadium",
+     "line": null
     },
     {
      "id": "401872938",
@@ -326,6 +612,12 @@
       "rank": null,
       "score": "17",
       "record": "1-1",
+      "periods": [
+       "7",
+       "7",
+       "3",
+       "0"
+      ],
       "id": "33",
       "color": "#29126f"
      },
@@ -337,14 +629,44 @@
       "rank": null,
       "score": "24",
       "record": "1-1",
+      "periods": [
+       "0",
+       "6",
+       "3",
+       "15"
+      ],
       "id": "18",
       "color": "#d3bc8d"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "T. Shough",
+       "line": "27/34, 252 YDS, 1 TD",
+       "team": "18"
+      },
+      {
+       "cat": "RUSH",
+       "name": "D. Henry",
+       "line": "16 CAR, 68 YDS, 1 TD",
+       "team": "33"
+      },
+      {
+       "cat": "REC",
+       "name": "R. Bateman",
+       "line": "7 REC, 88 YDS, 1 TD",
+       "team": "33"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "M&T Bank Stadium"
+     "venue": "M&T Bank Stadium",
+     "line": null
     },
     {
      "id": "401872934",
@@ -364,6 +686,12 @@
       "rank": null,
       "score": "6",
       "record": "0-2",
+      "periods": [
+       "0",
+       "3",
+       "3",
+       "0"
+      ],
       "id": "34",
       "color": "#021018"
      },
@@ -375,14 +703,44 @@
       "rank": null,
       "score": "20",
       "record": "2-0",
+      "periods": [
+       "0",
+       "7",
+       "10",
+       "3"
+      ],
       "id": "4",
       "color": "#fb4f14"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "C.J. Stroud",
+       "line": "30/55, 353 YDS",
+       "team": "34"
+      },
+      {
+       "cat": "RUSH",
+       "name": "C. Brown",
+       "line": "20 CAR, 80 YDS",
+       "team": "4"
+      },
+      {
+       "cat": "REC",
+       "name": "D. Schultz",
+       "line": "12 REC, 140 YDS",
+       "team": "34"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Reliant Stadium"
+     "venue": "Reliant Stadium",
+     "line": null
     },
     {
      "id": "401872940",
@@ -402,6 +760,12 @@
       "rank": null,
       "score": "20",
       "record": "1-1",
+      "periods": [
+       "0",
+       "3",
+       "3",
+       "14"
+      ],
       "id": "7",
       "color": "#0a2343"
      },
@@ -413,14 +777,44 @@
       "rank": null,
       "score": "13",
       "record": "1-1",
+      "periods": [
+       "0",
+       "10",
+       "3",
+       "0"
+      ],
       "id": "30",
       "color": "#007487"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "B. Nix",
+       "line": "22/31, 288 YDS, 1 TD, 1 INT",
+       "team": "7"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Tuten",
+       "line": "13 CAR, 65 YDS, 1 TD",
+       "team": "30"
+      },
+      {
+       "cat": "REC",
+       "name": "J. Waddle",
+       "line": "8 REC, 138 YDS",
+       "team": "7"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Empower Field at Mile High"
+     "venue": "Empower Field at Mile High",
+     "line": null
     },
     {
      "id": "401872941",
@@ -440,6 +834,12 @@
       "rank": null,
       "score": "14",
       "record": "0-2",
+      "periods": [
+       "0",
+       "7",
+       "7",
+       "0"
+      ],
       "id": "24",
       "color": "#0080c6"
      },
@@ -451,14 +851,44 @@
       "rank": null,
       "score": "26",
       "record": "2-0",
+      "periods": [
+       "0",
+       "10",
+       "7",
+       "9"
+      ],
       "id": "13",
       "color": "#000000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "K. Cousins",
+       "line": "19/29, 253 YDS, 3 TD, 1 INT",
+       "team": "13"
+      },
+      {
+       "cat": "RUSH",
+       "name": "O. Hampton",
+       "line": "23 CAR, 94 YDS, 1 TD",
+       "team": "24"
+      },
+      {
+       "cat": "REC",
+       "name": "T. Tucker",
+       "line": "5 REC, 119 YDS, 1 TD",
+       "team": "13"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "SoFi Stadium"
+     "venue": "SoFi Stadium",
+     "line": null
     },
     {
      "id": "401872944",
@@ -478,6 +908,12 @@
       "rank": null,
       "score": "37",
       "record": "1-1",
+      "periods": [
+       "10",
+       "7",
+       "10",
+       "10"
+      ],
       "id": "6",
       "color": "#002a5c"
      },
@@ -489,14 +925,44 @@
       "rank": null,
       "score": "20",
       "record": "0-2",
+      "periods": [
+       "0",
+       "10",
+       "3",
+       "7"
+      ],
       "id": "28",
       "color": "#5a1414"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Prescott",
+       "line": "26/31, 279 YDS, 4 TD",
+       "team": "6"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Daniels",
+       "line": "7 CAR, 69 YDS",
+       "team": "28"
+      },
+      {
+       "cat": "REC",
+       "name": "C. Lamb",
+       "line": "8 REC, 153 YDS, 2 TD",
+       "team": "6"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "AT&T Stadium"
+     "venue": "AT&T Stadium",
+     "line": null
     },
     {
      "id": "401872943",
@@ -516,6 +982,12 @@
       "rank": null,
       "score": "7",
       "record": "1-1",
+      "periods": [
+       "0",
+       "7",
+       "0",
+       "0"
+      ],
       "id": "22",
       "color": "#a40227"
      },
@@ -527,14 +999,44 @@
       "rank": null,
       "score": "31",
       "record": "2-0",
+      "periods": [
+       "7",
+       "0",
+       "10",
+       "14"
+      ],
       "id": "26",
       "color": "#002a5c"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Lock",
+       "line": "19/26, 235 YDS, 3 TD",
+       "team": "26"
+      },
+      {
+       "cat": "RUSH",
+       "name": "E. Wilson",
+       "line": "21 CAR, 92 YDS",
+       "team": "26"
+      },
+      {
+       "cat": "REC",
+       "name": "J. Smith-Njigba",
+       "line": "9 REC, 155 YDS, 3 TD",
+       "team": "26"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "State Farm Stadium"
+     "venue": "State Farm Stadium",
+     "line": null
     },
     {
      "id": "401872942",
@@ -554,6 +1056,12 @@
       "rank": null,
       "score": "35",
       "record": "2-0",
+      "periods": [
+       "7",
+       "7",
+       "21",
+       "0"
+      ],
       "id": "25",
       "color": "#aa0000"
      },
@@ -565,14 +1073,44 @@
       "rank": null,
       "score": "13",
       "record": "0-2",
+      "periods": [
+       "0",
+       "6",
+       "0",
+       "7"
+      ],
       "id": "15",
       "color": "#008e97"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "B. Purdy",
+       "line": "20/22, 287 YDS, 2 TD",
+       "team": "25"
+      },
+      {
+       "cat": "RUSH",
+       "name": "D. Achane",
+       "line": "20 CAR, 74 YDS",
+       "team": "15"
+      },
+      {
+       "cat": "REC",
+       "name": "G. Kittle",
+       "line": "4 REC, 80 YDS, 1 TD",
+       "team": "25"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Levi's Stadium"
+     "venue": "Levi's Stadium",
+     "line": null
     },
     {
      "id": "401872945",
@@ -592,6 +1130,13 @@
       "rank": null,
       "score": "33",
       "record": "2-0",
+      "periods": [
+       "10",
+       "7",
+       "7",
+       "3",
+       "6"
+      ],
       "id": "12",
       "color": "#e31837"
      },
@@ -603,14 +1148,45 @@
       "rank": null,
       "score": "30",
       "record": "0-2",
+      "periods": [
+       "7",
+       "13",
+       "0",
+       "7",
+       "3"
+      ],
       "id": "11",
       "color": "#003b75"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "P. Mahomes",
+       "line": "32/47, 382 YDS, 3 TD",
+       "team": "12"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Walker III",
+       "line": "24 CAR, 117 YDS",
+       "team": "12"
+      },
+      {
+       "cat": "REC",
+       "name": "T. Kelce",
+       "line": "9 REC, 101 YDS, 1 TD",
+       "team": "12"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Arrowhead Stadium"
+     "venue": "Arrowhead Stadium",
+     "line": null
     }
    ]
   },
@@ -618,547 +1194,15 @@
    "league": "MLB",
    "games": [
     {
-     "id": "401817017",
+     "id": "401817027",
      "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "in",
+     "completed": false,
+     "status_short": "Delayed, Top 1st",
      "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T17:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "NYM",
-      "name": "Mets",
-      "school": "New York",
-      "mascot": "Mets",
-      "rank": null,
-      "score": "2",
-      "record": "71-85",
-      "id": "21",
-      "color": "#002d72"
-     },
-     "away": {
-      "abbr": "PHI",
-      "name": "Phillies",
-      "school": "Philadelphia",
-      "mascot": "Phillies",
-      "rank": null,
-      "score": "7",
-      "record": "86-70",
-      "id": "22",
-      "color": "#e81828"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Citi Field"
-    },
-    {
-     "id": "401817015",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T17:35Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "PIT",
-      "name": "Pirates",
-      "school": "Pittsburgh",
-      "mascot": "Pirates",
-      "rank": null,
-      "score": "4",
-      "record": "79-77",
-      "id": "23",
-      "color": "#000000"
-     },
-     "away": {
-      "abbr": "KC",
-      "name": "Royals",
-      "school": "Kansas City",
-      "mascot": "Royals",
-      "rank": null,
-      "score": "3",
-      "record": "67-89",
-      "id": "7",
-      "color": "#004687"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "PNC Park"
-    },
-    {
-     "id": "401817012",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T17:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "CLE",
-      "name": "Guardians",
-      "school": "Cleveland",
-      "mascot": "Guardians",
-      "rank": null,
-      "score": "1",
-      "record": "81-75",
-      "id": "5",
-      "color": "#002b5c"
-     },
-     "away": {
-      "abbr": "ATH",
-      "name": "Athletics",
-      "school": "Athletics",
-      "mascot": "Athletics",
-      "rank": null,
-      "score": "0",
-      "record": "61-95",
-      "id": "11",
-      "color": "#003831"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Progressive Field"
-    },
-    {
-     "id": "401817013",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T17:40Z",
+     "period": 1,
+     "start_utc": "2026-09-21T22:35Z",
      "network": "ESPN Unlmtd",
-     "home": {
-      "abbr": "TB",
-      "name": "Rays",
-      "school": "Tampa Bay",
-      "mascot": "Rays",
-      "rank": null,
-      "score": "5",
-      "record": "95-60",
-      "id": "30",
-      "color": "#092c5c"
-     },
-     "away": {
-      "abbr": "BOS",
-      "name": "Red Sox",
-      "school": "Boston",
-      "mascot": "Red Sox",
-      "rank": null,
-      "score": "1",
-      "record": "84-72",
-      "id": "2",
-      "color": "#0d2b56"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Tropicana Field"
-    },
-    {
-     "id": "401817014",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T17:40Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "CIN",
-      "name": "Reds",
-      "school": "Cincinnati",
-      "mascot": "Reds",
-      "rank": null,
-      "score": "1",
-      "record": "72-84",
-      "id": "17",
-      "color": "#c6011f"
-     },
-     "away": {
-      "abbr": "CHC",
-      "name": "Cubs",
-      "school": "Chicago",
-      "mascot": "Cubs",
-      "rank": null,
-      "score": "9",
-      "record": "87-69",
-      "id": "16",
-      "color": "#0e3386"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Great American Ball Park"
-    },
-    {
-     "id": "401817018",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T18:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "HOU",
-      "name": "Astros",
-      "school": "Houston",
-      "mascot": "Astros",
-      "rank": null,
-      "score": "2",
-      "record": "77-79",
-      "id": "18",
-      "color": "#002d62"
-     },
-     "away": {
-      "abbr": "ATL",
-      "name": "Braves",
-      "school": "Atlanta",
-      "mascot": "Braves",
-      "rank": null,
-      "score": "4",
-      "record": "92-64",
-      "id": "15",
-      "color": "#0c2340"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Daikin Park"
-    },
-    {
-     "id": "401817019",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T18:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "CHW",
-      "name": "White Sox",
-      "school": "Chicago",
-      "mascot": "White Sox",
-      "rank": null,
-      "score": "8",
-      "record": "80-76",
-      "id": "4",
-      "color": "#000000"
-     },
-     "away": {
-      "abbr": "DET",
-      "name": "Tigers",
-      "school": "Detroit",
-      "mascot": "Tigers",
-      "rank": null,
-      "score": "1",
-      "record": "73-83",
-      "id": "6",
-      "color": "#0a2240"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Rate Field"
-    },
-    {
-     "id": "401817021",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T18:15Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "STL",
-      "name": "Cardinals",
-      "school": "St. Louis",
-      "mascot": "Cardinals",
-      "rank": null,
-      "score": "5",
-      "record": "76-80",
-      "id": "24",
-      "color": "#be0a14"
-     },
-     "away": {
-      "abbr": "WSH",
-      "name": "Nationals",
-      "school": "Washington",
-      "mascot": "Nationals",
-      "rank": null,
-      "score": "3",
-      "record": "73-83",
-      "id": "20",
-      "color": "#ab0003"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Busch Stadium"
-    },
-    {
-     "id": "401817020",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T18:35Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "TEX",
-      "name": "Rangers",
-      "school": "Texas",
-      "mascot": "Rangers",
-      "rank": null,
-      "score": "2",
-      "record": "78-78",
-      "id": "13",
-      "color": "#003278"
-     },
-     "away": {
-      "abbr": "TOR",
-      "name": "Blue Jays",
-      "school": "Toronto",
-      "mascot": "Blue Jays",
-      "rank": null,
-      "score": "7",
-      "record": "77-79",
-      "id": "14",
-      "color": "#134a8e"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Globe Life Field"
-    },
-    {
-     "id": "401817022",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T19:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "COL",
-      "name": "Rockies",
-      "school": "Colorado",
-      "mascot": "Rockies",
-      "rank": null,
-      "score": "1",
-      "record": "57-99",
-      "id": "27",
-      "color": "#33006f"
-     },
-     "away": {
-      "abbr": "SEA",
-      "name": "Mariners",
-      "school": "Seattle",
-      "mascot": "Mariners",
-      "rank": null,
-      "score": "2",
-      "record": "73-83",
-      "id": "12",
-      "color": "#005c5c"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Coors Field"
-    },
-    {
-     "id": "401817024",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T20:07Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "LAA",
-      "name": "Angels",
-      "school": "Los Angeles",
-      "mascot": "Angels",
-      "rank": null,
-      "score": "0",
-      "record": "60-96",
-      "id": "3",
-      "color": "#ba0021"
-     },
-     "away": {
-      "abbr": "MIN",
-      "name": "Twins",
-      "school": "Minnesota",
-      "mascot": "Twins",
-      "rank": null,
-      "score": "8",
-      "record": "73-83",
-      "id": "9",
-      "color": "#031f40"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Angel Stadium"
-    },
-    {
-     "id": "401817023",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T20:10Z",
-     "network": "ESPN Unlmtd",
-     "home": {
-      "abbr": "SD",
-      "name": "Padres",
-      "school": "San Diego",
-      "mascot": "Padres",
-      "rank": null,
-      "score": "7",
-      "record": "87-69",
-      "id": "25",
-      "color": "#2f241d"
-     },
-     "away": {
-      "abbr": "MIA",
-      "name": "Marlins",
-      "school": "Miami",
-      "mascot": "Marlins",
-      "rank": null,
-      "score": "3",
-      "record": "76-80",
-      "id": "28",
-      "color": "#00a3e0"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Petco Park"
-    },
-    {
-     "id": "401817025",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T20:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "ARI",
-      "name": "Diamondbacks",
-      "school": "Arizona",
-      "mascot": "Diamondbacks",
-      "rank": null,
-      "score": "8",
-      "record": "82-74",
-      "id": "29",
-      "color": "#aa182c"
-     },
-     "away": {
-      "abbr": "NYY",
-      "name": "Yankees",
-      "school": "New York",
-      "mascot": "Yankees",
-      "rank": null,
-      "score": "4",
-      "record": "89-66",
-      "id": "10",
-      "color": "#132448"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Chase Field"
-    },
-    {
-     "id": "401817026",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T20:10Z",
-     "network": "MLB.TV",
-     "home": {
-      "abbr": "LAD",
-      "name": "Dodgers",
-      "school": "Los Angeles",
-      "mascot": "Dodgers",
-      "rank": null,
-      "score": "3",
-      "record": "96-60",
-      "id": "19",
-      "color": "#005a9c"
-     },
-     "away": {
-      "abbr": "SF",
-      "name": "Giants",
-      "school": "San Francisco",
-      "mascot": "Giants",
-      "rank": null,
-      "score": "1",
-      "record": "64-92",
-      "id": "26",
-      "color": "#000000"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Dodger Stadium"
-    },
-    {
-     "id": "401817016",
-     "league": "MLB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 9,
-     "start_utc": "2026-09-20T23:20Z",
-     "network": "ERADM",
      "home": {
       "abbr": "BAL",
       "name": "Orioles",
@@ -1167,25 +1211,147 @@
       "rank": null,
       "score": "0",
       "record": "75-81",
+      "periods": [],
       "id": "1",
       "color": "#df4601"
      },
      "away": {
-      "abbr": "MIL",
-      "name": "Brewers",
-      "school": "Milwaukee",
-      "mascot": "Brewers",
+      "abbr": "TOR",
+      "name": "Blue Jays",
+      "school": "Toronto",
+      "mascot": "Blue Jays",
       "rank": null,
-      "score": "3",
-      "record": "98-58",
-      "id": "8",
-      "color": "#13294b"
+      "score": "0",
+      "record": "77-79",
+      "periods": [],
+      "id": "14",
+      "color": "#134a8e"
      },
+     "leaders": [
+      {
+       "cat": "",
+       "name": "P. Alonso",
+       "line": "0-0",
+       "team": "1"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Oriole Park at Camden Yards"
+     "venue": "Oriole Park at Camden Yards",
+     "line": null
+    },
+    {
+     "id": "401817028",
+     "league": "MLB",
+     "state": "in",
+     "completed": false,
+     "status_short": "Top 2nd",
+     "detail": "0:00",
+     "period": 2,
+     "start_utc": "2026-09-21T22:40Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "DET",
+      "name": "Tigers",
+      "school": "Detroit",
+      "mascot": "Tigers",
+      "rank": null,
+      "score": "2",
+      "record": "73-83",
+      "periods": [
+       "2"
+      ],
+      "id": "6",
+      "color": "#0a2240"
+     },
+     "away": {
+      "abbr": "WSH",
+      "name": "Nationals",
+      "school": "Washington",
+      "mascot": "Nationals",
+      "rank": null,
+      "score": "0",
+      "record": "73-83",
+      "periods": [
+       "0",
+       "0"
+      ],
+      "id": "20",
+      "color": "#ab0003"
+     },
+     "leaders": [
+      {
+       "cat": "",
+       "name": "H. Lee",
+       "line": "1-1, 2B, RBI, R",
+       "team": "6"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Comerica Park",
+     "line": null
+    },
+    {
+     "id": "401817029",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 9:45 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-09-22T01:45Z",
+     "network": "MLB.TV",
+     "home": {
+      "abbr": "SF",
+      "name": "Giants",
+      "school": "San Francisco",
+      "mascot": "Giants",
+      "rank": null,
+      "score": "0",
+      "record": "64-92",
+      "periods": [],
+      "id": "26",
+      "color": "#000000"
+     },
+     "away": {
+      "abbr": "MIN",
+      "name": "Twins",
+      "school": "Minnesota",
+      "mascot": "Twins",
+      "rank": null,
+      "score": "0",
+      "record": "73-83",
+      "periods": [],
+      "id": "9",
+      "color": "#031f40"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Oracle Park",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "MIN -125",
+      "spread": 1.5,
+      "total": 8.0,
+      "favorite": "away"
+     }
     }
    ]
   },
@@ -1210,6 +1376,7 @@
       "rank": 5,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "84",
       "color": "#970310"
      },
@@ -1221,14 +1388,45 @@
       "rank": null,
       "score": "0",
       "record": "2-0",
+      "periods": [],
       "id": "77",
       "color": "#492f92"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Hoover",
+       "line": "649 YDS, 10 TD",
+       "team": "84"
+      },
+      {
+       "cat": "RUSH",
+       "name": "T. Richard",
+       "line": "41 CAR, 315 YDS, 4 TD",
+       "team": "84"
+      },
+      {
+       "cat": "REC",
+       "name": "C. Becker",
+       "line": "12 REC, 272 YDS, 6 TD",
+       "team": "84"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Memorial Stadium (Bloomington, IN)"
+     "venue": "Memorial Stadium (Bloomington, IN)",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "IU -21",
+      "spread": -21.0,
+      "total": 49.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856704",
@@ -1248,6 +1446,7 @@
       "rank": 14,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "2633",
       "color": "#ff8200"
      },
@@ -1259,14 +1458,45 @@
       "rank": 1,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "251",
       "color": "#af5c37"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "A. Manning",
+       "line": "664 YDS, 7 TD, 2 INT",
+       "team": "251"
+      },
+      {
+       "cat": "RUSH",
+       "name": "D. Bishop",
+       "line": "43 CAR, 286 YDS, 4 TD",
+       "team": "2633"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Matthews",
+       "line": "10 REC, 189 YDS, 2 TD",
+       "team": "2633"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Neyland Stadium"
+     "venue": "Neyland Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "TEX -5.5",
+      "spread": 5.5,
+      "total": 55.5,
+      "favorite": "away"
+     }
     },
     {
      "id": "401858465",
@@ -1286,6 +1516,7 @@
       "rank": 7,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "194",
       "color": "#000000"
      },
@@ -1297,14 +1528,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "356",
       "color": "#ff5f05"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Sayin",
+       "line": "839 YDS, 6 TD, 1 INT",
+       "team": "194"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Jackson",
+       "line": "39 CAR, 230 YDS, 2 TD",
+       "team": "194"
+      },
+      {
+       "cat": "REC",
+       "name": "J. Smith",
+       "line": "21 REC, 400 YDS, 3 TD",
+       "team": "194"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Ohio Stadium"
+     "venue": "Ohio Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "OSU -27.5",
+      "spread": -27.5,
+      "total": 53.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856805",
@@ -1324,6 +1586,7 @@
       "rank": 11,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "2641",
       "color": "#da291c"
      },
@@ -1335,14 +1598,45 @@
       "rank": null,
       "score": "0",
       "record": "1-2",
+      "periods": [],
       "id": "2534",
       "color": "#f56423"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "L. Locke",
+       "line": "973 YDS, 9 TD, 1 INT",
+       "team": "2534"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Williams",
+       "line": "40 CAR, 249 YDS, 3 TD",
+       "team": "2641"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Johnson",
+       "line": "13 REC, 230 YDS, 1 TD",
+       "team": "2641"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Galaxy Stadium"
+     "venue": "Galaxy Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "TTU -34.5",
+      "spread": -34.5,
+      "total": 54.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401858243",
@@ -1362,6 +1656,7 @@
       "rank": 16,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "97",
       "color": "#c9001f"
      },
@@ -1373,14 +1668,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "154",
       "color": "#ceb888"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "G. Lopez",
+       "line": "887 YDS, 7 TD, 1 INT",
+       "team": "154"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Brown",
+       "line": "18 CAR, 231 YDS, 2 TD",
+       "team": "97"
+      },
+      {
+       "cat": "REC",
+       "name": "C. Hernandez",
+       "line": "21 REC, 322 YDS, 2 TD",
+       "team": "154"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "L&N Federal Credit Union Stadium"
+     "venue": "L&N Federal Credit Union Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "LOU -12.5",
+      "spread": -12.5,
+      "total": 58.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401858467",
@@ -1400,6 +1726,7 @@
       "rank": null,
       "score": "0",
       "record": "1-2",
+      "periods": [],
       "id": "2509",
       "color": "#ceb888"
      },
@@ -1411,14 +1738,45 @@
       "rank": 3,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "87",
       "color": "#062340"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "R. Browne",
+       "line": "1024 YDS, 7 TD, 1 INT",
+       "team": "2509"
+      },
+      {
+       "cat": "RUSH",
+       "name": "F. Ijeboi",
+       "line": "55 CAR, 248 YDS, 6 TD",
+       "team": "2509"
+      },
+      {
+       "cat": "REC",
+       "name": "A. Waseem",
+       "line": "20 REC, 321 YDS, 1 TD",
+       "team": "2509"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Ross-Ade Stadium"
+     "venue": "Ross-Ade Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "ND -27.5",
+      "spread": 27.5,
+      "total": 57.5,
+      "favorite": "away"
+     }
     },
     {
      "id": "401856700",
@@ -1438,6 +1796,7 @@
       "rank": 2,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "61",
       "color": "#ba0c2f"
      },
@@ -1449,14 +1808,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "201",
       "color": "#990000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Mateer",
+       "line": "652 YDS, 6 TD, 3 INT",
+       "team": "201"
+      },
+      {
+       "cat": "RUSH",
+       "name": "N. Frazier",
+       "line": "24 CAR, 202 YDS, 5 TD",
+       "team": "61"
+      },
+      {
+       "cat": "REC",
+       "name": "I. Sategna III",
+       "line": "12 REC, 186 YDS, 2 TD",
+       "team": "201"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Sanford Stadium"
+     "venue": "Sanford Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "UGA -13.5",
+      "spread": -13.5,
+      "total": 43.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856699",
@@ -1476,6 +1866,7 @@
       "rank": 21,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "57",
       "color": "#0021a5"
      },
@@ -1487,14 +1878,45 @@
       "rank": 4,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "145",
       "color": "#13294b"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "T. Chambliss",
+       "line": "924 YDS, 7 TD, 2 INT",
+       "team": "145"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Baugh",
+       "line": "54 CAR, 458 YDS, 8 TD",
+       "team": "57"
+      },
+      {
+       "cat": "REC",
+       "name": "D. Alexander",
+       "line": "20 REC, 295 YDS, 3 TD",
+       "team": "145"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Ben Hill Griffin Stadium"
+     "venue": "Ben Hill Griffin Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "FLA -3",
+      "spread": -3.0,
+      "total": 60.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856816",
@@ -1514,6 +1936,7 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "66",
       "color": "#ae192d"
      },
@@ -1525,14 +1948,45 @@
       "rank": 15,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "254",
       "color": "#be0000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Dampier",
+       "line": "690 YDS, 7 TD, 1 INT",
+       "team": "254"
+      },
+      {
+       "cat": "RUSH",
+       "name": "A. Flora",
+       "line": "38 CAR, 328 YDS, 3 TD",
+       "team": "66"
+      },
+      {
+       "cat": "REC",
+       "name": "B. Pegan",
+       "line": "15 REC, 235 YDS, 3 TD",
+       "team": "254"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Jack Trice Stadium"
+     "venue": "Jack Trice Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "UTAH -7.5",
+      "spread": 7.5,
+      "total": 49.5,
+      "favorite": "away"
+     }
     },
     {
      "id": "401858463",
@@ -1552,6 +2006,7 @@
       "rank": 18,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "130",
       "color": "#00274c"
      },
@@ -1563,14 +2018,45 @@
       "rank": 17,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "2294",
       "color": "#231f20"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "B. Underwood",
+       "line": "504 YDS, 3 TD, 1 INT",
+       "team": "130"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Moulton",
+       "line": "26 CAR, 240 YDS, 2 TD",
+       "team": "2294"
+      },
+      {
+       "cat": "REC",
+       "name": "J. Buchanan",
+       "line": "15 REC, 266 YDS, 2 TD",
+       "team": "130"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Michigan Stadium"
+     "venue": "Michigan Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "MICH -5.5",
+      "spread": -5.5,
+      "total": 38.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856806",
@@ -1590,6 +2076,7 @@
       "rank": null,
       "score": "0",
       "record": "1-2",
+      "periods": [],
       "id": "290",
       "color": "#041e42"
      },
@@ -1601,14 +2088,45 @@
       "rank": 25,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "248",
       "color": "#c8102e"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "C. Weigman",
+       "line": "707 YDS, 7 TD, 1 INT",
+       "team": "248"
+      },
+      {
+       "cat": "RUSH",
+       "name": "M. Hughes",
+       "line": "40 CAR, 213 YDS, 2 TD",
+       "team": "248"
+      },
+      {
+       "cat": "REC",
+       "name": "A. Thomas",
+       "line": "18 REC, 237 YDS, 3 TD",
+       "team": "248"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Allen E. Paulson Stadium"
+     "venue": "Allen E. Paulson Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "HOU -18.5",
+      "spread": 18.5,
+      "total": 56.5,
+      "favorite": "away"
+     }
     },
     {
      "id": "401858466",
@@ -1628,6 +2146,7 @@
       "rank": 13,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "213",
       "color": "#061440"
      },
@@ -1639,14 +2158,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "275",
       "color": "#a00000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "C. Joseph",
+       "line": "752 YDS, 5 TD, 2 INT",
+       "team": "275"
+      },
+      {
+       "cat": "RUSH",
+       "name": "C. Hansen",
+       "line": "35 CAR, 169 YDS, 1 TD",
+       "team": "213"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Howard",
+       "line": "12 REC, 344 YDS, 2 TD",
+       "team": "213"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Beaver Stadium"
+     "venue": "Beaver Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "PSU -9.5",
+      "spread": -9.5,
+      "total": 44.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401858238",
@@ -1666,6 +2216,7 @@
       "rank": 6,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "2390",
       "color": "#f47423"
      },
@@ -1677,14 +2228,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "2117",
       "color": "#4c0027"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "D. Mensah",
+       "line": "873 YDS, 11 TD",
+       "team": "2390"
+      },
+      {
+       "cat": "RUSH",
+       "name": "A. Flores",
+       "line": "60 CAR, 312 YDS, 3 TD",
+       "team": "2117"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Toney",
+       "line": "28 REC, 444 YDS, 5 TD",
+       "team": "2390"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Hard Rock Stadium"
+     "venue": "Hard Rock Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "MIA -41.5",
+      "spread": -41.5,
+      "total": 53.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856696",
@@ -1704,6 +2286,7 @@
       "rank": 8,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "333",
       "color": "#9e1b32"
      },
@@ -1715,14 +2298,45 @@
       "rank": null,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "2579",
       "color": "#73000a"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "K. Russell",
+       "line": "764 YDS, 4 TD, 2 INT",
+       "team": "333"
+      },
+      {
+       "cat": "RUSH",
+       "name": "M. Fuller",
+       "line": "38 CAR, 272 YDS, 3 TD",
+       "team": "2579"
+      },
+      {
+       "cat": "REC",
+       "name": "R. Coleman-Williams",
+       "line": "12 REC, 235 YDS, 1 TD",
+       "team": "333"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Bryant-Denny Stadium"
+     "venue": "Bryant-Denny Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "ALA -11.5",
+      "spread": -11.5,
+      "total": 54.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401856702",
@@ -1742,6 +2356,7 @@
       "rank": 10,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "99",
       "color": "#461d76"
      },
@@ -1753,14 +2368,45 @@
       "rank": 23,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "245",
       "color": "#500000"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "S. Leavitt",
+       "line": "732 YDS, 3 TD, 5 INT",
+       "team": "99"
+      },
+      {
+       "cat": "RUSH",
+       "name": "D. Jones",
+       "line": "64 CAR, 285 YDS, 3 TD",
+       "team": "99"
+      },
+      {
+       "cat": "REC",
+       "name": "T. Green",
+       "line": "14 REC, 222 YDS, 1 TD",
+       "team": "99"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Tiger Stadium (LA)"
+     "venue": "Tiger Stadium (LA)",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "LSU -8.5",
+      "spread": -8.5,
+      "total": 52.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401858469",
@@ -1780,6 +2426,7 @@
       "rank": 12,
       "score": "0",
       "record": "4-0",
+      "periods": [],
       "id": "30",
       "color": "#9d2235"
      },
@@ -1791,14 +2438,45 @@
       "rank": 20,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "2483",
       "color": "#00934b"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Maiava",
+       "line": "1173 YDS, 12 TD, 1 INT",
+       "team": "30"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Miller",
+       "line": "64 CAR, 338 YDS, 3 TD",
+       "team": "30"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Dixon-Wyatt",
+       "line": "18 REC, 258 YDS, 2 TD",
+       "team": "30"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Los Angeles Memorial Coliseum"
+     "venue": "Los Angeles Memorial Coliseum",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "ORE -3",
+      "spread": 3.0,
+      "total": 62.5,
+      "favorite": "away"
+     }
     },
     {
      "id": "401856703",
@@ -1818,6 +2496,7 @@
       "rank": 24,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "344",
       "color": "#5d1725"
      },
@@ -1829,14 +2508,45 @@
       "rank": 19,
       "score": "0",
       "record": "3-0",
+      "periods": [],
       "id": "142",
       "color": "#f1b82d"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "K. Taylor",
+       "line": "832 YDS, 11 TD, 1 INT",
+       "team": "344"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Roberts",
+       "line": "63 CAR, 300 YDS, 3 TD",
+       "team": "142"
+      },
+      {
+       "cat": "REC",
+       "name": "A. Evans III",
+       "line": "20 REC, 294 YDS, 3 TD",
+       "team": "344"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Davis Wade Stadium"
+     "venue": "Davis Wade Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "MSST -6.5",
+      "spread": -6.5,
+      "total": 58.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401858241",
@@ -1856,6 +2566,7 @@
       "rank": 22,
       "score": "0",
       "record": "2-1",
+      "periods": [],
       "id": "2567",
       "color": "#a80000"
      },
@@ -1867,14 +2578,45 @@
       "rank": null,
       "score": "0",
       "record": "1-2",
+      "periods": [],
       "id": "2623",
       "color": "#5e0009"
      },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "K. Jennings",
+       "line": "989 YDS, 9 TD, 4 INT",
+       "team": "2567"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Raphael",
+       "line": "39 CAR, 275 YDS, 4 TD",
+       "team": "2567"
+      },
+      {
+       "cat": "REC",
+       "name": "I. Myers",
+       "line": "12 REC, 296 YDS, 1 TD",
+       "team": "2623"
+      }
+     ],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Gerald J. Ford Stadium"
+     "venue": "Gerald J. Ford Stadium",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "SMU -34.5",
+      "spread": -34.5,
+      "total": 59.5,
+      "favorite": "home"
+     }
     }
    ]
   },
@@ -1899,6 +2641,7 @@
       "rank": null,
       "score": "0",
       "record": "0-3-2",
+      "periods": [],
       "id": "349",
       "color": ""
      },
@@ -1910,14 +2653,20 @@
       "rank": null,
       "score": "1",
       "record": "2-3-0",
+      "periods": [],
       "id": "364",
       "color": ""
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": null,
-     "venue": "Vitality Stadium"
+     "venue": "Vitality Stadium",
+     "line": null
     },
     {
      "id": "401879273",
@@ -1937,6 +2686,7 @@
       "rank": null,
       "score": "0",
       "record": "2-3-0",
+      "periods": [],
       "id": "357",
       "color": ""
      },
@@ -1948,14 +2698,20 @@
       "rank": null,
       "score": "0",
       "record": "1-1-3",
+      "periods": [],
       "id": "384",
       "color": ""
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": null,
-     "venue": "Elland Road"
+     "venue": "Elland Road",
+     "line": null
     },
     {
      "id": "401879272",
@@ -1975,6 +2731,7 @@
       "rank": null,
       "score": "5",
       "record": "5-0-0",
+      "periods": [],
       "id": "382",
       "color": ""
      },
@@ -1986,14 +2743,20 @@
       "rank": null,
       "score": "3",
       "record": "1-1-3",
+      "periods": [],
       "id": "366",
       "color": ""
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": null,
-     "venue": "Etihad Stadium"
+     "venue": "Etihad Stadium",
+     "line": null
     },
     {
      "id": "401878777",
@@ -2013,6 +2776,7 @@
       "rank": null,
       "score": "1",
       "record": "0-2-3",
+      "periods": [],
       "id": "370",
       "color": ""
      },
@@ -2024,14 +2788,20 @@
       "rank": null,
       "score": "1",
       "record": "1-2-2",
+      "periods": [],
       "id": "360",
       "color": ""
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": null,
-     "venue": "Craven Cottage"
+     "venue": "Craven Cottage",
+     "line": null
     }
    ]
   },
@@ -2056,6 +2826,7 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
+      "periods": [],
       "id": "28",
       "color": "#d91244"
      },
@@ -2067,14 +2838,20 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
+      "periods": [],
       "id": "14",
       "color": "#98002e"
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Videotron Centre"
+     "venue": "Videotron Centre",
+     "line": null
     }
    ]
   },
@@ -2082,270 +2859,364 @@
    "league": "NHL",
    "games": [
     {
-     "id": "401879644",
+     "id": "401879359",
      "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 7:00 PM EDT",
      "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-20T17:00Z",
-     "network": "MSGSN",
+     "period": 0,
+     "start_utc": "2026-09-21T23:00Z",
+     "network": "ESPN+",
+     "home": {
+      "abbr": "WSH",
+      "name": "Capitals",
+      "school": "Washington",
+      "mascot": "Capitals",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-1",
+      "periods": [],
+      "id": "23",
+      "color": "#d71830"
+     },
+     "away": {
+      "abbr": "PHI",
+      "name": "Flyers",
+      "school": "Philadelphia",
+      "mascot": "Flyers",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "15",
+      "color": "#fe5823"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Giant Center",
+     "line": null
+    },
+    {
+     "id": "401879450",
+     "league": "NHL",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 7:00 PM EDT",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-09-21T23:00Z",
+     "network": "",
+     "home": {
+      "abbr": "CBJ",
+      "name": "Blue Jackets",
+      "school": "Columbus",
+      "mascot": "Blue Jackets",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "29",
+      "color": "#002d62"
+     },
+     "away": {
+      "abbr": "DET",
+      "name": "Red Wings",
+      "school": "Detroit",
+      "mascot": "Red Wings",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "5",
+      "color": "#e30526"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Nationwide Arena",
+     "line": null
+    },
+    {
+     "id": "401879456",
+     "league": "NHL",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 7:00 PM EDT",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-09-21T23:00Z",
+     "network": "ESPN+",
+     "home": {
+      "abbr": "PIT",
+      "name": "Penguins",
+      "school": "Pittsburgh",
+      "mascot": "Penguins",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "16",
+      "color": "#000000"
+     },
+     "away": {
+      "abbr": "BUF",
+      "name": "Sabres",
+      "school": "Buffalo",
+      "mascot": "Sabres",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "2",
+      "color": "#00468b"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "PPG Paints Arena",
+     "line": null
+    },
+    {
+     "id": "401879645",
+     "league": "NHL",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 7:00 PM EDT",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-09-21T23:00Z",
+     "network": "ESPN+",
      "home": {
       "abbr": "NJ",
       "name": "Devils",
       "school": "New Jersey",
       "mascot": "Devils",
       "rank": null,
-      "score": "2",
-      "record": "",
+      "score": "0",
+      "record": "1-0-0",
+      "periods": [],
       "id": "11",
       "color": "#e30b2b"
      },
      "away": {
-      "abbr": "NYI",
-      "name": "Islanders",
+      "abbr": "NYR",
+      "name": "Rangers",
       "school": "New York",
-      "mascot": "Islanders",
+      "mascot": "Rangers",
       "rank": null,
-      "score": "1",
-      "record": "",
-      "id": "12",
-      "color": "#00529b"
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "13",
+      "color": "#0056ae"
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Prudential Center"
+     "venue": "Prudential Center",
+     "line": null
     },
     {
-     "id": "401879368",
+     "id": "401881921",
      "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 7:00 PM EDT",
      "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-20T20:00Z",
+     "period": 0,
+     "start_utc": "2026-09-21T23:00Z",
+     "network": "NHL Net",
+     "home": {
+      "abbr": "MTL",
+      "name": "Canadiens",
+      "school": "Montreal",
+      "mascot": "Canadiens",
+      "rank": null,
+      "score": "0",
+      "record": "2-0-0",
+      "periods": [],
+      "id": "10",
+      "color": "#c41230"
+     },
+     "away": {
+      "abbr": "OTT",
+      "name": "Senators",
+      "school": "Ottawa",
+      "mascot": "Senators",
+      "rank": null,
+      "score": "0",
+      "record": "0-0-0",
+      "periods": [],
+      "id": "14",
+      "color": "#dd1a32"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Colisee Videotron",
+     "line": null
+    },
+    {
+     "id": "401878107",
+     "league": "NHL",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 8:00 PM EDT",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-09-22T00:00Z",
      "network": "",
      "home": {
-      "abbr": "ANA",
-      "name": "Ducks",
-      "school": "Anaheim",
-      "mascot": "Ducks",
+      "abbr": "WPG",
+      "name": "Jets",
+      "school": "Winnipeg",
+      "mascot": "Jets",
       "rank": null,
-      "score": "6",
-      "record": "",
-      "id": "25",
-      "color": "#fc4c02"
+      "score": "0",
+      "record": "0-1-0",
+      "periods": [],
+      "id": "28",
+      "color": "#002d62"
      },
      "away": {
-      "abbr": "SJ",
-      "name": "Sharks",
-      "school": "San Jose",
-      "mascot": "Sharks",
-      "rank": null,
-      "score": "2",
-      "record": "",
-      "id": "18",
-      "color": "#00788a"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Honda Center"
-    },
-    {
-     "id": "401879358",
-     "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final/SO",
-     "detail": "0:00",
-     "period": 5,
-     "start_utc": "2026-09-20T21:00Z",
-     "network": "NESN+",
-     "home": {
-      "abbr": "BOS",
-      "name": "Bruins",
-      "school": "Boston",
-      "mascot": "Bruins",
-      "rank": null,
-      "score": "3",
-      "record": "",
-      "id": "1",
-      "color": "#231f20"
-     },
-     "away": {
-      "abbr": "WSH",
-      "name": "Capitals",
-      "school": "Washington",
-      "mascot": "Capitals",
-      "rank": null,
-      "score": "2",
-      "record": "",
-      "id": "23",
-      "color": "#d71830"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "TD Garden"
-    },
-    {
-     "id": "401881131",
-     "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-20T21:00Z",
-     "network": "ESPN+",
-     "home": {
-      "abbr": "TB",
-      "name": "Lightning",
-      "school": "Tampa Bay",
-      "mascot": "Lightning",
-      "rank": null,
-      "score": "2",
-      "record": "",
-      "id": "20",
-      "color": "#003e7e"
-     },
-     "away": {
-      "abbr": "NSH",
-      "name": "Predators",
-      "school": "Nashville",
-      "mascot": "Predators",
-      "rank": null,
-      "score": "1",
-      "record": "",
-      "id": "27",
-      "color": "#fdba31"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Benchmark International Arena"
-    },
-    {
-     "id": "401879364",
-     "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-20T23:00Z",
-     "network": "ESPN+",
-     "home": {
       "abbr": "COL",
       "name": "Avalanche",
       "school": "Colorado",
       "mascot": "Avalanche",
       "rank": null,
-      "score": "4",
-      "record": "",
+      "score": "0",
+      "record": "1-0-0",
+      "periods": [],
       "id": "17",
       "color": "#860038"
      },
-     "away": {
-      "abbr": "UTA",
-      "name": "Mammoth",
-      "school": "Utah",
-      "mascot": "Mammoth",
-      "rank": null,
-      "score": "1",
-      "record": "",
-      "id": "129764",
-      "color": ""
-     },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Ball Arena"
+     "venue": "Canada Life Centre",
+     "line": null
     },
     {
-     "id": "401879932",
+     "id": "401886259",
      "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 8:00 PM EDT",
      "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-20T23:00Z",
+     "period": 0,
+     "start_utc": "2026-09-22T00:00Z",
      "network": "ESPN+",
      "home": {
-      "abbr": "FLA",
-      "name": "Panthers",
-      "school": "Florida",
-      "mascot": "Panthers",
+      "abbr": "CHI",
+      "name": "Blackhawks",
+      "school": "Chicago",
+      "mascot": "Blackhawks",
       "rank": null,
-      "score": "6",
-      "record": "",
-      "id": "26",
-      "color": "#e51937"
+      "score": "0",
+      "record": "0-0-1",
+      "periods": [],
+      "id": "4",
+      "color": "#e31937"
      },
      "away": {
-      "abbr": "CAR",
-      "name": "Hurricanes",
-      "school": "Carolina",
-      "mascot": "Hurricanes",
+      "abbr": "MIN",
+      "name": "Wild",
+      "school": "Minnesota",
+      "mascot": "Wild",
       "rank": null,
-      "score": "3",
-      "record": "",
-      "id": "7",
-      "color": "#e30426"
+      "score": "0",
+      "record": "1-0-0",
+      "periods": [],
+      "id": "30",
+      "color": "#124734"
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Amerant Bank Arena"
+     "venue": "United Center",
+     "line": null
     },
     {
-     "id": "401879309",
+     "id": "401886428",
      "league": "NHL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 8:00 PM EDT",
      "detail": "0:00",
-     "period": 3,
-     "start_utc": "2026-09-21T00:00Z",
-     "network": "KONG",
+     "period": 0,
+     "start_utc": "2026-09-22T00:00Z",
+     "network": "Blues App",
      "home": {
-      "abbr": "CGY",
-      "name": "Flames",
-      "school": "Calgary",
-      "mascot": "Flames",
+      "abbr": "DAL",
+      "name": "Stars",
+      "school": "Dallas",
+      "mascot": "Stars",
       "rank": null,
-      "score": "2",
-      "record": "",
-      "id": "3",
-      "color": "#dd1a32"
+      "score": "0",
+      "record": "1-0-0",
+      "periods": [],
+      "id": "9",
+      "color": "#20864c"
      },
      "away": {
-      "abbr": "SEA",
-      "name": "Kraken",
-      "school": "Seattle",
-      "mascot": "Kraken",
+      "abbr": "STL",
+      "name": "Blues",
+      "school": "St. Louis",
+      "mascot": "Blues",
       "rank": null,
-      "score": "4",
-      "record": "",
-      "id": "124292",
-      "color": "#000d33"
+      "score": "0",
+      "record": "0-1-0",
+      "periods": [],
+      "id": "19",
+      "color": "#0070b9"
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Scotiabank Saddledome"
+     "venue": "American Airlines Center",
+     "line": null
     }
    ]
   },
@@ -2353,194 +3224,106 @@
    "league": "WNBA",
    "games": [
     {
-     "id": "401857201",
+     "id": "401857206",
      "league": "WNBA",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "10:00",
-     "period": 4,
-     "start_utc": "2026-09-20T17:00Z",
-     "network": "NBC Sports BO",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 8:00 PM EDT",
+     "detail": "0.0",
+     "period": 0,
+     "start_utc": "2026-09-22T00:00Z",
+     "network": "Peacock",
      "home": {
-      "abbr": "CON",
-      "name": "Sun",
-      "school": "Connecticut",
-      "mascot": "Sun",
-      "rank": null,
-      "score": "89",
-      "record": "10-32",
-      "id": "18",
-      "color": "#f05023"
-     },
-     "away": {
-      "abbr": "MIN",
-      "name": "Lynx",
-      "school": "Minnesota",
-      "mascot": "Lynx",
-      "rank": null,
-      "score": "101",
-      "record": "32-10",
-      "id": "8",
-      "color": "#266092"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Mohegan Sun Arena"
-    },
-    {
-     "id": "401857202",
-     "league": "WNBA",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "10:00",
-     "period": 4,
-     "start_utc": "2026-09-20T19:00Z",
-     "network": "WWOR-TV",
-     "home": {
-      "abbr": "TOR",
-      "name": "Tempo",
-      "school": "Toronto",
-      "mascot": "Tempo",
-      "rank": null,
-      "score": "69",
-      "record": "11-31",
-      "id": "131935",
-      "color": "#33476D"
-     },
-     "away": {
       "abbr": "NY",
       "name": "Liberty",
       "school": "New York",
       "mascot": "Liberty",
       "rank": null,
-      "score": "106",
+      "score": "0",
       "record": "26-16",
+      "periods": [],
       "id": "9",
       "color": "#86cebc"
      },
+     "away": {
+      "abbr": "ATL",
+      "name": "Dream",
+      "school": "Atlanta",
+      "mascot": "Dream",
+      "rank": null,
+      "score": "0",
+      "record": "28-14",
+      "periods": [],
+      "id": "20",
+      "color": "#e31837"
+     },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Coca-Cola Coliseum"
+     "venue": "Barclays Center",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "ATL -1.5",
+      "spread": 1.5,
+      "total": 177.5,
+      "favorite": "away"
+     }
     },
     {
-     "id": "401857203",
+     "id": "401857207",
      "league": "WNBA",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "10:00",
-     "period": 4,
-     "start_utc": "2026-09-20T20:00Z",
-     "network": "NBA TV",
+     "state": "pre",
+     "completed": false,
+     "status_short": "9/21 - 10:00 PM EDT",
+     "detail": "0.0",
+     "period": 0,
+     "start_utc": "2026-09-22T02:00Z",
+     "network": "USA Net",
      "home": {
-      "abbr": "IND",
-      "name": "Fever",
-      "school": "Indiana",
-      "mascot": "Fever",
+      "abbr": "PHX",
+      "name": "Mercury",
+      "school": "Phoenix",
+      "mascot": "Mercury",
       "rank": null,
-      "score": "77",
-      "record": "27-15",
-      "id": "5",
-      "color": "#002d62"
+      "score": "0",
+      "record": "15-27",
+      "periods": [],
+      "id": "11",
+      "color": "#3c286e"
      },
      "away": {
-      "abbr": "WSH",
-      "name": "Mystics",
-      "school": "Washington",
-      "mascot": "Mystics",
+      "abbr": "DAL",
+      "name": "Wings",
+      "school": "Dallas",
+      "mascot": "Wings",
       "rank": null,
-      "score": "93",
+      "score": "0",
       "record": "26-16",
-      "id": "16",
-      "color": "#e03a3e"
+      "periods": [],
+      "id": "3",
+      "color": "#002b5c"
      },
+     "leaders": [],
      "situation": "",
      "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Gainbridge Fieldhouse"
-    },
-    {
-     "id": "401857204",
-     "league": "WNBA",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0.0",
-     "period": 4,
-     "start_utc": "2026-09-20T23:00Z",
-     "network": "USA Net",
-     "home": {
-      "abbr": "LA",
-      "name": "Sparks",
-      "school": "Los Angeles",
-      "mascot": "Sparks",
-      "rank": null,
-      "score": "105",
-      "record": "16-26",
-      "id": "6",
-      "color": "#552583"
-     },
-     "away": {
-      "abbr": "POR",
-      "name": "Fire",
-      "school": "Portland",
-      "mascot": "Fire",
-      "rank": null,
-      "score": "84",
-      "record": "16-27",
-      "id": "132052",
-      "color": "#cee5eb"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "crypto.com Arena"
-    },
-    {
-     "id": "401857205",
-     "league": "WNBA",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0.0",
-     "period": 4,
-     "start_utc": "2026-09-21T01:00Z",
-     "network": "USA Net",
-     "home": {
-      "abbr": "LV",
-      "name": "Aces",
-      "school": "Las Vegas",
-      "mascot": "Aces",
-      "rank": null,
-      "score": "98",
-      "record": "29-13",
-      "id": "17",
-      "color": "#a7a8aa"
-     },
-     "away": {
-      "abbr": "SEA",
-      "name": "Storm",
-      "school": "Seattle",
-      "mascot": "Storm",
-      "rank": null,
-      "score": "77",
-      "record": "8-35",
-      "id": "14",
-      "color": "#2c5235"
-     },
-     "situation": "",
-     "possession": "",
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Michelob ULTRA Arena"
+     "venue": "Mortgage Matchup Center",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "DAL -5.5",
+      "spread": 5.5,
+      "total": 173.5,
+      "favorite": "away"
+     }
     }
    ]
   }
