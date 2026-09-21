@@ -101,7 +101,11 @@ def _base(dark=False, wordmark=True):
     if wordmark:
         d.text((60, 44), "GoCheckMySports", font=_serif(38),
                fill=LIGHT if dark else INK)
-    d.text((60, H - 74), "Every score. No odds. No noise.", font=_mono(22),
+    # THE 20 SEPTEMBER LAW RETIRES "No odds". The desk reports the line now, attributed,
+    # so a card promising the opposite would be the site contradicting itself on the
+    # thing a reader shares. What has not changed is the rest of it: no picks, no
+    # advice, no book. "Checked" is the promise that survives all of that.
+    d.text((60, H - 74), "Every score, checked. No noise.", font=_mono(22),
            fill=MUTED if not dark else (134, 139, 149))
     return im, d
 

@@ -781,8 +781,13 @@ def layer1_canary():
     _now6 = _dt6.datetime.now(_dt6.timezone.utc)
 
     def _g6(state, dd):
-        _t = (_now6 + _dt6.timedelta(days=dd)).replace(hour=23, minute=10, second=0,
-                                                       microsecond=0)
+        # ANCHORED IN EASTERN, not in UTC. This built "yesterday" as now-1day at 23:10
+        # UTC, and after 8 PM Eastern the UTC date has already rolled, so the finals
+        # landed at 7:10 PM TODAY and the count line correctly said "15 games today".
+        # A fixture that changes meaning with the hour it runs at is not a fixture.
+        _et_now = _now6.astimezone(_sb._ET)
+        _t = (_et_now + _dt6.timedelta(days=dd)).replace(
+            hour=19, minute=10, second=0, microsecond=0).astimezone(_dt6.timezone.utc)
         return {"league": "MLB", "id": f"x{dd}{state}", "state": state,
                 "status_short": "Final" if state == "post" else "",
                 "start_utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ"),

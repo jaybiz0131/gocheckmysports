@@ -1784,11 +1784,25 @@ body>*:not(.ground){position:relative;z-index:1}
   color:#EBE9E3;white-space:nowrap}
 .tk-chip.sm{padding:2px 7px;font-size:10.5px;background:rgba(255,255,255,.08)}
 .tk-btns{display:flex;gap:10px;margin-top:auto}
-.tk-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;
-  padding:0 16px;border-radius:6px;background:#3DDC84;color:#0F1512;font-weight:700;
-  font-size:14px;text-decoration:none}
-.tk-btn.ghost{background:transparent;color:#EBE9E3;border:1.5px solid rgba(255,255,255,.28)}
-.tk-btn:hover{text-decoration:none}
+/* B-2: THE BUTTONS BECOME QUIET LINKS, and the whole card is the link to the game
+   page. The primary button was filled #3DDC84, which is SC-9's LEADER GREEN: the card
+   was spending the one colour that means "this team is ahead" on a navigation control,
+   on every card, including the ones where nobody is ahead yet. Green and red belong to
+   the score and to nothing else. */
+.tk-btn{display:inline-flex;align-items:center;min-height:32px;padding:0;
+  background:none;border:0;border-radius:0;
+  color:rgba(255,255,255,.82);font-weight:600;font-size:13px;letter-spacing:.01em;
+  text-decoration:none;text-underline-offset:3px}
+.tk-btn:hover{text-decoration:underline;color:#fff}
+.tk-btn.ghost{background:none;border:0;color:rgba(255,255,255,.62)}
+.tk-btn.ghost:hover{color:rgba(255,255,255,.9)}
+.tk-btns{gap:18px}
+/* The card itself is the link. The quiet links sit above it so each still goes to its
+   own destination, and a reader who taps anywhere else lands on the game page. */
+.tk-c{position:relative}
+.tk-card-a{position:absolute;inset:0;z-index:1;border-radius:inherit}
+.tk-c .tk-btns,.tk-c a:not(.tk-card-a),.tk-c button{position:relative;z-index:2}
+.tk-card-a:focus-visible{outline:2px solid #3DDC84;outline-offset:-3px}
 /* SC-2: the folded card. */
 .tk-fold{background:rgba(26,28,34,.86);border:1px solid rgba(255,255,255,.08);
   border-radius:8px;padding:10px 12px 8px;position:relative;overflow:hidden;
@@ -2358,3 +2372,23 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 @media (max-width:640px){
   .tk-line-ml{display:none}
 }
+
+/* B-2: the two-letter disc. Without logos this is the card's recognition, drawn from
+   the colour it already carries. The ring keeps a dark team readable on a dark stub
+   and a light one from glowing against it. */
+.tk-disc{display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;flex:none;margin-right:10px;border-radius:50%;
+  background:var(--d);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28);
+  font:700 11.5px/1 var(--mono);letter-spacing:.02em;color:#fff;
+  text-shadow:0 1px 2px rgba(0,0,0,.45);vertical-align:middle}
+@media (max-width:640px){.tk-disc{width:26px;height:26px;font-size:10px;margin-right:7px}}
+
+/* B-2: THE MARQUEE STACKS, one team per row, the way the board draws it. The names ran
+   inline as "A at B", which fitted two three-letter codes and does not fit two full
+   names each carrying a 34px disc: the marquee wrapped mid-phrase. Each team is one
+   element (.tk-side) so the disc travels with its name instead of taking a row of its
+   own, and the "at" goes, because stacked rows do not need a word to join them. */
+.sb-grid.tk-panel > .tk-c .tk-num{display:flex;flex-direction:column;
+  align-items:flex-start;gap:4px;text-align:left;white-space:normal}
+.sb-grid.tk-panel > .tk-c .tk-side{display:inline-flex;align-items:center;min-width:0}
+.sb-grid.tk-panel > .tk-c .tk-at{display:none}

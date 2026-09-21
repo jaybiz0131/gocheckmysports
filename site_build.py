@@ -3843,6 +3843,25 @@ def _tk_countdown(g):
             f'data-kick="{esc(g.get("start_utc") or "")}"></span>')
 
 
+def _tk_disc(g, t, side):
+    """B-2: the two-letter disc, in the team's own colour, at the head of a row.
+
+    Without logos the card needs one piece of instant recognition, and on the board it
+    is this: the abbreviation in a filled circle in the team's colour, drawn from the
+    colour the card already carries, so it costs no licence and works for every club in
+    every league.
+
+    Aria-hidden because the row already names the team: a screen reader hearing "CAR,
+    Carolina" twice is the disc being read as content when it is recognition.
+    """
+    col = _tk_colors(g)[0 if side == "away" else 1]
+    ab = (t.get("abbr") or "")[:3]
+    if not ab:
+        return ""
+    return (f'<span class="tk-disc" style="--d:{col}" aria-hidden="true">'
+            f'{esc(ab)}</span>')
+
+
 def _tk_matchup(g, big=40):
     """The 40px matchup, with SC-9 colour on live and final."""
     # CFB-1: two school names do not fit the 40px a three-letter code was sized for.
@@ -3873,10 +3892,13 @@ def _tk_matchup(g, big=40):
             # CFB-1: the rank sits OUTSIDE the polled node. The live poll rewrites
             # [data-side] by textContent, so a badge inside it would be wiped by the
             # first score that arrived. data-label tells the poll what to print back.
-            return (f'{_rank_html(g, t)}'
+            # B-2: ONE ELEMENT PER TEAM. The disc, the rank and the name were three
+            # siblings, so stacking the rows put the disc on a line of its own.
+            return (f'<span class="tk-side">{_tk_disc(g, t, which)}'
+                    f'{_rank_html(g, t)}'
                     f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                     f'data-label="{esc(_team_label(g, t))}" '
-                    f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>')
+                    f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span></span>')
         return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
                 f'{plain(a, "away")} <span class="tk-at">at</span> '
                 f'{plain(h, "home")}</span>')
@@ -3887,7 +3909,7 @@ def _tk_matchup(g, big=40):
         cls = "tk-chip-score" + (" lead" if lead else "")
         bar = (f'<i style="background:{col}"></i>' if lead else "")
         return (f'<span class="{cls}" style="color:{col};'
-                f'font-weight:{800 if lead else 500}">{bar}{_rank_html(g, t)}'
+                f'font-weight:{800 if lead else 500}">{bar}{_tk_disc(g, t, which)}{_rank_html(g, t)}'
                 f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                 f'data-label="{esc(_team_label(g, t))}">'
                 f'{esc(_team_label(g, t))} {sc if sc is not None else ""}</span></span>')
@@ -4057,8 +4079,12 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
         else:
             second = ('<a class="tk-btn ghost" href="/where-to-watch.html">'
                       'Where to watch</a>')
+        # B-2: the whole card is the link; the two controls become quiet links beside
+        # it. "Where to watch" is the network chip, so the second control is dropped
+        # where a network is already shown on the card.
         btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
-                f'{second}</div>')
+                f'{second}</div>'
+                f'<a class="tk-card-a" href="{gp}" tabindex="-1" aria-hidden="true"></a>')
     wide = " wide" if state in ("in", "post") else ""
     # A-2: the card carries what the recount needs, so the counts and the "Next" line
     # are read off the board rather than baked into the header.
@@ -4185,11 +4211,11 @@ def _tk_tabs(games, active="all", href="/scores.html"):
             _fin_t = [x for x in mine_today if x.get("state") == "post"]
             sub = (f"{len(_fin_t)} final" if len(_fin_t) == len(mine_today)
                    else f"{len(mine_today)} today")
-        elif [x for x in gs if _sb_state_rank(x) == 1]:
+        elif [x for x in gs if _is_recent_final(x)]:
             # A final from last night is still the thing this tab holds, even though it
             # is not today's. "NFL Sun" over the Bills result is the front page telling
             # a reader to come back in three days.
-            _rf = [x for x in gs if _sb_state_rank(x) == 1]
+            _rf = [x for x in gs if _is_recent_final(x)]
             sub = f"{len(_rf)} final"
         else:
             nxt = sorted((_utc_dt(g.get("start_utc") or "") for g in gs
@@ -4304,6 +4330,15 @@ def _is_delayed(g):
     blob = " ".join([str(g.get("status_short") or ""), str(g.get("detail") or ""),
                      str(g.get("status") or "")]).lower()
     return any(w in blob for w in DELAYED_WORDS)
+
+
+def _is_recent_final(g, now=None):
+    """B-1 made _sb_state_rank return a tuple (bucket, delayed), and two places were
+    still comparing it to an integer, so "is this a recent final" was silently always
+    false and a tab holding last night's result went back to reading "next Sat". The
+    question gets its own function rather than a comparison against a rank whose shape
+    can change again."""
+    return _sb_state_rank(g, now)[0] == 2
 
 
 def _sb_state_rank(g, now=None):
@@ -5911,7 +5946,7 @@ def render_scores_page(sb, board, dateline, wx=None):
 </section></main>"""
     return shell(f"Scores - {NAME}",
                  "Every live score across the leagues this desk covers, with the "
-                 "network carrying each game. No odds, ever.",
+                 "network carrying each game and the line as the book reported it.",
                  "Scores", body, dateline, path="/scores.html")
 
 
@@ -8696,6 +8731,18 @@ def render_standards(dateline):
   <p>Stories are checked against the sources they cite by a pass separate from the one that
      assembled them. Work that does not hold up is labelled clearly for the reader or held
      back. We would rather be slow than wrong.</p>
+
+  <h2>Lines</h2>
+  <p>Where a game carries a betting line, this desk shows it as it was reported: the
+     spread, the total and the moneyline as one provider published them, with that
+     provider named beside the number. A line is a fact about what a company was
+     offering at a moment, and it is shown for the same reason a kickoff time or a
+     weather reading is shown.</p>
+  <p>The desk does not make picks, does not advise anyone to bet, does not publish
+     forecasts or win probabilities of its own, and carries no link to a sportsbook. A
+     line that arrives without a provider is not published at all, because an
+     unattributed number would read as this desk's estimate, and this desk does not
+     estimate.</p>
 
   <h2>Oversight</h2>
   <p>A human editor-in-chief oversees the desk, can hold or remove anything, and owns the
