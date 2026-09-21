@@ -5195,6 +5195,16 @@ SB_LIVE_JS = """
      every game in every league the page shows, so the counts are computed from that
      and seeded from the cards only until the first answer arrives. */
   var SLATE = {};
+  /* SEEDED FROM THE DOM EVERY TIME, NOT ONCE AT PARSE.
+     This script is attached to the band, and on the home page and on /scores there are
+     cards BELOW it that do not exist yet when it runs: the band's own panel was seeded
+     and the rest of the slate was invisible, so the header counted 14 of 20 games and
+     disagreed with tabs that the build had written correctly. The same boot-order trap
+     as the lens and the pins panel, in a third place.
+     Re-seeding is cheap, it is the only way a card added after parse is ever counted,
+     and an entry the poll has already updated keeps its state rather than being reset
+     to whatever the build baked. */
+  function seed(){
   [].forEach.call(document.querySelectorAll('.tk-c[data-gid]'), function(c){
     var gid = c.getAttribute('data-gid');
     if (gid && !SLATE[gid]) SLATE[gid] = {
@@ -5205,6 +5215,8 @@ SB_LIVE_JS = """
          it came from is recent; past that it is A-4's expired state */
       baked: BUILD_STALE ? 1 : 0};
   });
+  }
+  seed();
 
   function etTime(iso){
     if (!iso) return '';
@@ -5214,16 +5226,36 @@ SB_LIVE_JS = """
     } catch (e) { return ''; }
   }
 
+  /* N-2: TODAY IS A DATE, NOT "EVERY CARD ON THE PAGE".
+     The band held 31 cards on a Monday and said "31 games today" over an All tab that
+     said 14, which the BUILD had written and which was right: a Monday has one NFL
+     game and the rest of those cards are next Saturday's college slate and the coming
+     week's fixtures. The header and the All tab disagreed with each other on the same
+     screen, and the Scores page said "0 games today" over a tab saying "14 today".
+     A game is today when its kickoff falls on today's Eastern date, or when it is in
+     play. Nothing else counts, and everything below counts the same way. */
+  function etDay(iso){
+    try {
+      return new Date(iso).toLocaleDateString('en-CA', {timeZone: 'America/New_York'});
+    } catch (e) { return ''; }
+  }
+  function todayET(){
+    return new Date().toLocaleDateString('en-CA', {timeZone: 'America/New_York'});
+  }
+
   function recount(){
+    seed();
     var byLeague = {}, live = 0, today = 0, upcoming = [];
+    var now = todayET();
     Object.keys(SLATE).forEach(function(gid){
       var g = SLATE[gid], lg = g.lg, st = g.state;
-      byLeague[lg] = byLeague[lg] || {live:0, total:0, fin:0};
+      var isToday = (st === 'in') || (g.kick && etDay(g.kick) === now);
+      byLeague[lg] = byLeague[lg] || {live:0, total:0, fin:0, today:0};
       byLeague[lg].total++;
-      today++;
+      if (isToday) { today++; byLeague[lg].today++; }
       /* a baked live state that the poll has not confirmed is not counted as live */
       if (st === 'in' && !g.baked) { live++; byLeague[lg].live++; }
-      if (st === 'post') byLeague[lg].fin++;
+      if (st === 'post' && isToday) byLeague[lg].fin++;
       if (st === 'pre') upcoming.push({k:g.kick, t:g.ket || etTime(g.kick),
                                        a:g.a, h:g.h});
     });
@@ -5241,9 +5273,29 @@ SB_LIVE_JS = """
         return k.toLowerCase() === lg.toLowerCase(); })[0]];
       if (!b) return;
       if (b.live) sm.textContent = b.live + ' live';
-      else if (b.fin === b.total && b.total) sm.textContent = b.fin + ' final';
-      else if (b.total) sm.textContent = b.total + ' today';
+      else if (b.today && b.fin === b.today) sm.textContent = b.fin + ' final';
+      else if (b.today) sm.textContent = b.today + ' today';
+      /* A LEAGUE WITH NOTHING ON TODAY KEEPS THE BUILD'S LABEL. The build already
+         writes "CFB Sat" and "NBA Oct 3", which is the useful thing to say; a recount
+         that overwrote it with a count of games that are not today is how the header
+         and the tabs came to disagree. */
     });
+    /* The header IS the All tab. They are one number and they are computed once. */
+    /* THE ALL TAB CARRIES THE HEADER'S NUMBER, which is the count of games today. The
+       live figure sits beside it in the header already, so showing "1 live" here left
+       the two reading differently on one screen, which is the whole complaint. Every
+       other tab still leads with its live count, because a league tab has nowhere else
+       to say it. */
+    /* Matched case-insensitively: the attribute is written "All" and a CSS attribute
+       selector compares values case-sensitively, so [data-league="all"] matched nothing
+       and the tab silently kept the build's text. */
+    var allTab = null;
+    [].forEach.call(document.querySelectorAll('.tk-tab'), function(x){
+      if ((x.getAttribute('data-league') || '').toLowerCase() === 'all') {
+        allTab = x.querySelector('small');
+      }
+    });
+    if (allTab) allTab.textContent = today + ' today';
     var nx = document.querySelector('.sb-next');
     if (nx) {
       upcoming.sort(function(x, y){ return x.k < y.k ? -1 : x.k > y.k ? 1 : 0; });
@@ -5251,6 +5303,10 @@ SB_LIVE_JS = """
       nx.textContent = n ? ('Next: ' + n.a + ' at ' + n.h + (n.t ? ' ' + n.t : '')) : '';
       nx.hidden = !n;
     }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ seed(); recount(); });
   }
 
   function esc(t){ var d = document.createElement('div'); d.textContent = t || '';

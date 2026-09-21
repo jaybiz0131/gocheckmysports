@@ -579,6 +579,41 @@ def layer1_canary():
                "S-budget canary: the late block names a game without requiring exactly "
                "one match, so an ambiguous team gets an opponent picked for it")
 
+    # N-2: TODAY IS A DATE, NOT EVERY CARD ON THE PAGE.
+    #
+    # The band held 31 cards on a Monday and said "31 games today" over an All tab the
+    # build had written as 14, which was right: a Monday has one NFL game and the rest
+    # of those cards are next Saturday's college slate. The header and the tab
+    # contradicted each other on one screen. Ground truth from the committed snapshot
+    # for 21 September is 14: NFL 1, MLB 3, NHL 8, WNBA 2.
+    #
+    # The browser half was read live; what a canary can hold is the SHAPE of the client
+    # rule, because every part of this bug was a line of that script.
+    _sbj = _sb.SB_LIVE_JS
+    _check("etDay(" in _sbj and "toLocaleDateString('en-CA'" in _sbj, fails,
+           "N-2 canary: the recount has no Eastern date test, so it counts every card "
+           "on the page as today")
+    _check("(st === 'in') || (g.kick && etDay(g.kick) === now)" in _sbj, fails,
+           "N-2 canary: the definition of today is not kickoff-on-today's-ET-date or "
+           "in play, which is the only definition the header, the tabs and Next share")
+    # The tab label is written from b.today and never from b.total: the total is every
+    # card in that league on the page, which is what made the tabs disagree with the
+    # header. Asserting both names appear was the bug restated, not tested.
+    _tabblk = _sbj.split(".tk-tab'")[1] if ".tk-tab'" in _sbj else _sbj
+    _tabtext = _tabblk[:_tabblk.find("var nx")] if "var nx" in _tabblk else _tabblk
+    _check("b.today" in _tabtext, fails,
+           "N-2 canary: the tab label is not written from the count of games today")
+    _check("b.total" not in _tabtext, fails,
+           "N-2 canary: a tab label still uses the league's total card count, which "
+           "counts next Saturday's slate as today")
+    _check(".toLowerCase() === 'all'" in _sbj, fails,
+           "N-2 canary: the All tab is matched case-sensitively; the attribute is "
+           "written \"All\" and a CSS attribute selector compares values exactly, so "
+           "the tab silently kept the build's text and disagreed with the header")
+    _check("function seed()" in _sbj and _sbj.count("seed();") >= 2, fails,
+           "N-2 canary: the slate is seeded once at parse, so cards below the band do "
+           "not exist yet and the header counts a fraction of the page")
+
     # N-3: THE STANDALONE PAGES TAKE THE PAGE'S INK, NOT THE BAND'S.
     #
     # The week pages and the Wire shipped with the dark scoreboard band's palette
