@@ -151,7 +151,9 @@ def _week(params=""):
             "away_id": tids.get("away", ""), "home_id": tids.get("home", ""),
             "kickoff_utc": e.get("date") or "",
             "kickoff_et": et.strftime("%-I:%M %p ET") if et else "",
-            "day_et": et.strftime("%a %-d %b") if et else "",
+            # US order, month first: "Thu, Sep 17". House style, and the lint in
+            # verify_pipeline fails the build on the day-month form.
+            "day_et": et.strftime("%a, %b %-d") if et else "",
             "window": window_name(et) if et else "",
             "carriers": _carriers(comp),
             "id": str(e.get("id") or ""),

@@ -4043,10 +4043,19 @@ def _tk_line(g):
               f'{esc(prov)} via ESPN</span></div>')
 
 
-def _tk_countdown(g):
+def _tk_countdown(g, marquee=False):
     """B-2: the stub is never empty before kickoff. The countdown is written by the
     client from the kickoff the card already carries, because a countdown baked at
-    build time is wrong the moment it is served."""
+    build time is wrong the moment it is served.
+
+    THE MARQUEE ONLY (owner's ruling, 21 September 2026). This shipped on every card in
+    the band, so a phone showed up to twelve counters ticking at once: noise on the page
+    and a minute's work for the poll every minute, on the battery. One game is the one
+    the reader is waiting for, and that is the marquee. A band row states its kickoff in
+    Eastern and does not move.
+    """
+    if not marquee:
+        return ""
     if g.get("state") != "pre" or not g.get("start_utc"):
         return ""
     return ('<span class="tk-count-dn" data-lens-only="watch" data-countdown '
@@ -4692,7 +4701,8 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                     f'<div class="sb-mq-grid">'
                     f'{_sb_team_row(g["away"], False, big=True, started=False)}'
                     f'{_sb_team_row(g["home"], False, big=True, started=False)}</div>'
-                    + (f'<div class="sb-mq-kick">{esc(when)}</div>' if when else "")
+                    + (f'<div class="sb-mq-kick">{esc(when)}'
+                       f'{_tk_countdown(g, marquee=True)}</div>' if when else "")
                     + (f'<div class="sb-mq-facts">{lines}</div>' if lines else "")
                     + f'<div class="sb-mq-foot">{foot}{w2w}</div>{bar}</div>')
         if state == "post":
@@ -6283,7 +6293,7 @@ def _team_row(e, colors):
     when = ""
     if dt:
         et = dt.astimezone(_ET)
-        when = f'{et.strftime("%a %-d %b")}'
+        when = f'{et.strftime("%a, %b %-d")}'
     if e.get("bye"):
         return (f'<tr class="tm-bye"><td class="tm-wk">{esc(str(e.get("week") or ""))}</td>'
                 f'<td class="tm-dt"></td><td class="tm-opp"></td>'
@@ -6333,7 +6343,7 @@ def render_team_page(tm, items, dateline):
     next_line = ""
     if nxt:
         dt = _utc_dt(nxt.get("date") or "")
-        when = f'{dt.astimezone(_ET).strftime("%a %-d %b")} {_et_clock(dt)}' if dt else ""
+        when = f'{dt.astimezone(_ET).strftime("%a, %b %-d")} {_et_clock(dt)}' if dt else ""
         next_line = (
             f'<div class="tm-next"><span class="bd-label">Next</span>'
             f'<span class="tm-next-o">{"vs" if nxt.get("home") else "at"} '
@@ -6447,8 +6457,8 @@ def _week_row(g, names):
         # schedules.py carries the feed's own timeValid: week 18 comes back at 05:00Z
         # with the clock unset, and printing it would be a precise time the league has
         # not announced.
-        when = (f'{d.strftime("%a %-d %b")} &middot; {_et_clock(dt)}'
-                if g.get("time_set", True) else d.strftime("%a %-d %b"))
+        when = (f'{d.strftime("%a, %b %-d")} &middot; {_et_clock(dt)}'
+                if g.get("time_set", True) else d.strftime("%a, %b %-d"))
     hs, as_ = g.get("home_score"), g.get("away_score")
     played = hs is not None and as_ is not None
     def side(ab, sc, won):
@@ -6656,7 +6666,8 @@ def render_wire(items, dateline, now=None):
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
-        d = et.strftime("%A %-d %B")
+        # US ORDER: "Sunday, September 20", not "Sunday 20 September".
+        d = et.strftime("%A, %B %-d")
         if d != day:
             if day is not None:
                 body.append("</ol>")

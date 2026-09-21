@@ -228,8 +228,72 @@ def _corpus_integrity_canary():
     return fails
 
 
+# The desk's own furniture: pages this desk writes end to end. Story bodies are not
+# here on purpose, because a source may be quoted using a date form the house does not
+# use and a quotation is not ours to restyle.
+CHROME_PAGES = ("index.html", "scores.html", "wire.html", "news.html", "archive.html",
+                "method.html", "about.html", "standards.html",
+                "fantasy/index.html", "fantasy/inactives.html", "fantasy/injuries.html")
+# NOT bottom-line.html. That page is PROSE the desk writes about the day's stories, in
+# unclassed paragraphs, and its dates are sentences: "sentencing set for 29 September".
+# A lint that rewrote those would be editing copy, which is the line destyle was already
+# ruled back from once. The writer's own date order is a job at the writer, not a
+# find-and-replace on a rendered page, and it is written down here so the next reader
+# knows the omission is a decision and not an oversight.
+
+
+def _us_date_canary():
+    """US date order on the desk's own chrome. Owner ruling, 21 September 2026.
+
+    The Board stamped itself "21 Sep 2026" and the Wire's day headers read "SUNDAY 20
+    SEPTEMBER". The audience is American and reads month first, so those are "Sep 21,
+    2026" and "Sunday, September 20". Both were seen live rather than in review, which
+    is why this is a check and not a note.
+
+    CHROME ONLY, and deliberately. A story's own body may quote a source who wrote a
+    date the other way round, and rewriting a quotation to match house style is a thing
+    this desk has already ruled against once (see destyle). What the desk controls is
+    its own furniture, and that is what this reads.
+    """
+    import os as _os
+    import re as _re
+    fails = []
+    pub = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "site", "publish")
+    if not _os.path.isdir(pub):
+        return fails
+    months = ("January|February|March|April|May|June|July|August|September|October|"
+              "November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec")
+    rx = _re.compile(r"\b(\d{1,2})\s+(" + months + r")\b")
+    tag = _re.compile(r"<[^>]+>")
+    for rel in CHROME_PAGES:
+        fp = _os.path.join(pub, rel)
+        if not _os.path.exists(fp):
+            continue
+        html = open(fp, encoding="utf-8", errors="ignore").read()
+        # Strip <script> and <style> wholesale: a cron line or a JS date format is not
+        # reader-facing copy and would report a date nobody sees.
+        html = _re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", html)
+        # A LISTING PAGE IS NOT ALL FURNITURE. The archive and the front page carry
+        # story headlines and summaries, which are the writers' words and may quote a
+        # source's own date form. The docstring above says chrome only and this is what
+        # makes that true: story blocks and links into /articles/ come out before the
+        # scan, so the check reads the desk's furniture and not the desk's journalism.
+        html = _re.sub(r"(?is)<article\b.*?</article>", " ", html)
+        html = _re.sub(r'(?is)<a[^>]+href="/articles/[^"]*"[^>]*>.*?</a>', " ", html)
+        html = _re.sub(r'(?is)<a[^>]+href="/edition/[^"]*"[^>]*>.*?</a>', " ", html)
+        text = tag.sub(" ", html)
+        for m in rx.finditer(text):
+            around = text[max(0, m.start() - 40):m.end() + 20].strip()
+            fails.append(f"US date canary: {rel} renders \"{m.group(0)}\" in day-month "
+                         f"order; the audience reads month first. Near: "
+                         f"{' '.join(around.split())[:90]}")
+            break
+    return fails
+
+
 def layer1_canary():
     fails = []
+    fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
@@ -911,15 +975,29 @@ def layer1_canary():
     _gn["away"] = dict(_gl["away"], name="")
     _sb._tk_card(_gn, {}, desig={"chiefs": {"out": 2}}, items=[])
     _cardl = _sb._tk_card(_gl, {}, items=[])
+    # NOT the countdown. Owner's ruling of 21 September: it ticks on the marquee only,
+    # so a band card no longer has one and this loop would be asserting that a thing
+    # which must not be there declares a lens. The marquee's own countdown is checked
+    # below instead, which is where it now lives.
     for _part, _lens in (('class="tk-line"', "lines"),
-                         ('class="tk-chip"', "watch"),
-                         ('class="tk-count-dn"', "watch")):
+                         ('class="tk-chip"', "watch")):
         _i = _cardl.find(_part)
         _check(_i >= 0 and f'data-lens-only="{_lens}"' in _cardl[_i - 60:_i + 120], fails,
                f"B-3 canary: {_part} does not declare the {_lens} lens, so it vanishes "
                f"under every lens including its own")
     # The score, the teams and the desk's own story belong to EVERY lens. A declaration
     # on any of them would empty the card.
+    # THE COUNTDOWN IS THE MARQUEE'S AND NOWHERE ELSE. Twelve counters on a phone is
+    # noise on the page and a minute of work every minute for the poll, on the battery.
+    _check('data-countdown' not in _cardl, fails,
+           "B-3 canary: a band card carries a ticking countdown; the ruling of 21 "
+           "September puts it on the marquee only and a row states its kickoff in "
+           "Eastern without moving")
+    _check("data-countdown" in _sb._tk_countdown(_gl, marquee=True), fails,
+           "B-3 canary: the marquee lost its countdown, so no game counts down at all")
+    _check(_sb._tk_countdown(_gl) == "", fails,
+           "B-3 canary: the card countdown is not switched off at the source")
+
     _mu = _cardl.find('class="tk-mu"')
     _check(_mu >= 0 and 'data-lens-only' not in _cardl[_mu:_mu + 90], fails,
            "B-3 canary: the matchup declared a lens, so three of the four lenses would "
