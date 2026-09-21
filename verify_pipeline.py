@@ -539,6 +539,45 @@ def layer1_canary():
     finally:
         _sb.SB_DATA = _sbsave
 
+    # S-1: ONE URL FOR EVERY PAGE. The live half of this test is a read of the deployed
+    # site; what the build is responsible for is that every sitemap URL HAS a rule, that
+    # the rules point toward this site's own canonical form, and that none of them loops.
+    #
+    # The rule this replaces was a splat with a suffix and never matched anything for
+    # nine days while reading as if it did, so "the file says so" is not evidence here.
+    import canonical_urls as _cu
+    _pub = _sb.PUBLISH
+    if os.path.isdir(_pub) and os.path.exists(os.path.join(_pub, "_redirects")):
+        _su = _cu.sitemap_urls(_pub)
+        _form = _cu.canonical_form(_su)
+        _check(_form == "bare", fails,
+               f"S-1 canary: this desk's canonical form read as {_form!r}; its sitemap "
+               f"and its canonical tags are extensionless and the 301s must point that "
+               f"way, not away from the URL Google has already chosen")
+        _txt = open(os.path.join(_pub, "_redirects"), encoding="utf-8").read()
+        _srcs = {ln.split()[0] for ln in _txt.splitlines()
+                 if ln.strip() and not ln.startswith("#") and len(ln.split()) >= 2}
+        _missing = [u for u in _su
+                    if not u.endswith(".html")
+                    and not _cu._path(u, _sb.ORIGIN).endswith("/")
+                    and _cu._path(u, _sb.ORIGIN) not in ("/", "")
+                    and _cu._path(u, _sb.ORIGIN) + ".html" not in _srcs]
+        _check(not _missing, fails,
+               f"S-1 canary: {len(_missing)} sitemap URL(s) have no rule for their "
+               f".html twin, e.g. {_missing[:2]}")
+        _check("/index.html" in _srcs, fails,
+               "S-1 canary: /index.html has no rule, so the home page has two URLs")
+        _loops = [ln for ln in _txt.splitlines()
+                  if len(ln.split()) >= 2 and ln.split()[0] == ln.split()[1]]
+        _check(not _loops, fails,
+               f"S-1 canary: {len(_loops)} rule(s) point at themselves: {_loops[:1]}")
+        _dupe = len(_srcs) != len([ln for ln in _txt.splitlines()
+                                   if ln.strip() and not ln.startswith("#")
+                                   and len(ln.split()) >= 2])
+        _check(not _dupe, fails,
+               "S-1 canary: two rules claim the same source URL; the second can never "
+               "fire and which one wins is the file's order, not a decision")
+
     # E-1: THE LEAD RULE GAINS THE DAY. The weekday table it used is a calendar kept by
     # hand: it gives the NFL 4.5 on a Sunday in June and college football 3.5 every
     # Saturday including the ones in March. The board says what is actually being played.

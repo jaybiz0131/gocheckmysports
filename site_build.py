@@ -11183,8 +11183,18 @@ def build():
     # Scoped to the two directories that have twins. If Netlify does not honour a suffix
     # splat the rules simply never match, which is why this is safe to try: the failure
     # mode is the status quo. Placed BEFORE the catch-all 404 so it wins.
-    canonical_301 = ("/articles/*.html  /articles/:splat  301!\n"
-                     "/sections/*.html  /sections/:splat  301!\n")
+    # S-1, and the reason the two lines that used to be here are gone. They were
+    # "/articles/*.html /articles/:splat 301!" and the same for /sections, shipped on
+    # 12 September, and they have NEVER FIRED: Netlify's _redirects does not honour a
+    # splat with a suffix after it, so both forms answered 200 for nine days while the
+    # file said otherwise. Measured 21 September on the live site, on the exact URL the
+    # rule names. The rules are enumerated now, one per sitemap URL, written at build so
+    # a new page gets its rule the day it exists.
+    import canonical_urls as _cu
+    canonical_301, _cu_stats = _cu.rules(PUBLISH, ORIGIN)
+    print(f"canonical urls: {_cu_stats['rules']} rule(s) toward the "
+          f"{'.html' if _cu_stats['form'] == 'html' else 'extensionless'} form, "
+          f"from {_cu_stats['urls']} sitemap URL(s)")
     w("_redirects", "/rss.xml  /feed.xml  301\n" + redirects + canonical_301
                     + "/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03, chassis extension per the approved crypto
