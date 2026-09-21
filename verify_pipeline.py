@@ -442,6 +442,41 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # C-3: THE WIN PROBABILITY. The desk publishes no forecast of its own, so this can
+    # exist only the way the line does: one named model's reading, carried as a fact
+    # about what that model said.
+    _sb.LIVE_WP = {"WP1": 0.68, "WP2": 0.32, "WP3": 1.0}
+
+    def _gwp(gid, state):
+        return {"league": "NFL", "id": gid, "state": state, "status_short": "2nd",
+                "start_utc": "2026-09-20T17:00:00Z",
+                "away": {"abbr": "IND"}, "home": {"abbr": "KC"}}
+
+    _w1 = _sb._tk_winprob(_gwp("WP1", "in"))
+    _check("KC 68% to win" in _w1, fails,
+           f"C-3 canary: the home side's 0.68 did not read as KC 68%: {_w1!r}")
+    _check('data-wp-model="ESPN"' in _w1 and "ESPN" in _w1, fails,
+           "C-3 canary: a win probability was shown with no model named, which makes it "
+           "this desk's forecast")
+    # THE SIDE MUST BE NAMED, AND IT MUST BE THE RIGHT ONE. 0.32 for the home team is
+    # 68% for the away team, and a card that prints the home abbreviation beside 68 has
+    # said the opposite of what the model said.
+    _w2 = _sb._tk_winprob(_gwp("WP2", "in"))
+    _check("IND 68% to win" in _w2, fails,
+           f"C-3 canary: a home probability of 0.32 was not stated as the away side's "
+           f"68%: {_w2!r}")
+    _check("KC" not in _w2.split("wp-v")[1][:40] if "wp-v" in _w2 else False, fails,
+           f"C-3 canary: the wrong team is named beside the number: {_w2!r}")
+    # NEVER ON A FINAL: the track ends with the game, so every finished game reads 100%.
+    _check(_sb._tk_winprob(_gwp("WP3", "post")) == "", fails,
+           "C-3 canary: a finished game showed a win probability, which is always 100% "
+           "for the winner and restates the score as a percentage")
+    _check(_sb._tk_winprob(_gwp("WP1", "pre")) == "", fails,
+           "C-3 canary: a game that has not kicked off showed a win probability")
+    _check(_sb._tk_winprob(_gwp("NONE", "in")) == "", fails,
+           "C-3 canary: a game with no model reading drew an empty probability row")
+    _sb.LIVE_WP = {}
+
     # C-2: THE LINESCORE AND THE LEADERS. The card said 41-31 and nothing about the four
     # quarters that produced it, and on every league but the NFL it named nobody at all,
     # because the desk computes fantasy points for the NFL and nowhere else.

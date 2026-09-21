@@ -137,6 +137,48 @@ def for_game(event_id):
     return pts
 
 
+def win_probability(summary):
+    """C-3: the home side's win probability, as ESPN's model last stated it.
+
+    THE DESK PUBLISHES NO FORECAST OF ITS OWN. This is the same rule the 20 September
+    law applied to the line: a number one company produced, carried as a fact about what
+    that company said, with the company named beside it. Nothing here is modelled,
+    smoothed, averaged or extrapolated, and a game with no track gets no number.
+
+    THE TRACK IS ALREADY ON DISK. This endpoint is fetched for every started NFL game to
+    compute fantasy points, so the 190-point win-probability track has been downloaded
+    and discarded on every build since that feature shipped. C-3 costs no new request.
+
+    Returns a float 0..1 or None. The LAST point is taken, because the track runs
+    play by play and the only honest reading of "the win probability" on a card is the
+    most recent one the model produced.
+    """
+    wp = (summary or {}).get("winprobability")
+    if not isinstance(wp, list) or not wp:
+        return None
+    last = wp[-1]
+    v = last.get("homeWinPercentage") if isinstance(last, dict) else None
+    try:
+        v = float(v)
+    except (TypeError, ValueError):
+        return None
+    return v if 0.0 <= v <= 1.0 else None
+
+
+def for_game_full(event_id):
+    """Points and the win-probability reading from ONE fetch.
+
+    Kept separate from for_game so the existing caller is untouched. The summary carries
+    pickcenter, againstTheSpread and odds, which odds_gate forbids from reaching any
+    written file, so nothing but the two extracted values leaves this function.
+    """
+    try:
+        s = _get(SUMMARY.format(id=event_id))
+    except Exception:
+        return (None, None)
+    return (player_points(s) or None, win_probability(s))
+
+
 def leaders(points, n=8, fmt="ppr"):
     rows = [p for p in (points or {}).values() if p.get(fmt)]
     rows.sort(key=lambda p: -p.get(fmt, 0))

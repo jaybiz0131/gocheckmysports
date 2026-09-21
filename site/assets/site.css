@@ -2561,3 +2561,16 @@ table.ls tbody th{text-align:left;font-weight:700;color:#EBE9E3;padding-left:0}
 table.ls td{color:rgba(255,255,255,.82)}
 table.ls .ls-t{font-weight:700;color:#fff;
   border-left:1px solid rgba(255,255,255,.12)}
+
+/* C-3: the win probability, on a live game only, with the model named the way a
+   provider is named beside a spread. The bar is neutral white and not SC-9's green:
+   green on this card means "this team is ahead on the scoreboard", and a model's
+   opinion is not the scoreboard. */
+.tk-wp{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;
+  font-family:var(--mono);font-size:11.5px;color:#EBE9E3}
+.wp-bar{flex:1 1 120px;min-width:90px;height:5px;border-radius:3px;
+  background:rgba(255,255,255,.14);overflow:hidden}
+.wp-bar i{display:block;height:100%;background:rgba(255,255,255,.75)}
+.wp-v{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wp-src{font-size:10px;color:#A6ABB4;letter-spacing:.04em;text-transform:uppercase;
+  white-space:nowrap}

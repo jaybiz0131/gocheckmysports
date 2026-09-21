@@ -55,6 +55,11 @@ PROVIDER_SHOWN = re.compile(r'data-line-provider="[^"]+"')
 # The law's last clause has the same requirement as its first: a cover is a
 # statement about one company's number, so a ruling with no name on it is the
 # desk asserting a spread of its own.
+# C-3: a win probability is a forecast, and the desk publishes none of its own. The
+# same rule as the line and the ruling: shown only with the model that produced it
+# named on the row.
+WP_SHOWN = re.compile(r'class="tk-wp"')
+WP_MODEL = re.compile(r'data-wp-model="[^"]+"')
 RULING_SHOWN = re.compile(r'class="tk-ruling"')
 RULING_PROVIDER = re.compile(r'data-ruling-provider="[^"]+"')
 
@@ -149,6 +154,12 @@ def check_pages():
             # A RULING WITHOUT ITS PROVIDER, counted the same way and for the same
             # reason. "KC covered" is arithmetic on somebody's spread; unattributed it
             # is the desk saying what the spread was.
+            n_wp = len(WP_SHOWN.findall(h))
+            n_wpm = len(WP_MODEL.findall(h))
+            if n_wp > n_wpm:
+                hits.append((rel, f"{n_wp - n_wpm} win probabilit"
+                                  f"{'y' if n_wp - n_wpm == 1 else 'ies'} with no "
+                                  f"model named"))
             n_rule = len(RULING_SHOWN.findall(h))
             n_rprov = len(RULING_PROVIDER.findall(h))
             if n_rule > n_rprov:

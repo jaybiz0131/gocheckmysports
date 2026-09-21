@@ -3769,6 +3769,39 @@ def _tk_leaders(g):
     return rows
 
 
+def _tk_winprob(g):
+    """C-3: the win probability, as one model last stated it, on a live game only.
+
+    THE DESK PUBLISHES NO FORECAST OF ITS OWN, and this is not one. It is the same shape
+    as the line: a number a named company produced, carried as a fact about what that
+    company said. Nothing here is modelled or derived, and the model is named on the row
+    exactly as the provider is named beside a spread.
+
+    Never on a final. The track ends when the game does, so the last reading of a
+    finished game is 100% or 0% for every game ever played, which restates the result as
+    a percentage and tells a reader nothing they cannot see in the score.
+
+    Never a bare "51%" either: a probability with no side attached is the one number on
+    a card that can be read exactly backwards.
+    """
+    if g.get("state") != "in":
+        return ""
+    v = (LIVE_WP or {}).get(str(g.get("id")))
+    if v is None:
+        return ""
+    home = (g.get("home") or {}).get("abbr") or "Home"
+    away = (g.get("away") or {}).get("abbr") or "Away"
+    # The side with the better of the two is the one named, because "BUF 68%" is read
+    # correctly by everyone and "32%" beside two team names is read correctly by nobody.
+    ab, pct = (home, v) if v >= 0.5 else (away, 1.0 - v)
+    n = int(round(pct * 100))
+    return (f'<div class="tk-wp" data-lens-only="lines">'
+            f'<span class="wp-bar" aria-hidden="true">'
+            f'<i style="width:{n}%"></i></span>'
+            f'<span class="wp-v">{esc(ab)} {n}% to win</span>'
+            f'<span class="wp-src" data-wp-model="ESPN">ESPN\'s model</span></div>')
+
+
 def _tk_linescore(g):
     """C-2: how the score happened, not just what it is.
 
@@ -4261,7 +4294,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     if leaders:
         lead_html = '<div class="tk-l3" data-lens-only="fantasy">' + "".join(
             f'<div><b>{esc(n)}</b>{esc(d)}</div>' for n, d in leaders) + '</div>'
-    ls_html = _tk_linescore(g)
+    ls_html = _tk_winprob(g) + _tk_linescore(g)
     story = _tk_story(g, items or [])
     btns = ""
     if buttons:
@@ -8981,6 +9014,7 @@ SB_DATA = None       # set at build by scoreboard.load()
 LINES_DATA = None    # set at build by lines.log(): the line at open per game
 WX_DATA = None       # set at build by kickoff_weather.load()
 LIVE_POINTS = {}     # set at build: fantasy points per game id, for live/final cards
+LIVE_WP = {}         # set at build: ESPN's win probability, LIVE games only (C-3)
 ALL_ITEMS = []       # set at build: the published story pool the card story line draws
                      # from (SC-7). The Wire replaces this source in Sprint I; the
                      # matching rule does not change.
@@ -9224,6 +9258,16 @@ def render_standards(dateline):
      states whether the favourite covered and whether the total went over. That is
      arithmetic on the score and on that provider's number, attributed to them, and it
      is not a judgement on anyone's wager.</p>
+  <h2>Models</h2>
+  <p>A live game may carry a win probability. It is one model's reading, the model is
+     named on the row, and it is shown for the same reason and under the same rule as a
+     line: it is a fact about what that model said at that moment, not a forecast this
+     desk makes. The desk builds no model, tunes none, and averages none together.</p>
+  <p>It appears only while a game is in play. When a game ends, the model's last reading
+     is a hundred per cent for the team that won, which restates the result as a
+     percentage, so the desk does not show it. And it always names the side it refers
+     to, because a bare percentage beside two team names is the one number on a page
+     that can be read exactly backwards.</p>
 
   <h2>Oversight</h2>
   <p>A human editor-in-chief oversees the desk, can hold or remove anything, and owns the
@@ -10242,8 +10286,9 @@ def build():
     # PUNCH ITEM 12: this block now runs BEFORE the homepage. It used to run three
     # lines after it, so the band's live marquee had nothing to show but its buttons no
     # matter what the box score held.
-    global LIVE_POINTS
+    global LIVE_POINTS, LIVE_WP
     _all_points = {}
+    _all_wp = {}
     _nfl = []
     if SB_DATA:
         import fantasy_points as _fpm
@@ -10251,10 +10296,19 @@ def build():
                 for g in L["games"]]
         for _g in _nfl:
             if _g.get("state") in ("in", "post"):
-                _pts = _fpm.for_game(_g["id"])
+                # C-3: one fetch, two readings. The win-probability track has been in
+                # this response since the points feature shipped and was thrown away
+                # every build.
+                _pts, _wp = _fpm.for_game_full(_g["id"])
                 if _pts:
                     _all_points[_g["id"]] = _pts
+                # ONLY WHILE THE GAME IS LIVE. The track ends when the game does, so a
+                # final's last reading is 1.0 or 0.0 for every game ever played: it
+                # restates the result as a percentage and says nothing.
+                if _wp is not None and _g.get("state") == "in":
+                    _all_wp[str(_g["id"])] = _wp
     LIVE_POINTS = _all_points
+    LIVE_WP = _all_wp
     w("index.html", render_home(items, dateline))
     if SB_DATA:
         _cards = 0
