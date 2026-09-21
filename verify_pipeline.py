@@ -442,6 +442,48 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # B-3: THE LENS. A tab chooses which games are on the board; a lens chooses which
+    # facts each card shows. The whole mechanism is one attribute per part, so what has
+    # to hold is the CONTRACT: the parts that belong to a lens declare it, and the parts
+    # that belong to every lens declare nothing, because a part that wrongly declares one
+    # disappears under the other three and the page still builds and still looks right on
+    # the lens it was written for.
+    _lc = _sb.lens_control()
+    _check(" hidden" in _lc, fails,
+           "B-3 canary: the lens control does not ship hidden, so a reader with no "
+           "JavaScript is shown four buttons that do nothing")
+    _check(_lc.count("<button") == 4, fails,
+           f"B-3 canary: the control does not carry four lenses: {_lc.count('<button')}")
+    _check(_lc.count('aria-pressed="true"') == 1, fails,
+           "B-3 canary: the control does not have exactly one lens pressed")
+    _check(">Lines<" in _lc and ">Bets<" not in _lc, fails,
+           "B-3 canary: the lens is named for an activity the desk does not do. The "
+           "desk shows a line as a fact and makes no bet.")
+
+    _gl = _gb("NFL", "IND", "KC", "2026-09-27T20:20", "pre")
+    _gl["network"] = "NBC"
+    _gl["line"] = {"provider": "DraftKings", "detail": "KC -6.5", "total": 47.5}
+    _gl["away"]["id"], _gl["home"]["id"] = "11", "12"
+    _gl["away"]["name"], _gl["home"]["name"] = "Colts", "Chiefs"
+    # A nameless team must cost one line and never the build: "".split()[-1] raises.
+    _gn = dict(_gl, id="NONAME")
+    _gn["away"] = dict(_gl["away"], name="")
+    _sb._tk_card(_gn, {}, desig={"chiefs": {"out": 2}}, items=[])
+    _cardl = _sb._tk_card(_gl, {}, items=[])
+    for _part, _lens in (('class="tk-line"', "lines"),
+                         ('class="tk-chip"', "watch"),
+                         ('class="tk-count-dn"', "watch")):
+        _i = _cardl.find(_part)
+        _check(_i >= 0 and f'data-lens-only="{_lens}"' in _cardl[_i - 60:_i + 120], fails,
+               f"B-3 canary: {_part} does not declare the {_lens} lens, so it vanishes "
+               f"under every lens including its own")
+    # The score, the teams and the desk's own story belong to EVERY lens. A declaration
+    # on any of them would empty the card.
+    _mu = _cardl.find('class="tk-mu"')
+    _check(_mu >= 0 and 'data-lens-only' not in _cardl[_mu:_mu + 90], fails,
+           "B-3 canary: the matchup declared a lens, so three of the four lenses would "
+           "show a card with no teams and no score on it")
+
     # D-2: A FORECAST IS ONLY A FORECAST WHILE IT IS IN THE FUTURE. Checkpoint 4 read
     # "Sunday's lists post about 6:50 PM ET" at 9:20 PM on Sunday, beside the page's own
     # count of 29 lists already posted, because the summary forecast from the earliest

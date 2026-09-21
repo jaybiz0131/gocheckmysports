@@ -2456,3 +2456,46 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .tk-ruling-src{font-size:10px;color:#A6ABB4;letter-spacing:.04em;text-transform:uppercase}
 /* The open line, printed only when it moved. */
 .tk-line-open{font-family:var(--mono);font-size:10.5px;color:#A6ABB4;letter-spacing:.03em}
+
+/* B-3: THE LENS. A tab chooses which games are on the board; a lens chooses which facts
+   each card shows. The hiding is one rule: a part declares the lenses it belongs to, and
+   a lens hides every part that does not name it. Parts with no declaration (the teams,
+   the score, the records, the desk's own story) belong to every lens and are never
+   touched, which is why the rule tests for the attribute rather than for a class list. */
+[data-lens-on] [data-lens-only]{display:none}
+[data-lens-on="all"] [data-lens-only],
+[data-lens-on="lines"] [data-lens-only~="lines"],
+[data-lens-on="fantasy"] [data-lens-only~="fantasy"],
+[data-lens-on="watch"] [data-lens-only~="watch"]{display:revert}
+/* The two grids and the chip have layouts of their own, so "revert" is not enough. */
+[data-lens-on="all"] .tk-spec,
+[data-lens-on="fantasy"] .tk-spec[data-lens-only~="fantasy"],
+[data-lens-on="watch"] .tk-spec[data-lens-only~="watch"]{display:grid}
+[data-lens-on="all"] .tk-l3,
+[data-lens-on="fantasy"] .tk-l3{display:grid}
+[data-lens-on="all"] .tk-line,[data-lens-on="lines"] .tk-line,
+[data-lens-on="all"] .tk-ruling,[data-lens-on="lines"] .tk-ruling{display:flex}
+[data-lens-on="all"] .tk-chip[data-lens-only],
+[data-lens-on="watch"] .tk-chip[data-lens-only~="watch"]{display:inline-flex}
+.lens{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lens-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#A6ABB4;margin-right:2px}
+.lens-b{appearance:none;background:none;border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;padding:4px 12px;min-height:30px;color:rgba(255,255,255,.76);
+  font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.01em;
+  cursor:pointer}
+.lens-b:hover{color:#fff;border-color:rgba(255,255,255,.34)}
+.lens-b.on{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.42);
+  color:#fff}
+.lens-b:focus-visible{outline:2px solid #3DDC84;outline-offset:2px}
+/* When a lens leaves a card's body with nothing in it, the body's own padding would
+   still draw an empty tray under the stub. */
+[data-lens-on] .tk-body:not(:has(> *:not(.tk-btns):not(.tk-card-a))){padding-top:0}
+@media (max-width:640px){
+  .lens{gap:6px}
+  .lens-k{display:none}
+  /* 44px is the touch target, not a style choice: at 30px these are four small pills
+     next to each other and the wrong one gets tapped. Measured at 375 before P-3 could
+     find it. */
+  .lens-b{padding:0 14px;min-height:44px;font-size:13px}
+}

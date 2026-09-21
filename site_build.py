@@ -3576,7 +3576,12 @@ def _tk_avail(g, ia_index, desig):
     parts = []
     for side in ("away", "home"):
         t = g.get(side) or {}
-        counts = idx.get((t.get("name") or "").split()[-1].lower())
+        # A NAMELESS TEAM MUST NOT TAKE THE BUILD. "".split() is [], and [-1] on it
+        # raises, so one feed row with an empty name would stop every page rather than
+        # cost one line on one card. Found by a canary fixture, not by a reader, and
+        # only because the fixture was lazier about names than the feed has been.
+        _nm = (t.get("name") or "").split()
+        counts = idx.get(_nm[-1].lower()) if _nm else None
         if not counts:
             continue
         bits = [f"{n} {k}" for k, n in
@@ -3826,7 +3831,8 @@ def _tk_line(g):
           for side, key in (("away", "ml_away"), ("home", "ml_home")) if ln.get(key)]
     if not bits:
         return ""
-    return (f'<div class="tk-line" data-line-spread="{esc(str(ln.get("spread", "")))}">'
+    return (f'<div class="tk-line" data-lens-only="lines" '
+            f'data-line-spread="{esc(str(ln.get("spread", "")))}">'
             f'<span class="tk-line-v">{" &middot; ".join(bits)}</span>'
             + (f'<span class="tk-line-ml">{" &middot; ".join(ml)}</span>' if ml else "")
             + opened
@@ -3840,7 +3846,7 @@ def _tk_countdown(g):
     build time is wrong the moment it is served."""
     if g.get("state") != "pre" or not g.get("start_utc"):
         return ""
-    return ('<span class="tk-count-dn" data-countdown '
+    return ('<span class="tk-count-dn" data-lens-only="watch" data-countdown '
             f'data-kick="{esc(g.get("start_utc") or "")}"></span>')
 
 
@@ -3980,7 +3986,7 @@ def _tk_ruling(g):
                          f"Pushed {_fmt_line_num(tot)}"))
     if not bits:
         return ""
-    return (f'<div class="tk-ruling">{esc(_TK_MID.join(bits))}'
+    return (f'<div class="tk-ruling" data-lens-only="lines">{esc(_TK_MID.join(bits))}'
             f'<span class="tk-ruling-src" data-ruling-provider="{esc(ln.get("provider") or "")}">'
             f'vs {esc(ln.get("provider") or "")} via ESPN</span></div>')
 
@@ -4191,22 +4197,28 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     """SC-1: the full Ticket card. Three states; only the lines that exist render."""
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
-    net = (f'<span class="tk-chip">{esc(g.get("network"))}</span>'
-           if g.get("network") else "")
-    rows = []
+    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(g.get("network"))}'
+           f'</span>' if g.get("network") else "")
+    # B-3: the spec grid holds two different KINDS of fact, and the lenses separate
+    # them: where and in what weather is a watching fact, who is out is a fantasy one.
+    # They render as two grids rather than one so a lens can take either without the
+    # other, and with no lens chosen they sit one above the other exactly as before.
     venue = _tk_venue(g, wx)
-    if venue and state == "pre":
-        rows.append(("Venue", venue))
-    rows += _tk_avail(g, ia_index, desig)
-    spec = ""
-    if rows:
-        spec = '<div class="tk-spec">' + "".join(
+    watch_rows = [("Venue", venue)] if (venue and state == "pre") else []
+    fan_rows = _tk_avail(g, ia_index, desig)
+
+    def _grid(rr, lens):
+        if not rr:
+            return ""
+        return (f'<div class="tk-spec" data-lens-only="{lens}">' + "".join(
             f'<span class="sk">{esc(k)}</span><span class="sv">{esc(v)}</span>'
-            for k, v in rows) + '</div>'
+            for k, v in rr) + '</div>')
+
+    spec = _grid(watch_rows, "watch") + _grid(fan_rows, "fantasy")
     leaders = _tk_leaders(g)
     lead_html = ""
     if leaders:
-        lead_html = '<div class="tk-l3">' + "".join(
+        lead_html = '<div class="tk-l3" data-lens-only="fantasy">' + "".join(
             f'<div><b>{esc(n)}</b>{esc(d)}</div>' for n, d in leaders) + '</div>'
     story = _tk_story(g, items or [])
     btns = ""
@@ -4315,6 +4327,38 @@ def _tk_fold(g, ia_index, desig=None):
             f'{row("away", ca)}{row("home", ch)}'
             f'<div class="st"><span data-role="status">{status}</span>{net}</div>'
             f'{fact}</a>')
+
+
+LENSES = (("all", "All", "every fact the card holds"),
+          ("lines", "Lines", "the spread, the total and where it opened"),
+          ("fantasy", "Fantasy", "who is out, and who is scoring"),
+          ("watch", "Watch", "the network, the venue and the countdown"))
+
+
+def lens_control():
+    """B-3: THE LENS. Four ways to read the same board.
+
+    A tab chooses which GAMES are on the board. A lens chooses which FACTS each card
+    shows, which is a different question and was not being asked: the card carried the
+    line, the inactives, the leaders, the network and the venue all at once, so every
+    reader paid for every other reader's interest.
+
+    Called Lines and not Bets. The desk shows a line as a fact and makes no bet, the
+    Standards page calls the section Lines, and a control named for an activity the desk
+    does not do would be the one word on the page that contradicts the doctrine.
+
+    No script, no lens: the control ships hidden and the hiding is done by CSS keyed on
+    an attribute only the script sets, so a reader without JavaScript sees the whole
+    card and no dead buttons. That is also what a crawler sees.
+    """
+    bs = "".join(
+        f'<button type="button" class="lens-b{" on" if k == "all" else ""}" '
+        f'data-lens="{k}" aria-pressed="{"true" if k == "all" else "false"}" '
+        f'title="{esc(why)}">{esc(label)}</button>'
+        for k, label, why in LENSES)
+    return ('<div class="lens" role="group" hidden '
+            'aria-label="Choose which facts each card shows">'
+            f'<span class="lens-k">Show</span>{bs}</div>')
 
 
 def _tk_tabs(games, active="all", href="/scores.html"):
@@ -5324,6 +5368,71 @@ MINI_SB_JS = """<script>(function(){
 # picked to the front. A reader with no pins gets exactly the page that shipped, and a
 # reader with no JavaScript gets it too.
 
+LENS_JS = """<script>(function(){
+  /* B-3: the lens. Four ways to read the same board.
+
+     WHAT IT DOES NOT DO: it never adds, removes or reorders a card. It sets one
+     attribute on the board and the stylesheet does the rest, which means a lens can
+     never disagree with the live poll about what is on the page.
+
+     The default is All, and the choice is remembered per device in localStorage the
+     same way the team pins are. A stored value that is not one of the four is ignored
+     rather than trusted: the attribute goes straight into a CSS selector. */
+  var KEY = 'gcm.lens', OK = {all:1, lines:1, fantasy:1, watch:1};
+  var groups = document.querySelectorAll('.lens');
+  if (!groups.length) return;
+
+  function roots(){
+    /* The band and the /scores board are different elements on different pages, so the
+       attribute goes on whatever contains the cards, found from the cards themselves. */
+    var out = [], seen = [];
+    [].forEach.call(document.querySelectorAll('.tk-c'), function(c){
+      var r = c.closest('.sb-inner') || c.closest('main') || document.body;
+      if (seen.indexOf(r) < 0) { seen.push(r); out.push(r); }
+    });
+    return out;
+  }
+
+  function read(){
+    try { var v = localStorage.getItem(KEY); return OK[v] ? v : 'all'; }
+    catch (e) { return 'all'; }
+  }
+
+  function apply(v, save){
+    if (!OK[v]) v = 'all';
+    roots().forEach(function(r){ r.setAttribute('data-lens-on', v); });
+    [].forEach.call(document.querySelectorAll('.lens-b'), function(b){
+      var on = b.getAttribute('data-lens') === v;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (save) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  }
+
+  [].forEach.call(groups, function(gp){
+    gp.hidden = false;      /* only now does the control exist for a reader */
+    gp.addEventListener('click', function(ev){
+      var b = ev.target.closest('.lens-b');
+      if (!b) return;
+      ev.preventDefault();
+      apply(b.getAttribute('data-lens'), true);
+    });
+  });
+  /* THE FIRST APPLY WAITS FOR THE DOCUMENT. This script is attached to the band, and
+     on /scores the band is parsed BEFORE the card grid further down the page, so at
+     this point querySelectorAll('.tk-c') can be empty, roots() returns nothing and the
+     lens is set on no element at all. Clicking a button afterwards worked, which is why
+     it read as correct: by then the document had finished. A stored lens would simply
+     not have been applied on load, on the one page that is entirely cards. */
+  function start(){ apply(read(), false); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();</script>"""
+
+
 TEAM_PIN_JS = """<script>(function(){
   var KEY='gcms_teams', store=null;
   try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); store=localStorage; }
@@ -5624,14 +5733,15 @@ def scoreboard_band(sb, board, wx=None):
     </div>
     <div class="sb-head">
       <div class="sb-head-l">
-        <div class="sb-tabs">{tabs}</div></div>
+        <div class="sb-tabs">{tabs}</div>
+        {lens_control()}</div>
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     {panels}
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS + LENS_JS
 
 
 # ---- S-L1: standings and the college football rankings ---------------------------
@@ -6103,13 +6213,14 @@ def render_scores_page(sb, board, dateline, wx=None):
       </span>
     </div>
     {_tk_tabs(_all, active="all")}
+    {lens_control()}
     <div class="sb-grid sb-grid-inner">
       <div class="sb-cards">{_band_cards}</div>
     </div>
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS + LENS_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
