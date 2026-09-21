@@ -442,6 +442,38 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # netlify_ignore decides whether a deploy runs AT ALL, and it had no test on either
+    # desk, though its own docstring says "Pure, so the test below is the whole proof".
+    # What it got wrong was the case with no test to catch it: an empty diff read as
+    # "nothing to do", when an empty diff means a scheduled or hook build and this
+    # desk's board refetches at build time. A-1's hooks were being declined here.
+    import netlify_ignore as _ni
+    import datetime as _dw
+    _sk, _wy = _ni.decide([])
+    _check(_sk is False, fails,
+           f"netlify ignore canary: a build with no changed files was SKIPPED, which "
+           f"is every scheduled refresh and every A-1 hook ping: {_wy}")
+    _check(_ni.decide(None)[0] is False, fails,
+           "netlify ignore canary: a build that cannot be diffed was skipped; every "
+           "unclear case must resolve to building")
+    _check(_ni.decide(["site_build.py"])[0] is False, fails,
+           "netlify ignore canary: a change to the generator did not build")
+    _q = _dw.datetime(2026, 9, 22, 8, 0, tzinfo=_dw.timezone.utc)
+    _check(_ni.in_posting_window(_q) is False, fails,
+           "netlify ignore canary: the quiet-hours fixture is inside a posting window, "
+           "so the checks below prove nothing")
+    _check(_ni.decide(["site/data/inactives/x.json"], _q)[0] is True, fails,
+           "netlify ignore canary: an inactives snapshot outside every posting window "
+           "now builds, so the fix just switched the file off")
+    _check(_ni.decide(["ledger.json"], _q)[0] is True, fails,
+           "netlify ignore canary: an ops-ledger row now builds")
+    _iw = _dw.datetime(2026, 9, 20, 18, 0, tzinfo=_dw.timezone.utc)
+    _check(_ni.in_posting_window(_iw) is True, fails,
+           "netlify ignore canary: the Sunday-slate fixture is not in a posting window")
+    _check(_ni.decide(["site/data/inactives/x.json"], _iw)[0] is False, fails,
+           "netlify ignore canary: an inactives snapshot inside a posting window did "
+           "not build, and inside the window the board is the product")
+
     # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
     # so what has to hold is that it reports only what is real and in the right order.
     import datetime as _dw

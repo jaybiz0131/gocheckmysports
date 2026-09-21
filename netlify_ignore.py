@@ -59,7 +59,23 @@ def decide(paths, now=None):
     if paths is None:
         return False, "cannot diff against the last built commit; building"
     if not paths:
-        return True, "no files changed"
+        # THE ONE CASE THIS FILE GOT EXACTLY BACKWARDS, and it cost the board.
+        #
+        # A build with no changed files is not a pointless build: it is a SCHEDULED or
+        # HOOK-TRIGGERED one, and those exist precisely to re-fetch. This desk's build
+        # command runs scores_pulse.py before site_build.py, and site_build itself
+        # refreshes the scoreboard, the standings, the schedules and the line log at
+        # build time. Every number on the board comes from the BUILD, not the commit.
+        #
+        # So A-1 added build hooks to unfreeze the morning board, and every hook ping
+        # that arrived with no new commit was declined right here. The hooks fired on
+        # time and the board did not move: at checkpoint 4 on 20 September the masthead
+        # read 7:48 PM at 9:16 PM while the live poll showed scores seconds old.
+        #
+        # This is what the docstring above already asks for: a skipped build that should
+        # have run is the failure this file must not cause.
+        return False, "no files changed, so this is a scheduled or hook build; the " \
+                      "board refetches at build time and that is the point of it"
     unskippable = [p for p in paths
                    if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES)]
     if unskippable:
