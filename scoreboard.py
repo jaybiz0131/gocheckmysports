@@ -49,6 +49,45 @@ LEAGUES = [
 BASE = "https://site.api.espn.com/apis/site/v2/sports/{path}/scoreboard"
 
 
+def _leaders(comp, n=3):
+    """C-2: the feed's own leaders, for the leagues where the desk computes none.
+
+    The cards name three leaders on a live or final game from the desk's fantasy points,
+    which exist for the NFL and nowhere else, so a live baseball, hockey or basketball
+    card named nobody at all. The feed carries leaders for most of them.
+
+    Carried as the feed states them: the category's short name, the athlete's short
+    name, and the line the feed already wrote ("26/38, 327 YDS, 4 TD"). Nothing is
+    computed here, because a number this desk derives from a box score is a number it
+    then has to defend, and the feed's own line is attributable to the feed.
+    """
+    out = []
+    for cat in (comp.get("leaders") or []):
+        rows = cat.get("leaders") or []
+        if not rows:
+            continue
+        top = rows[0]
+        ath = top.get("athlete") or {}
+        nm = (ath.get("shortName") or ath.get("displayName") or "").strip()
+        val = str(top.get("displayValue") or "").strip()
+        if not nm or not val:
+            continue
+        # A COMPOSITE RATING IS NOT A LABEL A READER CAN USE. Baseball's only category
+        # is "MLBRating", whose short name is "RAT", so the card read "B. Bichette RAT"
+        # over a line that already says everything: "1-4, HR, RBI, R, K". The category
+        # is dropped where it is one of these and the line stands on its own. PASS,
+        # RUSH and REC stay, because those do tell a reader what they are looking at.
+        _key = str(cat.get("name") or "")
+        _cat = "" if "rating" in _key.lower() else (
+            cat.get("shortDisplayName") or cat.get("abbreviation") or "").strip()
+        out.append({"cat": _cat,
+                    "name": nm, "line": val,
+                    "team": str((top.get("team") or {}).get("id") or "")})
+        if len(out) >= n:
+            break
+    return out
+
+
 def _line(comp):
     """The line as the feed reports it, with the provider that set it.
 
@@ -177,6 +216,13 @@ def _league(name, path, colorkey, cmap):
                 "rank": rank,
                 "score": c.get("score"),
                 "record": rec,
+                # C-2: the periods, as the feed displays them. A quarter in football, an
+                # inning in baseball, a period in hockey: the desk does not name them
+                # here, it carries them in order and lets the league's own count say
+                # what they are. displayValue and not value, because value is a float
+                # and 0.0 is not how a scoreboard writes nothing.
+                "periods": [str(x.get("displayValue") or "")
+                            for x in (c.get("linescores") or [])],
                 "id": str(team.get("id") or ""),
                 "color": ((cmap.get(colorkey) or {}).get(ab) or {}).get("color", ""),
             }
@@ -192,6 +238,7 @@ def _league(name, path, colorkey, cmap):
             "start_utc": ev.get("date") or "",
             "network": _net(comp),
             "home": sides.get("home") or {}, "away": sides.get("away") or {},
+            "leaders": _leaders(comp),
             "situation": (sit.get("downDistanceText") or "") if sit else "",
             "possession": (sit.get("possession") or "") if sit else "",
             # B-2: the three facts a live football card is missing, all of them already

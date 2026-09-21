@@ -442,6 +442,67 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # C-2: THE LINESCORE AND THE LEADERS. The card said 41-31 and nothing about the four
+    # quarters that produced it, and on every league but the NFL it named nobody at all,
+    # because the desk computes fantasy points for the NFL and nowhere else.
+    def _gls(state, pa, ph, sa="31", sh="41"):
+        return {"league": "NFL", "id": "LS", "state": state, "status_short": "Final",
+                "start_utc": "2026-09-20T17:00:00Z",
+                "away": {"abbr": "DET", "score": sa, "periods": pa},
+                "home": {"abbr": "BUF", "score": sh, "periods": ph}}
+
+    _full = _sb._tk_linescore(_gls("post", ["0", "10", "7", "14"],
+                                   ["14", "13", "7", "7"]))
+    _check("<table" in _full, fails,
+           "C-2 canary: a final with both linescores drew no table")
+    _check(_full.count("<td") == 10, fails,
+           f"C-2 canary: the table is not two rows of four periods and a total: "
+           f"{_full.count('<td')} cells")
+    _check(">31<" in _full and ">41<" in _full, fails,
+           "C-2 canary: the total column does not carry the score the card already shows")
+    # AND IT MUST BE THE SCORE, NOT A SUM OF THE ROW. The fixture above has periods that
+    # add up to exactly the score, so a total computed by adding the cells passes it and
+    # the test proves nothing. This one does not add up: the feed has dropped a period,
+    # which is the case that actually occurs, and the row must still total what the
+    # scoreboard says rather than what the visible cells happen to make.
+    _gap = _sb._tk_linescore(_gls("post", ["0", "10"], ["14", "13"], sa="31", sh="41"))
+    _check(">31<" in _gap and ">41<" in _gap, fails,
+           f"C-2 canary: with a period missing the total was computed from the cells "
+           f"(10 and 27) instead of read from the score (31 and 41): {_gap!r}")
+    _check(">10<" in _gap and ">27<" not in _gap, fails,
+           f"C-2 canary: the linescore invented a total: {_gap!r}")
+    # A HALF-FILLED LINESCORE IS A TABLE WITH A HOLE IN IT.
+    _check(_sb._tk_linescore(_gls("post", ["0", "10", "7", "14"], [])) == "", fails,
+           "C-2 canary: a game with periods on one side only still drew a table")
+    _check(_sb._tk_linescore(_gls("post", ["0", "10"], ["14", "13", "7", "7"])) == "",
+           fails,
+           "C-2 canary: a game whose two sides disagree on how many periods have been "
+           "played still drew a table, so one row is short and the columns lie")
+    _check(_sb._tk_linescore(_gls("pre", ["0"], ["0"])) == "", fails,
+           "C-2 canary: a game that has not started drew a linescore")
+
+    # The feed's leaders stand in only where the desk computes none, and a composite
+    # rating prints no label: "B. Bichette RAT" over a line that already says
+    # "1-4, HR, RBI, R, K" is a label that is worse than no label.
+    _sb.LIVE_POINTS = {}
+    _gld = {"league": "MLB", "id": "LD", "state": "in", "status_short": "Top 6th",
+            "start_utc": "2026-09-20T17:00:00Z",
+            "away": {"abbr": "TOR"}, "home": {"abbr": "NYY"},
+            "leaders": [{"cat": "", "name": "B. Bichette",
+                         "line": "1-4, HR, RBI, R, K", "team": "21"},
+                        {"cat": "PASS", "name": "J. Goff",
+                         "line": "26/38, 327 YDS", "team": "8"}]}
+    _lr = _sb._tk_leaders(_gld)
+    _check(_lr and _lr[0][0] == "B. Bichette", fails,
+           f"C-2 canary: an unlabelled leader gained a label: {_lr and _lr[0]}")
+    _check(len(_lr) == 2 and _lr[1][0] == "J. Goff PASS", fails,
+           f"C-2 canary: a labelled leader lost its label: {_lr}")
+    _check(_sb._tk_leaders(dict(_gld, state="pre")) == [], fails,
+           "C-2 canary: a game that has not started named leaders")
+    _check(_sb._tk_leaders(dict(_gld, leaders=[])) == [], fails,
+           "C-2 canary: a game the feed names nobody for drew an empty leader block "
+           "rather than none, which reads as nothing having happened")
+
     # B-4: THE WEEK, rebuilt from the 32 team schedules because the scoreboard feed is
     # today and only today. Every game is in the file TWICE, once from each side, so the
     # two things that can go wrong are a doubled slate and a flipped fixture, and a

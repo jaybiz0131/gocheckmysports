@@ -2547,3 +2547,17 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   .wk-r{padding:10px 12px;gap:6px 10px}
   .wk-t a{font-size:14px}
 }
+
+/* C-2: THE LINESCORE. How the score happened, beside what it is. It scrolls inside its
+   own box rather than widening the card, because nine innings and a total is eleven
+   columns and a phone card is 331px: a table that cannot fit either scrolls or lies. */
+.tk-ls{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.ls{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:12px;
+  font-variant-numeric:tabular-nums;color:#EBE9E3}
+table.ls th,table.ls td{padding:4px 6px;text-align:center;white-space:nowrap}
+table.ls thead th{font-size:10px;font-weight:700;letter-spacing:.06em;color:#A6ABB4;
+  border-bottom:1px solid rgba(255,255,255,.12)}
+table.ls tbody th{text-align:left;font-weight:700;color:#EBE9E3;padding-left:0}
+table.ls td{color:rgba(255,255,255,.82)}
+table.ls .ls-t{font-weight:700;color:#fff;
+  border-left:1px solid rgba(255,255,255,.12)}

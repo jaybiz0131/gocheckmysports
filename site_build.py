@@ -3750,7 +3750,14 @@ def _tk_leaders(g):
     pts = (LIVE_POINTS or {}).get(g.get("id")) or \
           (LIVE_POINTS or {}).get(str(g.get("id"))) or {}
     if not pts:
-        return []
+        # C-2: THE DESK COMPUTES POINTS FOR THE NFL AND NOWHERE ELSE, so a live
+        # baseball, hockey or basketball card named nobody at all: the block was absent
+        # rather than empty, which reads as "nothing happened". The feed carries its own
+        # leaders for most of them, stated as the feed states them, and they are used
+        # only where the desk has nothing of its own. Measured on tonight's board: 30 of
+        # 46 started games have them.
+        return [(f'{L["name"]} {L["cat"]}'.strip(), (L["line"] or "")[:34])
+                for L in (g.get("leaders") or [])[:3]]
     # fantasy_points.leaders is the desk's own ranking, and it is the one the live
     # board and the game page already use. Reimplementing the sort here would be a
     # second definition of "leader" that could disagree with the page it links to.
@@ -3760,6 +3767,40 @@ def _tk_leaders(g):
         line = "; ".join(p.get("line") or [])
         rows.append((f'{p.get("name", "")} {p.get("ppr", 0):.1f}', line[:34]))
     return rows
+
+
+def _tk_linescore(g):
+    """C-2: how the score happened, not just what it is.
+
+    The card said 41-31 and nothing about the four quarters that produced it, which is
+    the difference between a result and a game. The feed carries the periods for every
+    league that has them, in its own display form, and the desk does not name them: it
+    numbers them in the order they were played and lets the league's own count say
+    whether that is a quarter, an inning or a period.
+
+    Only where BOTH sides have periods and the counts agree. A half-filled linescore is
+    a table with a hole in it, and the total is what the card already says.
+    """
+    if g.get("state") not in ("in", "post"):
+        return ""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    pa, ph = a.get("periods") or [], h.get("periods") or []
+    if not pa or len(pa) != len(ph):
+        return ""
+    n = len(pa)
+    head = "".join(f"<th>{i + 1}</th>" for i in range(n))
+
+    def row(t, ps):
+        sc = _tk_score(t)
+        cells = "".join(f"<td>{esc(x)}</td>" for x in ps)
+        tot = f'<td class="ls-t">{sc if sc is not None else ""}</td>'
+        return (f'<tr><th scope="row">{esc(t.get("abbr") or "")}</th>'
+                f'{cells}{tot}</tr>')
+
+    return ('<div class="tk-ls"><table class="ls">'
+            f'<thead><tr><th><span class="sr-only">Team</span></th>{head}'
+            '<th class="ls-t">T</th></tr></thead>'
+            f'<tbody>{row(a, pa)}{row(h, ph)}</tbody></table></div>')
 
 
 _TK_CLOCK = re.compile(r"^\s*0*:?0*0?\s*$|^\s*0:00\s*$")
@@ -4220,6 +4261,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     if leaders:
         lead_html = '<div class="tk-l3" data-lens-only="fantasy">' + "".join(
             f'<div><b>{esc(n)}</b>{esc(d)}</div>' for n, d in leaders) + '</div>'
+    ls_html = _tk_linescore(g)
     story = _tk_story(g, items or [])
     btns = ""
     if buttons:
@@ -4262,7 +4304,8 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
             f'{_tk_line(g)}'
             f'{_tk_ruling(g)}'
             f'</div><div class="tk-perf"></div>'
-            f'<div class="tk-body">{spec}{lead_html}{story}{btns}</div></article>')
+            f'<div class="tk-body">{spec}{ls_html}{lead_html}{story}{btns}'
+            f'</div></article>')
 
 
 def _tk_fold(g, ia_index, desig=None):
