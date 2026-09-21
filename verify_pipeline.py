@@ -579,6 +579,38 @@ def layer1_canary():
                "S-budget canary: the late block names a game without requiring exactly "
                "one match, so an ambiguous team gets an opponent picked for it")
 
+    # N-3: THE STANDALONE PAGES TAKE THE PAGE'S INK, NOT THE BAND'S.
+    #
+    # The week pages and the Wire shipped with the dark scoreboard band's palette
+    # hardcoded (#EBE9E3 for names, #A6ABB4 for stamps, white-alpha for rules) on two
+    # pages that render on the cream page ground. In light mode every row, every week
+    # number and every Wire entry was white on cream and could not be read at all. They
+    # read perfectly in dark mode, which is the only mode they were checked in, and the
+    # person who checked them was me.
+    #
+    # A colour is a token or it is a bug on one of the two schemes, and a grep is the
+    # only form of this check that runs without a browser.
+    import re as _re_n3
+    _css = os.path.join(_sb.ASSETS, "site.css")
+    if os.path.exists(_css):
+        _c = open(_css, encoding="utf-8").read()
+        _bad = []
+        for _m in _re_n3.finditer(r"([^{}]*)\{([^{}]*)\}", _c):
+            _sel = _m.group(1).strip()
+            if not (_sel.startswith(".wr-") or _sel.startswith(".wk-")):
+                continue
+            if _re_n3.search(r"(?:^|;)\s*(?:color|background|background-color|"
+                             r"border-color)\s*:\s*(?:#[0-9A-Fa-f]{3,6}|"
+                             r"rgba?\(255,\s*255,\s*255)", _m.group(2)):
+                _bad.append(_sel[:40])
+        _check(not _bad, fails,
+               f"N-3 canary: {len(_bad)} rule(s) on the standalone week and Wire pages "
+               f"set a literal colour instead of a token, which is the dark band's "
+               f"palette on a cream page: {_bad[:3]}")
+        _check(".wk-page" in _c and ".wr-page" in _c, fails,
+               "N-3 canary: the week and Wire pages have no side padding rule, so their "
+               "text sits on the screen edge at 375")
+
     # E-2: THE WIRE. A log of what happened, newest first. Nothing is written for it,
     # so what has to hold is that it reports only what is real and in the right order.
     import datetime as _dw
