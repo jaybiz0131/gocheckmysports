@@ -2574,3 +2574,29 @@ table.ls .ls-t{font-weight:700;color:#fff;
 .wp-v{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .wp-src{font-size:10px;color:#A6ABB4;letter-spacing:.04em;text-transform:uppercase;
   white-space:nowrap}
+
+/* C-4: the reader's own teams, in the order the board will use them. */
+.mine{margin:0 0 20px;padding:14px 16px;border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;background:rgba(255,255,255,.035)}
+.mine-t{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:10px}
+.mine-t h3{margin:0;font-size:15px}
+.mine-n{font-size:12px;color:#A6ABB4}
+.mine-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mine-r{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:7px;
+  background:rgba(255,255,255,.04)}
+.mine-p{font-family:var(--mono);font-size:11px;color:#A6ABB4;min-width:14px;
+  font-variant-numeric:tabular-nums}
+.mine-nm{flex:1;min-width:0;font-weight:600;font-size:14px;color:#EBE9E3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mine-b{display:flex;gap:4px;flex:none}
+.mine-x{appearance:none;background:none;border:1px solid rgba(255,255,255,.16);
+  border-radius:6px;min-width:34px;min-height:34px;padding:0 8px;color:rgba(255,255,255,.8);
+  font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;line-height:1}
+.mine-x:hover:not(:disabled){color:#fff;border-color:rgba(255,255,255,.36)}
+.mine-x:disabled{opacity:.35;cursor:default}
+.mine-x:focus-visible{outline:2px solid #3DDC84;outline-offset:2px}
+.mine-off{color:rgba(255,255,255,.62)}
+@media (max-width:640px){
+  .mine-x{min-width:40px;min-height:40px}
+  .mine-nm{font-size:13.5px}
+}

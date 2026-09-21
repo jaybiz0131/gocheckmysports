@@ -442,6 +442,37 @@ def layer1_canary():
     _check(_mq_thu and _mq_thu["away"]["abbr"] == "DET", fails,
            "B-1 canary: the marquee did not go to the imminent NFL game (M-20)")
 
+    # C-4: THE PINS PANEL. The behaviour is in the browser and was proved there; what
+    # this checks is the contract the build is responsible for, which is that a reader
+    # with no pins and no script is shown nothing at all rather than an empty box
+    # promising teams they have not chosen.
+    _mp = _sb.pins_panel()
+    _check(" hidden" in _mp, fails,
+           "C-4 canary: the my-teams panel does not ship hidden, so every reader who "
+           "has pinned nothing gets an empty box")
+    _check("mine-l" in _mp and "<li" not in _mp, fails,
+           "C-4 canary: the panel ships with rows baked in; the pins are on the device "
+           "and the build has never heard of them")
+    _check('aria-labelledby="mine-h"' in _mp and 'id="mine-h"' in _mp, fails,
+           "C-4 canary: the panel is a region with no accessible name")
+    # It must be on a page that also carries the script and the name index, or it can
+    # never fill: the panel prints abbreviations and the index is what turns them into
+    # names.
+    _sp = os.path.join(_sb.PUBLISH, "scores.html")
+    if os.path.exists(_sp):
+        _sh = open(_sp, encoding="utf-8", errors="ignore").read()
+        # NOT "data-mine": the script contains querySelectorAll('[data-mine]'), so that
+        # string is on the page whether the panel is or not and the check could never
+        # fail. Removing the panel entirely left it green. The heading id belongs to the
+        # panel and to nothing else.
+        _check('id="mine-h"' in _sh, fails,
+               "C-4 canary: /scores carries no my-teams panel")
+        _check("gcms_teams" in _sh, fails,
+               "C-4 canary: the page with the panel does not carry the pin script")
+        _check("data-tabbr" in _sh and "data-tname" in _sh, fails,
+               "C-4 canary: the page with the panel carries no team-name index, so "
+               "every row would read as a bare abbreviation")
+
     # C-3: THE WIN PROBABILITY. The desk publishes no forecast of its own, so this can
     # exist only the way the line does: one named model's reading, carried as a fact
     # about what that model said.

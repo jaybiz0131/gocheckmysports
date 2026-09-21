@@ -5521,6 +5521,13 @@ TEAM_PIN_JS = """<script>(function(){
   }
   function apply(){
     var picks=get();
+    /* C-4: a reorder and an unpin both re-run this, so the marks from the previous run
+       are cleared first. Without it an unpinned team kept its highlight until the next
+       page load, which is the reader being told their change did not take. */
+    document.querySelectorAll('.tk-pinned').forEach(function(n){
+      n.classList.remove('tk-pinned'); });
+    document.querySelectorAll('.msb-pinned').forEach(function(n){
+      n.classList.remove('msb-pinned'); });
     document.querySelectorAll('[data-tpick]').forEach(function(b){
       b.setAttribute('aria-pressed', String(picks.indexOf(b.getAttribute('data-tpick'))>-1));
     });
@@ -5573,9 +5580,69 @@ TEAM_PIN_JS = """<script>(function(){
     e.preventDefault();
     var t=b.getAttribute('data-tpick'), v=get(), i=v.indexOf(t);
     if(i>-1){ v.splice(i,1); } else { v.push(t); }
-    set(v); apply();
+    set(v); apply(); panel();
   });
-  apply();
+
+  /* C-4: THE PANEL. The reader's teams, in the order the board will use, with the two
+     controls that change it. Buttons and not drag: drag needs a pointer, fights a
+     scrolling phone, and is invisible to a keyboard and a screen reader. */
+  function nameOf(ab){
+    var n=document.querySelector('[data-tabbr="'+ab+'"][data-tname]');
+    return (n && n.getAttribute('data-tname')) || ab;
+  }
+  function panel(){
+    var secs=document.querySelectorAll('[data-mine]');
+    if(!secs.length) return;
+    var v=get();
+    [].forEach.call(secs, function(sec){
+      var ol=sec.querySelector('.mine-l');
+      sec.hidden = !v.length;
+      if(!v.length){ ol.innerHTML=''; return; }
+      ol.innerHTML = v.map(function(ab,i){
+        var nm = nameOf(ab);
+        /* The first row cannot move up and the last cannot move down. A disabled
+           button that says what it would do is clearer than one that silently does
+           nothing, and a screen reader announces the state. */
+        return '<li class="mine-r" data-ab="'+ab+'">'
+             + '<span class="mine-p">'+(i+1)+'</span>'
+             + '<span class="mine-nm">'+nm+'</span>'
+             + '<span class="mine-b">'
+             + '<button type="button" class="mine-x" data-act="up" data-ab="'+ab+'"'
+             + (i===0?' disabled':'')+' aria-label="Move '+nm+' up">&#9650;</button>'
+             + '<button type="button" class="mine-x" data-act="down" data-ab="'+ab+'"'
+             + (i===v.length-1?' disabled':'')+' aria-label="Move '+nm+' down">'
+             + '&#9660;</button>'
+             + '<button type="button" class="mine-x mine-off" data-act="off" '
+             + 'data-ab="'+ab+'" aria-label="Unpin '+nm+'">Unpin</button>'
+             + '</span></li>';
+      }).join('');
+    });
+  }
+  document.addEventListener('click', function(e){
+    var b=e.target.closest('.mine-x'); if(!b) return;
+    e.preventDefault();
+    var act=b.getAttribute('data-act');
+    var ab=b.getAttribute('data-ab'), v=get(), i=v.indexOf(ab);
+    if(i<0) return;
+    if(act==='off'){ v.splice(i,1); }
+    else if(act==='up' && i>0){ v.splice(i,1); v.splice(i-1,0,ab); }
+    else if(act==='down' && i<v.length-1){ v.splice(i,1); v.splice(i+1,0,ab); }
+    else { return; }
+    set(v); apply(); panel();
+    /* KEEP THE READER'S PLACE. The list is rebuilt from scratch on every change, so
+       the button that was just pressed no longer exists and focus falls to the top of
+       the document: a keyboard reader loses their position on every single press. The
+       same control on the row that moved gets focus back, and where that control has
+       just become disabled (a team moved to the top can no longer move up) or the row
+       is gone entirely (an unpin), the first control that is still usable takes it. */
+    var again = (act === 'off') ? null
+      : document.querySelector('.mine-r[data-ab="' + ab + '"] [data-act="' + act + '"]');
+    if (!again || again.disabled) {
+      again = document.querySelector('.mine-l .mine-x:not([disabled])');
+    }
+    if (again) again.focus();
+  });
+  apply(); panel();
 })();</script>"""
 
 
@@ -5589,6 +5656,27 @@ def team_pin(abbr, name=""):
     return (f'<span class="tpinwrap" data-tpin{nm}>'
             f'<button type="button" class="wl-pick tpin" data-tpick="{esc(abbr)}" '
             f'aria-pressed="false">Pin {esc(abbr)}</button></span>')
+
+
+def pins_panel():
+    """C-4: the reader's own teams, in the order they will appear, and reorderable.
+
+    The pins already move a team's card to the front of its group, but the ORDER was
+    whatever order they were picked in, and there was no way to change it and nowhere to
+    see them together at all. A reader with four teams had no way to say which one leads
+    the board on a Sunday.
+
+    Buttons and not drag. Drag is the obvious gesture and it is the one that fails: it
+    needs a pointer, it fights a scrolling phone, and it is invisible to a keyboard and
+    to a screen reader. Two buttons per row work everywhere and say what they do.
+
+    Rendered empty and filled by the script from storage, because the pins are on the
+    device and the build has never heard of them. Hidden until there is something in it.
+    """
+    return ('<section class="mine" data-mine hidden aria-labelledby="mine-h">'
+            '<div class="mine-t"><h3 id="mine-h">My teams</h3>'
+            '<span class="mine-n">Your board leads with these, in this order.</span>'
+            '</div><ol class="mine-l"></ol></section>')
 
 
 def _team_pin_index(team_data):
@@ -6416,6 +6504,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     </div>
     {_tk_tabs(_all, active="all")}
     {lens_control()}{_week_link()}
+    {pins_panel()}
     <div class="sb-grid sb-grid-inner">
       <div class="sb-cards">{_band_cards}</div>
     </div>
