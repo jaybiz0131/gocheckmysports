@@ -579,6 +579,52 @@ def layer1_canary():
                "S-budget canary: the late block names a game without requiring exactly "
                "one match, so an ambiguous team gets an opponent picked for it")
 
+    # N-4, N-5, N-6: three small things, each of which was telling a reader something
+    # untrue about the page.
+    _css_p = os.path.join(_sb.ASSETS, "site.css")
+    if os.path.exists(_css_p):
+        _cs = open(_css_p, encoding="utf-8").read()
+        _i = _cs.find(".tk-g3{")
+        _check(_i >= 0 and "align-items:start" in _cs[_i:_i + 220], fails,
+               "N-4 canary: the card grid stretches every card in a row to the tallest, "
+               "so one card with a story leaves its neighbours with an empty lower half")
+
+    # N-5: THURSDAY, SUNDAY AND MONDAY NIGHT ARE THE LEAGUE'S STANDARD WINDOWS. Flagging
+    # them as unusual put the tag on three of the four most ordinary slots in the
+    # schedule, which is the same as putting it on none.
+    for _w in ("Thursday night", "Sunday night", "Monday night", "Sunday afternoon"):
+        _check(not _sb._ODD_WINDOW.search(_w), fails,
+               f"N-5 canary: {_w!r} is flagged as an unusual window; it is the league's "
+               f"standard grid and has been for decades")
+    for _w in ("Saturday", "Friday night", "Thanksgiving"):
+        _check(bool(_sb._ODD_WINDOW.search(_w)), fails,
+               f"N-5 canary: {_w!r} is not flagged, so the tag now marks nothing at all")
+
+    # N-6: the link says what it is and rides with the tabs.
+    # CHECKED ON THE BUILT PAGE, not by calling the function. _week_link() returns ""
+    # when the week data is not loaded, which it is not in this process, so guarding on
+    # its truthiness skipped the whole check and the break stayed green.
+    for _pg6 in ("index.html", "scores.html"):
+        _fp6 = os.path.join(_sb.PUBLISH, _pg6)
+        if not os.path.exists(_fp6):
+            continue
+        _h6a = open(_fp6, encoding="utf-8", errors="ignore").read()
+        _m6 = re.search(r'class="wk-link"[^>]*>([^<]+)', _h6a)
+        if not _m6:
+            continue
+        _check("schedule" in _m6.group(1), fails,
+               f"N-6 canary: on {_pg6} the week link reads as a sentence fragment: "
+               f"{_m6.group(1)[:50]!r}")
+    for _pg in ("index.html", "scores.html"):
+        _fp = os.path.join(_sb.PUBLISH, _pg)
+        if os.path.exists(_fp) and "wk-link" in open(_fp, encoding="utf-8",
+                                                     errors="ignore").read():
+            _h6 = open(_fp, encoding="utf-8", errors="ignore").read()
+            _before = _h6[:_h6.find('class="wk-link"')]
+            _check("sb-tabs" in _before[-900:] or "sb-tabrow" in _before[-900:], fails,
+                   f"N-6 canary: on {_pg} the week link is not with the league tabs; it "
+                   f"is a link about WHICH GAMES, not about what each card shows")
+
     # N-1: ONE NAME FOR A TEAM, EVERYWHERE THE SITE NAMES ONE.
     #
     # Seven surfaces, six spellings, one team. The pro cards printed the location alone,

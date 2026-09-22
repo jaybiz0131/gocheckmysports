@@ -6198,8 +6198,8 @@ def scoreboard_band(sb, board, wx=None):
     </div>
     <div class="sb-head">
       <div class="sb-head-l">
-        <div class="sb-tabs">{tabs}</div>
-        {lens_control()}{_week_link()}</div>
+        <div class="sb-tabs">{tabs}{_week_link()}</div>
+        {lens_control()}</div>
       <span class="sb-stamp">Updated {esc(stamp)}</span>
     </div>
     {panels}
@@ -6584,8 +6584,10 @@ def _week_link():
     wk, _ = nfl_week()
     if not wk:
         return ""
+    # N-6: "NFL week 2 and the season" read as a sentence fragment beside two rows of
+    # controls. It is a link to a schedule, so it says so and points with an arrow.
     return (f'<a class="wk-link" href="/nfl/week-{wk}.html">'
-            f'NFL week {wk} and the season</a>')
+            f'NFL Week {wk} schedule &rarr;</a>')
 
 
 def week_selector(active, week_now=None):
@@ -6969,8 +6971,8 @@ def render_scores_page(sb, board, dateline, wx=None):
         <span class="sb-stamp">Updated {esc(_et(sb.get("fetched_at") or ""))}</span>
       </span>
     </div>
-    {_tk_tabs(_all, active="all")}
-    {lens_control()}{_week_link()}
+    <div class="sb-tabrow">{_tk_tabs(_all, active="all")}{_week_link()}</div>
+    {lens_control()}
     {pins_panel()}
     <div class="sb-grid sb-grid-inner">
       <div class="sb-cards">{_band_cards}</div>
@@ -8263,7 +8265,17 @@ def render_fantasy_live(all_points, dateline):
 # and nothing is drawn empty.
 
 # The windows a reader has to be told about, because they are not Sunday afternoon.
-_ODD_WINDOW = re.compile(r"thursday|saturday|monday|sunday night", re.I)
+# N-5: WHAT COUNTS AS AN UNUSUAL WINDOW.
+#
+# This matched Thursday, Monday and Sunday night, which are the league's STANDARD
+# prime-time windows and have been for decades. The tag appeared on three of the four
+# most ordinary slots in the schedule, which is the same as appearing on none: a flag
+# that fires every week tells a reader nothing.
+#
+# An unusual window is one off the standard grid. A Saturday game, which the NFL plays
+# only in December and January. A Friday game. The 9:30 AM Eastern international
+# kickoff, which does not name itself and is caught by its clock below. A holiday game.
+_ODD_WINDOW = re.compile(r"saturday|friday|thanksgiving|christmas", re.I)
 
 
 def _sb12_week(wk):
@@ -8355,8 +8367,14 @@ def _sb12_who_plays_when(games):
     for win in sorted(by_win, key=_key):
         gs = by_win[win]
         _past = _key(win)[0] == 2
-        teams = " \u00b7 ".join(f'{g.get("away") or ""} at {g.get("home") or ""}'
-                                for g in gs[:8])
+        # N-1: the panel named teams by their initials, "NYG at LAR", on a page whose
+        # every other line now carries the name. The schedule file has the full ones.
+        _tn = {a: (t.get("name") or a)
+               for a, t in ((TEAM_DATA or {}).get("teams") or {}).items()}
+        teams = " \u00b7 ".join(
+            f'{_tn.get(g.get("away") or "", g.get("away") or "")} at '
+            f'{_tn.get(g.get("home") or "", g.get("home") or "")}'
+            for g in gs[:8])
         more = f" and {len(gs) - 8} more" if len(gs) > 8 else ""
         # The row carries its games as DATA as well as as text, keyed on the team id.
         # A list that posts after the build is painted by the client, and the reader's
@@ -8425,10 +8443,32 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     # reader is already on.
     watch = ""
     if sb:
-        games = [g for L in sb["leagues"] for g in L["games"]
-                 if g.get("state") in ("pre", "in")]
-        games.sort(key=lambda g: (_league_rank(g.get("league") or ""),
-                                  _game_rank(g), g.get("start_utc") or ""))
+        # N-5: TONIGHT IS TODAY'S EASTERN DATE. This took every unstarted game on the
+        # board and called the first six of them Tonight, so on a Monday the block read
+        # "New York Giants at Los Angeles Rams, Mon 8:15 PM ET" and then five Saturday
+        # college fixtures under the word Tonight.
+        #
+        # The same definition N-2 gave the header: today in Eastern, or in play. What is
+        # not tonight is not dropped, it goes under Next with its own day, because a
+        # reader on a Tuesday still wants to know what is coming.
+        _now = _build_now()
+        _today = _now.astimezone(_ET).date()
+
+        def _is_tonight(g):
+            if g.get("state") == "in":
+                return True
+            k = _utc_dt(g.get("start_utc") or "")
+            return bool(k and k.astimezone(_ET).date() == _today)
+
+        _all_up = [g for L in sb["leagues"] for g in L["games"]
+                   if g.get("state") in ("pre", "in")]
+        _all_up.sort(key=lambda g: (_league_rank(g.get("league") or ""),
+                                    _game_rank(g), g.get("start_utc") or ""))
+        games = [g for g in _all_up if _is_tonight(g)]
+        _next = [g for g in _all_up if not _is_tonight(g)]
+        _watch_label = "Tonight" if games else "Next"
+        if not games:
+            games = sorted(_next, key=lambda g: g.get("start_utc") or "")
         rows = "".join(
             f'<div class="w2w-row"><span class="w2w-game">'
             f'{esc(_team_label(g, g.get("away") or {}))} at '
@@ -8443,7 +8483,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             + '</span></div>' for g in games[:6])
         if rows:
             watch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                     f'<span class="bd-eyebrow">Tonight</span></div>'
+                     f'<span class="bd-eyebrow">{esc(_watch_label)}</span></div>'
                      f'<a class="bd-more" href="/where-to-watch.html">All games</a>'
                      f'</div><div class="w2w">{rows}</div></section>')
 
