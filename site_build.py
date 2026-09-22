@@ -3680,7 +3680,34 @@ def _tk_colors(g):
     return one("away", "#2A2D35"), one("home", "#1B1E25")
 
 
-def _tk_score(side):
+# N-3b: THE FEED'S ABBREVIATIONS ARE NOT THE NETWORK'S NAME. The card printed "ESPN
+# Unlmtd", which is the feed's own shorthand and not a thing anyone calls a channel.
+# A short map turns the ones the desk has seen into names; ANYTHING WITHOUT AN ENTRY
+# PRINTS AS THE FEED GIVES IT and is listed in the handoff, so the map grows from what
+# actually appears rather than from a guess at what might.
+NETWORK_NAMES = {
+    "ESPN Unlmtd": "ESPN Unlimited",
+    "USA Net": "USA Network",
+    "NBC Sports BO": "NBC Sports Boston",
+}
+
+
+def network_name(raw):
+    """The network's own name where the desk knows it, the feed's string otherwise."""
+    n = (raw or "").strip()
+    return NETWORK_NAMES.get(n, n)
+
+
+def _is_postponed(g):
+    """A postponed game has no score. The feed sends 0 and 0 and marks it Postponed,
+    and a card that prints those two zeros is reporting a nil-nil draw that was never
+    played: the fabricated-number rule, in the score slot."""
+    return "postpon" in str((g or {}).get("status_short") or "").lower()
+
+
+def _tk_score(side, g=None):
+    if g is not None and _is_postponed(g):
+        return None
     try:
         return int(side.get("score"))
     except (TypeError, ValueError):
@@ -4046,7 +4073,7 @@ def _tk_linescore(g):
     head = "".join(f"<th>{i + 1}</th>" for i in range(n))
 
     def row(t, ps):
-        sc = _tk_score(t)
+        sc = _tk_score(t, g)
         cells = "".join(f"<td>{esc(x)}</td>" for x in ps)
         tot = f'<td class="ls-t">{sc if sc is not None else ""}</td>'
         return (f'<tr><th scope="row">{esc(t.get("abbr") or "")}</th>'
@@ -4091,6 +4118,11 @@ def _tk_kicker(g):
         det = esc(_tk_state(g) or "Live")
         return f'<span class="tk-k live"><span class="dot"></span>Live \u00b7 {league} \u00b7 {det}</span>'
     if g.get("state") == "post":
+        # A POSTPONED GAME IS NOT A FINAL. The feed marks it post and the card said
+        # "MLB · Final" over two empty score slots, which reads as a nil-nil result
+        # rather than a game that was never played. It says what happened, alone.
+        if _is_postponed(g):
+            return f'<span class="tk-k">{league} \u00b7 Postponed</span>'
         return f'<span class="tk-k">{league} \u00b7 Final</span>'
     bits = [league]
     if league == "NFL":
@@ -4275,7 +4307,7 @@ def _tk_ruling(g):
     if not ln.get("provider"):
         return ""
     a, h = g.get("away") or {}, g.get("home") or {}
-    sa, sh = _tk_score(a), _tk_score(h)
+    sa, sh = _tk_score(a, g), _tk_score(h, g)
     if sa is None or sh is None:
         return ""
     bits = []
@@ -4351,7 +4383,7 @@ def _tk_matchup(g, big=40):
         big = 24
     ca, ch = _tk_sc9(g)
     a, h = g.get("away") or {}, g.get("home") or {}
-    sa, sh = _tk_score(a), _tk_score(h)
+    sa, sh = _tk_score(a, g), _tk_score(h, g)
     started = g.get("state") in ("in", "post")
     # UX-1: THE SCORE COLOURS NEEDED A SURFACE OF THEIR OWN. SC-9's green and red sat
     # straight on the team wash, so a green score on a red wash and a red score on a
@@ -4528,7 +4560,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     """SC-1: the full Ticket card. Three states; only the lines that exist render."""
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
-    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(g.get("network"))}'
+    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(network_name(g.get("network")))}'
            f'</span>' if g.get("network") else "")
     # B-3: the spec grid holds two different KINDS of fact, and the lenses separate
     # them: where and in what weather is a watching fact, who is out is a fantasy one.
@@ -4609,7 +4641,7 @@ def _tk_fold(g, ia_index, desig=None):
     started = state in ("in", "post")
     def row(side, col):
         t = g.get(side) or {}
-        sc = _tk_score(t)
+        sc = _tk_score(t, g)
         # UX-1: the same chip at row scale, with the leader's bar and weight.
         _tie = ca == ch
         _lead = (col == _TK_UP) and not _tie
@@ -4648,7 +4680,7 @@ def _tk_fold(g, ia_index, desig=None):
         if dt:
             when = f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
     status = esc(_tk_state(g)) if started else esc(when)
-    net = (f'<span class="tk-chip sm">{esc(g.get("network"))}</span>'
+    net = (f'<span class="tk-chip sm">{esc(network_name(g.get("network")))}</span>'
            if g.get("network") else "")
     facts = _tk_avail(g, ia_index, desig)
     fact = f'<div class="x">{esc(facts[0][0])} {esc(facts[0][1])}</div>' if facts else ""
@@ -4769,7 +4801,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
     prog = g.get("progress")
     bar = (f'<div class="prog" style="width:{prog*100:.0f}%"></div>'
            if isinstance(prog, (int, float)) else "")
-    net = f'<span class="net">{esc(g.get("network"))}</span>' if g.get("network") else ""
+    net = f'<span class="net">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
     fan = _sb_fantasy_strip(g, ia_index)
     if marquee:
         # S-7. Three states, and every line in them is a reading or it is absent.
@@ -6789,7 +6821,7 @@ def _wire_rows(items, now=None):
             if not k or k < cut:
                 continue
             a, h = g.get("away") or {}, g.get("home") or {}
-            sa, sh = _tk_score(a), _tk_score(h)
+            sa, sh = _tk_score(a, g), _tk_score(h, g)
             if sa is None or sh is None:
                 continue
             # The FINAL is the event, and the desk does not know the minute it ended.

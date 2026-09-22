@@ -682,6 +682,43 @@ def layer1_canary():
                    f"N-6 canary: on {_pg} the week link is not with the league tabs; it "
                    f"is a link about WHICH GAMES, not about what each card shows")
 
+    # TWO NITS FROM THE 22 SEPTEMBER READ.
+    #
+    # A POSTPONED GAME HAS NO SCORE. The feed sends 0 and 0 and marks it Postponed, and
+    # the card printed both zeros under "MLB / Final": a nil-nil result for a game that
+    # was never played, which is the fabricated-number rule in the score slot.
+    _pp = {"league": "MLB", "id": "PP", "state": "post", "status_short": "Postponed",
+           "start_utc": "2026-09-22T23:05:00Z", "network": "ESPN Unlmtd",
+           "away": {"abbr": "TOR", "full": "Toronto Blue Jays", "score": "0"},
+           "home": {"abbr": "BAL", "full": "Baltimore Orioles", "score": "0"}}
+    _ppc = _sb._tk_card(_pp, {}, items=[])
+    _slots = re.findall(r'class="tk-sc">([^<]*)</span>', _ppc)
+    _check(_slots and not any(x.strip() for x in _slots), fails,
+           f"N-nit canary: a postponed game printed digits in its score slots: {_slots}")
+    _check("Postponed" in _sb._tk_kicker(_pp), fails,
+           f"N-nit canary: a postponed game is labelled "
+           f"{re.sub(r'<[^>]+>', '', _sb._tk_kicker(_pp))!r}; it was never played")
+    _check("Final" not in _sb._tk_kicker(_pp), fails,
+           "N-nit canary: a postponed game still reads as a final")
+    # A real final is untouched.
+    _fin = dict(_pp, status_short="Final")
+    _fin["away"] = dict(_pp["away"], score="4")
+    _fin["home"] = dict(_pp["home"], score="2")
+    _fs = re.findall(r'class="tk-sc">([^<]*)</span>', _sb._tk_card(_fin, {}, items=[]))
+    _check([x for x in _fs if x.strip()], fails,
+           "N-nit canary: a real final lost its score, so the postponed rule is eating "
+           "every result")
+
+    # THE FEED'S ABBREVIATION IS NOT THE NETWORK'S NAME. Anything the desk has not seen
+    # prints as the feed gives it, which is why this checks the mapped one and not the
+    # size of the map.
+    _check(_sb.network_name("ESPN Unlmtd") == "ESPN Unlimited", fails,
+           "N-nit canary: the feed's shorthand reaches the card unmapped")
+    _check(_sb.network_name("Some New Channel") == "Some New Channel", fails,
+           "N-nit canary: an unmapped network is not printed as the feed gives it")
+    _check("ESPN Unlmtd" not in _ppc, fails,
+           "N-nit canary: the card prints the feed's shorthand")
+
     # N-1: ONE NAME FOR A TEAM, EVERYWHERE THE SITE NAMES ONE.
     #
     # Seven surfaces, six spellings, one team. The pro cards printed the location alone,

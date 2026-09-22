@@ -256,3 +256,49 @@ Parents and Pet 6 a day between them for previews and merges.
 (`search-s1-canonical-urls`, `64fe43f`), the generator is written and tested, and the
 work is five sites: Weather, Estate, Sports, Crypto and News. Parents and Pet already
 pass the whole test in production. One preview per branch from tomorrow.
+
+---
+
+# U-8: a push is verified by hash, not by exit code
+
+**22 September 2026.** A `git push` returned exit 0 while a rebase was still in
+progress. The local branch was sitting on origin's own tip, so the push was a no-op:
+nothing of the desk's work landed, and the exit code said it had.
+
+Nothing was damaged, and that is the point. The exit code was true and useless.
+
+**After every push, fetch and compare the hashes.** Both go in the handoff, for every
+push of the day:
+
+```sh
+git push origin main
+git fetch -q origin
+git rev-parse --short HEAD          # what the desk believes it pushed
+git rev-parse --short origin/main   # what is actually there
+git rev-list --count origin/main..HEAD   # must be 0
+```
+
+A push is done when those two hashes match and the count is zero. Not before.
+
+## Pushes on 22 September
+
+| repo | local HEAD | origin/main | ahead |
+|---|---|---|---|
+| gocheckmysports | `a6e24d9` | `a6e24d9` | 0 |
+| gocheckmycrypto | `453427b` | `453427b` | 0 |
+| gcm-newsroom | the `sp` commit, on main | matched | 0 |
+
+## Networks the feed abbreviates
+
+`network_name()` maps what the desk has seen. Anything without an entry prints exactly
+as the feed gives it, which is the safe default and the reason this list exists rather
+than a guess at the whole catalogue.
+
+Mapped today: `ESPN Unlmtd` to ESPN Unlimited, `USA Net` to USA Network,
+`NBC Sports BO` to NBC Sports Boston.
+
+Seen and left alone, because they are the names themselves rather than shorthand:
+`ESPN+`, `ESPNU`, `MLB.TV`, `CW26`, `Fox 12 Plus`, `SEC Network`, `ACC Network`,
+`Scripps Sports`, `Peacock`, `Prime Video`, `TNT`, `ABC`, `CBS`, `FOX`, `NBC`, `CW`.
+
+Add to the map when a new shorthand appears on a card, not before.
