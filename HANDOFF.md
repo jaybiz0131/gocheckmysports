@@ -302,3 +302,60 @@ Seen and left alone, because they are the names themselves rather than shorthand
 `Scripps Sports`, `Peacock`, `Prime Video`, `TNT`, `ABC`, `CBS`, `FOX`, `NBC`, `CW`.
 
 Add to the map when a new shorthand appears on a card, not before.
+
+---
+
+# Standing rules for this desk
+
+Three rules, each written after a specific failure. U-8 has its own section above with
+the commands; the other two are stated here in full.
+
+## U-7: a headless browser is closed in a `finally` block
+
+Every measurement harness spawns Chrome. A harness that throws between spawn and kill
+leaves the process alive, and a session that measures forty times leaves forty of them.
+The kill goes in a `finally`, not on the happy path.
+
+`gcm-tools/harness/measure.mjs` is the desk's harness and lives in the repo rather than
+in `/tmp`, because `/tmp` is cleared between sessions and the harnesses were rewritten
+from memory three times before that file existed.
+
+## U-8: a push is verified by hash, not by exit code
+
+See the section above for the command sequence. A push returned exit 0 while a rebase
+was in progress, against a branch sitting on origin's own tip: the push was a no-op and
+the exit code said it had worked. Both hashes go in the handoff for every push.
+
+## U-9: a new test is not trusted until it has been seen to fail
+
+**22 September 2026.** The recurring failure of this session was not in the code. It was
+checks that passed by not running:
+
+- a canary guarded on `TEAM_DATA` being loaded, which the canary never loads, so the
+  whole block was skipped in silence;
+- an assertion matching `data-mine`, a string the script contains as well as the markup,
+  so deleting the markup left it green;
+- a comparison asking whether `max(spark + [price]) < price`, which cannot be true
+  because the price is in its own input;
+- a fixture whose periods summed to exactly the score, so a total computed by adding the
+  cells passed a test written to stop exactly that;
+- an assertion on a belt's WORDING that failed when the message improved, over a
+  sentence the belt was catching correctly.
+
+Each looked green. Each tested nothing.
+
+**Before a test is committed:** break the thing it guards on purpose, watch the test go
+red, restore it, watch it go green. **The report names the break used.** A test that
+cannot be made to fail is deleted, not kept.
+
+The newsroom's own tests get the same treatment the next time one is touched.
+
+---
+
+# For tomorrow's handoff
+
+**The board's stamp between slates.** At 6:02 PM on 22 September the home scoreboard read
+"Updated 3:28 PM ET" with no game live and the next first pitch at 6:40. That is the
+build's stamp doing what D-1 asks of it, and it is not a finding. Confirm two things once
+games are live: that the stamp moves with the Worker's refresh, and that between slates
+the board still tells the reader when the next game starts, as it does now.
