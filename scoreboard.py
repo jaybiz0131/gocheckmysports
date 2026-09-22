@@ -199,6 +199,12 @@ def _league(name, path, colorkey, cmap):
             rank = cr if isinstance(cr, int) and 1 <= cr <= 25 else None
             sides[c.get("homeAway")] = {
                 "abbr": ab,
+                # N-1: THE FULL NAME, from the feed's own displayName, which carries it
+                # for every league this desk follows: "New York Giants", "Florida State
+                # Seminoles", "Liverpool", "Athletics". The site printed the location
+                # alone on pro cards, so "Los Angeles 14" sat over "Los Angeles 26" in
+                # one column on a Sunday and neither said which Los Angeles.
+                "full": team.get("displayName") or "",
                 "name": team.get("shortDisplayName") or team.get("name") or ab,
                 # CFB-1: the school in full, for the leagues whose cards print it.
                 # `location` is the school ("Ohio State"), `name` is the mascot

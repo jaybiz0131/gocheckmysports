@@ -3331,11 +3331,37 @@ def _team_rank(g, t):
 
 
 def _team_label(g, t):
-    """What a card calls this team. Shows full team names (city/school) for all leagues.
-    For example: "Georgia" instead of "UGA", "Buffalo" instead of "BUF"."""
-    if (g.get("league") or "") in FULL_NAME_LEAGUES:
-        return (t.get("school") or t.get("name") or t.get("abbr") or "").strip()
-    return (t.get("abbr") or "").strip()
+    """N-1: ONE NAME FOR A TEAM, EVERYWHERE THE SITE NAMES ONE.
+
+    The city and the nickname, as one name, in one style: "New York Giants", "Los
+    Angeles Chargers", "Florida State Seminoles", "Liverpool", "AFC Bournemouth".
+
+    WHAT IT WAS. Pro cards printed the location alone, so on Sunday's Scores page
+    "Los Angeles 14" sat over "Los Angeles 26" in the same column and neither line said
+    which Los Angeles. College cards printed the school in the serif with the mascot
+    beside it in a lighter face. The game page said "Lions at Bills" in the h1 and "DET
+    at BUF" in the title. The week pages said "Falcons at Packers", the Wire said "IND
+    30, KC 33", the Fantasy hub said "New York at Los Angeles", and the standings alone
+    printed "Buffalo Bills". Seven surfaces, six spellings, one team.
+
+    The standings were right, so the whole site prints what they print.
+
+    The feed's displayName carries it for every league this desk follows, so the
+    fallbacks below are for a feed row that arrives without one: school and mascot
+    joined, then the short name, then the abbreviation, which is better than empty and
+    is the only place an abbreviation is still a label.
+
+    THE LEAGUE NO LONGER DECIDES. FULL_NAME_LEAGUES existed to say which leagues got a
+    name instead of initials, and every league gets a name now.
+    """
+    full = (t.get("full") or "").strip()
+    if full:
+        return full
+    school = (t.get("school") or "").strip()
+    mascot = (t.get("mascot") or "").strip()
+    if school and mascot and mascot.lower() != school.lower():
+        return f"{school} {mascot}"
+    return (school or t.get("name") or t.get("abbr") or "").strip()
 
 
 def _team_mascot(g, t):
@@ -3350,6 +3376,12 @@ def _team_mascot(g, t):
     to is the school again, and a card reading "Rutgers / Rutgers" is noise. The first
     word is compared too, so "Western Kentucky" does not pick up "Western KY".
     """
+    # N-1: THE NAME CARRIES THE MASCOT NOW. "Miami Hurricanes" and "Miami Dolphins" are
+    # told apart by the name itself, which is what this function existed to do, so it
+    # says nothing and the tail it fed on the compact card goes with it. Kept as a
+    # function rather than deleted because several surfaces call it, and a function that
+    # returns nothing is a smaller change than a call site removed in eight places.
+    return ""
     m = (t.get("mascot") or t.get("name") or "").strip()
     if not m:
         return ""
@@ -4223,6 +4255,17 @@ def _fmt_line_num(v):
     return f"{v:.1f}".rstrip("0").rstrip(".")
 
 
+def _tk_long(g, t):
+    """N-1: mark a name the card should set one size smaller.
+
+    Twenty characters is the line at which a two-word pro name gives way to a long
+    college one: "Miami Dolphins" is 14, "Kansas City Chiefs" is 18, "Central Michigan
+    Chippewas" is 26. Stepping every name down so the longest fits punishes the short
+    ones, so the build says which is which and the stylesheet does the rest.
+    """
+    return " data-long" if len(_team_label(g, t)) > 20 else ""
+
+
 def _tk_trec(t):
     """B-2: A RECORD BELONGS TO THE TEAM, not to a line under both of them.
 
@@ -4272,6 +4315,7 @@ def _tk_matchup(g, big=40):
                     f'{_rank_html(g, t)}'
                     f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                     f'data-label="{esc(_team_label(g, t))}" '
+                    f'{_tk_long(g, t)}'
                     f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>'
                     f'{_tk_trec(t)}</span>')
         return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
@@ -4287,7 +4331,7 @@ def _tk_matchup(g, big=40):
                 f'font-weight:{800 if lead else 500}">{bar}{_tk_disc(g, t, which)}{_rank_html(g, t)}'
                 f'<span data-side="{which}" data-abbr="{esc(t.get("abbr") or "")}" '
                 f'data-label="{esc(_team_label(g, t))}">'
-                f'<span class="tk-nm">{esc(_team_label(g, t))}</span>'
+                f'<span class="tk-nm"{_tk_long(g, t)}>{esc(_team_label(g, t))}</span>'
                 f'<span class="tk-sc">{sc if sc is not None else ""}</span>'
                 f'</span>{_tk_trec(t)}{_tk_marks(g, t, which)}</span>')
     return (f'<span class="tk-num tk-num-chips{_fcls}" style="font-size:{big}px">'
@@ -6564,7 +6608,10 @@ def week_selector(active, week_now=None):
 
 def render_week_page(team_data, wk, dateline, week_now=None):
     games = _sched_week(team_data, wk)
-    names = {a: (t.get("short") or t.get("name") or a)
+    # N-1: the full name first. This took "short" first, which is the feed's
+    # shortDisplayName, so a fixture read "Patriots at Seahawks" while the standings
+    # two clicks away read "New England Patriots".
+    names = {a: (t.get("name") or t.get("short") or a)
              for a, t in ((team_data or {}).get("teams") or {}).items()}
     played = sum(1 for g in games if g.get("home_score") is not None)
     if not games:
@@ -6643,7 +6690,9 @@ def _wire_rows(items, now=None):
             # says "Final" rather than pretending to a time nobody recorded.
             rows.append({
                 "t": k, "kind": "Final",
-                "text": (f'{a.get("abbr") or ""} {sa}, {h.get("abbr") or ""} {sh}'),
+                # N-1: the name, not the initials. "IND 30, KC 33" is a scoreboard
+                # shorthand on a page whose whole job is to be read in order.
+                "text": (f'{_team_label(g, a)} {sa}, {_team_label(g, h)} {sh}'),
                 "href": f'/games/{esc(str(g.get("id")))}.html',
                 "note": g.get("league") or "",
             })
@@ -8165,8 +8214,8 @@ def render_game_page(g, points, board, wx, items, dateline):
                 f'<p class="bd-read">{esc(g.get("network"))} carries this game.</p>'
                 f'</section>')
     body = f"""<main class="wrap"><section class="page">
-    <h1 class="lx-h1" style="margin-bottom:6px">{esc(away.get("name") or "")} at
-     {esc(home.get("name") or "")}</h1>
+    <h1 class="lx-h1" style="margin-bottom:6px">{esc(_team_label(g, away))} at
+     {esc(_team_label(g, home))}</h1>
   {head}
   {_game_wx_block(g, wx)}
   {inact_block}
@@ -8177,7 +8226,10 @@ def render_game_page(g, points, board, wx, items, dateline):
   {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
                 "the league injury report")}
 </section></main>"""
-    return shell(f'{away.get("abbr")} at {home.get("abbr")} - {NAME}',
+    # N-1: the title names the teams the way the page does. "DET at BUF" in a browser
+    # tab, a bookmark and a search result was the only place on this site a reader met
+    # the initials with no card around them to decode them.
+    return shell(f'{_team_label(g, away)} at {_team_label(g, home)} - {NAME}',
                  f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
                  f'leaders and kickoff weather. Facts, not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',

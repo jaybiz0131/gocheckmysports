@@ -579,6 +579,63 @@ def layer1_canary():
                "S-budget canary: the late block names a game without requiring exactly "
                "one match, so an ambiguous team gets an opponent picked for it")
 
+    # N-1: ONE NAME FOR A TEAM, EVERYWHERE THE SITE NAMES ONE.
+    #
+    # Seven surfaces, six spellings, one team. The pro cards printed the location alone,
+    # so "Los Angeles 14" sat over "Los Angeles 26" in one column on a Sunday and
+    # neither line said which Los Angeles. The standings were the only surface that had
+    # it right, so the whole site prints what they print.
+    _fx = [
+        ({"full": "New York Giants", "abbr": "NYG"}, "New York Giants"),
+        ({"full": "New York Jets", "abbr": "NYJ"}, "New York Jets"),
+        ({"full": "Los Angeles Rams", "abbr": "LAR"}, "Los Angeles Rams"),
+        ({"full": "Los Angeles Chargers", "abbr": "LAC"}, "Los Angeles Chargers"),
+        ({"full": "Miami Dolphins", "abbr": "MIA"}, "Miami Dolphins"),
+        ({"full": "Miami Hurricanes", "abbr": "MIA"}, "Miami Hurricanes"),
+        ({"full": "Athletics", "abbr": "ATH"}, "Athletics"),
+        ({"full": "AFC Bournemouth", "abbr": "BOU"}, "AFC Bournemouth"),
+        ({"full": "Central Michigan Chippewas", "abbr": "CMU"},
+         "Central Michigan Chippewas"),
+    ]
+    for _t, _want in _fx:
+        _got = _sb._team_label({"league": "NFL"}, _t)
+        _check(_got == _want, fails,
+               f"N-1 canary: the label for {_t['abbr']} is {_got!r}, not {_want!r}")
+    # The two Los Angeles teams and the two Miamis must not collide, which is the whole
+    # reason the location alone was not a name.
+    _labels = [_sb._team_label({"league": "NFL"}, t) for t, _ in _fx]
+    _check(len(set(_labels)) == len(_labels), fails,
+           "N-1 canary: two teams in the fixture share a label")
+    # A row with no displayName still gets a name, and the mascot is inside it.
+    _check(_sb._team_label({"league": "CFB"},
+                           {"school": "Miami", "mascot": "Hurricanes", "abbr": "MIA"})
+           == "Miami Hurricanes", fails,
+           "N-1 canary: a feed row without displayName lost its mascot")
+    # THE MASCOT TAIL IS GONE, because the name carries it.
+    _check(_sb._team_mascot({"league": "CFB"},
+                            {"mascot": "Hurricanes", "school": "Miami"}) == "", fails,
+           "N-1 canary: the compact card still prints a mascot beside a name that "
+           "already contains it")
+    # Long names are marked for the stylesheet rather than truncated.
+    _check(_sb._tk_long({"league": "CFB"}, {"full": "Central Michigan Chippewas"}), fails,
+           "N-1 canary: a 26-character name is not marked long")
+    _check(not _sb._tk_long({"league": "NFL"}, {"full": "Miami Dolphins"}), fails,
+           "N-1 canary: a short name is marked long, so every name steps down to fit "
+           "the longest one")
+    # AND THE BUILT SITE CARRIES NO BARE CITY as a team-name element.
+    import re as _re_n1
+    _bare = 0
+    for _root, _d, _fs in os.walk(_sb.PUBLISH):
+        for _f in _fs:
+            if not _f.endswith(".html"):
+                continue
+            _h = open(os.path.join(_root, _f), encoding="utf-8",
+                      errors="ignore").read()
+            _bare += len(_re_n1.findall(r">\s*(?:New York|Los Angeles)\s*<", _h))
+    _check(_bare == 0, fails,
+           f"N-1 canary: {_bare} element(s) on the built site are a bare city, which "
+           f"names neither of the two teams that share it")
+
     # N-2: TODAY IS A DATE, NOT EVERY CARD ON THE PAGE.
     #
     # The band held 31 cards on a Monday and said "31 games today" over an All tab the

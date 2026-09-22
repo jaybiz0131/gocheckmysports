@@ -2419,6 +2419,24 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   color:rgba(255,255,255,.78);flex:none}
 /* The joined line named both teams again, in the order they already appear in. */
 .sb-grid.tk-panel > .tk-c .tk-rec[data-role="rec"]{display:none}
+
+/* N-1, LENGTH. "Central Michigan Chippewas" is 26 characters and a phone card is 331px
+   wide. A name WRAPS rather than truncating: a team cut off mid-word is the
+   abbreviation problem again with an ellipsis on the end, which is what the round badge
+   and the mini strip are for. The card steps its name down one size when the name is
+   long, which the build marks, because stepping every name down to fit the longest one
+   punishes "Miami Dolphins" for the existence of the Chippewas. */
+.tk-nm{white-space:normal;overflow-wrap:anywhere}
+.sb-grid.tk-panel > .tk-c .tk-nm{font-size:20px}
+.sb-grid.tk-panel > .tk-c [data-long] .tk-nm,
+.sb-grid.tk-panel > .tk-c .tk-nm[data-long]{font-size:17px;line-height:1.1}
+@media (max-width:640px){
+  .sb-grid.tk-panel > .tk-c .tk-nm{font-size:16px}
+  .sb-grid.tk-panel > .tk-c [data-long] .tk-nm,
+  .sb-grid.tk-panel > .tk-c .tk-nm[data-long]{font-size:14px;line-height:1.1}
+}
+/* The rank badge stays in front of the name, and never wraps away from it. */
+.tk-side .rk{flex:none}
 @media (max-width:640px){
   .sb-grid.tk-panel > .tk-c .tk-stub{padding:16px}
   .sb-grid.tk-panel > .tk-c .tk-num{gap:8px}
@@ -2429,9 +2447,14 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
   .sb-grid.tk-panel > .tk-c .tk-sc{font-size:44px}
   .sb-grid.tk-panel > .tk-c .tk-trec{font-size:11px}
 }
-/* Outside the marquee the names still run inline and the joined line is the record, so
-   the per-team copy stays off. One record per team per card, never both. */
-.tk-trec{display:none}
+/* N-1: THE RECORD FOLLOWS THE NAME, EVERYWHERE, IN ONE STYLE. It used to ride with the
+   team only in the marquee, and every other surface printed a joined line underneath,
+   "Lions 1-1 &middot; Bills 2-0", which names both teams a second time in the order
+   they already appear in and in a different voice from the names above it. One record
+   per team, after the team, in the mono. The joined line is off on every card. */
+.tk-trec{display:block;font-family:var(--mono);font-size:12px;
+  color:rgba(255,255,255,.78)}
+.tk-rec[data-role="rec"]{display:none}
 .tk-nm,.tk-sc{display:inline}
 .tk-num-chips .tk-sc{margin-left:.28em;font-variant-numeric:tabular-nums}
 

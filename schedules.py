@@ -101,7 +101,9 @@ def _event(ev, abbr):
            "home": (us.get("homeAway") == "home"),
            "opp": (them.get("team") or {}).get("abbreviation") or "",
            "opp_name": (them.get("team") or {}).get("shortDisplayName")
-                       or (them.get("team") or {}).get("name") or ""}
+                       or (them.get("team") or {}).get("name") or "",
+           # N-1: the opponent's full name, the same field the scoreboard takes.
+           "opp_full": (them.get("team") or {}).get("displayName") or ""}
     net = ((comp.get("broadcasts") or [{}])[0].get("names") or [])
     if net:
         out["network"] = net[0]
