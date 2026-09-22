@@ -579,6 +579,63 @@ def layer1_canary():
                "S-budget canary: the late block names a game without requiring exactly "
                "one match, so an ambiguous team gets an opponent picked for it")
 
+    # N-9: US SPELLING IN THE DESK'S OWN PROSE, AND NEVER IN A QUOTATION.
+    #
+    # The desk writes for an American audience and its own sentences carried programme,
+    # licence, travelling, defence and cancelled. The fixture is those five words.
+    _fx9 = "The programme was cancelled while travelling; their defence had a licence."
+    _got9 = _sb.us_spelling(_fx9)
+    for _w in ("programme", "cancelled", "travelling", "defence", "licence"):
+        _check(_w not in _got9, fails,
+               f"N-9 canary: {_w!r} survived the US-spelling pass: {_got9!r}")
+    # A QUOTATION IS NOT THE DESK'S TO RESTYLE. This is the line destyle was ruled back
+    # from once; house style is the desk's own voice.
+    _q9 = 'He said \u201cthe programme was cancelled\u201d and left.'
+    _check(_sb.us_spelling(_q9) == _q9, fails,
+           f"N-9 canary: a quotation was restyled, which changes what a named person is "
+           f"quoted as saying: {_sb.us_spelling(_q9)!r}")
+    # And the mixed case: desk prose either side of a quotation.
+    _m9 = 'Their defence held. \u201cOur defence was superb,\u201d he said.'
+    _o9 = _sb.us_spelling(_m9)
+    _check(_o9.startswith("Their defense held."), fails,
+           f"N-9 canary: prose before a quotation was not corrected: {_o9!r}")
+    _check("\u201cOur defence was superb,\u201d" in _o9, fails,
+           f"N-9 canary: the quotation was corrected: {_o9!r}")
+
+    # The desk's own chrome carries neither the doubled word nor the British spelling.
+    for _pg9 in ("about.html", "method.html", "standards.html"):
+        _fp9 = os.path.join(_sb.PUBLISH, _pg9)
+        if not os.path.exists(_fp9):
+            continue
+        _t9 = re.sub(r"<[^>]+>", " ",
+                     open(_fp9, encoding="utf-8", errors="ignore").read())
+        _check(not re.search(r"\b(the|a|of|and)\s+\1\b", _t9, re.I), fails,
+               f"N-9 canary: {_pg9} repeats a word")
+        _check(not re.search(r"\blabelled\b", _t9, re.I), fails,
+               f"N-9 canary: {_pg9} still says 'labelled'")
+
+    # N-8: a column that is blank on every row is broken or should not exist.
+    import glob as _g9
+    _tp = sorted(_g9.glob(os.path.join(_sb.PUBLISH, "teams", "*.html")))
+    if _tp:
+        _th = open(_tp[0], encoding="utf-8", errors="ignore").read()
+        # EVERY UNPLAYED FIXTURE SAYS SOMETHING. Checking that the page contains a
+        # carrier ANYWHERE passes on a table with one filled row and sixteen blank
+        # ones, which is the bug with one exception. Each future row carries either a
+        # named carrier or the reason there is not one yet.
+        _future = re.findall(r'<td class="tm-r">(?!.*tm-res)(.*?)</td>\s*'
+                             r'<td class="tm-n">(.*?)</td>', _th, re.S)
+        # A BYE IS NOT A FIXTURE. It has no opponent and no broadcast, and its empty
+        # cell is the correct answer rather than a missing one.
+        _blank = [t for r, t in _future
+                  if "tm-time" in r and ">Bye<" not in r and not t.strip()]
+        _check(not _blank, fails,
+               f"N-8 canary: {len(_blank)} fixture row(s) have an empty TV cell, which "
+               f"reads as broken rather than as pending")
+        _check("tm-full" in _th and "tm-abbr" in _th, fails,
+               "N-8 canary: the schedule names the opponent only one way; the full name "
+               "belongs at desktop and the abbreviation under 600px")
+
     # N-4, N-5, N-6: three small things, each of which was telling a reader something
     # untrue about the page.
     _css_p = os.path.join(_sb.ASSETS, "site.css")

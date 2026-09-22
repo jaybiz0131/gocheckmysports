@@ -788,6 +788,67 @@ def destyle(text):
     return _clean(s)
 
 
+# N-9: US SPELLING IN THE DESK'S OWN PROSE.
+#
+# The desk writes for an American audience and its own sentences carried "programme",
+# "licence", "travelling", "defence" and "cancelled". The fix belongs at the writer, so
+# it rides with the house-style pass that already runs on every new item.
+#
+# NEVER INSIDE A QUOTATION. This is the line destyle was ruled back from once already:
+# house style is the desk's own voice and a source's words are not the desk's to
+# restyle. A quoted sentence keeps whatever spelling the person used.
+#
+# The archive is untouched. This runs on items as they are ingested, not on what is
+# already published, because rewriting a published sentence is a correction and
+# corrections are a decision, not a sweep.
+_US_SPELLING = [
+    (re.compile(r"\bprogramme(s?)\b"), r"program\1"),
+    (re.compile(r"\blicence(s?)\b"), r"license\1"),
+    (re.compile(r"\btravelling\b"), "traveling"),
+    (re.compile(r"\btravelled\b"), "traveled"),
+    (re.compile(r"\bdefence\b"), "defense"),
+    (re.compile(r"\boffence\b"), "offense"),
+    (re.compile(r"\bcancelled\b"), "canceled"),
+    (re.compile(r"\bcancelling\b"), "canceling"),
+    (re.compile(r"\blabelled\b"), "labeled"),
+    (re.compile(r"\bcentre(s?)\b"), r"center\1"),
+]
+
+_QUOTED = re.compile(r"[\u201c\u201d\"][^\u201c\u201d\"]*[\u201c\u201d\"]")
+
+
+def us_spelling(text):
+    """Rewrite the desk's own spellings, leaving anything inside quotation marks."""
+    if not text or not isinstance(text, str):
+        return text
+    spans = [(m.start(), m.end()) for m in _QUOTED.finditer(text)]
+
+    def _inside(i):
+        return any(a <= i < b for a, b in spans)
+
+    out, last = [], 0
+    for rx, rep in _US_SPELLING:
+        pass
+    # One pass over the string, rebuilding it, so a replacement cannot shift the
+    # quotation spans measured above.
+    result = []
+    i = 0
+    while i < len(text):
+        if _inside(i):
+            # copy the whole quotation verbatim
+            end = next(b for a, b in spans if a <= i < b)
+            result.append(text[i:end])
+            i = end
+            continue
+        nxt = min(([a for a, _b in spans if a > i] or [len(text)]))
+        chunk = text[i:nxt]
+        for rx, rep in _US_SPELLING:
+            chunk = rx.sub(rep, chunk)
+        result.append(chunk)
+        i = nxt
+    return "".join(result)
+
+
 _DESTYLE_SKIP = {"url", "href", "link", "slug", "id", "image", "src", "canonical",
                  "published_utc", "date", "event_utc"}
 
@@ -805,13 +866,13 @@ def _destyle_item(obj):
             if k in _DESTYLE_SKIP:
                 continue
             if isinstance(v, str):
-                obj[k] = destyle(v)
+                obj[k] = us_spelling(destyle(v))
             else:
                 _destyle_item(v)
     elif isinstance(obj, list):
         for i, v in enumerate(obj):
             if isinstance(v, str):
-                obj[i] = destyle(v)
+                obj[i] = us_spelling(destyle(v))
             else:
                 _destyle_item(v)
 
@@ -1049,7 +1110,7 @@ def load_content():
             # found were all in this set. Normalising at load covers both.
             _destyle_item(c)
             # Derived, not stored, so stories published before the flag existed are
-            # labelled too. Editions are excluded: a daily wrap cites the day's stories and
+            # labeled too. Editions are excluded: a daily wrap cites the day's stories and
             # is not a single-outlet claim.
             if "developing" not in c:
                 c["developing"] = ((not _is_wrap(c)) and len(c.get("sources") or []) < 2
@@ -3193,7 +3254,7 @@ def render_news_month(month, rows, dateline):
 # person's own state, because there is no per-person state on this site to carry.
 
 TAB_BAR = [
-    # N-1: HOME IS FIRST, and it is named Home. The first tab was labelled Scores and
+    # N-1: HOME IS FIRST, and it is named Home. The first tab was labeled Scores and
     # pointed at /index.html, so the tab bar had no way back to the front page and the
     # scoreboard's own page was not reachable from it at all.
     ("Home", "/index.html",
@@ -6385,6 +6446,30 @@ def _team_stories(full_name, nickname, items, n=6):
     return [i for i in out if _claim(i.get("slug"))][:n]
 
 
+_W2W_CARRIERS = None
+
+
+def _w2w_carrier(game_id):
+    """N-8: the carrier for one fixture, from where-to-watch, keyed on the game id.
+
+    National first, because that is the answer for most readers and the only one a
+    schedule table has room for. Cached: the table asks once per row and the file is the
+    same for all of them.
+    """
+    global _W2W_CARRIERS
+    if _W2W_CARRIERS is None:
+        _W2W_CARRIERS = {}
+        for _wk in ((W2W_DATA or {}).get("weeks") or []):
+            for _g in (_wk.get("games") or []):
+                cars = _g.get("carriers") or []
+                nat = next((c for c in cars
+                            if str(c.get("market") or "").lower() == "national"), None)
+                pick = nat or (cars[0] if cars else None)
+                if _g.get("id") and pick and pick.get("name"):
+                    _W2W_CARRIERS[str(_g["id"])] = pick["name"]
+    return _W2W_CARRIERS.get(str(game_id or ""), "")
+
+
 def _team_row(e, colors):
     """One fixture from this team's side. A score renders only when the game is over:
     a scheduled game has no result, and a 0 standing in for one would be a reading the
@@ -6413,13 +6498,33 @@ def _team_row(e, colors):
         # timeValid, and believing it printed "12:00 AM ET" against Week 18.
         res = (f'<span class="tm-time">{_et_clock(dt)}</span>' if e.get("time_set", True)
                else '<span class="tm-time">Time TBA</span>')
-    net = (f'<span class="tm-net">{esc(e["network"])}</span>'
-           if e.get("network") and not e.get("result") else "")
+    # N-8: THE TV COLUMN WAS EMPTY ON EVERY ROW. The schedule feed carries a network
+    # on some fixtures and not others, and the where-to-watch file carries carriers for
+    # all thirty-two, keyed on the same game id. A column that is blank on every row is
+    # either a column that should be filled or a column that should go; this one can be
+    # filled from a file the desk already builds.
+    net_name = (e.get("network") or "").strip()
+    if not net_name:
+        net_name = _w2w_carrier(e.get("id"))
+    # A BLANK CELL DOES NOT SAY WHY IT IS BLANK. where-to-watch carries the current
+    # week only, so sixteen of a season's seventeen rows have no carrier yet and the
+    # column read as broken rather than as pending. A fixture still to come says so in
+    # the desk's own words; a game already played needs no carrier at all.
+    if e.get("result"):
+        net = ""
+    elif net_name:
+        net = f'<span class="tm-net">{esc(net_name)}</span>'
+    else:
+        net = '<span class="bd-src tm-tba">not announced</span>'
     wk = e.get("week")
     return (f'<tr><td class="tm-wk">{esc(str(wk)) if wk else ""}</td>'
             f'<td class="tm-dt">{esc(when)}</td>'
+            # N-1's exception: the full name at desktop, the abbreviation under 600px,
+            # where three letters are what fits in a five-column table.
             f'<td class="tm-opp"><span class="tm-at">{at}</span>'
-            f'<a href="/teams/{opp.lower()}.html">{opp}</a></td>'
+            f'<a href="/teams/{opp.lower()}.html">'
+            f'<span class="tm-full">{esc(e.get("opp_full") or opp)}</span>'
+            f'<span class="tm-abbr">{opp}</span></a></td>'
             f'<td class="tm-r">{res}</td><td class="tm-n">{net}</td></tr>')
 
 
@@ -9281,7 +9386,7 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
         for i in rest)
     all_href = f"#{esc(slug)}" if page else f"/keepers.html#{esc(slug)}"
     # S3: a lane with a living table leads its read-further list with it. The table is
-    # the standing version of everything below it, so it goes first and is labelled as
+    # the standing version of everything below it, so it goes first and is labeled as
     # what it is.
     _lt = next((t for t in LIVING_TABLES if t.get("lane") == slug), None)
     if _lt and _lt["slug"] in (tables or set()):
@@ -9902,7 +10007,7 @@ def render_method(items, dateline):
     <li><b>A second look before publication.</b> Stories are checked against the sources they
         cite, by a pass separate from the one that assembled them. Work that does not hold up
         is held back or dropped rather than smoothed over.</li>
-    <li><b>Reports stay reports.</b> An unconfirmed signing, trade or injury is labelled as a
+    <li><b>Reports stay reports.</b> An unconfirmed signing, trade or injury is labeled as a
         report and attributed to whoever reported it.</li>
     <li><b>One event, one story.</b> The same news carried by many outlets is treated as one
         story, so a loud story does not look like ten of them.</li>
@@ -9970,7 +10075,7 @@ def render_about(dateline):
   <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>.
      Sponsorship never buys coverage; see <a href="/method.html">how we work</a>.</p>
 
-  <div class="callout"><b>Read next:</b> <a href="/method.html">How we work</a>, the
+  <div class="callout"><b>Read next:</b> <a href="/method.html">How we work</a>, and
     the standards every story has to clear. Or <a href="/standards.html">our standards and
     corrections policy</a>.</div>
   <p class="nfa">{esc(NFA)}</p>
@@ -9989,11 +10094,11 @@ def render_standards(dateline):
   <h2>Sourcing</h2>
   <p>Stories link the sources they draw on. We give more weight to official data such as
      league results, schedules and on-record club statements than to commentary about them,
-     and a claim resting on a single weak source is labelled as unconfirmed or left out.</p>
+     and a claim resting on a single weak source is labeled as unconfirmed or left out.</p>
 
   <h2>Verification</h2>
   <p>Stories are checked against the sources they cite by a pass separate from the one that
-     assembled them. Work that does not hold up is labelled clearly for the reader or held
+     assembled them. Work that does not hold up is labeled clearly for the reader or held
      back. We would rather be slow than wrong.</p>
 
   <h2>Lines</h2>

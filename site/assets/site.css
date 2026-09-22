@@ -2680,3 +2680,12 @@ table.ls .ls-t{font-weight:700;color:#fff;
   .mine-x{min-width:40px;min-height:40px}
   .mine-nm{font-size:13.5px}
 }
+
+
+/* N-8: the opponent's full name at desktop, its abbreviation under 600px. This is the
+   exception N-1 names: a five-column table on a phone has room for three letters. */
+.tm-abbr{display:none}
+@media (max-width:600px){
+  .tm-full{display:none}
+  .tm-abbr{display:inline}
+}
