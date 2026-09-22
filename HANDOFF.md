@@ -259,34 +259,26 @@ pass the whole test in production. One preview per branch from tomorrow.
 
 ---
 
-# U-8: a push is verified by hash, not by exit code
+# U-8: see "Standing rules, all desks" below
 
-**22 September 2026.** A `git push` returned exit 0 while a rebase was still in
-progress. The local branch was sitting on origin's own tip, so the push was a no-op:
-nothing of the desk's work landed, and the exit code said it had.
-
-Nothing was damaged, and that is the point. The exit code was true and useless.
-
-**After every push, fetch and compare the hashes.** Both go in the handoff, for every
-push of the day:
-
-```sh
-git push origin main
-git fetch -q origin
-git rev-parse --short HEAD          # what the desk believes it pushed
-git rev-parse --short origin/main   # what is actually there
-git rev-list --count origin/main..HEAD   # must be 0
-```
-
-A push is done when those two hashes match and the count is zero. Not before.
+The rule and its commands are in the U-8 entry of the standing-rules block, so that
+there is one copy of it and not two that can drift apart. What follows is the day's
+record of pushes, which is what this section is now for.
 
 ## Pushes on 22 September
 
-| repo | local HEAD | origin/main | ahead |
-|---|---|---|---|
-| gocheckmysports | `a6e24d9` | `a6e24d9` | 0 |
-| gocheckmycrypto | `453427b` | `453427b` | 0 |
-| gcm-newsroom | the `sp` commit, on main | matched | 0 |
+Every push of the day, with both hashes, per U-8. A commit cannot carry its own hash, so
+the last push of a session is verified at the terminal and its hash is recorded here by
+the session that follows.
+
+| # | repo | local HEAD | origin/main | ahead | what it carried |
+|---|---|---|---|---|---|
+| 1 | gocheckmysports | `a6e24d9` | `a6e24d9` | 0 | the day's engine work |
+| 2 | gocheckmycrypto | `453427b` | `453427b` | 0 | the leverage belt, rewritten |
+| 3 | gcm-newsroom | the `sp` commit, on main | matched | 0 | `sp` handling only |
+| 4 | gocheckmysports | `b0990b0` | `b0990b0` | 0 | the close |
+| 5 | gocheckmysports | `143528b` | `143528b` | 0 | U-9, U-7 written out |
+| 6 | gocheckmysports | verified at the terminal | matched | 0 | U-1 to U-9 in one block |
 
 ## Networks the feed abbreviates
 
@@ -305,50 +297,115 @@ Add to the map when a new shorthand appears on a card, not before.
 
 ---
 
-# Standing rules for this desk
+# Standing rules, all desks
 
-Three rules, each written after a specific failure. U-8 has its own section above with
-the commands; the other two are stated here in full.
+U-1 to U-9. A rule is issued once, numbered next in the sequence, and every desk records
+it in its own HANDOFF.md the same day, unchanged. A desk that finds a rule missing from
+its file says so in its report rather than cross-referencing a rule it cannot see.
+
+Two notes on provenance, so the block is not read as more settled than it is. U-1 to U-6
+were recorded on the Sports desk as clauses in a single paragraph of `docs/HANDOFF.md`
+section 2, "Laws in force", under the heading **U (usage)**; they are written out in full
+here for the first time, and the failure behind each was not recorded when it was issued,
+so none is claimed. U-7, U-8 and U-9 each name the failure that produced them, because it
+was written down the day it happened.
+
+## U-1: one session per sprint, and one handoff file
+
+One session per sprint. The desk's handoff is the only handoff: a session begins by
+reading it and this sprint's section, and everything the next session needs goes back
+into it. No second file, no parallel notes.
+
+## U-2: model by kind of work
+
+Sonnet subagents for mechanical work. Opus for design and engine work.
+
+## U-3: batch, never poll
+
+Never wait on a build or a workflow from inside a session. Dispatch it and read the
+result in a later pass.
+
+## U-4: the key is for scheduled runs only
+
+The desk's API key is for its scheduled runs. No local model calls, no test briefs, and
+no spending dispatch other than the agreed Edition backstop. Every call appears in
+`ledger.json`.
+
+## U-5: report format
+
+Findings are reported as a table, one row per item, each row naming what was read and
+what came of it, so a reader can tell a thing that was checked from a thing that was
+assumed. The four-checkpoint table in `CHECKPOINTS-2026-09-20.md` and the difference
+table it refers to are the worked examples. Recorded only as the words "report format",
+so the form above is drawn from the two places the rule is used, not from a written
+definition.
+
+## U-6: no re-derivation
+
+Do not re-derive state the handoff already carries. Open the file named for the item and
+the board named for it. Where a board and a rule disagree, ask in one line rather than
+choosing.
 
 ## U-7: a headless browser is closed in a `finally` block
 
-Every measurement harness spawns Chrome. A harness that throws between spawn and kill
-leaves the process alive, and a session that measures forty times leaves forty of them.
-The kill goes in a `finally`, not on the happy path.
+**Issued to the Pet desk, 22 September 2026.** Every measurement harness spawns Chrome. A
+harness that throws between spawn and kill leaves the process alive, and a session that
+measures forty times leaves forty of them. The kill goes in a `finally`, not on the happy
+path.
 
-`gcm-tools/harness/measure.mjs` is the desk's harness and lives in the repo rather than
-in `/tmp`, because `/tmp` is cleared between sessions and the harnesses were rewritten
-from memory three times before that file existed.
+`gcm-tools/harness/measure.mjs` is the shared harness and lives in the repo rather than in
+`/tmp`, because `/tmp` is cleared between sessions and the harnesses were rewritten from
+memory three times before that file existed.
 
 ## U-8: a push is verified by hash, not by exit code
 
-See the section above for the command sequence. A push returned exit 0 while a rebase
-was in progress, against a branch sitting on origin's own tip: the push was a no-op and
-the exit code said it had worked. Both hashes go in the handoff for every push.
+**22 September 2026.** A `git push` returned exit 0 while a rebase was still in progress.
+The local branch was sitting on origin's own tip, so the push was a no-op: nothing of the
+desk's work landed, and the exit code said it had. Nothing was damaged, and that is the
+point. The exit code was true and useless.
+
+After every push, fetch and compare the hashes. Both go in the handoff, for every push of
+the day:
+
+```sh
+git push origin main
+git fetch -q origin
+git rev-parse --short HEAD                # what the desk believes it pushed
+git rev-parse --short origin/main         # what is actually there
+git rev-list --count origin/main..HEAD    # must be 0
+```
+
+A push is done when the two hashes match and the count is zero. Not before.
 
 ## U-9: a new test is not trusted until it has been seen to fail
 
-**22 September 2026.** The recurring failure of this session was not in the code. It was
+**22 September 2026.** The recurring failure of that session was not in the code. It was
 checks that passed by not running:
 
-- a canary guarded on `TEAM_DATA` being loaded, which the canary never loads, so the
-  whole block was skipped in silence;
+- a canary guarded on `TEAM_DATA` being loaded, which the canary never loads, so the whole
+  block was skipped in silence;
 - an assertion matching `data-mine`, a string the script contains as well as the markup,
   so deleting the markup left it green;
-- a comparison asking whether `max(spark + [price]) < price`, which cannot be true
-  because the price is in its own input;
+- a comparison asking whether `max(spark + [price]) < price`, which cannot be true because
+  the price is in its own input;
 - a fixture whose periods summed to exactly the score, so a total computed by adding the
   cells passed a test written to stop exactly that;
-- an assertion on a belt's WORDING that failed when the message improved, over a
-  sentence the belt was catching correctly.
+- an assertion on a belt's wording that failed when the message improved, over a sentence
+  the belt was catching correctly.
 
 Each looked green. Each tested nothing.
 
 **Before a test is committed:** break the thing it guards on purpose, watch the test go
-red, restore it, watch it go green. **The report names the break used.** A test that
-cannot be made to fail is deleted, not kept.
+red, restore it, watch it go green. **The report names the break used.** A test that cannot
+be made to fail is deleted, not kept.
 
-The newsroom's own tests get the same treatment the next time one is touched.
+## Reading this block on another desk
+
+Three entries name things that are not on every desk. Keep the rule, substitute the
+particular: U-4's `ledger.json` is each desk's own ledger, and the Edition backstop is a
+Sports and Crypto arrangement that the Pet, Parents and Weather desks do not have. U-7's
+harness path is real and shared, under `gcm-tools/`. U-5's worked example is a Sports file;
+the format is what carries, not the filename.
 
 ---
 
