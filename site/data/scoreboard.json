@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-21T23:10:39Z",
+ "fetched_at": "2026-09-22T00:00:51Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1198,9 +1198,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Delayed, Top 1st",
+     "status_short": "Bot 2nd",
      "detail": "0:00",
-     "period": 1,
+     "period": 2,
      "start_utc": "2026-09-21T22:35Z",
      "network": "ESPN Unlmtd",
      "home": {
@@ -1209,9 +1209,12 @@
       "school": "Baltimore",
       "mascot": "Orioles",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "75-81",
-      "periods": [],
+      "periods": [
+       "1",
+       "0"
+      ],
       "id": "1",
       "color": "#df4601"
      },
@@ -1221,9 +1224,12 @@
       "school": "Toronto",
       "mascot": "Blue Jays",
       "rank": null,
-      "score": "0",
+      "score": "3",
       "record": "77-79",
-      "periods": [],
+      "periods": [
+       "3",
+       "0"
+      ],
       "id": "14",
       "color": "#134a8e"
      },
@@ -1231,7 +1237,7 @@
       {
        "cat": "",
        "name": "P. Alonso",
-       "line": "0-0",
+       "line": "1-1, HR, RBI, R",
        "team": "1"
       }
      ],
@@ -1250,9 +1256,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Bot 2nd",
+     "status_short": "Bot 5th",
      "detail": "0:00",
-     "period": 2,
+     "period": 5,
      "start_utc": "2026-09-21T22:40Z",
      "network": "MLB.TV",
      "home": {
@@ -1261,11 +1267,14 @@
       "school": "Detroit",
       "mascot": "Tigers",
       "rank": null,
-      "score": "2",
+      "score": "7",
       "record": "73-83",
       "periods": [
        "2",
-       "0"
+       "0",
+       "0",
+       "2",
+       "3"
       ],
       "id": "6",
       "color": "#0a2240"
@@ -1280,6 +1289,9 @@
       "record": "73-83",
       "periods": [
        "0",
+       "0",
+       "0",
+       "0",
        "0"
       ],
       "id": "20",
@@ -1288,8 +1300,8 @@
      "leaders": [
       {
        "cat": "",
-       "name": "H. Lee",
-       "line": "1-1, 2B, RBI, R",
+       "name": "B. Malgeri",
+       "line": "2-3, HR, 2B, 3 RBI, R",
        "team": "6"
       }
      ],
@@ -1985,7 +1997,7 @@
       "provider": "DraftKings",
       "detail": "UTAH -7.5",
       "spread": 7.5,
-      "total": 49.5,
+      "total": 48.5,
       "favorite": "away"
      }
     },
@@ -2864,8 +2876,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "18:48 - 1st",
-     "detail": "18:48",
+     "status_short": "End of 1st",
+     "detail": "0:00",
      "period": 1,
      "start_utc": "2026-09-21T23:00Z",
      "network": "ESPN+",
@@ -2875,10 +2887,10 @@
       "school": "Washington",
       "mascot": "Capitals",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "0-0-1",
       "periods": [
-       "0"
+       "2"
       ],
       "id": "23",
       "color": "#d71830"
@@ -2889,10 +2901,10 @@
       "school": "Philadelphia",
       "mascot": "Flyers",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "0-0-0",
       "periods": [
-       "0"
+       "1"
       ],
       "id": "15",
       "color": "#fe5823"
@@ -2903,7 +2915,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.020000000000000018,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Giant Center",
      "line": null
@@ -2913,9 +2925,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "19:25 - 1st",
-     "detail": "19:25",
-     "period": 1,
+     "status_short": "19:13 - 2nd",
+     "detail": "19:13",
+     "period": 2,
      "start_utc": "2026-09-21T23:00Z",
      "network": "",
      "home": {
@@ -2927,6 +2939,7 @@
       "score": "0",
       "record": "0-0-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "29",
@@ -2941,6 +2954,7 @@
       "score": "0",
       "record": "0-0-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "5",
@@ -2952,7 +2966,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.02,
+     "progress": 0.34638888888888886,
      "venue_indoor": true,
      "venue": "Nationwide Arena",
      "line": null
@@ -2962,8 +2976,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "18:44 - 1st",
-     "detail": "18:44",
+     "status_short": "End of 1st",
+     "detail": "0:00",
      "period": 1,
      "start_utc": "2026-09-21T23:00Z",
      "network": "ESPN+",
@@ -2973,10 +2987,10 @@
       "school": "Pittsburgh",
       "mascot": "Penguins",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "0-0-0",
       "periods": [
-       "0"
+       "1"
       ],
       "id": "16",
       "color": "#000000"
@@ -3001,7 +3015,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.02111111111111112,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "PPG Paints Arena",
      "line": null
@@ -3011,9 +3025,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "18:11 - 1st",
-     "detail": "18:11",
-     "period": 1,
+     "status_short": "19:59 - 2nd",
+     "detail": "19:59",
+     "period": 2,
      "start_utc": "2026-09-21T23:00Z",
      "network": "ESPN+",
      "home": {
@@ -3025,6 +3039,7 @@
       "score": "0",
       "record": "1-0-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "11",
@@ -3039,6 +3054,7 @@
       "score": "0",
       "record": "0-0-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "13",
@@ -3050,7 +3066,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.030277777777777775,
+     "progress": 0.33361111111111114,
      "venue_indoor": true,
      "venue": "Prudential Center",
      "line": null
@@ -3058,11 +3074,11 @@
     {
      "id": "401881921",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/21 - 7:00 PM EDT",
+     "status_short": "End of 1st",
      "detail": "0:00",
-     "period": 0,
+     "period": 1,
      "start_utc": "2026-09-21T23:00Z",
      "network": "NHL Net",
      "home": {
@@ -3071,9 +3087,11 @@
       "school": "Montreal",
       "mascot": "Canadiens",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "2-0-0",
-      "periods": [],
+      "periods": [
+       "1"
+      ],
       "id": "10",
       "color": "#c41230"
      },
@@ -3083,9 +3101,11 @@
       "school": "Ottawa",
       "mascot": "Senators",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "0-0-0",
-      "periods": [],
+      "periods": [
+       "1"
+      ],
       "id": "14",
       "color": "#dd1a32"
      },
@@ -3095,7 +3115,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Colisee Videotron",
      "line": null
