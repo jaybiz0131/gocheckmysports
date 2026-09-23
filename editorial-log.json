@@ -1,29 +1,6 @@
 [
  {
   "date": "2026-08-18",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c016",
-    "headline": "Patrick Vieira Appointed Senegal Head Coach After World Cup Exit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains a claim about Vieira's 'previous first spell as Real Madrid coach between 2010 and 2013, winning one LaLiga title and one Copa del Rey' in the data_points of the brief, but this claim does not appear in the draft body. More critically, this data_point appears nowhere in the draft, suggesting it may be a phantom claim in the brief itself or a factual error that was not caught before drafting. The draft makes no mention of Real Madrid in Vieira's managerial career, only: NYC (2016), Nice, Crystal Palace, Strasbourg, and Genoa. The brief lists this as a reported fact from BBC Sport, but it contradicts the known factual record of Vieira's career (he was never Real Madrid head coach). This is a significant accuracy problem that undermines the brief's reliability."
-    ]
-   },
-   {
-    "id": "c060",
-    "headline": "Premier League to publish referee and VAR decision verdicts for first time",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The expansion of RefCam will for the first time allow the broadcast of audio between the referee and the players' is not in the brief. The brief data_point says RefCam audio will include 'a referee's description of why they have given a decision, or the VAR's direct reasoning'\u2014it does not say this is the first time referee-to-player audio will be broadcast. The draft introduces a new factual claim ('for the first time') not sourced to the brief.",
-     "Sentence 'RefCam audio will be used one or two times in each round of fixtures and will be delayed rather than live' inverts the timeline from the brief. The brief says RefCam audio 'will be used in-game one or two times in each round of fixtures' and separately 'will not be live'; the draft suggests the delayed/non-live status is an alternative to live use, creating ambiguity about whether the in-game uses are delayed or live. The brief distinguishes these as separate facts."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
   "approved": 4,
   "rejected": [
    {
@@ -7723,6 +7700,39 @@
      "The draft reports the Giants' Week 2 loss to the Rams as occurring on 'Monday night, September 23' (stated as having already happened). Today is Tuesday, September 22, 2026. A game scheduled for September 23 cannot have already occurred. The draft violates the rule that scheduled future events must be written as upcoming, not past.",
      "The specific factual error: the lead sentence treats the Rams game as a completed event ('sustained a knee injury...after Week 2 loss to the Rams on Monday night, September 23') when September 23 is tomorrow, not a date in the past.",
      "This is an accuracy failure because it reports a future event as having already happened, which contradicts the research brief's timestamp of 2026-09-22 and misrepresents the temporal status of the game to readers."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-23",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c045",
+    "headline": "Giants' Jaxson Dart faces season-ending knee surgery after Week 2 injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'will undergo surgery' and 'undergoing surgery' as a completed or imminent action, but the brief's data point 20 indicates Dart 'is expected to undergo surgery' with confidence 'reported', not verified. The draft presents the surgery as definite when the brief shows it remains announced-not-verified. Additionally, the lead claims surgery has been undergone, but Harbaugh's quote in the brief explicitly states 'Evaluations are ongoing. We haven't got any final decisions yet,' contradicting the headline's certainty.",
+     "The draft reports 'Harbaugh confirmed the timeline following an MRI' as though a return-to-play timeline was confirmed, but the brief's data point 21 says 'Harbaugh said Wednesday that Dart would miss the rest of the regular season' without confirming surgical timing or recovery timeline. The Harbaugh quote provided in the brief does not confirm any specific timeline\u2014it defers decisions.",
+     "The draft states the injury happened 'at Fenway Park' but the brief does not specify the venue. This detail is not in the brief's data points."
+    ]
+   },
+   {
+    "id": "c245",
+    "headline": "Indiana's Daley and Wyatt win injunction to play despite NCAA rule",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the court ruling as having occurred on 'Wednesday' (today is Wednesday, 2026-09-23, making this present-tense reporting of an event that appears to have just happened). However, the injunction ruling is reported as a completed action with a past-tense narrative structure. More critically, the draft states Indiana defeated Western Kentucky 38-0 on 'September 20' (Saturday), which is three days in the past from today. The brief's timestamp is '2026-09-23' (today), and the data_point states the loss occurred after 'their temporary restraining order expired' following a hearing on 'Sept. 14.' The temporal placement is consistent, but the draft's reference to the court action on 'Wednesday' without clarifying whether this is the current day or a prior ruling creates ambiguity about when the injunction was granted relative to the September 20 game. The narrative treats the ruling as current-day news but the subsequent game (September 20) as past, which is internally consistent with today being September 23; however, no explicit date is given for when Judge Krothe issued the ruling, only 'Wednesday,' which could mislead readers about timing if the ruling was not on this Wednesday. The brief does not provide the specific date of the ruling, only the timestamp of the brief itself (2026-09-23), creating an accuracy gap: the draft attributes an action to 'Wednesday' without confirming from the source that the ruling occurred on 2026-09-23."
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "Bettman Says 'A Lot of Work to Do' Before NHL Expansion Decision in December",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Bettman spoke 'at the end of a Board of Governors meeting' on September 22, but the brief data point says he spoke 'on Tuesday' (September 22 is a Wednesday per today's date of September 23). The brief's timestamp shows 2026-09-22, but the draft's framing of 'said on September 22' followed by 'Speaking at the end of a Board of Governors meeting' without explicit day-of-week clarity creates a potential temporal inconsistency. More critically, the brief's data_point #3 says Bettman spoke 'at the end of a Board of Governors meeting on Tuesday'\u2014meaning the meeting occurred on Tuesday, September 21, not September 22. The draft incorrectly dates the statement to September 22 when it should be attributed to remarks made on or after a Tuesday meeting.",
+     "The draft includes information about revenue figures ($8.1 billion projected for 2026-27, $8 billion for 2025-26), Rogers Communications deal ($7.7 billion, 12-year English-language rights through 2037-38), local media evolution quote from Bettman, new U.S. TV negotiations for 2028, the 84-game schedule boost, Leonsis's quote about media rights as a priority, Bettman's age (74) and commissioner tenure (since early 1993), and Bettman's quote about stepping down\u2014none of which appear in the draft body. However, these are present in the brief's data_points but were not included in the draft. While omission is not smuggling, the draft also does not mention Jeremy Jacobs's quote ('it's well past time for me to pass the torch'), which is in the brief but missing from the draft. This is acceptable omission, but the draft's narrower scope means it is thinner than the brief allows."
     ]
    }
   ]
