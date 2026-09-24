@@ -399,6 +399,25 @@ Each looked green. Each tested nothing.
 red, restore it, watch it go green. **The report names the break used.** A test that cannot
 be made to fail is deleted, not kept.
 
+## U-10: a measurement counts only when the thing measured is the thing shipped
+
+**Issued on the Weather desk, Wednesday 23 September 2026,** after its fit tests were found
+measuring the system font instead of the shipped face. Every number they produced was real
+and about the wrong thing.
+
+A test that measures a font, a build or a file first proves it has the real one, and fails
+loudly on a stand-in rather than quietly measuring the substitute. For this desk that means
+three things:
+
+- a read of production names the stamp it read, and fails if that is not the deploy it
+  meant to be reading;
+- a screenshot comes from the preview or production URL named in the report, never from a
+  local build;
+- a harness number is taken on the deployed page, with its own fonts loaded.
+
+This is U-9's other half. U-9 asks whether a test can fail; U-10 asks whether it is looking
+at the shipped thing. A green test on a stand-in satisfies U-9 and still tells you nothing.
+
 ## Reading this block on another desk
 
 Three entries name things that are not on every desk. Keep the rule, substitute the
