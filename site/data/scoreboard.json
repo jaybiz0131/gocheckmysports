@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-24T23:01:07Z",
+ "fetched_at": "2026-09-24T23:05:43Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1545,12 +1545,12 @@
       "school": "Philadelphia",
       "mascot": "Phillies",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "87-71",
       "periods": [
        "0",
        "0",
-       "0"
+       "1"
       ],
       "id": "22",
       "color": "#e81828"
@@ -1575,9 +1575,9 @@
      "leaders": [
       {
        "cat": "",
-       "name": "S. Frelick",
-       "line": "1-1, 2B, RBI",
-       "team": "8"
+       "name": "B. Harper",
+       "line": "2-2, RBI",
+       "team": "22"
       }
      ],
      "situation": "",
@@ -1595,9 +1595,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Bot 1st",
+     "status_short": "Top 2nd",
      "detail": "0:00",
-     "period": 1,
+     "period": 2,
      "start_utc": "2026-09-24T22:45Z",
      "network": "MLB.TV",
      "home": {
@@ -1625,6 +1625,7 @@
       "score": "0",
       "record": "82-76",
       "periods": [
+       "0",
        "0"
       ],
       "id": "5",
@@ -1633,9 +1634,9 @@
      "leaders": [
       {
        "cat": "",
-       "name": "A. Rutschman",
+       "name": "A. Martinez",
        "line": "0-0",
-       "team": "2"
+       "team": "5"
       }
      ],
      "situation": "",
@@ -3989,11 +3990,11 @@
     {
      "id": "401857215",
      "league": "WNBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "9/24 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "8:19 - 1st",
+     "detail": "8:19",
+     "period": 1,
      "start_utc": "2026-09-24T23:00Z",
      "network": "NBA TV",
      "home": {
@@ -4003,9 +4004,11 @@
       "school": "Connecticut",
       "mascot": "Sun",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "10-33",
-      "periods": [],
+      "periods": [
+       "2"
+      ],
       "id": "18",
       "color": "#f05023"
      },
@@ -4016,9 +4019,11 @@
       "school": "Toronto",
       "mascot": "Tempo",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "11-32",
-      "periods": [],
+      "periods": [
+       "2"
+      ],
       "id": "131935",
       "color": "#33476D"
      },
@@ -4028,16 +4033,10 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.1113888888888889,
      "venue_indoor": true,
      "venue": "Mohegan Sun Arena",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "CON -3.5",
-      "spread": -3.5,
-      "total": 170.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401857216",
@@ -4088,7 +4087,7 @@
       "provider": "DraftKings",
       "detail": "WSH -13.5",
       "spread": -13.5,
-      "total": 168.5,
+      "total": 169.5,
       "favorite": "home"
      }
     },
