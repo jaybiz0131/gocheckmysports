@@ -1,13 +1,22 @@
 {
  "day": "2026-09-24",
  "first_poll": "2026-09-24T22:55:48Z",
- "last_change": "2026-09-24T22:55:48Z",
- "last_poll": "2026-09-24T22:56:21Z",
+ "last_change": "2026-09-24T23:00:57Z",
+ "last_poll": "2026-09-24T23:01:08Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
    "capped": true,
    "designations": {
+    "2972515": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Cooper Rush",
+     "pos": "QB",
+     "status": "Out"
+    },
     "3045527": {
      "changed_at": null,
      "detail": "Hamstring",
@@ -25,6 +34,42 @@
      "name": "Billy Bowman Jr.",
      "pos": "CB",
      "status": "Questionable"
+    },
+    "4575860": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4683194": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Ethan Onianwa",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5225251": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Malcolm DeWalt IV",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "5344782": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "1",
@@ -35,6 +80,15 @@
      "jersey": "",
      "name": "Cooper Rush",
      "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4575860": {
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "jersey": "",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
      "reason": "Coach's Decision",
      "via": "poll"
     },
@@ -53,6 +107,15 @@
      "jersey": "",
      "name": "Malcolm DeWalt IV",
      "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5344782": {
+     "feed_date": "2026-09-24T22:49Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "jersey": "",
+     "name": "Jack Strand",
+     "pos": "QB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -782,12 +845,30 @@
      "pos": "RB",
      "status": "Questionable"
     },
+    "4241478": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-09-24T22:45Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "DeVonta Smith",
+     "pos": "WR",
+     "status": "Questionable"
+    },
     "4429013": {
      "changed_at": null,
      "detail": "Abdomen",
      "feed_date": "2026-09-24T22:44Z",
      "first_seen": "2026-09-24T22:55:48Z",
      "name": "Tank Bigsby",
+     "pos": "RB",
+     "status": "Questionable"
+    },
+    "4431545": {
+     "changed_at": null,
+     "detail": "Foot",
+     "feed_date": "2026-09-24T22:45Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "name": "Will Shipley",
      "pos": "RB",
      "status": "Questionable"
     }
@@ -1527,7 +1608,7 @@
     "2576581": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-09-24T22:52Z",
+     "feed_date": "2026-09-24T22:49Z",
      "first_seen": "2026-09-24T22:55:48Z",
      "name": "Chris Moore",
      "pos": "WR",
@@ -1883,7 +1964,7 @@
     "4240435": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-09-22T18:32Z",
+     "feed_date": "2026-09-24T22:47Z",
      "first_seen": "2026-09-24T22:55:48Z",
      "name": "Zach Bako-Bewele",
      "pos": "OT",
@@ -1901,7 +1982,7 @@
     "4362249": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-09-23T20:13Z",
+     "feed_date": "2026-09-24T22:47Z",
      "first_seen": "2026-09-24T22:55:48Z",
      "name": "Jayden Reed",
      "pos": "WR",
@@ -1917,13 +1998,13 @@
      "status": "Out"
     },
     "4887255": {
-     "changed_at": null,
+     "changed_at": "2026-09-24T23:00:57Z",
      "detail": "Ankle",
-     "feed_date": "2026-09-22T01:07Z",
+     "feed_date": "2026-09-24T22:47Z",
      "first_seen": "2026-09-24T22:55:48Z",
      "name": "Anthony Campbell",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     }
    },
    "id": "9",
@@ -1937,6 +2018,24 @@
      "reason": "Knee",
      "via": "poll"
     },
+    "4242390": {
+     "feed_date": "2026-09-24T02:20Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "jersey": "",
+     "name": "Aaron Banks",
+     "pos": "G",
+     "reason": "Toe",
+     "via": "poll"
+    },
+    "4362249": {
+     "feed_date": "2026-09-24T22:47Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "jersey": "",
+     "name": "Jayden Reed",
+     "pos": "WR",
+     "reason": "Neck",
+     "via": "poll"
+    },
     "4429136": {
      "feed_date": "2026-09-24T02:15Z",
      "first_seen": "2026-09-24T22:55:48Z",
@@ -1944,6 +2043,15 @@
      "name": "Warren Brinson",
      "pos": "DT",
      "reason": "Calf",
+     "via": "poll"
+    },
+    "4887255": {
+     "feed_date": "2026-09-24T22:47Z",
+     "first_seen": "2026-09-24T23:00:57Z",
+     "jersey": "",
+     "name": "Anthony Campbell",
+     "pos": "DT",
+     "reason": "Ankle",
      "via": "poll"
     }
    },
