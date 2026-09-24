@@ -38,6 +38,49 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   Boston. Anything unmapped prints exactly as the feed gives it, which is the safe default.
   Add to the map when a new shorthand appears on a card, not before.
 
+## The Worker and the deploy counter (24 September 2026)
+
+**Deployed.** Jack ran `npx wrangler deploy` from `gcm-newsroom` main at `f75ce71` after a
+fast-forward pull. Binding `env.COUNTS` (KV namespace `00dc8942e97043c8b18b611e14805465`),
+schedule `*/5 * * * *` unchanged, version `f5bdae3d-77d9-48ce-ba07-fae8361c628f`. The webhook
+secret was set once with `wrangler secret put` and appears in no file, handoff or report.
+
+Read live at 5:46 PM ET: `/counts/today` answers `{"date":"2026-09-24","deploys":{},
+"clicks":{},"note":"KV counters are not atomic; ..."}` and the status path answers
+`token_ok: true`, `token_status: 200`, with both evening briefs in the schedule. Routes 2, 3
+and 4 confirmed in production on their rejection paths, which count nothing: `GET /hit/<key>`
+405, `POST /hit/other` 400 `unknown key`, `?sp=bird` 400 `bad species`, a foreign or absent
+Origin 403, `GET /go/other` 404, and the counters unchanged after all six.
+
+**The notification is called "HTTP POST request"** in Netlify's menu now, not "outgoing
+webhook". Recorded so the next person does not hunt for it. Five sites post to
+`/hooks/netlify-deploy` on **Deploy succeeded** and **Deploy failed**, JWS with the secret:
+Sports, Pet, Parents, Weather and Crypto.
+
+**The count of record** is the Worker's deploy counter from today (Jack's ruling, 1:55 PM),
+replacing the `gh` commit-statuses method, which reads nothing on these repositories: Netlify
+posts no status, no check and no deployment to GitHub here, so that method could not tell a
+build that ran from one that was skipped. The corrected U-11 text has not reached this desk
+yet and is not written in as a rule; this paragraph records the ruling, not the clause.
+
+**U-11's proof for Sports, read by Jack in the Netlify UI on 24 September 2026**, not a read
+of this desk's own: on the Deploys page, `028a973` (code) built at 4:51 PM, `75ecb4e` (the
+documents-only push) shows **Canceled** at 4:52 PM, and `1c1eeea` (the stamp) published at
+5:09 PM. So the ignore rule skipped the handoff push. **A skipped build appears as "Canceled"**,
+which is worth knowing before someone reads it as an error.
+
+**The stamp is live on both desks.** Every page carries the commit that built it and so does
+`/stamp.txt`. Asserted, not eyeballed:
+
+    python3 live_read.py https://gocheckmysports.com/ --expect-head
+
+Sports `1c1eeeae7d79af221a4a7baca7947586291b85fc`, built 21:10:26Z, which matches the 5:09 PM
+publish Jack read in the UI. Crypto `31880d817f8642e14f2147a5093d185908fab320`, built
+21:15:59Z. Both matched `origin/main` on 40 characters. Any live read that does not match must
+measure nothing.
+
+---
+
 # Standing rules, all desks
 
 **U-1 to U-11, issued 24 September 2026, 12:50 PM ET. This is the one text.** Every desk
