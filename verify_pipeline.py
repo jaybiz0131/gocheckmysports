@@ -531,6 +531,30 @@ def layer1_canary():
            "now builds, so the fix just switched the file off")
     _check(_ni.decide(["ledger.json"], _q)[0] is True, fails,
            "netlify ignore canary: an ops-ledger row now builds")
+    # U-11 (24 September 2026): a commit that changes nothing in the published tree does
+    # not build the site. Two handoff commits on 22 September each spent a production
+    # deploy on a file that changes no pixel.
+    for _d in ["HANDOFF.md", "docs/HANDOFF.md", "README.md", "netlify_ignore.py",
+               "shots/x.png", "docs/notes/a.md"]:
+        _check(_ni.decide([_d], _q)[0] is True, fails,
+               f"netlify ignore canary (U-11): {_d} built the site, and it cannot change "
+               f"a pixel of it")
+    _check(_ni.decide(["HANDOFF.md", "docs/a.md"], _q)[0] is True, fails,
+           "netlify ignore canary (U-11): a commit of nothing but documents built")
+    # AND THE OTHER HALF, which is the half that costs a reader if it is wrong: one real
+    # file among the documents must still build.
+    _check(_ni.decide(["HANDOFF.md", "site_build.py"], _q)[0] is False, fails,
+           "netlify ignore canary (U-11): the generator changed and the build was SKIPPED "
+           "because a handoff file was in the same commit")
+    _check(_ni.decide(["site_build.py"], _q)[0] is False, fails,
+           "netlify ignore canary (U-11): a generator change was skipped")
+    _check(_ni.decide(["site/publish/index.html"], _q)[0] is False, fails,
+           "netlify ignore canary (U-11): a published page changed and did not build")
+    _check(_ni.decide(["site/data/scoreboard.json"], _q)[0] is False, fails,
+           "netlify ignore canary (U-11): board data changed and did not build")
+    _check(_ni.is_doc("site/data/x.md") is False, fails,
+           "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
+           "treated as a document; it can be served")
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source

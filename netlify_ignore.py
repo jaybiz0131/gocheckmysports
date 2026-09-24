@@ -32,6 +32,35 @@ WINDOWS = [
 SKIPPABLE_PREFIXES = ("site/data/inactives/",)
 SKIPPABLE_FILES = ("ledger.json",)
 
+# U-11 (24 September 2026). A COMMIT THAT CHANGES NOTHING IN THE PUBLISHED TREE DOES NOT
+# BUILD THE SITE. The Pet and Parents desks each found handoff commits in their production
+# deploy lists, three builds apiece in one week with no site change behind them, and this
+# desk spent two on 22 September writing standing rules into HANDOFF.md.
+#
+# The list is a WHITELIST OF THINGS THAT CANNOT REACH THE SITE, not a guess. Every entry
+# was checked against the build: `command` in netlify.toml runs scores_pulse.py then
+# site_build.py, and neither reads a markdown file or anything under docs/. A path is added
+# here only after that check, because the cost of a wrong entry is a missed build, which is
+# the failure this file must not cause.
+DOC_PREFIXES = ("docs/", "shots/", "claims-reports/", "audit-report/")
+DOC_SUFFIXES = (".md",)
+# NOT the .md files: DOC_SUFFIXES already covers every one of them, and naming HANDOFF.md
+# here too was config that could not fail. The first U-9 break on this file removed it from
+# this tuple and the gate stayed green, which is how it was found.
+DOC_FILES = ("netlify_ignore.py", ".gitignore")
+
+
+def is_doc(p):
+    """True when a path cannot change a single pixel of the published site.
+
+    site_build.py is deliberately NOT here: it is the generator, and a change to it is the
+    most site-changing commit there is.
+    """
+    if p in DOC_FILES or p.startswith(DOC_PREFIXES):
+        return True
+    # A markdown file anywhere, EXCEPT under the published tree, where one could be served.
+    return p.endswith(DOC_SUFFIXES) and not p.startswith("site/")
+
 
 def in_posting_window(now=None):
     now = now or datetime.datetime.now(datetime.timezone.utc)
@@ -77,9 +106,13 @@ def decide(paths, now=None):
         return False, "no files changed, so this is a scheduled or hook build; the " \
                       "board refetches at build time and that is the point of it"
     unskippable = [p for p in paths
-                   if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES)]
+                   if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES
+                           or is_doc(p))]
     if unskippable:
         return False, f"{len(unskippable)} file(s) that change the site, e.g. {unskippable[0]}"
+    if all(is_doc(p) for p in paths):
+        return True, (f"{len(paths)} file(s), all outside the published tree "
+                      f"(U-11), e.g. {paths[0]}")
     # AN INACTIVES SNAPSHOT NEVER BUILDS THE SITE, in a window or out of one.
     #
     # This used to build inside a posting window on the grounds that the board IS the
