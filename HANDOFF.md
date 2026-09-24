@@ -299,132 +299,116 @@ Add to the map when a new shorthand appears on a card, not before.
 
 # Standing rules, all desks
 
-U-1 to U-9. A rule is issued once, numbered next in the sequence, and every desk records
-it in its own HANDOFF.md the same day, unchanged. A desk that finds a rule missing from
-its file says so in its report rather than cross-referencing a rule it cannot see.
+**U-1 to U-11, issued 24 September 2026, 12:50 PM ET. This is the one text.** Every desk
+(Pet, Parents, Weather, Sports and Crypto) writes it into its HANDOFF.md as the
+standing-rules section, replacing whatever set it holds, in one commit, and says so with
+the hash in its next report. A rule is issued once by Jack, numbered next in the sequence,
+and every desk records it the same day, unchanged. A desk that finds a rule missing from
+its file says so in its report rather than cross-referencing a rule it cannot see. Three
+entries name things that are not on every desk; keep the rule, substitute the particular.
 
-Two notes on provenance, so the block is not read as more settled than it is. U-1 to U-6
-were recorded on the Sports desk as clauses in a single paragraph of `docs/HANDOFF.md`
-section 2, "Laws in force", under the heading **U (usage)**; they are written out in full
-here for the first time, and the failure behind each was not recorded when it was issued,
-so none is claimed. U-7, U-8 and U-9 each name the failure that produced them, because it
-was written down the day it happened.
+## U-1. One session per sprint, one handoff file.
 
-## U-1: one session per sprint, and one handoff file
+The desk's HANDOFF.md, outside the published tree, is the only handoff: a session begins by
+reading it and the current program section, and everything the next session needs goes back
+into it at the end of every sprint and after every report. Under 300 lines, no tokens or
+keys of any kind, no second file, no parallel notes.
 
-One session per sprint. The desk's handoff is the only handoff: a session begins by
-reading it and this sprint's section, and everything the next session needs goes back
-into it. No second file, no parallel notes.
+## U-2. Model by kind of work.
 
-## U-2: model by kind of work
+Sonnet subagents for the mechanical items: greps and replacements, deletions, screenshots,
+harness runs, tallies and report assembly. Opus for design and engine work and for anything
+read and matched by eye.
 
-Sonnet subagents for mechanical work. Opus for design and engine work.
+## U-3. Batch, never poll.
 
-## U-3: batch, never poll
+One harness run per sprint plus one re-measure when a change lands; screenshots once per
+page per sprint; log and workflow checks once per report. Never wait on a Netlify build or a
+workflow run inside the session: note the commit, move to the next item, read the result at
+the next check.
 
-Never wait on a build or a workflow from inside a session. Dispatch it and read the
-result in a later pass.
+## U-4. The key is for scheduled runs only.
 
-## U-4: the key is for scheduled runs only
+A desk's model key is spent only by its scheduled runs: no local pipeline runs that call the
+model, no test briefs, no dry runs that reach the API, and no manual dispatch of a workflow
+that spends, other than the one agreed backstop where a desk has one. Every stage is tested
+on fixtures on its no-model path; a stage without one gets one before it is tested. Every
+model call appears in the desk's ledger; a spend that is not in the ledger is a leak and
+goes in the next report with its cause.
 
-The desk's API key is for its scheduled runs. No local model calls, no test briefs, and
-no spending dispatch other than the agreed Edition backstop. Every call appears in
-`ledger.json`.
+## U-5. Report form.
 
-## U-5: report format
+One line per item, no narrative, no adjectives: what merged, with both hashes; what was read
+live and the stamp it was read at; what the tests say, with each new test's break named; what
+is open; what is Jack's. Counts are printed as recorded, nothing rounded, nothing estimated,
+and a number that does not exist is said not to exist. When a decision is needed, one
+paragraph with the two options and the desk's recommendation.
 
-Findings are reported as a table, one row per item, each row naming what was read and
-what came of it, so a reader can tell a thing that was checked from a thing that was
-assumed. The four-checkpoint table in `CHECKPOINTS-2026-09-20.md` and the difference
-table it refers to are the worked examples. Recorded only as the words "report format",
-so the form above is drawn from the two places the rule is used, not from a written
-definition.
+## U-6. No re-derivation.
 
-## U-6: no re-derivation
+Do not re-read boards, packages or repositories to reconstruct state the handoff carries;
+open the file named for the item and the board named for it. Where a board and a rule
+disagree, ask in one line before inventing.
 
-Do not re-derive state the handoff already carries. Open the file named for the item and
-the board named for it. Where a board and a rule disagree, ask in one line rather than
-choosing.
+## U-7. A headless browser is closed in a finally block and launched with a timeout.
 
-## U-7: a headless browser is closed in a `finally` block
+Issued to the Pet desk, September 22, 2026, after fourteen headless Chromes from other
+sessions were found alive on the machine. A harness that throws between spawn and kill
+leaves the process alive, and a session that measures forty times leaves forty of them. The
+kill goes in a finally, not on the happy path, and the launch carries a timeout, so nothing
+outlives the read that started it. The shared harness is gcm-tools/harness/measure.mjs, in
+the repository rather than in /tmp, because /tmp is cleared between sessions and the harness
+was rewritten from memory three times before that file existed.
 
-**Issued to the Pet desk, 22 September 2026.** Every measurement harness spawns Chrome. A
-harness that throws between spawn and kill leaves the process alive, and a session that
-measures forty times leaves forty of them. The kill goes in a `finally`, not on the happy
-path.
+## U-8. A push is verified by hash, not by exit code.
 
-`gcm-tools/harness/measure.mjs` is the shared harness and lives in the repo rather than in
-`/tmp`, because `/tmp` is cleared between sessions and the harnesses were rewritten from
-memory three times before that file existed.
+September 22, 2026: a git push returned exit 0 while a rebase was still in progress; the
+local branch sat on origin's own tip, so the push was a no-op and nothing of the desk's work
+landed, and the exit code said it had. After every push, fetch and compare: git push origin
+main; git fetch -q origin; git rev-parse --short HEAD; git rev-parse --short origin/main; git
+rev-list --count origin/main..HEAD, which must be 0. A push is done when the two hashes match
+and the count is zero, and both hashes go in the handoff and the report for every push of the
+day, preview and merge.
 
-## U-8: a push is verified by hash, not by exit code
+## U-9. A new test is not trusted until it has been seen to fail.
 
-**22 September 2026.** A `git push` returned exit 0 while a rebase was still in progress.
-The local branch was sitting on origin's own tip, so the push was a no-op: nothing of the
-desk's work landed, and the exit code said it had. Nothing was damaged, and that is the
-point. The exit code was true and useless.
+September 22, 2026: the recurring failure of that session was checks that passed by not
+running: a canary guarded on data it never loads, so its whole block was skipped in silence;
+an assertion matching a string the script contains as well as the markup, so deleting the
+markup left it green; a comparison that cannot be true because its own input is on both
+sides; a fixture whose parts summed to exactly the total, so a test written to catch a summed
+total passed; an assertion on a message's wording that failed when the message improved. Each
+looked green and tested nothing. Before a test is committed: break the thing it guards on
+purpose, watch the test go red, restore it, watch it go green, and name the break in the
+report. A test that cannot be made to fail is deleted, not kept.
 
-After every push, fetch and compare the hashes. Both go in the handoff, for every push of
-the day:
+## U-10. A measurement counts only when the thing measured is the thing shipped.
 
-```sh
-git push origin main
-git fetch -q origin
-git rev-parse --short HEAD                # what the desk believes it pushed
-git rev-parse --short origin/main         # what is actually there
-git rev-list --count origin/main..HEAD    # must be 0
-```
+Issued on the Weather desk, September 23, 2026, after its fit tests were found measuring the
+system font instead of the shipped face: every number they produced was real and about the
+wrong thing. A test that measures a font, a build or a file first proves it has the real one
+and fails loudly on a stand-in rather than quietly measuring the substitute. For every desk:
+a read of production names the stamp it read and fails if that is not the deploy it meant; a
+screenshot comes from the preview or production URL named in the report, never from a local
+build; a harness number is taken on the deployed page with its own fonts loaded; a suite run
+after a new file is added regenerates the project first, so the binary under test is the tree
+under test; a fixture run against a stubbed model says so beside its result and never stands
+in for the live run the report asks for. This is U-9's other half: U-9 asks whether a test can
+fail, U-10 asks whether it is looking at the shipped thing.
 
-A push is done when the two hashes match and the count is zero. Not before.
+## U-11. A commit that changes nothing in the published tree does not build the site.
 
-## U-9: a new test is not trusted until it has been seen to fail
-
-**22 September 2026.** The recurring failure of that session was not in the code. It was
-checks that passed by not running:
-
-- a canary guarded on `TEAM_DATA` being loaded, which the canary never loads, so the whole
-  block was skipped in silence;
-- an assertion matching `data-mine`, a string the script contains as well as the markup,
-  so deleting the markup left it green;
-- a comparison asking whether `max(spark + [price]) < price`, which cannot be true because
-  the price is in its own input;
-- a fixture whose periods summed to exactly the score, so a total computed by adding the
-  cells passed a test written to stop exactly that;
-- an assertion on a belt's wording that failed when the message improved, over a sentence
-  the belt was catching correctly.
-
-Each looked green. Each tested nothing.
-
-**Before a test is committed:** break the thing it guards on purpose, watch the test go
-red, restore it, watch it go green. **The report names the break used.** A test that cannot
-be made to fail is deleted, not kept.
-
-## U-10: a measurement counts only when the thing measured is the thing shipped
-
-**Issued on the Weather desk, Wednesday 23 September 2026,** after its fit tests were found
-measuring the system font instead of the shipped face. Every number they produced was real
-and about the wrong thing.
-
-A test that measures a font, a build or a file first proves it has the real one, and fails
-loudly on a stand-in rather than quietly measuring the substitute. For this desk that means
-three things:
-
-- a read of production names the stamp it read, and fails if that is not the deploy it
-  meant to be reading;
-- a screenshot comes from the preview or production URL named in the report, never from a
-  local build;
-- a harness number is taken on the deployed page, with its own fonts loaded.
-
-This is U-9's other half. U-9 asks whether a test can fail; U-10 asks whether it is looking
-at the shipped thing. A green test on a stand-in satisfies U-9 and still tells you nothing.
-
-## Reading this block on another desk
-
-Three entries name things that are not on every desk. Keep the rule, substitute the
-particular: U-4's `ledger.json` is each desk's own ledger, and the Edition backstop is a
-Sports and Crypto arrangement that the Pet, Parents and Weather desks do not have. U-7's
-harness path is real and shared, under `gcm-tools/`. U-5's worked example is a Sports file;
-the format is what carries, not the filename.
+Issued September 24, 2026, after the Pet and Parents desks each found handoff and script
+commits in their production deploy lists: three builds on Pet and three on Parents this week
+with no site change behind them. A deploy changes what the site says; a number changing is
+never a deploy. netlify.toml carries an ignore rule so a commit touching only HANDOFF.md,
+docs/ or scripts outside the published tree does not build, proven once by pushing a handoff
+update after a merge and showing no build followed. Every page carries the build's stamp, the
+merge commit written by the build into one meta tag and /stamp.txt, and every live read
+asserts it before measuring. The day's deploy count is read from the Netlify commit statuses
+on GitHub through gh, never from a Netlify token, until the Worker's deploy counter is live,
+when that becomes the count of record; the method is printed once in the handoff and the
+count in every report.
 
 ---
 
