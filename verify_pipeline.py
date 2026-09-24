@@ -555,6 +555,44 @@ def layer1_canary():
     _check(_ni.is_doc("site/data/x.md") is False, fails,
            "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
            "treated as a document; it can be served")
+
+    # U-11's other half: the build stamp. Every page carries the commit that built it and
+    # /stamp.txt carries the same one, so a live read can name the deploy it is reading.
+    # Without this, on 24 September, a documents-only push could not be shown NOT to have
+    # rebuilt the site: Netlify posts no status to GitHub, so a skipped build and a paused
+    # site read identically.
+    import live_read as _lr
+    _sbm = _sb.BUILD_COMMIT
+    _check(_sbm and _sbm != "unknown", fails,
+           f"build stamp canary: the build cannot name its own commit ({_sbm!r}); every "
+           f"live read would then assert against 'unknown'")
+    _stamp_f = os.path.join(_sb.PUBLISH, "stamp.txt")
+    if os.path.exists(_stamp_f):
+        _stxt = open(_stamp_f, encoding="utf-8").read()
+        _check(_sbm in _stxt, fails,
+               "build stamp canary: /stamp.txt does not carry the commit the build used")
+        _pages = [f for f in ["index.html", "scores.html", "about.html"]
+                  if os.path.exists(os.path.join(_sb.PUBLISH, f))]
+        _check(len(_pages) >= 2, fails,
+               "build stamp canary: fewer than two built pages to check, so the next "
+               "checks prove nothing")
+        for _pg in _pages:
+            _ph = open(os.path.join(_sb.PUBLISH, _pg), encoding="utf-8").read()
+            _mt = re.search(r'<meta name="build-commit" content="([^"]*)"', _ph)
+            _check(_mt is not None, fails,
+                   f"build stamp canary: {_pg} carries no build-commit meta tag")
+            if _mt:
+                _check(_mt.group(1) == _sbm, fails,
+                       f"build stamp canary: {_pg}'s stamp {_mt.group(1)[:12]} is not the "
+                       f"commit that built it, {_sbm[:12]}; the page and /stamp.txt drifted")
+        # THE ASSERTION ITSELF must reject a stale stamp, which is the whole point: a live
+        # read of the previous deploy is the failure mode, and it looks exactly like a
+        # successful read.
+        _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">')
+               is not None, fails,
+               "build stamp canary: live_read cannot find a stamp it is given")
+        _check(_lr.META.search('<meta name="build-commit" content="">') is None, fails,
+               "build stamp canary: live_read accepts an empty stamp as a commit")
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source

@@ -36,6 +36,36 @@ SITE = os.path.join(HERE, "site")
 CONTENT = os.path.join(SITE, "content")
 ASSETS = os.path.join(SITE, "assets")
 PUBLISH = os.path.join(SITE, "publish")
+
+# U-11's other half (24 September 2026). EVERY PAGE CARRIES THE COMMIT THAT BUILT IT, and so
+# does /stamp.txt, because without it a live read cannot tell which deploy it is looking at.
+# On 24 September the desk could not prove that a documents-only push had NOT rebuilt the
+# site: Netlify posts no status to GitHub, so "no build followed" and "the site is paused"
+# read identically. A stamp on the page settles it from the page.
+#
+# Netlify supplies COMMIT_REF. Locally there is no Netlify, so git answers, and if neither
+# can say, the stamp says "unknown" rather than a plausible-looking wrong value: a stamp that
+# guesses is worse than none, because a live read would assert against the guess.
+def _build_commit():
+    ref = (os.environ.get("COMMIT_REF") or "").strip()
+    if not ref:
+        # HERE, not ROOT. The first draft of this said cwd=ROOT, which does not exist in
+        # this module: the NameError was swallowed by the except and the stamp quietly
+        # became "unknown", which is the stand-in U-10 was issued about. The except stays,
+        # because a build must not die for want of a stamp, but it no longer hides a typo:
+        # the reason is printed.
+        try:
+            import subprocess
+            ref = subprocess.run(["git", "rev-parse", "HEAD"], cwd=HERE,
+                                 capture_output=True, text=True, timeout=10).stdout.strip()
+        except Exception as exc:
+            print(f"build stamp: no COMMIT_REF and git could not answer ({exc}); "
+                  f"the stamp will read 'unknown'")
+            ref = ""
+    return (ref[:40] or "unknown")
+
+
+BUILD_COMMIT = _build_commit()
 PUBLISHED = os.path.join(HERE, "out", "published")
 
 # Brand: GoCheckMySports is a daily sports news desk in the GoCheckMy family
@@ -1454,6 +1484,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="build-commit" content="{BUILD_COMMIT}">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
@@ -11606,6 +11637,12 @@ def build():
 
     w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
                     f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
+
+    # U-11: /stamp.txt, so a live read can name the deploy it is reading in one request
+    # without parsing a page. Same value as the build-commit meta tag on every page; the
+    # canary asserts they cannot drift apart.
+    w("stamp.txt", f"commit {BUILD_COMMIT}\n"
+                   f"built {_build_now().isoformat(timespec='seconds')}\n")
     # /rss.xml is the address readers and aggregators try first; the desk publishes at
     # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit). Retired duplicate
     # slugs 301 to their surviving story, ahead of the catch-all (Netlify takes the
