@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-18",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c006",
-    "headline": "Trey Mancini announces retirement after Angels stint",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Mancini 'batted .273 with six homers and 29 RBIs across 54 games for Triple-A Salt Lake' but the brief data_point says 'six homers, 29 RBIs and three steals' with no mention of 54 games or the .273 average in the source. The 54 games figure is not in the brief and represents smuggled information.",
-     "Draft says 'His first game back in the majors since 2023 yielded three hits' but brief data_point says 'had three hits in his first major league game since 2023' \u2014 the draft adds 'first game back' framing that suggests this was his sole appearance, when the brief establishes he played five games total. This is imprecise and potentially misleading about the scope of his Angels stint.",
-     "Draft states Mancini 'played parts of six seasons with the Baltimore Orioles' but the core claim and brief context indicate he spent 10 years in the Orioles organization (per his own quote in the retirement statement). The draft understates his tenure and contradicts the data provided."
-    ]
-   },
-   {
-    "id": "c051",
-    "headline": "Bezos consortium acquires 38% of Liverpool FC",
-    "category": "accuracy",
-    "reasons": [
-     "The bottom_line references 'Infantino's backing' and states it 'strengthens Bhatia's position to exercise that option,' but no data_point in the brief mentions Infantino backing Bhatia or involvement in the Liverpool consortium deal. This is smuggled information not present in the research."
-    ]
-   },
-   {
-    "id": "c067",
-    "headline": "Premier League to publish Key Match Incidents Panel verdicts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the KMI Panel 'was established by Premier League clubs in 2022,' but the brief data_point says 'The KMI Panel was created by the Premier League clubs in 2022 to take performance stats out of the hands of the refereeing body.' The draft omits the substantive reason for the panel's creation\u2014removing refereeing body control\u2014which is material context that changes the significance of the move.",
-     "The draft claims 'Last season, the KMI Panel identified 25 VAR errors, up from 18 in the 2024-25 campaign,' but the brief data_point states these were from 'the most recent season' and 'the 2024-25 campaign' without specifying which season is 'last season' relative to publication. The draft's temporal framing creates ambiguity about which season is which."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
   "approved": 3,
   "rejected": [
    {
@@ -7733,6 +7700,23 @@
     "reasons": [
      "The draft states Bettman spoke 'at the end of a Board of Governors meeting' on September 22, but the brief data point says he spoke 'on Tuesday' (September 22 is a Wednesday per today's date of September 23). The brief's timestamp shows 2026-09-22, but the draft's framing of 'said on September 22' followed by 'Speaking at the end of a Board of Governors meeting' without explicit day-of-week clarity creates a potential temporal inconsistency. More critically, the brief's data_point #3 says Bettman spoke 'at the end of a Board of Governors meeting on Tuesday'\u2014meaning the meeting occurred on Tuesday, September 21, not September 22. The draft incorrectly dates the statement to September 22 when it should be attributed to remarks made on or after a Tuesday meeting.",
      "The draft includes information about revenue figures ($8.1 billion projected for 2026-27, $8 billion for 2025-26), Rogers Communications deal ($7.7 billion, 12-year English-language rights through 2037-38), local media evolution quote from Bettman, new U.S. TV negotiations for 2028, the 84-game schedule boost, Leonsis's quote about media rights as a priority, Bettman's age (74) and commissioner tenure (since early 1993), and Bettman's quote about stepping down\u2014none of which appear in the draft body. However, these are present in the brief's data_points but were not included in the draft. While omission is not smuggling, the draft also does not mention Jeremy Jacobs's quote ('it's well past time for me to pass the torch'), which is in the brief but missing from the draft. This is acceptable omission, but the draft's narrower scope means it is thinner than the brief allows."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-24",
+  "approved": 10,
+  "rejected": [
+   {
+    "id": "c301",
+    "headline": "Dallas Wings Finish 27-17, Setting Franchise Record After Historic 17-Win Turnaround",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'But\u0442 Bueckers, reflecting on the turnaround in a postgame interview after the September 24 Seattle win' but the brief identifies this quote as coming from Paige Bueckers, not 'But\u0442 Bueckers.' This appears to be a typo in the draft that creates a false name. The correct attribution is Paige Bueckers.",
+     "The draft includes a quote attributed to Fernandez after the Sept. 19 game: 'I'm having a great time because I get an opportunity to work with incredible people...' but this quote actually appears in the brief under a different context (postgame after Sept. 19, not as a single standalone quote). The brief also lists a different, longer Fernandez quote for that same Sept. 19 game moment that is not used in the draft.",
+     "The draft states Fernandez 'said' a postgame quote after Sept. 19, but the brief data_point shows this quote was recorded separately and the draft's version is a partial reconstruction rather than the full on-record statement from the source.",
+     "the draft dates September 29, 2026 as a Sunday; September 29, 2026 is a Tuesday"
     ]
    }
   ]

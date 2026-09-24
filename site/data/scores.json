@@ -1,70 +1,126 @@
 {
- "generated_utc": "2026-09-23T23:52:57Z",
- "stale_after_utc": "2026-09-24T02:52:57Z",
+ "generated_utc": "2026-09-24T23:52:37Z",
+ "stale_after_utc": "2026-09-25T02:52:37Z",
  "leagues": [
   {
    "league": "MLB",
    "source": "statsapi.mlb.com",
    "games": [
     {
-     "away": "TOR",
-     "home": "BAL",
-     "away_score": 0,
-     "home_score": 4,
-     "state": "in",
-     "detail": "Top 6",
-     "start_utc": "2026-09-23T22:35:00Z",
-     "eid": "824784"
-    },
-    {
-     "away": "STL",
-     "home": "PIT",
-     "away_score": 4,
-     "home_score": 1,
-     "state": "in",
-     "detail": "Top 4",
-     "start_utc": "2026-09-23T22:40:00Z",
-     "eid": "823327"
-    },
-    {
      "away": "MIL",
      "home": "PHI",
-     "away_score": 4,
+     "away_score": 1,
      "home_score": 1,
      "state": "in",
-     "detail": "Bot 4",
-     "start_utc": "2026-09-23T22:40:00Z",
-     "eid": "823410"
-    },
-    {
-     "away": "TB",
-     "home": "NYY",
-     "away_score": 0,
-     "home_score": 3,
-     "state": "in",
-     "detail": "Bot 3",
-     "start_utc": "2026-09-23T23:05:00Z",
-     "eid": "823492"
+     "detail": "Bot 6",
+     "start_utc": "2026-09-24T22:05:00Z",
+     "eid": "823411"
     },
     {
      "away": "CLE",
      "home": "BOS",
-     "away_score": 0,
+     "away_score": 1,
+     "home_score": 0,
+     "state": "in",
+     "detail": "Bot 4",
+     "start_utc": "2026-09-24T22:45:00Z",
+     "eid": "824707"
+    },
+    {
+     "away": "TB",
+     "home": "NYY",
+     "away_score": 2,
      "home_score": 0,
      "state": "in",
      "detail": "Top 3",
-     "start_utc": "2026-09-23T23:10:00Z",
-     "eid": "824710"
+     "start_utc": "2026-09-24T23:05:00Z",
+     "eid": "823493"
     },
     {
      "away": "CIN",
      "home": "ATL",
-     "away_score": 1,
-     "home_score": 0,
+     "away_score": 2,
+     "home_score": 4,
      "state": "in",
-     "detail": "Top 3",
-     "start_utc": "2026-09-23T23:15:00Z",
-     "eid": "824868"
+     "detail": "Bot 2",
+     "start_utc": "2026-09-24T23:15:00Z",
+     "eid": "824866"
+    },
+    {
+     "away": "HOU",
+     "home": "ATH",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "9:40 PM ET",
+     "start_utc": "2026-09-25T01:40:00Z",
+     "eid": "824950"
+    },
+    {
+     "away": "LAA",
+     "home": "SEA",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "9:40 PM ET",
+     "start_utc": "2026-09-25T01:40:00Z",
+     "eid": "823087"
+    }
+   ]
+  },
+  {
+   "league": "WNBA",
+   "source": "site.api.espn.com",
+   "games": [
+    {
+     "away": "TOR",
+     "home": "CON",
+     "away_score": 34,
+     "home_score": 36,
+     "state": "in",
+     "detail": "1:54 - 2nd",
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401857215"
+    },
+    {
+     "away": "CHI",
+     "home": "WSH",
+     "away_score": 16,
+     "home_score": 31,
+     "state": "in",
+     "detail": "End of 1st",
+     "start_utc": "2026-09-24T23:30Z",
+     "eid": "401857216"
+    },
+    {
+     "away": "IND",
+     "home": "MIN",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "8:00 PM ET",
+     "start_utc": "2026-09-25T00:00Z",
+     "eid": "401857217"
+    },
+    {
+     "away": "GS",
+     "home": "LA",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "10:00 PM ET",
+     "start_utc": "2026-09-25T02:00Z",
+     "eid": "401857218"
+    },
+    {
+     "away": "LV",
+     "home": "PHX",
+     "away_score": 0,
+     "home_score": 0,
+     "state": "pre",
+     "detail": "10:00 PM ET",
+     "start_utc": "2026-09-25T02:00Z",
+     "eid": "401857219"
     }
    ]
   },
@@ -73,44 +129,64 @@
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "TOR",
-     "home": "OTT",
+     "away": "BOS",
+     "home": "PHI",
      "away_score": 0,
-     "home_score": 0,
+     "home_score": 1,
      "state": "in",
      "detail": "End of 1st",
-     "start_utc": "2026-09-23T23:00Z",
-     "eid": "401879650"
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401879363"
     },
     {
-     "away": "OTT",
-     "home": "TOR",
+     "away": "BUF",
+     "home": "DET",
      "away_score": 1,
-     "home_score": 2,
+     "home_score": 1,
      "state": "in",
      "detail": "End of 1st",
-     "start_utc": "2026-09-23T23:00Z",
-     "eid": "401886441"
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401879452"
     },
     {
-     "away": "MIN",
-     "home": "DAL",
+     "away": "PIT",
+     "home": "CBJ",
      "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "8:00 PM ET",
-     "start_utc": "2026-09-24T00:00Z",
-     "eid": "401886429"
+     "home_score": 1,
+     "state": "in",
+     "detail": "End of 1st",
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401879455"
     },
     {
-     "away": "LA",
-     "home": "ANA",
-     "away_score": 0,
+     "away": "NJ",
+     "home": "NYR",
+     "away_score": 1,
      "home_score": 0,
-     "state": "pre",
-     "detail": "10:00 PM ET",
-     "start_utc": "2026-09-24T02:00Z",
-     "eid": "401879369"
+     "state": "in",
+     "detail": "End of 1st",
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401879646"
+    },
+    {
+     "away": "NSH",
+     "home": "CAR",
+     "away_score": 3,
+     "home_score": 0,
+     "state": "in",
+     "detail": "End of 1st",
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401879934"
+    },
+    {
+     "away": "FLA",
+     "home": "TB",
+     "away_score": 1,
+     "home_score": 0,
+     "state": "in",
+     "detail": "End of 1st",
+     "start_utc": "2026-09-24T23:00Z",
+     "eid": "401881133"
     }
    ]
   },
@@ -131,100 +207,18 @@
    ]
   },
   {
-   "league": "WNBA",
+   "league": "CFB",
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "ATL",
-     "home": "NY",
+     "away": "NU",
+     "home": "IU",
      "away_score": 0,
      "home_score": 0,
      "state": "pre",
      "detail": "8:00 PM ET",
-     "start_utc": "2026-09-24T00:00Z",
-     "eid": "401857213"
-    },
-    {
-     "away": "DAL",
-     "home": "SEA",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "10:00 PM ET",
-     "start_utc": "2026-09-24T02:00Z",
-     "eid": "401857214"
-    }
-   ]
-  },
-  {
-   "league": "MLS",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "RSL",
-     "home": "SEA",
-     "away_score": 0,
-     "home_score": 0,
-     "state": "pre",
-     "detail": "9:30 PM ET",
-     "start_utc": "2026-09-24T01:30Z",
-     "eid": "761543"
-    }
-   ]
-  },
-  {
-   "league": "UFC",
-   "source": "site.api.espn.com",
-   "games": [
-    {
-     "away": "D. Piwowarczyk",
-     "home": "E. Quissua",
-     "away_score": 1,
-     "home_score": 0,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-22T23:00Z",
-     "eid": "401921412"
-    },
-    {
-     "away": "C. Connor",
-     "home": "P. Guaylupo",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-22T23:00Z",
-     "eid": "401921411"
-    },
-    {
-     "away": "P. Moran",
-     "home": "M. Degli",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-22T23:00Z",
-     "eid": "401921410"
-    },
-    {
-     "away": "J. Ortega",
-     "home": "A. Dasuyev",
-     "away_score": 0,
-     "home_score": 1,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-22T23:00Z",
-     "eid": "401921409"
-    },
-    {
-     "away": "N. N\u00f6v\u00e9nyi Jr.",
-     "home": "T. Haig",
-     "away_score": 1,
-     "home_score": 0,
-     "state": "post",
-     "detail": "Final",
-     "start_utc": "2026-09-22T23:00Z",
-     "eid": "401891542"
+     "start_utc": "2026-09-26T00:00Z",
+     "eid": "401858461"
     }
    ]
   },
@@ -234,63 +228,63 @@
    "games": [
     {
      "away": "D. Shapovalov",
-     "home": "T. Griekspoor",
+     "home": "V. Kopriva",
      "away_score": null,
      "home_score": null,
      "state": "pre",
      "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "183407"
+     "start_utc": "2026-09-25T05:00Z",
+     "eid": "183412"
     },
     {
      "away": "L. Sonego",
-     "home": "J. Duckworth",
+     "home": "J. Brooksby",
      "away_score": null,
      "home_score": null,
      "state": "pre",
      "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "183405"
+     "start_utc": "2026-09-25T05:00Z",
+     "eid": "183411"
     },
     {
-     "away": "C. Ugo Carabelli",
-     "home": "N. Borges",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "183397"
-    },
-    {
-     "away": "T. Daniel",
-     "home": "D. Sweeny",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "183354"
-    },
-    {
-     "away": "H. Gaston",
-     "home": "S. Shimabukuro",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "183353"
-    },
-    {
-     "away": "T. Atmane",
-     "home": "J. Faria",
+     "away": "T. Etcheverry",
+     "home": "K. Jacquet",
      "away_score": null,
      "home_score": null,
      "state": "pre",
      "detail": "1:30 AM ET",
-     "start_utc": "2026-09-24T05:30Z",
-     "eid": "183362"
+     "start_utc": "2026-09-25T05:30Z",
+     "eid": "183366"
+    },
+    {
+     "away": "A. Mannarino",
+     "home": "A. Tabilo",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "2:30 AM ET",
+     "start_utc": "2026-09-25T06:30Z",
+     "eid": "183413"
+    },
+    {
+     "away": "T. Daniel",
+     "home": "F. Marozsan",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "3:00 AM ET",
+     "start_utc": "2026-09-25T07:00Z",
+     "eid": "183355"
+    },
+    {
+     "away": "B. Van De Zandschulp",
+     "home": "N. Basilashvili",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "4:30 AM ET",
+     "start_utc": "2026-09-25T08:30Z",
+     "eid": "183410"
     }
    ]
   },
@@ -299,64 +293,64 @@
    "source": "site.api.espn.com",
    "games": [
     {
-     "away": "A. Charaeva",
+     "away": "K. Birrell",
+     "home": "K. Volynets",
+     "away_score": null,
+     "home_score": null,
+     "state": "pre",
+     "detail": "11:00 PM ET",
+     "start_utc": "2026-09-25T03:00Z",
+     "eid": "184055"
+    },
+    {
+     "away": "E. Ruse",
      "home": "A. Bondar",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "11:00 PM ET",
-     "start_utc": "2026-09-24T03:00Z",
-     "eid": "184053"
+     "detail": "12:30 AM ET",
+     "start_utc": "2026-09-25T04:30Z",
+     "eid": "184056"
     },
     {
-     "away": "K. Birrell",
-     "home": "Y. Ma",
-     "away_score": null,
-     "home_score": null,
-     "state": "pre",
-     "detail": "11:00 PM ET",
-     "start_utc": "2026-09-24T03:00Z",
-     "eid": "184050"
-    },
-    {
-     "away": "E. Ruse",
-     "home": "Y. Ku",
+     "away": "M. Chwalinska",
+     "home": "E. Mertens",
      "away_score": null,
      "home_score": null,
      "state": "pre",
      "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "184052"
+     "start_utc": "2026-09-25T05:00Z",
+     "eid": "184105"
     },
     {
-     "away": "V. Morvayova",
-     "home": "T. Gibson",
+     "away": "A. Korneeva",
+     "home": "T. Preston",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "1:00 AM ET",
-     "start_utc": "2026-09-24T05:00Z",
-     "eid": "184099"
+     "detail": "2:00 AM ET",
+     "start_utc": "2026-09-25T06:00Z",
+     "eid": "184058"
     },
     {
-     "away": "J. Garland",
+     "away": "T. Prozorova",
      "home": "W. Xinyu",
      "away_score": null,
      "home_score": null,
      "state": "pre",
      "detail": "2:30 AM ET",
-     "start_utc": "2026-09-24T06:30Z",
-     "eid": "184097"
+     "start_utc": "2026-09-25T06:30Z",
+     "eid": "184104"
     },
     {
-     "away": "T. Preston",
-     "home": "J. Ostapenko",
+     "away": "M. Joint",
+     "home": "L. Tararudee",
      "away_score": null,
      "home_score": null,
      "state": "pre",
-     "detail": "3:00 AM ET",
-     "start_utc": "2026-09-24T07:00Z",
-     "eid": "184054"
+     "detail": "3:30 AM ET",
+     "start_utc": "2026-09-25T07:30Z",
+     "eid": "184057"
     }
    ]
   }
@@ -366,7 +360,7 @@
    "league": "MLB",
    "status": "ok",
    "source": "statsapi.mlb.com",
-   "games_seen": 16,
+   "games_seen": 12,
    "games_kept": 6
   },
   {
@@ -378,10 +372,10 @@
   },
   {
    "league": "CFB",
-   "status": "empty",
+   "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 0,
-   "games_kept": 0
+   "games_seen": 1,
+   "games_kept": 1
   },
   {
    "league": "NBA",
@@ -408,15 +402,15 @@
    "league": "WNBA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 2,
-   "games_kept": 2
+   "games_seen": 5,
+   "games_kept": 5
   },
   {
    "league": "NHL",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 4,
-   "games_kept": 4
+   "games_seen": 11,
+   "games_kept": 6
   },
   {
    "league": "EPL",
@@ -455,30 +449,30 @@
   },
   {
    "league": "MLS",
-   "status": "ok",
+   "status": "empty",
    "source": "site.api.espn.com",
-   "games_seen": 1,
-   "games_kept": 1
+   "games_seen": 0,
+   "games_kept": 0
   },
   {
    "league": "UFC",
-   "status": "ok",
+   "status": "empty",
    "source": "site.api.espn.com",
-   "games_seen": 5,
-   "games_kept": 5
+   "games_seen": 0,
+   "games_kept": 0
   },
   {
    "league": "ATP",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 48,
+   "games_seen": 36,
    "games_kept": 6
   },
   {
    "league": "WTA",
    "status": "ok",
    "source": "site.api.espn.com",
-   "games_seen": 62,
+   "games_seen": 51,
    "games_kept": 6
   }
  ]
