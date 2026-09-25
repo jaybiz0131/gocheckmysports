@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-25T00:01:00Z",
+ "fetched_at": "2026-09-25T00:06:10Z",
  "leagues": [
   {
    "league": "NFL",
@@ -69,7 +69,7 @@
      "venue_indoor": false,
      "venue": "Lambeau Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "GB -4.5",
       "spread": -4.5,
       "total": 42.5,
@@ -141,7 +141,7 @@
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BUF -7",
       "spread": -7.0,
       "total": 50.5,
@@ -213,7 +213,7 @@
      "venue_indoor": false,
      "venue": "Huntington Bank Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CAR -2.5",
       "spread": 2.5,
       "total": 42.5,
@@ -285,7 +285,7 @@
      "venue_indoor": true,
      "venue": "Ford Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "DET -6.5",
       "spread": -6.5,
       "total": 47.5,
@@ -357,7 +357,7 @@
      "venue_indoor": true,
      "venue": "Lucas Oil Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "HOU -1.5",
       "spread": 1.5,
       "total": 42.5,
@@ -429,7 +429,7 @@
      "venue_indoor": false,
      "venue": "Hard Rock Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "KC -10.5",
       "spread": 10.5,
       "total": 45.5,
@@ -501,7 +501,7 @@
      "venue_indoor": false,
      "venue": "MetLife Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NYG -2.5",
       "spread": -2.5,
       "total": 38.5,
@@ -573,7 +573,7 @@
      "venue_indoor": false,
      "venue": "Acrisure Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CIN -3.5",
       "spread": 3.5,
       "total": 42.5,
@@ -645,7 +645,7 @@
      "venue_indoor": false,
      "venue": "Northwest Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SEA -7.5",
       "spread": 7.5,
       "total": 40.5,
@@ -717,7 +717,7 @@
      "venue_indoor": false,
      "venue": "EverBank Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "JAX -3",
       "spread": -3.0,
       "total": 45.5,
@@ -789,7 +789,7 @@
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SF -8.5",
       "spread": -8.5,
       "total": 47.5,
@@ -861,7 +861,7 @@
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MIN -1.5",
       "spread": 1.5,
       "total": 42.5,
@@ -933,7 +933,7 @@
      "venue_indoor": false,
      "venue": "Maracan\u00e3 Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BAL -3.5",
       "spread": 3.5,
       "total": 52.5,
@@ -1005,7 +1005,7 @@
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NO -3",
       "spread": -3.0,
       "total": 43.5,
@@ -1077,7 +1077,7 @@
      "venue_indoor": false,
      "venue": "Empower Field at Mile High",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "LAR -2.5",
       "spread": 2.5,
       "total": 44.5,
@@ -1149,7 +1149,7 @@
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "PHI -4.5",
       "spread": 4.5,
       "total": 41.5,
@@ -1602,7 +1602,7 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Mid 5th",
+     "status_short": "Bot 5th",
      "detail": "0:00",
      "period": 5,
      "start_utc": "2026-09-24T22:45Z",
@@ -1617,6 +1617,7 @@
       "score": "0",
       "record": "85-73",
       "periods": [
+       "0",
        "0",
        "0",
        "0",
@@ -1667,9 +1668,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Bot 3rd",
+     "status_short": "Top 4th",
      "detail": "0:00",
-     "period": 3,
+     "period": 4,
      "start_utc": "2026-09-24T23:05Z",
      "network": "MLB.TV",
      "home": {
@@ -1701,7 +1702,8 @@
       "periods": [
        "0",
        "0",
-       "2"
+       "2",
+       "0"
       ],
       "id": "30",
       "color": "#092c5c"
@@ -2014,7 +2016,7 @@
      "venue_indoor": false,
      "venue": "Memorial Stadium (Bloomington, IN)",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "IU -20.5",
       "spread": -20.5,
       "total": 49.5,
@@ -2086,7 +2088,7 @@
      "venue_indoor": false,
      "venue": "Neyland Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "TEX -4",
       "spread": 4.0,
       "total": 55.5,
@@ -2158,7 +2160,7 @@
      "venue_indoor": false,
      "venue": "Ohio Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "OSU -27.5",
       "spread": -27.5,
       "total": 53.5,
@@ -2230,7 +2232,7 @@
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "TTU -34.5",
       "spread": -34.5,
       "total": 55.5,
@@ -2302,7 +2304,7 @@
      "venue_indoor": false,
      "venue": "L&N Federal Credit Union Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "LOU -13.5",
       "spread": -13.5,
       "total": 57.5,
@@ -2374,7 +2376,7 @@
      "venue_indoor": false,
      "venue": "Ross-Ade Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "ND -27.5",
       "spread": 27.5,
       "total": 58.5,
@@ -2446,7 +2448,7 @@
      "venue_indoor": false,
      "venue": "Sanford Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "UGA -13.5",
       "spread": -13.5,
       "total": 44.5,
@@ -2518,7 +2520,7 @@
      "venue_indoor": false,
      "venue": "Ben Hill Griffin Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "FLA -3.5",
       "spread": -3.5,
       "total": 59.5,
@@ -2590,7 +2592,7 @@
      "venue_indoor": false,
      "venue": "Jack Trice Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "UTAH -7.5",
       "spread": 7.5,
       "total": 47.5,
@@ -2662,7 +2664,7 @@
      "venue_indoor": false,
      "venue": "Michigan Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MICH -5.5",
       "spread": -5.5,
       "total": 38.5,
@@ -2734,7 +2736,7 @@
      "venue_indoor": false,
      "venue": "Allen E. Paulson Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "HOU -17.5",
       "spread": 17.5,
       "total": 56.5,
@@ -2806,7 +2808,7 @@
      "venue_indoor": false,
      "venue": "Beaver Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "PSU -10",
       "spread": -10.0,
       "total": 44.5,
@@ -2878,7 +2880,7 @@
      "venue_indoor": false,
      "venue": "Hard Rock Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MIA -41.5",
       "spread": -41.5,
       "total": 54.5,
@@ -2950,7 +2952,7 @@
      "venue_indoor": false,
      "venue": "Bryant-Denny Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "ALA -12.5",
       "spread": -12.5,
       "total": 54.5,
@@ -3022,7 +3024,7 @@
      "venue_indoor": false,
      "venue": "Tiger Stadium (LA)",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "LSU -9.5",
       "spread": -9.5,
       "total": 51.5,
@@ -3094,7 +3096,7 @@
      "venue_indoor": false,
      "venue": "Los Angeles Memorial Coliseum",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "ORE -3",
       "spread": 3.0,
       "total": 61.5,
@@ -3166,7 +3168,7 @@
      "venue_indoor": false,
      "venue": "Davis Wade Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MSST -6",
       "spread": -6.0,
       "total": 58.5,
@@ -3238,7 +3240,7 @@
      "venue_indoor": false,
      "venue": "Gerald J. Ford Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SMU -34.5",
       "spread": -34.5,
       "total": 59.5,
@@ -3500,9 +3502,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "18:34 - 2nd",
+     "detail": "18:34",
+     "period": 2,
      "start_utc": "2026-09-24T23:00Z",
      "network": "ESPN+",
      "home": {
@@ -3515,7 +3517,8 @@
       "score": "1",
       "record": "0-2-0",
       "periods": [
-       "1"
+       "1",
+       "0"
       ],
       "id": "15",
       "color": "#fe5823"
@@ -3530,6 +3533,7 @@
       "score": "0",
       "record": "2-0-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "1",
@@ -3541,7 +3545,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.3572222222222223,
      "venue_indoor": true,
      "venue": "Xfinity Mobile Arena",
      "line": null
@@ -3602,8 +3606,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "20:00 - 2nd",
-     "detail": "20:00",
+     "status_short": "16:04 - 2nd",
+     "detail": "16:04",
      "period": 2,
      "start_utc": "2026-09-24T23:00Z",
      "network": "",
@@ -3645,7 +3649,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.3988888888888889,
      "venue_indoor": true,
      "venue": "Nationwide Arena",
      "line": null
@@ -3655,8 +3659,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "20:00 - 2nd",
-     "detail": "20:00",
+     "status_short": "17:40 - 2nd",
+     "detail": "17:40",
      "period": 2,
      "start_utc": "2026-09-24T23:00Z",
      "network": "MSGSN",
@@ -3698,7 +3702,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.37222222222222223,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "line": null
@@ -3708,8 +3712,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "20:00 - 2nd",
-     "detail": "20:00",
+     "status_short": "18:41 - 2nd",
+     "detail": "18:41",
      "period": 2,
      "start_utc": "2026-09-24T23:00Z",
      "network": "ESPN+",
@@ -3720,11 +3724,11 @@
       "school": "Carolina",
       "mascot": "Hurricanes",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "1-1-0",
       "periods": [
        "0",
-       "0"
+       "1"
       ],
       "id": "7",
       "color": "#e30426"
@@ -3751,7 +3755,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.3552777777777778,
      "venue_indoor": true,
      "venue": "First Horizon Coliseum",
      "line": null
@@ -3761,9 +3765,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "18:51 - 2nd",
+     "detail": "18:51",
+     "period": 2,
      "start_utc": "2026-09-24T23:00Z",
      "network": "ESPN+",
      "home": {
@@ -3776,6 +3780,7 @@
       "score": "0",
       "record": "1-0-1",
       "periods": [
+       "0",
        "0"
       ],
       "id": "20",
@@ -3791,7 +3796,8 @@
       "score": "1",
       "record": "1-0-1",
       "periods": [
-       "1"
+       "1",
+       "0"
       ],
       "id": "26",
       "color": "#e51937"
@@ -3802,7 +3808,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.35250000000000004,
      "venue_indoor": true,
      "venue": "Benchmark International Arena",
      "line": null
@@ -4105,8 +4111,8 @@
      "league": "WNBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:51 - 2nd",
-     "detail": "6:51",
+     "status_short": "3:58 - 2nd",
+     "detail": "3:58",
      "period": 2,
      "start_utc": "2026-09-24T23:30Z",
      "network": "CW26",
@@ -4117,11 +4123,11 @@
       "school": "Washington",
       "mascot": "Mystics",
       "rank": null,
-      "score": "40",
+      "score": "45",
       "record": "27-16",
       "periods": [
        "31",
-       "9"
+       "14"
       ],
       "id": "16",
       "color": "#e03a3e"
@@ -4133,11 +4139,11 @@
       "school": "Chicago",
       "mascot": "Sky",
       "rank": null,
-      "score": "22",
+      "score": "30",
       "record": "16-27",
       "periods": [
        "16",
-       "6"
+       "14"
       ],
       "id": "19",
       "color": "#5091cd"
@@ -4148,7 +4154,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.38583333333333336,
+     "progress": 0.4338888888888889,
      "venue_indoor": true,
      "venue": "Capital One Arena",
      "line": null
@@ -4202,7 +4208,7 @@
       "provider": "DraftKings",
       "detail": "IND -4.5",
       "spread": 4.5,
-      "total": 183.5,
+      "total": 184.5,
       "favorite": "away"
      }
     },
