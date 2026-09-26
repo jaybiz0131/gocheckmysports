@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c003",
-    "headline": "Musiala Collapses on Pitch for Second Time in Four Days, Diagnosed With Seizure Disorder",
-    "category": "compliance",
-    "reasons": [
-     "The draft presents Musiala's seizure diagnosis and medical prognosis as settled clinical fact ('has been diagnosed with', 'temporary, brief, but easily treatable') when the brief marks these claims as 'announced-not-verified.' A diagnosis announced by a player on Instagram is not verified medical fact and should be framed with appropriate distance to avoid medical speculation liability.",
-     "The draft states definitively that the seizures are 'due to a neurological dysfunction' and that Musiala expressed 'optimism about his condition and return to play,' presenting the player's medical optimism as validated medical prognosis rather than the player's own statement about an unverified diagnosis.",
-     "The brief's bear_case explicitly flags 'No medical uncertainty is raised by the source; Musiala's diagnosis and optimism are presented as clinical fact,' but the draft does exactly that\u2014it treats an announced diagnosis as confirmed rather than acknowledging the gap between announcement and verification."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Dodgers place closer Edwin D\u00edaz on injured list amid bullpen struggles",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'D\u00edaz has produced a 11.85 ERA across 16 appearances this season' without attribution to the source. The brief notes the source text is 'truncated/corrupted (contains only HTML boilerplate and navigation elements)' and that the open_questions explicitly state 'the nature of D\u00edaz's injury is not specified in the available text.' The writer has smuggled statistics (ERA, WHIP, WAR figures) that cannot be verified against the corrupted source material. No fact outside the brief is permitted; these figures cannot be traced to readable source content."
-    ]
-   },
-   {
-    "id": "c346",
-    "headline": "Fever's Kelsey Mitchell ties A'ja Wilson's consecutive 20-point streak",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Mitchell 'reached the milestone during the Fever's 101-95 win over Toronto' but the brief's data_point says 'The Fever defeated the Toronto Tempo 101-95'\u2014the opponent name is different. The draft uses 'Toronto' while the brief specifies 'Toronto Tempo.' This is either a smuggled fact correction or a discrepancy that breaks the hard rule: all facts trace back to the brief as written, not corrected."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 3,
   "rejected": [
    {
@@ -7695,6 +7663,50 @@
      "The draft contains a factual error on the schedule. It states: 'then travel to Arizona to face the Cardinals in Week 4 before heading to Washington to face the Commanders in Week 5, return to MetLife Stadium for a Week 6 matchup against the Saints, then travel to Houston to face the Texans in Week 6 before their Week 7 bye.' This lists two Week 6 games (Saints and Texans), which is impossible. The brief's data_point says 'Week 6 matchup against the Saints, then travel to Houston to face the Texans in Week 6,' which is the same contradiction present in the brief. However, since the brief itself carries the error, the draft correctly reproduces the brief's statement. This is not a draft error but a brief error that the draft faithfully carries forward. Upon re-reading the instruction: the writer's hard rule is 'no fact exists outside the brief,' meaning the draft must trace facts to the brief. The draft does trace this to the brief, so this is not a smuggled fact. The error exists in the source material, not in the draft's departure from it.",
      "Upon careful review, the draft's schedule statement exactly mirrors the brief's language, including the impossible double-Week 6 listing. Since the draft traces to the brief and carries forward what the brief states, this is technically compliant with the tracing rule, even though the underlying data is contradictory.",
      "the draft dates September 26, 2026 as a Friday; September 26, 2026 is a Saturday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-26",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c297",
+    "headline": "Iowa Defeats No. 18 Michigan 20-19 on Last-Play Touchdown, September 26",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the final drive was '91 yards' but the brief's data_point claims 'The Hawkeyes went 91 yards on the final drive, boosted by an unnecessary roughness penalty against Michigan on a third down at midfield.' The draft omits the critical detail about the unnecessary roughness penalty that aided the drive. More importantly, the draft later states 'Iowa lined up to go for it on fourth down at the Michigan 28, and left guard Leighton Jones was flagged for a false start,' meaning Iowa started from around the Michigan 28 (roughly 72 yards out), not from the 9-yard line that would make a 91-yard drive accurate. The brief's open_questions flag this exact discrepancy: 'Exact field position and time remaining when Hank Brown took over at the Iowa 10 with 1:46 to play...the snippet says 1:46, but the ESPN source says he engineered a 91-yard drive.' The draft presents the 91-yard figure without resolution of this contradiction.",
+     "The draft states the final drive 'included a 29-yard Brown pass to Addison Ostrenga that set up the winning play with two seconds on the clock' and later references 'Before the final drive, Iowa appeared to stall when left guard Leighton Jones drew a false start penalty on fourth down at the Michigan 28.' This sequence is internally incoherent: if Iowa was at the Michigan 28 before 'the final drive' and then went 91 yards, the math does not work with the two-second timing. The brief does not clarify this sequence either, making it an unresolved factual problem the draft should not have published without resolution.",
+     "The draft states 'Underwood's two-point conversion pass fell incomplete' but the brief data_point says 'After Underwood's touchdown pass to Buchanan gave Michigan a 19-14 lead, his 2-point conversion pass fell incomplete.' The draft does not specify what score the two-point attempt would have resulted in had it succeeded, leaving ambiguity about Michigan's actual scoring sequence."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Reese and Bueckers make WNBA playoff debuts as postseason opens Sunday",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Caitlin Clark is returning to the playoffs after missing last season because of injury' but the brief data_point says she 'missed last season because of injury'\u2014this is consistent. However, the draft does not name which team Caitlin Clark plays for or identify her opponent in the Fever-Aces matchup, even though the brief explicitly identifies her team as 'Indiana Fever' facing 'Las Vegas Aces.' The draft omits this identification despite having it in the brief.",
+     "The draft does not identify which team Paige Bueckers plays for. The brief's open_questions explicitly flag that 'The identity of the specific team Paige Bueckers plays for is not stated in the provided source texts.' A fact not in the brief cannot appear in the draft; the writer must either omit Bueckers or note that her team affiliation is not confirmed in available reporting.",
+     "The draft says 'That performance tied Yolanda Griffith for 12th all-time in single-season double-doubles' but the brief data_point says Reese's 32nd double-double 'tied Yolanda Griffith for 12th all time.' The phrasing 'all time' in the brief is ambiguous (could mean all-time career or single-season), and the draft interprets it as single-season without source confirmation. This is a smuggled interpretation."
+    ]
+   },
+   {
+    "id": "c228",
+    "headline": "Fever lose backup guard Harris to broken fibula before playoffs",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line references 'September 28' as the date of the opening playoff game, but today is Saturday, September 26, 2026. September 28 is two days in the future. The brief confirms the game is 'Sunday' and the draft body correctly states 'Sunday at 4 p.m. ET'. The bottom_line's specific date reference to a future event creates an internal inconsistency and violates the rule that scheduled events are written as upcoming, not dated as if they will have occurred."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Manchester City chair reaffirms innocence and appeal intent after guilty verdict on 114 charges",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents a claim not in the brief's data_points: 'Juventus' 2005-06 title stripping for match-fixing offers historical precedent for retrospective trophy removal in European football' appears in the bottom_line but the brief's corresponding data_point states 'Juventus were stripped of their Serie A titles in 2005 and 2006' with 'the 2005 title left vacant and the 2006 title awarded to Inter.' The draft conflates this into a single narrative about 'title stripping' without distinguishing that 2005 was vacated (not stripped and awarded elsewhere) and 2006 was awarded to Inter. More critically, this Juventus comparison does not appear in any data_point with stated source attribution\u2014it is introduced in the bottom_line as narrative analysis without tracing to the CBS Sports article. The writer has smuggled interpretive framing (the precedent claim) outside the brief's factual record.",
+     "The draft's reference to 'Juventus' 2005-06 title stripping' in the bottom_line is not grounded in the brief's data_points with source verification; it reads as the writer's own analytical addition rather than reported fact from CBS Sports.",
+     "the draft cites identifier '2005-06', which appears nowhere in the brief or its sourced text"
     ]
    }
   ]
