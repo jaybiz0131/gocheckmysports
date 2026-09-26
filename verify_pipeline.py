@@ -569,8 +569,26 @@ def layer1_canary():
     _stamp_f = os.path.join(_sb.PUBLISH, "stamp.txt")
     if os.path.exists(_stamp_f):
         _stxt = open(_stamp_f, encoding="utf-8").read()
-        _check(_sbm in _stxt, fails,
-               "build stamp canary: /stamp.txt does not carry the commit the build used")
+        # WHAT THIS CHECKS, and what it deliberately does not (fixed 26 September 2026). The
+        # first version compared the built pages against BUILD_COMMIT resolved NOW, i.e. the
+        # current HEAD. That turned the hard gate red on both desks the moment HEAD moved
+        # without a rebuild, which is most of any working session, and it conflated a stale
+        # local build with the defect the canary is for. The defect is DRIFT BETWEEN THE TWO
+        # WRITERS: the meta tag and /stamp.txt must name the same commit as each other. Whether
+        # that commit is the tip is a question about a DEPLOY, and live_read.py answers it
+        # against the deployed page, which is where U-10 wants it asked.
+        _m_stamp = _re_stamp = None
+        import re as _re_s
+        _m_stamp = _re_s.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
+        _check(_m_stamp is not None, fails,
+               "build stamp canary: /stamp.txt carries no commit line")
+        _built = _m_stamp.group(1) if _m_stamp else ""
+        _check(_built != "unknown", fails,
+               "build stamp canary: /stamp.txt says the build could not name its commit")
+        if _built and _built != _sbm:
+            print(f"build stamp: the built tree is from {_built[:12]}, HEAD is {_sbm[:12]}; "
+                  f"a stale local build, not a fault. Netlify always builds fresh, and a live "
+                  f"read asserts the deploy (U-10).")
         _pages = [f for f in ["index.html", "scores.html", "about.html"]
                   if os.path.exists(os.path.join(_sb.PUBLISH, f))]
         _check(len(_pages) >= 2, fails,
@@ -582,9 +600,9 @@ def layer1_canary():
             _check(_mt is not None, fails,
                    f"build stamp canary: {_pg} carries no build-commit meta tag")
             if _mt:
-                _check(_mt.group(1) == _sbm, fails,
-                       f"build stamp canary: {_pg}'s stamp {_mt.group(1)[:12]} is not the "
-                       f"commit that built it, {_sbm[:12]}; the page and /stamp.txt drifted")
+                _check(_mt.group(1) == _built, fails,
+                       f"build stamp canary: {_pg}'s stamp {_mt.group(1)[:12]} and /stamp.txt's "
+                       f"{_built[:12]} name different commits; the two writers drifted")
         # THE ASSERTION ITSELF must reject a stale stamp, which is the whole point: a live
         # read of the previous deploy is the failure mode, and it looks exactly like a
         # successful read.
