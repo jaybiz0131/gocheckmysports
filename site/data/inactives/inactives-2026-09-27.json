@@ -1,8 +1,8 @@
 {
  "day": "2026-09-27",
  "first_poll": "2026-09-27T00:01:01Z",
- "last_change": "2026-09-27T19:15:31Z",
- "last_poll": "2026-09-27T19:15:40Z",
+ "last_change": "2026-09-27T19:20:40Z",
+ "last_poll": "2026-09-27T19:20:46Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -185,7 +185,7 @@
     "4710000": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-09-27T17:38Z",
+     "feed_date": "2026-09-27T19:07Z",
      "first_seen": "2026-09-27T18:45:45Z",
      "name": "Fernando Carmona",
      "pos": "G",
@@ -2012,13 +2012,13 @@
      "status": "Out"
     },
     "3843769": {
-     "changed_at": null,
+     "changed_at": "2026-09-27T19:20:40Z",
      "detail": "Concussion",
-     "feed_date": "2026-09-27T18:53Z",
+     "feed_date": "2026-09-27T19:16Z",
      "first_seen": "2026-09-27T18:45:45Z",
      "name": "Donte Jackson",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4040842": {
      "changed_at": null,
@@ -2825,8 +2825,8 @@
     },
     "4695883": {
      "changed_at": null,
-     "detail": "Ankle",
-     "feed_date": "2026-09-27T11:11Z",
+     "detail": "Quadriceps",
+     "feed_date": "2026-09-27T19:13Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Jalen Coker",
      "pos": "WR",
@@ -3106,7 +3106,7 @@
     "4429582": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-09-27T19:00Z",
+     "feed_date": "2026-09-27T19:08Z",
      "first_seen": "2026-09-27T19:15:31Z",
      "name": "Joe Fagnano",
      "pos": "QB",
@@ -3617,7 +3617,7 @@
     "3121415": {
      "changed_at": null,
      "detail": "Forearm",
-     "feed_date": "2026-09-25T01:33Z",
+     "feed_date": "2026-09-27T19:04Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Malik Hooker",
      "pos": "S",
@@ -3626,7 +3626,7 @@
     "4362088": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-09-25T01:28Z",
+     "feed_date": "2026-09-27T19:04Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "DeMarvion Overshown",
      "pos": "LB",
@@ -3635,10 +3635,37 @@
     "4384549": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-09-25T01:44Z",
+     "feed_date": "2026-09-27T19:04Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Cobie Durant",
      "pos": "CB",
+     "status": "Out"
+    },
+    "4429676": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T19:04Z",
+     "first_seen": "2026-09-27T19:20:40Z",
+     "name": "Tyler Goodson",
+     "pos": "RB",
+     "status": "Out"
+    },
+    "4696203": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T19:04Z",
+     "first_seen": "2026-09-27T19:20:40Z",
+     "name": "Ajani Cornelius",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4808759": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T19:04Z",
+     "first_seen": "2026-09-27T19:20:40Z",
+     "name": "Camden Brown",
+     "pos": "WR",
      "status": "Out"
     }
    },
@@ -3651,6 +3678,24 @@
      "name": "Malik Hooker",
      "pos": "S",
      "reason": "Forearm",
+     "via": "poll"
+    },
+    "4362088": {
+     "feed_date": "2026-09-27T19:04Z",
+     "first_seen": "2026-09-27T19:20:40Z",
+     "jersey": "",
+     "name": "DeMarvion Overshown",
+     "pos": "LB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4384549": {
+     "feed_date": "2026-09-27T19:04Z",
+     "first_seen": "2026-09-27T19:20:40Z",
+     "jersey": "",
+     "name": "Cobie Durant",
+     "pos": "CB",
+     "reason": "Hamstring",
      "via": "poll"
     },
     "4429676": {
