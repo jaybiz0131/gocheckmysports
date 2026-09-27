@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-27T23:00:48Z",
+ "fetched_at": "2026-09-27T23:05:43Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "2:50 - 4th",
-     "detail": "2:50",
+     "status_short": "1:52 - 4th",
+     "detail": "1:52",
      "period": 4,
      "start_utc": "2026-09-27T20:05Z",
      "network": "FOX",
@@ -54,7 +54,7 @@
       {
        "cat": "PASS",
        "name": "B. Purdy",
-       "line": "14/25, 277 YDS, 3 TD",
+       "line": "14/26, 277 YDS, 3 TD",
        "team": "25"
       },
       {
@@ -70,12 +70,12 @@
        "team": "22"
       }
      ],
-     "situation": "1st & 10 at SF 46",
+     "situation": "2nd & 14 at ARI 46",
      "possession": "25",
      "red_zone": false,
      "to_home": 3,
-     "to_away": 2,
-     "progress": 0.9527777777777777,
+     "to_away": 1,
+     "progress": 0.9688888888888889,
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": null
@@ -85,8 +85,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "4:02 - 4th",
-     "detail": "4:02",
+     "status_short": "3:10 - 4th",
+     "detail": "3:10",
      "period": 4,
      "start_utc": "2026-09-27T20:05Z",
      "network": "FOX",
@@ -115,13 +115,13 @@
       "school": "Minnesota",
       "mascot": "Vikings",
       "rank": null,
-      "score": "17",
+      "score": "20",
       "record": "2-0",
       "periods": [
        "10",
        "7",
        "0",
-       "0"
+       "3"
       ],
       "id": "16",
       "color": "#4f2683"
@@ -142,16 +142,16 @@
       {
        "cat": "REC",
        "name": "J. Addison",
-       "line": "4 REC, 85 YDS, 1 TD",
+       "line": "5 REC, 90 YDS, 1 TD",
        "team": "16"
       }
      ],
-     "situation": "3rd & 22 at TB 44",
-     "possession": "16",
-     "red_zone": false,
+     "situation": "",
+     "possession": "",
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.9327777777777777,
+     "progress": 0.9472222222222222,
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": null
@@ -161,8 +161,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "12:25 - 4th",
-     "detail": "12:25",
+     "status_short": "9:42 - 4th",
+     "detail": "9:42",
      "period": 4,
      "start_utc": "2026-09-27T20:25Z",
      "network": "CBS",
@@ -173,13 +173,13 @@
       "school": "Dallas",
       "mascot": "Cowboys",
       "rank": null,
-      "score": "21",
+      "score": "28",
       "record": "1-1",
       "periods": [
        "10",
        "3",
        "8",
-       "0"
+       "7"
       ],
       "id": "6",
       "color": "#002a5c"
@@ -206,7 +206,7 @@
       {
        "cat": "PASS",
        "name": "D. Prescott",
-       "line": "20/30, 205 YDS, 1 TD",
+       "line": "22/33, 240 YDS, 1 TD",
        "team": "6"
       },
       {
@@ -222,12 +222,12 @@
        "team": "6"
       }
      ],
-     "situation": "1st & 10 at BAL 46",
+     "situation": "",
      "possession": "6",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.7930555555555556,
+     "progress": 0.8383333333333334,
      "venue_indoor": false,
      "venue": "Maracan\u00e3 Stadium",
      "line": null
@@ -237,8 +237,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "14:57 - 4th",
-     "detail": "14:57",
+     "status_short": "12:55 - 4th",
+     "detail": "12:55",
      "period": 4,
      "start_utc": "2026-09-27T20:25Z",
      "network": "CBS",
@@ -281,9 +281,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "T. Shough",
-       "line": "22/33, 203 YDS, 4 TD",
-       "team": "18"
+       "name": "K. Cousins",
+       "line": "19/30, 225 YDS, 1 TD",
+       "team": "13"
       },
       {
        "cat": "RUSH",
@@ -298,12 +298,12 @@
        "team": "13"
       }
      ],
-     "situation": "1st & 10 at LV 35",
-     "possession": "18",
+     "situation": "1st & 10 at NO 33",
+     "possession": "13",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7508333333333334,
+     "progress": 0.7847222222222222,
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": null
@@ -1057,7 +1057,7 @@
      "venue_indoor": false,
      "venue": "Empower Field at Mile High",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "LAR -1.5",
       "spread": 1.5,
       "total": 44.5,
@@ -1205,7 +1205,7 @@
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "PHI -4.5",
       "spread": 4.5,
       "total": 41.5,
@@ -3961,7 +3961,7 @@
      "venue_indoor": true,
      "venue": "Lenovo Center",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CAR -130",
       "spread": -1.5,
       "total": 6.5,
@@ -4014,7 +4014,7 @@
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "TOR -115",
       "spread": -1.5,
       "total": 6.5,
@@ -4067,7 +4067,7 @@
      "venue_indoor": true,
      "venue": "TD Garden",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BOS -115",
       "spread": -1.5,
       "total": 5.5,
@@ -4120,7 +4120,7 @@
      "venue_indoor": true,
      "venue": "Rogers Place",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "EDM -278",
       "spread": -1.5,
       "total": 6.5,
@@ -4173,7 +4173,7 @@
      "venue_indoor": true,
      "venue": "T-Mobile Arena",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "VGK -265",
       "spread": -1.5,
       "total": 5.5,

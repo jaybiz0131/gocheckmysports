@@ -1,8 +1,8 @@
 {
  "day": "2026-09-27",
  "first_poll": "2026-09-27T00:01:01Z",
- "last_change": "2026-09-27T23:00:37Z",
- "last_poll": "2026-09-27T23:01:03Z",
+ "last_change": "2026-09-27T23:05:34Z",
+ "last_poll": "2026-09-27T23:05:44Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -2432,7 +2432,7 @@
     },
     "4427325": {
      "changed_at": null,
-     "detail": "",
+     "detail": "Concussion",
      "feed_date": "2026-09-27T22:37Z",
      "first_seen": "2026-09-27T23:00:37Z",
      "name": "Renardo Green",
@@ -4024,6 +4024,15 @@
   "7": {
    "capped": true,
    "designations": {
+    "4039057": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Lil'Jordan Humphrey",
+     "pos": "WR",
+     "status": "Out"
+    },
     "4040608": {
      "changed_at": null,
      "detail": "Personal",
@@ -4031,6 +4040,15 @@
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Jonathon Cooper",
      "pos": "LB",
+     "status": "Out"
+    },
+    "4241820": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
      "status": "Out"
     },
     "4368033": {
@@ -4042,18 +4060,118 @@
      "pos": "G",
      "status": "Out"
     },
-    "4686472": {
+    "4603189": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Sai'vion Jones",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4683535": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4686472": {
+     "changed_at": "2026-09-27T23:05:34Z",
      "detail": "Foot",
-     "feed_date": "2026-09-26T02:25Z",
+     "feed_date": "2026-09-27T22:55Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Marvin Mims Jr.",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4868598": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5159802": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "name": "Dallen Bentley",
+     "pos": "TE",
+     "status": "Out"
     }
    },
    "id": "7",
-   "players": {},
+   "players": {
+    "4039057": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Lil'Jordan Humphrey",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4241820": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4603189": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Sai'vion Jones",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4683535": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4686472": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Marvin Mims Jr.",
+     "pos": "WR",
+     "reason": "Foot",
+     "via": "poll"
+    },
+    "4868598": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5159802": {
+     "feed_date": "2026-09-27T22:55Z",
+     "first_seen": "2026-09-27T23:05:34Z",
+     "jersey": "",
+     "name": "Dallen Bentley",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-09-27T19:50:55Z",
    "rows_returned": 25,
