@@ -1,8 +1,8 @@
 {
  "day": "2026-09-27",
  "first_poll": "2026-09-27T00:01:01Z",
- "last_change": "2026-09-27T23:10:29Z",
- "last_poll": "2026-09-27T23:10:37Z",
+ "last_change": "2026-09-27T23:15:54Z",
+ "last_poll": "2026-09-27T23:16:03Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -593,7 +593,7 @@
     "4603186": {
      "changed_at": null,
      "detail": "Forearm",
-     "feed_date": "2026-09-27T22:15Z",
+     "feed_date": "2026-09-27T23:09Z",
      "first_seen": "2026-09-27T23:00:37Z",
      "name": "Jack Bech",
      "pos": "WR",
@@ -702,6 +702,15 @@
   "14": {
    "capped": true,
    "designations": {
+    "3912189": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "name": "Bill Murray",
+     "pos": "G",
+     "status": "Out"
+    },
     "4242557": {
      "changed_at": null,
      "detail": "",
@@ -711,27 +720,90 @@
      "pos": "TE",
      "status": "Questionable"
     },
-    "4426515": {
+    "4360797": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "name": "Tutu Atwell",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4426515": {
+     "changed_at": "2026-09-27T23:15:54Z",
      "detail": "Hip",
-     "feed_date": "2026-09-27T11:53Z",
+     "feed_date": "2026-09-27T23:04Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Puka Nacua",
      "pos": "WR",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "4596363": {
-     "changed_at": null,
+     "changed_at": "2026-09-27T23:15:54Z",
      "detail": "Hamstring",
-     "feed_date": "2026-09-26T00:00Z",
+     "feed_date": "2026-09-27T23:07Z",
      "first_seen": "2026-09-27T00:01:01Z",
      "name": "Kamren Kinchens",
      "pos": "S",
-     "status": "Doubtful"
+     "status": "Out"
+    },
+    "4605951": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "name": "CJ Daniels",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "5082391": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "name": "Maximus Pulley",
+     "pos": "S",
+     "status": "Out"
     }
    },
    "id": "14",
    "players": {
+    "3912189": {
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "Bill Murray",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360797": {
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "Tutu Atwell",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4426515": {
+     "feed_date": "2026-09-27T23:04Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "Puka Nacua",
+     "pos": "WR",
+     "reason": "Hip",
+     "via": "poll"
+    },
     "4596363": {
      "feed_date": "2026-09-26T00:00Z",
      "first_seen": "2026-09-27T23:10:29Z",
@@ -739,6 +811,33 @@
      "name": "Kamren Kinchens",
      "pos": "S",
      "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4605951": {
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "CJ Daniels",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685522": {
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5082391": {
+     "feed_date": "2026-09-27T23:07Z",
+     "first_seen": "2026-09-27T23:15:54Z",
+     "jersey": "",
+     "name": "Maximus Pulley",
+     "pos": "S",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1251,8 +1350,8 @@
     },
     "4239996": {
      "changed_at": null,
-     "detail": "Undisclosed",
-     "feed_date": "2026-09-27T22:41Z",
+     "detail": "Hamstring",
+     "feed_date": "2026-09-27T23:02Z",
      "first_seen": "2026-09-27T23:00:37Z",
      "name": "Travis Etienne Jr.",
      "pos": "RB",

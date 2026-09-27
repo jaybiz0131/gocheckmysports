@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-27T23:10:36Z",
+ "fetched_at": "2026-09-27T23:16:02Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "1:31 - 4th",
-     "detail": "1:31",
+     "status_short": "0:34 - 4th",
+     "detail": "0:34",
      "period": 4,
      "start_utc": "2026-09-27T20:05Z",
      "network": "FOX",
@@ -39,13 +39,13 @@
       "school": "Arizona",
       "mascot": "Cardinals",
       "rank": null,
-      "score": "27",
+      "score": "30",
       "record": "1-1",
       "periods": [
        "0",
        "6",
        "7",
-       "14"
+       "17"
       ],
       "id": "22",
       "color": "#a40227"
@@ -65,17 +65,17 @@
       },
       {
        "cat": "REC",
-       "name": "G. Kittle",
-       "line": "6 REC, 82 YDS, 2 TD",
-       "team": "25"
+       "name": "M. Wilson",
+       "line": "11 REC, 89 YDS, 1 TD",
+       "team": "22"
       }
      ],
      "situation": "",
-     "possession": "25",
-     "red_zone": false,
-     "to_home": 3,
+     "possession": "",
+     "red_zone": true,
+     "to_home": 2,
      "to_away": 0,
-     "progress": 0.9747222222222223,
+     "progress": 0.9905555555555555,
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": null
@@ -85,8 +85,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "2:00 - 4th",
-     "detail": "2:00",
+     "status_short": "1:28 - 4th",
+     "detail": "1:28",
      "period": 4,
      "start_utc": "2026-09-27T20:05Z",
      "network": "FOX",
@@ -130,7 +130,7 @@
       {
        "cat": "PASS",
        "name": "B. Mayfield",
-       "line": "17/32, 217 YDS, 1 TD",
+       "line": "17/34, 217 YDS, 1 TD, 1 INT",
        "team": "27"
       },
       {
@@ -146,12 +146,12 @@
        "team": "16"
       }
      ],
-     "situation": "3rd & 13 at TB 39",
-     "possession": "27",
+     "situation": "2nd & 8 at TB 27",
+     "possession": "16",
      "red_zone": false,
-     "to_home": 3,
+     "to_home": 1,
      "to_away": 3,
-     "progress": 0.9666666666666667,
+     "progress": 0.9755555555555555,
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": null
@@ -161,8 +161,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "6:47 - 4th",
-     "detail": "6:47",
+     "status_short": "3:57 - 4th",
+     "detail": "3:57",
      "period": 4,
      "start_utc": "2026-09-27T20:25Z",
      "network": "CBS",
@@ -206,7 +206,7 @@
       {
        "cat": "PASS",
        "name": "D. Prescott",
-       "line": "22/33, 240 YDS, 1 TD",
+       "line": "22/34, 240 YDS, 1 TD",
        "team": "6"
       },
       {
@@ -222,12 +222,12 @@
        "team": "6"
       }
      ],
-     "situation": "3rd & 6 at DAL 28",
-     "possession": "6",
+     "situation": "3rd & 6 at DAL 43",
+     "possession": "33",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.8869444444444444,
+     "progress": 0.9341666666666667,
      "venue_indoor": false,
      "venue": "Maracan\u00e3 Stadium",
      "line": null
@@ -237,8 +237,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "9:21 - 4th",
-     "detail": "9:21",
+     "status_short": "7:48 - 4th",
+     "detail": "7:48",
      "period": 4,
      "start_utc": "2026-09-27T20:25Z",
      "network": "CBS",
@@ -298,12 +298,12 @@
        "team": "13"
       }
      ],
-     "situation": "1st & 10 at LV 35",
+     "situation": "2nd & Goal at NO 2",
      "possession": "13",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.8441666666666667,
+     "progress": 0.87,
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": null
@@ -1057,7 +1057,7 @@
      "venue_indoor": false,
      "venue": "Empower Field at Mile High",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "LAR -1.5",
       "spread": 1.5,
       "total": 44.5,
@@ -1205,7 +1205,7 @@
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "PHI -4.5",
       "spread": 4.5,
       "total": 41.5,
@@ -3961,7 +3961,7 @@
      "venue_indoor": true,
      "venue": "Lenovo Center",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CAR -130",
       "spread": -1.5,
       "total": 6.5,
@@ -4014,7 +4014,7 @@
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "TOR -115",
       "spread": -1.5,
       "total": 6.5,
@@ -4067,7 +4067,7 @@
      "venue_indoor": true,
      "venue": "TD Garden",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "BOS -115",
       "spread": -1.5,
       "total": 5.5,
@@ -4120,7 +4120,7 @@
      "venue_indoor": true,
      "venue": "Rogers Place",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "EDM -278",
       "spread": -1.5,
       "total": 6.5,
@@ -4173,7 +4173,7 @@
      "venue_indoor": true,
      "venue": "T-Mobile Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "VGK -265",
       "spread": -1.5,
       "total": 5.5,
@@ -4304,8 +4304,8 @@
      "league": "WNBA",
      "state": "in",
      "completed": false,
-     "status_short": "9:24 - 1st",
-     "detail": "9:24",
+     "status_short": "5:14 - 1st",
+     "detail": "5:14",
      "period": 1,
      "start_utc": "2026-09-27T23:00Z",
      "network": "Prime Video",
@@ -4316,10 +4316,10 @@
       "school": "Atlanta",
       "mascot": "Dream",
       "rank": null,
-      "score": "3",
+      "score": "5",
       "record": "30-14",
       "periods": [
-       "3"
+       "5"
       ],
       "id": "20",
       "color": "#e31837"
@@ -4331,10 +4331,10 @@
       "school": "Washington",
       "mascot": "Mystics",
       "rank": null,
-      "score": "1",
+      "score": "14",
       "record": "28-16",
       "periods": [
-       "1"
+       "14"
       ],
       "id": "16",
       "color": "#e03a3e"
@@ -4345,7 +4345,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.09333333333333332,
+     "progress": 0.16277777777777777,
      "venue_indoor": true,
      "venue": "State Farm Arena",
      "line": null
