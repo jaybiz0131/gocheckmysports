@@ -208,6 +208,82 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### The failed-run audit, 15 to 29 September 2026 (read-only, nothing re-run)
+
+Logs were read, never re-run to see. **What was read, exactly:** the three runs
+Jack named (9852c41, ce39579, 41ef7d7), one more Crypto brief, one Verify crypto
+pipeline run, and one Sports Inactives poller run. Causes for the Sports daily
+brief, watcher and verify groups are **not** read and are named as unverified
+below rather than assumed to share a cause.
+
+**A note on reading these logs.** Three lines in the poller's log looked like
+fired errors and are not: "slot-trigger token is not accepted by GitHub",
+"push failed after 3 attempts" and "rebase conflicted outside the snapshot" all
+carry the `[36;1m` prefix, which is GitHub echoing the **command text** before
+running it. The fired annotations are the `##[error]` ones. Had the first been
+reported as real, this audit would have claimed the Worker's ACTIONS_API token
+was rejected, which it was not. Read the prefix, not the words.
+#### Cause C, Sports: the H-6 canary's scoreboard line
+
+The Inactives poller's fired errors, run 35557446943:
+
+```
+##[error]canary: H-6 canary: a panel of 15 finals plus an upcoming game said '15 games today - 0 live now'
+##[error]canary: H-6 canary: the finals line did not name the next fixture: '15 games today - 0 live now'
+```
+
+A panel holding 15 finished games and one upcoming game printed "0 live now"
+and named no next fixture. That is a content defect the canary caught, and the
+canary stopping is the gate working.
+
+- **100 Inactives poller failures**, first 2026-09-19 00:01 on `df2fcf8`, last
+  2026-09-21 03:25 on `d74d0bd`. The poller runs every 15 minutes, which is why
+  one defect produced a hundred mails.
+- **Nothing fixed it and it healed on its own.** The failures stop at 03:25 on
+  21 September with no commit between the last failure and the silence; the only
+  nearby commit, `eeb7720` at 13:47, pinned the runner and action versions and
+  came ten hours later. A content assertion that stops failing when the content
+  changes is **latent, not fixed**: the next panel of finals plus an upcoming
+  game brings it back.
+- **The fix:** the line's own function is given that shape as a case, so it
+  reports the upcoming fixture rather than "0 live now". **Its U-9 test:** the
+  15-finals-plus-one-upcoming panel as a fixture, red against the current
+  function, green after. It is the first item after the audit's own list.
+
+#### Not read, and named as such
+
+`GoCheckMySports daily brief` 14, `Breaking-news watcher` 5 and
+`Verify sports pipeline` 5 in the same window. Their logs were **not** read, so
+no cause is claimed for them. They are the next thing to read, not the next
+thing to fix.
+
+#### Cancellations
+
+20 Inactives poller and 3 watcher runs cancelled by concurrency. Not mailed,
+not failures.
+
+### The 26 twin pairs are a Crypto finding
+
+Read and classified on that desk: 22 the same event published more than
+once, 4 not, and one pair that dates the same Senate cloture vote to two
+different days, which is a correction rather than a duplicate. The list and
+the proposed link-or-retire rule are in `gocheckmycrypto/docs/HANDOFF.md`;
+this desk's `twin_audit.py` should take the same template list so a
+recurring column stops being offered as a duplicate every run.
+
+### The run-report rule (Jack, 2026-09-29, narrow; the 12 September execution rules stand)
+
+**A run fails only when a person must act.** A step that stops on purpose, like
+the canary, still fails, because a person must read it. **A step that finds
+nothing to publish, or meets a rate limit it will retry on the next tick, exits
+0, prints a warning annotation and one line in the run summary, and files
+nothing under failed.**
+
+Applied to this audit: **none of the failures found were of the second kind.**
+All three causes below require a person, so the rule is recorded and there was
+nothing to change under it. Saying so is the point; inventing a change to have
+one would be the shape of thing U-9 exists to stop.
+
 ### The five stashes, listed before anything is cut (2026-09-29, Jack's order)
 
 None applied. Each waits on a ruling from this list, and any that is applied
