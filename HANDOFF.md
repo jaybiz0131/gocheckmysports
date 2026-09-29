@@ -208,6 +208,29 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+## U-12. An exit status is captured from the command itself, never read through a pipe or inside a string.
+
+Issued after the same trap bit the Weather desk three times in one day and the Sports and
+Crypto desk once: "$?" inside an echo string reported the command substitution's status and
+not the script's; "preflight.py | tail -1" discarded the script's status and a red preflight
+read as clean, and a push went out on it. The form is: run the command to a file, capture its
+status on the next line before anything else runs, and judge the output only after the status
+is known. A harness prints the status it captured beside the output it judged, and a report
+that says a suite was green names the status it read, not the last line it saw.
+
+## U-13. A commit never carries a conflict marker, and preflight proves it.
+
+Issued after the Weather site served its service worker with git conflict markers in it for
+six days, from a stash applied on September 23: the file did not parse, so the offline shell
+and web push were dead the whole time, a published page carried an empty conflict where a
+reader could see it, and nothing looked broken because the site loads from the network
+anyway; preflight read the version with a pattern that found the first of two values and
+passed. Every desk's preflight therefore fails on <<<<<<<, ======= or >>>>>>> anywhere in the
+tree it publishes or runs; parses every script the site serves, with node --check or the
+language's own check, and fails on a file that does not parse; and asserts exactly one value
+wherever a conflict leaves two. A stash is applied on a clean tree and its result is read
+before anything is committed.
+
 ---
 
 # For tomorrow's handoff
