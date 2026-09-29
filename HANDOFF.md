@@ -208,6 +208,39 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### The family.js name cleanup, applied and found to have nothing to act on (2026-09-29)
+
+Jack's paste of 3:50 PM and its 4:00 PM addendum: delete `gcmSubidWithOrigin`
+and `gcmOrigin` per name, **decided by the grep and nothing else**. A name with
+any caller in the served tree stays and the report prints the callers; a name
+with no caller goes, with a U-9 break and a guard that every served affiliate
+link still carries the tracking it carried before.
+
+**The grep on this desk found neither name, and no `family.js` at all.**
+
+- `git ls-files | grep -E "(^|/)family\.js$"` answers nothing.
+- `git grep "gcmSubidWithOrigin\|gcmOrigin"` over the tracked tree answers
+  nothing.
+- `find . -name family.js` outside `node_modules` answers nothing.
+
+So there is nothing to delete, nothing to guard and no build. **No U-9 test was
+written either:** a test asserting two names are absent from a file that does
+not exist cannot be made to fail for the right reason, and U-9 says such a test
+is deleted rather than kept.
+
+**Why this desk differs.** The routing rail's `family.js` is copied into the
+CONSUMER sites; this is a media desk, and the Newsroom's tool modules publish
+into the six consumer sites rather than the media brands. The rail never landed
+here.
+
+**What the other desks found, for the record**, since the first paste described
+the deletion as safe everywhere: on Pet and Parents both names have live callers
+in `affiliates.js`, feeding the `clickref2` and `subId2` values on Awin and
+Impact links and, on Parents, the LawDepot `sid`. On Weather the deletion is
+genuinely done, and its only two remaining mentions are a comment recording it.
+So the deletion was safe on exactly one repository, the one with no affiliate
+builder.
+
 ## U-12. An exit status is captured from the command itself, never read through a pipe or inside a string.
 
 Issued after the same trap bit the Weather desk three times in one day and the Sports and
