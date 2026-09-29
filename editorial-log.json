@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c136",
-    "headline": "Pitcher Nestor Cortes signs Major League deal with Phillies",
-    "category": "accuracy",
-    "reasons": [
-     "The data_point confidence label is 'announced-not-verified', but the draft presents the signing as a settled fact with 'Per MLB.com's report, Cortes agreed to the deal with the Phillies.' The brief's own open_questions flag 'Official Phillies or MLB statement confirming the deal' as unresolved. An announced-not-verified claim must read with that caveat in the prose; the draft does not."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Nick Kyrgios suspended from tennis after testing positive for cocaine metabolite",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The suspension was confirmed by the International Tennis Integrity Agency' but the brief marks this claim as 'announced-not-verified' confidence level. The draft presents an unverified claim as settled fact without hedging language or attribution that signals uncertainty.",
-     "The draft attributes the quote 'coming to terms with being near the end of my career has been harder than I ever imagined' to Kyrgios's statement, but this is a paraphrase or interpretation of his Instagram statement, not a direct quote. The brief lists it as a claimed quote with 'reported' confidence, meaning it should appear as Kyrgios stated it in the source, not reconstructed as prose narrative."
-    ]
-   },
-   {
-    "id": "c035",
-    "headline": "Nneka Ogwumike announces retirement after 2026 season",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ogwumike's departure this offseason' in the bottom_line, but the brief and all data_points establish that Ogwumike will retire after the 2026 season\u2014meaning she is still playing now. 'This offseason' (implying imminent departure) contradicts the core claim and misrepresents the timeline; she is not departing until after her 15th season concludes.",
-     "The draft does not cite the sources inline for key attributable claims. 'Per Yahoo WNBA' appears only once in the body, but other facts (her age, All-WNBA selections, MVP year, current team, the quote) lack inline attribution and should show which outlet reported each piece."
-    ]
-   },
-   {
-    "id": "c057",
-    "headline": "Alvin Kamara sidelined with MCL sprain, expected to miss at least one month",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'is expected to miss at least one month' as current fact, but the brief data_point confirms only that Kamara 'is expected to miss at least one month.' The brief is thin and the open_questions flag that 'No official statement from the Saints organization, team medical staff, or the NFL injury reporting system is included.' The draft should either hedge ('reportedly') or attribute the claim inline to a specific source if the source material itself is not from official injury reporting.",
-     "The draft cites 'CBS Sports' and 'Yahoo WNBA' [sic] but the sources list shows 'cbssports.com' and 'sports.yahoo.com/nfl/'. The draft does not attribute the 'at least one month' timeline or the Week 1 availability concern inline to either outlet, leaving the reader uncertain which outlet sourced which claim."
-    ]
-   },
-   {
-    "id": "c076",
-    "headline": "Israel withdraws support for Infantino as FIFA presidency crisis deepens",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The AFC, representing Asia's 45 federations, co-signed a letter with UEFA and CONCACAF leadership accusing Infantino of deception over FIFA Forward Enterprise.' The brief data_point says 'The AFC's president and general secretary co-signed a letter along with the leaders of UEFA and CONCACAF accusing Infantino of deception over the FFE proposal.' The draft incorrectly attributes the letter to the entire AFC as a body representing 45 federations when the source states only the AFC leadership (president and general secretary) signed it. This is a material factual misrepresentation.",
-     "The draft references 'a July 30 statement from UEFA indicated that its 55 member federations plan to boycott FIFA competitions unless they receive assurances that such attempts to compromise the game will never be made again' but the brief data_point states the boycott threat is conditional on receiving assurances that 'such attempts to disfigure the game in this way will never be made again.' The draft paraphrases 'compromise' for 'disfigure,' which changes the connotative weight; more critically, the brief notes UEFA plans to boycott 'despite Infantino scrapping FIFA Forward Enterprise,' meaning the boycott threat persists even after FFE's collapse\u2014the draft's phrasing suggests UEFA wants assurances against future attempts but does not clearly convey that the boycott stands despite the plan being scrapped."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 5,
   "rejected": [
    {
@@ -7689,6 +7639,56 @@
     "category": "accuracy",
     "reasons": [
      "The draft includes a claim about Cheryl Reeve winning 2026 WNBA Coach of the Year. This claim appears in the brief with confidence 'reported' and a different source URL (https://sports.yahoo.com/articles/well-deserved-mvp-wnba-world-162508977.html) than the main Yahoo WNBA source cited in the draft's sources list. The draft's sources list includes only one URL (https://sports.yahoo.com/articles/wnba-crowns-olivia-miles-rookie-153339708.html), which is about Miles' Rookie of the Year award. The Reeve claim cannot be traced to the sourced article; it comes from a different Yahoo WNBA article not listed in the draft's sources. This is a fact outside the sourced brief material and represents a sourcing gap."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-29",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Manchester City Found Guilty of 114 of 115 Financial Rule Breaches, September 29",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates October 3, 2026 as a Friday; October 3, 2026 is a Saturday",
+     "the draft dates October 3, 2026 as a Friday; October 3, 2026 is a Saturday"
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Braves Finalize 2026 NL Wild Card Series Roster, October 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the series 'begins Tuesday, October 1' but today is Tuesday, 2026-09-29. October 1 is not Tuesday; it is four days away (Thursday). A scheduled future event must be written as upcoming, not as a day-of-week that is incorrect. This is a factual error about the date and day that will confuse readers about when the series actually starts.",
+     "the draft dates October 1, 2026 as a Tuesday; October 1, 2026 is a Thursday",
+     "the draft dates October 1, 2026 as a Tuesday; October 1, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c278",
+    "headline": "Wild Defenseman Brock Faber Has Surgery for Skull Fracture, September 29",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents a definitive medical diagnosis and surgical intervention ('underwent surgery for a skull fracture') without on-record confirmation from an official injury report or on-the-record medical statement. The only on-record sources are GM Guerin's statements about Faber 'doing well' and following 'doctor's leads,' which do not independently verify the fracture diagnosis or surgical procedure. A serious injury claim of this magnitude\u2014skull fracture, surgery\u2014must trace to official medical disclosure or the player/team's on-record acknowledgment of those specific details, not inference from a GM's wellness comments. The brief's own open_question flags that 'the sources do not specify' the nature of the injury or recovery timeline, yet the draft asserts both as fact."
+    ]
+   },
+   {
+    "id": "c57",
+    "headline": "Colorado benches five-star QB Julian Lewis, names Isaac Wilson starter for Texas Tech game on October 4",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Colorado started the season 2-2 before benching Julian Lewis' in the opening paragraph (implied by 'four-game stretch'). However, the brief's core_claim says Lewis led the team to 'a 2-2 start,' which is the starting record, not the record when benched. The brief never states what Colorado's record was at the moment of the benching. The draft's claim that the Baylor loss was the game that triggered the benching is not explicitly confirmed in the brief's data_points\u2014the brief only says Wilson replaced Lewis 'in the second half' of the Baylor loss and that the move comes 'after Lewis's inconsistent performance.' The exact trigger event (whether Colorado was 2-2, 3-1, or another record at benching) is not in the brief, so stating this as fact is smuggled information.",
+     "the draft dates October 4, 2026 as a Saturday; October 4, 2026 is a Sunday"
+    ]
+   },
+   {
+    "id": "c239",
+    "headline": "Giants place Brian Burns on injured reserve after ACL tear",
+    "category": "accuracy",
+    "reasons": [
+     "The draft identifies Burns as a 'linebacker' but the brief identifies him as an edge defender. The brief's data_points and angle consistently describe Burns as a pass-rush/edge defender in the context of replacing him with edge contributors (Abdul Carter and Kayvon Thibodeaux). The draft's opening claim that Burns is a linebacker conflicts with the sourced material's characterization of his role and the brief's description of him as a key edge defender whose absence forces reliance on other edge contributors. This is a factual claim about position that does not trace accurately to the brief."
     ]
    }
   ]
