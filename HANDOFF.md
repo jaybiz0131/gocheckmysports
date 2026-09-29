@@ -208,6 +208,45 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### The five stashes, listed before anything is cut (2026-09-29, Jack's order)
+
+None applied. Each waits on a ruling from this list, and any that is applied
+goes on a clean tree with its result read before anything is committed, which
+is U-13's last sentence and the way Weather's markers got in.
+
+| # | branch it was stashed on | date | what it holds |
+|---|---|---|---|
+| `stash@{0}` | `main`, "gcms-pre-push-17045" | 2026-09-22 14:49 | 8 generated data files, 3446 insertions: scoreboard, standings, lines, schedules, inactives, kickoff-weather, players, where-to-watch. No source. |
+| `stash@{1}` | `search-s1-canonical-urls` | 2026-09-21 16:09 | the same 8 data files AND `site_build.py`, 18 lines. **The only stash on this desk that holds source.** |
+| `stash@{2}` | `main`, "local build data before push" | 2026-09-21 10:57 | 8 generated data files, 4440 insertions. No source. |
+
+**`stash@{1}` HOLDS UNLANDED WORK, AND IT IS NOT A FRAGMENT.** Its
+`site_build.py` change is **S-2: the sitemap carries only pages that deserve a
+search slot**, taking the per-game pages out of the sitemap while leaving them
+live and linked, `for _sub in ("players", "games")` becoming
+`for _sub in ("players",)`. It carries its own written reason: the Search
+Console read of 21 September, 505 URLs on this desk sitting in "Discovered,
+currently not indexed", and the argument that a sitemap asking for everything
+gets less of what matters crawled on a ninety-day-old domain.
+
+**It never landed.** `site_build.py` on main still reads
+`for _sub in ("players", "games")` at line 11581, and S-2 is recorded nowhere
+in this handoff. Read live on 2026-09-29: `sitemap.xml` is a sitemapindex of
+three, `sitemap-priority.xml` carries 135 URLs with no game pages and
+`sitemap-archive.xml` carries 915 with **16 game URLs**, which are the ones S-2
+removes.
+
+So the ruling this stash needs is not "apply or drop" but **whether S-2 is still
+the desk's intention**, eight days on. The other four are generated data and
+safe to drop whenever the ruling says so.
+
+**The origin rule lives in one place for the family:**
+`GoCheckMyParents/docs/monetization-subids.md`, 220 lines, tracked. The origin
+goes in the network's second slot where it has one, is joined into a single-slot
+sid only when it fits, and the page's own attribution is never shortened to make
+room. **It does not apply on this desk**, because nothing here builds an
+affiliate link; the pointer is here so the family has one text rather than four.
+
 ### The family.js name cleanup, applied and found to have nothing to act on (2026-09-29)
 
 Jack's paste of 3:50 PM and its 4:00 PM addendum: delete `gcmSubidWithOrigin`
