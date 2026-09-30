@@ -208,6 +208,21 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### A log line with the `[36;1m` prefix is the command, not an error (2026-09-29)
+
+**Verbatim, Jack's words:** a log line carrying the `[36;1m` prefix is GitHub
+echoing the command, not a fired error; a finding from such a line is not a
+finding.
+
+Found in the failed-run audit. Three lines in the Inactives poller's log read as
+fired errors and are not: "slot-trigger token is not accepted by GitHub", "push
+failed after 3 attempts" and "rebase conflicted outside the snapshot". All three
+are the shell script's own `echo` statements, logged before they run. Reported as
+real, the first would have claimed the Worker's `ACTIONS_API` token was rejected
+and sent someone to replace a working secret. The fired annotations are the
+`##[error]` and `##[warning]` ones; the poller's real cause was two `##[error]`
+lines from its H-6 canary and nothing else.
+
 ### The failed-run audit, 15 to 29 September 2026 (read-only, nothing re-run)
 
 Logs were read, never re-run to see. **What was read, exactly:** the three runs
