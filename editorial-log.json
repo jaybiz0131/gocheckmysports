@@ -1,38 +1,5 @@
 [
  {
-  "date": "2026-08-19",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c130",
-    "headline": "Cortes agrees to Major League deal with Phillies, per MLB.com",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'MLB.com reported on Tuesday' but the brief provides no timestamp or day-of-week context, only a UTC timestamp. The writer has added 'Tuesday' without a data point backing it.",
-     "The draft's framing\u2014'The announcement carries no contract terms, deal structure, timeline for effectiveness, or confirmation from the Phillies organization or from Cortes himself'\u2014narratively restates open_questions and absence rather than reporting what was confirmed. This violates the rule forbidding narration of absence. The brief itself flags that the source is 'corrupted' and provides no detail; the draft should either report the single confirmed fact (Cortes agreed to a deal) or kill the story, not use prose to highlight what the source lacks."
-    ]
-   },
-   {
-    "id": "c057",
-    "headline": "Seahawks sign cornerback Trevon Diggs to 1-year deal",
-    "category": "accuracy",
-    "reasons": [
-     "Third paragraph contains 'Biadasz arrives on a short-term pact'\u2014this is a clear factual error. The draft is about Trevon Diggs signing with the Seahawks, not Biadasz (who appears in story c180 about the Chargers). This sentence is smuggled misinformation not present in the brief and introduces a player from an unrelated story."
-    ]
-   },
-   {
-    "id": "c066",
-    "headline": "FIFA vice president Cs\u00e1nyi withdraws support from Infantino, citing Lamour dismissal",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'CONCACAF has 41 member associations' but the brief data_point specifies 'CONCACAF has 41 member associations, of which 35 are FIFA members.' The draft omits the crucial qualifier about FIFA membership, conflating total regional members with FIFA voting members, which directly affects vote counting logic in the story.",
-     "Draft claims 'No public opposition has emerged among CONMEBOL's 10 South American members' but this is narration of absence from the brief's open_questions, not a data_point. The rule forbids restating what sources do not report as if it is established fact.",
-     "Draft attributes CONCACAF's Aug. 1 statement to 'CONCACAF...and its 41 member associations' but the brief data_point says the statement was from 'CONCACAF's president and general secretary co-signed a letter along with the leaders of UEFA and the AFC'\u2014not all 41 members. The draft overstates the breadth of the statement's authorship."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-20",
   "approved": 4,
   "rejected": [
@@ -7689,6 +7656,40 @@
     "category": "accuracy",
     "reasons": [
      "The draft identifies Burns as a 'linebacker' but the brief identifies him as an edge defender. The brief's data_points and angle consistently describe Burns as a pass-rush/edge defender in the context of replacing him with edge contributors (Abdul Carter and Kayvon Thibodeaux). The draft's opening claim that Burns is a linebacker conflicts with the sourced material's characterization of his role and the brief's description of him as a key edge defender whose absence forces reliance on other edge contributors. This is a factual claim about position that does not trace accurately to the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-30",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "Bryce Harper homers to atone for misplay; Phillies tie Wild Card with 4-3 Game 2 win in 10",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a quote from Alec Bohm: 'There's been a lot of ups and downs. Didn't start the best. I don't really know how to put it all into words quickly, but it's just been a long road with a lot of ups and downs. I've learned a lot, and I've made a lot of really close friends along the way and had a lot of people to lean on along the way. I really wouldn't have rather had it any other way.' This quote appears in the brief's data_points but is NOT used anywhere in the draft body. The draft contains no Bohm quote. A quote in the brief but omitted from the draft is not itself an accuracy failure, but this indicates the writer had access to the quote and chose not to use it\u2014which is fine. However, there is no counter-balancing issue here.",
+     "The draft reports: 'Game 3 takes place on October 2.' The brief data_point states: 'Game 3 of the Wild Card Series will be played Thursday afternoon.' Today is Wednesday, September 30, 2026. Thursday is October 1, not October 2. The draft's specific date 'October 2' contradicts the brief's 'Thursday afternoon.' This is a factual error about a scheduled event."
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Clark's 27 Points, 15 Assists Force Game 3 in Fever-Aces Series",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data point specifies '23 at-large selections and one automatic berth for the highest-ranked Group of Five program,' but the draft states 'Group of Six program.' This is a factual error that changes the eligibility scope.",
+     "The draft reports the Game 2 score as implicit (forcing Game 3) but never states it. The brief lists 'What was the final Game 2 score?' as an open question, meaning the score is not confirmed in the brief. The draft should not imply a known score without stating it.",
+     "The draft states 'keeping the Fever alive after a 102-85 loss in Game 1' but does not confirm Game 2 forced Game 3 by stating the Game 2 score or final series standing. Without the Game 2 score from the brief, 'forced Game 3' is asserted without the evidence trail."
+    ]
+   },
+   {
+    "id": "c103",
+    "headline": "Rams WR Nacua Cleared to Return Against Eagles on October 4",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Nacua 'sustained the injury during practice on September 17 and has not played since Week 1 against the San Francisco 49ers.' This is internally contradictory: if he was injured on September 17 and missed the last two weeks (per the brief), he could not have played in Week 1 if Week 1 was before September 17. The brief confirms he played Week 1 and sustained injury on September 17, but the draft's phrasing makes the injury timing unclear relative to his Week 1 appearance.",
+     "The brief's open_questions note references 'both hip injury and psoas injuries' in source snippets but confirms only the hip injury on September 17th. The draft uses only 'hip injury' without clarifying whether these are the same condition. However, the draft's term is supported by the primary data point, so this is a brief ambiguity, not a draft error."
     ]
    }
   ]
