@@ -8,9 +8,9 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 1 October 2026, end of the U-13 preflight session.
-`main` ended at d06cca7. The open branch `build-stamp` ended at d9a093c and
-`search-s1-canonical-urls` at 64fe43f, both unmerged and both kept.
+Last updated: 1 October 2026, end of the merge-and-Cause-B session.
+`main` ended at 0d02aa2. `build-stamp` and `cause-b-stamp-proof` are MERGED and
+DELETED. `search-s1-canonical-urls` stays open at 64fe43f with S-2's work in `stash@{0}`.
 The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file, by Jack's
 option-two ruling of 1 October, along with the three rules added that day: a
 plant's restore comes from a saved copy and never from `git checkout` on the file
@@ -115,6 +115,31 @@ dispatch other than the agreed Edition backstop; every call must appear in
 deploy`). Until then the evening slot has no automatic backstop; if it has not
 published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
 and note it in the report.
+
+## Where this session ended (1 October 2026, evening)
+
+- `main` is **`0d02aa2`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
+  read `0d02aa29d579` at 22:57:27Z.
+- **Cause B is fixed here** at `0d02aa2`. Eight checks that read the real publish tree could
+  not fail in a job that builds nothing: three skipped behind an existence check, a glob and a
+  walk that visited nothing and passed, and the rest. The gate builds its own tree now and all
+  eight reads are unconditional. Reads of the real publish tree left in the gate: **zero**.
+- The gate takes about **262 seconds**, up from about 90, because it builds the site once per
+  run. Say that before someone reads it as a fault.
+- Deploys today, from `/counts/today`, the count of record: **3 production builds** against an
+  allowance of 12 (16 on Sundays). It is Thursday, so the Sunday game-window freeze, 12:30 to
+  8:30 PM ET, did not apply to any of them.
+- Branches: `search-s1-canonical-urls` at `64fe43f`, open, with S-2's work in `stash@{0}`
+  (`fcacd1c`). `build-stamp` and `cause-b-stamp-proof` were merged and deleted after proving 0
+  commits outstanding. Stashes: **one**, the S-2 work.
+- **Next session's order, as Jack set it:** the twins branch on Crypto FIRST, link or retire;
+  then **S-2 here**, as its own branch off `main` and not by applying the stash; then the
+  deep-URL register; then Cause C, the H-6 scoreboard canary line, which healed on its own and
+  is latent.
+- Also open, with the last commit of each: A-17's font and poster work, shared with Crypto,
+  nothing yet; H-5b, the byline carrying the date when it differs, nothing yet; H-12's Sunday
+  grouping, still to be checked on a Sunday at 1:30 PM ET; the S-D day-14 report, owed since
+  28 September and still owed.
 
 ## 4. Open items
 

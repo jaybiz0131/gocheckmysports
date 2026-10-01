@@ -38,31 +38,34 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   Add to the map when a new shorthand appears on a card, not before.
 ---
 
-## Where this session ended (1 October 2026)
+## Rulings and cross-desk state, 1 October 2026
 
-- `main` is `d06cca7` (a ledger commit; the last code commit on it is `659577a`'s brief).
-- `build-stamp` is **`d9a093c`**, pushed and verified by hash, **unmerged and open work**.
-  It carries U-12 and U-13 verbatim, the echoed-command trap, the stash list, the failed-run
-  audit, the run-report rule, the family.js name rule, and today's U-13 preflight. An
-  unmerged branch is Jack's; it was not deleted.
-- The other open branch is `search-s1-canonical-urls` at `64fe43f`, with S-2's work held in
-  `stash@{0}` (`fcacd1c`). S-2 lands as its own branch after `build-stamp`, by Jack's ruling,
-  not by applying the stash.
-- Stashes: **one**, the S-2 work above. The two data stashes were dropped today and named in
-  `docs/HANDOFF-2026-09-23-to-10-01.md`.
-- Open, with the last commit of each: Cause C's H-6 canary scoreboard line (latent, healed on
-  its own, no commit); S-2 (`64fe43f` plus `stash@{0}`); Cause B's stamp and ignore proof
-  (nothing yet); A-17's font and poster work, shared with Crypto (nothing yet); merging
-  `build-stamp` (`d9a093c`, Jack's call).
-- **U-1's handoff question, decided by Jack on 1 October: option two.** Each desk keeps one
-  handoff of its own under 300 lines, and the shared laws live in **one** file that both
-  handoffs point at by path, because a law copied into five files is five chances to drift and
-  a law in one file is none. **This file is that one file.** The desk handoffs are
-  `docs/HANDOFF.md` here and `../gocheckmycrypto/docs/HANDOFF.md`; both point at this path, and
-  Crypto's copy of U-1 to U-13 was removed the same day rather than left to drift. One
-  consequence, stated plainly: a desk cloned on its own cannot see the laws, so the path
-  `../gocheckmysports/HANDOFF.md` has to resolve, which it does when both repos sit side by
-  side in `~/Berno Projects` as they do.
+- **U-1's handoff question, decided by Jack: option two.** Each desk keeps one handoff of its
+  own under 300 lines, and the shared laws live in **one** file that both handoffs point at by
+  path, because a law copied into five files is five chances to drift and a law in one file is
+  none. **This file is that one file.** The desk handoffs are `docs/HANDOFF.md` here and
+  `../gocheckmycrypto/docs/HANDOFF.md`; both point at this path, and Crypto's copy of U-1 to
+  U-13 was removed the same day rather than left to drift. One consequence, stated plainly: a
+  desk cloned on its own cannot see the laws, so `../gocheckmysports/HANDOFF.md` has to
+  resolve, which it does with the two repos side by side in `~/Berno Projects`.
+- **The path is `~/Berno Projects`.** Not `~/Desktop/Berno Projects`, which stopped resolving
+  around 13:45 on 1 October and now holds only empty husk directories.
+- **Cause A is fixed and live on Crypto's `main`** (`63557d0`'s branch, merged). Its
+  `site-refresh.yml` no longer carries an `on: schedule:` key with every cron line commented
+  out, so it stops creating a zero-job run that fails on every push, and `_workflow_canary`
+  keeps it from returning on either desk.
+- **Cause B is fixed on both desks**, Crypto `c2b2d6b`, Sports `0d02aa2`. The gate builds its
+  own tree instead of reading one it did not make. It shows up as a false FAILURE on Crypto and
+  as a silent PASS here, and the fix is the same on both: see each desk's day history.
+- **The ignore proof is done, on Crypto, measured** (see that desk's history): a
+  documents-only push did not build, proven by the live stamp, the canceled count, and the
+  Worker's `last` line naming the commit. U-11's other half, the stamp, is live on both desks.
+- **Both desks' gates now build the site once per run**, so preflight costs about 145 seconds
+  on Crypto and 262 here. That is the price of a canary that does not assume an output it did
+  not make, and it is worth saying before someone reads the slowdown as a fault.
+- **Concurrent sessions are real.** An empty, five-hour-old `index.lock` in both repos refused
+  every commit at the start of the 1 October evening session while another session was live in
+  `~/Berno Projects/gocheckmyweather`. Check for a running git process before removing one.
 
 ---
 
