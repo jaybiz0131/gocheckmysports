@@ -126,16 +126,18 @@ and note it in the report.
   eight reads are unconditional. Reads of the real publish tree left in the gate: **zero**.
 - The gate takes about **262 seconds**, up from about 90, because it builds the site once per
   run. Say that before someone reads it as a fault.
-- Deploys today, from `/counts/today`, the count of record: **7 production builds, 0 skipped**,
+- Deploys today, from `/counts/today`, the count of record: **7 production builds, 1 skipped**,
   against an allowance of 12 (16 on Sundays). Three are this session's (`ba398d2`, `878bcdc`,
   `296fd5d`), two are the inactives poller's, two are earlier. It is Thursday, so the Sunday
   game-window freeze, 12:30 to 8:30 PM ET, did not apply to any of them.
-- **The ignore proof did NOT hold here**, and the day history says why in full: the
+- **The ignore proof holds here, on the second attempt.** `2c61c77` was SKIPPED: the stamp did
+  not move and the Worker counted it canceled, naming the commit. The FIRST attempt did not hold, and the day history says why in full: the
   documents-only push `878bcdc` built, because the poller's eight site-changing data files
   were pushed ninety seconds earlier and that build was still in flight, so the range the
   ignore rule was handed included them. The rule was right on its input. A documents-only
   push on this desk builds whenever it lands inside a poller's build window. There is a
-  decision for Jack in the history file; the desk recommends leaving it alone.
+  decision for Jack in the history file; the desk recommends leaving it alone, and the second
+  attempt is the evidence that the rule itself is sound.
 - **Pull immediately before pushing here.** Two pushes were rejected tonight as
   non-fast-forward, both the poller, at 22:58Z and 23:02Z. The second needed
   `git rebase --rebase-merges` to keep the merge commit.
