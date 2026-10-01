@@ -8,8 +8,16 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 2026-09-16, end of the Program 4 throttle session.
-Head at handoff: see `git log -1`. This session ended at 5b9dc29.
+Last updated: 1 October 2026, end of the U-13 preflight session.
+`main` ended at d06cca7. The open branch `build-stamp` ended at d9a093c and
+`search-s1-canonical-urls` at 64fe43f, both unmerged and both kept.
+The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file, by Jack's
+option-two ruling of 1 October, along with the three rules added that day: a
+plant's restore comes from a saved copy and never from `git checkout` on the file
+under test; nothing is staged with `git add -A` and a documents-only message is
+checked against `git diff --cached --stat`; a push's exit status is read from the
+push and never from a pipe. The day
+history is in `HANDOFF-2026-09-17-to-22.md` and `HANDOFF-2026-09-23-to-10-01.md`.
 
 ## 1. Where things live
 
@@ -130,7 +138,12 @@ and note it in the report.
 | V-14 Wire + reader panel W-4/W-7 | open, Sprint I | |
 | L-1..L-6 live engine | open, Sprint H | Program 4 part 4 |
 | Punch 5, 6, 8 (Crypto) | open | close Thu 6 PM ET |
-| S-D day-14 report | owed Sep 28 | |
+| S-D day-14 report | **owed since Sep 28, still owed** | |
+| U-13 preflight, both canaries, six plants red | done | `d9a093c` |
+| Cause A, the workflow that loads with no jobs | fixed on Crypto `build-stamp` | `e2b77ec` |
+| Cause B, the stamp and ignore proof | open, next session's first item | |
+| Cause C, the H-6 scoreboard canary line | latent, healed on its own | |
+| S-2, canonical URLs | open, its own branch after `build-stamp` | `64fe43f` + `stash@{0}` |
 
 Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
 Sunday 12:30 to 8:30 PM ET.

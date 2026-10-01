@@ -242,6 +242,171 @@ CHROME_PAGES = ("index.html", "scores.html", "wire.html", "news.html", "archive.
 # knows the omission is a decision and not an oversight.
 
 
+def _conflict_canary():
+    """U-13: a commit never carries a conflict marker, and preflight proves it.
+
+    29 September 2026, from the Weather desk: its service worker carried
+    `<<<<<<< Updated upstream` for SIX DAYS, from a stash applied on the 23rd.
+    The file did not parse, so the offline shell and web push were dead the
+    whole time; a published page carried an empty conflict where a reader could
+    see it; and nothing looked broken because the site loads from the network
+    anyway. Their preflight read the cache version with a pattern that found the
+    FIRST of two values and passed.
+
+    Three checks, as U-13 asks: no marker anywhere in the tree this desk
+    publishes or runs, every script it serves or runs parses, and exactly one
+    value wherever a conflict leaves two.
+
+    WHY `=======` IS NOT MATCHED ON ITS OWN. Markdown underlines a title with a
+    row of equals signs, and this repository's own handoff QUOTES all three
+    markers in U-13's text. `<<<<<<<` and `>>>>>>>` at the start of a line are
+    unambiguous; a bare `=======` line counts only in a file that already shows
+    one of those. That is the difference between a gate and a nuisance.
+
+    THE TRACKED TREE, NOT THE DISK. This desk carries 919 untracked files whose
+    names the Mac duplicated, "HANDOFF 2.md" and a whole "site/publish 7/" among
+    them. Walking the disk would scan stale copies and report findings from files
+    no deploy can reach. What a commit carries is what git tracks. This repo is
+    the reason the check is written this way.
+    """
+    import os as _o
+    import subprocess as _sp
+    fails = []
+    root = _o.path.dirname(_o.path.abspath(__file__))
+    exts = (".py", ".js", ".mjs", ".json", ".html", ".css", ".yml", ".yaml", ".md",
+            ".txt", ".xml", ".svg", ".webmanifest", ".sh")
+    try:
+        tracked = _sp.run(["git", "ls-files"], cwd=root, capture_output=True,
+                          text=True, check=True).stdout.split("\n")
+    except Exception as e:
+        _check(False, fails, f"conflict canary: git ls-files failed ({e}), so nothing was scanned")
+        return fails
+
+    scanned = 0
+    for rel in tracked:
+        if not rel or not rel.endswith(exts):
+            continue
+        path = _o.path.join(root, rel)
+        if not _o.path.exists(path):
+            continue
+        try:
+            text = open(path, encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        scanned += 1
+        lines = text.split("\n")
+        marked = False
+        for i, l in enumerate(lines):
+            if l.startswith("<<<<<<<") or l.startswith(">>>>>>>"):
+                marked = True
+                _check(False, fails, f"conflict canary: {rel} line {i + 1} starts with a "
+                                     f"conflict marker: {l[:40]!r}")
+        if marked:
+            for i, l in enumerate(lines):
+                if l.strip() == "=======":
+                    _check(False, fails, f"conflict canary: {rel} line {i + 1} is a bare "
+                                         f"separator inside a file that has a marker")
+    _check(scanned > 50, fails,
+           f"conflict canary: only {scanned} tracked file(s) scanned, so this proves nothing")
+
+    # EVERY SCRIPT PARSES. Python through the language's own compiler; JavaScript
+    # through node, which the runners carry. A missing node is said out loud
+    # rather than passing quietly.
+    for rel in tracked:
+        if not rel.endswith(".py"):
+            continue
+        path = _o.path.join(root, rel)
+        if not _o.path.exists(path):
+            continue
+        try:
+            compile(open(path, encoding="utf-8").read(), rel, "exec")
+        except SyntaxError as e:
+            _check(False, fails, f"conflict canary: {rel} does not parse: {e.msg} "
+                                 f"at line {e.lineno}")
+    node = None
+    for cand in ("/opt/homebrew/bin/node", "/usr/bin/node", "/usr/local/bin/node"):
+        if _o.path.exists(cand):
+            node = cand
+            break
+    if node is None:
+        from shutil import which as _which
+        node = _which("node")
+    js = [r for r in tracked
+          if r.endswith((".js", ".mjs")) and "publish/" not in r
+          and _o.path.exists(_o.path.join(root, r))]
+    # This desk tracks no JavaScript today (its only served scripts live in an
+    # untracked "site/publish 7/" the Mac duplicated), so this check is a guard
+    # for the first one that lands, not a measurement of anything now.
+    if node is None:
+        print(f"conflict canary: SKIPPED the parse of {len(js)} script(s): node not found")
+    else:
+        for rel in js:
+            r = _sp.run([node, "--check", _o.path.join(root, rel)], capture_output=True, text=True)
+            first = (r.stderr or "").strip().splitlines()
+            _check(r.returncode == 0, fails,
+                   f"conflict canary: {rel} does not parse (node --check exit "
+                   f"{r.returncode}): {first[0] if first else ''}")
+
+    # EXACTLY ONE VALUE WHERE A CONFLICT LEAVES TWO. On this desk that is the
+    # build stamp: two BUILD_COMMIT assignments is what a conflict in
+    # site_build.py's header looks like, and whichever Python saw last would win
+    # silently.
+    sbp = _o.path.join(root, "site_build.py")
+    if _o.path.exists(sbp):
+        sb = open(sbp, encoding="utf-8").read()
+        n = sum(1 for l in sb.split("\n") if l.startswith("BUILD_COMMIT = "))
+        _check(n == 1, fails,
+               f"conflict canary: site_build.py assigns BUILD_COMMIT {n} time(s) at the top "
+               f"level, and a conflict is how it becomes two")
+    return fails
+
+
+def _workflow_canary():
+    """CAUSE A of the 29 September failed-run audit: every workflow must LOAD.
+
+    Found on the Crypto desk, ported here because the two repos share this
+    pipeline's shape and nothing stopped the same key appearing in either.
+    There, site-refresh.yml had `on: schedule:` with every cron line commented out,
+    which Actions rejects: it created a run with ZERO JOBS, named by the file's
+    path rather than its `name:`, and concluded failure on every push for eight
+    days, from e2f3dd1 on 21 September. Nobody saw it because the mail says
+    "site-refresh.yml" and the run has nothing in it to read.
+
+    Checked WITHOUT pyyaml, because this pipeline is stdlib-only and the
+    workflows install nothing but Pillow. A `schedule:` key must be followed by
+    at least one `- cron:` before the next key at its own indentation.
+    """
+    import os as _o
+    fails = []
+    root = _o.path.dirname(_o.path.abspath(__file__))
+    wf_dir = _o.path.join(root, ".github", "workflows")
+    if not _o.path.isdir(wf_dir):
+        _check(False, fails, "workflow canary: no .github/workflows directory")
+        return fails
+    files = sorted(f for f in _o.listdir(wf_dir) if f.endswith((".yml", ".yaml")))
+    _check(bool(files), fails, "workflow canary: no workflow files to check")
+    for fn in files:
+        lines = open(_o.path.join(wf_dir, fn), encoding="utf-8").read().split("\n")
+        _check(any(l.startswith("name:") for l in lines), fails,
+               f"workflow canary: {fn} has no top-level name:, so Actions names it by path")
+        for i, l in enumerate(lines):
+            if l.strip() != "schedule:" or l.lstrip().startswith("#"):
+                continue
+            indent = len(l) - len(l.lstrip())
+            crons = 0
+            for nxt in lines[i + 1:]:
+                if not nxt.strip() or nxt.lstrip().startswith("#"):
+                    continue
+                if len(nxt) - len(nxt.lstrip()) <= indent:
+                    break
+                if nxt.lstrip().startswith("- cron:"):
+                    crons += 1
+            _check(crons > 0, fails,
+                   f"workflow canary: {fn} line {i + 1} has a schedule: key with no "
+                   f"- cron: under it, which Actions refuses to load")
+    return fails
+
+
 def _us_date_canary():
     """US date order on the desk's own chrome. Owner ruling, 21 September 2026.
 
@@ -293,6 +458,8 @@ def _us_date_canary():
 
 def layer1_canary():
     fails = []
+    fails.extend(_conflict_canary())   # U-13
+    fails.extend(_workflow_canary())   # Cause A of the 29 September audit
     fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.

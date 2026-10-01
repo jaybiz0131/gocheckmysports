@@ -1,8 +1,9 @@
 # Handoff, GoCheckMySports and GoCheckMyCrypto
 
-Read this file first, then the current program section. Under 300 lines by U-1; the day
-history for 17 to 22 September is in `docs/HANDOFF-2026-09-17-to-22.md` and nothing in it
-is live.
+Read this file first, then the current program section. Under 300 lines by U-1, which this
+file was itself breaking at 405 until 1 October. The day history is in
+`docs/HANDOFF-2026-09-17-to-22.md` and `docs/HANDOFF-2026-09-23-to-10-01.md`, and nothing
+in either is live.
 
 No tokens, no keys, no hook URLs in this file or any other. The repos are public.
 
@@ -35,47 +36,33 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   `ESPN Unlmtd` to ESPN Unlimited, `USA Net` to USA Network, `NBC Sports BO` to NBC Sports
   Boston. Anything unmapped prints exactly as the feed gives it, which is the safe default.
   Add to the map when a new shorthand appears on a card, not before.
+---
 
-## The Worker and the deploy counter (24 September 2026)
+## Where this session ended (1 October 2026)
 
-**Deployed.** Jack ran `npx wrangler deploy` from `gcm-newsroom` main at `f75ce71` after a
-fast-forward pull. Binding `env.COUNTS` (KV namespace `00dc8942e97043c8b18b611e14805465`),
-schedule `*/5 * * * *` unchanged, version `f5bdae3d-77d9-48ce-ba07-fae8361c628f`. The webhook
-secret was set once with `wrangler secret put` and appears in no file, handoff or report.
-
-Read live at 5:46 PM ET: `/counts/today` answers `{"date":"2026-09-24","deploys":{},
-"clicks":{},"note":"KV counters are not atomic; ..."}` and the status path answers
-`token_ok: true`, `token_status: 200`, with both evening briefs in the schedule. Routes 2, 3
-and 4 confirmed in production on their rejection paths, which count nothing: `GET /hit/<key>`
-405, `POST /hit/other` 400 `unknown key`, `?sp=bird` 400 `bad species`, a foreign or absent
-Origin 403, `GET /go/other` 404, and the counters unchanged after all six.
-
-**The notification is called "HTTP POST request"** in Netlify's menu now, not "outgoing
-webhook". Recorded so the next person does not hunt for it. Five sites post to
-`/hooks/netlify-deploy` on **Deploy succeeded** and **Deploy failed**, JWS with the secret:
-Sports, Pet, Parents, Weather and Crypto.
-
-**The count of record** is the Worker's deploy counter from today (Jack's ruling, 1:55 PM),
-replacing the `gh` commit-statuses method, which reads nothing on these repositories: Netlify
-posts no status, no check and no deployment to GitHub here, so that method could not tell a
-build that ran from one that was skipped. The corrected U-11 text has not reached this desk
-yet and is not written in as a rule; this paragraph records the ruling, not the clause.
-
-**U-11's proof for Sports, read by Jack in the Netlify UI on 24 September 2026**, not a read
-of this desk's own: on the Deploys page, `028a973` (code) built at 4:51 PM, `75ecb4e` (the
-documents-only push) shows **Canceled** at 4:52 PM, and `1c1eeea` (the stamp) published at
-5:09 PM. So the ignore rule skipped the handoff push. **A skipped build appears as "Canceled"**,
-which is worth knowing before someone reads it as an error.
-
-**The stamp is live on both desks.** Every page carries the commit that built it and so does
-`/stamp.txt`. Asserted, not eyeballed:
-
-    python3 live_read.py https://gocheckmysports.com/ --expect-head
-
-Sports `1c1eeeae7d79af221a4a7baca7947586291b85fc`, built 21:10:26Z, which matches the 5:09 PM
-publish Jack read in the UI. Crypto `31880d817f8642e14f2147a5093d185908fab320`, built
-21:15:59Z. Both matched `origin/main` on 40 characters. Any live read that does not match must
-measure nothing.
+- `main` is `d06cca7` (a ledger commit; the last code commit on it is `659577a`'s brief).
+- `build-stamp` is **`d9a093c`**, pushed and verified by hash, **unmerged and open work**.
+  It carries U-12 and U-13 verbatim, the echoed-command trap, the stash list, the failed-run
+  audit, the run-report rule, the family.js name rule, and today's U-13 preflight. An
+  unmerged branch is Jack's; it was not deleted.
+- The other open branch is `search-s1-canonical-urls` at `64fe43f`, with S-2's work held in
+  `stash@{0}` (`fcacd1c`). S-2 lands as its own branch after `build-stamp`, by Jack's ruling,
+  not by applying the stash.
+- Stashes: **one**, the S-2 work above. The two data stashes were dropped today and named in
+  `docs/HANDOFF-2026-09-23-to-10-01.md`.
+- Open, with the last commit of each: Cause C's H-6 canary scoreboard line (latent, healed on
+  its own, no commit); S-2 (`64fe43f` plus `stash@{0}`); Cause B's stamp and ignore proof
+  (nothing yet); A-17's font and poster work, shared with Crypto (nothing yet); merging
+  `build-stamp` (`d9a093c`, Jack's call).
+- **U-1's handoff question, decided by Jack on 1 October: option two.** Each desk keeps one
+  handoff of its own under 300 lines, and the shared laws live in **one** file that both
+  handoffs point at by path, because a law copied into five files is five chances to drift and
+  a law in one file is none. **This file is that one file.** The desk handoffs are
+  `docs/HANDOFF.md` here and `../gocheckmycrypto/docs/HANDOFF.md`; both point at this path, and
+  Crypto's copy of U-1 to U-13 was removed the same day rather than left to drift. One
+  consequence, stated plainly: a desk cloned on its own cannot see the laws, so the path
+  `../gocheckmysports/HANDOFF.md` has to resolve, which it does when both repos sit side by
+  side in `~/Berno Projects` as they do.
 
 ---
 
@@ -84,7 +71,10 @@ measure nothing.
 **U-1 to U-11, issued 24 September 2026, 12:50 PM ET. This is the one text.** Every desk
 (Pet, Parents, Weather, Sports and Crypto) writes it into its HANDOFF.md as the
 standing-rules section, replacing whatever set it holds, in one commit, and says so with
-the hash in its next report. A rule is issued once by Jack, numbered next in the sequence,
+the hash in its next report. **Superseded in part on 1 October 2026 by Jack's option-two
+ruling above: the laws now live in THIS file only, and a desk handoff points at it by
+path instead of holding a copy. The rest of this paragraph stands, including that a desk
+which cannot see a rule says so rather than cross-referencing it.** A rule is issued once by Jack, numbered next in the sequence,
 and every desk records it the same day, unchanged. A desk that finds a rule missing from
 its file says so in its report rather than cross-referencing a rule it cannot see. Three
 entries name things that are not on every desk; keep the rule, substitute the particular.
@@ -207,7 +197,37 @@ GitHub is withdrawn: Netlify posts no status, check or deployment to the Sports 
 repositories, so that method reads nothing there. The rest of U-11 stands unchanged: the ignore
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
+## U-12. An exit status is captured from the command itself, never read through a pipe or inside a string.
 
+Issued after the same trap bit the Weather desk three times in one day and the Sports and
+Crypto desk once: "$?" inside an echo string reported the command substitution's status and
+not the script's; "preflight.py | tail -1" discarded the script's status and a red preflight
+read as clean, and a push went out on it. The form is: run the command to a file, capture its
+status on the next line before anything else runs, and judge the output only after the status
+is known. A harness prints the status it captured beside the output it judged, and a report
+that says a suite was green names the status it read, not the last line it saw.
+
+### Three rules from the 1 October session (one line each, Jack, 1 October 2026)
+
+- **A restore in a plant comes from a saved copy, never from `git checkout` on the file under
+  test**, which reverts the implementation along with the plant.
+- **Nothing is staged with `git add -A`.** Files are staged by name, and a message that says
+  documents only is checked against `git diff --cached --stat` before the commit.
+- **A push's exit status is read from the push, never from a pipe.** This is U-12's third form
+  and it sits here beside U-12 by Jack's word.
+
+## U-13. A commit never carries a conflict marker, and preflight proves it.
+
+Issued after the Weather site served its service worker with git conflict markers in it for
+six days, from a stash applied on September 23: the file did not parse, so the offline shell
+and web push were dead the whole time, a published page carried an empty conflict where a
+reader could see it, and nothing looked broken because the site loads from the network
+anyway; preflight read the version with a pattern that found the first of two values and
+passed. Every desk's preflight therefore fails on <<<<<<<, ======= or >>>>>>> anywhere in the
+tree it publishes or runs; parses every script the site serves, with node --check or the
+language's own check, and fails on a file that does not parse; and asserts exactly one value
+wherever a conflict leaves two. A stash is applied on a clean tree and its result is read
+before anything is committed.
 ---
 
 # For tomorrow's handoff
