@@ -1,8 +1,9 @@
 # Handoff, GoCheckMySports and GoCheckMyCrypto
 
-Read this file first, then the current program section. Under 300 lines by U-1; the day
-history for 17 to 22 September is in `docs/HANDOFF-2026-09-17-to-22.md` and nothing in it
-is live.
+Read this file first, then the current program section. Under 300 lines by U-1, which this
+file was itself breaking at 405 until 1 October. The day history is in
+`docs/HANDOFF-2026-09-17-to-22.md` and `docs/HANDOFF-2026-09-23-to-10-01.md`, and nothing
+in either is live.
 
 No tokens, no keys, no hook URLs in this file or any other. The repos are public.
 
@@ -35,47 +36,30 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   `ESPN Unlmtd` to ESPN Unlimited, `USA Net` to USA Network, `NBC Sports BO` to NBC Sports
   Boston. Anything unmapped prints exactly as the feed gives it, which is the safe default.
   Add to the map when a new shorthand appears on a card, not before.
+---
 
-## The Worker and the deploy counter (24 September 2026)
+## Where this session ended (1 October 2026)
 
-**Deployed.** Jack ran `npx wrangler deploy` from `gcm-newsroom` main at `f75ce71` after a
-fast-forward pull. Binding `env.COUNTS` (KV namespace `00dc8942e97043c8b18b611e14805465`),
-schedule `*/5 * * * *` unchanged, version `f5bdae3d-77d9-48ce-ba07-fae8361c628f`. The webhook
-secret was set once with `wrangler secret put` and appears in no file, handoff or report.
-
-Read live at 5:46 PM ET: `/counts/today` answers `{"date":"2026-09-24","deploys":{},
-"clicks":{},"note":"KV counters are not atomic; ..."}` and the status path answers
-`token_ok: true`, `token_status: 200`, with both evening briefs in the schedule. Routes 2, 3
-and 4 confirmed in production on their rejection paths, which count nothing: `GET /hit/<key>`
-405, `POST /hit/other` 400 `unknown key`, `?sp=bird` 400 `bad species`, a foreign or absent
-Origin 403, `GET /go/other` 404, and the counters unchanged after all six.
-
-**The notification is called "HTTP POST request"** in Netlify's menu now, not "outgoing
-webhook". Recorded so the next person does not hunt for it. Five sites post to
-`/hooks/netlify-deploy` on **Deploy succeeded** and **Deploy failed**, JWS with the secret:
-Sports, Pet, Parents, Weather and Crypto.
-
-**The count of record** is the Worker's deploy counter from today (Jack's ruling, 1:55 PM),
-replacing the `gh` commit-statuses method, which reads nothing on these repositories: Netlify
-posts no status, no check and no deployment to GitHub here, so that method could not tell a
-build that ran from one that was skipped. The corrected U-11 text has not reached this desk
-yet and is not written in as a rule; this paragraph records the ruling, not the clause.
-
-**U-11's proof for Sports, read by Jack in the Netlify UI on 24 September 2026**, not a read
-of this desk's own: on the Deploys page, `028a973` (code) built at 4:51 PM, `75ecb4e` (the
-documents-only push) shows **Canceled** at 4:52 PM, and `1c1eeea` (the stamp) published at
-5:09 PM. So the ignore rule skipped the handoff push. **A skipped build appears as "Canceled"**,
-which is worth knowing before someone reads it as an error.
-
-**The stamp is live on both desks.** Every page carries the commit that built it and so does
-`/stamp.txt`. Asserted, not eyeballed:
-
-    python3 live_read.py https://gocheckmysports.com/ --expect-head
-
-Sports `1c1eeeae7d79af221a4a7baca7947586291b85fc`, built 21:10:26Z, which matches the 5:09 PM
-publish Jack read in the UI. Crypto `31880d817f8642e14f2147a5093d185908fab320`, built
-21:15:59Z. Both matched `origin/main` on 40 characters. Any live read that does not match must
-measure nothing.
+- `main` is `d06cca7` (a ledger commit; the last code commit on it is `659577a`'s brief).
+- `build-stamp` is **`d9a093c`**, pushed and verified by hash, **unmerged and open work**.
+  It carries U-12 and U-13 verbatim, the echoed-command trap, the stash list, the failed-run
+  audit, the run-report rule, the family.js name rule, and today's U-13 preflight. An
+  unmerged branch is Jack's; it was not deleted.
+- The other open branch is `search-s1-canonical-urls` at `64fe43f`, with S-2's work held in
+  `stash@{0}` (`fcacd1c`). S-2 lands as its own branch after `build-stamp`, by Jack's ruling,
+  not by applying the stash.
+- Stashes: **one**, the S-2 work above. The two data stashes were dropped today and named in
+  `docs/HANDOFF-2026-09-23-to-10-01.md`.
+- Open, with the last commit of each: Cause C's H-6 canary scoreboard line (latent, healed on
+  its own, no commit); S-2 (`64fe43f` plus `stash@{0}`); Cause B's stamp and ignore proof
+  (nothing yet); A-17's font and poster work, shared with Crypto (nothing yet); merging
+  `build-stamp` (`d9a093c`, Jack's call).
+- **A U-1 contradiction for Jack, not decided here.** This desk keeps **two** handoff files:
+  this one, which carries the shared laws for both desks, and `docs/HANDOFF.md`, which
+  carries this desk's own state. U-1 asks for one. Crypto's handoff points at
+  `../gocheckmysports/docs/HANDOFF.md` as the home of the shared laws, which is the wrong
+  one of the two. Both are now under 300 lines and the pointer is corrected, but which file
+  survives a merge is Jack's call, so neither was folded into the other today.
 
 ---
 
@@ -207,170 +191,6 @@ GitHub is withdrawn: Netlify posts no status, check or deployment to the Sports 
 repositories, so that method reads nothing there. The rest of U-11 stands unchanged: the ignore
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
-
-### A log line with the `[36;1m` prefix is the command, not an error (2026-09-29)
-
-**Verbatim, Jack's words:** a log line carrying the `[36;1m` prefix is GitHub
-echoing the command, not a fired error; a finding from such a line is not a
-finding.
-
-Found in the failed-run audit. Three lines in the Inactives poller's log read as
-fired errors and are not: "slot-trigger token is not accepted by GitHub", "push
-failed after 3 attempts" and "rebase conflicted outside the snapshot". All three
-are the shell script's own `echo` statements, logged before they run. Reported as
-real, the first would have claimed the Worker's `ACTIONS_API` token was rejected
-and sent someone to replace a working secret. The fired annotations are the
-`##[error]` and `##[warning]` ones; the poller's real cause was two `##[error]`
-lines from its H-6 canary and nothing else.
-
-### The failed-run audit, 15 to 29 September 2026 (read-only, nothing re-run)
-
-Logs were read, never re-run to see. **What was read, exactly:** the three runs
-Jack named (9852c41, ce39579, 41ef7d7), one more Crypto brief, one Verify crypto
-pipeline run, and one Sports Inactives poller run. Causes for the Sports daily
-brief, watcher and verify groups are **not** read and are named as unverified
-below rather than assumed to share a cause.
-
-**A note on reading these logs.** Three lines in the poller's log looked like
-fired errors and are not: "slot-trigger token is not accepted by GitHub",
-"push failed after 3 attempts" and "rebase conflicted outside the snapshot" all
-carry the `[36;1m` prefix, which is GitHub echoing the **command text** before
-running it. The fired annotations are the `##[error]` ones. Had the first been
-reported as real, this audit would have claimed the Worker's ACTIONS_API token
-was rejected, which it was not. Read the prefix, not the words.
-#### Cause C, Sports: the H-6 canary's scoreboard line
-
-The Inactives poller's fired errors, run 35557446943:
-
-```
-##[error]canary: H-6 canary: a panel of 15 finals plus an upcoming game said '15 games today - 0 live now'
-##[error]canary: H-6 canary: the finals line did not name the next fixture: '15 games today - 0 live now'
-```
-
-A panel holding 15 finished games and one upcoming game printed "0 live now"
-and named no next fixture. That is a content defect the canary caught, and the
-canary stopping is the gate working.
-
-- **100 Inactives poller failures**, first 2026-09-19 00:01 on `df2fcf8`, last
-  2026-09-21 03:25 on `d74d0bd`. The poller runs every 15 minutes, which is why
-  one defect produced a hundred mails.
-- **Nothing fixed it and it healed on its own.** The failures stop at 03:25 on
-  21 September with no commit between the last failure and the silence; the only
-  nearby commit, `eeb7720` at 13:47, pinned the runner and action versions and
-  came ten hours later. A content assertion that stops failing when the content
-  changes is **latent, not fixed**: the next panel of finals plus an upcoming
-  game brings it back.
-- **The fix:** the line's own function is given that shape as a case, so it
-  reports the upcoming fixture rather than "0 live now". **Its U-9 test:** the
-  15-finals-plus-one-upcoming panel as a fixture, red against the current
-  function, green after. It is the first item after the audit's own list.
-
-#### Not read, and named as such
-
-`GoCheckMySports daily brief` 14, `Breaking-news watcher` 5 and
-`Verify sports pipeline` 5 in the same window. Their logs were **not** read, so
-no cause is claimed for them. They are the next thing to read, not the next
-thing to fix.
-
-#### Cancellations
-
-20 Inactives poller and 3 watcher runs cancelled by concurrency. Not mailed,
-not failures.
-
-### The 26 twin pairs are a Crypto finding
-
-Read and classified on that desk: 22 the same event published more than
-once, 4 not, and one pair that dates the same Senate cloture vote to two
-different days, which is a correction rather than a duplicate. The list and
-the proposed link-or-retire rule are in `gocheckmycrypto/docs/HANDOFF.md`;
-this desk's `twin_audit.py` should take the same template list so a
-recurring column stops being offered as a duplicate every run.
-
-### The run-report rule (Jack, 2026-09-29, narrow; the 12 September execution rules stand)
-
-**A run fails only when a person must act.** A step that stops on purpose, like
-the canary, still fails, because a person must read it. **A step that finds
-nothing to publish, or meets a rate limit it will retry on the next tick, exits
-0, prints a warning annotation and one line in the run summary, and files
-nothing under failed.**
-
-Applied to this audit: **none of the failures found were of the second kind.**
-All three causes below require a person, so the rule is recorded and there was
-nothing to change under it. Saying so is the point; inventing a change to have
-one would be the shape of thing U-9 exists to stop.
-
-### The five stashes, listed before anything is cut (2026-09-29, Jack's order)
-
-None applied. Each waits on a ruling from this list, and any that is applied
-goes on a clean tree with its result read before anything is committed, which
-is U-13's last sentence and the way Weather's markers got in.
-
-| # | branch it was stashed on | date | what it holds |
-|---|---|---|---|
-| `stash@{0}` | `main`, "gcms-pre-push-17045" | 2026-09-22 14:49 | 8 generated data files, 3446 insertions: scoreboard, standings, lines, schedules, inactives, kickoff-weather, players, where-to-watch. No source. |
-| `stash@{1}` | `search-s1-canonical-urls` | 2026-09-21 16:09 | the same 8 data files AND `site_build.py`, 18 lines. **The only stash on this desk that holds source.** |
-| `stash@{2}` | `main`, "local build data before push" | 2026-09-21 10:57 | 8 generated data files, 4440 insertions. No source. |
-
-**`stash@{1}` HOLDS UNLANDED WORK, AND IT IS NOT A FRAGMENT.** Its
-`site_build.py` change is **S-2: the sitemap carries only pages that deserve a
-search slot**, taking the per-game pages out of the sitemap while leaving them
-live and linked, `for _sub in ("players", "games")` becoming
-`for _sub in ("players",)`. It carries its own written reason: the Search
-Console read of 21 September, 505 URLs on this desk sitting in "Discovered,
-currently not indexed", and the argument that a sitemap asking for everything
-gets less of what matters crawled on a ninety-day-old domain.
-
-**It never landed.** `site_build.py` on main still reads
-`for _sub in ("players", "games")` at line 11581, and S-2 is recorded nowhere
-in this handoff. Read live on 2026-09-29: `sitemap.xml` is a sitemapindex of
-three, `sitemap-priority.xml` carries 135 URLs with no game pages and
-`sitemap-archive.xml` carries 915 with **16 game URLs**, which are the ones S-2
-removes.
-
-So the ruling this stash needs is not "apply or drop" but **whether S-2 is still
-the desk's intention**, eight days on. The other four are generated data and
-safe to drop whenever the ruling says so.
-
-**The origin rule lives in one place for the family:**
-`GoCheckMyParents/docs/monetization-subids.md`, 220 lines, tracked. The origin
-goes in the network's second slot where it has one, is joined into a single-slot
-sid only when it fits, and the page's own attribution is never shortened to make
-room. **It does not apply on this desk**, because nothing here builds an
-affiliate link; the pointer is here so the family has one text rather than four.
-
-### The family.js name cleanup, applied and found to have nothing to act on (2026-09-29)
-
-Jack's paste of 3:50 PM and its 4:00 PM addendum: delete `gcmSubidWithOrigin`
-and `gcmOrigin` per name, **decided by the grep and nothing else**. A name with
-any caller in the served tree stays and the report prints the callers; a name
-with no caller goes, with a U-9 break and a guard that every served affiliate
-link still carries the tracking it carried before.
-
-**The grep on this desk found neither name, and no `family.js` at all.**
-
-- `git ls-files | grep -E "(^|/)family\.js$"` answers nothing.
-- `git grep "gcmSubidWithOrigin\|gcmOrigin"` over the tracked tree answers
-  nothing.
-- `find . -name family.js` outside `node_modules` answers nothing.
-
-So there is nothing to delete, nothing to guard and no build. **No U-9 test was
-written either:** a test asserting two names are absent from a file that does
-not exist cannot be made to fail for the right reason, and U-9 says such a test
-is deleted rather than kept.
-
-**Why this desk differs.** The routing rail's `family.js` is copied into the
-CONSUMER sites; this is a media desk, and the Newsroom's tool modules publish
-into the six consumer sites rather than the media brands. The rail never landed
-here.
-
-**What the other desks found, for the record**, since the first paste described
-the deletion as safe everywhere: on Pet and Parents both names have live callers
-in `affiliates.js`, feeding the `clickref2` and `subId2` values on Awin and
-Impact links and, on Parents, the LawDepot `sid`. On Weather the deletion is
-genuinely done, and its only two remaining mentions are a comment recording it.
-So the deletion was safe on exactly one repository, the one with no affiliate
-builder.
-
 ## U-12. An exit status is captured from the command itself, never read through a pipe or inside a string.
 
 Issued after the same trap bit the Weather desk three times in one day and the Sports and
@@ -393,7 +213,6 @@ tree it publishes or runs; parses every script the site serves, with node --chec
 language's own check, and fails on a file that does not parse; and asserts exactly one value
 wherever a conflict leaves two. A stash is applied on a clean tree and its result is read
 before anything is committed.
-
 ---
 
 # For tomorrow's handoff
