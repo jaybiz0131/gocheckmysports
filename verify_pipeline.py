@@ -456,7 +456,8 @@ def _us_date_canary():
     return fails
 
 
-_BUILT = {"path": None, "done": False, "dirty_before": None}
+_BUILT = {"path": None, "done": False, "dirty_before": None,
+          "untracked_before": None}
 
 
 def _built_tree():
@@ -501,13 +502,30 @@ def _built_tree():
         r = _sp.run(["git", "diff", "--name-only"], cwd=root, capture_output=True, text=True)
         return set(l for l in r.stdout.split("\n") if l)
 
+    def _untracked():
+        r = _sp.run(["git", "ls-files", "--others", "--exclude-standard"], cwd=root,
+                    capture_output=True, text=True)
+        return set(l for l in r.stdout.split("\n") if l)
+
     _BUILT["dirty_before"] = _dirty()
+    _BUILT["untracked_before"] = _untracked()
     real = _sb.PUBLISH
     tmp = _tf.mkdtemp(prefix="gate-build-")
     log = _io.StringIO()
 
     def _cleanup():
         _sh.rmtree(tmp, ignore_errors=True)
+        # Files the build CREATED, not only ones it changed. Found on 1 October when a
+        # rebase refused to run: two files this build left behind blocked a pull of the
+        # poller's own snapshot of the same data. Only files that did not exist before
+        # this build are removed, so nothing of the author's is touched.
+        for rel in sorted(_untracked() - (_BUILT["untracked_before"] or set())):
+            try:
+                os.remove(os.path.join(root, rel))
+                print(f"gate build: removed {rel}, which the throwaway build created")
+            except OSError as e:
+                print(f"::error::gate build: {rel} was created by the throwaway build and "
+                      f"could not be removed ({e}); the working tree is dirty")
         for rel in sorted(_dirty() - (_BUILT["dirty_before"] or set())):
             blob = _sp.run(["git", "show", ":" + rel], cwd=root, capture_output=True)
             if blob.returncode == 0:
