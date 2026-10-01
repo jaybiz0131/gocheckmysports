@@ -11,7 +11,12 @@ Public repo. No tokens, keys or secret values in this file, ever.
 Last updated: 1 October 2026, end of the U-13 preflight session.
 `main` ended at d06cca7. The open branch `build-stamp` ended at d9a093c and
 `search-s1-canonical-urls` at 64fe43f, both unmerged and both kept.
-The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file. The day
+The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file, by Jack's
+option-two ruling of 1 October, along with the three rules added that day: a
+plant's restore comes from a saved copy and never from `git checkout` on the file
+under test; nothing is staged with `git add -A` and a documents-only message is
+checked against `git diff --cached --stat`; a push's exit status is read from the
+push and never from a pipe. The day
 history is in `HANDOFF-2026-09-17-to-22.md` and `HANDOFF-2026-09-23-to-10-01.md`.
 
 ## 1. Where things live

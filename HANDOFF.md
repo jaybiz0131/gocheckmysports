@@ -54,12 +54,15 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   its own, no commit); S-2 (`64fe43f` plus `stash@{0}`); Cause B's stamp and ignore proof
   (nothing yet); A-17's font and poster work, shared with Crypto (nothing yet); merging
   `build-stamp` (`d9a093c`, Jack's call).
-- **A U-1 contradiction for Jack, not decided here.** This desk keeps **two** handoff files:
-  this one, which carries the shared laws for both desks, and `docs/HANDOFF.md`, which
-  carries this desk's own state. U-1 asks for one. Crypto's handoff points at
-  `../gocheckmysports/docs/HANDOFF.md` as the home of the shared laws, which is the wrong
-  one of the two. Both are now under 300 lines and the pointer is corrected, but which file
-  survives a merge is Jack's call, so neither was folded into the other today.
+- **U-1's handoff question, decided by Jack on 1 October: option two.** Each desk keeps one
+  handoff of its own under 300 lines, and the shared laws live in **one** file that both
+  handoffs point at by path, because a law copied into five files is five chances to drift and
+  a law in one file is none. **This file is that one file.** The desk handoffs are
+  `docs/HANDOFF.md` here and `../gocheckmycrypto/docs/HANDOFF.md`; both point at this path, and
+  Crypto's copy of U-1 to U-13 was removed the same day rather than left to drift. One
+  consequence, stated plainly: a desk cloned on its own cannot see the laws, so the path
+  `../gocheckmysports/HANDOFF.md` has to resolve, which it does when both repos sit side by
+  side in `~/Berno Projects` as they do.
 
 ---
 
@@ -68,7 +71,10 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
 **U-1 to U-11, issued 24 September 2026, 12:50 PM ET. This is the one text.** Every desk
 (Pet, Parents, Weather, Sports and Crypto) writes it into its HANDOFF.md as the
 standing-rules section, replacing whatever set it holds, in one commit, and says so with
-the hash in its next report. A rule is issued once by Jack, numbered next in the sequence,
+the hash in its next report. **Superseded in part on 1 October 2026 by Jack's option-two
+ruling above: the laws now live in THIS file only, and a desk handoff points at it by
+path instead of holding a copy. The rest of this paragraph stands, including that a desk
+which cannot see a rule says so rather than cross-referencing it.** A rule is issued once by Jack, numbered next in the sequence,
 and every desk records it the same day, unchanged. A desk that finds a rule missing from
 its file says so in its report rather than cross-referencing a rule it cannot see. Three
 entries name things that are not on every desk; keep the rule, substitute the particular.
@@ -200,6 +206,15 @@ read as clean, and a push went out on it. The form is: run the command to a file
 status on the next line before anything else runs, and judge the output only after the status
 is known. A harness prints the status it captured beside the output it judged, and a report
 that says a suite was green names the status it read, not the last line it saw.
+
+### Three rules from the 1 October session (one line each, Jack, 1 October 2026)
+
+- **A restore in a plant comes from a saved copy, never from `git checkout` on the file under
+  test**, which reverts the implementation along with the plant.
+- **Nothing is staged with `git add -A`.** Files are staged by name, and a message that says
+  documents only is checked against `git diff --cached --stat` before the commit.
+- **A push's exit status is read from the push, never from a pipe.** This is U-12's third form
+  and it sits here beside U-12 by Jack's word.
 
 ## U-13. A commit never carries a conflict marker, and preflight proves it.
 
