@@ -456,6 +456,149 @@ def _us_date_canary():
     return fails
 
 
+_BUILT = {"path": None, "done": False, "dirty_before": None}
+
+
+def _built_tree():
+    """Build the site ONCE per process into a temporary directory, and return its path.
+
+    CAUSE B of the 29 September failed-run audit, in this desk's version of it. On Crypto the
+    stamp canary read the publish directory in the working tree and FAILED when it was absent:
+    66 failures from a gate asserting the output of a step that never ran. Here the same reads
+    were wrapped in `if os.path.exists(...)`, so in a job that builds nothing they were SKIPPED.
+    That is the worse half of the same defect. A failure gets looked at; a silent pass is a
+    check that cannot fail, which U-9 says is not a check yet. Three of them: the build stamp,
+    the inactives board, and the N-9 chrome prose.
+
+    So the canary builds its own tree and every one of those reads is unconditional. One build
+    per process, cached here, because the three callers must not build three times.
+
+    Three things this has to be careful about, each found by running it:
+
+    1. `build()` reads the module global PUBLISH and begins by removing that tree. Pointing it
+       at a temporary directory is therefore both how this works and the thing to get right:
+       the global is restored immediately, and the real publish directory is never touched.
+    2. `build()` prints its own `::error::` annotations. Unredirected, a throwaway build would
+       annotate the runner's log with errors belonging to no deploy. Its output is captured.
+    3. `build()` writes tracked files OUTSIDE the publish tree, most of `site/data/` among
+       them. That is how this desk's two dropped data stashes were born. Every tracked file
+       this build dirties, and that was clean beforehand, is restored from the index byte for
+       byte at exit, and never with git checkout, which is the 1 October rule.
+    """
+    if _BUILT["done"]:
+        return _BUILT["path"]
+    _BUILT["done"] = True
+    import io as _io
+    import atexit as _at
+    import shutil as _sh
+    import tempfile as _tf
+    import subprocess as _sp
+    import contextlib as _cl
+    import site_build as _sb
+    root = os.path.dirname(os.path.abspath(__file__))
+
+    def _dirty():
+        r = _sp.run(["git", "diff", "--name-only"], cwd=root, capture_output=True, text=True)
+        return set(l for l in r.stdout.split("\n") if l)
+
+    _BUILT["dirty_before"] = _dirty()
+    real = _sb.PUBLISH
+    tmp = _tf.mkdtemp(prefix="gate-build-")
+    log = _io.StringIO()
+
+    def _cleanup():
+        _sh.rmtree(tmp, ignore_errors=True)
+        for rel in sorted(_dirty() - (_BUILT["dirty_before"] or set())):
+            blob = _sp.run(["git", "show", ":" + rel], cwd=root, capture_output=True)
+            if blob.returncode == 0:
+                with open(os.path.join(root, rel), "wb") as fh:
+                    fh.write(blob.stdout)
+                print(f"gate build: restored {rel}, which the throwaway build rewrote")
+            else:
+                print(f"::error::gate build: {rel} was rewritten by the throwaway build and "
+                      f"could not be restored from the index; the working tree is dirty")
+    _at.register(_cleanup)
+    try:
+        _sb.PUBLISH = os.path.join(tmp, "publish")
+        with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
+            _sb.build()
+        _BUILT["path"] = _sb.PUBLISH
+        print(f"gate build: built a throwaway tree ({len(os.listdir(_BUILT['path']))} entries); "
+              f"the build's own log is captured, not this job's")
+    except Exception as e:
+        print(f"::error::gate build: the build raised {type(e).__name__}: {e}")
+        for l in log.getvalue().strip().split("\n")[-6:]:
+            print("    build log: " + l[:160])
+        _BUILT["path"] = None
+    finally:
+        _sb.PUBLISH = real
+    return _BUILT["path"]
+
+
+def _stamp_canary():
+    """U-11's other half: every page names the deploy that built it, and so does /stamp.txt.
+
+    Without it a live read cannot name the deploy it is reading, and on 24 September neither
+    desk could show that a documents-only push had NOT rebuilt the site, because Netlify posts
+    no status to GitHub and a skipped build reads exactly like a paused one.
+
+    THE DEFECT IS DRIFT BETWEEN THE TWO WRITERS: the meta tag and /stamp.txt must name the same
+    commit as each other, and, because the build now happens in this process, the commit it was
+    made from. The old inline version could only print a note about that last part, since it
+    could not tell a stale local build from the defect. Whether the DEPLOY carries that commit
+    is a different question, asked against the deployed page by live_read.py, which is U-10's
+    rule and not this one's.
+    """
+    import re as _r
+    import site_build as _sb
+    import live_read as _lr
+    fails = []
+    _c = _sb.BUILD_COMMIT
+    _check(bool(_c) and _c != "unknown", fails,
+           f"build stamp canary: the build cannot name its own commit ({_c!r}); every live "
+           f"read would then assert against 'unknown' and pass")
+    out = _built_tree()
+    _check(out is not None, fails,
+           "build stamp canary: the gate's own build failed, so nothing below was checked")
+    if out:
+        _sf = os.path.join(out, "stamp.txt")
+        _check(os.path.exists(_sf), fails, "build stamp canary: the build wrote no /stamp.txt")
+        if os.path.exists(_sf):
+            _stxt = open(_sf, encoding="utf-8").read()
+            _mb = _r.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
+            _check(_mb is not None, fails,
+                   "build stamp canary: /stamp.txt carries no commit line")
+            _built = _mb.group(1) if _mb else ""
+            _check(_built != "unknown", fails,
+                   "build stamp canary: /stamp.txt says the build could not name its commit")
+            if _built and _built != "unknown":
+                _check(_built == _c, fails,
+                       f"build stamp canary: this build wrote {_built[:12]} into /stamp.txt "
+                       f"while BUILD_COMMIT is {_c[:12]}; the build cannot name the commit it "
+                       f"was made from")
+            _pages = [f for f in ["index.html", "scores.html", "about.html"]
+                      if os.path.exists(os.path.join(out, f))]
+            _check(len(_pages) >= 2, fails,
+                   "build stamp canary: fewer than two built pages, so the checks below prove "
+                   "nothing")
+            for _pg in _pages:
+                _ph = open(os.path.join(out, _pg), encoding="utf-8").read()
+                _mt = _r.search(r'<meta name="build-commit" content="([^"]*)"', _ph)
+                _check(_mt is not None, fails,
+                       f"build stamp canary: {_pg} carries no build-commit meta tag")
+                if _mt:
+                    _check(_mt.group(1) == _built, fails,
+                           f"build stamp canary: {_pg}'s stamp {_mt.group(1)[:12]} and "
+                           f"/stamp.txt's {_built[:12]} name different commits; the two writers "
+                           f"drifted")
+    # The assertion itself must reject an empty stamp, or it compares nothing to nothing.
+    _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">') is not None,
+           fails, "build stamp canary: live_read cannot find a stamp it is given")
+    _check(_lr.META.search('<meta name="build-commit" content="">') is None, fails,
+           "build stamp canary: live_read accepts an empty stamp as a commit")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -723,61 +866,7 @@ def layer1_canary():
            "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
            "treated as a document; it can be served")
 
-    # U-11's other half: the build stamp. Every page carries the commit that built it and
-    # /stamp.txt carries the same one, so a live read can name the deploy it is reading.
-    # Without this, on 24 September, a documents-only push could not be shown NOT to have
-    # rebuilt the site: Netlify posts no status to GitHub, so a skipped build and a paused
-    # site read identically.
-    import live_read as _lr
-    _sbm = _sb.BUILD_COMMIT
-    _check(_sbm and _sbm != "unknown", fails,
-           f"build stamp canary: the build cannot name its own commit ({_sbm!r}); every "
-           f"live read would then assert against 'unknown'")
-    _stamp_f = os.path.join(_sb.PUBLISH, "stamp.txt")
-    if os.path.exists(_stamp_f):
-        _stxt = open(_stamp_f, encoding="utf-8").read()
-        # WHAT THIS CHECKS, and what it deliberately does not (fixed 26 September 2026). The
-        # first version compared the built pages against BUILD_COMMIT resolved NOW, i.e. the
-        # current HEAD. That turned the hard gate red on both desks the moment HEAD moved
-        # without a rebuild, which is most of any working session, and it conflated a stale
-        # local build with the defect the canary is for. The defect is DRIFT BETWEEN THE TWO
-        # WRITERS: the meta tag and /stamp.txt must name the same commit as each other. Whether
-        # that commit is the tip is a question about a DEPLOY, and live_read.py answers it
-        # against the deployed page, which is where U-10 wants it asked.
-        _m_stamp = _re_stamp = None
-        import re as _re_s
-        _m_stamp = _re_s.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
-        _check(_m_stamp is not None, fails,
-               "build stamp canary: /stamp.txt carries no commit line")
-        _built = _m_stamp.group(1) if _m_stamp else ""
-        _check(_built != "unknown", fails,
-               "build stamp canary: /stamp.txt says the build could not name its commit")
-        if _built and _built != _sbm:
-            print(f"build stamp: the built tree is from {_built[:12]}, HEAD is {_sbm[:12]}; "
-                  f"a stale local build, not a fault. Netlify always builds fresh, and a live "
-                  f"read asserts the deploy (U-10).")
-        _pages = [f for f in ["index.html", "scores.html", "about.html"]
-                  if os.path.exists(os.path.join(_sb.PUBLISH, f))]
-        _check(len(_pages) >= 2, fails,
-               "build stamp canary: fewer than two built pages to check, so the next "
-               "checks prove nothing")
-        for _pg in _pages:
-            _ph = open(os.path.join(_sb.PUBLISH, _pg), encoding="utf-8").read()
-            _mt = re.search(r'<meta name="build-commit" content="([^"]*)"', _ph)
-            _check(_mt is not None, fails,
-                   f"build stamp canary: {_pg} carries no build-commit meta tag")
-            if _mt:
-                _check(_mt.group(1) == _built, fails,
-                       f"build stamp canary: {_pg}'s stamp {_mt.group(1)[:12]} and /stamp.txt's "
-                       f"{_built[:12]} name different commits; the two writers drifted")
-        # THE ASSERTION ITSELF must reject a stale stamp, which is the whole point: a live
-        # read of the previous deploy is the failure mode, and it looks exactly like a
-        # successful read.
-        _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">')
-               is not None, fails,
-               "build stamp canary: live_read cannot find a stamp it is given")
-        _check(_lr.META.search('<meta name="build-commit" content="">') is None, fails,
-               "build stamp canary: live_read accepts an empty stamp as a commit")
+    fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source
@@ -792,8 +881,15 @@ def layer1_canary():
            "builds the site; the poller pushes every 15 minutes and that is 1,188 "
            "deploys a period")
     # And the page must be able to refresh itself, or the line above is just staleness.
-    _iap = os.path.join(_sb.PUBLISH, "fantasy", "inactives.html")
-    if os.path.exists(_iap):
+    # CAUSE B, this desk's form: this read used to sit behind "if os.path.exists", so in a
+    # job that builds nothing every check below was skipped and the canary passed. The gate
+    # builds its own tree now, so the read is unconditional.
+    _ibt = _built_tree()
+    _iap = os.path.join(_ibt, "fantasy", "inactives.html") if _ibt else ""
+    _check(bool(_iap) and os.path.exists(_iap), fails,
+           "netlify ignore canary: the gate's build produced no fantasy/inactives.html, "
+           "so the inactives-board checks would have been skipped in silence")
+    if _iap and os.path.exists(_iap):
         _iah = open(_iap, encoding="utf-8", errors="ignore").read()
         _check("data-ia-board" in _iah and "raw.githubusercontent" in _iah, fails,
                "netlify ignore canary: the inactives board no longer builds on a "
@@ -851,7 +947,12 @@ def layer1_canary():
 
     # The desk's own chrome carries neither the doubled word nor the British spelling.
     for _pg9 in ("about.html", "method.html", "standards.html"):
-        _fp9 = os.path.join(_sb.PUBLISH, _pg9)
+        # CAUSE B again: this continued past a missing page, so the prose checks were
+        # skipped in silence in any job that did not build.
+        _fp9 = os.path.join(_built_tree() or "", _pg9)
+        _check(os.path.exists(_fp9), fails,
+               f"N-9 canary: the gate's build produced no {_pg9}, so its prose was "
+               f"not checked")
         if not os.path.exists(_fp9):
             continue
         _t9 = re.sub(r"<[^>]+>", " ",
@@ -863,7 +964,10 @@ def layer1_canary():
 
     # N-8: a column that is blank on every row is broken or should not exist.
     import glob as _g9
-    _tp = sorted(_g9.glob(os.path.join(_sb.PUBLISH, "teams", "*.html")))
+    _tp = sorted(_g9.glob(os.path.join(_built_tree() or "", "teams", "*.html")))
+    _check(bool(_tp), fails,
+           "N-9 canary: no team pages in the gate's own build, so the checks below glob "
+           "nothing and pass (Cause B)")
     if _tp:
         _th = open(_tp[0], encoding="utf-8", errors="ignore").read()
         # EVERY UNPLAYED FIXTURE SAYS SOMETHING. Checking that the page contains a
@@ -909,7 +1013,7 @@ def layer1_canary():
     # when the week data is not loaded, which it is not in this process, so guarding on
     # its truthiness skipped the whole check and the break stayed green.
     for _pg6 in ("index.html", "scores.html"):
-        _fp6 = os.path.join(_sb.PUBLISH, _pg6)
+        _fp6 = os.path.join(_built_tree() or "", _pg6)
         if not os.path.exists(_fp6):
             continue
         _h6a = open(_fp6, encoding="utf-8", errors="ignore").read()
@@ -920,7 +1024,7 @@ def layer1_canary():
                f"N-6 canary: on {_pg6} the week link reads as a sentence fragment: "
                f"{_m6.group(1)[:50]!r}")
     for _pg in ("index.html", "scores.html"):
-        _fp = os.path.join(_sb.PUBLISH, _pg)
+        _fp = os.path.join(_built_tree() or "", _pg)
         if os.path.exists(_fp) and "wk-link" in open(_fp, encoding="utf-8",
                                                      errors="ignore").read():
             _h6 = open(_fp, encoding="utf-8", errors="ignore").read()
@@ -1012,7 +1116,11 @@ def layer1_canary():
     # AND THE BUILT SITE CARRIES NO BARE CITY as a team-name element.
     import re as _re_n1
     _bare = 0
-    for _root, _d, _fs in os.walk(_sb.PUBLISH):
+    _walk_root = _built_tree() or ""
+    _check(os.path.isdir(_walk_root), fails,
+           "canary: the gate's own build left no tree to walk, so the checks below visit "
+           "nothing and pass (Cause B)")
+    for _root, _d, _fs in os.walk(_walk_root):
         for _f in _fs:
             if not _f.endswith(".html"):
                 continue
@@ -1336,7 +1444,10 @@ def layer1_canary():
     # It must be on a page that also carries the script and the name index, or it can
     # never fill: the panel prints abbreviations and the index is what turns them into
     # names.
-    _sp = os.path.join(_sb.PUBLISH, "scores.html")
+    _sp = os.path.join(_built_tree() or "", "scores.html")
+    _check(os.path.exists(_sp), fails,
+           "canary: the gate's own build produced no scores.html, so its checks would have "
+           "been skipped in silence (Cause B)")
     if os.path.exists(_sp):
         _sh = open(_sp, encoding="utf-8", errors="ignore").read()
         # NOT "data-mine": the script contains querySelectorAll('[data-mine]'), so that
