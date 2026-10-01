@@ -9,7 +9,7 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 Public repo. No tokens, keys or secret values in this file, ever.
 
 Last updated: 1 October 2026, end of the merge-and-Cause-B session.
-`main` ended at 0d02aa2. `build-stamp` and `cause-b-stamp-proof` are MERGED and
+`main` ended at 296fd5d. `build-stamp` and `cause-b-stamp-proof` are MERGED and
 DELETED. `search-s1-canonical-urls` stays open at 64fe43f with S-2's work in `stash@{0}`.
 The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file, by Jack's
 option-two ruling of 1 October, along with the three rules added that day: a
@@ -118,17 +118,27 @@ and note it in the report.
 
 ## Where this session ended (1 October 2026, evening)
 
-- `main` is **`0d02aa2`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
-  read `0d02aa29d579` at 22:57:27Z.
+- `main` is **`296fd5d`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
+  read `296fd5d14e54` at 23:10:29Z. It carries Cause B's rebuilt gate and the cleanup fix.
 - **Cause B is fixed here** at `0d02aa2`. Eight checks that read the real publish tree could
   not fail in a job that builds nothing: three skipped behind an existence check, a glob and a
   walk that visited nothing and passed, and the rest. The gate builds its own tree now and all
   eight reads are unconditional. Reads of the real publish tree left in the gate: **zero**.
 - The gate takes about **262 seconds**, up from about 90, because it builds the site once per
   run. Say that before someone reads it as a fault.
-- Deploys today, from `/counts/today`, the count of record: **3 production builds** against an
-  allowance of 12 (16 on Sundays). It is Thursday, so the Sunday game-window freeze, 12:30 to
-  8:30 PM ET, did not apply to any of them.
+- Deploys today, from `/counts/today`, the count of record: **7 production builds, 0 skipped**,
+  against an allowance of 12 (16 on Sundays). Three are this session's (`ba398d2`, `878bcdc`,
+  `296fd5d`), two are the inactives poller's, two are earlier. It is Thursday, so the Sunday
+  game-window freeze, 12:30 to 8:30 PM ET, did not apply to any of them.
+- **The ignore proof did NOT hold here**, and the day history says why in full: the
+  documents-only push `878bcdc` built, because the poller's eight site-changing data files
+  were pushed ninety seconds earlier and that build was still in flight, so the range the
+  ignore rule was handed included them. The rule was right on its input. A documents-only
+  push on this desk builds whenever it lands inside a poller's build window. There is a
+  decision for Jack in the history file; the desk recommends leaving it alone.
+- **Pull immediately before pushing here.** Two pushes were rejected tonight as
+  non-fast-forward, both the poller, at 22:58Z and 23:02Z. The second needed
+  `git rebase --rebase-merges` to keep the merge commit.
 - Branches: `search-s1-canonical-urls` at `64fe43f`, open, with S-2's work in `stash@{0}`
   (`fcacd1c`). `build-stamp` and `cause-b-stamp-proof` were merged and deleted after proving 0
   commits outstanding. Stashes: **one**, the S-2 work.
