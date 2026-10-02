@@ -1,30 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "Verstappen extends Red Bull contract to 2030",
-    "category": "accuracy",
-    "reasons": [
-     "Draft quotes Verstappen saying 'To continue this journey with the same team that I have been with my whole career is really special and something I have always wanted to do,' but the brief lists a different quote: 'We have the best people and I'm excited to keep working together with everyone to get back to the top again.' The draft has substituted an alternative quote from the brief's data_points without flagging it as a different statement, creating confusion about which words Verstappen actually spoke on record.",
-     "Draft states Verstappen told BBC Sport about valuing continuity and working with Mekies, but the draft's paraphrasing ('Verstappen told BBC Sport that he values continuity') blends multiple distinct quotes from the brief without clear attribution to each. The quote 'Getting to work with Laurent now for over a year has also been great, I see a clear vision he has for the team' appears in the brief but the draft presents it as a direct quote without the source attribution inline to BBC Sport, making the sourcing implicit rather than explicit.",
-     "Draft introduces a quote from Mekies\u2014'The decision to continue our journey together is rooted in the trust Max and the team have built over many years, as well as Max's confidence in our people, our culture and our vision for the future'\u2014but this quote does not appear verbatim in the draft as presented; instead the draft paraphrases Mekies's statement. The brief lists this as a direct quote from Mekies, so the draft's paraphrase is acceptable, but the draft later includes a nearly identical sentence without clearly signaling it comes from Mekies, risking reader confusion about attribution."
-    ]
-   },
-   {
-    "id": "c260",
-    "headline": "Buccaneers and Vita Vea agree to $30 million extension",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'ESPN's Adam Schefter reported the extension agreement on Wednesday, according to Yahoo NFL's coverage.' This presents Schefter as the original source, but the brief's data_point attributes the report to Yahoo NFL (the secondary outlet). The draft should either attribute directly to Schefter with proper sourcing in the brief, or clarify the attribution chain. As written, it misrepresents the reporting hierarchy."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-20",
   "approved": 2,
   "rejected": [
    {
@@ -7665,6 +7641,44 @@
     "reasons": [
      "The title states 'Winner-take-all NLDS matchup set for Thursday, October 1.' However, today is Thursday, 2026-10-01, and the game is scheduled for Thursday, October 3 (two days in the future). The title incorrectly labels the game date as today's date rather than the future date when it will be played.",
      "The draft body correctly refers to 'Game 3 begins at 8 p.m. ET on Thursday' but does not specify which Thursday. The title's conflation of October 1 (today) with the game date is a factual error that violates the hard rule: scheduled events must be written as upcoming, not as present-day events."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c110",
+    "headline": "Ohio Court Reverses Fifth-Year Eligibility Injunction for 24 College Athletes",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier '2026-27', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Padres name Robbie Ray for Game 1 of NLDS against Brewers on Saturday",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Game 1 is 'on Saturday' but today is Friday, 2026-10-02. Saturday would be 2026-10-03. The brief timestamp shows the source report at 2026-10-02T21:14:00Z (late Friday night). The draft should state the game is 'scheduled for Saturday' or 'upcoming Saturday' to properly indicate a future event, not report it as already happening. The phrasing 'will start...on Saturday' is acceptable for a scheduled future event, but the lack of any temporal marker making clear this is prospective (when reported late Friday for a Saturday game) creates ambiguity about whether this has already occurred."
+    ]
+   },
+   {
+    "id": "c185",
+    "headline": "Tony Reno, Yale football coach, dies at 52 months after health-related resignation",
+    "category": "compliance",
+    "reasons": [
+     "The bottom_line states: 'The circumstances surrounding Reno's health crisis and death remain undisclosed, leaving questions about what condition necessitated his resignation months before his passing and what it reveals about the pressures facing college head coaches.' This sentence narrates absence and speculates about what the undisclosed information might reveal about systemic 'pressures facing college head coaches.' This moves beyond reporting the factual absence of a cause-of-death disclosure into editorializing about implications and institutional critique. The brief's open_questions are what the desk cannot answer; the draft is forbidden from restating them as narrative argument. Additionally, the phrasing 'health crisis' is the draft's own characterization of an undisclosed condition, not language from the sources. The bottom_line should state what is knowable (the resignation-to-death timeline) without inferring meaning from silence."
+    ]
+   },
+   {
+    "id": "c074",
+    "headline": "WTA Announces Equal Prize Money at All Combined 1000 Events by 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The WTA's 2023 commitment to achieve parity across all combined 1000s by 2027 follows the Grand Slams, all four of which implemented equal pay by 2007.' This phrasing implies the WTA made its 2023 commitment AFTER the Grand Slams achieved parity by 2007, which is chronologically true but misleading in structure. However, the more serious accuracy issue is: the draft claims four combined 1000s 'already offer equal prize money' this year without specifying which four. The brief's data_points identify Indian Wells, Miami, Madrid, and Beijing as already offering equal pay (data_point 10), but the draft text 'Four of the seven combined 1000s already offered equal prize money this year' followed later by 'The combined 1000 events in Indian Wells, Miami, Madrid, and Beijing already offer equal prize money' creates an internal consistency that is correct. The real problem: the draft later states 'reducing total base commitments to 14 WTA events plus four Grand Slams' but the brief data_point 31 specifies '14 WTA tournaments plus the four Grand Slams'\u2014this is consistent. However, the draft says 'The number of required WTA 500-level tournaments for top-50 players will drop from six to four, reducing total base commitments to 14 WTA events plus four Grand Slams' but brief data_point 15 states 'Top players will now be committed to 18 tournaments every year' and data_point 31 says the total is '14 WTA tournaments plus the four Grand Slams.' The draft's math is: 14 WTA + 4 Grand Slams = 18 total, which matches the brief. This is correct. The actual accuracy failure: the draft says the core claim about equal pay at all combined 1000s starting in 2027 is marked 'announced-not-verified' in the brief, but the draft does not signal this uncertainty. The draft reads as settled fact when the brief explicitly flags this as 'announced-not-verified.'"
     ]
    }
   ]
