@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-02T00:06:34Z",
+ "fetched_at": "2026-10-03T00:03:09Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,11 +7,11 @@
     {
      "id": "401872964",
      "league": "NFL",
-     "state": "pre",
-     "completed": false,
-     "status_short": "10/1 - 8:15 PM EDT",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 0,
+     "period": 4,
      "start_utc": "2026-10-02T00:15Z",
      "network": "Prime Video",
      "home": {
@@ -21,9 +21,14 @@
       "school": "Cleveland",
       "mascot": "Browns",
       "rank": null,
-      "score": "0",
-      "record": "2-1",
-      "periods": [],
+      "score": "27",
+      "record": "3-1",
+      "periods": [
+       "0",
+       "21",
+       "0",
+       "6"
+      ],
       "id": "5",
       "color": "#472a08"
      },
@@ -34,9 +39,14 @@
       "school": "Pittsburgh",
       "mascot": "Steelers",
       "rank": null,
-      "score": "0",
-      "record": "2-1",
-      "periods": [],
+      "score": "24",
+      "record": "2-2",
+      "periods": [
+       "7",
+       "3",
+       "0",
+       "14"
+      ],
       "id": "23",
       "color": "#000000"
      },
@@ -44,20 +54,20 @@
       {
        "cat": "PASS",
        "name": "A. Rodgers",
-       "line": "700 YDS, 4 TD, 2 INT",
+       "line": "22/40, 299 YDS, 3 TD, 2 INT",
        "team": "23"
       },
       {
        "cat": "RUSH",
        "name": "J. Warren",
-       "line": "38 CAR, 216 YDS",
+       "line": "17 CAR, 93 YDS",
        "team": "23"
       },
       {
        "cat": "REC",
-       "name": "D. Boston",
-       "line": "9 REC, 195 YDS, 2 TD",
-       "team": "5"
+       "name": "D. Metcalf",
+       "line": "5 REC, 115 YDS",
+       "team": "23"
       }
      ],
      "situation": "",
@@ -68,13 +78,7 @@
      "progress": null,
      "venue_indoor": false,
      "venue": "Huntington Bank Field",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "PIT -2.5",
-      "spread": 2.5,
-      "total": 38.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401872965",
@@ -141,10 +145,10 @@
      "venue_indoor": false,
      "venue": "Tottenham Hotspur Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "IND -3.5",
-      "spread": 3.5,
-      "total": 48.5,
+      "provider": "DraftKings",
+      "detail": "IND -4.5",
+      "spread": 4.5,
+      "total": 47.5,
       "favorite": "away"
      }
     },
@@ -213,10 +217,10 @@
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BUF -7",
       "spread": -7.0,
-      "total": 48.5,
+      "total": 49.5,
       "favorite": "home"
      }
     },
@@ -285,7 +289,7 @@
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CHI -3.5",
       "spread": -3.5,
       "total": 43.5,
@@ -357,7 +361,7 @@
      "venue_indoor": false,
      "venue": "Paycor Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CIN -2.5",
       "spread": -2.5,
       "total": 51.5,
@@ -429,7 +433,7 @@
      "venue_indoor": false,
      "venue": "MetLife Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "ARI -2.5",
       "spread": 2.5,
       "total": 44.5,
@@ -501,7 +505,7 @@
      "venue_indoor": false,
      "venue": "Lincoln Financial Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "LAR -3.5",
       "spread": 3.5,
       "total": 42.5,
@@ -573,10 +577,10 @@
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "GB -3.5",
-      "spread": 3.5,
-      "total": 38.5,
+      "provider": "DraftKings",
+      "detail": "GB -3",
+      "spread": 3.0,
+      "total": 39.5,
       "favorite": "away"
      }
     },
@@ -645,7 +649,7 @@
      "venue_indoor": false,
      "venue": "M&T Bank Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BAL -11.5",
       "spread": -11.5,
       "total": 42.5,
@@ -717,7 +721,7 @@
      "venue_indoor": true,
      "venue": "Reliant Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "HOU -3",
       "spread": -3.0,
       "total": 48.5,
@@ -775,9 +779,9 @@
       },
       {
        "cat": "REC",
-       "name": "J. Jefferson",
-       "line": "13 REC, 179 YDS, 2 TD",
-       "team": "16"
+       "name": "M. Washington",
+       "line": "12 REC, 152 YDS",
+       "team": "15"
       }
      ],
      "situation": "",
@@ -789,9 +793,9 @@
      "venue_indoor": true,
      "venue": "U.S. Bank Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "MIN -10.5",
-      "spread": -10.5,
+      "provider": "DraftKings",
+      "detail": "MIN -10",
+      "spread": -10.0,
       "total": 38.5,
       "favorite": "home"
      }
@@ -861,7 +865,7 @@
      "venue_indoor": true,
      "venue": "Allegiant Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "KC -4.5",
       "spread": 4.5,
       "total": 47.5,
@@ -933,7 +937,7 @@
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SF -3",
       "spread": -3.0,
       "total": 47.5,
@@ -1005,7 +1009,7 @@
      "venue_indoor": false,
      "venue": "Lumen Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SEA -7",
       "spread": -7.0,
       "total": 42.5,
@@ -1077,7 +1081,7 @@
      "venue_indoor": false,
      "venue": "Bank of America Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "DET -3.5",
       "spread": 3.5,
       "total": 50.5,
@@ -1149,7 +1153,7 @@
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NO -2.5",
       "spread": -2.5,
       "total": 47.5,
@@ -1162,16 +1166,82 @@
    "league": "MLB",
    "games": [
     {
-     "id": "401907973",
+     "id": "401907990",
      "league": "MLB",
      "state": "pre",
      "completed": false,
-     "status_short": "10/1 - 8:00 PM EDT",
+     "status_short": "10/3 - 1:00 PM EDT",
      "detail": "0:00",
      "period": 1,
-     "start_utc": "2026-10-02T00:00Z",
+     "start_utc": "2026-10-03T17:00Z",
      "network": "ERADM",
      "home": {
+      "abbr": "CLE",
+      "full": "Cleveland Guardians",
+      "name": "Guardians",
+      "school": "Cleveland",
+      "mascot": "Guardians",
+      "rank": null,
+      "score": "0",
+      "record": "85-77",
+      "periods": [],
+      "id": "5",
+      "color": "#002b5c"
+     },
+     "away": {
+      "abbr": "CHW",
+      "full": "Chicago White Sox",
+      "name": "White Sox",
+      "school": "Chicago",
+      "mascot": "White Sox",
+      "rank": null,
+      "score": "0",
+      "record": "84-78",
+      "periods": [],
+      "id": "4",
+      "color": "#000000"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Progressive Field",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "CLE -156",
+      "spread": -1.5,
+      "total": 7.0,
+      "favorite": "home"
+     }
+    },
+    {
+     "id": "401908007",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "10/3 - 4:00 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-10-03T20:00Z",
+     "network": "ERADM",
+     "home": {
+      "abbr": "LAD",
+      "full": "Los Angeles Dodgers",
+      "name": "Dodgers",
+      "school": "Los Angeles",
+      "mascot": "Dodgers",
+      "rank": null,
+      "score": "0",
+      "record": "100-62",
+      "periods": [],
+      "id": "19",
+      "color": "#005a9c"
+     },
+     "away": {
       "abbr": "ATL",
       "full": "Atlanta Braves",
       "name": "Braves",
@@ -1184,19 +1254,6 @@
       "id": "15",
       "color": "#0c2340"
      },
-     "away": {
-      "abbr": "PHI",
-      "full": "Philadelphia Phillies",
-      "name": "Phillies",
-      "school": "Philadelphia",
-      "mascot": "Phillies",
-      "rank": null,
-      "score": "0",
-      "record": "88-74",
-      "periods": [],
-      "id": "22",
-      "color": "#e81828"
-     },
      "leaders": [],
      "situation": "",
      "possession": "",
@@ -1205,12 +1262,118 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Truist Park",
+     "venue": "Dodger Stadium",
      "line": {
       "provider": "DraftKings",
-      "detail": "ATL -114",
-      "spread": 1.5,
-      "total": 7.5,
+      "detail": "LAD -230",
+      "spread": -1.5,
+      "total": 8.0,
+      "favorite": "home"
+     }
+    },
+    {
+     "id": "401907985",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "10/3 - 6:30 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-10-03T22:30Z",
+     "network": "ERADM",
+     "home": {
+      "abbr": "TB",
+      "full": "Tampa Bay Rays",
+      "name": "Rays",
+      "school": "Tampa Bay",
+      "mascot": "Rays",
+      "rank": null,
+      "score": "0",
+      "record": "98-64",
+      "periods": [],
+      "id": "30",
+      "color": "#092c5c"
+     },
+     "away": {
+      "abbr": "NYY",
+      "full": "New York Yankees",
+      "name": "Yankees",
+      "school": "New York",
+      "mascot": "Yankees",
+      "rank": null,
+      "score": "0",
+      "record": "93-68",
+      "periods": [],
+      "id": "10",
+      "color": "#132448"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "Tropicana Field",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "TB -136",
+      "spread": -1.5,
+      "total": 7.0,
+      "favorite": "home"
+     }
+    },
+    {
+     "id": "401908002",
+     "league": "MLB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "10/3 - 8:30 PM EDT",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-10-04T00:30Z",
+     "network": "ERADM",
+     "home": {
+      "abbr": "MIL",
+      "full": "Milwaukee Brewers",
+      "name": "Brewers",
+      "school": "Milwaukee",
+      "mascot": "Brewers",
+      "rank": null,
+      "score": "0",
+      "record": "103-59",
+      "periods": [],
+      "id": "8",
+      "color": "#13294b"
+     },
+     "away": {
+      "abbr": "SD",
+      "full": "San Diego Padres",
+      "name": "Padres",
+      "school": "San Diego",
+      "mascot": "Padres",
+      "rank": null,
+      "score": "0",
+      "record": "91-71",
+      "periods": [],
+      "id": "25",
+      "color": "#2f241d"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "American Family Field",
+     "line": {
+      "provider": "DraftKings",
+      "detail": "MIL -205",
+      "spread": -1.5,
+      "total": 7.0,
       "favorite": "home"
      }
     }
@@ -1284,9 +1447,9 @@
      "venue_indoor": false,
      "venue": "Kenan Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "ND -22.5",
-      "spread": 22.5,
+      "provider": "DraftKings",
+      "detail": "ND -21",
+      "spread": 21.0,
       "total": 46.5,
       "favorite": "away"
      }
@@ -1356,9 +1519,9 @@
      "venue_indoor": false,
      "venue": "Davis Wade Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "ALA -6",
-      "spread": 6.0,
+      "provider": "DraftKings",
+      "detail": "ALA -5.5",
+      "spread": 5.5,
       "total": 60.5,
       "favorite": "away"
      }
@@ -1428,10 +1591,10 @@
      "venue_indoor": false,
      "venue": "TDECU Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "HOU -11.5",
-      "spread": -11.5,
-      "total": 51.5,
+      "provider": "DraftKings",
+      "detail": "HOU -10.5",
+      "spread": -10.5,
+      "total": 50.5,
       "favorite": "home"
      }
     },
@@ -1500,9 +1663,9 @@
      "venue_indoor": false,
      "venue": "Gerald J. Ford Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "SMU -21.5",
-      "spread": -21.5,
+      "provider": "DraftKings",
+      "detail": "SMU -21",
+      "spread": -21.0,
       "total": 55.5,
       "favorite": "home"
      }
@@ -1572,7 +1735,7 @@
      "venue_indoor": false,
      "venue": "Sanford Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "UGA -25.5",
       "spread": -25.5,
       "total": 50.5,
@@ -1644,7 +1807,7 @@
      "venue_indoor": false,
      "venue": "Kinnick Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "OSU -14.5",
       "spread": 14.5,
       "total": 45.5,
@@ -1716,7 +1879,7 @@
      "venue_indoor": false,
      "venue": "Memorial Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "FLA -5.5",
       "spread": 5.5,
       "total": 57.5,
@@ -1788,10 +1951,10 @@
      "venue_indoor": false,
      "venue": "Neyland Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "TENN -7",
-      "spread": -7.0,
-      "total": 54.5,
+      "provider": "DraftKings",
+      "detail": "TENN -6.5",
+      "spread": -6.5,
+      "total": 53.5,
       "favorite": "home"
      }
     },
@@ -1860,10 +2023,10 @@
      "venue_indoor": false,
      "venue": "Williams-Brice Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "SC -3",
-      "spread": -3.0,
-      "total": 54.5,
+      "provider": "DraftKings",
+      "detail": "SC -2.5",
+      "spread": -2.5,
+      "total": 53.5,
       "favorite": "home"
      }
     },
@@ -1932,10 +2095,10 @@
      "venue_indoor": false,
      "venue": "Amon G. Carter Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "BYU -6.5",
-      "spread": 6.5,
-      "total": 47.5,
+      "provider": "DraftKings",
+      "detail": "BYU -6",
+      "spread": 6.0,
+      "total": 48.5,
       "favorite": "away"
      }
     },
@@ -2004,9 +2167,9 @@
      "venue_indoor": false,
      "venue": "Memorial Stadium (Clemson, SC)",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "MIA -16.5",
-      "spread": 16.5,
+      "provider": "DraftKings",
+      "detail": "MIA -15.5",
+      "spread": 15.5,
       "total": 47.5,
       "favorite": "away"
      }
@@ -2076,10 +2239,10 @@
      "venue_indoor": false,
      "venue": "Folsom Field",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "TTU -13.5",
       "spread": 13.5,
-      "total": 50.5,
+      "total": 49.5,
       "favorite": "away"
      }
     },
@@ -2148,7 +2311,7 @@
      "venue_indoor": false,
      "venue": "Los Angeles Memorial Coliseum",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "USC -8.5",
       "spread": -8.5,
       "total": 58.5,
@@ -2220,9 +2383,9 @@
      "venue_indoor": false,
      "venue": "Albertsons Stadium",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "BOIS -18.5",
-      "spread": -18.5,
+      "provider": "DraftKings",
+      "detail": "BOIS -19.5",
+      "spread": -19.5,
       "total": 51.5,
       "favorite": "home"
      }
@@ -2292,10 +2455,10 @@
      "venue_indoor": false,
      "venue": "Tiger Stadium (LA)",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "LSU -53.5",
-      "spread": -53.5,
-      "total": 62.5,
+      "provider": "DraftKings",
+      "detail": "LSU -52.5",
+      "spread": -52.5,
+      "total": 61.5,
       "favorite": "home"
      }
     },
@@ -2364,7 +2527,7 @@
      "venue_indoor": false,
      "venue": "SHI Stadium",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "IU -24.5",
       "spread": 24.5,
       "total": 56.5,
@@ -2423,7 +2586,7 @@
      "venue": "Emirates Stadium",
      "line": {
       "provider": "DraftKings",
-      "detail": "ARS -270",
+      "detail": "ARS -260",
       "total": 2.5
      }
     },
@@ -2740,72 +2903,21 @@
    "league": "NHL",
    "games": [
     {
-     "id": "401891781",
+     "id": "401891803",
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
-     "start_utc": "2026-10-01T23:00Z",
-     "network": "ESPN+",
-     "home": {
-      "abbr": "CBJ",
-      "full": "Columbus Blue Jackets",
-      "name": "Blue Jackets",
-      "school": "Columbus",
-      "mascot": "Blue Jackets",
-      "rank": null,
-      "score": "3",
-      "record": "0-0-0",
-      "periods": [
-       "3"
-      ],
-      "id": "29",
-      "color": "#002d62"
-     },
-     "away": {
-      "abbr": "BUF",
-      "full": "Buffalo Sabres",
-      "name": "Sabres",
-      "school": "Buffalo",
-      "mascot": "Sabres",
-      "rank": null,
-      "score": "1",
-      "record": "0-0-0",
-      "periods": [
-       "1"
-      ],
-      "id": "2",
-      "color": "#00468b"
-     },
-     "leaders": [],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": 0.3333333333333333,
-     "venue_indoor": true,
-     "venue": "Nationwide Arena",
-     "line": null
-    },
-    {
-     "id": "401891817",
-     "league": "NHL",
-     "state": "in",
-     "completed": false,
-     "status_short": "20:00 - 2nd",
-     "detail": "20:00",
+     "status_short": "11:13 - 2nd",
+     "detail": "11:13",
      "period": 2,
-     "start_utc": "2026-10-01T23:00Z",
-     "network": "Disney+",
+     "start_utc": "2026-10-02T22:30Z",
+     "network": "TNT",
      "home": {
-      "abbr": "NJ",
-      "full": "New Jersey Devils",
-      "name": "Devils",
-      "school": "New Jersey",
-      "mascot": "Devils",
+      "abbr": "DET",
+      "full": "Detroit Red Wings",
+      "name": "Red Wings",
+      "school": "Detroit",
+      "mascot": "Red Wings",
       "rank": null,
       "score": "0",
       "record": "0-0-0",
@@ -2813,75 +2925,75 @@
        "0",
        "0"
       ],
-      "id": "11",
-      "color": "#e30b2b"
+      "id": "5",
+      "color": "#e30526"
      },
      "away": {
-      "abbr": "PHI",
-      "full": "Philadelphia Flyers",
-      "name": "Flyers",
-      "school": "Philadelphia",
-      "mascot": "Flyers",
-      "rank": null,
-      "score": "1",
-      "record": "0-1-0",
-      "periods": [
-       "1",
-       "0"
-      ],
-      "id": "15",
-      "color": "#fe5823"
-     },
-     "leaders": [],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": 0.3333333333333333,
-     "venue_indoor": true,
-     "venue": "Prudential Center",
-     "line": null
-    },
-    {
-     "id": "401891819",
-     "league": "NHL",
-     "state": "in",
-     "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
-     "start_utc": "2026-10-01T23:00Z",
-     "network": "ESPN+",
-     "home": {
       "abbr": "NYR",
       "full": "New York Rangers",
       "name": "Rangers",
       "school": "New York",
       "mascot": "Rangers",
       "rank": null,
-      "score": "2",
-      "record": "0-1-0",
+      "score": "1",
+      "record": "1-1-0",
       "periods": [
-       "2"
+       "1",
+       "0"
       ],
       "id": "13",
       "color": "#0056ae"
      },
-     "away": {
-      "abbr": "TB",
-      "full": "Tampa Bay Lightning",
-      "name": "Lightning",
-      "school": "Tampa Bay",
-      "mascot": "Lightning",
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": 0.4797222222222222,
+     "venue_indoor": true,
+     "venue": "Little Caesars Arena",
+     "line": null
+    },
+    {
+     "id": "401892432",
+     "league": "NHL",
+     "state": "in",
+     "completed": false,
+     "status_short": "End of 1st",
+     "detail": "0:00",
+     "period": 1,
+     "start_utc": "2026-10-02T23:00Z",
+     "network": "ESPN+",
+     "home": {
+      "abbr": "CAR",
+      "full": "Carolina Hurricanes",
+      "name": "Hurricanes",
+      "school": "Carolina",
+      "mascot": "Hurricanes",
       "rank": null,
       "score": "0",
-      "record": "0-0-0",
+      "record": "0-0-1",
       "periods": [
        "0"
       ],
-      "id": "20",
-      "color": "#003e7e"
+      "id": "7",
+      "color": "#e30426"
+     },
+     "away": {
+      "abbr": "WSH",
+      "full": "Washington Capitals",
+      "name": "Capitals",
+      "school": "Washington",
+      "mascot": "Capitals",
+      "rank": null,
+      "score": "3",
+      "record": "0-0-0",
+      "periods": [
+       "3"
+      ],
+      "id": "23",
+      "color": "#d71830"
      },
      "leaders": [],
      "situation": "",
@@ -2891,44 +3003,44 @@
      "to_away": null,
      "progress": 0.3333333333333333,
      "venue_indoor": true,
-     "venue": "Madison Square Garden",
+     "venue": "Lenovo Center",
      "line": null
     },
     {
-     "id": "401891816",
+     "id": "401891831",
      "league": "NHL",
      "state": "pre",
      "completed": false,
-     "status_short": "10/1 - 8:00 PM EDT",
+     "status_short": "10/2 - 8:00 PM EDT",
      "detail": "0:00",
      "period": 0,
-     "start_utc": "2026-10-02T00:00Z",
+     "start_utc": "2026-10-03T00:00Z",
      "network": "ESPN+",
      "home": {
-      "abbr": "NSH",
-      "full": "Nashville Predators",
-      "name": "Predators",
-      "school": "Nashville",
-      "mascot": "Predators",
+      "abbr": "WPG",
+      "full": "Winnipeg Jets",
+      "name": "Jets",
+      "school": "Winnipeg",
+      "mascot": "Jets",
       "rank": null,
       "score": "0",
       "record": "0-0-0",
       "periods": [],
-      "id": "27",
-      "color": "#fdba31"
+      "id": "28",
+      "color": "#002d62"
      },
      "away": {
-      "abbr": "MIN",
-      "full": "Minnesota Wild",
-      "name": "Wild",
-      "school": "Minnesota",
-      "mascot": "Wild",
+      "abbr": "BOS",
+      "full": "Boston Bruins",
+      "name": "Bruins",
+      "school": "Boston",
+      "mascot": "Bruins",
       "rank": null,
       "score": "0",
-      "record": "0-0-0",
+      "record": "1-0-0",
       "periods": [],
-      "id": "30",
-      "color": "#124734"
+      "id": "1",
+      "color": "#231f20"
      },
      "leaders": [],
      "situation": "",
@@ -2938,103 +3050,50 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Bridgestone Arena",
+     "venue": "Canada Life Centre",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "MIN -148",
-      "spread": 1.5,
-      "total": 6.5,
-      "favorite": "away"
-     }
-    },
-    {
-     "id": "401891777",
-     "league": "NHL",
-     "state": "pre",
-     "completed": false,
-     "status_short": "10/1 - 9:00 PM EDT",
-     "detail": "0:00",
-     "period": 0,
-     "start_utc": "2026-10-02T01:00Z",
-     "network": "ESPN+",
-     "home": {
-      "abbr": "CGY",
-      "full": "Calgary Flames",
-      "name": "Flames",
-      "school": "Calgary",
-      "mascot": "Flames",
-      "rank": null,
-      "score": "0",
-      "record": "0-0-0",
-      "periods": [],
-      "id": "3",
-      "color": "#dd1a32"
-     },
-     "away": {
-      "abbr": "SEA",
-      "full": "Seattle Kraken",
-      "name": "Kraken",
-      "school": "Seattle",
-      "mascot": "Kraken",
-      "rank": null,
-      "score": "0",
-      "record": "0-0-0",
-      "periods": [],
-      "id": "124292",
-      "color": "#000d33"
-     },
-     "leaders": [],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Scotiabank Saddledome",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "CGY -112",
+      "provider": "DraftKings",
+      "detail": "WPG -122",
       "spread": -1.5,
       "total": 5.5,
       "favorite": "home"
      }
     },
     {
-     "id": "401891828",
+     "id": "401891782",
      "league": "NHL",
      "state": "pre",
      "completed": false,
-     "status_short": "10/1 - 9:30 PM EDT",
+     "status_short": "10/2 - 9:00 PM EDT",
      "detail": "0:00",
      "period": 0,
-     "start_utc": "2026-10-02T01:30Z",
-     "network": "Disney+",
+     "start_utc": "2026-10-03T01:00Z",
+     "network": "TNT",
      "home": {
-      "abbr": "UTA",
-      "full": "Utah Mammoth",
-      "name": "Mammoth",
-      "school": "Utah",
-      "mascot": "Mammoth",
+      "abbr": "DAL",
+      "full": "Dallas Stars",
+      "name": "Stars",
+      "school": "Dallas",
+      "mascot": "Stars",
       "rank": null,
       "score": "0",
       "record": "0-0-0",
       "periods": [],
-      "id": "129764",
-      "color": ""
+      "id": "9",
+      "color": "#20864c"
      },
      "away": {
-      "abbr": "CHI",
-      "full": "Chicago Blackhawks",
-      "name": "Blackhawks",
-      "school": "Chicago",
-      "mascot": "Blackhawks",
+      "abbr": "STL",
+      "full": "St. Louis Blues",
+      "name": "Blues",
+      "school": "St. Louis",
+      "mascot": "Blues",
       "rank": null,
       "score": "0",
-      "record": "0-1-0",
+      "record": "0-0-0",
       "periods": [],
-      "id": "4",
-      "color": "#e31937"
+      "id": "19",
+      "color": "#0070b9"
      },
      "leaders": [],
      "situation": "",
@@ -3044,50 +3103,50 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Delta Center",
+     "venue": "American Airlines Center",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "UTAH -218",
+      "provider": "DraftKings",
+      "detail": "DAL -185",
       "spread": -1.5,
-      "total": 6.5,
+      "total": 5.5,
       "favorite": "home"
      }
     },
     {
-     "id": "401891823",
+     "id": "401892433",
      "league": "NHL",
      "state": "pre",
      "completed": false,
-     "status_short": "10/1 - 10:00 PM EDT",
+     "status_short": "10/2 - 10:00 PM EDT",
      "detail": "0:00",
      "period": 0,
-     "start_utc": "2026-10-02T02:00Z",
+     "start_utc": "2026-10-03T02:00Z",
      "network": "ESPN+",
      "home": {
-      "abbr": "SJ",
-      "full": "San Jose Sharks",
-      "name": "Sharks",
-      "school": "San Jose",
-      "mascot": "Sharks",
+      "abbr": "VGK",
+      "full": "Vegas Golden Knights",
+      "name": "Golden Knights",
+      "school": "Vegas",
+      "mascot": "Golden Knights",
+      "rank": null,
+      "score": "0",
+      "record": "1-0-0",
+      "periods": [],
+      "id": "37",
+      "color": "#344043"
+     },
+     "away": {
+      "abbr": "ANA",
+      "full": "Anaheim Ducks",
+      "name": "Ducks",
+      "school": "Anaheim",
+      "mascot": "Ducks",
       "rank": null,
       "score": "0",
       "record": "0-0-0",
       "periods": [],
-      "id": "18",
-      "color": "#00788a"
-     },
-     "away": {
-      "abbr": "FLA",
-      "full": "Florida Panthers",
-      "name": "Panthers",
-      "school": "Florida",
-      "mascot": "Panthers",
-      "rank": null,
-      "score": "0",
-      "record": "1-0-0",
-      "periods": [],
-      "id": "26",
-      "color": "#e51937"
+      "id": "25",
+      "color": "#fc4c02"
      },
      "leaders": [],
      "situation": "",
@@ -3097,66 +3156,13 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "SAP Center at San Jose",
+     "venue": "T-Mobile Arena",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "FLA -148",
-      "spread": 1.5,
+      "provider": "DraftKings",
+      "detail": "VGK -205",
+      "spread": -1.5,
       "total": 6.5,
-      "favorite": "away"
-     }
-    },
-    {
-     "id": "401891829",
-     "league": "NHL",
-     "state": "pre",
-     "completed": false,
-     "status_short": "10/1 - 10:00 PM EDT",
-     "detail": "0:00",
-     "period": 0,
-     "start_utc": "2026-10-02T02:00Z",
-     "network": "ESPN+",
-     "home": {
-      "abbr": "VAN",
-      "full": "Vancouver Canucks",
-      "name": "Canucks",
-      "school": "Vancouver",
-      "mascot": "Canucks",
-      "rank": null,
-      "score": "0",
-      "record": "1-0-0",
-      "periods": [],
-      "id": "22",
-      "color": "#003e7e"
-     },
-     "away": {
-      "abbr": "EDM",
-      "full": "Edmonton Oilers",
-      "name": "Oilers",
-      "school": "Edmonton",
-      "mascot": "Oilers",
-      "rank": null,
-      "score": "0",
-      "record": "0-0-1",
-      "periods": [],
-      "id": "6",
-      "color": "#00205b"
-     },
-     "leaders": [],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": true,
-     "venue": "Rogers Arena",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "EDM -218",
-      "spread": 1.5,
-      "total": 6.5,
-      "favorite": "away"
+      "favorite": "home"
      }
     }
    ]
@@ -3165,40 +3171,40 @@
    "league": "WNBA",
    "games": [
     {
-     "id": "401918022",
+     "id": "401918294",
      "league": "WNBA",
      "state": "pre",
      "completed": false,
-     "status_short": "10/1 - 9:00 PM EDT",
+     "status_short": "10/2 - 9:00 PM EDT",
      "detail": "0.0",
      "period": 0,
-     "start_utc": "2026-10-02T01:00Z",
-     "network": "USA Net",
+     "start_utc": "2026-10-03T01:00Z",
+     "network": "ESPN2",
      "home": {
-      "abbr": "LV",
-      "full": "Las Vegas Aces",
-      "name": "Aces",
-      "school": "Las Vegas",
-      "mascot": "Aces",
+      "abbr": "GS",
+      "full": "Golden State Valkyries",
+      "name": "Valkyries",
+      "school": "Golden State",
+      "mascot": "Valkyries",
       "rank": null,
       "score": "0",
-      "record": "31-13",
+      "record": "32-12",
       "periods": [],
-      "id": "17",
-      "color": "#a7a8aa"
+      "id": "129689",
+      "color": "#b38fcf"
      },
      "away": {
-      "abbr": "IND",
-      "full": "Indiana Fever",
-      "name": "Fever",
-      "school": "Indiana",
-      "mascot": "Fever",
+      "abbr": "DAL",
+      "full": "Dallas Wings",
+      "name": "Wings",
+      "school": "Dallas",
+      "mascot": "Wings",
       "rank": null,
       "score": "0",
-      "record": "28-16",
+      "record": "27-17",
       "periods": [],
-      "id": "5",
-      "color": "#002d62"
+      "id": "3",
+      "color": "#002b5c"
      },
      "leaders": [],
      "situation": "",
@@ -3208,12 +3214,12 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": true,
-     "venue": "Michelob ULTRA Arena",
+     "venue": "Chase Center",
      "line": {
       "provider": "DraftKings",
-      "detail": "LV -4.5",
-      "spread": -4.5,
-      "total": 181.5,
+      "detail": "GS -8.5",
+      "spread": -8.5,
+      "total": 159.5,
       "favorite": "home"
      }
     }
