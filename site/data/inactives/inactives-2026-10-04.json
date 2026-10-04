@@ -1,8 +1,8 @@
 {
  "day": "2026-10-04",
  "first_poll": "2026-10-04T00:00:42Z",
- "last_change": "2026-10-04T15:00:53Z",
- "last_poll": "2026-10-04T15:02:22Z",
+ "last_change": "2026-10-04T15:36:18Z",
+ "last_poll": "2026-10-04T15:36:18Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -48,7 +48,7 @@
    "designations": {
     "4428557": {
      "changed_at": null,
-     "detail": "Ankle",
+     "detail": "",
      "feed_date": "2026-10-04T11:31Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Tyjae Spears",
@@ -655,6 +655,15 @@
   "21": {
    "capped": true,
    "designations": {
+    "15797": {
+     "changed_at": null,
+     "detail": "Personal",
+     "feed_date": "2026-10-04T15:07Z",
+     "first_seen": "2026-10-04T15:35:23Z",
+     "name": "Lane Johnson",
+     "pos": "OT",
+     "status": "Questionable"
+    },
     "3121023": {
      "changed_at": null,
      "detail": "Knee - MCL",
@@ -1166,13 +1175,13 @@
    "capped": true,
    "designations": {
     "2576980": {
-     "changed_at": null,
+     "changed_at": "2026-10-04T15:35:23Z",
      "detail": "Knee",
-     "feed_date": "2026-10-04T14:12Z",
+     "feed_date": "2026-10-04T15:12Z",
      "first_seen": "2026-10-04T15:00:53Z",
      "name": "Marcus Mariota",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "3121422": {
      "changed_at": "2026-10-04T15:00:53Z",
@@ -1186,7 +1195,7 @@
     "3929865": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-04T14:25Z",
+     "feed_date": "2026-10-04T15:20Z",
      "first_seen": "2026-10-04T15:00:53Z",
      "name": "Charles Omenihu",
      "pos": "DE",
@@ -1398,7 +1407,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-04T14:24Z",
+     "feed_date": "2026-10-04T15:15Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -1483,7 +1492,7 @@
     "2576581": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-04T14:24Z",
+     "feed_date": "2026-10-04T15:15Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Chris Moore",
      "pos": "WR",
@@ -1911,7 +1920,26 @@
     }
    },
    "id": "9",
-   "players": {},
+   "players": {
+    "14931": {
+     "feed_date": "2026-10-01T00:50Z",
+     "first_seen": "2026-10-04T15:35:23Z",
+     "jersey": "",
+     "name": "Kevin Zeitler",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4887255": {
+     "feed_date": "2026-10-03T01:19Z",
+     "first_seen": "2026-10-04T15:36:18Z",
+     "jersey": "",
+     "name": "Anthony Campbell",
+     "pos": "DT",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
