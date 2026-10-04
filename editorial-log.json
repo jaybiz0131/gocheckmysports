@@ -1,28 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c358",
-    "headline": "Olivia Miles has 20 points, 7 assists before ankle injury as Minnesota Lynx beat Golden State 77-66",
-    "category": "accuracy",
-    "reasons": [
-     "Brief's open_questions flag 'Whether Miles' injury occurred in the third or fourth quarter (snippet says midway through the fourth quarter, but the broader context is unclear).' This signals the quarter is unconfirmed. Draft states 'midway through the fourth quarter' as a direct fact without hedging, presenting an unconfirmed detail as settled. The brief itself expresses doubt on this point; the draft must reflect that uncertainty or avoid the specific timing."
-    ]
-   },
-   {
-    "id": "c259",
-    "headline": "Cavaliers acquire Peyton Watson in multi-team deal",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The Cleveland Cavaliers acquired Peyton Watson from the Denver Nuggets in a multi-team trade involving the Los Angeles Clippers and Washington Wizards' and 'The Cavaliers then signed Watson to a 4-year, $88 million contract.' The brief contains only one data_point with confidence 'reported': the qualifying offer figure. The trade structure, the signings, and Watson's involvement with the Cavaliers are stated as fact in the draft but are NOT in the brief's data_points. The brief explicitly flags these as open_questions: 'The source text was not fetched; no details are available on the specific teams involved beyond the headline mention' and 'No official confirmation from the Cavaliers, Nuggets, Clippers, or Wizards.' The writer has smuggled the headline into the body as confirmed fact when the brief itself does not contain these claims as verified data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-20",
   "approved": 4,
   "rejected": [
    {
@@ -7665,6 +7643,47 @@
      "Franklin quote is accurate per brief data_point and provides primary voice on ambiguity.",
      "Context properly framed: loss in first season under Franklin, best start since 2017, early 24-14 lead all traced to brief.",
      "the draft dates October 3, 2026 as a Friday; October 3, 2026 is a Saturday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-04",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c081",
+    "headline": "Dream's Bonner leads Atlanta past Liberty 92-82 in WNBA semifinals Game 1 on October 4",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The series pivots on whether the Dream's youth can sustain this level against experienced playoff opposition' in bottom_line. The Liberty are described in the draft body as 'eighth-seeded Liberty, who swept the top-seeded Minnesota Lynx in the first round.' The Liberty are not experienced playoff opposition by seed or seeding logic; they were the 8th seed. The phrasing 'experienced playoff opposition' contradicts the earlier statement that they were an 8th seed upset team. More critically, the draft body says 'Atlanta's deeper postseason inexperience makes Bonner's steady presence on both ends of the floor a structural advantage in a best-of-five series' but then the bottom_line suggests the Dream must sustain against 'experienced playoff opposition,' which reverses the stated advantage and introduces unsourced framing.",
+     "The open_questions in brief note that 'Source texts do not provide the specific statistics, performance details, or rare playoff company that Bonner joined with her Game 1 performance.' The draft does not claim to name this rare company, but the bottom_line should not project future outcomes (whether Dream can 'maintain momentum' and whether 'Liberty adjusts') based on data the brief explicitly marks as missing. The story rests partly on an analysis the sources do not support.",
+     "Draft states 'Game 2, or the Liberty adjusts to close their deficit in Milwaukee' but the brief confirms the series is in Atlanta (Game 1 at State Farm Arena). There is no indication Game 2 is in Milwaukee; this is a geographic error not in the brief."
+    ]
+   },
+   {
+    "id": "c44",
+    "headline": "Packers fear torn Achilles for Cooper after win over Buccaneers",
+    "category": "compliance",
+    "reasons": [
+     "The draft presents Cooper's injury as a confirmed fact in the headline and opening: 'Packers fear torn Achilles for Cooper' (headline) and 'sustained what the team fears is a torn Achilles tendon' (body). However, the brief's core_claim and bear_case both emphasize that this is speculative: LaFleur's language is 'suspect' (conditional), not a definitive diagnosis. The bear_case explicitly states: 'The injury is still being evaluated and not yet formally confirmed; LaFleur's language is speculative ('suspect' it will be season-ending), leaving room for a less severe diagnosis.' The draft does acknowledge the evaluation is 'still ongoing,' but the headline and opening framing treat the feared diagnosis as established fact rather than suspected. This is a presentation problem: a feared diagnosis presented as occurred fact, without sufficient qualification upfront, overstates medical certainty where the brief requires caution. The body phrase 'indicated during his postgame press conference that he suspects it will be season-ending, though the evaluation is still ongoing' properly qualifies, but by then the reader has already been told Cooper 'sustained what the team fears is a torn Achilles.' The opening sentence should mirror the speculative language more clearly."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "White Sox top Guardians 3-0 in ALDS Game 1, stretch no-trailing streak to 27 innings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred 'on October 3' but today is October 4, 2026. The brief confirms the game happened on Saturday (verified-on-chain source timestamp 2026-10-03T22:22:00Z). However, the draft then writes 'on Saturday' later, which is internally consistent with a past event. The core problem: the title and opening sentence use 'on October 3' but this is written on October 4. The game already happened; the tense and date placement are correct. However, the bottom_line states 'Game 2 at Cleveland is scheduled for Monday, October 7' \u2014 this is a future date (October 7 is 3 days away from today, October 4). The brief data_point says 'ALDS Game 2 is scheduled for Monday at 5 ET' and the timestamp is 2026-10-03, but it does not specify October 7. The draft has invented the specific date 'October 7' which does not appear in the brief. This is a smuggled fact.",
+     "the draft dates October 7, 2026 as a Monday; October 7, 2026 is a Wednesday"
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Jets record interception on October 4, end 637-day, 20-game NFL-record drought",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the interception occurred 'on October 4 in Week 4' \u2014 today is October 4, 2026, and the brief reports the event occurred 'on Sunday' with a timestamp of 2026-10-04T18:58:57Z. This is correct as a past event reported the same day. However, the draft then states in the bottom_line: 'Whether the pick represents a sustainable shift in the Jets' pass-defense approach or remains an isolated event will become clearer over the remainder of the 2026 season.' The brief's core_claim and data_points make clear this is the first interception ending a 20-game drought that extended from the entire 2025 season and into 2026. The bottom_line's phrasing about 'the remainder of the 2026 season' is reasonable forward-looking language. However, a more critical issue: the draft must report the date with certainty. The brief timestamp shows 2026-10-04T18:58:57Z, confirming Sunday, October 4, 2026 is today. The event is reported as having already happened (correct). No accuracy violation on the event timing itself. The draft text is consistent with brief reporting. No smuggled facts identified."
     ]
    }
   ]
