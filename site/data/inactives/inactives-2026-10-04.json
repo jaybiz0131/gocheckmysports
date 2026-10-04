@@ -2,7 +2,7 @@
  "day": "2026-10-04",
  "first_poll": "2026-10-04T00:00:42Z",
  "last_change": "2026-10-04T19:25:33Z",
- "last_poll": "2026-10-04T19:27:03Z",
+ "last_poll": "2026-10-04T19:52:04Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -327,7 +327,7 @@
     "4430723": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:09Z",
+     "feed_date": "2026-10-04T19:32Z",
      "first_seen": "2026-10-04T19:15:36Z",
      "name": "Jared Wiley",
      "pos": "TE",
@@ -336,7 +336,7 @@
     "4567747": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:09Z",
+     "feed_date": "2026-10-04T19:30Z",
      "first_seen": "2026-10-04T19:15:36Z",
      "name": "Garrett Nussmeier",
      "pos": "QB",
@@ -457,7 +457,7 @@
     "4260394": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-03T21:34Z",
+     "feed_date": "2026-10-04T19:20Z",
      "first_seen": "2026-10-04T19:11:53Z",
      "name": "Aidan O'Connell",
      "pos": "QB",
@@ -1019,6 +1019,15 @@
      "pos": "LB",
      "status": "Questionable"
     },
+    "4368113": {
+     "changed_at": null,
+     "detail": "Shoulder",
+     "feed_date": "2026-10-04T19:40Z",
+     "first_seen": "2026-10-04T19:50:48Z",
+     "name": "Charles Woods",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4372030": {
      "changed_at": null,
      "detail": "Shoulder",
@@ -1084,8 +1093,8 @@
     },
     "4831959": {
      "changed_at": null,
-     "detail": "",
-     "feed_date": "2026-10-02T21:51Z",
+     "detail": "Ankle",
+     "feed_date": "2026-10-04T19:40Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Eli Raridon",
      "pos": "TE",
@@ -1401,7 +1410,7 @@
     "4039303": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-04T19:04Z",
+     "feed_date": "2026-10-04T19:45Z",
      "first_seen": "2026-10-04T19:25:33Z",
      "name": "Ed Oliver",
      "pos": "DT",
@@ -1774,6 +1783,15 @@
      "name": "Fred Johnson",
      "pos": "OT",
      "status": "Out"
+    },
+    "3916409": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-10-04T19:24Z",
+     "first_seen": "2026-10-04T19:50:48Z",
+     "name": "Jonathan Greenard",
+     "pos": "LB",
+     "status": "Questionable"
     },
     "3917657": {
      "changed_at": null,
@@ -2212,7 +2230,7 @@
     "3691739": {
      "changed_at": "2026-10-04T19:10:33Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-04T19:02Z",
+     "feed_date": "2026-10-04T19:25Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Derwin James Jr.",
      "pos": "S",
@@ -2266,7 +2284,7 @@
     "4429020": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:02Z",
+     "feed_date": "2026-10-04T19:19Z",
      "first_seen": "2026-10-04T19:10:33Z",
      "name": "DJ Uiagalelei",
      "pos": "QB",
@@ -2432,7 +2450,7 @@
     "4685397": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:00Z",
+     "feed_date": "2026-10-04T19:22Z",
      "first_seen": "2026-10-04T19:10:33Z",
      "name": "Jordan James",
      "pos": "RB",
@@ -2571,7 +2589,7 @@
     "4247808": {
      "changed_at": "2026-10-04T19:25:33Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-04T19:07Z",
+     "feed_date": "2026-10-04T19:28Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Ty Okada",
      "pos": "S",
@@ -2598,7 +2616,7 @@
     "4432734": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:07Z",
+     "feed_date": "2026-10-04T19:25Z",
      "first_seen": "2026-10-04T19:25:33Z",
      "name": "Jalen Milroe",
      "pos": "QB",
@@ -3106,9 +3124,10 @@
    "id": "29",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-10-04T19:50:49Z",
    "rows_returned": 25,
-   "team": "Carolina Panthers"
+   "team": "Carolina Panthers",
+   "unresolved": false
   },
   "3": {
    "capped": true,
@@ -3143,7 +3162,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-04T19:15Z",
+     "feed_date": "2026-10-04T19:40Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -3272,7 +3291,7 @@
    "designations": {
     "2970716": {
      "changed_at": null,
-     "detail": "Head",
+     "detail": "Concussion",
      "feed_date": "2026-10-04T18:59Z",
      "first_seen": "2026-10-04T19:10:33Z",
      "name": "Eric Murray",
@@ -3439,7 +3458,7 @@
     "2576581": {
      "changed_at": "2026-10-04T15:41:56Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-04T19:22Z",
+     "feed_date": "2026-10-04T19:40Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Chris Moore",
      "pos": "WR",
@@ -4063,6 +4082,15 @@
      "pos": "CB",
      "status": "Out"
     },
+    "4595352": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-10-04T19:22Z",
+     "first_seen": "2026-10-04T19:50:48Z",
+     "name": "Alijah Clark",
+     "pos": "S",
+     "status": "Questionable"
+    },
     "4696203": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -4187,7 +4215,7 @@
     "5159802": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-04T19:01Z",
+     "feed_date": "2026-10-04T19:21Z",
      "first_seen": "2026-10-04T19:15:36Z",
      "name": "Dallen Bentley",
      "pos": "TE",
@@ -4291,9 +4319,10 @@
    "id": "8",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-10-04T19:50:58Z",
    "rows_returned": 25,
-   "team": "Detroit Lions"
+   "team": "Detroit Lions",
+   "unresolved": false
   },
   "9": {
    "capped": true,
