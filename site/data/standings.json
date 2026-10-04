@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-04T16:02:41Z",
+ "fetched_at": "2026-10-04T16:49:23Z",
  "leagues": [
   {
    "key": "nfl",
@@ -39,7 +39,7 @@
        "pointsFor": "64",
        "pointsAgainst": "61",
        "differential": "+3",
-       "playoffSeed": "10",
+       "playoffSeed": "11",
        "divisionRecord": "0-0"
       },
       {
@@ -55,7 +55,7 @@
        "pointsFor": "36",
        "pointsAgainst": "51",
        "differential": "-15",
-       "playoffSeed": "11",
+       "playoffSeed": "12",
        "divisionRecord": "0-0"
       },
       {
@@ -170,33 +170,17 @@
        "team": "Indianapolis Colts",
        "abbr": "IND",
        "short": "Colts",
-       "wins": "1",
+       "wins": "2",
        "losses": "2",
        "ties": "0",
-       "winPercent": ".333",
-       "gamesBehind": "1",
-       "streak": "W1",
-       "pointsFor": "72",
-       "pointsAgainst": "91",
-       "differential": "-19",
-       "playoffSeed": "12",
+       "winPercent": ".500",
+       "gamesBehind": "0.5",
+       "streak": "W2",
+       "pointsFor": "102",
+       "pointsAgainst": "104",
+       "differential": "-2",
+       "playoffSeed": "10",
        "divisionRecord": "1-0"
-      },
-      {
-       "team": "Tennessee Titans",
-       "abbr": "TEN",
-       "short": "Titans",
-       "wins": "0",
-       "losses": "3",
-       "ties": "0",
-       "winPercent": ".000",
-       "gamesBehind": "2",
-       "streak": "L3",
-       "pointsFor": "37",
-       "pointsAgainst": "59",
-       "differential": "-22",
-       "playoffSeed": "15",
-       "divisionRecord": "0-0"
       },
       {
        "team": "Houston Texans",
@@ -211,8 +195,24 @@
        "pointsFor": "54",
        "pointsAgainst": "75",
        "differential": "-21",
-       "playoffSeed": "16",
+       "playoffSeed": "15",
        "divisionRecord": "0-1"
+      },
+      {
+       "team": "Tennessee Titans",
+       "abbr": "TEN",
+       "short": "Titans",
+       "wins": "0",
+       "losses": "3",
+       "ties": "0",
+       "winPercent": ".000",
+       "gamesBehind": "2",
+       "streak": "L3",
+       "pointsFor": "37",
+       "pointsAgainst": "59",
+       "differential": "-22",
+       "playoffSeed": "16",
+       "divisionRecord": "0-0"
       }
      ]
     },
@@ -291,22 +291,6 @@
      "conference": "National Football Conference",
      "rows": [
       {
-       "team": "Philadelphia Eagles",
-       "abbr": "PHI",
-       "short": "Eagles",
-       "wins": "2",
-       "losses": "1",
-       "ties": "0",
-       "winPercent": ".667",
-       "gamesBehind": "-",
-       "streak": "L1",
-       "pointsFor": "55",
-       "pointsAgainst": "69",
-       "differential": "-14",
-       "playoffSeed": "3",
-       "divisionRecord": "1-0"
-      },
-      {
        "team": "New York Giants",
        "abbr": "NYG",
        "short": "Giants",
@@ -319,6 +303,22 @@
        "pointsFor": "46",
        "pointsAgainst": "55",
        "differential": "-9",
+       "playoffSeed": "3",
+       "divisionRecord": "1-0"
+      },
+      {
+       "team": "Philadelphia Eagles",
+       "abbr": "PHI",
+       "short": "Eagles",
+       "wins": "2",
+       "losses": "1",
+       "ties": "0",
+       "winPercent": ".667",
+       "gamesBehind": "-",
+       "streak": "L1",
+       "pointsFor": "55",
+       "pointsAgainst": "69",
+       "differential": "-14",
        "playoffSeed": "8",
        "divisionRecord": "1-0"
       },
@@ -335,7 +335,7 @@
        "pointsFor": "88",
        "pointsAgainst": "82",
        "differential": "+6",
-       "playoffSeed": "10",
+       "playoffSeed": "11",
        "divisionRecord": "1-1"
       },
       {
@@ -343,15 +343,15 @@
        "abbr": "WSH",
        "short": "Commanders",
        "wins": "1",
-       "losses": "2",
+       "losses": "3",
        "ties": "0",
-       "winPercent": ".333",
-       "gamesBehind": "1",
-       "streak": "W1",
-       "pointsFor": "75",
-       "pointsAgainst": "92",
-       "differential": "-17",
-       "playoffSeed": "11",
+       "winPercent": ".250",
+       "gamesBehind": "1.5",
+       "streak": "L1",
+       "pointsFor": "88",
+       "pointsAgainst": "122",
+       "differential": "-34",
+       "playoffSeed": "15",
        "divisionRecord": "0-2"
       }
      ]
@@ -421,7 +421,7 @@
        "pointsFor": "56",
        "pointsAgainst": "91",
        "differential": "-35",
-       "playoffSeed": "14",
+       "playoffSeed": "13",
        "divisionRecord": "0-1"
       }
      ]
@@ -447,6 +447,22 @@
        "divisionRecord": "1-0"
       },
       {
+       "team": "Atlanta Falcons",
+       "abbr": "ATL",
+       "short": "Falcons",
+       "wins": "1",
+       "losses": "2",
+       "ties": "0",
+       "winPercent": ".333",
+       "gamesBehind": "-",
+       "streak": "W1",
+       "pointsFor": "51",
+       "pointsAgainst": "68",
+       "differential": "-17",
+       "playoffSeed": "10",
+       "divisionRecord": "0-1"
+      },
+      {
        "team": "New Orleans Saints",
        "abbr": "NO",
        "short": "Saints",
@@ -461,22 +477,6 @@
        "differential": "-2",
        "playoffSeed": "12",
        "divisionRecord": "0-0"
-      },
-      {
-       "team": "Atlanta Falcons",
-       "abbr": "ATL",
-       "short": "Falcons",
-       "wins": "1",
-       "losses": "2",
-       "ties": "0",
-       "winPercent": ".333",
-       "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "51",
-       "pointsAgainst": "68",
-       "differential": "-17",
-       "playoffSeed": "13",
-       "divisionRecord": "0-1"
       },
       {
        "team": "Tampa Bay Buccaneers",
@@ -561,7 +561,7 @@
        "pointsFor": "63",
        "pointsAgainst": "81",
        "differential": "-18",
-       "playoffSeed": "15",
+       "playoffSeed": "14",
        "divisionRecord": "0-2"
       }
      ]

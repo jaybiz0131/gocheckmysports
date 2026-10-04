@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-04T16:02:40Z",
+ "fetched_at": "2026-10-04T16:49:22Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,10 +7,10 @@
     {
      "id": "401872965",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "15:00 - 4th",
-     "detail": "15:00",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-10-04T13:30Z",
      "network": "NFL Net",
@@ -22,7 +22,7 @@
       "mascot": "Commanders",
       "rank": null,
       "score": "13",
-      "record": "1-2",
+      "record": "1-3",
       "periods": [
        "6",
        "0",
@@ -39,13 +39,13 @@
       "school": "Indianapolis",
       "mascot": "Colts",
       "rank": null,
-      "score": "20",
-      "record": "1-2",
+      "score": "30",
+      "record": "2-2",
       "periods": [
        "0",
        "10",
        "10",
-       "0"
+       "10"
       ],
       "id": "11",
       "color": "#003b75"
@@ -54,28 +54,28 @@
       {
        "cat": "PASS",
        "name": "A. Kaliakmanis",
-       "line": "9/20, 139 YDS, 1 TD, 1 INT",
+       "line": "15/33, 186 YDS, 1 TD, 1 INT",
        "team": "28"
       },
       {
        "cat": "RUSH",
        "name": "J. Taylor",
-       "line": "15 CAR, 63 YDS, 2 TD",
+       "line": "20 CAR, 95 YDS, 2 TD",
        "team": "11"
       },
       {
        "cat": "REC",
        "name": "D. Brown",
-       "line": "2 REC, 57 YDS",
+       "line": "3 REC, 65 YDS",
        "team": "28"
       }
      ],
-     "situation": "1st & 10 at WSH 42",
-     "possession": "11",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.75,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "Tottenham Hotspur Stadium",
      "line": null
@@ -145,7 +145,7 @@
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "BUF -7",
       "spread": -7.0,
       "total": 49.5,
@@ -217,7 +217,7 @@
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CHI -3.5",
       "spread": -3.5,
       "total": 43.5,
@@ -289,7 +289,7 @@
      "venue_indoor": false,
      "venue": "Paycor Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CIN -2.5",
       "spread": -2.5,
       "total": 51.5,
@@ -361,10 +361,10 @@
      "venue_indoor": false,
      "venue": "MetLife Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "ARI -2.5",
       "spread": 2.5,
-      "total": 43.5,
+      "total": 44.5,
       "favorite": "away"
      }
     },
@@ -433,7 +433,7 @@
      "venue_indoor": false,
      "venue": "Lincoln Financial Field",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "LAR -3.5",
       "spread": 3.5,
       "total": 42.5,
@@ -505,7 +505,7 @@
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "GB -3",
       "spread": 3.0,
       "total": 38.5,
@@ -577,7 +577,7 @@
      "venue_indoor": false,
      "venue": "M&T Bank Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "BAL -11.5",
       "spread": -11.5,
       "total": 42.5,
@@ -649,7 +649,7 @@
      "venue_indoor": true,
      "venue": "Reliant Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "HOU -3",
       "spread": -3.0,
       "total": 48.5,
@@ -721,7 +721,7 @@
      "venue_indoor": true,
      "venue": "U.S. Bank Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIN -10",
       "spread": -10.0,
       "total": 38.5,
@@ -793,7 +793,7 @@
      "venue_indoor": true,
      "venue": "Allegiant Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "KC -4.5",
       "spread": 4.5,
       "total": 47.5,
@@ -865,7 +865,7 @@
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SF -3",
       "spread": -3.0,
       "total": 48.5,
@@ -937,7 +937,7 @@
      "venue_indoor": false,
      "venue": "Lumen Field",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -7",
       "spread": -7.0,
       "total": 42.5,
@@ -1009,7 +1009,7 @@
      "venue_indoor": false,
      "venue": "Bank of America Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DET -3.5",
       "spread": 3.5,
       "total": 51.5,
@@ -1157,7 +1157,7 @@
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NO -1.5",
       "spread": -1.5,
       "total": 47.5,
@@ -1216,7 +1216,7 @@
      "venue": "American Family Field",
      "line": {
       "provider": "DraftKings",
-      "detail": "MIL -137",
+      "detail": "MIL -136",
       "spread": -1.5,
       "total": 7.0,
       "favorite": "home"
@@ -2959,8 +2959,8 @@
      "venue_indoor": true,
      "venue": "Little Caesars Arena",
      "line": {
-      "provider": "DraftKings",
-      "detail": "WPG -112",
+      "provider": "Draft Kings",
+      "detail": "WPG -118",
       "spread": 1.5,
       "total": 5.5,
       "favorite": "away"
@@ -3012,7 +3012,7 @@
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NYR -125",
       "spread": -1.5,
       "total": 5.5,
@@ -3065,7 +3065,7 @@
      "venue_indoor": true,
      "venue": "Honda Center",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "FLA -135",
       "spread": 1.5,
       "total": 6.5,
@@ -3118,7 +3118,7 @@
      "venue_indoor": true,
      "venue": "Climate Pledge Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -155",
       "spread": -1.5,
       "total": 5.5,
@@ -3171,7 +3171,7 @@
      "venue_indoor": true,
      "venue": "Rogers Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "VGK -278",
       "spread": 1.5,
       "total": 6.5,
@@ -3285,7 +3285,7 @@
       "provider": "DraftKings",
       "detail": "LV -1.5",
       "spread": 1.5,
-      "total": 160.5,
+      "total": 159.5,
       "favorite": "away"
      }
     }
