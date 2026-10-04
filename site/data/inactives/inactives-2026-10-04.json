@@ -1,8 +1,8 @@
 {
  "day": "2026-10-04",
  "first_poll": "2026-10-04T00:00:42Z",
- "last_change": "2026-10-04T19:15:36Z",
- "last_poll": "2026-10-04T19:17:07Z",
+ "last_change": "2026-10-04T19:25:33Z",
+ "last_poll": "2026-10-04T19:27:03Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1232,6 +1232,15 @@
      "pos": "WR",
      "status": "Questionable"
     },
+    "4036132": {
+     "changed_at": null,
+     "detail": "Neck",
+     "feed_date": "2026-10-04T19:15Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Chauncey Golston",
+     "pos": "DE",
+     "status": "Questionable"
+    },
     "4040761": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -1243,7 +1252,7 @@
     },
     "4240706": {
      "changed_at": null,
-     "detail": "Head",
+     "detail": "Concussion",
      "feed_date": "2026-10-04T18:49Z",
      "first_seen": "2026-10-04T19:10:33Z",
      "name": "Jason Pinnock",
@@ -1389,6 +1398,15 @@
      "pos": "DE",
      "status": "Out"
     },
+    "4039303": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-10-04T19:04Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Ed Oliver",
+     "pos": "DT",
+     "status": "Questionable"
+    },
     "4044133": {
      "changed_at": null,
      "detail": "Personal",
@@ -1406,6 +1424,15 @@
      "name": "Christian Benford",
      "pos": "CB",
      "status": "Out"
+    },
+    "4401823": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-10-04T19:05Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Dee Alford",
+     "pos": "CB",
+     "status": "Questionable"
     },
     "4427348": {
      "changed_at": null,
@@ -1563,6 +1590,15 @@
      "name": "Kingsley Enagbare",
      "pos": "LB",
      "status": "Out"
+    },
+    "4426817": {
+     "changed_at": null,
+     "detail": "Head",
+     "feed_date": "2026-10-04T19:19Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Jarvis Brownlee Jr.",
+     "pos": "CB",
+     "status": "Questionable"
     },
     "4427366": {
      "changed_at": null,
@@ -2524,22 +2560,31 @@
    "capped": true,
    "designations": {
     "4037521": {
-     "changed_at": null,
+     "changed_at": "2026-10-04T19:25:33Z",
      "detail": "Calf",
-     "feed_date": "2026-10-02T21:39Z",
+     "feed_date": "2026-10-04T19:07Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Chazz Surratt",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4247808": {
-     "changed_at": null,
+     "changed_at": "2026-10-04T19:25:33Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-03T00:32Z",
+     "feed_date": "2026-10-04T19:07Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Ty Okada",
      "pos": "S",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4259651": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Brandon Pili",
+     "pos": "DT",
+     "status": "Out"
     },
     "4426385": {
      "changed_at": null,
@@ -2548,6 +2593,42 @@
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Zach Charbonnet",
      "pos": "RB",
+     "status": "Out"
+    },
+    "4432734": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Jalen Milroe",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4569547": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Nick Kallerup",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4600597": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Montorie Foster Jr.",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "5082331": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Avery Smith",
+     "pos": "CB",
      "status": "Out"
     }
    },
@@ -2577,6 +2658,42 @@
      "jersey": "",
      "name": "Brandon Pili",
      "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4432734": {
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "jersey": "",
+     "name": "Jalen Milroe",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4569547": {
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "jersey": "",
+     "name": "Nick Kallerup",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4600597": {
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "jersey": "",
+     "name": "Montorie Foster Jr.",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5082331": {
+     "feed_date": "2026-10-04T19:07Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "jersey": "",
+     "name": "Avery Smith",
+     "pos": "CB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -3026,7 +3143,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-04T19:10Z",
+     "feed_date": "2026-10-04T19:15Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -3322,7 +3439,7 @@
     "2576581": {
      "changed_at": "2026-10-04T15:41:56Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-04T19:10Z",
+     "feed_date": "2026-10-04T19:22Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Chris Moore",
      "pos": "WR",
@@ -3346,10 +3463,19 @@
      "pos": "LB",
      "status": "Out"
     },
+    "3052897": {
+     "changed_at": null,
+     "detail": "Achilles",
+     "feed_date": "2026-10-04T19:14Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Durham Smythe",
+     "pos": "TE",
+     "status": "Questionable"
+    },
     "3126356": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-04T17:55Z",
+     "feed_date": "2026-10-04T19:18Z",
      "first_seen": "2026-10-04T18:40:36Z",
      "name": "Marlon Humphrey",
      "pos": "CB",
@@ -3510,6 +3636,15 @@
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Logan Hall",
      "pos": "DE",
+     "status": "Questionable"
+    },
+    "4362910": {
+     "changed_at": null,
+     "detail": "Shoulder",
+     "feed_date": "2026-10-04T19:10Z",
+     "first_seen": "2026-10-04T19:25:33Z",
+     "name": "Jaden Crumedy",
+     "pos": "DT",
      "status": "Questionable"
     },
     "4428656": {

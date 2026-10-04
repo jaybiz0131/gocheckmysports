@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-04T19:17:05Z",
+ "fetched_at": "2026-10-04T19:27:03Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "3:16 - 3rd",
-     "detail": "3:16",
-     "period": 3,
+     "status_short": "15:00 - 4th",
+     "detail": "15:00",
+     "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "CBS",
      "home": {
@@ -26,6 +26,7 @@
       "periods": [
        "0",
        "17",
+       "0",
        "0"
       ],
       "id": "2",
@@ -43,7 +44,8 @@
       "periods": [
        "7",
        "7",
-       "7"
+       "7",
+       "0"
       ],
       "id": "17",
       "color": "#002a5c"
@@ -68,12 +70,12 @@
        "team": "2"
       }
      ],
-     "situation": "3rd & 4 at BUF 17",
+     "situation": "2nd & 2 at BUF 28",
      "possession": "2",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6955555555555556,
+     "progress": 0.75,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "line": null
@@ -83,9 +85,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "0:20 - 3rd",
-     "detail": "0:20",
-     "period": 3,
+     "status_short": "10:01 - 4th",
+     "detail": "10:01",
+     "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "FOX",
      "home": {
@@ -95,12 +97,13 @@
       "school": "Chicago",
       "mascot": "Bears",
       "rank": null,
-      "score": "20",
+      "score": "23",
       "record": "2-1",
       "periods": [
        "7",
        "6",
-       "7"
+       "7",
+       "3"
       ],
       "id": "3",
       "color": "#0b1c3a"
@@ -117,7 +120,8 @@
       "periods": [
        "0",
        "3",
-       "3"
+       "3",
+       "0"
       ],
       "id": "20",
       "color": "#115740"
@@ -126,13 +130,13 @@
       {
        "cat": "PASS",
        "name": "T. Bagent",
-       "line": "22/28, 239 YDS, 1 INT",
+       "line": "22/29, 239 YDS, 1 INT",
        "team": "3"
       },
       {
        "cat": "RUSH",
        "name": "K. Monangai",
-       "line": "17 CAR, 76 YDS, 2 TD",
+       "line": "22 CAR, 117 YDS, 2 TD",
        "team": "3"
       },
       {
@@ -142,12 +146,12 @@
        "team": "3"
       }
      ],
-     "situation": "1st & 10 at CHI 34",
-     "possession": "3",
-     "red_zone": false,
+     "situation": "",
+     "possession": "",
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7444444444444445,
+     "progress": 0.8330555555555555,
      "venue_indoor": false,
      "venue": "Soldier Field",
      "line": null
@@ -157,8 +161,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 4th",
-     "detail": "15:00",
+     "status_short": "11:38 - 4th",
+     "detail": "11:38",
      "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "CBS",
@@ -202,13 +206,13 @@
       {
        "cat": "PASS",
        "name": "J. Burrow",
-       "line": "26/33, 249 YDS, 1 TD, 1 INT",
+       "line": "27/35, 275 YDS, 1 TD, 2 INT",
        "team": "4"
       },
       {
        "cat": "RUSH",
        "name": "B. Tuten",
-       "line": "11 CAR, 46 YDS",
+       "line": "12 CAR, 66 YDS",
        "team": "30"
       },
       {
@@ -218,12 +222,12 @@
        "team": "4"
       }
      ],
-     "situation": "1st & 10 at JAX 36",
+     "situation": "1st & 10 at CIN 20",
      "possession": "4",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.75,
+     "progress": 0.8061111111111111,
      "venue_indoor": false,
      "venue": "Paycor Stadium",
      "line": null
@@ -233,9 +237,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "1:44 - 3rd",
-     "detail": "1:44",
-     "period": 3,
+     "status_short": "13:55 - 4th",
+     "detail": "13:55",
+     "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "CBS",
      "home": {
@@ -250,7 +254,8 @@
       "periods": [
        "3",
        "16",
-       "8"
+       "8",
+       "0"
       ],
       "id": "19",
       "color": "#003c7f"
@@ -267,7 +272,8 @@
       "periods": [
        "14",
        "3",
-       "7"
+       "7",
+       "0"
       ],
       "id": "22",
       "color": "#a40227"
@@ -282,7 +288,7 @@
       {
        "cat": "RUSH",
        "name": "J. Love",
-       "line": "12 CAR, 61 YDS",
+       "line": "13 CAR, 65 YDS",
        "team": "22"
       },
       {
@@ -292,12 +298,12 @@
        "team": "19"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
+     "situation": "1st & 10 at NYG 16",
+     "possession": "19",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7211111111111111,
+     "progress": 0.7680555555555555,
      "venue_indoor": false,
      "venue": "MetLife Stadium",
      "line": null
@@ -307,8 +313,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "5:01 - 3rd",
-     "detail": "5:01",
+     "status_short": "0:03 - 3rd",
+     "detail": "0:03",
      "period": 3,
      "start_utc": "2026-10-04T17:00Z",
      "network": "FOX",
@@ -350,13 +356,13 @@
       {
        "cat": "PASS",
        "name": "M. Stafford",
-       "line": "19/31, 168 YDS, 2 INT",
+       "line": "19/33, 168 YDS, 2 INT",
        "team": "14"
       },
       {
        "cat": "RUSH",
        "name": "K. Williams",
-       "line": "10 CAR, 37 YDS",
+       "line": "13 CAR, 68 YDS",
        "team": "14"
       },
       {
@@ -366,12 +372,12 @@
        "team": "14"
       }
      ],
-     "situation": "3rd & 1 at LAR 24",
+     "situation": "2nd & 17 at PHI 45",
      "possession": "14",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6663888888888889,
+     "progress": 0.7491666666666666,
      "venue_indoor": false,
      "venue": "Lincoln Financial Field",
      "line": null
@@ -381,8 +387,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "14:49 - 4th",
-     "detail": "14:49",
+     "status_short": "9:06 - 4th",
+     "detail": "9:06",
      "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "FOX",
@@ -425,9 +431,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Daniels",
-       "line": "12/18, 112 YDS, 1 TD, 2 INT",
-       "team": "27"
+       "name": "J. Love",
+       "line": "21/28, 185 YDS, 2 TD",
+       "team": "9"
       },
       {
        "cat": "RUSH",
@@ -437,17 +443,17 @@
       },
       {
        "cat": "REC",
-       "name": "T. Kraft",
-       "line": "4 REC, 32 YDS, 1 TD",
+       "name": "C. Watson",
+       "line": "3 REC, 47 YDS",
        "team": "9"
       }
      ],
-     "situation": "1st & 10 at GB 32",
-     "possession": "",
+     "situation": "1st & 10 at TB 4",
+     "possession": "27",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7530555555555556,
+     "progress": 0.8483333333333334,
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "line": null
@@ -457,9 +463,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "2:48 - 3rd",
-     "detail": "2:48",
-     "period": 3,
+     "status_short": "14:16 - 4th",
+     "detail": "14:16",
+     "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "CBS",
      "home": {
@@ -474,6 +480,7 @@
       "periods": [
        "7",
        "17",
+       "0",
        "0"
       ],
       "id": "33",
@@ -491,7 +498,8 @@
       "periods": [
        "7",
        "0",
-       "3"
+       "3",
+       "0"
       ],
       "id": "10",
       "color": "#4495d2"
@@ -506,7 +514,7 @@
       {
        "cat": "RUSH",
        "name": "T. Pollard",
-       "line": "15 CAR, 43 YDS, 1 TD",
+       "line": "16 CAR, 48 YDS, 1 TD",
        "team": "10"
       },
       {
@@ -516,12 +524,12 @@
        "team": "33"
       }
      ],
-     "situation": "3rd & 10 at TEN 14",
+     "situation": "3rd & 3 at TEN 22",
      "possession": "10",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7033333333333334,
+     "progress": 0.7622222222222222,
      "venue_indoor": false,
      "venue": "M&T Bank Stadium",
      "line": null
@@ -531,9 +539,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "3:14 - 3rd",
-     "detail": "3:14",
-     "period": 3,
+     "status_short": "12:42 - 4th",
+     "detail": "12:42",
+     "period": 4,
      "start_utc": "2026-10-04T17:00Z",
      "network": "FOX",
      "home": {
@@ -548,7 +556,8 @@
       "periods": [
        "10",
        "6",
-       "7"
+       "7",
+       "0"
       ],
       "id": "34",
       "color": "#021018"
@@ -565,7 +574,8 @@
       "periods": [
        "3",
        "3",
-       "14"
+       "14",
+       "0"
       ],
       "id": "6",
       "color": "#002a5c"
@@ -573,29 +583,29 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "C.J. Stroud",
-       "line": "12/19, 215 YDS, 2 TD",
-       "team": "34"
+       "name": "D. Prescott",
+       "line": "23/32, 259 YDS",
+       "team": "6"
       },
       {
        "cat": "RUSH",
        "name": "J. Williams",
-       "line": "14 CAR, 56 YDS, 2 TD",
+       "line": "16 CAR, 57 YDS, 2 TD",
        "team": "6"
       },
       {
        "cat": "REC",
-       "name": "N. Collins",
-       "line": "5 REC, 97 YDS, 2 TD",
-       "team": "34"
+       "name": "C. Lamb",
+       "line": "12 REC, 148 YDS",
+       "team": "6"
       }
      ],
-     "situation": "3rd & 1 at DAL 39",
+     "situation": "1st & Goal at HOU 3",
      "possession": "6",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6961111111111111,
+     "progress": 0.7883333333333333,
      "venue_indoor": true,
      "venue": "Reliant Stadium",
      "line": null
@@ -741,7 +751,7 @@
      "venue_indoor": true,
      "venue": "U.S. Bank Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIN -10",
       "spread": -10.0,
       "total": 38.5,
@@ -813,7 +823,7 @@
      "venue_indoor": true,
      "venue": "Allegiant Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "KC -4.5",
       "spread": 4.5,
       "total": 47.5,
@@ -885,7 +895,7 @@
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SF -3",
       "spread": -3.0,
       "total": 48.5,
@@ -957,7 +967,7 @@
      "venue_indoor": false,
      "venue": "Lumen Field",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -7",
       "spread": -7.0,
       "total": 42.5,
@@ -1029,7 +1039,7 @@
      "venue_indoor": false,
      "venue": "Bank of America Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DET -3.5",
       "spread": 3.5,
       "total": 51.5,
@@ -1177,7 +1187,7 @@
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NO -1.5",
       "spread": -1.5,
       "total": 47.5,
@@ -2938,8 +2948,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "10:22 - 3rd",
-     "detail": "10:22",
+     "status_short": "5:50 - 3rd",
+     "detail": "5:50",
      "period": 3,
      "start_utc": "2026-10-04T17:00Z",
      "network": "NHL Net",
@@ -2983,7 +2993,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.8272222222222222,
+     "progress": 0.9027777777777777,
      "venue_indoor": true,
      "venue": "Little Caesars Arena",
      "line": null
@@ -3034,7 +3044,7 @@
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NYR -125",
       "spread": -1.5,
       "total": 5.5,
@@ -3087,7 +3097,7 @@
      "venue_indoor": true,
      "venue": "Honda Center",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "FLA -135",
       "spread": 1.5,
       "total": 6.5,
@@ -3140,7 +3150,7 @@
      "venue_indoor": true,
      "venue": "Climate Pledge Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -155",
       "spread": -1.5,
       "total": 5.5,
@@ -3193,7 +3203,7 @@
      "venue_indoor": true,
      "venue": "Rogers Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "VGK -290",
       "spread": 1.5,
       "total": 6.5,
@@ -3210,8 +3220,8 @@
      "league": "WNBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:19 - 3rd",
-     "detail": "7:19",
+     "status_short": "3:50 - 3rd",
+     "detail": "3:50",
      "period": 3,
      "start_utc": "2026-10-04T18:00Z",
      "network": "ABC",
@@ -3222,12 +3232,12 @@
       "school": "Atlanta",
       "mascot": "Dream",
       "rank": null,
-      "score": "46",
+      "score": "59",
       "record": "30-14",
       "periods": [
        "21",
        "16",
-       "9"
+       "22"
       ],
       "id": "20",
       "color": "#e31837"
@@ -3239,12 +3249,12 @@
       "school": "New York",
       "mascot": "Liberty",
       "rank": null,
-      "score": "43",
+      "score": "45",
       "record": "26-18",
       "periods": [
        "24",
        "16",
-       "3"
+       "5"
       ],
       "id": "9",
       "color": "#86cebc"
@@ -3255,7 +3265,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6280555555555556,
+     "progress": 0.6861111111111111,
      "venue_indoor": true,
      "venue": "State Farm Arena",
      "line": null
@@ -3309,7 +3319,7 @@
       "provider": "DraftKings",
       "detail": "LV -1.5",
       "spread": 1.5,
-      "total": 159.5,
+      "total": 158.5,
       "favorite": "away"
      }
     }
