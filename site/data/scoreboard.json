@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-04T23:06:41Z",
+ "fetched_at": "2026-10-04T23:11:44Z",
  "leagues": [
   {
    "league": "NFL",
@@ -85,8 +85,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "4:53 - 4th",
-     "detail": "4:53",
+     "status_short": "3:25 - 4th",
+     "detail": "3:25",
      "period": 4,
      "start_utc": "2026-10-04T20:25Z",
      "network": "CBS",
@@ -136,22 +136,22 @@
       {
        "cat": "RUSH",
        "name": "K. Walker III",
-       "line": "16 CAR, 146 YDS",
+       "line": "18 CAR, 151 YDS",
        "team": "12"
       },
       {
        "cat": "REC",
-       "name": "M. Mayer",
-       "line": "7 REC, 71 YDS",
-       "team": "13"
+       "name": "T. Thornton",
+       "line": "5 REC, 111 YDS, 2 TD",
+       "team": "12"
       }
      ],
-     "situation": "1st & 10 at KC 35",
-     "possession": "",
-     "red_zone": false,
+     "situation": "1st & Goal at LV 2",
+     "possession": "12",
+     "red_zone": true,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.918611111111111,
+     "progress": 0.9430555555555555,
      "venue_indoor": true,
      "venue": "Allegiant Stadium",
      "line": null
@@ -161,8 +161,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "8:52 - 4th",
-     "detail": "8:52",
+     "status_short": "5:25 - 4th",
+     "detail": "5:25",
      "period": 4,
      "start_utc": "2026-10-04T20:25Z",
      "network": "CBS",
@@ -206,7 +206,7 @@
       {
        "cat": "PASS",
        "name": "B. Nix",
-       "line": "19/32, 158 YDS",
+       "line": "21/34, 181 YDS",
        "team": "7"
       },
       {
@@ -222,12 +222,12 @@
        "team": "25"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
+     "situation": "2nd & 1 at SF 22",
+     "possession": "7",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.8522222222222222,
+     "progress": 0.9097222222222222,
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "line": null
@@ -237,8 +237,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "10:28 - 4th",
-     "detail": "10:28",
+     "status_short": "7:54 - 4th",
+     "detail": "7:54",
      "period": 4,
      "start_utc": "2026-10-04T20:25Z",
      "network": "CBS",
@@ -298,12 +298,12 @@
        "team": "26"
       }
      ],
-     "situation": "3rd & 2 at SEA 22",
+     "situation": "3rd & Goal at SEA 1",
      "possession": "24",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.8255555555555556,
+     "progress": 0.8683333333333334,
      "venue_indoor": false,
      "venue": "Lumen Field",
      "line": null
@@ -1058,8 +1058,8 @@
      "venue": "Bank of America Stadium",
      "line": {
       "provider": "DraftKings",
-      "detail": "DET -3.5",
-      "spread": 3.5,
+      "detail": "DET -4.5",
+      "spread": 4.5,
       "total": 51.5,
       "favorite": "away"
      }
@@ -2886,11 +2886,11 @@
     {
      "id": "401914127",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/4 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "11:56 - 1st",
+     "detail": "11:56",
+     "period": 1,
      "start_utc": "2026-10-04T23:00Z",
      "network": "NBA TV",
      "home": {
@@ -2902,7 +2902,9 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "7",
       "color": "#0e2240"
      },
@@ -2915,7 +2917,9 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "26",
       "color": "#4e008e"
      },
@@ -2925,7 +2929,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.05111111111111111,
      "venue_indoor": true,
      "venue": "CU Events Center",
      "line": null
@@ -2933,11 +2937,11 @@
     {
      "id": "401918010",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/4 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "11:41 - 1st",
+     "detail": "11:41",
+     "period": 1,
      "start_utc": "2026-10-04T23:00Z",
      "network": "",
      "home": {
@@ -2949,7 +2953,9 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "12",
       "color": "#12173f"
      },
@@ -2962,7 +2968,9 @@
       "rank": null,
       "score": "0",
       "record": "0-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "9",
       "color": "#fdb927"
      },
@@ -2972,7 +2980,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.05527777777777779,
      "venue_indoor": true,
      "venue": "Stan Sheriff Center",
      "line": null
@@ -3042,8 +3050,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "18:02 - 2nd",
-     "detail": "18:02",
+     "status_short": "14:40 - 2nd",
+     "detail": "14:40",
      "period": 2,
      "start_utc": "2026-10-04T22:00Z",
      "network": "ESPN+",
@@ -3085,7 +3093,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3661111111111111,
+     "progress": 0.4222222222222222,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "line": null

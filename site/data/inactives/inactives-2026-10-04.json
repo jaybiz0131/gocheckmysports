@@ -1,8 +1,8 @@
 {
  "day": "2026-10-04",
  "first_poll": "2026-10-04T00:00:42Z",
- "last_change": "2026-10-04T23:05:23Z",
- "last_poll": "2026-10-04T23:06:58Z",
+ "last_change": "2026-10-04T23:10:24Z",
+ "last_poll": "2026-10-04T23:11:46Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -2510,6 +2510,15 @@
   "25": {
    "capped": true,
    "designations": {
+    "16002": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-10-04T23:08Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "name": "Kyle Juszczyk",
+     "pos": "FB",
+     "status": "Out"
+    },
     "16737": {
      "changed_at": null,
      "detail": "Ribs",
@@ -3213,10 +3222,19 @@
     "4362647": {
      "changed_at": null,
      "detail": "Elbow",
-     "feed_date": "2026-10-03T00:58Z",
+     "feed_date": "2026-10-04T23:01Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Damien Lewis",
      "pos": "G",
+     "status": "Out"
+    },
+    "4428993": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "name": "Haynes King",
+     "pos": "QB",
      "status": "Out"
     },
     "4431551": {
@@ -3228,19 +3246,37 @@
      "pos": "DT",
      "status": "Questionable"
     },
-    "4687513": {
+    "4431588": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "name": "Ja'Tavion Sanders",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4683506": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "name": "Albert Reese IV",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4687513": {
+     "changed_at": "2026-10-04T23:10:24Z",
      "detail": "Knee",
-     "feed_date": "2026-10-02T16:39Z",
+     "feed_date": "2026-10-04T23:01Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Cam Jackson",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4695883": {
      "changed_at": "2026-10-04T23:05:23Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-10-04T11:26Z",
+     "feed_date": "2026-10-04T23:00Z",
      "first_seen": "2026-10-04T00:00:42Z",
      "name": "Jalen Coker",
      "pos": "WR",
@@ -3249,6 +3285,51 @@
    },
    "id": "29",
    "players": {
+    "4362647": {
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Damien Lewis",
+     "pos": "G",
+     "reason": "Elbow",
+     "via": "poll"
+    },
+    "4428993": {
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Haynes King",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4431588": {
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Ja'Tavion Sanders",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4683506": {
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Albert Reese IV",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4687513": {
+     "feed_date": "2026-10-04T23:01Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Cam Jackson",
+     "pos": "DT",
+     "reason": "Knee",
+     "via": "poll"
+    },
     "4695883": {
      "feed_date": "2026-10-04T11:26Z",
      "first_seen": "2026-10-04T23:05:23Z",
@@ -4507,7 +4588,62 @@
     }
    },
    "id": "8",
-   "players": {},
+   "players": {
+    "3915486": {
+     "feed_date": "2026-09-28T18:26Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Tyler Conklin",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4035434": {
+     "feed_date": "2026-09-28T18:26Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Devin White",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4586333": {
+     "feed_date": "2026-09-28T18:26Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Mekhi Wingo",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4611506": {
+     "feed_date": "2026-10-03T01:20Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Ben Bartch",
+     "pos": "G",
+     "reason": "Foot",
+     "via": "poll"
+    },
+    "4710422": {
+     "feed_date": "2026-09-28T18:26Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Ahmed Hassanein",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5151810": {
+     "feed_date": "2026-09-28T18:26Z",
+     "first_seen": "2026-10-04T23:10:24Z",
+     "jersey": "",
+     "name": "Bishop Fitzgerald",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-04T19:50:58Z",
    "rows_returned": 25,
