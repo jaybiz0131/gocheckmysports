@@ -1,13 +1,22 @@
 {
  "day": "2026-10-05",
  "first_poll": "2026-10-05T00:00:38Z",
- "last_change": "2026-10-05T22:50:31Z",
- "last_poll": "2026-10-05T22:52:20Z",
+ "last_change": "2026-10-05T23:05:28Z",
+ "last_poll": "2026-10-05T23:06:22Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
    "capped": true,
    "designations": {
+    "2972515": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Cooper Rush",
+     "pos": "QB",
+     "status": "Out"
+    },
     "3045527": {
      "changed_at": null,
      "detail": "Hamstring",
@@ -34,10 +43,110 @@
      "name": "Yasir Abdullah",
      "pos": "LB",
      "status": "Questionable"
+    },
+    "4575860": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4605478": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T23:02Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Jared Ivey",
+     "pos": "LB",
+     "status": "Out"
+    },
+    "4683194": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Ethan Onianwa",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5225251": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Malcolm DeWalt IV",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "5344782": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "1",
-   "players": {},
+   "players": {
+    "2972515": {
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Cooper Rush",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4575860": {
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4605478": {
+     "feed_date": "2026-10-05T23:02Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Jared Ivey",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4683194": {
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Ethan Onianwa",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5225251": {
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Malcolm DeWalt IV",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5344782": {
+     "feed_date": "2026-10-05T22:53Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "jersey": "",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -173,6 +282,15 @@
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Keenan Allen",
      "pos": "WR",
+     "status": "Out"
+    },
+    "3843843": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-10-05T23:02Z",
+     "first_seen": "2026-10-05T23:05:28Z",
+     "name": "Arden Key",
+     "pos": "DE",
      "status": "Out"
     },
     "3916945": {
@@ -1180,7 +1298,7 @@
     "4036131": {
      "changed_at": "2026-10-05T22:50:31Z",
      "detail": "Abdomen",
-     "feed_date": "2026-10-05T22:47Z",
+     "feed_date": "2026-10-05T22:49Z",
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Noah Fant",
      "pos": "TE",
@@ -2362,7 +2480,7 @@
     "4612826": {
      "changed_at": "2026-10-05T22:50:31Z",
      "detail": "Foot",
-     "feed_date": "2026-10-04T22:35Z",
+     "feed_date": "2026-10-05T22:41Z",
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Ladd McConkey",
      "pos": "WR",
@@ -3058,7 +3176,7 @@
     "4697815": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-10-05T19:09Z",
+     "feed_date": "2026-10-05T22:41Z",
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Rachaad White",
      "pos": "RB",
@@ -3308,7 +3426,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-05T22:47Z",
+     "feed_date": "2026-10-05T22:54Z",
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -3602,7 +3720,7 @@
     "2576581": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-05T22:47Z",
+     "feed_date": "2026-10-05T23:00Z",
      "first_seen": "2026-10-05T00:00:38Z",
      "name": "Chris Moore",
      "pos": "WR",
