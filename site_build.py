@@ -3675,12 +3675,18 @@ def _wx_chip(g, wx):
     return ""
 
 
+def _has_game_page(g):
+    """True where the build writes /games/<id>.html for this game: the NFL, which surfaces a
+    box score and an inactives list. A link exists only where its page does (6 October 2026:
+    38 CFB, NBA, NHL, MLB, soccer and WNBA cards linked pages that were never built)."""
+    return bool(g.get("league") == "NFL" and g.get("id"))
+
+
 def _game_href(g):
     """A game page where one is built, else the scores page. Game pages are NFL only
     for now: they need a box score and an inactives list, and only the NFL surfaces
     both on this desk today."""
-    return (f'/games/{g.get("id")}.html' if g.get("league") == "NFL" and g.get("id")
-            else "/scores.html")
+    return f'/games/{g.get("id")}.html' if _has_game_page(g) else "/scores.html"
 
 
 def _mq_vars(g):
@@ -4618,7 +4624,13 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
     ls_html = _tk_winprob(g) + _tk_linescore(g)
     story = _tk_story(g, items or [])
     btns = ""
-    if buttons:
+    if buttons and not _has_game_page(g):
+        # No game page exists for this league: the card carries no link to one. The only
+        # control left is where to watch, and only before the game.
+        if state not in ("in", "post"):
+            btns = ('<div class="tk-btns"><a class="tk-btn ghost" '
+                    'href="/where-to-watch.html">Where to watch</a></div>')
+    elif buttons:
         gp = f'/games/{esc(str(g.get("id")))}.html'
         # H-8: a button that does not go where it says is filler. "Box score" pointed
         # at /scores.html, which is the board the reader just came from. It links to
@@ -4720,7 +4732,7 @@ def _tk_fold(g, ia_index, desig=None):
     return (f'<a class="tk-fold{wide}" data-gid="{esc(str(g.get("id")))}" '
             f'data-league="{esc(g.get("league") or "")}" '
             f'data-state="{esc(state or "")}" style="--a:{a_col};--b:{b_col}" '
-            f'href="/games/{esc(str(g.get("id")))}.html">'
+            f'href="{esc(_game_href(g))}">'
             f'{row("away", ca)}{row("home", ch)}'
             f'<div class="st"><span data-role="status">{status}</span>{net}</div>'
             f'{fact}</a>')
@@ -6864,7 +6876,7 @@ def _wire_rows(items, now=None):
                 # N-1: the name, not the initials. "IND 30, KC 33" is a scoreboard
                 # shorthand on a page whose whole job is to be read in order.
                 "text": (f'{_team_label(g, a)} {sa}, {_team_label(g, h)} {sh}'),
-                "href": f'/games/{esc(str(g.get("id")))}.html',
+                "href": esc(_game_href(g)),
                 "note": g.get("league") or "",
             })
 

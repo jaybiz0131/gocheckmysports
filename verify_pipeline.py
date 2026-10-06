@@ -690,6 +690,65 @@ def _sitemap_canary(out=None):
     return fails
 
 
+def _game_link_canary(out=None):
+    """Item 1 (6 October 2026): A LINK ON A BUILT PAGE TO A PAGE THAT IS NOT BUILT IS A RED.
+
+    Game pages are built for the NFL only (box score and inactives), but every card on the
+    board linked /games/<id>.html whatever its league, so a reader tapping a CFB, NBA, NHL,
+    MLB, soccer or WNBA game got a 404: 38 on /scores.html on 6 October, found by the first
+    cloud session. A link exists only where its page does. Two halves: the card renderers on
+    fixtures (a CFB game must carry no /games/ link, an NFL game must), and every /games/
+    href in the gate's own throwaway tree, which must resolve to a built file."""
+    import re as _r
+    import site_build as _sb
+    fails = []
+    def _g(lg, gid, state):
+        return {"league": lg, "id": gid, "state": state, "status_short": "Final" if state == "post" else "",
+                "start_utc": "2026-10-10T23:30:00Z", "network": "ABC",
+                "away": {"abbr": "UGA", "full": "Georgia Bulldogs", "name": "Bulldogs",
+                         "score": "21" if state == "post" else None},
+                "home": {"abbr": "ALA", "full": "Alabama Crimson Tide", "name": "Crimson Tide",
+                         "score": "24" if state == "post" else None}}
+    for _lg in ("CFB", "NBA", "NHL", "MLB", "Soccer", "WNBA"):
+        for _st in ("pre", "post"):
+            _gm = _g(_lg, "9001", _st)
+            for _nm, _html in (("card", _sb._tk_card(_gm, {}, items=[])),
+                               ("fold", _sb._tk_fold(_gm, {}))):
+                _check("/games/9001" not in _html, fails,
+                       f"game link canary: a {_lg} {_st} {_nm} links /games/9001.html, a page "
+                       f"that is built for the NFL only")
+    for _nm, _html in (("card", _sb._tk_card(_g("NFL", "9002", "pre"), {}, items=[])),
+                       ("fold", _sb._tk_fold(_g("NFL", "9002", "pre"), {}))):
+        _check("/games/9002.html" in _html, fails,
+               f"game link canary: an NFL {_nm} lost its game page link, so the rule is "
+               f"eating every link")
+    out = out or _built_tree()
+    _check(bool(out), fails, "game link canary: the gate's own build failed, nothing below was checked")
+    if not out:
+        return fails
+    _built = set()
+    _gdir = os.path.join(out, "games")
+    if os.path.isdir(_gdir):
+        _built = {f[:-5] for f in os.listdir(_gdir) if f.endswith(".html")}
+    _dead, _links = {}, 0
+    for _root, _d, _fs in os.walk(out):
+        for _f in _fs:
+            if not _f.endswith(".html"):
+                continue
+            _pg = os.path.join(_root, _f)
+            _body = open(_pg, encoding="utf-8", errors="replace").read()
+            for _m in _r.finditer(r'href="/games/([^"#?/]+)\.html', _body):
+                _links += 1
+                if _m.group(1) not in _built:
+                    _dead.setdefault(_m.group(1), set()).add(os.path.relpath(_pg, out))
+    print(f"game link canary: {len(_built)} game page(s) built, {_links} /games/ link(s) read, "
+          f"{len(_dead)} dead")
+    _check(not _dead, fails,
+           f"game link canary: {len(_dead)} /games/ link(s) point at a page that is not built, "
+           f"first {sorted(_dead)[:3]} on {sorted(next(iter(_dead.values())))[:2] if _dead else ''}")
+    return fails
+
+
 def _register_canary(out=None, log=None):
     """Item 2: EVERY GENERATED PAGE IS IN EXACTLY ONE PLACE, A SITEMAP OR THE REGISTER.
 
@@ -1252,6 +1311,7 @@ def layer1_canary():
     fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
+    fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
