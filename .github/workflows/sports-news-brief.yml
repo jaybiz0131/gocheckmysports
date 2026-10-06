@@ -580,6 +580,17 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python3 deploy_check.py
 
+      # INDEXNOW (2026-10-06): once the deploy has served, tell Bing, Yandex, Seznam and Naver
+      # which pages this run published. The files are the ones in the brief commit, so only
+      # what this run changed is sent, as the extensionless canonical URLs. Advisory: a
+      # refusal is a warning, never a red run. No secret: the key is public by design.
+      - name: IndexNow (submit the URLs this run published)
+        if: steps.publish.outputs.pushed == 'true' && success()
+        run: |
+          files=$(git show --name-only --format= HEAD -- site/content)
+          # shellcheck disable=SC2086
+          python3 scripts/indexnow.py --content $files || echo "::warning::indexnow: submission refused or failed (advisory, run unaffected)"
+
       # A dead slot must PING, not sit quiet (2026-07-15: two contract failures went
       # unnoticed until the owner asked where the stories were). One open issue per
       # failure title; the watcher's slot recovery independently retries the slot.
