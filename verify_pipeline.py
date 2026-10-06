@@ -1149,6 +1149,76 @@ def _sunday_slate_canary():
     return fails
 
 
+def _register_read_canary():
+    """S-6 (6 October 2026): THE REGISTER READ FOR THE FIRST SEARCH CONSOLE EXPORT.
+
+    scripts/register-read.mjs reads the two exports Jack makes (Performance, Pages; Indexing,
+    Pages, indexed and not indexed) against the register and the sitemaps, and prints the
+    four lists: every page with its class, the deep pages indexed anyway, the linked pages
+    missing from the index, and the URLs the site does not know. Proved on fixture CSVs: the
+    classes, a trailing slash and a query string matched to their page, a .html suffix, and
+    a page with NO ROW counted as absent and never as zero."""
+    import json as _j
+    import subprocess as _sp
+    fails = []
+    fx = os.path.join(common.HERE, "fixtures", "search-console")
+    script = os.path.join(common.HERE, "scripts", "register-read.mjs")
+    base = ["node", script, "--register", os.path.join(fx, "register.json"),
+            "--sitemaps", os.path.join(fx, "sitemap.xml"),
+            "--performance", os.path.join(fx, "performance.csv"),
+            "--indexed", os.path.join(fx, "indexed.csv"),
+            "--not-indexed", os.path.join(fx, "not-indexed-discovered-currently-not-indexed.csv"),
+            "--now", "2026-10-20T20:05:00Z", "--stdout"]
+    if not os.path.exists(script):
+        return [f"register read canary: {script} does not exist"]
+    r = _sp.run(base + ["--json"], capture_output=True, text=True)
+    if r.returncode != 0:
+        return [f"register read canary: the reader exited {r.returncode}: {r.stderr[-300:]}"]
+    d = _j.loads(r.stdout)
+    pth = lambda rows: sorted(x["path"] for x in rows)
+    _check(pth(d["unknowns"]) == ["/junk", "/mystery-page", "/weird-indexed"], fails,
+           f"register read canary: unknowns are {pth(d['unknowns'])}")
+    _check(pth(d["deepIndexed"]) == ["/articles/old-story", "/games/1"], fails,
+           f"register read canary: deep pages indexed anyway are {pth(d['deepIndexed'])}")
+    _check(pth(d["linkedMissing"]) == ["/articles/live-b", "/scores"], fails,
+           f"register read canary: linked pages missing from the index are {pth(d['linkedMissing'])}")
+    rows = {x["path"]: x for x in d["pages"]}
+    _check(rows["/articles/live-a"]["class"] == "linked" and rows["/games/1"]["class"] == "deep",
+           fails, "register read canary: a class is wrong")
+    # a trailing slash and a query string are the same page; their rows add
+    _check((rows["/articles/live-a"]["clicks"], rows["/articles/live-a"]["impressions"]) == (15, 390),
+           fails, f"register read canary: the slash and query rows of live-a read "
+                  f"{rows['/articles/live-a']['clicks']}/{rows['/articles/live-a']['impressions']}, not 15/390")
+    # a real row of zero clicks is zero; a page with no row is absent, not zero
+    _check(rows["/games/1"]["clicks"] == 0 and rows["/games/1"]["impressions"] == 4, fails,
+           "register read canary: a real zero-click row did not read as 0")
+    _check(rows["/scores"]["clicks"] is None and rows["/scores"]["impressions"] is None, fails,
+           "register read canary: a page with no performance row was counted as zero")
+    _check(rows["/scores"]["indexed"] == "absent", fails,
+           "register read canary: a page in neither indexing export was not called absent")
+    _check(rows["/articles/live-b"]["indexed"].startswith("not indexed"), fails,
+           "register read canary: a not-indexed page lost its reason")
+    _check("1,009" not in json_dumps_safe(d) and any(
+        x["impressions"] == 1009 for x in d["unknowns"]), fails,
+           "register read canary: a quoted 1,009 was not read as 1009")
+    m = _sp.run(base, capture_output=True, text=True)
+    md = m.stdout
+    _check(m.returncode == 0 and "\u2014" not in md, fails,
+           "register read canary: the report failed or carries an em dash")
+    _check(md.find("## Unknown to the site") != -1
+           and md.find("## Unknown to the site") < md.find("## Deep pages indexed anyway")
+           < md.find("## Linked pages missing from the index"), fails,
+           "register read canary: the report does not lead with the unknowns")
+    _check("2026-10-20" in md and "ET" in md, fails,
+           "register read canary: the report carries no dated ET stamp")
+    return fails
+
+
+def json_dumps_safe(d):
+    import json as _j
+    return _j.dumps(d)
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1425,6 +1495,7 @@ def layer1_canary():
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
     fails.extend(_byline_date_canary())   # H-5b
     fails.extend(_sunday_slate_canary())   # H-12 under a fixture
+    fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
