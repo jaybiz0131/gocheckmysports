@@ -1161,14 +1161,14 @@ def _register_read_canary():
     import json as _j
     import subprocess as _sp
     fails = []
-    fx = os.path.join(common.HERE if hasattr(common, "HERE") else ".", "fixtures", "search-console")
-    script = os.path.join("scripts", "register-read.mjs")
+    fx = os.path.join(common.HERE, "fixtures", "search-console")
+    script = os.path.join(common.HERE, "scripts", "register-read.mjs")
     base = ["node", script, "--register", os.path.join(fx, "register.json"),
             "--sitemaps", os.path.join(fx, "sitemap.xml"),
             "--performance", os.path.join(fx, "performance.csv"),
             "--indexed", os.path.join(fx, "indexed.csv"),
             "--not-indexed", os.path.join(fx, "not-indexed-discovered-currently-not-indexed.csv"),
-            "--now", "2026-10-20T20:05:00Z"]
+            "--now", "2026-10-20T20:05:00Z", "--stdout"]
     if not os.path.exists(script):
         return [f"register read canary: {script} does not exist"]
     r = _sp.run(base + ["--json"], capture_output=True, text=True)

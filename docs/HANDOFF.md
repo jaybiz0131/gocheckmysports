@@ -184,6 +184,19 @@ count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
   Search Console "Discovered, currently not indexed" row against it: in the register means
   deep by design, not in it means the sitemap asked for it. First build: 1,303 pages, 1,034
   listed, 269 deep.
+- **The Search Console read (S-6), `scripts/register-read.mjs`.** Node, no packages. Reads the
+  two exports against the register and the sitemaps (both default to the live files) and writes
+  `docs/SEARCH-READ-<ET date>.md`: the unknowns first (URLs in an export that are in neither
+  the register nor a sitemap), the deep pages indexed anyway, the linked pages missing from the
+  index, then every page with its class. A page with no row is "absent" or "no row", never
+  zero; a trailing slash, a query string, a fragment and a `.html` suffix match the page, and
+  rows that match one page add. **Classes:** the register holds only the deep pages, so
+  "linked" means a page the sitemaps list, which the register does not carry; `--help` prints
+  the exports. Fixtures and the canary case: `fixtures/search-console/`. The report's shape was
+  defined here, no earlier day-14 shape existed in the repo. **The two exports Jack makes on
+  Monday 20 October 2026:** Performance, Pages (Performance > Search results > Pages tab >
+  Export), and Indexing, Pages (Indexing > Pages: the indexed list, and one CSV per "why pages
+  aren't indexed" reason). The read is his.
 - **IndexNow.** Key file `/75487c1df3b38a38ef2793600c7e7bf7.txt` (content is the key, no
   newline, `text/plain`, written by the build). `scripts/indexnow.py` submits the sitemaps in
   full, URLs given on the command line, or `--content FILE...` for article URLs. First full
