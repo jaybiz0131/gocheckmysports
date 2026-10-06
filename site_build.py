@@ -11578,7 +11578,12 @@ def build():
         print(f"::warning::sitemap: edition days unavailable ({type(_e).__name__})")
     # the living tables, which write to /keepers/<slug>.html earlier in the build
     _extra += list(_lt_urls)
-    for _sub in ("players", "games"):
+    # S-2 (2026-10-06): the per-game pages are NOT here. They are built, live and linked
+    # from /scores.html and the home band, and they stay that way; they only leave the
+    # sitemaps. Search Console on 21 September held 505 of this desk's URLs in "Discovered,
+    # currently not indexed", and a sitemap that asks for everything gets less of what
+    # matters crawled on a young domain. Player pages stay.
+    for _sub in ("players",):
         _dir = os.path.join(PUBLISH, _sub)
         if os.path.isdir(_dir):
             _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))

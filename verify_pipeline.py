@@ -617,6 +617,78 @@ def _stamp_canary():
     return fails
 
 
+def _sitemap_canary(out=None):
+    """S-2: THE SITEMAP CARRIES ONLY PAGES THAT DESERVE A SEARCH SLOT.
+
+    The 21 September Search Console read showed 505 URLs on this desk in "Discovered,
+    currently not indexed", and the 29 September live read counted 16 per-game pages in
+    sitemap-archive.xml. A sitemap that asks for everything gets less of what matters
+    crawled on a young domain. The game pages stay built, live and linked; they leave the
+    sitemaps only. Everything is read from the sitemap index and the files it names, in the
+    gate's own throwaway tree, so there is no read of a tree this process did not build.
+    """
+    import re as _r
+    fails = []
+    out = out or _built_tree()
+    _check(bool(out), fails, "S-2 canary: the gate's own build failed, so nothing below was checked")
+    if not out:
+        return fails
+    _idx = os.path.join(out, "sitemap.xml")
+    _check(os.path.exists(_idx), fails, "S-2 canary: the build wrote no sitemap.xml")
+    if not os.path.exists(_idx):
+        return fails
+    _origin = "https://gocheckmysports.com/"
+    _files = _r.findall(r"<sitemap><loc>([^<]*)</loc></sitemap>",
+                        open(_idx, encoding="utf-8").read())
+    _names = sorted(f.replace(_origin, "") for f in _files)
+    _check(_names == ["news-sitemap.xml", "sitemap-archive.xml", "sitemap-priority.xml"], fails,
+           f"S-2 canary: the sitemap index lists {_names}, not its three files")
+    _urls = {}
+    for _n in _names:
+        _fp = os.path.join(out, _n)
+        _check(os.path.exists(_fp), fails, f"S-2 canary: the index lists {_n} and it was not written")
+        if os.path.exists(_fp):
+            _body = open(_fp, encoding="utf-8").read()
+            _urls[_n] = _r.findall(r"<loc>([^<]*)</loc>", _body)
+            # no <lastmod> is written on this desk, and none may appear as a side effect
+            _check("<lastmod" not in _body, fails,
+                   f"S-2 canary: {_n} carries a lastmod, which this change does not write")
+    for _n in ("sitemap-priority.xml", "sitemap-archive.xml"):
+        _check(len(_urls.get(_n, [])) > 0, fails,
+               f"S-2 canary: {_n} parsed to no URLs, so the no-games check below proves nothing")
+    for _n, _u in sorted(_urls.items()):
+        _g = [x for x in _u if "/games/" in x]
+        _check(not _g, fails,
+               f"S-2 canary: {_n} lists {len(_g)} per-game URL(s), first {(_g or [''])[0]}")
+    # THE OTHER DIRECTION: only the games left. Every player page the build wrote is still
+    # offered, so a change that emptied the loop instead of narrowing it goes red here.
+    _pdir = os.path.join(out, "players")
+    _pb = sorted(f for f in (os.listdir(_pdir) if os.path.isdir(_pdir) else [])
+                 if f.endswith(".html"))
+    _arch = set(_urls.get("sitemap-archive.xml", []))
+    _miss = [f for f in _pb if _origin + "players/" + f[:-5] not in _arch]
+    _check(bool(_pb), fails, "S-2 canary: the build wrote no player pages, so the players "
+           "check proves nothing")
+    _check(not _miss, fails, f"S-2 canary: {len(_miss)} built player page(s) left the archive "
+           f"sitemap, first {(_miss or [''])[0]}")
+    _gdir = os.path.join(out, "games")
+    _built = sorted(f for f in (os.listdir(_gdir) if os.path.isdir(_gdir) else [])
+                    if f.endswith(".html"))
+    if not _built:
+        # an NFL off-season has no game pages, and a red here would stop the poller for months
+        print("::warning::S-2 canary: this build holds no game pages, so the built-and-linked "
+              "checks were not run")
+    else:
+        _scores = os.path.join(out, "scores.html")
+        _sh = open(_scores, encoding="utf-8").read() if os.path.exists(_scores) else ""
+        for _f in _built:
+            _check(os.path.getsize(os.path.join(_gdir, _f)) > 0, fails,
+                   f"S-2 canary: game page {_f} was built empty")
+            _check(f'href="/games/{_f}"' in _sh, fails,
+                   f"S-2 canary: game page {_f} is built but /scores.html does not link it")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -885,6 +957,7 @@ def layer1_canary():
            "treated as a document; it can be served")
 
     fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
+    fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source
