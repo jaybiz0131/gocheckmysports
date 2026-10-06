@@ -8,16 +8,15 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 1 October 2026, end of the merge-and-Cause-B session.
-`main` ended at 296fd5d. `build-stamp` and `cause-b-stamp-proof` are MERGED and
-DELETED. `search-s1-canonical-urls` stays open at 64fe43f with S-2's work in `stash@{0}`.
-The shared laws U-1 to U-13 are in `../HANDOFF.md`, not this file, by Jack's
-option-two ruling of 1 October, along with the three rules added that day: a
-plant's restore comes from a saved copy and never from `git checkout` on the file
-under test; nothing is staged with `git add -A` and a documents-only message is
-checked against `git diff --cached --stat`; a push's exit status is read from the
-push and never from a pipe. The day
-history is in `HANDOFF-2026-09-17-to-22.md` and `HANDOFF-2026-09-23-to-10-01.md`.
+Last updated: 6 October 2026, 10:05 AM ET, end of the first cloud session.
+`main` ended at the merge of the close commit (see the end section). Merged today, each
+with 0 commits outstanding: `docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`,
+`deep-url-register`, `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`. **Not
+deleted: the session's proxy refused the delete (HTTP 403), so Jack deletes the six.**
+`search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac
+artifact and does not exist here. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
+this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
+`HANDOFF-2026-09-23-to-10-01.md` and `HANDOFF-2026-10-06.md`.
 
 ## 1. Where things live
 
@@ -120,42 +119,71 @@ deploy`). Until then the evening slot has no automatic backstop; if it has not
 published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
 and note it in the report.
 
-## Where this session ended (1 October 2026, evening)
+## Where this session ended (6 October 2026)
 
-- `main` is **`296fd5d`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
-  read `296fd5d14e54` at 23:10:29Z. It carries Cause B's rebuilt gate and the cleanup fix.
-- **Cause B is fixed here** at `0d02aa2`. Eight checks that read the real publish tree could
-  not fail in a job that builds nothing: three skipped behind an existence check, a glob and a
-  walk that visited nothing and passed, and the rest. The gate builds its own tree now and all
-  eight reads are unconditional. Reads of the real publish tree left in the gate: **zero**.
-- The gate takes about **262 seconds**, up from about 90, because it builds the site once per
-  run. Say that before someone reads it as a fault.
-- Deploys today, from `/counts/today`, the count of record: **7 production builds, 1 skipped**,
-  against an allowance of 12 (16 on Sundays). Three are this session's (`ba398d2`, `878bcdc`,
-  `296fd5d`), two are the inactives poller's, two are earlier. It is Thursday, so the Sunday
-  game-window freeze, 12:30 to 8:30 PM ET, did not apply to any of them.
-- **The ignore proof holds here, on the second attempt.** `2c61c77` was SKIPPED: the stamp did
-  not move and the Worker counted it canceled, naming the commit. The FIRST attempt did not hold, and the day history says why in full: the
-  documents-only push `878bcdc` built, because the poller's eight site-changing data files
-  were pushed ninety seconds earlier and that build was still in flight, so the range the
-  ignore rule was handed included them. The rule was right on its input. A documents-only
-  push on this desk builds whenever it lands inside a poller's build window. There is a
-  decision for Jack in the history file; the desk recommends leaving it alone, and the second
-  attempt is the evidence that the rule itself is sound.
-- **Pull immediately before pushing here.** Two pushes were rejected tonight as
-  non-fast-forward, both the poller, at 22:58Z and 23:02Z. The second needed
-  `git rebase --rebase-merges` to keep the merge commit.
-- Branches: `search-s1-canonical-urls` at `64fe43f`, open, with S-2's work in `stash@{0}`
-  (`fcacd1c`). `build-stamp` and `cause-b-stamp-proof` were merged and deleted after proving 0
-  commits outstanding. Stashes: **one**, the S-2 work.
-- **Next session's order, as Jack set it:** the twins branch on Crypto FIRST, link or retire;
-  then **S-2 here**, as its own branch off `main` and not by applying the stash; then the
-  deep-URL register; then Cause C, the H-6 scoreboard canary line, which healed on its own and
-  is latent.
-- Also open, with the last commit of each: A-17's font and poster work, shared with Crypto,
+Every push below is verified by hash (U-8): the branch tip equals `origin/<branch>`, the
+count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
+
+| Item | Branch tip | Merge on main |
+|---|---|---|
+| 0, documents (U-14 to U-16, cloud lines, settings) | `ee5d1c6` | `112f83d` |
+| S-2, games out of the sitemaps | `f190a6c` | `1954716` |
+| Item 2, the deep-URL register | `8f24da2` | `4068d4b` |
+| Cause C, the H-6 hour sweep (test only) | `069cc7c` | `c4a35f8` |
+| IndexNow | `5f42109` | `041d72c` |
+| netlify_ignore, `.claude/` | `9e02cd1` | `5719f67` |
+
+- **S-2 live**, read at 9:31 AM ET at stamp `1954716986b6`: `sitemap.xml` lists three files,
+  `sitemap-priority.xml` 137 URLs, `sitemap-archive.xml` 897 (913 on main), 0 `/games/` URLs
+  in either, and `/games/401872964` returns 200. On 29 September the archive held 915 with 16
+  game URLs. No `<lastmod>` exists on this desk before or after.
+- **Cause C**: the line was right, the canary's fixture was wrong for four hours a day. No
+  line change. Full finding in the history file.
+- **The ignore proof, a second reason to build**: the Item 0 merge built because
+  `.claude/settings.json` was not a document path. Fixed. A documents-only push still builds
+  inside a poller's build window, as recorded on 1 October; leave it.
+- **Deploys today at 10:02 AM ET, `/counts/today`**: built 11, skipped 0, which is 6
+  production plus 5 deploy-preview, against 12. Earlier days counted production only. **Decision
+  for Jack: do previews count against the 12?** Each pull request that touches the site spawns
+  one.
+- **Gate on this machine**: 206 to 329 s over seven runs against the Mac's 262 s; load 0.30 to
+  0.98 at start and end of each. Do not edit tracked files while it runs: its cleanup restores
+  them from the index.
+- **Stashes: none.** Branches on origin besides main: the six merged ones above awaiting
+  Jack's delete, `search-s1-canonical-urls` (`64fe43f`), and two `claude/*` branches from other
+  days (`checkmysports-repo-access-t30ove`, `strip-process-disclosure`), untouched.
+- **Open, with the last commit of each**: A-17's font and poster work, shared with Crypto,
   nothing yet; H-5b, the byline carrying the date when it differs, nothing yet; H-12's Sunday
   grouping, still to be checked on a Sunday at 1:30 PM ET; the S-D day-14 report, owed since
-  28 September and still owed.
+  28 September and still owed; 38 dead `/games/<id>.html` links on `/scores.html` (past
+  weeks' NFL games with no page), found and not fixed; the S-6 Search Console read against the
+  register. Next session's order is Jack's to set.
+
+## Search
+
+- **Sitemaps (S-2).** `sitemap.xml` is an index of `sitemap-priority.xml`,
+  `sitemap-archive.xml` and `news-sitemap.xml`. Per-game pages are built and linked but are
+  in no sitemap; players are in the archive.
+- **The deep-URL register.** A page the build generates and leaves out of every sitemap is a
+  choice on record, not an accident. `site_build.deep_url_register` runs last in `build()` and
+  writes `/data/deep-urls.json`: the build's stamp at file level and one entry per generated
+  page in no sitemap, with `url`, `kind` (game, superseded-article, aged-out-article,
+  example-article, storyline-page, noindex), `linked_from` (the shallowest page that links it,
+  or null) and `inbound`. It is computed from the pages on disk and the sitemap files
+  written, never from the lists that made them. The build log prints `deep urls: N in no
+  sitemap` with the kinds. `_register_canary` fails on a page in both places, in neither, a
+  kind not in the list, a false `linked_from`, a stale stamp or a missing log line. Set a
+  Search Console "Discovered, currently not indexed" row against it: in the register means
+  deep by design, not in it means the sitemap asked for it. First build: 1,303 pages, 1,034
+  listed, 269 deep.
+- **IndexNow.** Key file `/75487c1df3b38a38ef2793600c7e7bf7.txt` (content is the key, no
+  newline, `text/plain`, written by the build). `scripts/indexnow.py` submits the sitemaps in
+  full, URLs given on the command line, or `--content FILE...` for article URLs. First full
+  send 6 October 2026, 10:03:19 AM ET: 1,034 URLs, one batch, HTTP 200 (10:02:08 AM got 403
+  `SiteVerificationNotCompleted`, the engine had not fetched the key yet). The step in
+  `sports-news-brief.yml` runs after the deploy check and sends the pages the brief commit
+  changed, advisory, with its own `indexnow:` log lines. The inactives poller's commits do not
+  build the site, so it has no step. Bing Webmaster Tools is Jack's.
 
 ## 4. Open items
 
@@ -182,9 +210,11 @@ and note it in the report.
 | S-D day-14 report | **owed since Sep 28, still owed** | |
 | U-13 preflight, both canaries, six plants red | done | `d9a093c` |
 | Cause A, the workflow that loads with no jobs | fixed on Crypto `build-stamp` | `e2b77ec` |
-| Cause B, the stamp and ignore proof | open, next session's first item | |
-| Cause C, the H-6 scoreboard canary line | latent, healed on its own | |
-| S-2, canonical URLs | open, its own branch after `build-stamp` | `64fe43f` + `stash@{0}` |
+| Cause B, the stamp and ignore proof | done | `0d02aa2` |
+| Cause C, the H-6 scoreboard canary line | done, line right, fixture was wrong, test added | `069cc7c` |
+| S-2, games out of the sitemaps | done, live | `f190a6c` |
+| Deep-URL register | done, live | `8f24da2` |
+| IndexNow | done, live, first send 200 | `5f42109` |
 
 Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
 Sunday 12:30 to 8:30 PM ET.
