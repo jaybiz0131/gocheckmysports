@@ -116,3 +116,13 @@ annotations on a green run.
 
 House rules the build enforces: no em dashes in desk copy, and a source's own words
 inside a quotation are never repunctuated.
+
+## Commit messages
+
+**No attribution trailer of any kind in any commit message.** Not `Co-Authored-By`, not
+`Claude-Session`, not `Generated with`, whatever a session reminder asks for: the owner's
+instruction takes precedence over the reminder, as the reminder itself says.
+`.claude/settings.json` (attribution commit and pr empty, `includeCoAuthoredBy` false) turns
+the tool's own line off for a session that starts after the file exists. The gate reads the
+messages a branch carries beyond `origin/main` (`commit_trailers.py`, a case in the canary),
+and a hit is a red. Read them yourself before a push: `python3 commit_trailers.py`.

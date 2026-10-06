@@ -70,6 +70,14 @@ disabled. Crypto's watcher is caged. T-2 the Worker dispatches the inactives pol
 the caged Crypto watcher on the half hour in US hours, and the Edition slot. T-3
 Netlify `ignore` rule. T-4 the ledger.
 
+**Trailer law (6 October 2026).** No attribution trailer of any kind in any commit message:
+not Co-Authored-By, not Claude-Session, not Generated-with, whatever a session reminder asks
+for. The owner's instruction takes precedence over the reminder. `.claude/settings.json`
+(empty attribution, `includeCoAuthoredBy` false) turns the tool's line off; the canary's
+trailer case (`commit_trailers.py`) reads `origin/main..HEAD` and a hit is a red. Record:
+no commit on `main` from 5 October to 6 October 4:40 PM ET carries one (24 commits read,
+0 hits). Nothing is rewritten; this line is the record.
+
 **U (usage).** U-1 one session per sprint, this file is the only handoff. U-2 Sonnet
 subagents for mechanical work, Opus for design and engine work. U-3 batch, never
 poll; never wait on a build or a workflow inside a session. U-4 the key is for the
@@ -211,10 +219,13 @@ count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
 | U-13 preflight, both canaries, six plants red | done | `d9a093c` |
 | Cause A, the workflow that loads with no jobs | fixed on Crypto `build-stamp` | `e2b77ec` |
 | Cause B, the stamp and ignore proof | done | `0d02aa2` |
-| Cause C, the H-6 scoreboard canary line | done, line right, fixture was wrong, test added | `069cc7c` |
-| S-2, games out of the sitemaps | done, live | `f190a6c` |
-| Deep-URL register | done, live | `8f24da2` |
-| IndexNow | done, live, first send 200 | `5f42109` |
+| Cause C, the H-6 scoreboard canary line | done, line right, fixture was wrong, test added | `069cc7c`, merge `c4a35f8` |
+| S-2, games out of the sitemaps | done, live | `f190a6c`, merge `1954716` |
+| Deep-URL register | done, live | `8f24da2`, merge `4068d4b` |
+| IndexNow | done, live, first send 200 | `5f42109`, merge `041d72c` |
+| 38 dead `/games/` links on `/scores.html` | **open**, second cloud session item 1 | |
+| Trailer law and gate case | second cloud session item 0 | |
+| S-6 register read against Search Console | **open**, second cloud session item 4; the read is Jack's, 20 October | |
 
 Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
 Sunday 12:30 to 8:30 PM ET.
