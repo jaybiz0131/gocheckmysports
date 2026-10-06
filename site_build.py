@@ -382,6 +382,32 @@ def fmt_when(item):
     return esc(fmt_date(item.get("date")))
 
 
+def _et_date_of(iso):
+    """The Eastern calendar date of a UTC stamp, or None. Never the UTC date: 7:30 PM and
+    10:00 PM Eastern straddle midnight UTC and are one day to the reader (Cause C)."""
+    from datetime import datetime, timezone
+    try:
+        return datetime.strptime(iso or "", "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=timezone.utc).astimezone(_ET).date()
+    except ValueError:
+        return None
+
+
+def byline_stamp(item):
+    """H-5b: a byline that shows a time alone reads as today's. The time, with its date
+    ("Sun, Oct 4 \u00b7 7:30 PM ET", the format the desk uses for dates elsewhere) when the
+    story's updated stamp falls on a different EASTERN date from its published stamp, so a
+    reader on Tuesday reading a Sunday story sees Sunday. Same Eastern date, or no updated
+    stamp: the time alone, unchanged. No timestamp at all: the dateline, as before."""
+    dt = _parse_utc(item) if item.get("published_utc") else None
+    if not dt:
+        return fmt_when(item)
+    pub_d, upd_d = _et_date_of(item.get("published_utc")), _et_date_of(item.get("updated_utc"))
+    if pub_d and upd_d and pub_d != upd_d:
+        return f'{pub_d.strftime("%a, %b %-d")} \u00b7 {_et_clock(dt)}'
+    return _et_clock(dt)
+
+
 def _rfc822(item):
     dt = _parse_utc(item)
     return dt.strftime("%a, %d %b %Y %H:%M:%S +0000") if dt else ""
@@ -2969,8 +2995,7 @@ def _also_today(pool, n=3):
         # not truncated); it wraps. The stamp is the time only: every item on this list
         # carries the same dateline as the lead beside it, so repeating the date three
         # times is the chrome C-L1 removes.
-        _dt = _parse_utc(i)
-        _when = _et_clock(_dt) if _dt else fmt_when(i)
+        _when = byline_stamp(i)
         rows.append(f'<a class="sp-also-r" href="/articles/{esc(i["slug"])}.html">'
                     f'<span class="sp-also-h">{esc(i.get("title") or "")}</span>'
                     f'<span class="bd-src">{esc(_when)}</span></a>')
