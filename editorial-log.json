@@ -1,48 +1,5 @@
 [
  {
-  "date": "2026-08-20",
-  "approved": 0,
-  "rejected": [
-   {
-    "id": "c179",
-    "headline": "Vita Vea, Buccaneers agree to $30 million extension after trade request",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. Per the hard rule, every fact must trace to either a data_point in a brief or to the draft's own cited sources. The draft cites a single URL (CBS Sports) but the approver has no access to that source material to verify the facts: the $30 million figure, the trade request, the hold-out during training camp, or the claim that 'specific terms...have not been disclosed.' The draft cannot be approved without source verification or a research brief.",
-     "The draft's own statement\u2014'CBS Sports' source material does not provide the full architecture of the agreement'\u2014is a red flag. The writer is narrating absence from a source the approver cannot see. This invites the liability risk that the source actually does contain those details and the draft suppressed them, or that the source does not exist."
-    ]
-   },
-   {
-    "id": "c187",
-    "headline": "Texans lose second-year WR Jayden Higgins to season-ending ACL injury",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions flag states: 'The provided source text is a corrupted or partial fetch; the actual content describing the injury details, mechanism, and Higgins' role in the offense is not recoverable from the source material.' This is a sign the research is incomplete. The draft claims 'Higgins is described as one of quarterback C.J. Stroud's top young targets' and attributes it to CBS Sports, but the brief itself notes the source is corrupted and the actual content is not recoverable. The writer cannot ground this claim in verified source material.",
-     "The brief marks the story as 'thin: true' with only 910 source characters and unresolved open questions about whether the injury occurred in a practice or game, Higgins' draft year, and roster replacement plans. The draft presents these facts as settled when the brief indicates the source material does not support full detail. A story built on a corrupted source is not approvable."
-    ]
-   },
-   {
-    "id": "c085",
-    "headline": "Fifth FIFA vice-president turns against Infantino, citing loss of confidence",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions flag states: 'The provided source text is truncated and does not contain the full body of the letter or Csanyi's specific criticisms beyond the headline allegations.' The brief also notes 'source_chars: 269'\u2014an extremely limited source. The draft claims Csanyi cited 'the dismissal of FIFA Chief Operating Officer Kevin Lamour as the breaking point' but the brief marks as open: 'The timeline of when Kevin Lamour was dismissed and the stated reason for his removal.' The writer is treating as confirmed a detail that the brief explicitly flags as unverified.",
-     "The draft states 'The Guardian's reporting indicates the controversy is rooted in broader World Cup-related fallout and governance disputes,' but the brief lists as open: 'The specific World Cup incidents or decisions that triggered the broader leadership crisis.' The draft is paraphrasing generalized language as confirmed causation when the source material is truncated and insufficient to verify it."
-    ]
-   },
-   {
-    "id": "c148",
-    "headline": "Pacers move all local broadcasts to DAZN in second exclusive NBA deal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the $8 million guarantee and 50-50 ad split to 'Sports Business Journal reporting cited by Awful Announcing,' but the brief identifies the source as Awful Announcing only. The draft introduces a secondary source (SBJ) not explicitly in the brief's data_points, creating an attribution chain that goes beyond the research provided.",
-     "The draft states Raines pulled people 'two months prior' and paraphrases the quote selectively, but omits the opening context from the brief's full quote: 'It's been a bit of a rollercoaster. It has been for everybody. Obviously, we've been talking to the other 12 [former Main Street] teams on a regular basis, and if there was an easy, quick, obvious solution, everybody would've picked that and announced a long time ago.' The brief quote includes 'Main Street' reference which the draft omits; the condensed paraphrase risks misrepresenting the strategic context.",
-     "The bottom_line states 'a $9 million annual gap' ($17M - $8M = $9M), but this assumes the ad revenue split will yield zero dollars in year one, which is not confirmed in the brief. The brief's bear_case notes ad revenue 'is not yet assured,' meaning the $9 million characterization of a 'gap' is inference beyond the brief's data, not a stated fact."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-21",
   "approved": 3,
   "rejected": [
@@ -7679,6 +7636,53 @@
     "reasons": [
      "The draft states 'advancing past the defending champions in the first round' but this is inaccurate. The brief and the game itself (Game 1 of the semifinals) indicate the Valkyries are in the SEMIFINALS, not the first round. The Aces are the defending champions, but the Valkyries defeated them in the semifinals (second round), not 'in the first round.' This conflates two different playoff rounds and misrepresents the series structure.",
      "The draft claims the Valkyries 'eliminated the defending champion Aces in the first round' in the angle/framing, but Game 1 of a semifinal series has not eliminated anyone yet. The series is ongoing (bottom_line mentions 'Game 2 remains ahead'). Using past-tense elimination language after only one game is premature and inaccurate."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-06",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c122",
+    "headline": "Ovechkin announces 2026-27 will be his final NHL season",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ovechkin announced on Monday that the 2026-27 season will be his final one' and later 'announced it after the start of the current campaign.' However, today is Tuesday, October 6, 2026, and the brief timestamp is 2026-10-05. The announcement occurred on October 5 (yesterday/Monday from the today perspective of Tuesday), not after the current campaign's start. The season is currently underway (the draft mentions '82 games left'). The phrasing 'announced it after the start of the current campaign' is accurate, but the draft's opening and repeated framing could mislead readers about timing.",
+     "The draft claims Ovechkin 'holds the NHL's all-time goals record with 929' as a present-tense statement, but the brief data_point states this with 'reported' confidence, not verified. The brief timestamp shows this is current reporting, not a long-established record. The phrasing is acceptable per the brief, but the confidence level is 'reported' not absolute fact, which the draft presents without qualification.",
+     "The draft states the Capitals' home opener is 'Wednesday, October 8' but today is Tuesday, October 6, 2026. October 8, 2026 is indeed a Wednesday (correct), but the draft later says 'just before the Capitals' home opener on Wednesday, October 8' suggesting it is upcoming. This is correct\u2014the game is scheduled for the future. However, the bottom_line states 'Ovechkin's farewell season officially begins with the Capitals' home opener on Wednesday, October 8'\u2014using 'officially begins' language that treats a future event as already having occurred. Per the instruction: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The bottom_line violates this.",
+     "the draft dates October 8, 2026 as a Wednesday; October 8, 2026 is a Thursday",
+     "the draft dates October 8, 2026 as a Wednesday; October 8, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c104",
+    "headline": "Valkyries confirm they will host WNBA Finals Game 2 on October 19, moving Doja Cat concert",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Valkyries added that moving the concert is \"standard practice.\"' without qualification. However, the brief data_point lists this with 'reported' confidence, and the brief's bear_case explicitly flags: 'The Valkyries' statement that moving the concert is 'standard practice' lacks specifics about logistics, cost responsibility, or fan compensation.' The claim is an unverified assertion from the team, not a confirmed fact. The draft presents it as a straightforward statement without signaling skepticism or the lack of specifics around implementation, which is precisely what the brief warns against.",
+     "The draft states 'The Valkyries are two wins away from their first WNBA Finals appearance, currently leading the No. 4 Atlanta Dream and the No. 8 New York Liberty 1-0 in their best-of-five semifinal against the No. 2-seed Las Vegas Aces.' This contains a logical error: the Valkyries cannot be 'leading...both Dream and Liberty' in a single semifinal. The brief data_point clarifies: 'The No. 2-seed Valkyries are up 1-0 in their best-of-five semifinal against the Las Vegas Aces.' The draft conflates two separate potential opponents. The Dream and Liberty are competing in a separate bracket for the other Finals spot.",
+     "The draft states 'Representatives for Doja Cat did not respond to a request for comment as of the article's publication.' The bear_case explicitly states: 'Representatives for Doja Cat did not immediately respond to a request for comment as of the article's publication, so no confirmation has been obtained from the artist's camp that the concert will actually be moved.' This is a critical distinction\u2014no confirmation of the rescheduling has been obtained. The draft's lead and opening paragraphs present the concert relocation as confirmed, but the brief's bear_case and open_questions flag this as unconfirmed speculation. The draft misleads by omitting the absence of artist confirmation while leading with the team's unilateral claim."
+    ]
+   },
+   {
+    "id": "c196",
+    "headline": "Seahawks decline to sign Joe Mixon after failed physical, October 6",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Mixon 'spent the entire 2025 season on the non-football injury list with the Houston Texans due to a foot injury.' Today is Tuesday, 2026-10-06. The 2025 season ended in early 2026 (approximately January 2026). The phrase 'entire 2025 season' is correct, but the draft should use past tense 'spent' which it does\u2014however, the issue is that the brief's data point says 'Mixon, 30, was released in March by the Houston Texans after spending the entire 2025 season on their non-football injury list,' which is consistent with the draft. However, the draft also says 'Zach Charbonnet, sidelined by an ACL tear suffered in the playoffs last January' \u2014 if today is October 6, 2026, then 'last January' refers to January 2026, which is correct for Charbonnet's playoff injury. This is accurate. Re-reading: the draft's tense is correct. No accuracy violation here on temporal grounds.",
+     "The draft states 'Charbonnet... began practicing Thursday and became eligible to play after the required four-game absence, but Macdonald told 710-AM on Monday that Charbonnet will not make his season debut against San Francisco this weekend.' This sentence uses future tense ('will not make') for an event this weekend, which is consistent with the instruction that scheduled events should be written as upcoming. However, the brief states this was said 'on Monday,' and today is Tuesday. The statement was made in the past, but the event (weekend debut) is still in the future. The phrasing is correct.",
+     "The draft attributes 'Macdonald said on Monday' and 'Macdonald told 710-AM on Monday,' but the first attribution is to a quote that the brief confirms ('Joe worked out this morning, and he's going through the process right now') and the second is to the 710-AM claim about Charbonnet. Both are traced to brief data points and sourced correctly. No violation."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "76ers' Hukporti out for season after Achilles rupture in preseason opener on October 5",
+    "category": "accuracy",
+    "reasons": [
+     "Draft presents Hukporti's season-ending status as settled fact ('will miss the entire 2026-27 NBA season') but the brief marks this data_point 'announced-not-verified', meaning the team announced it but verification is incomplete. The draft must acknowledge this uncertainty per confidence-label survival rule.",
+     "The phrase 'If Hukporti's season-ending status is confirmed' appears late in the draft (paragraph 5) and contradicts the definitive opening statement. This internal inconsistency signals the draft glossed over the confidence qualifier to strengthen the lede."
     ]
    }
   ]
