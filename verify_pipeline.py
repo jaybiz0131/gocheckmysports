@@ -781,6 +781,78 @@ def _register_canary(out=None, log=None):
     return fails
 
 
+def _h6_hour_sweep():
+    """CAUSE C: THE H-6 LINE WAS RIGHT AND THE FIXTURE WAS WRONG FOR FOUR HOURS A DAY.
+
+    The Inactives poller failed 100 times from 2026-09-19 00:01Z to 2026-09-21 03:25Z on
+    "a panel of 15 finals plus an upcoming game said '15 games today - 0 live now'". The
+    fixture built "yesterday" as now-1day at 23:10 UTC, which is 7:10 PM Eastern of the
+    PREVIOUS UTC day. Between 00:00Z and 03:59Z the Eastern date has not yet rolled, so those
+    finals were TODAY on the reader's clock, and the line said so correctly. It healed at
+    04:00Z with no commit because the Eastern date rolled, which is why nothing "fixed" it.
+    The fixture was anchored in Eastern on 2026-09-21 (f4a1df1); this makes that permanent.
+
+    Two things are proved here. The line is swept across all 24 hours on a summer date and
+    a winter date, with the clock pinned, so no hour of the day can fail it again. And the
+    legacy UTC-anchored fixture is run at 02:00Z and must STILL reproduce the poller's exact
+    string, because a sweep that cannot reproduce the failure it exists for proves nothing.
+    """
+    import datetime as _d
+    import re as _r
+    import site_build as _sb
+    fails = []
+    _old = _sb._NOW_CACHE
+
+    def _game(now, dd, state, anchor, tag):
+        if anchor == "et":
+            _et = now.astimezone(_sb._ET)
+            _t = (_et + _d.timedelta(days=dd)).replace(
+                hour=19, minute=10, second=0, microsecond=0).astimezone(_d.timezone.utc)
+        else:   # the legacy fixture
+            _t = (now + _d.timedelta(days=dd)).replace(hour=23, minute=10, second=0,
+                                                       microsecond=0)
+        return {"league": "MLB", "id": f"{tag}{dd}{state}{id(_t) % 9973}", "state": state,
+                "status_short": "Final" if state == "post" else "",
+                "start_utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": "PHI", "name": "Phillies", "score": "4"},
+                "home": {"abbr": "NYM", "name": "Mets", "score": "2"}}
+
+    def _line(now, games):
+        _sb._NOW_CACHE = now        # the line reads _build_now(), so the clock is pinned here
+        _h = _sb.scoreboard_band(
+            {"leagues": [{"league": "MLB", "games": games}],
+             "fetched_at": now.strftime("%Y-%m-%dT%H:%M:%SZ")}, None, None)
+        _m = _r.findall(r'class="tk-count"[^>]*>([^<]*)<', _h)
+        return _m[0] if _m else ""
+    try:
+        for _day in ((2026, 10, 6), (2026, 1, 12)):
+            for _hr in range(24):
+                _now = _d.datetime(*_day, _hr, 25, tzinfo=_d.timezone.utc)
+                _c = _line(_now, [_game(_now, -1, "post", "et", "f") for _ in range(15)]
+                           + [_game(_now, 7, "pre", "et", "n")])
+                _check(_c.startswith("15 final") and "next" in _c, fails,
+                       f"H-6 sweep: at {_now:%Y-%m-%d %H:%MZ} 15 finals plus an upcoming "
+                       f"game said {_c!r}")
+        # the live count comes from the games that are live: two live today, finals before
+        _now = _d.datetime(2026, 10, 6, 20, 25, tzinfo=_d.timezone.utc)
+        _c = _line(_now, [_game(_now, -1, "post", "et", "f") for _ in range(15)]
+                   + [dict(_game(_now, 0, "in", "et", "l"), id=f"live{k}") for k in range(2)])
+        _check(_c.startswith("2 games today") and _c.endswith("2 live now"), fails,
+               f"H-6 sweep: two live games today were counted as {_c!r}")
+        # the legacy fixture must still reproduce the poller's string at 02:00Z, and heal at
+        # 05:00Z, or this sweep cannot fail for the reason it was written
+        for _hr, _want in ((2, "15 games today"), (5, "15 final")):
+            _now = _d.datetime(2026, 9, 20, _hr, 0, tzinfo=_d.timezone.utc)
+            _c = _line(_now, [_game(_now, -1, "post", "utc", "f") for _ in range(15)]
+                       + [_game(_now, 7, "pre", "utc", "n")])
+            _check(_c.startswith(_want), fails,
+                   f"H-6 sweep: the legacy fixture at {_hr:02d}:00Z said {_c!r}, not "
+                   f"{_want!r}, so the sweep no longer reproduces Cause C")
+    finally:
+        _sb._NOW_CACHE = _old
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1051,6 +1123,7 @@ def layer1_canary():
     fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
+    fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source
@@ -2321,7 +2394,11 @@ def layer1_canary():
     import datetime as _dt6
     import re as _re6
     import site_build as _sb
-    _now6 = _dt6.datetime.now(_dt6.timezone.utc)
+    # THE FIXTURE AND THE LINE READ ONE CLOCK. The line asks _build_now(), which the gate's
+    # own build had already cached minutes earlier, while this fixture read the wall clock:
+    # two clocks that agree except across a day boundary. Cause C was a different bug, but
+    # it was this same shape, a fixture anchored to a clock the code under test does not use.
+    _now6 = _sb._build_now()
 
     def _g6(state, dd):
         # ANCHORED IN EASTERN, not in UTC. This built "yesterday" as now-1day at 23:10
