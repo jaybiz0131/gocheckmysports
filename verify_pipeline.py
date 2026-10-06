@@ -1075,6 +1075,80 @@ def _byline_date_canary():
     return fails
 
 
+def _sunday_slate_canary():
+    """H-12 under a fixture: THE SUNDAY SLATE AT 1:30 PM ET, ANY DAY OF THE WEEK.
+
+    The live check is Sunday 1:30 PM ET; this is the same instant on a fixture, with the
+    clock the build reads pinned to it. Fixture `sunday-130pm-early-live`: four early-window
+    games live (a tie in the fourth, a one-score game in the fourth, a four-point game in
+    the second, a blowout in the fourth), the 4:05 and 4:25 games pending, the 8:20 night
+    game pending. Asserted: live first in the scoreboard's urgency order, then the 4:05 and
+    4:25 as the next window, the night game last; the header, the tab and the panel count
+    each match the groups; and the Next line names the 4:05. Read through the real band
+    and the real /scores page, not the sort function alone."""
+    import datetime as _d
+    import re as _r
+    import site_build as _sb
+    fails = []
+    _et = _sb._ET
+    def _u(et):
+        return _d.datetime.fromisoformat(et).replace(tzinfo=_et).astimezone(_d.timezone.utc)
+    def _g(a, h, kick, st, sa=None, sh=None, per=None):
+        return {"league": "NFL", "id": a + h, "state": st, "period": per, "status_short": "",
+                "start_utc": _u(kick).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": a, "score": sa, "name": a, "full": a},
+                "home": {"abbr": h, "score": sh, "name": h, "full": h}}
+    _games = [_g("CLS", "EARLY1", "2026-10-11T13:00", "in", "20", "17", 4),
+              _g("TIE", "EARLY2", "2026-10-11T13:00", "in", "21", "21", 4),
+              _g("MID", "EARLY3", "2026-10-11T13:00", "in", "14", "10", 2),
+              _g("BLO", "EARLY4", "2026-10-11T13:00", "in", "38", "3", 4),
+              _g("LATE", "ONE", "2026-10-11T16:05", "pre"),
+              _g("LATE", "TWO", "2026-10-11T16:25", "pre"),
+              _g("NIG", "HT", "2026-10-11T20:20", "pre")]
+    _data = {"fetched_at": "2026-10-11T17:29:00Z", "leagues": [{"league": "NFL", "games": _games}]}
+    _was = _sb._NOW_CACHE
+    _sb._NOW_CACHE = _u("2026-10-11T13:30")
+    try:
+        _band = _sb.scoreboard_band(_data, {})
+        _page = _sb.render_scores_page(_data, {}, "")
+    except Exception as _e:
+        _sb._NOW_CACHE = _was
+        return [f"H-12 canary: the Sunday 1:30 PM slate raised {type(_e).__name__}: {_e}"]
+    finally:
+        _sb._NOW_CACHE = _was
+    _live = ["TIEEARLY2", "CLSEARLY1", "MIDEARLY3", "BLOEARLY4"]
+    _next = ["LATEONE", "LATETWO"]
+    _want = _live + _next + ["NIGHT"]
+    # the band: one marquee, then the folds in the scoreboard's order
+    _mq = _r.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', _band)[:1]
+    _fold = _r.findall(r'class="tk-fold(?: wide)?" data-gid="([^"]*)"', _band)
+    _fold = _fold[:len(_fold) // 2]   # the same six are rendered once per tab
+    _check(_mq + _fold == _want, fails,
+           f"H-12 canary: the band's order at Sunday 1:30 PM is {_mq + _fold}, not {_want}")
+    # the page: every game, in the same order, live first and the night game last
+    _pg = _r.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', _page or "")
+    _check(_pg == _want, fails, f"H-12 canary: /scores order at Sunday 1:30 PM is {_pg}, not {_want}")
+    _check(_pg[:4] == _live and _pg[4:6] == _next and _pg[-1] == "NIGHT", fails,
+           "H-12 canary: the groups are not live, then the 4:05 and 4:25, then the night game")
+    # counts: header, tab, panel and the page's league row all describe those same groups
+    _hdr = _r.findall(r'class="sb-count">([^<]*)', _band)
+    _check(_hdr == ["7 games today \u00b7 4 live now"], fails,
+           f"H-12 canary: the header reads {_hdr}, the slate is 7 games and 4 live")
+    _tabs = _r.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"[^>]*>[^<]*<small>([^<]*)', _band)
+    _check(_tabs == [("All", "4 live"), ("NFL", "4 live")], fails,
+           f"H-12 canary: the tab counts read {_tabs}, not 4 live on both")
+    _pc = _r.findall(r'class="tk-count" hidden>([^<]*)', _band)
+    _check(_pc and all(x == "7 games today \u00b7 4 live now" for x in _pc), fails,
+           f"H-12 canary: a panel count disagrees with the header: {_pc}")
+    _lg = _r.findall(r'class="tk-lg-n">([^<]*)', _page or "")
+    _check(_lg == ["7 games \u00b7 4 live"], fails,
+           f"H-12 canary: the league row on /scores reads {_lg}, not 7 games and 4 live")
+    _nx = _r.findall(r'class="sb-next">([^<]*)', _band)
+    _check(_nx and all(x == "Next: LATE at ONE 4:05 PM ET" for x in _nx), fails,
+           f"H-12 canary: the Next line is {_nx}, not the 4:05")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1350,6 +1424,7 @@ def layer1_canary():
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
     fails.extend(_byline_date_canary())   # H-5b
+    fails.extend(_sunday_slate_canary())   # H-12 under a fixture
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter

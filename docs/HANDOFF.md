@@ -207,7 +207,7 @@ count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
 | X-1, X-2, X-2b, ledger `since` | done | `09ee73c`, `9ed93e7` |
 | H-7, H-3, H-6, H-8 | done | `69878d9` |
 | **H-5b byline carries the date when it differs** | **open** | |
-| H-12 Sunday grouping | check Sun 1:30 PM ET | |
+| H-12 Sunday grouping | grouping checked under fixture `sunday-130pm-early-live` (`_sunday_slate_canary`), green first, plants red; **live look Sunday 11 October 1:30 PM ET, one line:** the band's marquee and folds read live games first (tie, then one-score, then the rest), then the 4:05 and 4:25, then the night game, and the header, the NFL tab and the Next line (the 4:05) match | this branch |
 | V-6 inner pages and phone | done | `89dd26a` |
 | V-7 fonts, poster, dead CSS | done | `0d1037e`, `00c618a` |
 | V-8..V-12 Crypto visual | open, Sprint I | see the Crypto handoff |
