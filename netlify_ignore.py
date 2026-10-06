@@ -42,7 +42,10 @@ SKIPPABLE_FILES = ("ledger.json",)
 # site_build.py, and neither reads a markdown file or anything under docs/. A path is added
 # here only after that check, because the cost of a wrong entry is a missed build, which is
 # the failure this file must not cause.
-DOC_PREFIXES = ("docs/", "shots/", "claims-reports/", "audit-report/")
+# ".claude/" (6 October 2026): the Claude Code settings directory. Nothing in the build reads
+# it, checked against site_build.py and the netlify.toml command, and the documents-only merge
+# that added .claude/settings.json built the site for want of this entry.
+DOC_PREFIXES = ("docs/", "shots/", "claims-reports/", "audit-report/", ".claude/")
 DOC_SUFFIXES = (".md",)
 # NOT the .md files: DOC_SUFFIXES already covers every one of them, and naming HANDOFF.md
 # here too was config that could not fail. The first U-9 break on this file removed it from

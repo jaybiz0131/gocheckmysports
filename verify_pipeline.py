@@ -1193,7 +1193,10 @@ def layer1_canary():
     # not build the site. Two handoff commits on 22 September each spent a production
     # deploy on a file that changes no pixel.
     for _d in ["HANDOFF.md", "docs/HANDOFF.md", "README.md", "netlify_ignore.py",
-               "shots/x.png", "docs/notes/a.md"]:
+               "shots/x.png", "docs/notes/a.md",
+               # Item 0 (6 October 2026) added .claude/settings.json and its documents-only
+               # merge BUILT the site: this list did not know the directory.
+               ".claude/settings.json"]:
         _check(_ni.decide([_d], _q)[0] is True, fails,
                f"netlify ignore canary (U-11): {_d} built the site, and it cannot change "
                f"a pixel of it")
