@@ -1037,6 +1037,44 @@ def _trailer_canary():
     return fails
 
 
+def _byline_date_canary():
+    """H-5b (6 October 2026): THE BYLINE CARRIES THE DATE WHEN IT DIFFERS.
+
+    A byline that shows only a time reads as today's. When the story's updated stamp falls
+    on a different EASTERN date from its published stamp, the byline carries the date beside
+    the time, in the format the site uses for dates elsewhere ("Sun, Oct 4"), so a reader on
+    Tuesday reading a Sunday story sees Sunday. Same Eastern date, the byline is unchanged.
+    The date is the Eastern date: the Cause C trap, a pair that crosses midnight UTC without
+    crossing midnight ET, must NOT show a date, and the reverse pair must."""
+    import site_build as _sb
+    fails = []
+    def _it(pub, upd=None):
+        d = {"slug": "x", "title": "x", "published_utc": pub}
+        if upd:
+            d["updated_utc"] = upd
+        return d
+    _same = _sb.byline_stamp(_it("2026-10-04T23:30:00Z", "2026-10-04T23:50:00Z"))
+    _check(_same == "7:30 PM ET", fails,
+           f"H-5b canary: a story updated the same Eastern day changed its byline: {_same!r}")
+    _none = _sb.byline_stamp(_it("2026-10-04T23:30:00Z"))
+    _check(_none == "7:30 PM ET", fails,
+           f"H-5b canary: a story with no updated stamp changed its byline: {_none!r}")
+    _next = _sb.byline_stamp(_it("2026-10-04T23:30:00Z", "2026-10-06T14:00:00Z"))
+    _check(_next == "Sun, Oct 4 \u00b7 7:30 PM ET", fails,
+           f"H-5b canary: a story updated two days later does not show its date: {_next!r}")
+    # crosses midnight UTC, not midnight ET: 7:30 PM and 10:00 PM on the same Eastern day
+    _utc = _sb.byline_stamp(_it("2026-10-04T23:30:00Z", "2026-10-05T02:00:00Z"))
+    _check(_utc == "7:30 PM ET", fails,
+           f"H-5b canary: midnight UTC was read as a new day, the Cause C trap: {_utc!r}")
+    # same UTC date, different Eastern date: 10 PM Sunday and 10 AM Monday
+    _et = _sb.byline_stamp(_it("2026-10-05T02:00:00Z", "2026-10-05T14:00:00Z"))
+    _check(_et == "Sun, Oct 4 \u00b7 10:00 PM ET", fails,
+           f"H-5b canary: an Eastern date change inside one UTC date showed no date: {_et!r}")
+    _check(_sb.byline_stamp({"slug": "x", "date": "2026-10-04"}) == "October 4, 2026", fails,
+           "H-5b canary: a legacy story with a date only lost its dateline")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1311,6 +1349,7 @@ def layer1_canary():
     fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
+    fails.extend(_byline_date_canary())   # H-5b
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
