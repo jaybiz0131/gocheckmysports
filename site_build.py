@@ -11019,6 +11019,94 @@ def _render_og_card(item):
         return False
 
 
+# ---- Item 2 (2026-10-06): THE DEEP-URL REGISTER ----------------------------------------
+# A page the build generates and leaves out of every sitemap is a choice on record, not an
+# accident. S-2 took the per-game pages out of the sitemaps and left them live; this is
+# where that choice is written down, so a Search Console "Discovered, currently not
+# indexed" row can be set against it and sorted into "deep URL by design" and "a page the
+# sitemap asked for". It is computed from what was WRITTEN, the sitemap files and the
+# pages on disk, never from the lists that produced them, so it cannot agree with a bug
+# in those lists by sharing it.
+DEEP_KINDS = ("game", "superseded-article", "aged-out-article", "example-article",
+              "storyline-page", "noindex")
+
+
+def _page_url(rel):
+    """/x/y.html -> /x/y and /index.html -> /, the form the sitemaps and the canonicals use.
+    /fantasy/index.html stays /fantasy/index: that is the URL the page's own canonical and
+    the sitemap name, and folding it to /fantasy made the register call a listed page deep."""
+    u = "/" + rel[:-5].replace(os.sep, "/")
+    return "/" if u == "/index" else u
+
+
+def deep_url_register(publish, items, origin, now, stamp):
+    """Return the register dict for the tree at `publish`. Pure: it writes nothing."""
+    import re as _re
+    pages = {}
+    for root, _d, files in os.walk(publish):
+        for f in files:
+            if f.endswith(".html"):
+                rel = os.path.relpath(os.path.join(root, f), publish)
+                pages[_page_url(rel)] = os.path.join(root, f)
+    listed = set()
+    for n in ("sitemap-priority.xml", "sitemap-archive.xml", "news-sitemap.xml"):
+        fp = os.path.join(publish, n)
+        if os.path.exists(fp):
+            for loc in _re.findall(r"<loc>([^<]*)</loc>", open(fp, encoding="utf-8").read()):
+                listed.add((loc[len(origin):] if loc.startswith(origin) else loc) or "/")
+    deep = sorted(u for u in pages if u not in listed)
+    deep_set = set(deep)
+    # who links each deep page: one pass over every page's own hrefs
+    inbound = {}
+    href = _re.compile(r'href="(/[^"#?]*)')
+    for src, fp in pages.items():
+        for h in set(href.findall(open(fp, encoding="utf-8", errors="ignore").read())):
+            t = h[:-5] if h.endswith(".html") else h
+            if t != src and t in deep_set:
+                inbound.setdefault(t, set()).add(src)
+    by_slug = {i.get("slug"): i for i in items if i.get("slug")}
+
+    def _age(it):
+        try:
+            when = datetime.datetime.fromisoformat(
+                (it.get("published_utc") or it.get("date") or "").replace("Z", "+00:00"))
+        except ValueError:
+            return 0.0
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=datetime.timezone.utc)
+        return (now - when).total_seconds() / 86400.0
+
+    def _kind(u):
+        if u.startswith("/games/"):
+            return "game"
+        if u.startswith("/articles/"):
+            it = by_slug.get(u[len("/articles/"):]) or {}
+            if it.get("superseded_by"):
+                return "superseded-article"
+            if it.get("example"):
+                return "example-article"
+            if _age(it) > 60:
+                return "aged-out-article"
+        if _re.search(r"/page/\d+$", u):
+            return "storyline-page"
+        if _re.search(r'<meta name="robots" content="[^"]*noindex',
+                      open(pages[u], encoding="utf-8", errors="ignore").read(4000)):
+            return "noindex"
+        return "other"      # an accident: the canary refuses it
+
+    entries = []
+    for u in deep:
+        srcs = sorted(inbound.get(u, ()), key=lambda x: (x.count("/"), x))
+        entries.append({"url": origin + u, "kind": _kind(u),
+                        "linked_from": (origin + srcs[0]) if srcs else None,
+                        "inbound": len(srcs)})
+    kinds = {}
+    for e in entries:
+        kinds[e["kind"]] = kinds.get(e["kind"], 0) + 1
+    return {"stamp": stamp, "count": len(entries), "kinds": dict(sorted(kinds.items())),
+            "sitemap_listed": len(listed), "pages": len(pages), "entries": entries}
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -11689,6 +11777,17 @@ def build():
     n_ed = _edition.build(items, w, shell=shell)
     if n_ed:
         print(f"site: The Edition composed for {n_ed} day(s) -> news.html + /edition/")
+
+    # Item 2: the register is written after the Edition, the last pages, so every page the
+    # build generates exists when it is computed.
+    import json as _json_reg
+    _reg = deep_url_register(
+        PUBLISH, items, ORIGIN, _build_now(),
+        {"commit": BUILD_COMMIT, "built": _build_now().isoformat(timespec="seconds")})
+    w("data/deep-urls.json", _json_reg.dumps(_reg, indent=1) + "\n")
+    print(f"deep urls: {_reg['count']} in no sitemap, by kind {_reg['kinds']}; "
+          f"{_reg['sitemap_listed']} listed in the sitemaps; "
+          f"{sum(1 for e in _reg['entries'] if not e['linked_from'])} linked from no page")
 
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
