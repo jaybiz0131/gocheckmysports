@@ -1,6 +1,7 @@
 
 __pycache__/
-.claude/
+.claude/*
+!.claude/settings.json
 .DS_Store
 *.pyc
 # `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.

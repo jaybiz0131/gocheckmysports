@@ -69,7 +69,7 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
 
 ---
 
-# Standing rules, all desks
+# Standing rules, all desks, U-1 to U-16
 
 **U-1 to U-11, issued 24 September 2026, 12:50 PM ET. This is the one text.** Every desk
 (Pet, Parents, Weather, Sports and Crypto) writes it into its HANDOFF.md as the
@@ -231,6 +231,26 @@ tree it publishes or runs; parses every script the site serves, with node --chec
 language's own check, and fails on a file that does not parse; and asserts exactly one value
 wherever a conflict leaves two. A stash is applied on a clean tree and its result is read
 before anything is committed.
+
+## U-14. A push is gated on the preflight's exit status.
+
+`preflight && push`, never chained with a semicolon or a newline; a red preflight means no push,
+under load or not, and a green rerun is a reason to push then, not a reason the first push was
+fine (the process error of 2026-10-05). Recorded 2026-10-05, 12:03 PM ET.
+
+## U-15. The preflight runner prints the name of every failing case, never a count alone.
+
+A red that cannot be named cannot be fixed. The load average is printed at each preflight, start
+and end, and reported: 48 to 88 is one desk, 300 to 970 is two desks at once, and Jack keeps that
+rule, not the desk. Recorded 2026-10-05, 12:03 PM ET.
+
+## U-16. A suite's output goes to a file and is read after the suite exits.
+
+It is never piped into head, tail, a pager or anything that can close the pipe early: a closed
+pipe kills the suite before its finally runs, and its server stays up as an orphan on its port
+(the two orphaned servers of 2026-10-05, both the desk's own). The preflight's red on an orphaned
+port is the rule working, not noise. Recorded 2026-10-05, 9:28 PM ET.
+
 ---
 
 # For tomorrow's handoff

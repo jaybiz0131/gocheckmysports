@@ -34,6 +34,10 @@ history is in `HANDOFF-2026-09-17-to-22.md` and `HANDOFF-2026-09-23-to-10-01.md`
 Canonical checkout is `~/Desktop/Berno Projects/`. Deploy from there and report the
 version ID. Jack handles every secret value.
 
+From 6 October 2026 this desk runs in Anthropic's cloud, working directory
+`/home/user/gocheckmysports`, cloned from GitHub, pushing through the session's proxy.
+The stash notes in the day histories describe the Mac; `stash@{0}` does not exist here.
+
 ## 2. Laws in force
 
 **Standing, both desks.** No em dashes anywhere. No mention of AI. Times in ET with
