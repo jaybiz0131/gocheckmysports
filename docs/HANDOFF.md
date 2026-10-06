@@ -13,8 +13,7 @@ Last updated: 6 October 2026, 10:05 AM ET, end of the first cloud session.
 with 0 commits outstanding: `docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`,
 `deep-url-register`, `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`. **Not
 deleted: the session's proxy refused the delete (HTTP 403), so Jack deletes the six.**
-`search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac
-artifact and does not exist here. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
+`search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac artifact. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
 this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
 `HANDOFF-2026-09-23-to-10-01.md` and `HANDOFF-2026-10-06.md`.
 
@@ -142,10 +141,11 @@ count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
 - **The ignore proof, a second reason to build**: the Item 0 merge built because
   `.claude/settings.json` was not a document path. Fixed. A documents-only push still builds
   inside a poller's build window, as recorded on 1 October; leave it.
-- **Deploys today at 10:02 AM ET, `/counts/today`**: built 11, skipped 0, which is 6
-  production plus 5 deploy-preview, against 12. Earlier days counted production only. **Decision
-  for Jack: do previews count against the 12?** Each pull request that touches the site spawns
-  one.
+- **The count ruling, Jack, 6 October 2026: the allowance of 12 (16 on Sundays) counts
+  PRODUCTION builds only.** Previews do not count; the count line reports them beside it
+  ("7 production, 6 previews") so build minutes stay visible. One pull request per item stays
+  the law; batching is not the relief. Count of record at 10:08 AM ET: **7 production built, 1
+  skipped, 6 previews**. The Worker's `built` adds previews (13); read the `production:` keys.
 - **Gate on this machine**: 206 to 329 s over seven runs against the Mac's 262 s; load 0.30 to
   0.98 at start and end of each. Do not edit tracked files while it runs: its cleanup restores
   them from the index.
