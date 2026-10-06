@@ -947,9 +947,41 @@ def _indexnow_canary(out=None, script=None):
     return fails
 
 
+def _trailer_canary():
+    """Item 0 (6 October 2026): no attribution trailer of any kind in any commit message.
+
+    Not Co-Authored-By, not Claude-Session, not Generated-with. The first Weather cloud
+    session broke the law because a session reminder asked for the line; the owner's
+    instruction takes precedence. This reads the messages of the commits a branch carries
+    beyond origin/main and fails on a hit, and proves the reader on fixture messages first,
+    so a reader that matches nothing cannot pass for a clean branch."""
+    fails = []
+    import commit_trailers as _ct
+    clean = "docs: the count ruling (documents only)\n\nProduction builds only.\n"
+    _check(_ct.hits(clean) == [], fails,
+           "trailer canary: a clean message was flagged")
+    for _line in ("Claude-Session: https://claude.ai/code/session_x",
+                  "Co-Authored-By: Someone <a@b.c>",
+                  "co-authored-by: Someone <a@b.c>",
+                  "Generated with [Claude Code](https://claude.ai/code)",
+                  "\U0001F916 Generated-with: a tool"):
+        _check(_ct.hits("fix: a thing\n\nBody.\n\n" + _line + "\n") != [], fails,
+               f"trailer canary: a message carrying {_line!r} was NOT flagged")
+    _check(_ct.hits("fix: stop writing Co-Authored-By lines\n") == [], fails,
+           "trailer canary: a subject that merely names the rule was flagged "
+           "(only a trailer line counts)")
+    # the real branch: every commit beyond origin/main, when the ref exists in this checkout
+    bad = _ct.branch_hits()
+    _check(not bad, fails,
+           f"trailer canary: commit message(s) on this branch carry an attribution "
+           f"trailer: {bad[:3]}")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
+    fails.extend(_trailer_canary())    # 6 October 2026: no attribution trailers
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
     fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
