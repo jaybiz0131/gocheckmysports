@@ -541,6 +541,7 @@ def _built_tree():
         with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
             _sb.build()
         _BUILT["path"] = _sb.PUBLISH
+        _BUILT["log"] = log.getvalue()
         print(f"gate build: built a throwaway tree ({len(os.listdir(_BUILT['path']))} entries); "
               f"the build's own log is captured, not this job's")
     except Exception as e:
@@ -686,6 +687,97 @@ def _sitemap_canary(out=None):
                    f"S-2 canary: game page {_f} was built empty")
             _check(f'href="/games/{_f}"' in _sh, fails,
                    f"S-2 canary: game page {_f} is built but /scores.html does not link it")
+    return fails
+
+
+def _register_canary(out=None, log=None):
+    """Item 2: EVERY GENERATED PAGE IS IN EXACTLY ONE PLACE, A SITEMAP OR THE REGISTER.
+
+    Read from the gate's own throwaway tree: the pages on disk, the three sitemap files the
+    build wrote, and /data/deep-urls.json. Never both, never neither. A page in neither is an
+    accident (the build made it and told nobody), a page in both means the register is lying
+    about what it left out. The register's kind is checked too: "other" is a page whose
+    absence from the sitemaps nobody decided.
+    """
+    import json as _j
+    import re as _r
+    import site_build as _sb
+    fails = []
+    out = out or _built_tree()
+    log = log if log is not None else _BUILT.get("log", "")
+    _check(bool(out), fails, "register canary: the gate's own build failed, so nothing below was checked")
+    if not out:
+        return fails
+    _origin = "https://gocheckmysports.com"
+    _rp = os.path.join(out, "data", "deep-urls.json")
+    _check(os.path.exists(_rp), fails, "register canary: the build wrote no /data/deep-urls.json")
+    if not os.path.exists(_rp):
+        return fails
+    try:
+        _reg = _j.load(open(_rp, encoding="utf-8"))
+    except ValueError as _e:
+        return fails + [f"register canary: /data/deep-urls.json does not parse ({_e})"]
+    _ents = _reg.get("entries") or []
+    _check(_reg.get("count") == len(_ents), fails,
+           f"register canary: the file says {_reg.get('count')} entries and carries {len(_ents)}")
+    _st = _reg.get("stamp") or {}
+    _check(bool(_st.get("commit")) and bool(_st.get("built")), fails,
+           "register canary: the register carries no build stamp")
+    _check(_st.get("commit") == _sb.BUILD_COMMIT, fails,
+           f"register canary: the register is stamped {str(_st.get('commit'))[:12]}, not this "
+           f"build's {str(_sb.BUILD_COMMIT)[:12]}")
+    # the pages on disk, and what each sitemap file lists
+    _pages = set()
+    for _root, _d, _fs in os.walk(out):
+        for _f in _fs:
+            if _f.endswith(".html"):
+                _pages.add(_sb._page_url(os.path.relpath(os.path.join(_root, _f), out)))
+    _listed = set()
+    for _n in ("sitemap-priority.xml", "sitemap-archive.xml", "news-sitemap.xml"):
+        _fp = os.path.join(out, _n)
+        _check(os.path.exists(_fp), fails, f"register canary: {_n} was not written")
+        if os.path.exists(_fp):
+            for _l in _r.findall(r"<loc>([^<]*)</loc>", open(_fp, encoding="utf-8").read()):
+                _listed.add(_l[len(_origin):] or "/")
+    _deep = set()
+    for _e in _ents:
+        _u = _e.get("url", "")
+        _check(_u.startswith(_origin + "/"), fails, f"register canary: an entry's url is {_u!r}")
+        _deep.add(_u[len(_origin):] or "/")
+    _check(len(_pages) > 100 and len(_listed) > 100, fails,
+           f"register canary: {len(_pages)} pages and {len(_listed)} sitemap URLs read, too few "
+           f"for the checks below to mean anything")
+    _both = sorted(_deep & _listed)
+    _check(not _both, fails, f"register canary: {len(_both)} page(s) in a sitemap AND the "
+           f"register, first {(_both or [''])[0]}")
+    _neither = sorted(_pages - _listed - _deep)
+    _check(not _neither, fails, f"register canary: {len(_neither)} page(s) in NEITHER a sitemap "
+           f"nor the register, first {(_neither or [''])[0]}")
+    _ghost = sorted(_deep - _pages)
+    _check(not _ghost, fails, f"register canary: {len(_ghost)} register entr(ies) name no built "
+           f"page, first {(_ghost or [''])[0]}")
+    _check(len(_ents) == len(_deep), fails, "register canary: a URL is registered twice")
+    for _e in _ents:
+        _check(_e.get("kind") in _sb.DEEP_KINDS, fails,
+               f"register canary: {_e.get('url')} has kind {_e.get('kind')!r}; nobody decided "
+               f"to leave it out of the sitemaps")
+        _lf = _e.get("linked_from")
+        if _lf:
+            _src = _lf[len(_origin):] or "/"
+            _sp = os.path.join(out, "index.html" if _src == "/" else _src.lstrip("/") + ".html")
+            _tgt = _e["url"][len(_origin):]
+            _ok = os.path.exists(_sp) and (f'href="{_tgt}"' in open(_sp, encoding="utf-8").read()
+                                          or f'href="{_tgt}.html' in open(_sp, encoding="utf-8").read())
+            _check(_ok, fails, f"register canary: {_e['url']} says it is linked from {_lf}, "
+                   f"which does not link it")
+    # every game page the build wrote is a game entry
+    _gdir = os.path.join(out, "games")
+    for _f in (sorted(os.listdir(_gdir)) if os.path.isdir(_gdir) else []):
+        _k = {e["url"]: e["kind"] for e in _ents}.get(f"{_origin}/games/{_f[:-5]}")
+        _check(_k == "game", fails, f"register canary: game page {_f} is registered as {_k!r}")
+    # and the build log says the count, beside the sitemap counts
+    _check(f"deep urls: {len(_ents)} in no sitemap" in log, fails,
+           "register canary: the build log does not print the register's count")
     return fails
 
 
@@ -958,6 +1050,7 @@ def layer1_canary():
 
     fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
+    fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source
