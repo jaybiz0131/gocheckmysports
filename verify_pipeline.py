@@ -853,6 +853,100 @@ def _h6_hour_sweep():
     return fails
 
 
+def _indexnow_canary(out=None, script=None):
+    """IndexNow: the key file is exactly the key, and the submitter sends what it should.
+
+    Read from the gate's own throwaway tree and scripts/indexnow.py with its network seams
+    replaced by fixtures: no request leaves this process. The key is public by design.
+    """
+    import importlib.util as _iu
+    import io as _io
+    import contextlib as _cl
+    fails = []
+    _KEY = "75487c1df3b38a38ef2793600c7e7bf7"
+    out = out or _built_tree()
+    _check(bool(out), fails, "indexnow canary: the gate's own build failed, so nothing below was checked")
+    if out:
+        _kf = os.path.join(out, _KEY + ".txt")
+        _check(os.path.exists(_kf), fails, f"indexnow canary: the build wrote no /{_KEY}.txt")
+        if os.path.exists(_kf):
+            _raw = open(_kf, "rb").read()
+            _check(_raw == _KEY.encode(), fails,
+                   f"indexnow canary: the key file holds {_raw!r}, not exactly the key (no newline)")
+    _sp = script or os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts", "indexnow.py")
+    _check(os.path.exists(_sp), fails, "indexnow canary: scripts/indexnow.py does not exist")
+    if not os.path.exists(_sp):
+        return fails
+    _spec = _iu.spec_from_file_location("indexnow_under_test", _sp)
+    _m = _iu.module_from_spec(_spec)
+    _spec.loader.exec_module(_m)
+    _check(_m.KEY == _KEY, fails, f"indexnow canary: the script's key is {_m.KEY!r}, not the family key")
+    _check(_m.KEY_LOCATION == f"https://gocheckmysports.com/{_KEY}.txt", fails,
+           f"indexnow canary: keyLocation is {_m.KEY_LOCATION!r}")
+    _H = "https://gocheckmysports.com"
+    _pages = {
+        _H + "/sitemap.xml": (f"<sitemapindex><sitemap><loc>{_H}/a.xml</loc></sitemap>"
+                              f"<sitemap><loc>{_H}/b.xml</loc></sitemap></sitemapindex>"),
+        _H + "/a.xml": f"<urlset><url><loc>{_H}/one</loc></url><url><loc>{_H}/two</loc></url></urlset>",
+        _H + "/b.xml": (f"<urlset><url><loc>{_H}/two</loc></url><url><loc>https://other.example/x"
+                        f"</loc></url><url><loc>{_H}/three</loc></url></urlset>"),
+    }
+    _got = _m.sitemap_urls(lambda u: _pages[u])
+    _check(_got == [_H + "/one", _H + "/two", _H + "/two", "https://other.example/x", _H + "/three"],
+           fails, f"indexnow canary: the sitemap fixture parsed to {_got}")
+    _one = {_H + "/sitemap.xml": f"<urlset><url><loc>{_H}/solo</loc></url></urlset>"}
+    _check(_m.sitemap_urls(lambda u: _one[u]) == [_H + "/solo"], fails,
+           "indexnow canary: a site with one sitemap and no index parsed wrongly")
+    _sent = []
+
+    def _ok(status):
+        def _send(payload):
+            _sent.append(payload)
+            return status, "body-text"
+        return _send
+    _buf = _io.StringIO()
+    with _cl.redirect_stdout(_buf):
+        _rc = _m.main([], get=lambda u: _pages[u], send=_ok(200))
+    _check(_rc == 0 and len(_sent) == 1, fails, f"indexnow canary: a clean send returned {_rc} with {len(_sent)} batch(es)")
+    if _sent:
+        _b = _sent[0]
+        _check(_b.get("host") == "gocheckmysports.com" and _b.get("key") == _KEY
+               and _b.get("keyLocation") == _m.KEY_LOCATION, fails,
+               f"indexnow canary: the request body carries {sorted(_b)} with host {_b.get('host')!r}")
+        _check(_b.get("urlList") == [_H + "/one", _H + "/two", _H + "/three"], fails,
+               f"indexnow canary: the urlList is {_b.get('urlList')}, not the own-host URLs once each")
+    _check("1 batch" in _buf.getvalue() or "batch 1: 3 URL(s), HTTP 200" in _buf.getvalue(), fails,
+           f"indexnow canary: the run did not print the count and status: {_buf.getvalue()!r}")
+    for _st in (202,):
+        with _cl.redirect_stdout(_io.StringIO()):
+            _check(_m.main([_H + "/x"], send=_ok(_st)) == 0, fails, f"indexnow canary: {_st} was treated as a failure")
+    for _st in (400, 403, 422, 429):
+        _b2 = _io.StringIO()
+        with _cl.redirect_stdout(_b2):
+            _rc = _m.main([_H + "/x"], send=_ok(_st))
+        _check(_rc != 0, fails, f"indexnow canary: HTTP {_st} exited {_rc}, not non-zero")
+        _check("body-text" in _b2.getvalue() and str(_st) in _b2.getvalue(), fails,
+               f"indexnow canary: HTTP {_st} did not print the response body: {_b2.getvalue()!r}")
+    # the workflow step exists and submits what the brief commit changed, after the deploy served
+    _wf = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".github", "workflows",
+                       "sports-news-brief.yml")
+    _wt = open(_wf, encoding="utf-8").read() if os.path.exists(_wf) else ""
+    _check("scripts/indexnow.py --content" in _wt and "name: IndexNow" in _wt, fails,
+           "indexnow canary: sports-news-brief.yml has no IndexNow step")
+    _check(_wt.find("name: IndexNow") > _wt.find("run: python3 deploy_check.py") > 0, fails,
+           "indexnow canary: the IndexNow step does not come after the deploy check")
+    _check("indexnow: submission refused or failed (advisory" in _wt and "::error::indexnow" not in _wt,
+           fails, "indexnow canary: the IndexNow step is not advisory")
+    # batches of at most 10,000
+    _sent.clear()
+    _many = [f"{_H}/p{n}" for n in range(10001)]
+    with _cl.redirect_stdout(_io.StringIO()):
+        _m.main(_many, send=_ok(200))
+    _check([len(b["urlList"]) for b in _sent] == [10000, 1], fails,
+           f"indexnow canary: 10,001 URLs went as {[len(b['urlList']) for b in _sent]}")
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1124,6 +1218,7 @@ def layer1_canary():
     fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
+    fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source

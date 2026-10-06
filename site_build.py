@@ -77,6 +77,7 @@ DESK_LINE = "The daily sports desk that checks the story before it runs."   # se
 FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmysports.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmysports.com"         # canonical origin for canonical/og:url/sitemap
+INDEXNOW_KEY = "75487c1df3b38a38ef2793600c7e7bf7"      # public by design; see the IndexNow note in build()
 
 # RETIRED URLS keep working (ported from the news chassis 2026-08-25). When the desk
 # publishes the same development more than once and the duplicates are merged, the
@@ -11727,6 +11728,12 @@ def build():
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
       '        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n'
       + ("\n".join(news_rows) + "\n" if news_rows else "") + "</urlset>\n")
+
+    # INDEXNOW (2026-10-06): the proof of ownership Bing, Yandex, Seznam and Naver read. The
+    # file's whole content is the key, no newline, served as text/plain. The key is public by
+    # design (the file is), the same on every site in the family, and scripts/indexnow.py
+    # names the same value; the canary asserts they agree.
+    w(f"{INDEXNOW_KEY}.txt", INDEXNOW_KEY)
 
     w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n"
                     f"Sitemap: {ORIGIN}/news-sitemap.xml\n")
