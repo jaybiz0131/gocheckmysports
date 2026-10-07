@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c129",
-    "headline": "Mariners call up top pitching prospect Kade Anderson for Saturday start vs. Cubs",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions explicitly states: 'The fetched source text is malformed (contains only CSS and font declarations with no article content). No facts about the call-up timing, Anderson's ranking, the Cubs matchup, or the Mariners' roster context are recoverable from the provided source_text.' The draft asserts Anderson is 'ranked as baseball's top pitching prospect' and describes a 'Saturday start against the Chicago Cubs' with no recoverable source support. All core facts are smuggled; the brief contains zero data_points to back the draft.",
-     "The hard rule is violated: 'no fact exists outside the brief.' The draft's factual claims about Anderson's ranking and the Cubs matchup exist nowhere in the brief."
-    ]
-   },
-   {
-    "id": "c065",
-    "headline": "UEFA and Concacaf in talks on combined Nations League tournament",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions state: 'The fetched source text is truncated and does not contain substantive reporting beyond headline-level claims. Details on the timeline, specific confederate votes or resolutions, tournament format, competitive structure, or financial terms are missing.' The draft asserts the confederations are 'seeking to challenge FIFA leadership under Gianni Infantino' and describes this as 'a coordinated move by the two confederations to challenge FIFA leadership.' However, the brief data_point says 'The confederations are seeking to oust Gianni Infantino' with confidence 'reported' from a truncated source. The draft's phrasing ('challenge FIFA leadership') is softer than the brief's data point ('oust'), but the claim itself relies on a source that is admittedly truncated with no substantive reporting. The draft should not present this interpretation as settled fact from a compromised source.",
-     "The draft states 'The Guardian's reporting does not provide details on...' and 'It is unclear whether FIFA has formally responded...' These sentences narrate absence and open_questions rather than facts from the brief, violating the rule against restating open_questions as prose. The draft should not remind readers of what was not reported."
-    ]
-   },
-   {
-    "id": "c122",
-    "headline": "Cardinals score six in ninth on dropped final out, account for 10 runs in wild inning",
-    "category": "accuracy",
-    "reasons": [
-     "Bottom line states 'The story's open questions include the final score, which Reds player made the error, the specific play situation, and who drove in the winning run.' This violates the no-narration-of-absence rule: the writer cannot describe what the brief's open_questions contain as though it is reporting omissions in the published source. This is restating gaps rather than reporting facts. The bottom_line should look forward to what to watch, not restate what the brief says remains unknown."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
   "approved": 5,
   "rejected": [
    {
@@ -7683,6 +7651,65 @@
     "reasons": [
      "Draft presents Hukporti's season-ending status as settled fact ('will miss the entire 2026-27 NBA season') but the brief marks this data_point 'announced-not-verified', meaning the team announced it but verification is incomplete. The draft must acknowledge this uncertainty per confidence-label survival rule.",
      "The phrase 'If Hukporti's season-ending status is confirmed' appears late in the draft (paragraph 5) and contradicts the definitive opening statement. This internal inconsistency signals the draft glossed over the confidence qualifier to strengthen the lede."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-07",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c153",
+    "headline": "Dodgers Lead Braves 2-1 in NLDS; Game 4 on FS1 Wednesday, October 7",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Game 4 as scheduled for 'Wednesday at Truist Park' but the title and opening state the game is 'on FS1 Wednesday, October 7.' Today is Wednesday, October 7, 2026. Game 4 cannot be both today and in the future; the draft conflates a scheduled event with a past event by treating it as already completed or imminent without clarity on timing. The body says 'can advance' (future conditional), but the title and lead frame it as current/present. The brief's data_points confirm Game 4 is scheduled for October 7 at 7:30 p.m. ET, not yet played."
+    ]
+   },
+   {
+    "id": "c308",
+    "headline": "Dream Lead Liberty 1-0 in WNBA Semifinal; Game 2 Wednesday, October 7 at 7:30 p.m. ET",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Game 2 is scheduled for Wednesday, October 7 at 7:30 p.m. ET on ESPN at State Farm Arena in Atlanta.' Today is Wednesday, October 7, 2026. The draft does not clarify whether Game 2 has been played or is upcoming. A scheduled event on today's date must be written as 'is scheduled for later today' or 'Wednesday evening' to avoid ambiguity about whether it is past or future. The brief's data confirms Game 2 is scheduled for October 7 at 7:30 p.m. ET, but the draft's phrasing is unclear on temporal status given today's date.",
+     "the draft dates October 6, 2026 as a Sunday; October 6, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "NFL Referees Union Challenges Suspensions of Seeman, Hill as Excessive",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates October 5, 2026 as a Sunday; October 5, 2026 is a Monday"
+    ]
+   },
+   {
+    "id": "c63",
+    "headline": "Oregon Basketball Coach Dana Altman Retires Immediately, One Week Before Season Opener (October 6)",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates October 6, 2026 as a Wednesday; October 6, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c321",
+    "headline": "NCAA Division I Cabinet Approves 10-Day Transfer Portal Window Starting First Business Day After January 1",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is thin (thin=true) with only two data_points and 317 source characters. The core claim and the two data_points are all the brief carries. The draft faithfully reports those claims, but the open_questions in the brief ('Which specific date in January is the first business day following Jan. 1 in the applicable year, and does this vary year to year?' and 'When does this new window take effect\u2014which football season?') expose that the brief itself does not establish basic factual specificity about what was actually approved. The draft reproduces this vagueness without clarification ('The rule takes effect in the next football season' is not a specific season name; 'the first business day following January 1' remains unresolved as to which year or how to calculate it). A story this thin and this unclear on fundamental facts (which season? which year? which exact date?) reads as incomplete reporting, not a publishable news item. The desk should not run a story about an NCAA rule change when neither the draft nor the brief can specify which season it affects or what the actual implementation date will be."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "Rays Hold 2-0 ALDS Lead as Yankees Face Elimination in Game 3 on October 8 at 8 ET",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Game 3 is scheduled for 'Wednesday, October 8,' but today is Wednesday, 2026-10-07. October 8 is Thursday, not Wednesday. The draft correctly identifies it as 'Wednesday, October 8, at 8 p.m. ET' in the body but this is a factual error: if today is Wednesday 10-07, then October 8 is Thursday 10-08.",
+     "The draft contains a data point about Fried being '3-0 with a 0.84 ERA in three starts against the Rays during the 2025 season,' but the brief's timestamp and context indicate we are in the 2026 postseason. This appears to be a year-labeling error in the brief itself, but the draft repeats it without clarification, creating confusion about whether Fried's record cited is from 2025 or 2026 season play.",
+     "The brief's data_point states 'Fried held the Red Sox to one run on three hits over six innings' but attributes this to 'Game 2 of the AL Wild Card Series' in the data. However, the draft states 'Fried was sharp in the Wild Card Series against Boston, holding the Red Sox to one run on three hits over six innings with one walk and six strikeouts' without specifying which game this was, allowing ambiguity about whether this was a specific series game or a summarized statement.",
+     "The draft's Rays starting lineup includes 'Wander Franco (SS)' but the brief's data_point for the Rays lineup lists 'Walls (SS)' not Franco. This is a direct contradiction of a named fact from the research brief.",
+     "the draft dates October 8, 2026 as a Wednesday; October 8, 2026 is a Thursday"
     ]
    }
   ]
