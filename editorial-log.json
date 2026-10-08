@@ -4,61 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c051",
-    "headline": "James Harden returns to Cavaliers on three-year, $97 million deal",
-    "category": "accuracy",
-    "reasons": [
-     "The brief identifies a critical problem in its own open_questions: 'The provided source text from CBS Sports is corrupted navigation markup and does not contain substantive contract or transaction details.' This signals the sources themselves are compromised.",
-     "The brief notes the Yahoo source is the only substantive one available, yet the draft cites both Yahoo and CBS Sports as if both are reliable. The CBS Sports URL in the draft appears to be a college football page ('college-football/news/nfl-players-enter-college-football-transfer-portal'), which is inconsistent with an NBA contract story.",
-     "The draft states 'Harden was instrumental in the Cavaliers' run to the Eastern Conference Finals, per the same reporting' but the brief data_point says 'Harden was a key piece that helped the Cavaliers reach the NBA Eastern Conference Finals' (reported, Yahoo). The phrase 'per the same reporting' appears to attribute this to 'Yahoo NBA reporting' from the previous sentence, but the phrasing creates ambiguity about whether this comes from the Harden signing reporting or from separate source material.",
-     "The draft repeats the contract terms verbatim at the end ('The contract terms carry a total value of $97 million over three years, according to Yahoo NBA's reporting dated August 20, 2026') which is redundant and suggests padding rather than synthesis."
-    ]
-   },
-   {
-    "id": "c117",
-    "headline": "Marte placed on injured list after management meeting",
-    "category": "compliance",
-    "reasons": [
-     "Draft states 'Details about the specific injury that prompted the placement... were not available in the team's official announcement' and 'The source documentation confirms only the roster move itself, not the medical details or return timeline.' This is explicitly narrating absence\u2014restating what was NOT reported. The brief's open_questions note the injury details were not in source text, but the hard rule forbids narrating this absence in prose. A sentence that says 'details were not available' is itself an unverifiable claim about what should or should not exist.",
-     "The brief confidence label 'announced-not-verified' must survive in prose; the draft does not mark the move as unverified, merely notes missing details, which is a different (and prohibited) framing."
-    ]
-   },
-   {
-    "id": "c121",
-    "headline": "Jacob deGrom reaches 2,000 career strikeouts",
-    "category": "compliance",
-    "reasons": [
-     "Draft narrates absence: 'Details about the specific game in which deGrom achieved the mark, his performance in that outing, the opposing team, the date... were not available in the official announcement.' This violates the hard rule against narrating what was not reported.",
-     "The brief confidence label 'announced-not-verified' must survive in prose as uncertainty, not as a list of missing details.",
-     "Similar compliance violation in bottom_line: 'The source confirms the milestone itself but does not provide the game context or deGrom's performance details in that appearance.' Again narrating absence rather than reporting what is known."
-    ]
-   },
-   {
-    "id": "c058",
-    "headline": "Giants-Dolphins joint practice erupts in all-out melee, multiple players removed",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains factual claims not present in the brief. The brief's two data_points state only that 'A series of fights broke out between the two teams, leading to an all-out melee' and 'Multiple players were removed from the joint practice.' The draft adds: 'Joint practices, conducted during the NFL preseason to sharpen conditioning and competitive readiness, occasionally spark physical confrontations when players from different organizations collide at intensity.' This is contextual narration not in the brief\u2014it is the writer editorializing about why joint practices exist and what happens in them generally, not reporting what happened in this specific incident.",
-     "The draft states 'The incident raises the possibility of NFL discipline for both teams, though no official statement on potential sanctions has been reported.' This claim is not in the brief's data_points. The brief's bear_case is empty and open_questions exist, meaning the writer is forbidden from narrating absence or speculation about discipline. This sentence speculates about future NFL action not confirmed in reporting."
-    ]
-   },
-   {
-    "id": "c159",
-    "headline": "Bengals-Bears joint practice: Burrow in rare scuffle, Bears defense dominant over Williams",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's data_point for Lawrence states he 'is making his presence felt in Cincinnati' as a pass rush presence, but the draft claims 'Dexter Lawrence, acquired by Cincinnati in the offseason' without attribution to the CBS Sports source. The acquisition fact itself is not in the brief's data_points\u2014only his current performance is. This is smuggled information outside the research.",
-     "The draft presents 'Williams' struggles against Chicago's defense underscore the adjustment required for a rookie quarterback' as analytical interpretation, but the brief's corresponding data_point says the Bears defense 'terrorized' Williams. The word 'dominated' in the draft title matches the brief, but the body softens this to 'struggles' and 'underscore the adjustment,' which is a rewrite of the reported claim without attribution to CBS Sports in that specific sentence.",
-     "The phrase 'Burrow's uncharacteristic involvement in a physical altercation suggests the intensity level of the practice' treats speculation ('suggests') as fact. The brief marks the scuffle as 'reported' confidence and notes as an open_question 'Why is Burrow's involvement in the scuffle considered rare for him?'\u2014meaning the 'rare' claim exists in the brief, but the causal inference ('suggests intensity level') does not."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c088",
     "headline": "Max Fried on IL with elbow bone bruise; Boone offers update on Yankees ace",
     "category": "accuracy",
@@ -7710,6 +7655,49 @@
      "The brief's data_point states 'Fried held the Red Sox to one run on three hits over six innings' but attributes this to 'Game 2 of the AL Wild Card Series' in the data. However, the draft states 'Fried was sharp in the Wild Card Series against Boston, holding the Red Sox to one run on three hits over six innings with one walk and six strikeouts' without specifying which game this was, allowing ambiguity about whether this was a specific series game or a summarized statement.",
      "The draft's Rays starting lineup includes 'Wander Franco (SS)' but the brief's data_point for the Rays lineup lists 'Walls (SS)' not Franco. This is a direct contradiction of a named fact from the research brief.",
      "the draft dates October 8, 2026 as a Wednesday; October 8, 2026 is a Thursday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-08",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c150",
+    "headline": "Rays sweep Yankees 3-0 in ALDS, advance to ALCS",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the game occurred 'on October 8 at Yankee Stadium' but the brief data_point says 'The Rays defeated the Yankees 4-3 in Game 3 of the ALDS on Wednesday night at Yankee Stadium' with timestamp 2026-10-08T05:30:00Z. Today is Thursday, 2026-10-08. A game played on 'Wednesday night' cannot have occurred on the same day (Thursday) the story is being written. This is a temporal impossibility: either the game was October 7 (Wednesday) or the phrasing 'on October 8' is wrong. The draft reports a past event with a date that does not align with 'Wednesday night' language.",
+     "The draft reports 'Game 1 of the ALCS is set for Monday at Tropicana Field' but does not specify the date. If today is Thursday October 8, 'Monday' would be October 12, not October 11 as stated in the brief's data_point 'Game 1 of the ALCS is set for Monday at Tropicana Field.' The draft's bottom_line states 'The Rays will host Game 1 of the ALCS on October 11,' which contradicts the 'Monday' language in the body (October 12 is Monday if today is Thursday October 8).",
+     "The draft identifies 'Victor Mesa Jr.' as hitting a two-run home run in Game 3, but the brief lists 'Ryan Vilade hit a solo home run in the fourth inning off Max Fried in Game 3 for his postseason debut,' and separately 'Victor Mesa Jr. hit a two-run home run in the sixth inning off Max Fried in Game 3.' The draft correctly places Mesa's homer but lists 'Ryan Vidale' in the paragraph about Game 3 pitcher performance; Vidale is correctly named in the brief as 'Ryan Vilade.' The draft misspells 'Vilade' as 'Vidale.'"
+    ]
+   },
+   {
+    "id": "c172",
+    "headline": "Joey Porter Jr. ruled out with illness for Cowboys-Buccaneers Thursday Night Football on October 10",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports the Thursday Night Football game (October 10) as an event that has already occurred ('The team announced the decision,' 'Porter arrived at the stadium,' 'The team announced the decision roughly 1 hour 45 minutes before the 8:15 p.m. ET kickoff'). Today is October 8, 2026. The game is two days in the future and must be written as upcoming, not as a completed event. The entire draft is written in past tense as if the game has already been played, which is factually incorrect relative to the current date."
+    ]
+   },
+   {
+    "id": "c238",
+    "headline": "Missouri freshman DJ Jones receives heart transplant after team medical staff detects cardiac issue",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jones received his transplant on the evening of October 9, according to coach Eli Drinkwitz's announcement on October 10.' Today is October 8, 2026. October 9 and October 10 are in the future. The draft reports a future event as having already happened. The core narrative is written in past tense throughout ('received a heart transplant,' 'was detected,' 'had a transplant') when the transplant is a scheduled/announced future event relative to today's date.",
+     "The brief itself contains a data_point labeled 'announced-not-verified' ('Jones received his heart transplant on Wednesday night') which the draft treats as settled fact rather than a future-announced procedure. The confidence label demands conditional or forward-looking framing."
+    ]
+   },
+   {
+    "id": "c240",
+    "headline": "Oregon QB Dante Moore ruled out vs. UCLA on October 12; Dylan Raiola to start",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that Moore suffered the injury 'on September 26 in the second quarter against USC' but the brief's data points consistently refer to this as 'Sept. 26' without specifying the team was USC or that it occurred in the second quarter against USC. More critically, the draft reports 'came off the bench to lead the Ducks past USC on September 28' but the brief states Moore was injured 'on Sept. 26' when he 'gave himself up in the second quarter on a slide' \u2014 the injury happened on Sept. 26, not Sept. 28. The brief does not contain a data point confirming USC was the opponent on Sept. 26 or the specific date of the game where Raiola came in relief. The draft conflates the injury date (Sept. 26) with an implied game date (Sept. 28) without explicit sourcing.",
+     "The draft includes the claim 'USC linebacker Desman Stephens II was suspended for the tackle' in the opening section, but this specific claim about Stephens II's suspension appears in the brief's data_points with 'reported' confidence. However, the draft never explicitly states this suspension fact\u2014it only mentions the hit itself. The brief data_point exists but the draft does not carry it forward, so this is not a smuggled fact. However, the accuracy concern about dates and game sequencing remains.",
+     "The critical issue: the draft reports that Raiola 'came off the bench to lead the Ducks past USC on September 28' but the brief indicates Moore was injured on Sept. 26 and Raiola came in relief against USC. The brief does not explicitly confirm that the USC game occurred on September 28 or that it was already completed. Today is October 8, 2026, and the UCLA game is October 12. If the USC game was September 28, that is 10 days prior and the account is accurate. But the brief does not provide the date of the USC game, only that Moore was injured on Sept. 26 during a game against USC. The draft assumes facts about game dates not in the brief."
     ]
    }
   ]
