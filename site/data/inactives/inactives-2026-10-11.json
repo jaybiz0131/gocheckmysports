@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T19:05:33Z",
- "last_poll": "2026-10-11T19:05:43Z",
+ "last_change": "2026-10-11T19:10:52Z",
+ "last_poll": "2026-10-11T19:10:59Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -646,6 +646,15 @@
      "name": "Caleb Douglas",
      "pos": "WR",
      "status": "Out"
+    },
+    "4880346": {
+     "changed_at": null,
+     "detail": "Chest",
+     "feed_date": "2026-10-11T19:04Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Michael Taaffe",
+     "pos": "S",
+     "status": "Questionable"
     },
     "4912052": {
      "changed_at": null,
@@ -1829,19 +1838,46 @@
   "22": {
    "capped": true,
    "designations": {
+    "3051775": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Andrew Billings",
+     "pos": "DT",
+     "status": "Out"
+    },
     "3918331": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-09T22:16Z",
+     "feed_date": "2026-10-11T18:57Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Andrew Wingard",
      "pos": "S",
      "status": "Out"
     },
+    "4363408": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Starling Thomas V",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4430841": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Carson Beck",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4432708": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-10T15:35Z",
+     "feed_date": "2026-10-11T18:57Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Marvin Harrison Jr.",
      "pos": "WR",
@@ -1867,7 +1903,53 @@
     }
    },
    "id": "22",
-   "players": {},
+   "players": {
+    "3051775": {
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Andrew Billings",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "3918331": {
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Andrew Wingard",
+     "pos": "S",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4363408": {
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Starling Thomas V",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4430841": {
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Carson Beck",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4432708": {
+     "feed_date": "2026-10-11T18:57Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Marvin Harrison Jr.",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-11T16:47:27Z",
    "rows_returned": 25,
@@ -2396,6 +2478,15 @@
    },
    "id": "26",
    "players": {
+    "4037521": {
+     "feed_date": "2026-10-10T02:47Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Chazz Surratt",
+     "pos": "LB",
+     "reason": "Calf",
+     "via": "poll"
+    },
     "4432734": {
      "feed_date": "2026-10-05T19:05Z",
      "first_seen": "2026-10-11T19:05:33Z",
@@ -2420,6 +2511,15 @@
      "jersey": "",
      "name": "Montorie Foster Jr.",
      "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5151317": {
+     "feed_date": "2026-10-06T01:06Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Robert Henry Jr.",
+     "pos": "RB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -2796,7 +2896,7 @@
     "4242659": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-11T18:47Z",
+     "feed_date": "2026-10-11T18:56Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "Dayo Odeyingbo",
      "pos": "DE",
@@ -2814,7 +2914,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-11T15:50Z",
+     "feed_date": "2026-10-11T19:02Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -2828,6 +2928,15 @@
      "name": "Jamree Kromah",
      "pos": "DE",
      "status": "Out"
+    },
+    "4426374": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-10-11T18:55Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Tyrique Stevenson Sr.",
+     "pos": "CB",
+     "status": "Questionable"
     },
     "4430822": {
      "changed_at": null,
@@ -3968,7 +4077,7 @@
     "3910229": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-10T01:01Z",
+     "feed_date": "2026-10-11T18:56Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Rock Ya-Sin",
      "pos": "CB",
@@ -3983,10 +4092,28 @@
      "pos": "DT",
      "status": "Questionable"
     },
+    "4586333": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Mekhi Wingo",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4602788": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Jackson Meeks",
+     "pos": "WR",
+     "status": "Out"
+    },
     "4611506": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-10-10T02:32Z",
+     "feed_date": "2026-10-11T18:56Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Ben Bartch",
      "pos": "G",
@@ -4000,10 +4127,37 @@
      "name": "Brian Branch",
      "pos": "S",
      "status": "Out"
+    },
+    "4710422": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Ahmed Hassanein",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "5151810": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "name": "Bishop Fitzgerald",
+     "pos": "S",
+     "status": "Out"
     }
    },
    "id": "8",
    "players": {
+    "3910229": {
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Rock Ya-Sin",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
     "4586333": {
      "feed_date": "2026-10-05T18:40Z",
      "first_seen": "2026-10-11T19:01:47Z",
@@ -4011,6 +4165,24 @@
      "name": "Mekhi Wingo",
      "pos": "DT",
      "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4602788": {
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Jackson Meeks",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4611506": {
+     "feed_date": "2026-10-11T18:56Z",
+     "first_seen": "2026-10-11T19:10:52Z",
+     "jersey": "",
+     "name": "Ben Bartch",
+     "pos": "G",
+     "reason": "Foot",
      "via": "poll"
     },
     "4710422": {
