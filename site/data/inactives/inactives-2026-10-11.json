@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T18:55:35Z",
- "last_poll": "2026-10-11T18:55:41Z",
+ "last_change": "2026-10-11T19:01:47Z",
+ "last_poll": "2026-10-11T19:01:53Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -577,7 +577,7 @@
     },
     "4360488": {
      "changed_at": null,
-     "detail": "Concussion",
+     "detail": "Neck",
      "feed_date": "2026-10-11T18:39Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "JuJu Brents",
@@ -1934,7 +1934,7 @@
     "4431492": {
      "changed_at": null,
      "detail": "Finger",
-     "feed_date": "2026-10-11T18:31Z",
+     "feed_date": "2026-10-11T18:48Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "Roman Wilson",
      "pos": "WR",
@@ -2072,7 +2072,7 @@
     },
     "4241263": {
      "changed_at": null,
-     "detail": "Forearm",
+     "detail": "",
      "feed_date": "2026-10-10T16:17Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Charlie Kolar",
@@ -2081,7 +2081,7 @@
     },
     "4373684": {
      "changed_at": null,
-     "detail": "Foot",
+     "detail": "",
      "feed_date": "2026-10-11T01:02Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Scott Matlock",
@@ -2108,7 +2108,7 @@
     },
     "4612826": {
      "changed_at": null,
-     "detail": "Foot",
+     "detail": "",
      "feed_date": "2026-10-11T11:36Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Ladd McConkey",
@@ -2144,7 +2144,62 @@
     }
    },
    "id": "24",
-   "players": {},
+   "players": {
+    "3691739": {
+     "feed_date": "2026-10-10T00:28Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Derwin James Jr.",
+     "pos": "S",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "3843769": {
+     "feed_date": "2026-10-10T00:25Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Donte Jackson",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4040842": {
+     "feed_date": "2026-10-10T02:18Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Kayode Awosika",
+     "pos": "G",
+     "reason": "Lower Leg",
+     "via": "poll"
+    },
+    "4429025": {
+     "feed_date": "2026-10-09T20:43Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Quentin Johnston",
+     "pos": "WR",
+     "reason": "Chest",
+     "via": "poll"
+    },
+    "4683487": {
+     "feed_date": "2026-10-10T02:15Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Joe Alt",
+     "pos": "OT",
+     "reason": "Neck",
+     "via": "poll"
+    },
+    "4685553": {
+     "feed_date": "2026-10-10T00:37Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Brenen Thompson",
+     "pos": "WR",
+     "reason": "Quadriceps",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-11T16:47:45Z",
    "rows_returned": 25,
@@ -2201,7 +2256,17 @@
     }
    },
    "id": "25",
-   "players": {},
+   "players": {
+    "4693371": {
+     "feed_date": "2026-10-10T02:50Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "James Thompson Jr.",
+     "pos": "DT",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-11T16:47:53Z",
    "rows_returned": 25,
@@ -2990,13 +3055,13 @@
      "status": "Questionable"
     },
     "4035538": {
-     "changed_at": null,
+     "changed_at": "2026-10-11T19:01:47Z",
      "detail": "Groin",
-     "feed_date": "2026-10-11T18:06Z",
+     "feed_date": "2026-10-11T18:45Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "David Montgomery",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4242227": {
      "changed_at": null,
@@ -3820,7 +3885,35 @@
     }
    },
    "id": "8",
-   "players": {},
+   "players": {
+    "4586333": {
+     "feed_date": "2026-10-05T18:40Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Mekhi Wingo",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4710422": {
+     "feed_date": "2026-10-05T18:40Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Ahmed Hassanein",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5151810": {
+     "feed_date": "2026-10-05T18:40Z",
+     "first_seen": "2026-10-11T19:01:47Z",
+     "jersey": "",
+     "name": "Bishop Fitzgerald",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-11T16:49:09Z",
    "rows_returned": 25,
