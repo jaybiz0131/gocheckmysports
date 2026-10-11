@@ -496,6 +496,7 @@ def _built_tree():
     import subprocess as _sp
     import contextlib as _cl
     import site_build as _sb
+    from datetime import datetime as _dt_utc, timezone as _tz_utc
     root = os.path.dirname(os.path.abspath(__file__))
 
     def _dirty():
@@ -536,8 +537,28 @@ def _built_tree():
                 print(f"::error::gate build: {rel} was rewritten by the throwaway build and "
                       f"could not be restored from the index; the working tree is dirty")
     _at.register(_cleanup)
+    import player_index as _pix
+    _pix_save = (_pix.build, _pix.load)
     try:
         _sb.PUBLISH = os.path.join(tmp, "publish")
+        # THE PLAYER INDEX IS A FIXTURE HERE. build() fetches the team list and every roster
+        # from ESPN, and when that fails the site falls back to the committed
+        # site/data/players.json, which load() refuses once it is past STALE_HOURS (30). That
+        # file is only refreshed by the poller and the brief, both of which run THIS canary
+        # first, so one red canary froze the file, the file went stale, and S-2 turned red on
+        # any machine that could not reach ESPN ("the build wrote no player pages"): a gate
+        # whose input is refreshed only by what it gates. The sitemap check is about the
+        # build's own code, not about the league, so the index is fixed, fresh by the run's
+        # clock, and carries a designation so page_set() has a reason to write a page.
+        # Nothing is fetched and nothing is written to the tracked file.
+        _pnow = _dt_utc.now(_tz_utc.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        _pfix = {"built_at": _pnow, "teams_failed": 0, "players": [{
+            "name": "Canary Fixture", "slug": "canary-fixture", "team": "KC", "pos": "WR",
+            "jersey": "1", "roster": "active", "designation": "Questionable",
+            "detail": "Hamstring", "inactive_seen": _pnow[:10],
+            "designations": [], "next": {}}]}
+        _pix.build = lambda: _pfix
+        _pix.load = lambda: _pfix
         with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
             _sb.build()
         _BUILT["path"] = _sb.PUBLISH
@@ -551,6 +572,7 @@ def _built_tree():
         _BUILT["path"] = None
     finally:
         _sb.PUBLISH = real
+        _pix.build, _pix.load = _pix_save
     return _BUILT["path"]
 
 
@@ -2344,15 +2366,27 @@ def layer1_canary():
     # it while every page still builds clean.
     import lines as _ln
     import tempfile as _tf, os as _lo
+    import datetime as _cdt
+    # THE CLOCK. lines.log() drops a game whose kickoff is more than KEEP_DAYS old, so a
+    # fixture kickoff written as a calendar date goes stale on its own: 2026-09-27 plus
+    # KEEP_DAYS (12) was 2026-10-09, and from that day every C-1 case below read an empty
+    # file and the canary blocked every brief and every poller run. The kickoffs are now
+    # built from one frozen clock, the run's own, and handed to log() as `now`, so the
+    # window can never close under the fixture. The expired game is KEEP_DAYS + 30 behind
+    # the same clock, so it is out of the window by the same arithmetic on every day.
+    _cnow = _cdt.datetime.now(_cdt.timezone.utc).replace(microsecond=0)
+    _cfmt = "%Y-%m-%dT%H:%M:%SZ"
+    _ckick = (_cnow + _cdt.timedelta(days=2)).strftime(_cfmt)
+    _cold = (_cnow - _cdt.timedelta(days=_ln.KEEP_DAYS + 30)).strftime(_cfmt)
     _lsave = _ln.OUT
     _ln.OUT = _lo.path.join(tempfile_dir := _tf.mkdtemp(), "lines.json")
     try:
-        def _lg(detail, total, kick="2026-09-27T17:00:00Z"):
+        def _lg(detail, total, kick=_ckick):
             return [{"id": "L1", "start_utc": kick,
                      "line": {"provider": "DraftKings", "detail": detail,
                               "spread": -6.5, "total": total}}]
-        _d1 = _ln.log(_lg("KC -6", 46.5))
-        _d2 = _ln.log(_lg("KC -6.5", 47.5))
+        _d1 = _ln.log(_lg("KC -6", 46.5), now=_cnow)
+        _d2 = _ln.log(_lg("KC -6.5", 47.5), now=_cnow)
         _r = _ln.for_game(_d2, "L1")
         _check(_r and (_r["open"] or {}).get("detail") == "KC -6", fails,
              f"C-1 canary: the open line was overwritten by a later reading: "
@@ -2363,8 +2397,8 @@ def layer1_canary():
              f"C-1 canary: the move was not counted: {(_r or {}).get('moves')}")
 
         # An expired game leaves the file; a live one does not go with it.
-        _old = _ln.log([{"id": "OLD", "start_utc": "2020-01-01T00:00:00Z",
-                         "line": {"provider": "DraftKings", "detail": "X -1"}}])
+        _old = _ln.log([{"id": "OLD", "start_utc": _cold,
+                         "line": {"provider": "DraftKings", "detail": "X -1"}}], now=_cnow)
         _check("OLD" not in (_old.get("games") or {}), fails,
              "C-1 canary: a game months past its kickoff stayed in the file")
         _check("L1" in (_old.get("games") or {}), fails,
