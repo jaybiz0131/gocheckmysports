@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T15:40:47Z",
- "last_poll": "2026-10-11T15:40:53Z",
+ "last_change": "2026-10-11T15:45:32Z",
+ "last_poll": "2026-10-11T15:45:38Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -214,7 +214,7 @@
     "3916945": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-10T15:55Z",
+     "feed_date": "2026-10-11T15:38Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Darius Slayton",
      "pos": "WR",
@@ -222,7 +222,7 @@
     },
     "4037361": {
      "changed_at": null,
-     "detail": "Groin",
+     "detail": "",
      "feed_date": "2026-10-10T01:36Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Charvarius Ward",
@@ -232,24 +232,88 @@
     "4061956": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-09T23:53Z",
+     "feed_date": "2026-10-11T15:38Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Ashton Dulin",
      "pos": "WR",
      "status": "Out"
     },
+    "4370363": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Dalton Tucker",
+     "pos": "G",
+     "status": "Out"
+    },
     "4601021": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-10-10T02:08Z",
+     "feed_date": "2026-10-11T15:38Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jaylon Carlies",
      "pos": "LB",
      "status": "Out"
+    },
+    "4683423": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Riley Leonard",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "11",
-   "players": {},
+   "players": {
+    "3916945": {
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Darius Slayton",
+     "pos": "WR",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4061956": {
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Ashton Dulin",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4370363": {
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Dalton Tucker",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4601021": {
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Jaylon Carlies",
+     "pos": "LB",
+     "reason": "Ribs",
+     "via": "poll"
+    },
+    "4683423": {
+     "feed_date": "2026-10-11T15:38Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Riley Leonard",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -383,7 +447,7 @@
     },
     "4682745": {
      "changed_at": null,
-     "detail": "Foot",
+     "detail": "",
      "feed_date": "2026-10-09T20:51Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jaylen Wright",
@@ -419,7 +483,26 @@
     }
    },
    "id": "15",
-   "players": {},
+   "players": {
+    "4371946": {
+     "feed_date": "2026-10-06T01:00Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Reese Taylor",
+     "pos": "CB",
+     "reason": "Quadriceps",
+     "via": "poll"
+    },
+    "4869645": {
+     "feed_date": "2026-10-09T20:46Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Caleb Douglas",
+     "pos": "WR",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -603,7 +686,17 @@
     }
    },
    "id": "17",
-   "players": {},
+   "players": {
+    "4688779": {
+     "feed_date": "2026-10-10T01:54Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Channing Canada",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1597,7 +1690,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-11T15:35Z",
+     "feed_date": "2026-10-11T15:20Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -1930,10 +2023,19 @@
     "4401811": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-10T00:16Z",
+     "feed_date": "2026-10-11T15:35Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Kyle Dugger",
      "pos": "S",
+     "status": "Out"
+    },
+    "4429000": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Myles Hinton",
+     "pos": "OT",
      "status": "Out"
     },
     "4570546": {
@@ -1945,14 +2047,41 @@
      "pos": "LB",
      "status": "Questionable"
     },
-    "5092508": {
+    "4870866": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Connor Lew",
+     "pos": "C",
+     "status": "Out"
+    },
+    "5081542": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "5085189": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "name": "Jack Endries",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "5092508": {
+     "changed_at": "2026-10-11T15:45:32Z",
      "detail": "Knee",
-     "feed_date": "2026-10-09T21:24Z",
+     "feed_date": "2026-10-11T15:35Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Colbie Young",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
     }
    },
    "id": "4",
@@ -1975,6 +2104,15 @@
      "reason": "Coach's Decision",
      "via": "poll"
     },
+    "4870866": {
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Connor Lew",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "5081542": {
      "feed_date": "2026-10-05T18:34Z",
      "first_seen": "2026-10-11T15:40:47Z",
@@ -1991,6 +2129,15 @@
      "name": "Jack Endries",
      "pos": "TE",
      "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5092508": {
+     "feed_date": "2026-10-11T15:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Colbie Young",
+     "pos": "WR",
+     "reason": "Knee",
      "via": "poll"
     }
    },
@@ -2049,7 +2196,26 @@
     }
    },
    "id": "5",
-   "players": {},
+   "players": {
+    "4038457": {
+     "feed_date": "2026-10-10T02:09Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Teven Jenkins",
+     "pos": "G",
+     "reason": "Back",
+     "via": "poll"
+    },
+    "4241424": {
+     "feed_date": "2026-10-10T00:35Z",
+     "first_seen": "2026-10-11T15:45:32Z",
+     "jersey": "",
+     "name": "Tylan Wallace",
+     "pos": "WR",
+     "reason": "Knee",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2309,13 +2475,13 @@
      "status": "Questionable"
     },
     "4242390": {
-     "changed_at": "2026-10-11T15:40:47Z",
+     "changed_at": "2026-10-11T15:45:32Z",
      "detail": "Toe",
-     "feed_date": "2026-10-11T15:33Z",
+     "feed_date": "2026-10-10T02:22Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Aaron Banks",
      "pos": "G",
-     "status": "Out"
+     "status": "Doubtful"
     },
     "4360887": {
      "changed_at": null,
@@ -2336,13 +2502,13 @@
      "status": "Out"
     },
     "4428037": {
-     "changed_at": "2026-10-11T15:40:47Z",
+     "changed_at": "2026-10-11T15:45:32Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-10-11T15:33Z",
+     "feed_date": "2026-10-10T02:27Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jacob Monk",
      "pos": "C",
-     "status": "Out"
+     "status": "Doubtful"
     },
     "4569661": {
      "changed_at": null,
@@ -2354,13 +2520,13 @@
      "status": "Questionable"
     },
     "4887255": {
-     "changed_at": "2026-10-11T15:40:47Z",
+     "changed_at": "2026-10-11T15:45:32Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-11T15:33Z",
+     "feed_date": "2026-10-06T18:21Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Anthony Campbell",
      "pos": "DT",
-     "status": "Out"
+     "status": "Questionable"
     }
    },
    "id": "9",
