@@ -56,7 +56,7 @@ Failure emails, one per failed run:
 - Projection for a Sunday window (15:00Z to 04:59Z, 14 hours, 12 ticks an hour): 168 failed runs.
 - After: 1 failed run per cause (plus the one issue notification), however many ticks the cause spans.
 
-Not yet observed live: no poller tick has run on the new workflow (the latest run, 1806, is from 02:55Z, on 8016e36). The first Worker tick is expected from 15:00Z. `poller_alarm.py` is proven against a stub `gh` only; the `gh issue list --search` quoting and the `issues: write` grant have not run in Actions.
+Observed live: run 1807 (`workflow_dispatch`, 15:00:35Z, on `0700451`, the first tick on the new workflow) concluded success: "Rebuild and push" success, "Say why once" skipped, "Close the alarm" success (so `poller_alarm.py` ran under the job's `GITHUB_TOKEN`, listed issues, found none open and exited 0), and it pushed `af3e7d3 inactives: snapshot 15:02Z`, the first snapshot since 2026-10-09T00:05Z. The red path (issue creation, repeat notice, close) has run only against a stub `gh`; no issue titled "push gate red" exists.
 
 ## Item 2, standings
 
@@ -66,7 +66,7 @@ Read on production by stamp, after the merges:
 - `/stamp.txt` at 10:52 AM EDT: `commit 070045164561b91c77ee6ede9780e8f8664ef78c`, built 2026-10-11T14:47:52+00:00 (merge of #101). The deploy before it was `2fd5ca2`, built 14:44:44Z.
 - `/standings/nfl.html`: meta `build-commit` `070045164561b91c77ee6ede9780e8f8664ef78c`, "Updated 10:47 AM ET", no stale marker, AFC East BUF 3-1, NE 2-2, NYJ 1-3, MIA 0-4.
 
-Open, structural: nothing in the repo rebuilds the site on a clock, so any stretch of 30 hours without a site-changing commit marks the tables stale again. A scheduled Netlify build hook (netlify_ignore.py already expects "a scheduled or hook build") would close it; not built, because it adds deploys against the 12 and 16 a day limits and that is Jack's number. The committed `site/data/standings.json` is still `2026-10-09T00:03:59Z`; builds do not commit it.
+Open, structural: nothing in the repo rebuilds the site on a clock, so any stretch of 30 hours without a site-changing commit marks the tables stale again. A scheduled Netlify build hook (netlify_ignore.py already expects "a scheduled or hook build") would close it; not built, because it adds deploys against the 12 and 16 a day limits and that is Jack's number. The committed `site/data/standings.json` was `2026-10-09T00:03:59Z` until the poller's first successful push (`af3e7d3`, 15:02Z) rewrote it with the rest of `site/data`; builds alone do not commit it.
 
 ## Item 3, the hand-run brief
 
@@ -89,17 +89,17 @@ Both merges were real merge commits made on GitHub (merge method "merge"); neith
 
 ## Counts
 
-- Deploys today at 10:57 AM EDT, from the Worker's `/counts/today`: gocheckmysports production ready 4 (2 were already there at session start, 2 are the merges `2fd5ca2` and `070045`), deploy previews ready 2. Limit 16 on a Sunday; this close is docs-only and `docs/` is skipped by `netlify_ignore.py`, so it adds none.
+- Deploys today at 10:57 AM EDT, from the Worker's `/counts/today`: gocheckmysports production ready 4 (2 were already there at session start, 2 are the merges `2fd5ca2` and `070045`), deploy previews ready 2. Limit 16 on a Sunday; the poller's snapshot `af3e7d3` (15:02Z) changes files outside the skippable set, so it may add a build the counter had not shown at the time of this read; this close is docs-only and `docs/` is skipped by `netlify_ignore.py`, so it adds none.
 - Canary runs this session: 1 on origin/main (red, 4 failures), 1 on the fix (green), 5 planted (all red as named), 1 at +95 days (green), 2 on PR runners (both green), 1 in brief run 466 (green). The runner canary took 1m44s and 1m34s; this sandbox takes about 4 minutes.
 - Failing poller runs counted above; the brief runs 458 to 465 were all failures before this session.
 - Model spend this session: none by me. Run 466 made no model call.
 
 ## Open
 
-- First live tick of the poller on the new workflow, and the first alarm issue if it goes red (see item 1).
+- The poller's red path in Actions (issue open, repeat notice, close) is unexercised; the green path has run once (run 1807).
 - Edition gap: red until an edition is published (item 3 decision).
 - The masthead date on production pages still reads "OCTOBER 8, 2026" (taken from the newest edition); seen on the standings page, not investigated.
 - A scheduled rebuild for standings (item 2).
 - Jack: option A or B above; whether a scheduled rebuild is worth deploys.
 
-Ended 10:59 AM EDT.
+Ended: Sun Oct 11 11:02:46 EDT 2026 (shell date, ET).
