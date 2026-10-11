@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T16:00:58Z",
- "last_poll": "2026-10-11T16:01:02Z",
+ "last_change": "2026-10-11T16:05:42Z",
+ "last_poll": "2026-10-11T16:05:48Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -372,7 +372,7 @@
     "4260394": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-11T15:55Z",
+     "feed_date": "2026-10-11T15:42Z",
      "first_seen": "2026-10-11T15:55:31Z",
      "name": "Aidan O'Connell",
      "pos": "QB",
@@ -740,7 +740,7 @@
     "4429205": {
      "changed_at": "2026-10-11T15:55:31Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-11T15:44Z",
+     "feed_date": "2026-10-11T15:45Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jordan Addison",
      "pos": "WR",
@@ -1061,7 +1061,7 @@
     "3124890": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-09T22:30Z",
+     "feed_date": "2026-10-11T15:54Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Kaden Elliss",
      "pos": "LB",
@@ -1070,7 +1070,7 @@
     "3925350": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-10T01:54Z",
+     "feed_date": "2026-10-11T15:54Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Anfernee Jennings",
      "pos": "LB",
@@ -1094,14 +1094,23 @@
      "pos": "DT",
      "status": "Out"
     },
-    "4429040": {
+    "4361259": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4429040": {
+     "changed_at": "2026-10-11T16:05:42Z",
      "detail": "Illness",
-     "feed_date": "2026-10-10T22:27Z",
+     "feed_date": "2026-10-11T15:54Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Vernon Broughton",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4432768": {
      "changed_at": null,
@@ -1115,7 +1124,7 @@
     "4433938": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-10T01:58Z",
+     "feed_date": "2026-10-11T15:54Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jeremiah Wright",
      "pos": "G",
@@ -1147,10 +1156,28 @@
      "name": "Barion Brown",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4775268": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Mike Reid",
+     "pos": "CB",
+     "status": "Out"
     }
    },
    "id": "18",
    "players": {
+    "3124890": {
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Kaden Elliss",
+     "pos": "LB",
+     "reason": "Calf",
+     "via": "poll"
+    },
     "3925350": {
      "feed_date": "2026-10-10T01:54Z",
      "first_seen": "2026-10-11T16:00:58Z",
@@ -1167,6 +1194,42 @@
      "name": "Nathan Shepherd",
      "pos": "DT",
      "reason": "Illness",
+     "via": "poll"
+    },
+    "4361259": {
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429040": {
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Vernon Broughton",
+     "pos": "DT",
+     "reason": "Illness",
+     "via": "poll"
+    },
+    "4433938": {
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Jeremiah Wright",
+     "pos": "G",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4775268": {
+     "feed_date": "2026-10-11T15:54Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Mike Reid",
+     "pos": "CB",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1528,6 +1591,15 @@
      "pos": "RB",
      "status": "Out"
     },
+    "4240456": {
+     "changed_at": null,
+     "detail": "Abdomen",
+     "feed_date": "2026-10-11T15:56Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Michael Carter II",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4241372": {
      "changed_at": null,
      "detail": "Ankle",
@@ -1546,6 +1618,15 @@
      "pos": "WR",
      "status": "Out"
     },
+    "4362805": {
+     "changed_at": null,
+     "detail": "Shoulder",
+     "feed_date": "2026-10-11T15:58Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Tyler Steen",
+     "pos": "G",
+     "status": "Questionable"
+    },
     "4372051": {
      "changed_at": null,
      "detail": "Undisclosed",
@@ -1556,13 +1637,13 @@
      "status": "Questionable"
     },
     "4431545": {
-     "changed_at": null,
+     "changed_at": "2026-10-11T16:05:42Z",
      "detail": "Foot",
-     "feed_date": "2026-10-11T14:58Z",
+     "feed_date": "2026-10-11T15:53Z",
      "first_seen": "2026-10-11T15:40:47Z",
      "name": "Will Shipley",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4567802": {
      "changed_at": null,
@@ -2414,6 +2495,15 @@
      "pos": "S",
      "status": "Out"
     },
+    "4372463": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Jamree Kromah",
+     "pos": "DE",
+     "status": "Out"
+    },
     "4430822": {
      "changed_at": null,
      "detail": "Achilles",
@@ -2432,6 +2522,15 @@
      "pos": "QB",
      "status": "Out"
     },
+    "4432595": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Ozzy Trapilo",
+     "pos": "OT",
+     "status": "Out"
+    },
     "4432804": {
      "changed_at": null,
      "detail": "Knee - ACL",
@@ -2444,16 +2543,25 @@
     "4608686": {
      "changed_at": null,
      "detail": "Toe",
-     "feed_date": "2026-10-09T17:06Z",
+     "feed_date": "2026-10-11T15:57Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Kyle Monangai",
      "pos": "RB",
      "status": "Out"
     },
+    "4877376": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "name": "Jayden Loving",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4911952": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-10T02:01Z",
+     "feed_date": "2026-10-11T15:57Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Keyshaun Elliott",
      "pos": "LB",
@@ -2462,6 +2570,15 @@
    },
    "id": "3",
    "players": {
+    "4372463": {
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Jamree Kromah",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4431611": {
      "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T16:00:58Z",
@@ -2471,6 +2588,15 @@
      "reason": "Hamstring",
      "via": "poll"
     },
+    "4432595": {
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Ozzy Trapilo",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4608686": {
      "feed_date": "2026-10-09T17:06Z",
      "first_seen": "2026-10-11T16:00:58Z",
@@ -2478,6 +2604,24 @@
      "name": "Kyle Monangai",
      "pos": "RB",
      "reason": "Toe",
+     "via": "poll"
+    },
+    "4877376": {
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Jayden Loving",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4911952": {
+     "feed_date": "2026-10-11T15:57Z",
+     "first_seen": "2026-10-11T16:05:42Z",
+     "jersey": "",
+     "name": "Keyshaun Elliott",
+     "pos": "LB",
+     "reason": "Quadriceps",
      "via": "poll"
     }
    },
