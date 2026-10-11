@@ -1,31 +1,5 @@
 [
  {
-  "date": "2026-08-21",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c088",
-    "headline": "Max Fried on IL with elbow bone bruise; Boone offers update on Yankees ace",
-    "category": "accuracy",
-    "reasons": [
-     "Brief explicitly flags in open_questions: 'The provided Sporting News source text is truncated and does not contain the full article or Boone's specific update or quotes about Fried's recovery timeline. The exact nature of Boone's 'hopeful' update and the specific return timeline he discussed are not present in the available source material.'",
-     "Draft presents as definite fact: 'Yankees manager Aaron Boone has addressed the injury and Fried's status, providing comment on the pitcher's outlook.' The brief confirms Boone provided comment, but the actual substance of that comment (what Boone said, what the 'hopeful' outlook entails) is not in the provided source text.",
-     "Draft states 'Boone's public update signals an effort to manage expectations and provide clarity on next steps, though the specific return timeline and recovery details remain limited in available reporting.' This is acceptable caution language, but the earlier sentence 'Boone has addressed the injury and Fried's status, providing comment' risks overstating what is actually documented in the truncated sources.",
-     "Core problem: Brief is marked 'thin: true' with missing source material. The draft should either wait for full sources or substantially more constrain what it claims about Boone's statement. As written, it presents a sourced comment (Boone's update) without the actual content of that comment being in the brief's data_points."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Root begins second captaincy with innings victory over Pakistan",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief exists for this story. Per the approval mandate, 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft claims 'Joe Root returned to the England captain's role,' 'steering his team to an innings victory against Pakistan in the opening Test at Headingley,' and that 'Root described the performance as outstanding' \u2014 all attributed to 'BBC Sport reporting on August 21.' However, the single cited source is a video URL with no article text provided to verify these claims. The draft presents specific factual assertions (an innings victory, Root's captaincy return, a specific quote) that cannot be verified against the source material because that material is not available for review. This violates the hard rule that facts must trace to research.",
-     "The story is extremely thin (only two sentences of body) and the claims are unverified against the source. Without a research brief and without accessible source text, the desk cannot confirm the victory margin, the venue, the quote, or even the match outcome."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-22",
   "approved": 6,
   "rejected": [
@@ -7698,6 +7672,52 @@
      "The draft states that Moore suffered the injury 'on September 26 in the second quarter against USC' but the brief's data points consistently refer to this as 'Sept. 26' without specifying the team was USC or that it occurred in the second quarter against USC. More critically, the draft reports 'came off the bench to lead the Ducks past USC on September 28' but the brief states Moore was injured 'on Sept. 26' when he 'gave himself up in the second quarter on a slide' \u2014 the injury happened on Sept. 26, not Sept. 28. The brief does not contain a data point confirming USC was the opponent on Sept. 26 or the specific date of the game where Raiola came in relief. The draft conflates the injury date (Sept. 26) with an implied game date (Sept. 28) without explicit sourcing.",
      "The draft includes the claim 'USC linebacker Desman Stephens II was suspended for the tackle' in the opening section, but this specific claim about Stephens II's suspension appears in the brief's data_points with 'reported' confidence. However, the draft never explicitly states this suspension fact\u2014it only mentions the hit itself. The brief data_point exists but the draft does not carry it forward, so this is not a smuggled fact. However, the accuracy concern about dates and game sequencing remains.",
      "The critical issue: the draft reports that Raiola 'came off the bench to lead the Ducks past USC on September 28' but the brief indicates Moore was injured on Sept. 26 and Raiola came in relief against USC. The brief does not explicitly confirm that the USC game occurred on September 28 or that it was already completed. Today is October 8, 2026, and the UCLA game is October 12. If the USC game was September 28, that is 10 days prior and the account is accurate. But the brief does not provide the date of the USC game, only that Moore was injured on Sept. 26 during a game against USC. The draft assumes facts about game dates not in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-11",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c246",
+    "headline": "Georgia Defeats Alabama 20-17 in Tuscaloosa, Claims AP No. 1 Ranking",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having already occurred ('Georgia defeated Alabama 20-17 on October 11, 2026'), but today is October 11, 2026. A game scheduled for October 11 should be written as upcoming or conditionally past only if it occurred before the briefing timestamp. The brief timestamp is 2026-10-11T21:10:20Z, which is late evening on October 11. The draft does not establish that the game had concluded by the time of writing. The title and opening paragraph treat the result as settled fact without temporal clarity, creating ambiguity about whether this reports a completed event or forecasts one.",
+     "The phrase 'According to CBS Sports' reporting, Georgia benefited from a late no-call on what sources describe as an obvious pass interference' attributes the no-call observation to 'sources,' but the brief data_point says 'Georgia benefited from a late no penalty on an obvious pass interference, per reporting.' The draft's phrasing suggests CBS reported both the no-call AND the characterization as 'obvious,' but the brief's confidence label is 'reported' (not verified), and the draft does not signal uncertainty about whether the call was truly missed or obviously so\u2014it reads as established fact rather than contested interpretation. This is a contested officiating judgment and should be presented with more caution about sourcing.",
+     "The draft states 'Keelon Russell, 19 years old in his first year as the Crimson Tide's starting quarterback,' but the brief data_point says 'Russell was 19 years old at the time of the game.' The brief does not provide Russell's birthdate or confirm he was 19 at game time; it only says he was 19. The draft adds a definitive age without verification from the brief that 19 was his age on October 11, 2026. This is a minor but traceable gap."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "49ers LB Greenlaw ejected for head-butt in Seahawks game confrontation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The ejection left San Francisco without a starting linebacker for the remainder of the critical division matchup' but the brief's data_point says only 'The 49ers were left to play the remainder of the critical division game without a starting linebacker.' The draft adds the qualifier 'starting' which is not explicitly in the brief's phrasing, and more critically, the brief does not establish whether Greenlaw was the starter or whether the backup was a full replacement\u2014this is an inference beyond the brief's claim.",
+     "More importantly: the brief's open_questions include 'What was the final score of the Seahawks-49ers game and did the ejection materially affect the outcome?' This indicates the final score is not in the source material and should not be stated as fact in the draft. The draft should not claim impact without the outcome being verified in the brief.",
+     "The draft states the ejection 'left San Francisco without a starting linebacker' as fact, but this assumes Greenlaw was the starter and that no adequate replacement took over. The brief provides only that San Francisco was left without him; the 'starting' designation and the implication of weakness is a narrative addition not sourced to the brief."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "Atlanta Dream sweep Liberty, advance to 2026 WNBA Finals",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Atlanta Dream defeated the New York Liberty 85-83 on October 11, 2026, at Barclays Center in the final game of the WNBA semifinal series' but the brief's data_point says 'The Dream defeated the Liberty 85-83 on Friday at Barclays Center in the final game of the semifinal series.' Today is Sunday, October 11, 2026. Friday was October 9, 2026, not October 11, 2026. The draft has misdated the game to today when it occurred two days ago.",
+     "The brief is explicitly marked 'thin': true, with only four data_points. The open_questions note that the headline claim about Reese winning WNBA Defensive Player of the Year 'cannot be verified from the provided material,' but the draft makes no mention of any Defensive Player award, so this is not a failure in the draft itself\u2014it correctly omits the unverified claim.",
+     "The core factual error is the date. A draft that reports a past event (October 9) as occurring on the current date (October 11) when it already happened is an accuracy rejection."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Giants, Commanders End Week 5 in 27-27 Tie After Washington Clock Gaffe",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the game as having already occurred ('ended their Week 5 matchup in a 27-27 tie on October 11'), but today is Sunday, 2026-10-11. The timestamp in the brief (2026-10-11T21:05:33Z) indicates the game occurred on today's date, but the phrasing 'ended...on October 11' in past tense is appropriate only if the game has already concluded by the time of publication. The timestamp shows 21:05 UTC, which is consistent with a game that occurred earlier today. However, the draft must clarify the temporal relationship: if published today, the game should be written as having just concluded (e.g., 'concluded today in a 27-27 tie' or 'ended Sunday in a 27-27 tie'), not with the ambiguous past tense that suggests a completed historical event.",
+     "The draft introduces a claim about Daniels making 'his return from a knee injury' without sufficient source specificity. The brief lists this as 'reported' confidence from ESPN, but the ESPN video clip source does not explicitly contain injury details in its metadata. This is a health/injury claim about a named player that needs clear on-record sourcing, not just a general ESPN attribution to a video clip.",
+     "The draft characterizes John Harbaugh as 'clearly knowing he had gotten away with something,' which is ESPN's interpretive language, not a factual statement or Harbaugh's own words. The draft presents this as reporting fact rather than ESPN's analysis or opinion. This attribution is soft and reads as the desk's own take rather than a named outlet's assessment."
     ]
    }
   ]
