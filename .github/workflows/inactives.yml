@@ -55,6 +55,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write     # poller_alarm.py: one issue per episode of a red push gate
 
 jobs:
   poll:
@@ -145,13 +146,25 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && inputs.reconcile == 'true'
         run: python3 inactives.py --reconcile
 
+      # THE POLLER DOES NOT RUN THE PIPELINE CANARY (11 October 2026). It ran a full copy
+      # of it on every tick that saw a new inactive. The canary tests the editor, verifier,
+      # writer and approver replays, none of which this job touches, and it already runs on
+      # every push to main (verify-sports-pipeline.yml) and before every brief. When a
+      # fixture in it expired on 9 October the poller failed every five minutes, pushed
+      # nothing, saw the same inactives as new on the next tick, and failed again. What
+      # this job ships is a data snapshot made by the build, so its gate is the build and
+      # the odds gate, and a red gate is reported by poller_alarm.py: once, with the reason.
       - name: Rebuild and push
+        id: gate
         if: steps.changed.outputs.changed == 'true'
+        continue-on-error: true
         run: |
+          set +e
+          { python3 site_build.py && python3 odds_gate.py; } > "$RUNNER_TEMP/gate.log" 2>&1
+          rc=$?
+          tail -n 40 "$RUNNER_TEMP/gate.log"
+          if [ "$rc" != "0" ]; then echo "gate: build or odds gate exited $rc"; exit "$rc"; fi
           set -e
-          python3 verify_pipeline.py canary
-          python3 site_build.py
-          python3 odds_gate.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A site/data
@@ -162,6 +175,20 @@ jobs:
             if git push; then ok=true; break; fi
             echo "::warning::push rejected (attempt $i); rebasing"
             git pull --rebase --autostash origin main || {
-              echo "::error::rebase conflicted outside the snapshot"; git rebase --abort || true; exit 1; }
+              echo "rebase conflicted outside the snapshot"; git rebase --abort || true; exit 1; }
           done
-          [ "$ok" = true ] || { echo "::error::push failed after 3 attempts"; exit 1; }
+          [ "$ok" = true ] || { echo "push failed after 3 attempts"; exit 1; }
+
+      # A red gate fails ONE run (the first of the episode) and names its cause in an issue;
+      # every later red tick stays green and points at that issue. See poller_alarm.py.
+      - name: Say why once when the gate is red
+        if: steps.gate.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 poller_alarm.py --outcome failure --log "$RUNNER_TEMP/gate.log"
+
+      - name: Close the alarm when the gate is green again
+        if: steps.gate.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 poller_alarm.py --outcome success

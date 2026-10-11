@@ -407,6 +407,42 @@ def _workflow_canary():
     return fails
 
 
+def _poller_alarm_canary():
+    """11 October 2026: a red gate in the Inactives poller failed it every five minutes.
+
+    Two things are pinned. The decision table: the first red tick fails the run and opens an
+    issue, a repeat stays green, a green tick closes the issue. And the wiring: the poller
+    workflow routes its push step through poller_alarm.py and does not run a copy of this
+    canary on every tick.
+    """
+    import poller_alarm as _pa
+    fails = []
+    _check(_pa.decide("failure", False) == ("open", True), fails,
+           "poller alarm canary: the first red tick must open an issue and fail the run")
+    _check(_pa.decide("failure", True) == ("note", False), fails,
+           "poller alarm canary: a repeat red tick with an issue open must stay green")
+    _check(_pa.decide("success", True) == ("close", False), fails,
+           "poller alarm canary: a green tick must close the open issue")
+    _check(_pa.decide("success", False) == ("none", False), fails,
+           "poller alarm canary: a green tick with nothing open must do nothing")
+    _wf = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       ".github", "workflows", "inactives.yml")
+    _check(os.path.exists(_wf), fails, "poller alarm canary: inactives.yml is missing")
+    if os.path.exists(_wf):
+        _lines = [l for l in open(_wf, encoding="utf-8").read().split("\n")
+                  if not l.lstrip().startswith("#")]
+        _txt = "\n".join(_lines)
+        _check("verify_pipeline.py canary" not in _txt, fails,
+               "poller alarm canary: the Inactives poller runs its own copy of the pipeline "
+               "canary again; one red fixture then fails it every five minutes")
+        _check("poller_alarm.py --outcome failure" in _txt, fails,
+               "poller alarm canary: the poller does not report a red gate through poller_alarm.py")
+        _check("id: gate" in _txt and "continue-on-error: true" in _txt, fails,
+               "poller alarm canary: the push step is not a continue-on-error step, so a red "
+               "gate would fail every tick instead of once")
+    return fails
+
+
 def _us_date_canary():
     """US date order on the desk's own chrome. Owner ruling, 21 September 2026.
 
@@ -1246,6 +1282,7 @@ def layer1_canary():
     fails.extend(_conflict_canary())   # U-13
     fails.extend(_trailer_canary())    # 6 October 2026: no attribution trailers
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
+    fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
     fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
