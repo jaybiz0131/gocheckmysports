@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T18:50:47Z",
- "last_poll": "2026-10-11T18:50:56Z",
+ "last_change": "2026-10-11T18:55:35Z",
+ "last_poll": "2026-10-11T18:55:41Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -578,7 +578,7 @@
     "4360488": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-11T18:37Z",
+     "feed_date": "2026-10-11T18:39Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "JuJu Brents",
      "pos": "CB",
@@ -1934,7 +1934,7 @@
     "4431492": {
      "changed_at": null,
      "detail": "Finger",
-     "feed_date": "2026-10-11T18:48Z",
+     "feed_date": "2026-10-11T18:31Z",
      "first_seen": "2026-10-11T18:50:47Z",
      "name": "Roman Wilson",
      "pos": "WR",
@@ -2099,7 +2099,7 @@
     },
     "4433914": {
      "changed_at": null,
-     "detail": "Neck",
+     "detail": "",
      "feed_date": "2026-10-11T03:31Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Branson Taylor",
@@ -3643,10 +3643,28 @@
   "7": {
    "capped": true,
    "designations": {
+    "4241820": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4261090": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "name": "Jordan Jackson",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4372012": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-10T16:13Z",
+     "feed_date": "2026-10-11T18:41Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Pat Surtain II",
      "pos": "CB",
@@ -3655,10 +3673,37 @@
     "4382401": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-10-10T16:16Z",
+     "feed_date": "2026-10-11T18:41Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Riley Moss",
      "pos": "CB",
+     "status": "Out"
+    },
+    "4683535": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4868598": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5159802": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "name": "Dallen Bentley",
+     "pos": "TE",
      "status": "Out"
     }
    },
@@ -3673,6 +3718,15 @@
      "reason": "Coach's Decision",
      "via": "poll"
     },
+    "4261090": {
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "jersey": "",
+     "name": "Jordan Jackson",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4372012": {
      "feed_date": "2026-10-10T16:13Z",
      "first_seen": "2026-10-11T18:50:47Z",
@@ -3680,6 +3734,15 @@
      "name": "Pat Surtain II",
      "pos": "CB",
      "reason": "Ankle",
+     "via": "poll"
+    },
+    "4382401": {
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "jersey": "",
+     "name": "Riley Moss",
+     "pos": "CB",
+     "reason": "Ribs",
      "via": "poll"
     },
     "4683535": {
@@ -3697,6 +3760,15 @@
      "jersey": "",
      "name": "Kage Casey",
      "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5159802": {
+     "feed_date": "2026-10-11T18:41Z",
+     "first_seen": "2026-10-11T18:55:35Z",
+     "jersey": "",
+     "name": "Dallen Bentley",
+     "pos": "TE",
      "reason": "Coach's Decision",
      "via": "poll"
     }
