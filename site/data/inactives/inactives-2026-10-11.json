@@ -1,8 +1,8 @@
 {
  "day": "2026-10-11",
  "first_poll": "2026-10-11T15:00:46Z",
- "last_change": "2026-10-11T15:55:31Z",
- "last_poll": "2026-10-11T15:55:36Z",
+ "last_change": "2026-10-11T16:00:58Z",
+ "last_poll": "2026-10-11T16:01:02Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -372,7 +372,7 @@
     "4260394": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-11T15:42Z",
+     "feed_date": "2026-10-11T15:55Z",
      "first_seen": "2026-10-11T15:55:31Z",
      "name": "Aidan O'Connell",
      "pos": "QB",
@@ -740,7 +740,7 @@
     "4429205": {
      "changed_at": "2026-10-11T15:55:31Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-11T15:45Z",
+     "feed_date": "2026-10-11T15:44Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Jordan Addison",
      "pos": "WR",
@@ -1078,7 +1078,7 @@
     },
     "4035661": {
      "changed_at": null,
-     "detail": "Shoulder",
+     "detail": "",
      "feed_date": "2026-10-09T22:37Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Julian Blackmon",
@@ -1086,13 +1086,13 @@
      "status": "Questionable"
     },
     "4076951": {
-     "changed_at": null,
+     "changed_at": "2026-10-11T16:00:58Z",
      "detail": "Illness",
      "feed_date": "2026-10-11T01:36Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Nathan Shepherd",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4429040": {
      "changed_at": null,
@@ -1132,7 +1132,7 @@
     },
     "4685479": {
      "changed_at": null,
-     "detail": "Illness",
+     "detail": "",
      "feed_date": "2026-10-10T11:57Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Christen Miller",
@@ -1141,7 +1141,7 @@
     },
     "4698597": {
      "changed_at": null,
-     "detail": "Thigh",
+     "detail": "",
      "feed_date": "2026-10-09T22:25Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Barion Brown",
@@ -1150,7 +1150,26 @@
     }
    },
    "id": "18",
-   "players": {},
+   "players": {
+    "3925350": {
+     "feed_date": "2026-10-10T01:54Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Anfernee Jennings",
+     "pos": "LB",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4076951": {
+     "feed_date": "2026-10-11T01:36Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Nathan Shepherd",
+     "pos": "DT",
+     "reason": "Illness",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1697,7 +1716,7 @@
     "4038815": {
      "changed_at": "2026-10-11T15:50:37Z",
      "detail": "Toe",
-     "feed_date": "2026-10-11T15:40Z",
+     "feed_date": "2026-10-11T15:49Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Rico Dowdle",
      "pos": "RB",
@@ -2168,7 +2187,7 @@
     "2576980": {
      "changed_at": null,
      "detail": "Knee - MCL",
-     "feed_date": "2026-10-09T21:35Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Marcus Mariota",
      "pos": "QB",
@@ -2177,7 +2196,7 @@
     "2976212": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-09T15:40Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Stefon Diggs",
      "pos": "WR",
@@ -2195,7 +2214,7 @@
     "3929865": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-10T02:41Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Charles Omenihu",
      "pos": "DE",
@@ -2204,7 +2223,7 @@
     "4363097": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-10T02:39Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Percy Butler",
      "pos": "S",
@@ -2213,7 +2232,7 @@
     "4426403": {
      "changed_at": null,
      "detail": "Illness",
-     "feed_date": "2026-10-10T01:22Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Nick Cross",
      "pos": "S",
@@ -2222,15 +2241,33 @@
     "4572460": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-10T02:45Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Tyler Owens",
      "pos": "S",
+     "status": "Out"
+    },
+    "4605488": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "name": "Tanoa Togiai",
+     "pos": "G",
      "status": "Out"
     }
    },
    "id": "28",
    "players": {
+    "2576980": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Marcus Mariota",
+     "pos": "QB",
+     "reason": "Knee - MCL",
+     "via": "poll"
+    },
     "2976212": {
      "feed_date": "2026-10-09T15:40Z",
      "first_seen": "2026-10-11T15:55:31Z",
@@ -2238,6 +2275,51 @@
      "name": "Stefon Diggs",
      "pos": "WR",
      "reason": "Hamstring",
+     "via": "poll"
+    },
+    "3929865": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Charles Omenihu",
+     "pos": "DE",
+     "reason": "Groin",
+     "via": "poll"
+    },
+    "4363097": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Percy Butler",
+     "pos": "S",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4426403": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Nick Cross",
+     "pos": "S",
+     "reason": "Illness",
+     "via": "poll"
+    },
+    "4572460": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Tyler Owens",
+     "pos": "S",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4605488": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Tanoa Togiai",
+     "pos": "G",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -2326,7 +2408,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-11T15:47Z",
+     "feed_date": "2026-10-11T15:50Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -2342,13 +2424,13 @@
      "status": "Questionable"
     },
     "4431611": {
-     "changed_at": null,
+     "changed_at": "2026-10-11T16:00:58Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-11T12:26Z",
+     "feed_date": "2026-10-11T15:47Z",
      "first_seen": "2026-10-11T15:00:46Z",
      "name": "Caleb Williams",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4432804": {
      "changed_at": null,
@@ -2379,7 +2461,26 @@
     }
    },
    "id": "3",
-   "players": {},
+   "players": {
+    "4431611": {
+     "feed_date": "2026-10-11T15:47Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Caleb Williams",
+     "pos": "QB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4608686": {
+     "feed_date": "2026-10-09T17:06Z",
+     "first_seen": "2026-10-11T16:00:58Z",
+     "jersey": "",
+     "name": "Kyle Monangai",
+     "pos": "RB",
+     "reason": "Toe",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2933,7 +3034,7 @@
     "4431325": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-11T15:43Z",
+     "feed_date": "2026-10-11T15:49Z",
      "first_seen": "2026-10-11T15:50:37Z",
      "name": "Taylen Green",
      "pos": "QB",
