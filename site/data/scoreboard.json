@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-11T23:10:37Z",
+ "fetched_at": "2026-10-11T23:15:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "2:00 - 4th",
-     "detail": "2:00",
+     "status_short": "0:04 - 4th",
+     "detail": "0:04",
      "period": 4,
      "start_utc": "2026-10-11T20:05Z",
      "network": "CBS",
@@ -39,13 +39,13 @@
       "school": "Denver",
       "mascot": "Broncos",
       "rank": null,
-      "score": "20",
+      "score": "23",
       "record": "2-2",
       "periods": [
        "7",
        "3",
        "0",
-       "10"
+       "13"
       ],
       "id": "7",
       "color": "#0a2343"
@@ -70,12 +70,12 @@
        "team": "7"
       }
      ],
-     "situation": "4th & 7 at LAC 18",
-     "possession": "7",
-     "red_zone": true,
+     "situation": "1st & 10 at DEN 40",
+     "possession": "24",
+     "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.9666666666666667,
+     "progress": 0.9988888888888889,
      "venue_indoor": false,
      "venue": "SoFi Stadium",
      "line": null
@@ -85,8 +85,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "5:03 - 4th",
-     "detail": "5:03",
+     "status_short": "3:11 - 4th",
+     "detail": "3:11",
      "period": 4,
      "start_utc": "2026-10-11T20:25Z",
      "network": "Fox",
@@ -129,9 +129,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Goff",
-       "line": "19/30, 271 YDS, 3 TD",
-       "team": "8"
+       "name": "J. Brissett",
+       "line": "27/42, 275 YDS, 2 TD, 1 INT",
+       "team": "22"
       },
       {
        "cat": "RUSH",
@@ -146,12 +146,12 @@
        "team": "8"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
+     "situation": "1st & 10 at DET 35",
+     "possession": "22",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.9158333333333333,
+     "progress": 0.9469444444444445,
      "venue_indoor": true,
      "venue": "State Farm Stadium",
      "line": null
@@ -191,13 +191,13 @@
       "school": "San Francisco",
       "mascot": "49ers",
       "rank": null,
-      "score": "27",
+      "score": "29",
       "record": "4-0",
       "periods": [
        "7",
        "14",
        "0",
-       "6"
+       "8"
       ],
       "id": "25",
       "color": "#aa0000"
@@ -222,9 +222,9 @@
        "team": "25"
       }
      ],
-     "situation": "",
+     "situation": "1st & 10 at SEA 45",
      "possession": "",
-     "red_zone": true,
+     "red_zone": false,
      "to_home": 2,
      "to_away": 2,
      "progress": 0.8161111111111111,
@@ -983,10 +983,10 @@
      "venue_indoor": true,
      "venue": "Mercedes-Benz Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "ATL -3.5",
       "spread": -3.5,
-      "total": 43.5,
+      "total": 44.5,
       "favorite": "home"
      }
     },
@@ -1131,7 +1131,7 @@
      "venue_indoor": false,
      "venue": "SoFi Stadium",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "LAR -3.5",
       "spread": -3.5,
       "total": 54.5,
@@ -2860,8 +2860,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "2:56 - 1st",
-     "detail": "2:56",
+     "status_short": "End of 1st",
+     "detail": "0.0",
      "period": 1,
      "start_utc": "2026-10-11T22:30Z",
      "network": "ESPN",
@@ -2872,10 +2872,10 @@
       "school": "Cleveland",
       "mascot": "Cavaliers",
       "rank": null,
-      "score": "26",
+      "score": "32",
       "record": "0-1",
       "periods": [
-       "26"
+       "32"
       ],
       "id": "5",
       "color": "#860038"
@@ -2887,10 +2887,10 @@
       "school": "Orlando",
       "mascot": "Magic",
       "rank": null,
-      "score": "19",
+      "score": "28",
       "record": "1-0",
       "periods": [
-       "19"
+       "28"
       ],
       "id": "19",
       "color": "#0150b5"
@@ -2901,7 +2901,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.2011111111111111,
+     "progress": 0.125,
      "venue_indoor": true,
      "venue": "Rocket Arena",
      "line": null
@@ -2909,11 +2909,11 @@
     {
      "id": "401901821",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/11 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "7:37 - 1st",
+     "detail": "7:37",
+     "period": 1,
      "start_utc": "2026-10-11T23:00Z",
      "network": "",
      "home": {
@@ -2923,9 +2923,11 @@
       "school": "Charlotte",
       "mascot": "Hornets",
       "rank": null,
-      "score": "0",
+      "score": "10",
       "record": "0-1",
-      "periods": [],
+      "periods": [
+       "10"
+      ],
       "id": "30",
       "color": "#008ca8"
      },
@@ -2936,9 +2938,11 @@
       "school": "Milwaukee",
       "mascot": "Bucks",
       "rank": null,
-      "score": "0",
+      "score": "13",
       "record": "1-1",
-      "periods": [],
+      "periods": [
+       "13"
+      ],
       "id": "15",
       "color": "#00471b"
      },
@@ -2948,16 +2952,10 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.12305555555555556,
      "venue_indoor": true,
      "venue": "Spectrum Center",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "CHA -3.5",
-      "spread": -3.5,
-      "total": 222.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401908941",
@@ -3005,7 +3003,7 @@
      "venue_indoor": true,
      "venue": "Ball Arena",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DEN -7.5",
       "spread": -7.5,
       "total": 233.5,
@@ -3022,8 +3020,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "16:21 - 3rd",
-     "detail": "16:21",
+     "status_short": "13:50 - 3rd",
+     "detail": "13:50",
      "period": 3,
      "start_utc": "2026-10-11T21:00Z",
      "network": "ESPN+",
@@ -3067,7 +3065,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.7275,
+     "progress": 0.7694444444444445,
      "venue_indoor": true,
      "venue": "Capital One Arena",
      "line": null
@@ -3077,8 +3075,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "13:17 - 2nd",
-     "detail": "13:17",
+     "status_short": "11:18 - 2nd",
+     "detail": "11:18",
      "period": 2,
      "start_utc": "2026-10-11T22:00Z",
      "network": "ESPN+",
@@ -3120,7 +3118,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.44527777777777783,
+     "progress": 0.47833333333333333,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "line": null
@@ -3130,8 +3128,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "19:42 - 1st",
-     "detail": "19:42",
+     "status_short": "16:11 - 1st",
+     "detail": "16:11",
      "period": 1,
      "start_utc": "2026-10-11T23:00Z",
      "network": "NHL Net",
@@ -3171,7 +3169,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.02,
+     "progress": 0.0636111111111111,
      "venue_indoor": true,
      "venue": "Xfinity Mobile Arena",
      "line": null
