@@ -87,6 +87,8 @@ way, and keep advisory checks (kill streaks, dupe audit, coverage gaps) at warni
 | Evening slot never self-healed on sports/news | Recovery window 23:48-24:00 contained no watcher tick | Window crosses midnight to 05:00; `missed_slot` checks the slot's own day |
 | Whole run discarded over a false contradiction | Consistency gate was all-or-nothing, last step before push | `consistency_gate._quarantine`: withhold the colliding surface, publish the rest |
 | Correct live stories missing from every listing page | An editor update declaration was obeyed with no check, and a chain retired its own first chapter | `site_build.supersede_ok` floor, `mark_continued` for lineages, dangling pointers fail open |
+| Brief and poller red from 2026-10-09, standings 62h stale | Canary fixtures with calendar dates: the C-1 lines kickoff aged out of `lines.KEEP_DAYS`; S-2 depended on a committed `players.json` that only gated runs refresh | Fixtures take the run's clock; the gate build pins a fixed player index. A canary input must never be refreshed only by the thing the canary gates. Time-travel check: run the canary under a clock +95 days (docs/CLOSE-2026-10-11-red-canary.md) |
+| Inactives poller failed every five minutes | It ran its own copy of the pipeline canary, pushed nothing, and re-saw the same inactives as new | No canary copy; `poller_alarm.py` fails the first red tick, opens one issue, keeps repeats green |
 
 ---
 
