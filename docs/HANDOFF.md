@@ -22,6 +22,7 @@ this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
 | What | Where |
 |---|---|
 | Boards, packages, programs | `../gcm-tools/` |
+| Program 7, Game Day (current; mockup `gameday-mockup.html` not yet committed) | `PROGRAM-7-GAME-DAY-2026-10-12.md` |
 | Program 4 + ScoreboardC/GameCardConcepts | `../gcm-tools/program-4-2026-09-16/` |
 | Program 3 + StyleTile | `../gcm-tools/program-3-2026-09-15/` |
 | Copy pass | `../gcm-tools/copy-pass-2026-09-16/COPY-PASS-SPORTS-2026-09-16.md` |
