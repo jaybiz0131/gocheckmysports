@@ -1,22 +1,6 @@
 [
  {
   "date": "2026-08-22",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c324",
-    "headline": "Fever clinch WNBA playoff spot for third consecutive season",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief exists for this story, per the input note. The approver instruction is explicit: 'The writer's hard rule was: no fact exists outside the brief.' With no brief provided, every factual claim in the draft must be independently verifiable in the cited source or the draft is rejected.",
-     "The draft cites a single Yahoo WNBA source but no source text or excerpt was provided in the input to verify against. The approver cannot verify that the draft's claims\u2014Indiana clinched on Wednesday, Chicago's loss to Atlanta was the clinching event, Indiana is the fourth team to qualify, Caitlin Clark has made playoffs in both her WNBA seasons\u2014actually appear in that article.",
-     "Without a brief and without source text to cross-check, the approver cannot clear any fact in this draft. The entire story rests on unverified claims."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-22",
   "approved": 5,
   "rejected": [
    {
@@ -7718,6 +7702,68 @@
      "The draft reports the game as having already occurred ('ended their Week 5 matchup in a 27-27 tie on October 11'), but today is Sunday, 2026-10-11. The timestamp in the brief (2026-10-11T21:05:33Z) indicates the game occurred on today's date, but the phrasing 'ended...on October 11' in past tense is appropriate only if the game has already concluded by the time of publication. The timestamp shows 21:05 UTC, which is consistent with a game that occurred earlier today. However, the draft must clarify the temporal relationship: if published today, the game should be written as having just concluded (e.g., 'concluded today in a 27-27 tie' or 'ended Sunday in a 27-27 tie'), not with the ambiguous past tense that suggests a completed historical event.",
      "The draft introduces a claim about Daniels making 'his return from a knee injury' without sufficient source specificity. The brief lists this as 'reported' confidence from ESPN, but the ESPN video clip source does not explicitly contain injury details in its metadata. This is a health/injury claim about a named player that needs clear on-record sourcing, not just a general ESPN attribution to a video clip.",
      "The draft characterizes John Harbaugh as 'clearly knowing he had gotten away with something,' which is ESPN's interpretive language, not a factual statement or Harbaugh's own words. The draft presents this as reporting fact rather than ESPN's analysis or opinion. This attribution is soft and reads as the desk's own take rather than a named outlet's assessment."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c137",
+    "headline": "Brewers defeat Dodgers 2-1 in NLCS Game 1 on October 12",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line discusses an appeal hearing on October 15 and a Washington matchup on October 19, along with rookie Jaden Dugger and a suspension\u2014none of which appear in the research brief. This bottom_line is entirely unrelated to the Brewers-Dodgers NLCS Game 1 draft body and appears to be copy-pasted from a different story (likely the Greenlaw suspension story). The brief contains no data points about any NFL suspension, appeal hearing, or linebacker depth.",
+     "The draft reports a baseball game as having occurred on October 12 (today), which is factually correct per the timestamp, but the bottom_line discusses a future event (October 15 hearing, October 19 game) that has no connection to the game described in the body and is not supported by the brief.",
+     "the draft dates October 14, 2026 as a Monday; October 14, 2026 is a Wednesday",
+     "the draft dates October 15, 2026 as a Tuesday; October 15, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c60",
+    "headline": "NFL suspends 49ers LB Dre Greenlaw one game for head-butting incident",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates October 15, 2026 as a Tuesday; October 15, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c231",
+    "headline": "Steelers WR Roman Wilson to miss multiple weeks with finger injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains a critical factual problem with the injury confidence level. The brief marks the claim 'Wilson will miss multiple weeks because of a finger injury' with confidence level 'unconfirmed,' and also marks 'Wilson is still getting more information on the injury and will seek a second opinion' as 'unconfirmed.' However, the draft's opening sentence reads 'Pittsburgh Steelers receiver Roman Wilson suffered a finger injury in the second quarter of Sunday's victory over the Indianapolis Colts and will miss multiple weeks, according to a source who spoke with ESPN's Jeremy Fowler.' This presents an unconfirmed projection (multiple weeks) as established fact in the lead without any qualifying language indicating uncertainty. The brief's confidence labels require the prose to reflect that this is not yet verified.",
+     "The draft states 'Michael Pittman Jr. was placed on injured reserve Saturday due to a foot injury' but the brief does not provide Pittman's injury location. The brief only confirms Pittman was placed on IR Saturday, not the injury type. This is a fact introduced beyond what the brief contains."
+    ]
+   },
+   {
+    "id": "c44",
+    "headline": "Cowboys hire Mike Pettine as senior defensive assistant to support Parker's defense",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'Pettine, 60, as senior defensive assistant on Monday, per CBS Sports reporting.' The brief data_point for this hire carries confidence label 'announced-not-verified', meaning the hiring was announced but not yet officially verified. The draft presents it as a completed fact ('hired') without any hedging language that reflects the unverified status. The confidence label requires that the draft signal uncertainty, but no such signal appears.",
+     "The draft also states 'He had announced his retirement before Parker and Schottenheimer approached him about rejoining the staff, per ESPN.' The brief data_point states 'Parker approached Pettine about joining the staff after Parker was hired in January, but Pettine had just announced his retirement.' The draft rephrases this as 'Parker and Schottenheimer approached him', adding Schottenheimer's involvement without that detail appearing in the brief. The brief only credits Parker with the approach; adding Schottenheimer's participation is smuggled information not supported by the source.",
+     "The draft states Pettine 'most recently' was 'Minnesota's assistant head coach and outside linebackers coach from 2022 to 2025.' However, a brief data_point says 'Pettine spent the 2021 season with the Chicago Bears as a senior defensive assistant' and another says 'Pettine had a four-year run as the Green Bay Packers' defensive coordinator'. The Minnesota role (2022-2025) is indeed most recent, so this is accurate and traces correctly."
+    ]
+   },
+   {
+    "id": "c338",
+    "headline": "Eagles RB Will Shipley has partial tear of plantar fascia, deepens backfield crisis",
+    "category": "compliance",
+    "reasons": [
+     "The draft states 'No official statement from the team medical staff has been released; the injury report comes from anonymous sourcing told to ESPN.' This acknowledgment of anonymous sourcing is correct, but the lead and subsequent framing treat the injury diagnosis and timeline as settled fact without sufficient hedging. The core claim of 'partial tear of plantar fascia' and 'could be sidelined multiple weeks' comes from unnamed sources. Per desk standard on unconfirmed injury claims, the prose must signal the sourcing uncertainty more clearly in the narrative voice, not just in a disclaimer sentence at the end. The injury language in the opening and body reads as official medical confirmation rather than reported expectation.",
+     "The draft includes substantial background material (Pierce's history, Steele's history, offensive line collapse details, game statistics, Sirianni quote) that is not integrated into the logical flow of the story. While all facts trace to the brief, the structure buries the injury angle beneath personnel detail. This is not an accuracy problem but a clarity/balance problem: the story's weight distribution suggests the injury is less certain than it should appear, because 75% of the wordcount goes to depth chart minutiae rather than the impact."
+    ]
+   },
+   {
+    "id": "c49",
+    "headline": "UCLA QB Nico Iamaleava expected to miss remainder of season after knee injury",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'UCLA quarterback Nico Iamaleava is expected to miss the remainder of the season after suffering a knee injury,' presenting the outcome as a near-certainty. The brief's core_claim and bear_case both emphasize that Chesney 'has not officially ruled him out for the season' and is 'pending final medical evaluations.' The brief's bear_case explicitly states: 'Coach Bob Chesney has not officially ruled Iamaleava out for the season, saying \"there is nothing that has been fully ruled at this time.\"' The draft's lead contradicts this by stating the expectation as a definitive outcome rather than a pending determination. This misrepresents the confidence level of available information.",
+     "The draft includes the claim 'Wayne Knight is described as budding into a national superstar at running back for UCLA' as a data_point in the brief, but this claim does not appear in the draft body. However, the draft also omits material bear_case evidence: that Iamaleava 'was able to jog off the field after the injury and returned to the game for one additional play before being removed, suggesting the injury may not be immediately catastrophic.' This evidence contradicts the 'expected to miss the season' framing and belongs in the narrative to maintain balance with Chesney's own non-ruling."
     ]
    }
   ]
