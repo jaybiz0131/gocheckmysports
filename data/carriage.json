@@ -1,0 +1,479 @@
+{
+ "schema": 1,
+ "stale_days": 30,
+ "about": "Hand-kept. One row per network, window and service. A row prints its service only while status is ok and verified is within stale_days of the build date; otherwise it prints verify. `says` is copied from the source page, never from memory.",
+ "regional_maps": {
+  "label": "Which game your market gets in the 1:00 and 4:25 windows",
+  "url": "https://506sports.com/nfl.php",
+  "verified": "2026-10-12",
+  "status": "verify",
+  "note": "Linked, never copied. The host answered 200 on its base page, which showed Week 7 of 2024 when read, and refused a 2026 week page with 403. Jack to confirm this is the source to link."
+ },
+ "rows": [
+  {
+   "id": "cbs-paramount",
+   "network": "CBS",
+   "window": "Sunday afternoon (CBS window)",
+   "service": "Paramount+",
+   "leagues": [
+    "NFL",
+    "CFB"
+   ],
+   "match": {
+    "networks": [
+     "CBS"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://help.paramountplus.com/s/",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "The help page answered 200 but is a script shell with no readable text from this machine, so it says nothing about CBS games. Jack to check which plan carries the local CBS station."
+  },
+  {
+   "id": "nbc-peacock",
+   "network": "NBC",
+   "window": "Sunday night",
+   "service": "Peacock",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "NBC",
+     "Peacock"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://www.peacocktv.com/blog/how-to-watch-the-nfl-on-peacock-for-2026-2027-season-full-schedule",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "Throughout the season, Peacock will simulcast every single NFL game on NBC, including every episode of Sunday Night Football",
+   "note": "Peacock's own page, not its help center: help.peacocktv.com was refused by the session's proxy (CONNECT tunnel failed, response 502). The page does not name a plan."
+  },
+  {
+   "id": "prime-thursday",
+   "network": "Prime Video",
+   "window": "Thursday night",
+   "service": "Prime Video",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "Prime Video"
+    ],
+    "days": [
+     "Thu"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://aboutamazon.com/news/entertainment/how-to-watch-thursday-night-football-on-prime-video",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "Open the Prime Video app on your device. ... Sign in to your Prime account. Not a Prime member? Sign up for a free 30-day trial to try it out. Find Thursday Night Football on the homepage",
+   "note": "Amazon's own page (aboutamazon.com), updated for the 2026 season."
+  },
+  {
+   "id": "espn-monday",
+   "network": "ESPN",
+   "window": "Monday night",
+   "service": "ESPN app (ESPN Unlimited)",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "ESPN",
+     "ABC"
+    ],
+    "days": [
+     "Mon"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://plus.espn.com/nfl",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "FOOTBALL IS ON ESPN EVERY MNF GAME, NFL NETWORK, DAILY NFL COVERAGE - ALL SEASON LONG. ... NFL (includes Monday Night Football and NFL Network)",
+   "note": "ESPN's own page, which lists the plans; it does not name ABC as a Monday carrier, so the ABC chip comes from the game feed."
+  },
+  {
+   "id": "yttv-nfl",
+   "network": "CBS, FOX, NBC, ESPN",
+   "window": "All NFL windows",
+   "service": "YouTube TV",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX",
+     "NBC",
+     "ESPN",
+     "NFL Network"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://support.google.com/youtubetv/answer/17594070?hl=en",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "The main YouTube TV plan or Sports plan gives you access to live local and national NFL broadcasts. This includes games shown in your area on CBS, FOX, NBC, ESPN and the NFL Network.",
+   "note": ""
+  },
+  {
+   "id": "fubo-nfl",
+   "network": "CBS, FOX, NBC, ESPN",
+   "window": "All NFL windows",
+   "service": "Fubo",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX",
+     "NBC",
+     "ESPN"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://help.fubo.tv/",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "Refused by the session's proxy (CONNECT tunnel failed, response 502). Jack to check."
+  },
+  {
+   "id": "hulu-nfl",
+   "network": "CBS, FOX, NBC, ESPN",
+   "window": "All NFL windows",
+   "service": "Hulu with Live TV",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX",
+     "NBC",
+     "ESPN"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://help.hulu.com/en-us/blackouts-and-regional-availability-on-hulu-live-tv",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "The help page answered 200 but is a script shell with no readable text from this machine. Jack to check."
+  },
+  {
+   "id": "sling-fox",
+   "network": "FOX",
+   "window": "Sunday afternoon (FOX window)",
+   "service": "Sling TV",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "FOX"
+    ],
+    "days": [
+     "Sun"
+    ],
+    "windows": [
+     "early",
+     "1:00",
+     "4:05-4:25"
+    ]
+   },
+   "source": "https://www.sling.com/whatson/sports/nfl/stream-nfl-games-live-sling-tv",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "FOX & NBC: Sunday local afternoon games on FOX and Sunday Night Football on NBC (available in select markets).",
+   "note": "Sling's own page, which names no help article. CBS is not mentioned on it.",
+   "label": "Sling TV (select markets)"
+  },
+  {
+   "id": "sling-nbc",
+   "network": "NBC",
+   "window": "Sunday night",
+   "service": "Sling TV",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "NBC"
+    ],
+    "days": [
+     "Sun"
+    ],
+    "windows": [
+     "night"
+    ]
+   },
+   "source": "https://www.sling.com/whatson/sports/nfl/stream-nfl-games-live-sling-tv",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "FOX & NBC: Sunday local afternoon games on FOX and Sunday Night Football on NBC (available in select markets).",
+   "note": "Same page as the FOX row.",
+   "label": "Sling TV (select markets)"
+  },
+  {
+   "id": "nflplus-phone",
+   "network": "CBS, FOX, NBC, Prime Video, ESPN",
+   "window": "Local and primetime games",
+   "service": "NFL+ (phone)",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "*"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://www.nfl.com/plus/",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "Stream LIVE local and primetime games on mobile during the regular season and postseason.",
+   "note": "NFL's own page, not a help article.",
+   "label": "NFL+ on a phone"
+  },
+  {
+   "id": "sundayticket-youtube",
+   "network": "CBS, FOX",
+   "window": "Sunday afternoon, out of market",
+   "service": "NFL Sunday Ticket (YouTube TV or YouTube)",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX"
+    ],
+    "days": [
+     "Sun"
+    ],
+    "windows": [
+     "early",
+     "1:00",
+     "4:05-4:25"
+    ]
+   },
+   "source": "https://support.google.com/youtubetv/answer/15138104?hl=en",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "NFL Sunday Ticket is a premium sports package bringing you all Sunday afternoon (Eastern Time) regular season National Football League (NFL) games that are not carried on local broadcasts in your area.",
+   "note": "The package does not include local games or Sunday Night Football or Monday Night Football (YouTube TV help, answer 17594070).",
+   "label": "Sunday Ticket (out of market)"
+  },
+  {
+   "id": "netflix-special",
+   "network": "Netflix",
+   "window": "Special-date games",
+   "service": "Netflix",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "Netflix"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://help.netflix.com/en/node/129473",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "The guessed help article returned 404 and no Netflix page was found that names the games. Jack to supply the article."
+  },
+  {
+   "id": "youtube-special",
+   "network": "YouTube",
+   "window": "Special-date games",
+   "service": "YouTube",
+   "leagues": [
+    "NFL"
+   ],
+   "match": {
+    "networks": [
+     "YouTube"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://support.google.com/youtube/answer/15456306?hl=en",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "The YouTube help page read covers Sunday Ticket only and does not say anything about a special-date game on YouTube."
+  },
+  {
+   "id": "espn-cfb",
+   "network": "ABC, ESPN, ESPN2, ESPNU, SEC Network, ACC Network",
+   "window": "College football",
+   "service": "ESPN app (ESPN Unlimited)",
+   "leagues": [
+    "CFB"
+   ],
+   "match": {
+    "networks": [
+     "ABC",
+     "ESPN",
+     "ESPN2",
+     "ESPNU",
+     "SEC Network",
+     "ACC Network"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://plus.espn.com/nfl",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "CFB, including ACC, Big 12, SEC, and the CFP on ABC/ESPN ... Access to networks and services, including ESPN, ESPN2, ESPNU, ESPNEWS, ESPN Deportes, SECN, ACCN, ESPN+, ESPN on ABC",
+   "note": "ESPN's own page (ESPN Unlimited plan)."
+  },
+  {
+   "id": "yttv-cfb",
+   "network": "CBS, FOX, NBC",
+   "window": "College football",
+   "service": "YouTube TV",
+   "leagues": [
+    "CFB"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX",
+     "NBC"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://support.google.com/youtubetv/answer/7370552?hl=en",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "You can also watch local sports, and news on CBS, FOX, NBC, and more.",
+   "note": "The page names the three broadcast networks; it does not name ABC or the ESPN networks."
+  },
+  {
+   "id": "sling-cfb",
+   "network": "ESPN, FOX, NBC",
+   "window": "College football",
+   "service": "Sling TV",
+   "leagues": [
+    "CFB"
+   ],
+   "match": {
+    "networks": [
+     "ESPN",
+     "ESPN2",
+     "FS1",
+     "FOX",
+     "NBC"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://www.sling.com/whatson/sports/college-football/stream-college-football-live-sling-tv",
+   "verified": "2026-10-12",
+   "status": "ok",
+   "says": "watch college football on ESPN, ESPN2, FS1, and in designated markets, FOX and NBC",
+   "note": "Sling's own page.",
+   "label": "Sling TV (select markets)"
+  },
+  {
+   "id": "fubo-cfb",
+   "network": "College networks",
+   "window": "College football",
+   "service": "Fubo",
+   "leagues": [
+    "CFB"
+   ],
+   "match": {
+    "networks": [
+     "CBS",
+     "FOX",
+     "NBC",
+     "ABC",
+     "ESPN",
+     "ESPN2",
+     "FS1"
+    ],
+    "days": [
+     "*"
+    ],
+    "windows": [
+     "*"
+    ]
+   },
+   "source": "https://help.fubo.tv/",
+   "verified": "2026-10-12",
+   "status": "verify",
+   "says": "",
+   "note": "Refused by the session's proxy (CONNECT tunnel failed, response 502). Jack to check."
+  }
+ ]
+}

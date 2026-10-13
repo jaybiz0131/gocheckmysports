@@ -1558,6 +1558,8 @@ def layer1_canary():
     fails.extend(_sunday_slate_canary())   # H-12 under a fixture
     import truth_canary as _tc
     fails.extend(_tc.truth_canary())   # S-1 item 0: one truth for counts and stamps
+    import watch_canary as _wc
+    fails.extend(_wc.watch_canary())   # S-1 item 1: Where to Watch by day and window
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day

@@ -1027,6 +1027,26 @@ main p a,.lede a,.fine a,.sig-attest a,.cred-note a,.trust-line a,.pc-note a,.ca
 .w2w-row{grid-template-columns:1fr auto;gap:4px 10px}
 .w2w-row .w2w-cars{grid-column:1/-1}
 }
+/* ---- S-1 item 1: Where to watch by day and window ------------------------------- */
+.w2w-day{margin:22px 0 4px}
+.w2w-dh{font:700 20px/1.2 var(--serif,var(--sans));margin:0 0 4px}
+.w2w-wg{margin:6px 0 10px}
+.w2w-wl{font:700 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin:12px 0 2px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.w2w-day .w2w-row{grid-template-columns:minmax(0,1.4fr) auto minmax(0,.9fr) minmax(0,1.6fr) auto}
+.w2w-lg{font:700 9.5px/1 var(--mono);letter-spacing:.06em;font-style:normal;
+  padding:2px 5px;border-radius:3px;background:var(--tag-bg);color:var(--tag-fg);margin-right:4px}
+.w2w-ko{white-space:nowrap}
+.w2w-streams{display:flex;gap:6px;flex-wrap:wrap;align-items:baseline}
+.w2w-str-c{font:600 12.5px/1.3 var(--sans);padding:2px 7px;border-radius:4px;
+  background:var(--tag-bg);color:var(--tag-fg)}
+.w2w-verify{font-family:var(--mono);font-weight:700;letter-spacing:.04em;opacity:.75}
+.w2w-res{font:700 12.5px/1.3 var(--mono);white-space:nowrap}
+.w2w-region{margin:6px 0 2px}
+@media (max-width:900px){
+  .w2w-day .w2w-row{grid-template-columns:1fr auto;gap:4px 10px}
+  .w2w-day .w2w-cars,.w2w-day .w2w-streams{grid-column:1/-1}
+}
 /* ---- S3: living tables ----------------------------------------------------------- */
 .lt-wrap{overflow-x:auto}
 .lt{width:100%;border-collapse:collapse;font-size:15px}
