@@ -124,7 +124,7 @@ def check_no_final_for_scheduled(html, games):
     Read row by row (the page prints a Final heading after the pending rows, so a window
     of text after the game's name would read the next section's label)."""
     fails = []
-    rows = re.findall(r'<div class="(w2w-row[^"]*)">(.*?)</div>', html, re.S)
+    rows = re.findall(r'<div class="(w2w-row[^"]*)"[^>]*>(.*?)</div>', html, re.S)
     for g in games:
         if g.get("state") == "post" or g.get("completed"):
             continue

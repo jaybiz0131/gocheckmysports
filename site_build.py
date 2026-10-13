@@ -2945,7 +2945,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                     for c in (g.get("carriers") or [])[:2])
                 if not nets:
                     nets = '<span class="w2w-car">TBA</span>'
-                if g.get("state") == "post" or g.get("completed"):
+                if _w2w_final(g):
                     sc = ""
                     if g.get("away_score") is not None and g.get("home_score") is not None:
                         sc = f' {esc(str(g["away_score"]))}-{esc(str(g["home_score"]))}'
