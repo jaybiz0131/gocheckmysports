@@ -22,6 +22,7 @@ USAGE
 
 import datetime
 import build_manifest as _bm
+import carriage as _carriage
 import glob
 import json
 from zoneinfo import ZoneInfo
@@ -2888,54 +2889,100 @@ def _w2w_windows(week):
     return [(w, groups[w]) for w in order]
 
 
+def _w2w_games(week):
+    """Every NFL and FBS game of the week, with its league, in kickoff order. A game the
+    feed gave no kickoff for is left out of a page that is grouped by kickoff."""
+    out = []
+    for lg, key in (("NFL", "games"), ("CFB", "cfb_games")):
+        for g in week.get(key) or []:
+            k = _utc_dt(g.get("kickoff_utc") or "")
+            if k:
+                out.append((k, dict(g, league=g.get("league") or lg)))
+    out.sort(key=lambda kg: kg[0])
+    return out
+
+
+def _w2w_stream_chips(chips):
+    out = []
+    for c in chips:
+        if c["state"] == "ok":
+            out.append(f'<span class="w2w-str-c">{esc(c["label"])}</span>')
+        else:
+            out.append('<span class="w2w-str-c w2w-verify">verify</span>')
+    return "".join(out)
+
+
 def render_where_to_watch(week, weeks, dateline, current=False):
+    """S-1 item 1. Every NFL and FBS game of the week by day, then by window (early, 1:00,
+    4:05 and 4:25, night). Each game: kickoff in ET from the feed, the network from the
+    feed's broadcasts, the streams from data/carriage.json, no score before the game and
+    the final after. Counts and stamps are the manifest's."""
     slug = _w2w_slug(week)
     url = "/where-to-watch.html" if current else f"/where-to-watch/{slug}.html"
-    up, done = _w2w_split(week)
-    rows = []
-    for wname, games in up:
-        rows.append(f'<div class="w2w-win"><span class="bd-label">{esc(wname)}</span>'
-                    f'<span class="bd-stamp">{esc(games[0].get("day_et") or "")}</span></div>')
-        for g in games:
-            rows.append(
-                f'<div class="w2w-row"><span class="w2w-game">{esc(g.get("away") or "")} at '
-                f'{esc(g.get("home") or "")}</span>'
-                f'<span class="bd-src">{esc(g.get("kickoff_et") or "")}</span>'
-                f'<span class="w2w-cars">{_w2w_carriers(g)}{_w2w_wx(g, WX_DATA)}</span></div>')
-    if done:
-        # item 30: the finished games sit at the bottom under one plain noun. "per the
-        # league feed" is process (C-L3) and "Already played" is a sentence about the
-        # section rather than its name.
-        rows.append('<div class="w2w-win w2w-done">'
-                    '<span class="bd-label">Final</span></div>')
-        for wname, games in done:
-            for g in games:
-                sc = ""
-                if g.get("away_score") is not None and g.get("home_score") is not None:
-                    sc = (f'{esc(str(g.get("away_score")))}-'
-                          f'{esc(str(g.get("home_score")))}')
-                rows.append(
-                    f'<div class="w2w-row w2w-played"><span class="w2w-game">'
+    doc = _carriage.load()
+    today = datetime.date.fromisoformat(_mf()["date"])
+    days = {}
+    for k, g in _w2w_games(week):
+        et = k.astimezone(_ET)
+        days.setdefault(et.date(), {}).setdefault(
+            _carriage.window_key(k, g["league"]), []).append((k, g))
+    body_rows = []
+    for d in sorted(days):
+        body_rows.append(f'<section class="w2w-day"><h2 class="w2w-dh">'
+                         f'{esc(d.strftime("%A, %b %-d"))}</h2>')
+        for wk_ in [w for w in _carriage.WINDOW_ORDER if w in days[d]]:
+            body_rows.append(f'<div class="w2w-wg" data-window="{esc(wk_)}">'
+                             f'<h3 class="w2w-wl">{esc(_carriage.WINDOW_LABEL[wk_])}</h3>')
+            for k, g in days[d][wk_]:
+                chips = _carriage.streams_for(g, k, doc, today)
+                _nn = {_carriage.norm(c.get("name")) for c in (g.get("carriers") or [])}
+                chips = [c for c in chips if _carriage.norm(c["label"]) not in _nn]
+                nets = "".join(
+                    f'<span class="w2w-car">{esc(network_name(c.get("name") or ""))}</span>'
+                    for c in (g.get("carriers") or []) if c.get("market") in (None, "", "National")
+                ) or "".join(
+                    f'<span class="w2w-car">{esc(network_name(c.get("name") or ""))}</span>'
+                    for c in (g.get("carriers") or [])[:2])
+                if not nets:
+                    nets = '<span class="w2w-car">TBA</span>'
+                if g.get("state") == "post" or g.get("completed"):
+                    sc = ""
+                    if g.get("away_score") is not None and g.get("home_score") is not None:
+                        sc = f' {esc(str(g["away_score"]))}-{esc(str(g["home_score"]))}'
+                    res = f'<span class="w2w-res">Final{sc}</span>'
+                elif g.get("state") == "in":
+                    res = '<span class="w2w-res">In progress</span>'
+                else:
+                    res = ""
+                body_rows.append(
+                    f'<div class="w2w-row" data-gid="{esc(str(g.get("id") or ""))}">'
+                    f'<span class="w2w-game"><i class="w2w-lg">{esc(g["league"])}</i> '
                     f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}</span>'
-                    f'<span class="bd-src">{esc(g.get("day_et") or "")}</span>'
-                    f'<span class="w2w-cars"><span class="bd-src">'
-                    f'{esc(g.get("status") or "Final")}{" " + sc if sc else ""}</span>'
-                    f'</span></div>')
+                    f'<span class="bd-src w2w-ko">{esc(k.astimezone(_ET).strftime("%-I:%M %p ET"))}</span>'
+                    f'<span class="w2w-cars">{nets}{_w2w_wx(g, WX_DATA)}</span>'
+                    f'<span class="w2w-streams">{_w2w_stream_chips(chips)}</span>'
+                    f'{res}</div>')
+            body_rows.append('</div>')
+        body_rows.append('</section>')
+    rm = (doc or {}).get("regional_maps") or {}
+    region = (f'<p class="bd-src w2w-region">{esc(rm.get("label") or "")}: '
+              f'<a href="{esc(rm.get("url") or "")}" rel="noopener">the published coverage maps</a>.</p>'
+              if rm.get("url") else "")
     others = "".join(
         f'<a class="bd-more" href="/where-to-watch/{_w2w_slug(w)}.html">Week {w.get("week")}</a>'
         for w in weeks if w.get("week") != week.get("week"))
-    n = len(week.get("games") or [])
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))}</h1>
+  <h1 class="lx-h1" style="margin-bottom:6px">Week {esc(str(week.get("week") or ""))}</h1>
   {_mf_stamp_p()}
-  <div class="w2w">{"".join(rows)}</div>
+  {region}
+  <div class="w2w">{"".join(body_rows)}</div>
   <div class="lx-actions">{others}</div>
-  <p class="bd-src" style="margin-top:14px">Weather: National Weather Service.
-     Schedule and channels: ESPN.</p>
+  <p class="bd-src" style="margin-top:14px">Schedule and networks: ESPN. Streams from each
+     service's own page; a service marked verify has not been confirmed.</p>
 </section></main>"""
-    return shell(f"NFL Week {week.get('week')}: where to watch every game - {NAME}",
-                 f"Every NFL Week {week.get('week')} game by kickoff window, with the "
-                 f"channel or stream that carries it.",
+    return shell(f"NFL and college football Week {week.get('week')}: where to watch every game - {NAME}",
+                 f"Every NFL and FBS game of Week {week.get('week')} by day and kickoff window, "
+                 f"with the network and the streams that carry it.",
                  "Where to watch", body, dateline, path=url)
 
 
@@ -10763,7 +10810,7 @@ def build():
         # item 30: the page opened with Week 1 - sixteen finished games - because it
         # took the first week in the file. It opens with the week that still has a
         # window ahead, the same rule the rail card uses (D-14).
-        _cur = next((w for w in _wks if _w2w_split(w)[0]), _wks[-1])
+        _cur = next((w for w in _wks if w.get("week") == MANIFEST["week"]), _wks[0])
         w("where-to-watch.html", render_where_to_watch(_cur, _wks, dateline, current=True))
         for _wk in _wks:
             w(f"where-to-watch/{_w2w_slug(_wk)}.html",

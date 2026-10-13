@@ -82,8 +82,9 @@ WINDOW_ORDER = ["Thursday night", "Friday", "Saturday", "Sunday morning",
 
 
 def _et(iso):
-    """ESPN stamps Zulu. Eastern is UTC-4 through the regular season; the feed also
-    prints a local time string, and the two agree, so this is only used for grouping."""
+    """ESPN stamps Zulu. Returns the Eastern time (an aware datetime) through the zone, not
+    a fixed offset: daylight time ends on 1 November and the season runs to February."""
+    from zoneinfo import ZoneInfo
     try:
         dt = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%MZ")
     except ValueError:
@@ -91,7 +92,7 @@ def _et(iso):
             dt = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ")
         except ValueError:
             return None
-    return dt.replace(tzinfo=datetime.timezone.utc) - datetime.timedelta(hours=4)
+    return dt.replace(tzinfo=datetime.timezone.utc).astimezone(ZoneInfo("America/New_York"))
 
 
 def _get(url):
@@ -127,46 +128,84 @@ def _carriers(comp):
     return out
 
 
+def _game(e, league):
+    comp = (e.get("competitions") or [{}])[0]
+    teams, scores, tids = {}, {}, {}
+    for c in comp.get("competitors") or []:
+        ha = c.get("homeAway")
+        teams[ha] = ((c.get("team") or {}).get("abbreviation")
+                     or (c.get("team") or {}).get("shortDisplayName") or "")
+        scores[ha] = c.get("score")
+        tids[ha] = str((c.get("team") or {}).get("id") or "")
+    et = _et(e.get("date") or "")
+    # STATUS COMES FROM THE FEED, NEVER FROM THE CLOCK. A build running at 03:00
+    # UTC on Saturday cannot tell from the time alone whether Thursday's game
+    # finished, was postponed or is in a weather delay. The feed says.
+    st = ((e.get("status") or {}).get("type") or {})
+    return {
+        "league": league,
+        "away": teams.get("away", ""), "home": teams.get("home", ""),
+        "away_id": tids.get("away", ""), "home_id": tids.get("home", ""),
+        "kickoff_utc": e.get("date") or "",
+        "kickoff_et": et.strftime("%-I:%M %p ET") if et else "",
+        # US order, month first: "Thu, Sep 17". House style, and the lint in
+        # verify_pipeline fails the build on the day-month form.
+        "day_et": et.strftime("%a, %b %-d") if et else "",
+        "window": window_name(et) if et else "",
+        "carriers": _carriers(comp),
+        "id": str(e.get("id") or ""),
+        "venue_id": str((comp.get("venue") or {}).get("id") or ""),
+        "venue_indoor": (comp.get("venue") or {}).get("indoor"),
+        "state": st.get("state") or "",              # pre | in | post
+        "completed": bool(st.get("completed")),
+        "status": st.get("shortDetail") or st.get("description") or "",
+        "away_score": scores.get("away"), "home_score": scores.get("home"),
+    }
+
+
 def _week(params=""):
     d = _get(BASE + (("?" + params) if params else ""))
     season = (d.get("season") or {})
     wk = (d.get("week") or {}).get("number")
-    games = []
-    for e in d.get("events") or []:
-        comp = (e.get("competitions") or [{}])[0]
-        teams, scores, tids = {}, {}, {}
-        for c in comp.get("competitors") or []:
-            ha = c.get("homeAway")
-            teams[ha] = ((c.get("team") or {}).get("abbreviation")
-                         or (c.get("team") or {}).get("shortDisplayName") or "")
-            scores[ha] = c.get("score")
-            tids[ha] = str((c.get("team") or {}).get("id") or "")
-        et = _et(e.get("date") or "")
-        # STATUS COMES FROM THE FEED, NEVER FROM THE CLOCK. A build running at 03:00
-        # UTC on Saturday cannot tell from the time alone whether Thursday's game
-        # finished, was postponed or is in a weather delay. The feed says.
-        st = ((e.get("status") or {}).get("type") or {})
-        games.append({
-            "away": teams.get("away", ""), "home": teams.get("home", ""),
-            "away_id": tids.get("away", ""), "home_id": tids.get("home", ""),
-            "kickoff_utc": e.get("date") or "",
-            "kickoff_et": et.strftime("%-I:%M %p ET") if et else "",
-            # US order, month first: "Thu, Sep 17". House style, and the lint in
-            # verify_pipeline fails the build on the day-month form.
-            "day_et": et.strftime("%a, %b %-d") if et else "",
-            "window": window_name(et) if et else "",
-            "carriers": _carriers(comp),
-            "id": str(e.get("id") or ""),
-            "venue_id": str((comp.get("venue") or {}).get("id") or ""),
-            "venue_indoor": (comp.get("venue") or {}).get("indoor"),
-            "state": st.get("state") or "",              # pre | in | post
-            "completed": bool(st.get("completed")),
-            "status": st.get("shortDetail") or st.get("description") or "",
-            "away_score": scores.get("away"), "home_score": scores.get("home"),
-        })
+    games = [_game(e, "NFL") for e in d.get("events") or []]
     games.sort(key=lambda g: g["kickoff_utc"])
     return {"season": season.get("year"), "season_type": season.get("type"),
             "week": wk, "games": games}
+
+
+CFB_BASE = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard"
+
+
+def _cfb_week(week):
+    """FBS games (group 80) for the days an NFL week covers, Tuesday through Monday.
+
+    The college endpoint refuses a date range (HTTP 400, read 12 October 2026), so it is
+    asked one day at a time. A day that fails is skipped and named, never guessed."""
+    from zoneinfo import ZoneInfo
+    ks = [_et(g["kickoff_utc"]) for g in week.get("games") or [] if g.get("kickoff_utc")]
+    ks = [k for k in ks if k]
+    if not ks:
+        return []
+    first = min(ks).date()
+    first -= datetime.timedelta(days=(first.weekday() - 1) % 7)       # that week's Tuesday
+    out, seen = [], set()
+    for n in range(7):
+        day = first + datetime.timedelta(days=n)
+        try:
+            d = _get(CFB_BASE + f"?groups=80&limit=300&dates={day.strftime('%Y%m%d')}")
+        except Exception as ex:
+            print(f"where_to_watch: college football {day} unavailable ({type(ex).__name__})")
+            continue
+        for e in d.get("events") or []:
+            if e.get("id") in seen:
+                continue
+            seen.add(e.get("id"))
+            g = _game(e, "CFB")
+            k = _et(g["kickoff_utc"])
+            if k and k.date() == day:      # the endpoint spills a night game into the next day
+                out.append(g)
+    out.sort(key=lambda g: g["kickoff_utc"])
+    return out
 
 
 def refresh(check=False):
@@ -185,6 +224,12 @@ def refresh(check=False):
                 weeks.append(nxt)
         except Exception:
             pass                       # one missing future week is not a failure
+    for w in weeks:
+        try:
+            w["cfb_games"] = _cfb_week(w)
+        except Exception as ex:
+            print(f"where_to_watch: college football failed ({type(ex).__name__}); none this build")
+            w["cfb_games"] = []
     payload = {
         "fetched_at": datetime.datetime.now(datetime.timezone.utc)
                               .strftime("%Y-%m-%dT%H:%M:%SZ"),
