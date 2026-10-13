@@ -174,10 +174,41 @@ def _progress(ev, comp, league):
     return max(0.02, min(1.0, done / regulation))
 
 
+def _week_days():
+    """The next seven days in Eastern, as the feed's dates= wants them (YYYYMMDD)."""
+    from zoneinfo import ZoneInfo
+    today = datetime.datetime.now(ZoneInfo("America/New_York")).date()
+    return [(today + datetime.timedelta(days=n)).strftime("%Y%m%d") for n in range(7)]
+
+
+def _events(name, path):
+    """The league's default slate, plus for the NFL each of the next seven days.
+
+    13 OCTOBER 2026: THE DEFAULT SLATE IS NOT THE WEEK. At noon on Tuesday the feed's default
+    NFL scoreboard still served week 5 (Oct 8 to 13), so Thursday night's Seahawks at Broncos
+    was in Where to Watch, which asks by day, and missing from the board, which asked once.
+    A range in dates= answers 400, so each day is its own read, as where_to_watch does. A day
+    that fails is skipped and the default slate stands; a game seen twice is kept once."""
+    out = list((_get(BASE.format(path=path)).get("events")) or [])
+    if name != "NFL":
+        return out
+    seen = {e.get("id") for e in out}
+    for day in _week_days():
+        try:
+            d = _get(BASE.format(path=path) + f"?dates={day}")
+        except Exception as e:
+            print(f"scoreboard: NFL {day} unavailable ({type(e).__name__})")
+            continue
+        for e in d.get("events") or []:
+            if e.get("id") not in seen:
+                seen.add(e.get("id"))
+                out.append(e)
+    return out
+
+
 def _league(name, path, colorkey, cmap):
-    d = _get(BASE.format(path=path))
     games = []
-    for ev in d.get("events") or []:
+    for ev in _events(name, path):
         comp = (ev.get("competitions") or [{}])[0]
         st = (ev.get("status") or {})
         t = st.get("type") or {}

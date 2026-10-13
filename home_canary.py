@@ -69,6 +69,60 @@ def _fixture(sb):
     return u, sbd, w2w, doc
 
 
+def _intake_canary():
+    """The Thursday game reaches the board (13 October 2026). The feed's default NFL slate
+    still served week 5 at noon on Tuesday, so Seahawks at Broncos on Thursday night was in
+    Where to Watch (which asks by day) and missing from the board (which asked once, for the
+    default). The NFL read asks for each of the next seven days as well. A stub stands in for
+    the feed: a default slate of week 5 and a dated answer for Thursday only."""
+    import scoreboard as scb
+    fails = []
+
+    def ev(i, a, h, iso):
+        return {"id": i, "date": iso, "status": {"type": {"state": "pre"}},
+                "competitions": [{"competitors": [
+                    {"homeAway": "home", "team": {"abbreviation": h, "id": "1"}},
+                    {"homeAway": "away", "team": {"abbreviation": a, "id": "2"}}]}]}
+    week5 = {"events": [ev("w5a", "BUF", "LAR", "2026-10-13T00:15Z")]}
+    thu = {"events": [ev("w6a", "SEA", "DEN", "2026-10-16T00:15Z")]}
+    asked = []
+
+    def fake(url):
+        asked.append(url)
+        if "dates=20261015" in url:
+            return thu
+        if "dates=" in url:
+            return {"events": []}
+        return week5
+    was = (scb._get, getattr(scb, "_week_days", None))
+    try:
+        scb._get = fake
+        scb._week_days = lambda: ["20261013", "20261014", "20261015", "20261016",
+                                  "20261017", "20261018", "20261019"]
+        got = scb._league("NFL", "football/nfl", "nfl", {})
+        ids = [g["id"] for g in got]
+        if "w6a" not in ids:
+            fails.append(f"intake: the Thursday game is not in the NFL read (got {ids}); "
+                         "the default slate is not the week")
+        if "w5a" not in ids:
+            fails.append("intake: the default slate's own game was dropped")
+        if len(ids) != len(set(ids)):
+            fails.append(f"intake: a game id is read twice ({ids})")
+        asked.clear()
+        scb._get = lambda url: (_ for _ in ()).throw(OSError("down")) if "dates=" in url else week5
+        ids = [g["id"] for g in scb._league("NFL", "football/nfl", "nfl", {})]
+        if ids != ["w5a"]:
+            fails.append("intake: a failed day read lost the default slate")
+    finally:
+        scb._get = was[0]
+        if was[1] is None:
+            if hasattr(scb, "_week_days"):
+                del scb._week_days
+        else:
+            scb._week_days = was[1]
+    return fails
+
+
 def _record_gap(pages):
     """Run scripts/record-gap.mjs over rendered pages; its failures come back as strings."""
     import json
@@ -108,6 +162,7 @@ def home_canary():
     import build_manifest as bm
     import site_build as sb
     fails = []
+    fails.extend(_intake_canary())
     u, sbd, w2w, doc = _fixture(sb)
     was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
            sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF)
