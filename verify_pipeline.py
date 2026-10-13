@@ -1284,6 +1284,8 @@ def layer1_canary():
     fails.extend(_conflict_canary())   # U-13
     fails.extend(_trailer_canary())    # 6 October 2026: no attribution trailers
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
+    import jobs_canary as _jc
+    fails.extend(_jc.jobs_canary())    # S-1 item 3: the desk's jobs (12 October 2026)
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
     fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two

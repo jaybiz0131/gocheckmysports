@@ -1,0 +1,29 @@
+# The conditions report job, a STUB until Sprint S-2 (Program 7, 12 October 2026).
+#
+# Thursday morning is the slot the program names: the NWS hourly product reaches seven days,
+# so a Sunday kickoff is in range and the numbers have settled. This runs at 11:17 UTC on
+# Thursdays (7:17 AM EDT, 6:17 AM EST after 1 November; an odd minute on purpose, because
+# GitHub's scheduler drifts worst on :00 and :30). It runs conditions_report.py, which prints
+# nothing, calls no model and writes nothing. It has no secrets and cannot push.
+#
+# S-2 gives conditions_report.py the Worker and this file the publish step. Jack deploys the
+# conditions Worker first.
+name: Conditions report (stub)
+
+on:
+  schedule:
+    - cron: "17 11 * * 4"     # Thursday 11:17 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+      - name: Conditions report (prints nothing until S-2)
+        run: python3 conditions_report.py
