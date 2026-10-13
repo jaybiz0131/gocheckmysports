@@ -130,6 +130,22 @@ def build(now, sb_data=None, w2w=None):
     else:
         slate_date["next_label"], slate_date["next_total"], slate_date["next_by_league"] = "", 0, {}
     in_week = [r for r in games if ws <= r[3] < we]
+    week_slate = pack(in_week)
+    # the day tabs and the Sunday windows of the week board read these
+    import carriage
+    days = {}
+    for lg, g, d, k in sorted(in_week, key=lambda r: r[3]):
+        days.setdefault(d, []).append((lg, g, k))
+    week_slate["days"] = [
+        {"date": d.isoformat(), "label": d.strftime("%a"),
+         "by_league": {lg: len([1 for x in rows if x[0] == lg]) for lg in {x[0] for x in rows}}}
+        for d, rows in sorted(days.items())]
+    wins = {}
+    for lg, g, d, k in in_week:
+        if lg == "NFL" and d.weekday() == 6:
+            key = carriage.window_key(k, "NFL")
+            wins[key] = wins.get(key, 0) + 1
+    week_slate["sunday_windows"] = wins
     return {
         "built_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "built_et": now.astimezone(ET).strftime("%Y-%m-%d %-I:%M %p %Z"),
@@ -141,23 +157,31 @@ def build(now, sb_data=None, w2w=None):
         "data_utc": (sb_data or {}).get("fetched_at") or "",
         "data_stamp": (_label(_utc((sb_data or {}).get("fetched_at"))) + " ET")
                       if _utc((sb_data or {}).get("fetched_at")) else "",
-        "slate": {"date": slate_date, "week": pack(in_week)},
+        "slate": {"date": slate_date, "week": week_slate},
     }
 
 
-def count_line(m, league=None):
-    """The one sentence every page prints for the day's count. `league` None is all."""
-    d = m["slate"]["date"]
+def _leagues(league):
     if league is None:
+        return None
+    return [league] if isinstance(league, str) else list(league)
+
+
+def count_line(m, league=None):
+    """The one sentence every page prints for the day's count. `league` is None for all
+    leagues, one league's name, or a list of names (the board counts NFL and CFB)."""
+    d = m["slate"]["date"]
+    lgs = _leagues(league)
+    if lgs is None:
         n, nxt_n, lab = d["total"], d["next_total"], d["next_label"]
     else:
-        n = (d["by_league"].get(league) or {}).get("total", 0)
-        nxt_n = (d.get("next_by_league") or {}).get(league, 0)
+        n = sum((d["by_league"].get(l) or {}).get("total", 0) for l in lgs)
+        nxt_n = sum((d.get("next_by_league") or {}).get(l, 0) for l in lgs)
         lab = d["next_label"]
     if n:
         return f"{n} game{'' if n == 1 else 's'} today"
     if nxt_n:
-        return f"No games today · {nxt_n} {'game' if nxt_n == 1 else 'games'} {lab}"
+        return f"No games today \u00b7 {nxt_n} {'game' if nxt_n == 1 else 'games'} {lab}"
     return "No games scheduled"
 
 

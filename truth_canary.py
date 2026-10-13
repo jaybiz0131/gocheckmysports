@@ -245,7 +245,7 @@ def truth_canary():
         if m["slate"]["date"]["total"] != 4 or m["date"] != "2026-10-11":
             fails.append(f"truth: the manifest counts {m['slate']['date']['total']} games on "
                          f"{m['date']}, the fixture has 4 on 2026-10-11")
-        want = {"home": bm.count_line(m), "scores": bm.count_line(m),
+        want = {"home": bm.count_line(m, ["NFL", "CFB"]), "scores": bm.count_line(m, ["NFL", "CFB"]),
                 "fantasy": bm.count_line(m, "NFL")}
         fails += check_agreement(pages, m, want)
         # THE META TEST: a page that changes its own count must fail the suite

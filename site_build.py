@@ -254,10 +254,12 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
 # with the product first. NAV above stays the full union: it is what the unreachable-lane
 # guard reads, and a lane that moved into More is still a lane that must be reachable.
 # N-1 amends S-1: Home is the first item; the wordmark stays a home link too.
-NAV_PRIMARY = ["Home", "Scores", "Fantasy", "Where to watch", "The Record", "The Edition",
-               "NFL", "College Football", "MLB"]
-NAV_MORE = ["Standings", "Soccer", "WNBA", "Tennis", "NBA", "College Basketball",
-            "NHL", "More Sports", "Archive", "About"]
+# S-1 item 2 (12 October 2026): the header is six items, in Jack's order, and nothing else.
+# (label shown, key in NAV that names its page and marks it active). Everything the header
+# used to carry (the Record, the Edition, the other leagues, Standings) is reachable from the
+# Archive page and the footer. NAV above stays the full union for the unreachable-lane guard.
+NAV_HEADER = [("Week", "Home"), ("Scores", "Scores"), ("Watch", "Where to watch"),
+              ("Fantasy", "Fantasy"), ("Archive", "Archive"), ("About", "About")]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -1235,22 +1237,11 @@ def masthead(active, dateline, brand="site"):
     if not IA_BOARD:
         _hidden.add("Fantasy")
     _href = dict(NAV)
-    if EDITION_HREF:
-        _href["The Edition"] = EDITION_HREF
     nav = "".join(
-        f'<a href="{esc(_href[label])}"'
-        f'{" class=active" if label == active else ""}>{esc(label)}</a>'
-        for label in NAV_PRIMARY
-        if label in _href and label not in _hidden)
-    _more = [l for l in NAV_MORE if l in _href and l not in _hidden]
-    if _more:
-        _open = " open" if active in _more else ""
-        nav += (f'<details class="mh-more"{_open}><summary>More</summary>'
-                f'<div class="mh-more-sheet">'
-                + "".join(f'<a href="{esc(_href[l])}"'
-                          f'{" class=active" if l == active else ""}>{esc(l)}</a>'
-                          for l in _more)
-                + '</div></details>')
+        f'<a href="{esc(_href[key])}"'
+        f'{" class=active" if key == active else ""}>{esc(label)}</a>'
+        for label, key in NAV_HEADER
+        if key in _href and key not in _hidden)
     fam = f''
     # wordmark: "GoCheckMy" in the shared ink color, the site name ("Sports"/"News")
     # in the site color and italic (owner directive 2026-07-24)
@@ -1316,6 +1307,8 @@ def footer(brand="site", fantasy=False):
                     # every page two links to each and helped invert the link graph. The
                     # footer keeps what the nav does not carry.
                     [("Archive", "/archive.html"), ("About", "/about.html"),
+                     ("Storylines", "/news.html"), ("The Record", "/keepers.html"),
+                     ("The Edition", EDITION_HREF or "/bottom-line.html"),
                      ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
@@ -3358,19 +3351,15 @@ def render_news_month(month, rows, dateline):
 # person's own state, because there is no per-person state on this site to carry.
 
 TAB_BAR = [
-    # N-1: HOME IS FIRST, and it is named Home. The first tab was labeled Scores and
-    # pointed at /index.html, so the tab bar had no way back to the front page and the
-    # scoreboard's own page was not reachable from it at all.
-    ("Home", "/index.html",
+    # S-1 item 2: Week, Scores, Watch, Fantasy, More, as Jack named them. Week is the home.
+    ("Week", "/index.html",
      "M3 9l7-6 7 6v8H3z"),                                    # a roof over a door
     ("Scores", "/scores.html",
      "M3 13h3l2-5 3 9 2.5-6 1.5 2h4"),                       # a scoreline
-    ("Fantasy", "/fantasy/index.html",
-     "M4 6h10M4 10h7M4 14h10M17 7v7M17 16.5v.5"),            # a list with a flag
     ("Watch", "/where-to-watch.html",
      "M3 5h14v9H3zM7 17h6"),                                  # a screen
-    ("Record", "/keepers.html",
-     "M5 3h8l3 3v11H5zM8 8h5M8 11h5"),                        # a filed document
+    ("Fantasy", "/fantasy/index.html",
+     "M4 6h10M4 10h7M4 14h10M17 7v7M17 16.5v.5"),            # a list with a flag
     ("More", "/archive.html",
      "M4 6h12M4 10h12M4 14h12"),                              # a menu
 ]
@@ -4709,7 +4698,7 @@ def _tk_records(g):
     return (_TK_MID.join(b for b in bits if b), when)
 
 
-def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
+def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=""):
     """SC-1: the full Ticket card. Three states; only the lines that exist render."""
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
@@ -4778,7 +4767,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True):
             f'style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub" style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub-top"><span data-role="kicker">{_tk_kicker(g)}</span>'
-            f'{net}</div>'
+            f'{net}{stream}</div>'
             f'<div class="tk-mu" data-role="mu">{_tk_matchup(g)}</div>'
             f'{_tk_rec_html(g)}'
             f'{_tk_countdown(g)}'
@@ -5271,90 +5260,6 @@ def _ia_for_game(g, ia_index, side):
 # on the site. Jack's ruling of 12 October: the word "live" leaves every page until the Worker
 # of Sprint S-4 makes it true, and the counts have one source, build_manifest.py.
 
-SB_TABS_JS = """
-<script>(function(){
-  /* SC-4: the tabs switch the band. Every league's panel is already in the page, so
-     this only moves the `hidden` attribute and the `on` class; nothing is fetched and
-     nothing is laid out from scratch.
-
-     WITHOUT THIS SCRIPT THE TABS STILL WORK: each one is a real link to that league's
-     section on /scores, and the browser follows it. This turns the same link into an
-     in-place switch when it can, and gets out of the way when it cannot. */
-  var tabs = document.querySelectorAll('.tk-tabs .tk-tab');
-  var panels = document.querySelectorAll('.tk-panel');
-  if (!tabs.length || !panels.length) return;
-  var KEY = 'gcm.league';
-  function slugOf(a){ var h = a.getAttribute('href') || ''; var i = h.indexOf('#');
-    return i < 0 ? 'all' : h.slice(i + 1); }
-  function show(slug){
-    var panel = document.querySelector('.tk-panel');
-    if (!panel) return false;
-    var found = slug === 'all';
-    var units = panel.querySelectorAll('[data-league]');
-    units.forEach(function(u){
-      if (u === panel) return;
-      var lg = u.getAttribute('data-league');
-      if (lg === slug) found = true;
-    });
-    if (!found) return false;
-    units.forEach(function(u){
-      if (u === panel) return;
-      u.hidden = slug !== 'all' && u.getAttribute('data-league') !== slug;
-    });
-    tabs.forEach(function(t){
-      t.classList.toggle('on', slugOf(t) === slug);
-    });
-    /* The count in the band header is the manifest's count for the tab on screen. */
-    var count = panel.querySelector('.tk-count[data-for="' + slug + '"]');
-    var head = document.querySelector('.sb-count');
-    if (count && head) head.textContent = count.textContent;
-    try { localStorage.setItem(KEY, slug); } catch (e) {}
-    return true;
-  }
-  tabs.forEach(function(t){
-    t.addEventListener('click', function(ev){
-      var slug = slugOf(t);
-      /* Only take over the click when this page can actually show that league. On a
-         league the band is not carrying, the link does its job and goes to /scores. */
-      if (show(slug)) {
-        ev.preventDefault();
-        if (history.replaceState) history.replaceState(null, '', '#' + slug);
-      }
-    });
-  });
-  var want = (location.hash || '').slice(1);
-  if (!want) { try { want = localStorage.getItem(KEY) || ''; } catch (e) {} }
-  if (want) show(want);
-
-  /* H-3 (SC-2): a fold opens the full card in place, by click or tap. The card is
-     already in the page beside it, so this only moves the hidden attribute. Without
-     this script the fold is still a link to the game page, which is where the reader
-     was going anyway. */
-  document.querySelectorAll('.tk-pair').forEach(function(pair){
-    var fold = pair.querySelector('.tk-fold');
-    var open = pair.querySelector('.tk-open');
-    if (!fold || !open) return;
-    fold.setAttribute('role', 'button');
-    fold.setAttribute('aria-expanded', 'false');
-    function set(on){
-      fold.hidden = on;
-      open.hidden = !on;
-      fold.setAttribute('aria-expanded', on ? 'true' : 'false');
-    }
-    fold.addEventListener('click', function(ev){
-      /* A modifier or a middle click is a reader asking for the game page. */
-      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
-      ev.preventDefault();
-      set(true);
-    });
-    var close = open.querySelector('.tk-close');
-    if (close) close.addEventListener('click', function(ev){
-      ev.preventDefault(); set(false); fold.focus();
-    });
-  });
-})();</script>
-"""
-
 SB_HERO_JS = """
 <script>(function(){
   /* Hero addendum item 3: the loop may replace the poster on desktop ONLY, and only
@@ -5448,7 +5353,10 @@ def _mf_count_line(league=None):
 
 def _mf_today_total(league=None):
     d = _mf()["slate"]["date"]
-    return d["total"] if league is None else (d["by_league"].get(league) or {}).get("total", 0)
+    if league is None:
+        return d["total"]
+    lgs = [league] if isinstance(league, str) else list(league)
+    return sum((d["by_league"].get(l) or {}).get("total", 0) for l in lgs)
 
 
 def _mf_stamp():
@@ -5476,30 +5384,6 @@ def _mf_count_p(league=None, cls="bd-src"):
     return f'<p class="{cls}" data-mf="count">{esc(_mf_count_line(league))}</p>'
 
 
-def _sb_day_split(games):
-    """S-25. How many of these games are actually TODAY, on the reader's clock.
-
-    The band said "62 games today" and linked "All 62 games today". The scoreboard feed
-    is not a day, it is a schedule: measured 15 Sep it held 62 games spanning 9 Sep to
-    3 Oct, and none of them were today. len(games) was never the day's count, and S-25
-    put that number in the hero's promise row where a reader would read it as the
-    desk's own tally. Returns (todays_games, next_day_label, next_day_count)."""
-    import datetime as _dt
-    today = _build_now().astimezone(_ET).date()
-    by_day = {}
-    for g in games:
-        d = _utc_dt(g.get("start_utc") or "")
-        if d:
-            by_day.setdefault(d.astimezone(_ET).date(), []).append(g)
-    todays = by_day.get(today) or []
-    nxt = sorted(d for d in by_day if d > today)
-    if not nxt:
-        return todays, "", 0
-    d0 = nxt[0]
-    lab = "tomorrow" if (d0 - today).days == 1 else d0.strftime("%A")
-    return todays, lab, len(by_day[d0])
-
-
 # ---- S-L4: the sticky mini-scoreboard --------------------------------------------
 # The audit's fourth lead item: when the reader scrolls past the band, a thin strip with
 # the live scores stays at the top of the page, the way ESPN and Yahoo keep scores in
@@ -5514,36 +5398,6 @@ def _sb_day_split(games):
 # sticky siblings at top:0 land on top of each other. The offset is measured from the
 # nav at runtime rather than written as a number here: the nav is 44px today and that
 # is not a promise it makes.
-
-MINI_SB_JS = """<script>(function(){
-  var strip=document.querySelector('.msb'), band=document.querySelector('.scoreband');
-  if(!strip||!band||!('IntersectionObserver' in window)) return;
-  var nav=document.querySelector('nav.mh-nav');
-  function offset(){
-    var h = nav ? Math.round(nav.getBoundingClientRect().height) : 0;
-    document.documentElement.style.setProperty('--msb-top', h+'px');
-  }
-  offset();
-  addEventListener('resize', offset, {passive:true});
-  /* The strip appears once the band has left the top of the viewport and goes away
-     again when it returns. Nothing is delayed by this: the strip is extra, and the
-     page is complete without it. */
-  new IntersectionObserver(function(es){
-    strip.hidden = es[0].isIntersecting;
-  }, {rootMargin:'-1px 0px 0px 0px', threshold:0}).observe(band);
-})();</script>"""
-
-
-# ---- S-L3: my teams --------------------------------------------------------------
-# The audit's third lead item, and the sports twin of the crypto desk's coin pins: pin
-# teams, and their games lead the band while their injuries lead the hub. No account,
-# nothing sent, nothing logged; the choice lives in this browser and nowhere else.
-#
-# WHY THE REORDER IS CLIENT-SIDE. The desk cannot know what a reader has pinned, and
-# should not: that is the whole point of a device-only list. So the page ships in its
-# normal order, complete and correct for everyone, and the script moves what the reader
-# picked to the front. A reader with no pins gets exactly the page that shipped, and a
-# reader with no JavaScript gets it too.
 
 LENS_JS = """<script>(function(){
   /* B-3: the lens. Four ways to read the same board.
@@ -5838,166 +5692,6 @@ def _team_pin_index(team_data):
     return ('<span hidden>' + "".join(
         f'<span data-tabbr="{esc(a)}" data-tname="{esc(t.get("name") or "")}"></span>'
         for a, t in rows) + '</span>')
-
-
-def mini_scoreboard(sb):
-    """A-3: the thin strip, with ids so the poll can move it.
-
-    It carried no data-gid, so the poll could not touch it: at 2:23 PM on NFL Sunday
-    the strip still showed one soccer match from the build while seventeen games were
-    live on the board above it. Every item now carries its game id, league and state,
-    and the same paint() that moves a card moves the strip.
-
-    WHAT IT HOLDS. Live games first, then the next kickoffs, so a strip is never empty
-    on a morning before the slate starts, which is when a reader most wants to know
-    what is coming. The reader's pinned teams are moved to the front on the client
-    (S-L3's store), because the desk does not know what they pinned and should not.
-    """
-    if not sb or not sb.get("leagues"):
-        return ""
-    games = [g for L in sb["leagues"] for g in L["games"]]
-    live = [g for g in games if g.get("state") == "in"]
-    nxt = sorted((g for g in games if g.get("state") == "pre" and g.get("start_utc")),
-                 key=lambda g: g["start_utc"])
-    show = (live + nxt)[:8]
-    if not show:
-        return ""
-    cells = []
-    for g in show:
-        a, h = g.get("away") or {}, g.get("home") or {}
-        ca, ch = _tk_colors(g)
-        sa, sh = a.get("score"), h.get("score")
-        started = g.get("state") in ("in", "post")
-
-        def side(t, sc, col, lead, which):
-            val = "" if (sc is None or not started) else esc(str(sc))
-            return (f'<span class="msb-t">{_rank_html(g, t, cls="tk-rk msb-rk")}'
-                    f'<b style="color:{col}">{esc(t.get("abbr") or "")}</b>'
-                    f'<span class="msb-s{" msb-lead" if lead else ""}" '
-                    f'data-side="{which}">{val}</span></span>')
-        try:
-            ia, ih = int(sa), int(sh)
-            tie = ia == ih
-        except (TypeError, ValueError):
-            ia = ih = None
-            tie = True
-        _kd = _utc_dt(g.get("start_utc") or "")
-        status = (g.get("status_short") or "") if started else (
-            _et_clock(_kd) if _kd else "")
-        cells.append(
-            f'<a class="msb-g" data-gid="{esc(str(g.get("id") or ""))}" '
-            f'data-league="{esc(g.get("league") or "")}" '
-            f'data-state="{esc(g.get("state") or "")}" '
-            f'data-away="{esc(a.get("abbr") or "")}" '
-            f'data-home="{esc(h.get("abbr") or "")}" '
-            f'href="{esc(_game_href(g))}">'
-            + side(a, sa, ca, ia is not None and not tie and ia > ih, "away")
-            + side(h, sh, ch, ih is not None and not tie and ih > ia, "home")
-            + f'<span class="msb-st" data-role="msb-status">{esc(status)}</span></a>')
-    return (f'<div class="msb" role="region" aria-label="Live scores" hidden>'
-            f'<div class="msb-in">{"".join(cells)}'
-            f'<a class="msb-all" href="/scores.html">All scores</a></div></div>')
-
-
-def scoreboard_band(sb, board, wx=None):
-    """The dark band under the masthead. Returns "" when there is nothing to show, so
-    the homepage simply does not carry it rather than carrying an empty shell."""
-    if not sb or not sb.get("leagues"):
-        return ""
-    _mf_prime(sb)
-    games = [g for L in sb["leagues"] for g in L["games"]]
-    if not games:
-        return ""
-    ia = _ia_index(board)
-    mq = _sb_marquee_pick(games)
-    rest = [g for g in games if g is not mq]
-    # Live first, then upcoming, then finals: what a reader opened the page for.
-    # CFB-1: today's weighting, then the poll rank, then the clock. It was
-    # SB_TAB_ORDER's fixed index, which is why MLB sat above college football on a
-    # Saturday in September.
-    rest.sort(key=_sb_sort_key)
-    present = [n for n in _day_league_order() if any(g["league"] == n for g in games)]
-    # S-1 item 0: the count is the manifest's, never this function's.
-    count_line = _mf_count_line()
-    _n_today = _mf_today_total()
-    foot_link = (f"All {_n_today} game{'' if _n_today == 1 else 's'}" if _n_today
-                 else "All games")
-    # SC-4: the tabs carry a count or a next date and switch the whole band.
-    tabs = _tk_tabs(games, active="all")
-    # S-1 item 0: ONE PANEL, EVERY GAME ONCE. The band used to render a panel per tab, so a
-    # game in the NFL tab was rendered a second time under All, and the Ravens card and the
-    # whole NFL block printed twice on the home. Now there is one grid; a tab filters it by
-    # the league each unit carries (data-league), and the per-tab count sits in a hidden
-    # span from the manifest. A reader with no script still has every tab as a real link to
-    # that league's section on /scores.
-    def _slug(lg):
-        return lg.lower().replace(" ", "-")
-
-    def _tag(html_, lg):
-        return html_.replace('<article class="tk-c', f'<article data-league="{esc(_slug(lg))}" class="tk-c', 1)
-
-    def _pair(gg):
-        return (f'<div class="tk-pair" data-gid="{esc(str(gg.get("id")))}" '
-                f'data-league="{esc(_slug(gg.get("league") or ""))}">'
-                f'{_tk_fold(gg, ia, desig=IA_DESIG)}'
-                f'<div class="tk-open" hidden>'
-                f'{_tk_card(gg, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)}'
-                f'<button class="tk-close" type="button" aria-label="Close">'
-                f'Close</button></div></div>')
-
-    _m = _sb_marquee_pick(games)
-    _others = [g for g in games if g is not _m]
-    _others.sort(key=_sb_sort_key)
-    _counts = "".join(
-        f'<span class="tk-count" data-for="{esc("all" if n == "all" else _slug(n))}" hidden>'
-        f'{esc(_mf_count_line(None if n == "all" else n))}</span>'
-        for n in ["all"] + present)
-    _pre_all = sorted((g for g in games if g.get("state") == "pre"),
-                      key=lambda g: g.get("start_utc") or "")
-    _next_html = ""
-    if _pre_all:
-        _ng = _pre_all[0]
-        _nd = _utc_dt(_ng.get("start_utc") or "")
-        if _nd:
-            _when = _et_clock(_nd)
-            if _nd.astimezone(_ET).date().isoformat() != _mf()["date"]:
-                _when = f"{_nd.astimezone(_ET).strftime('%a %b %-d')} {_when}"
-            _next_html = (f'<span class="sb-next">Next: '
-                          f'{esc(_team_label(_ng, _ng.get("away") or {}))} at '
-                          f'{esc(_team_label(_ng, _ng.get("home") or {}))} '
-                          f'{esc(_when)}</span>')
-    panels = (f'<div class="sb-grid tk-panel" data-league="all">'
-              + (_tag(_tk_card(_m, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS),
-                      _m.get("league") or "") if _m else "")
-              + '<div class="sb-cards">' + "".join(_pair(g) for g in _others)
-              + f'</div><div class="sb-foot tk-foot"><a class="sb-link" '
-                f'href="/scores.html">{esc(foot_link)} &rarr;</a>{_next_html}</div>{_counts}</div>')
-    stamp = _mf_stamp()
-    # H-7: the stale mark rides beside the stamp, outside the manifest's own element.
-    _stale = ' <span class="sb-stale">\u00b7 stale</span>' if sb.get("stale") else ""
-    _orn = _sb_ornament(games)
-    return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="The Scoreboard">
-  <div class="sb-bg" aria-hidden="true"></div>
-  <div class="sb-scrim" aria-hidden="true"></div>
-  <div class="wrap sb-inner">
-    <div class="sb-promise">
-      <div class="sb-promise-l">
-        <h2 class="sb-claim">Scoreboard</h2>
-
-      </div>
-      <span class="sb-count" data-mf="count">{esc(count_line)}</span>
-    </div>
-    <div class="sb-head">
-      <div class="sb-head-l">
-        <div class="sb-tabs">{tabs}{_week_link()}</div>
-        {lens_control()}</div>
-      <span class="sb-stamp" data-mf="stamp">Updated {esc(stamp)}</span>{_stale}
-    </div>
-    {panels}
-  </div>
-  {_orn}
-</section>
-<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + TEAM_PIN_JS + LENS_JS
 
 
 # ---- S-L1: standings and the college football rankings ---------------------------
@@ -6717,7 +6411,8 @@ def _st_nav(st, here):
 def standings_strip(st):
     """S-L1 on /scores: the tab that takes a reader to the tables. The page is the
     day's games; the standings are the season, and they get a door, not a copy."""
-    links = [(lg["key"], lg["league"]) for lg in (st.get("leagues") or [])]
+    links = [(lg["key"], lg["league"]) for lg in (st.get("leagues") or [])
+             if lg["key"] == "nfl"]       # S-1 item 2: NFL and college football only
     if st.get("rankings"):
         links.append(("college-football", "College football"))
     if not links:
@@ -6737,6 +6432,11 @@ def render_scores_page(sb, board, dateline, wx=None):
     if not sb or not sb.get("leagues"):
         return None
     _mf_prime(sb)
+    # S-1 item 2: the Scores page keeps the NFL and CFB tabs and loses the rest. The other
+    # leagues' pages stay at their URLs; the manifest was made from the whole feed first.
+    sb = dict(sb, leagues=[L for L in sb["leagues"] if L.get("league") in BOARD_LEAGUES])
+    if not sb["leagues"]:
+        return None
     ia = _ia_index(board)
     secs = []
     for L in sb["leagues"]:
@@ -6756,7 +6456,7 @@ def render_scores_page(sb, board, dateline, wx=None):
             + "".join(_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)
                       for g in games) + '</div></section>')
     _all = [g for L in sb["leagues"] for g in L["games"]]
-    count_line = _mf_count_line()
+    count_line = _mf_count_line(BOARD_LEAGUES)
     # Revised G-2: an inner page carrying the same product opens with the SAME band at
     # reduced height, then continues light. That amends S-10's "run the page inside the
     # band"; the addendum wins, and it is the better read - a page-length dark surface
@@ -9184,285 +8884,207 @@ def render_keepers(items, dateline):
 
 
 
-def render_home(items, dateline):
-    """The GoCheckMySports front door, built for the RETURNING reader: today's headlines,
-    the editions, and the storylines the desk is tracking. The brand pitch lives below the
-    information, not above it."""
-    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
+# ---- S-1 item 2: the home is the week board --------------------------------------
+# Jack's ruling of 12 October 2026 (Program 7): the band and the board, one empty slot for
+# the conditions report, then the footer. Storylines, From the desk and the Record left the
+# home; their pages stay at their URLs and the Archive page and the footer reach them.
+BOARD_LEAGUES = ("NFL", "CFB")
+_WIN_ID = {"early": "early", "1:00": "1pm", "4:05-4:25": "late", "afternoon": "afternoon",
+           "night": "night"}
 
-    # UX-11: one appearance per story per page, and blocks claim in render order, so
-    # this has to be the FIRST thing the page does. The first cut reset halfway down,
-    # after the desk grid had already claimed, which wiped its claims and let the same
-    # story render again below.
-    #
-    # The band's league panels are excluded deliberately: they are alternate views of
-    # the same slot and only one is ever on screen, so a story on the NFL card and the
-    # MLB card is not the page saying it twice.
-    _page_reset()
+WB_TABS_JS = """
+<script>(function(){
+  /* The week board's day tabs. Every day's cards are in the page and in kickoff order; the
+     tabs are real links to each day's heading, so with no script the page is the whole week
+     in order. With script a tab shows one day, and the board opens on today's. */
+  var tabs = document.querySelectorAll('.wb-tabs [data-day]');
+  var days = document.querySelectorAll('.wb-day');
+  if (!tabs.length || !days.length) return;
+  function show(day){
+    var found = false;
+    days.forEach(function(s){ var on = day === 'all' || s.getAttribute('data-day') === day;
+      s.hidden = !on; if (on) found = true; });
+    if (!found) return false;
+    tabs.forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-day') === day); });
+    return true;
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(ev){
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
+      ev.preventDefault();
+      show(t.getAttribute('data-day'));
+    });
+  });
+  document.querySelectorAll('.wb-wins a').forEach(function(a){
+    a.addEventListener('click', function(){ show('sun'); });
+  });
+  var bd = document.querySelector('.wb-board');
+  var today = bd && bd.getAttribute('data-today');
+  var d = today && document.querySelector('.wb-day[data-date="' + today + '"]');
+  if (d) show(d.getAttribute('data-day'));
+})();</script>
+"""
 
-    # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
-    # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
-    # editions in their own strip below. No carousel: every ranked story is on screen.
-    # Daypart re-stack (2026-07-20): home_stack may promote a breaking story to the lead
-    # and picks the edition that anchors The Bottom Line square.
-    stories, breaking, bl_anchor = home_stack(items)
 
-    # S1 TAKES THE TOP STORY, so the hero mosaic must not print it again. The ledger
-    # decides: a lead with checkable figures becomes the receipts card above, and the
-    # mosaic starts one story down. Without a ledger there is no lead row and the
-    # mosaic leads as it always did.
-    # UX-5: the lead is the highest lead value among the top of the editor's rank, not
-    # simply the first. The rest of the stack keeps the editor's order.
-    _pool = stories[:12]
-    _best = max(_pool, key=lambda i: lead_value(i), default=None) if _pool else None
-    if _best is not None and lead_value(_best) > 0 and _best is not stories[0]:
-        stories = [_best] + [x for x in stories if x is not _best]
-    _s1_lead = stories[0] if stories else None
-    _s1_ledger = receipts_ledger(_s1_lead) if _s1_lead else ""
-    global HOME_LEAD_SLUG
-    HOME_LEAD_SLUG = (_s1_lead or {}).get("slug") if _s1_lead else None
-    hero_pool = stories[1:] if _s1_lead else stories
+def _w2w_carriers_by_id():
+    out = {}
+    for w in (W2W_DATA or {}).get("weeks") or []:
+        for key in ("games", "cfb_games"):
+            for g in w.get(key) or []:
+                if g.get("id"):
+                    out[str(g["id"])] = g.get("carriers") or []
+    return out
 
-    def _hero_tag(item):
-        # A-5: the grid's league chip, with a tag the story's own teams contradict
-        # removed. This printed "nfl" on a Vanderbilt at NC State recap, on NFL Sunday.
-        tags = display_tags(item)
-        return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
 
-    desk_html = ""
-    if hero_pool:
-        stories = hero_pool
-        lead = stories[0]
-        # S-2: the dark .hero-band is gone - the photo band over hero-poster.webp, the
-        # second "Lead story" badge under the one in the lead row above it, and the
-        # numbered 02-06 cards. It was the homepage's second hero, arguing with the
-        # first. Its stories come here, to the light grid (S-6).
-        #
-        # D-13: the Bottom Line card is off the homepage. Sprint A rehomed it here
-        # rather than delete it, and on the live page it became the first item under
-        # "From the desk" at nine lines - which is not the S-6 shape (six light cards,
-        # no summary text) and reads as the Edition leading the homepage. The Edition
-        # keeps its nav entry, /bottom-line.html keeps the history, and the Edition's
-        # homepage presence is one card in this grid, in the same shape as the rest.
-        ed_card = ""
-        if bl_anchor is not None:
-            ed = bl_anchor
-            ed_card = (f'<a class="bd-card sp-deskcard sp-deskcard-ed" '
-                       f'href="/articles/{esc(ed["slug"])}.html">'
-                       f'<span class="bd-cardtop"><span class="bd-eyebrow">'
-                       f'The Evening Edition</span></span>'
-                       f'<span class="sp-deskcard-h">{esc(_edition_label(ed))}</span>'
-                       f'<span class="dateline">{fmt_when(ed)}</span></a>')
-        # S-6: six light cards, three across. League label, the desk's badge, the
-        # headline clamped at a word boundary, the time in ET. No summary text, so
-        # equal heights come from the clamp and not from stretching a short card.
-        cards = "".join(
-            f'<a class="bd-card sp-deskcard" href="/articles/{esc(i["slug"])}.html">'
-            f'<span class="bd-cardtop">{_hero_tag(i)}'
-            f'{verdict_badge(i.get("verdict"), i)}</span>'
-            f'<span class="sp-deskcard-h">{esc(clamp_words(i.get("title") or "", 96))}</span>'
-            f'<span class="dateline">{fmt_when(i)}</span></a>'
-            for i in _unused(stories, 6))
-        cards = ed_card + cards
-        desk_html = (f'<div class="bd-sec"><div class="bd-sec-l">'
-                     f'<h2 class="bd-h2">From the desk</h2></div>'
-                     f'<a class="bd-more" href="/news.html">All stories</a></div>'
-                     f'<div class="sp-deskgrid">{cards}</div>')
+def _first_stream_chip(g, carriers, doc, today):
+    """The first stream chip for a card: the first service that carries the game and is not
+    already the network chip, or the one verify chip. '' when no row matches."""
+    k = _utc_dt(g.get("start_utc") or "")
+    if not k:
+        return ""
+    car = carriers.get(str(g.get("id"))) or (
+        [{"name": g["network"]}] if g.get("network") else [])
+    chips = _carriage.streams_for({"league": g.get("league"), "carriers": car}, k, doc, today)
+    nn = {_carriage.norm(c.get("name")) for c in car}
+    chips = [c for c in chips if _carriage.norm(c["label"]) not in nn]
+    if not chips:
+        return ""
+    c = chips[0]
+    cls = "tk-chip tk-stream" + (" tk-verify" if c["state"] != "ok" else "")
+    return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
 
-    # The Editions: the desk's daily synthesis as its own strip, one card per slot
-    # (morning / midday / evening), newest first, never older than the current news cycle.
-    # EDITIONS STALENESS (owner directive 2026-07-27, same rule as the featured band):
-    # a card older than 24 hours never renders and the strip collapses entirely when
-    # nothing fresh exists; the live-dot only ever sits on a fresh card. A July 23
-    # brief wearing a live-dot on July 27 slipped through this module.
-    _now = _build_now()
-    wraps = [i for i in items if _is_wrap(i) and not i.get("example")
-             and _fresh_hours(i, _now) <= 24]
-    ed_cards, seen_slots = [], set()
-    if wraps:
-        recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
-        for w in wraps:
-            if len(ed_cards) >= 3:
-                break
-            if (w.get("date") or "") not in recent:
-                continue
-            title = w.get("title") or ""
-            kick, _, hook = title.partition(":")
-            if not hook:
-                kick, hook = "The Daily Edition", title
-            if kick in seen_slots:
-                continue
-            seen_slots.add(kick)
-            fact = w.get("key_fact") or w.get("dek") or ""
-            dot = '<span class="live-dot"></span>' if not ed_cards else ''
-            ed_cards.append(
-                f'<a class="edition-card" href="/articles/{esc(w["slug"])}.html">'
-                f'<span class="ed-kick">{esc(kick)}{dot}</span>'
-                f'<span class="ed-title">{esc(hook.strip())}</span>'
-                f'<span class="ed-fact">{esc(fact)}</span>'
-                f'<span class="dateline">{_blink_when(w)}</span></a>')
-    # Artboard 4 module 3, right rail: the Edition as one card rather than the strip.
-    # Built from the newest fresh edition, which is the same source the strip used.
-    _edition_card_html = ""
-    _fresh_ed = next((x for x in wraps), None)
-    if _fresh_ed:
-        _kick, _, _hook = (_fresh_ed.get("title") or "").partition(":")
-        _edition_card_html = (
-            f'<div class="bd-card" style="gap:10px;padding:20px 22px 18px">'
-            f'<span class="bd-eyebrow">The Evening Edition</span>'
-            f'<div class="bd-h3" style="font-size:20px">'
-            f'{esc((_hook or _kick).strip())}</div>'
-            f'<p class="bd-read">One read a day over everything the desk published, with '
-            f'the scores that settled and the stories that were checked.</p>'
-            f'<div class="bd-cta">'
-            f'<a class="bd-btn" href="/articles/{esc(_fresh_ed["slug"])}.html">'
-            f'{esc(_edition_label(_fresh_ed))}</a>'
-            f'<a class="bd-more" href="/bottom-line.html">Past editions</a></div></div>')
 
-    editions_html = ""
-    if ed_cards:
-        editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
-                         f'<span class="bar"></span></div>'
-                         f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
-                         f'one evening read over everything published that day.</p>'
-                         f'<div class="edition-strip">{"".join(ed_cards)}</div>')
-
-    # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
-    # HUB FIRST (consolidation 2026-09-01): a storyline that has earned a /coverage/ hub
-    # sends its chip there instead, the stable URL, and the hub shows the newest chapter
-    # first anyway. Storylines without a hub keep the newest-chapter behavior unchanged.
-    track_html = ""
-    chips = []
-    _chip_slugs_used = set()
-    watch = _watchlist()
-    _hub_by_name = {h["name"]: h for h in coverage_hubs(items)}
-    _tracking_match = tracking_match
-    for n in watch:
-        rx = narrative_rx(n)
-        if rx is None:
+def week_board(sb):
+    """The week's NFL and FBS games in kickoff order on the Ticket cards, under a band with
+    the day tabs and the Sunday windows. Every count is the manifest's. Returns
+    (band_html, board_html); both are '' when the feed gave no game."""
+    games = []
+    ws = _bm.week_start(_build_now())
+    we = ws + datetime.timedelta(days=7)
+    for L in (sb or {}).get("leagues") or []:
+        if L.get("league") not in BOARD_LEAGUES:
             continue
-        # UX-10: the window is checked ONCE, at the top, for both chip sources. The
-        # first cut checked it only on the story-matched branch, so a storyline with a
-        # coverage hub kept its chip past its window: NFL training camp, NBA free agency
-        # and World Cup aftermath all still rendered in Week 2 while MLB trade deadline,
-        # which has no hub, correctly disappeared.
-        if not _storyline_open(n):
-            print(f"tracking: chip {n.get('name')!r} is outside its window; not offered")
-            continue
-        hub = _hub_by_name.get(n.get("name", ""))
-        if hub:
-            chips.append(f'<a class="chip" href="/coverage/{esc(hub["slug"])}.html">'
-                         f'{esc(n.get("name", ""))}</a>')
-            continue
-        cands = [i for i in live if not i.get("superseded_by") and _tracking_match(i, rx)]
-        cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
-        hit = cands[0] if cands else None
-        # ONE ARTICLE, ONE CHIP (2026-08-25): two labels on one story reads as a wiring
-        # error ("NFL training camp" and "NBA free agency" both landed on one Lions
-        # injury story). First storyline to claim an article keeps it; a later chip
-        # resolving to the same slug is dropped, and a dropped chip is honest where a
-        # mislabeled one is not.
-        if hit and hit.get("slug") in _chip_slugs_used:
-            print(f"tracking: chip {n.get('name')!r} skipped; its newest match "
-                  f"{hit.get('slug')!r} already carries another chip")
-            hit = None
-        if hit:
-            _chip_slugs_used.add(hit.get("slug"))
-            # BUILD GATE (owner directive 2026-07-27): a chip whose target does not
-            # carry its storyline fails the build rather than shipping a mislink.
-            if not _tracking_match(hit, rx) or hit.get("superseded_by"):
-                raise SystemExit(f"tracking chip mismatch: {n.get('name')} -> {hit.get('slug')}")
-            chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
-                         f'{esc(n.get("name", ""))}</a>')
-    if chips:
-        # copy item 18: "Storylines", six chips, "All". The tagline under the chips
-        # ("the storylines the desk is following") survived the first copy pass and
-        # shipped on the live homepage; it is a section describing itself (C-L1).
-        track_html = (f'<div class="tracking"><span class="lab">Storylines</span>'
-                      f'{"".join(chips[:6])}'
-                      f'<a class="chip chip-all" href="/news.html">All</a>'
-                      f'<i class="tracking-br"></i></div>')
+        for g in L.get("games") or []:
+            k = _utc_dt(g.get("start_utc") or "")
+            if k and ws <= k < we:
+                games.append((k, g))
+    games.sort(key=lambda kg: (kg[0], str(kg[1].get("id"))))
+    m = _mf()
+    ia = _ia_index(IA_BOARD)
+    carriers = _w2w_carriers_by_id()
+    doc = _carriage.load()
+    today = datetime.date.fromisoformat(m["date"])
+    by_day = {}
+    for k, g in games:
+        by_day.setdefault(k.astimezone(_ET).date(), []).append((k, g))
 
-    # S1, Artboard 4 module 3: the lead story with its receipts ledger, and beside it
-    # the charted receipts and the Edition. The ledger is only rendered for a story
-    # that actually carries checkable figures with an attribution the story made; see
-    # receipts_ledger. Without one the lead keeps its normal shape and the row shows
-    # the Edition alone, rather than an empty ledger frame.
-    lead_row = ""
-    global ALL_ITEMS
-    ALL_ITEMS = items
-    _lead, _ledger = _s1_lead, _s1_ledger
-    # D-5: the row renders whenever there is a lead story. It used to require a receipts
-    # ledger too, so on a day whose top story carried none the lead card AND the whole
-    # rail vanished - Where to Watch, Fantasy tonight and the storylines with it - and
-    # the Bottom Line paragraph led the homepage instead. A fantasy card cannot depend on
-    # whether an unrelated story happens to have receipts.
-    if _lead:
-        _lt = tags_for(_lead)
-        # S-4: no body paragraph on the homepage - that was the source of the lead
-        # card's ~400px of body text. The DEK is authored by the writer, so it is not cut
-        # either (punch item 9, and the standing law): it renders whole and the card
-        # takes the height it needs. The row is align-items:stretch, so the rail follows.
-        _dek = " ".join((_lead.get("dek") or "").split())
-        _left = (f'<div class="bd-card sp-lead">'
-                 f'<div class="bd-cardtop"><span class="bd-eyebrow">Lead story</span>'
-                 f'{f"<span class=bd-stamp>{esc(_lt[0])}</span>" if _lt else ""}'
-                 f'{_breaking_badge(_lead)}'
-                 f'{verdict_badge(_lead.get("verdict"), _lead)}</div>'
-                 f'<a class="sp-lead-h" href="/articles/{esc(_lead["slug"])}.html">'
-                 f'{esc(_lead.get("title") or "")}</a>'
-                 + (f'<p class="sp-lead-dek">{esc(_dek)}</p>' if _dek else "")
-                 + (_ledger or _also_today(stories))
-                 + f'<div class="bd-brief-foot"><span class="bd-by">Chuck Wando</span>'
-                   f'<a class="bd-more" href="/articles/{esc(_lead["slug"])}.html">'
-                   f'Read the story</a></div></div>')
-        # S-3: the rail rendered <div class="sp-rail"></div> whenever the receipts
-        # chart and the edition card both came back empty - a blank third of the page
-        # beside the lead. It carries the three cards the audit specifies now, and a
-        # rail with nothing in it collapses the row to one column rather than shipping
-        # an empty one.
-        # M-9 (H-14): the Where to Watch card is off the homepage. Its button is on
-        # every game card and its page is in the nav, so the rail was carrying a third
-        # copy of the same fixtures and a game appeared three times above the fold.
-        _rail_cards = [c for c in (_fantasy_tonight_card(SB_DATA, IA_BOARD, IA_DESIG),
-                                   track_html) if c]
-        if _rail_cards:
-            # N-4: the rail sits in a box whose own content height is zero (the rail
-            # inside it is absolutely placed), so the grid row is sized by the lead
-            # card alone. The rail stretches to that height and clips; it never
-            # stretches the lead. On phone the row is one column and the box goes back
-            # to normal flow.
-            lead_row = (f'<section class="sp-leadrow">{_left}'
-                        f'<div class="sp-railbox">'
-                        f'<div class="sp-rail">{"".join(_rail_cards)}</div></div></section>')
-            track_html = ""     # the rail is carrying the storylines now
+    def card(k, g):
+        return _tk_card(g, ia, wx=WX_DATA, desig=IA_DESIG, items=ALL_ITEMS,
+                        stream=_first_stream_chip(g, carriers, doc, today))
+
+    sections = []
+    for d in sorted(by_day):
+        rows = by_day[d]
+        lab = d.strftime("%a").lower()
+        inner = []
+        sunday_nfl = d.weekday() == 6
+        if sunday_nfl:
+            groups = {}
+            for k, g in rows:
+                groups.setdefault(_carriage.window_key(k, g.get("league") or "NFL"), []).append((k, g))
+            for wk_ in [w for w in _carriage.WINDOW_ORDER if w in groups]:
+                inner.append(f'<h3 class="wb-wl" id="win-{_WIN_ID[wk_]}">'
+                             f'{esc(_carriage.WINDOW_LABEL[wk_])}</h3><div class="tk-g3">'
+                             + "".join(card(k, g) for k, g in groups[wk_]) + '</div>')
         else:
-            lead_row = f'<section class="sp-leadrow sp-leadrow-1col">{_left}</section>'
+            inner.append('<div class="tk-g3">' + "".join(card(k, g) for k, g in rows) + '</div>')
+        sections.append(
+            f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}" data-date="{d.isoformat()}">'
+            f'<div class="tk-lg"><span>{esc(d.strftime("%A, %b %-d"))}</span><i></i></div>'
+            + "".join(inner) + '</section>')
+    # tabs: day counts and the Sunday windows come from the manifest, not from the cards
+    slate = m["slate"]["week"]
+    tab_html = ['<a class="tk-tab wb-t on" data-day="all" href="#">All</a>']
+    for dd in slate.get("days") or []:
+        n = sum((dd["by_league"].get(l) or 0) for l in BOARD_LEAGUES)
+        if n:
+            lab = dd["label"].lower()
+            tab_html.append(f'<a class="tk-tab wb-t" data-day="{lab}" href="#day-{lab}">'
+                            f'{esc(dd["label"])}<small>{n}</small></a>')
+    win_html = ""
+    sw = slate.get("sunday_windows") or {}
+    if sw:
+        win_html = '<div class="tk-tabs wb-wins">' + "".join(
+            f'<a class="tk-tab" href="#win-{_WIN_ID[w]}">{esc(_carriage.WINDOW_LABEL[w])}'
+            f'<small>{sw[w]}</small></a>'
+            for w in _carriage.WINDOW_ORDER if w in sw) + '</div>'
+    count_line = _mf_count_line(BOARD_LEAGUES)
+    _orn = _sb_ornament([g for _k, g in games])
+    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="This week">
+  <div class="sb-bg" aria-hidden="true"></div>
+  <div class="sb-scrim" aria-hidden="true"></div>
+  <div class="wrap sb-inner">
+    <div class="sb-promise">
+      <div class="sb-promise-l">
+        <h1 class="sb-claim">This week</h1>
+      </div>
+      <span class="sb-countwrap">
+        <span class="sb-count" data-mf="count">{esc(count_line)}</span>
+        <span class="sb-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>
+      </span>
+    </div>
+    <div class="sb-tabrow"><div class="tk-tabs wb-tabs">{"".join(tab_html)}</div></div>
+    {win_html}
+    {lens_control()}
+    {pins_panel()}
+  </div>
+  {_orn}
+</section>
+<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + WB_TABS_JS + TEAM_PIN_JS + LENS_JS
+    return band, ("".join(sections))
 
 
-    # S-3: .sp-w2wrow is retired. Where to watch and the storylines both moved up into
-    # the lead rail, and a row that renders neither is a row with nothing to render.
-    w2w_row = ""
-
-    # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
-    # the standalone band below is retired on home. /bottom-line.html keeps the history.
-    # The live layer rides above the fold, before the editorial page begins.
-    # S-A: the band is the product and it sits directly under the masthead. The old
-    # ticker strip stays available for pages that are not the front door.
-    # H-7: no fallback. The band renders the last snapshot, marked stale when it is,
-    # and renders nothing at all when there is no snapshot to render. The old strip and
-    # its copy are deleted: "League data, not news" was a sentence about the site, and
-    # a reader meeting a different component at 8 AM than at 8 PM learns nothing from
-    # the swap.
-    _band = scoreboard_band(SB_DATA, IA_BOARD, WX_DATA)
-    body = _band + f"""<main class="wrap"><section class="page">
-  {lead_row}
-  {desk_html}
-  {w2w_row}
-  {track_html}
-  {record_sections(items, home=True, board=IA_BOARD)}
+def render_home(items, dateline):
+    """The front door is the week board and nothing else: the band with the day tabs, the
+    week's NFL and FBS games in kickoff order, and under them one empty slot named the
+    conditions report, which renders nothing until Sprint S-2 fills it. The footer is the
+    shell's. Storylines, From the desk and the Record are not on this page."""
+    global HOME_LEAD_SLUG
+    HOME_LEAD_SLUG = None
+    _mf_prime(SB_DATA)
+    band, board = week_board(SB_DATA)
+    if not board:
+        board = ('<p class="bd-src wb-none">No NFL or college football games are scheduled '
+                 'this week.</p>')
+    body = band + f"""<main class="wrap"><section class="page">
+  <div class="scoreband scoreband-page wb-board" data-today="{esc(_mf()["date"])}">{board}</div>
+  <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report"></div>
 </section></main>"""
-    return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
+    return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/",
+                 schema_extra=home_schema())
+
+
+def archive_left_home():
+    """S-1 item 2: everything that left the home is reachable from here. The pages keep their
+    URLs; this is the door. Storylines, the Record, the Edition and every section."""
+    def a(label, href):
+        return f'<a class="chip" href="{esc(href)}">{esc(label)}</a>'
+    desk = [a("Storylines", "/news.html"), a("The Record", "/keepers.html"),
+            a("The Edition", EDITION_HREF or "/bottom-line.html"),
+            a("All editions", "/bottom-line.html"), a("Standings", "/standings/nfl.html")]
+    football = [a(title.replace("&amp;", "&"), f"/sections/{slug}.html")
+                for slug, title, _nav, _tags, _blurb in SECTIONS if slug in ("nfl", "college-football")]
+    leagues = [a(title.replace("&amp;", "&"), f"/sections/{slug}.html")
+               for slug, title, nav_label, _tags, _blurb in SECTIONS
+               if slug not in ("nfl", "college-football") and nav_label not in NAV_CROSSCUT]
+    cross = [a(title.replace("&amp;", "&"), f"/sections/{slug}.html")
+             for slug, title, nav_label, _tags, _blurb in SECTIONS if nav_label in NAV_CROSSCUT]
+    def row(h, chips):
+        return (f'<div class="sec-head"><h2>{esc(h)}</h2><span class="bar"></span></div>'
+                f'<div class="tracking">{"".join(chips)}</div>') if chips else ""
+    return ('<div class="arc-left" id="left-the-home">'
+            + row("The desk", desk) + row("Football", football)
+            + row("Other leagues", leagues) + row("Across the leagues", cross) + '</div>')
 
 
 def render_archive(items, dateline):
@@ -9492,7 +9114,9 @@ def render_archive(items, dateline):
                     + "".join(f'<a class="chip" href="/coverage/{esc(h["slug"])}.html">'
                               f'{esc(h["name"])}</a>' for h in hubs)
                     + '</div>')
+    left = archive_left_home()
     body = f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports archive</h1><section class="sec">
+    {left}
     {hub_html}
     <div class="sec-head"{' style="margin-top:22px"' if hub_html else ''}><h2>Archive</h2><span class="bar"></span></div>
     {inner}

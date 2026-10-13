@@ -2482,6 +2482,12 @@ body > div.msb{position:fixed;left:0;right:0;top:var(--msb-top,44px);z-index:40;
 .tk-rec[data-role="rec"]{display:none}
 .tk-nm,.tk-sc{display:inline}
 .tk-num-chips .tk-sc{margin-left:.28em;font-variant-numeric:tabular-nums}
+/* 13 October 2026: THE RECORD IS NOT PART OF THE SCORE. At 390 the chip read "Buccaneers 241-4":
+   the score and the record sat flush in the same size and tone. The record keeps its own
+   element, set smaller and muted, with a clear gap and a hairline between it and the score. */
+.tk-chip-score .tk-trec{margin-left:12px;padding-left:10px;border-left:1px solid rgba(255,255,255,.18);
+  font-size:11px;font-weight:400;letter-spacing:.02em;color:rgba(255,255,255,.55);
+  font-variant-numeric:tabular-nums;white-space:nowrap;align-self:center}
 
 /* B-2, THE LIVE AND FINAL STATES. Three facts that were in the feed all along and were
    not being read: who has the ball, how many timeouts each side has left, and whether
