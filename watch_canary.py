@@ -228,7 +228,7 @@ def watch_canary():
                 fails.append(f"watch: {tag} is ok but records nothing the page said")
             if r.get("status") == "verify" and not r.get("note"):
                 fails.append(f"watch: {tag} is verify with no note saying why")
-            if "—" in json.dumps(r, ensure_ascii=False):
+            if chr(0x2014) in json.dumps(r, ensure_ascii=False):
                 fails.append(f"watch: {tag} has an em dash")
         if not real.get("regional_maps", {}).get("url"):
             fails.append("watch: the carriage file has no regional maps link")
