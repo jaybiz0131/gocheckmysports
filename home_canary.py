@@ -231,6 +231,40 @@ def home_canary():
     return fails
 
 
+def nav_consistency_scan(root):
+    """The built tree: the header and the phone bar are the same on every page the build
+    writes. 13 October 2026: Where to Watch was built before the inactives board loaded, so
+    its header and bar had no Fantasy link while every other page had one."""
+    import os
+    fails = []
+    pages = ["index.html", "scores.html", "where-to-watch.html", "fantasy/index.html",
+             "archive.html", "about.html"]
+
+    def nav(html):
+        m = re.search(r'<nav class="mh-nav">(.*?)</nav>', html, re.S)
+        b = re.search(r'<nav class="tabbar"[^>]*>(.*?)</nav>', html, re.S)
+        return (re.findall(r"<a [^>]*>([^<]*)</a>", m.group(1)) if m else None,
+                re.findall(r"<span>([^<]*)</span></a>", b.group(1)) if b else None)
+    want = None
+    for rel in pages:
+        path = os.path.join(root, rel)
+        if not os.path.exists(path):
+            fails.append(f"nav: the built tree has no {rel}")
+            continue
+        got = nav(open(path, encoding="utf-8").read())
+        if want is None:
+            want = got
+        elif got != want:
+            fails.append(f"nav: {rel} has header {got[0]} and bar {got[1]}, the home has {want[0]} and {want[1]}")
+    wk = [f for f in os.listdir(os.path.join(root, "where-to-watch")) if f.endswith(".html")] \
+        if os.path.isdir(os.path.join(root, "where-to-watch")) else []
+    for f in wk:
+        got = nav(open(os.path.join(root, "where-to-watch", f), encoding="utf-8").read())
+        if want is not None and got != want:
+            fails.append(f"nav: where-to-watch/{f} has header {got[0]}, the home has {want[0]}")
+    return fails
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, ".")

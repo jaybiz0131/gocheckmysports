@@ -1835,6 +1835,8 @@ def layer1_canary():
     # are authored text and "live" is an ordinary word in a sentence.
     import truth_canary as _tc2
     fails.extend(_tc2.live_word_scan(_walk_root))
+    import home_canary as _hc2
+    fails.extend(_hc2.nav_consistency_scan(_walk_root))   # S-1: one header on every page
 
     # N-2: TODAY IS A DATE, NOT EVERY CARD ON THE PAGE.
     #
