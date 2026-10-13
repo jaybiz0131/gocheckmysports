@@ -49,7 +49,7 @@ class _Doc(HTMLParser):
         for k in ("aria-label", "title", "alt"):
             if a.get(k):
                 self.text.append(a[k])
-        if tag == "meta" and a.get("content"):
+        if tag == "meta" and a.get("content") and not a["content"].startswith("http"):
             self.text.append(a["content"])
         gid = a.get("data-gid")
         if gid and not (self._inside("tk-pair") or self._inside("tk-open")):
@@ -158,8 +158,7 @@ def check_no_live(name, html):
 # paths whose text is the desk's own writing or a list of it: story text may say "live"
 # (archive.html lists story headlines; fantasy/ holds player and injury notes from the league)
 EDITORIAL = ("articles/", "edition/", "news/", "sections/", "coverage/", "share/",
-             "nfl/", "games/", "wire.html", "bottom-line.html", "standards.html", "teams/",
-             "players/", "keepers/", "standings/", "fantasy/", "archive.html")
+             "wire.html", "bottom-line.html", "standards.html", "archive.html")
 
 
 def live_word_scan(root):
