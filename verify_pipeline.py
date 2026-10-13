@@ -1286,6 +1286,8 @@ def layer1_canary():
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
     import jobs_canary as _jc
     fails.extend(_jc.jobs_canary())    # S-1 item 3: the desk's jobs (12 October 2026)
+    import small_canary as _sm
+    fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
     fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
