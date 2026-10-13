@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-12T23:05:33Z",
+ "fetched_at": "2026-10-13T00:02:40Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1154,9 +1154,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Bot 5th",
+     "status_short": "Mid 8th",
      "detail": "0:00",
-     "period": 5,
+     "period": 8,
      "start_utc": "2026-10-12T21:00Z",
      "network": "ERADM",
      "home": {
@@ -1166,14 +1166,16 @@
       "school": "Milwaukee",
       "mascot": "Brewers",
       "rank": null,
-      "score": "4",
+      "score": "5",
       "record": "103-59",
       "periods": [
        "1",
        "0",
        "2",
        "0",
-       "1"
+       "1",
+       "1",
+       "0"
       ],
       "id": "8",
       "color": "#13294b"
@@ -1192,7 +1194,10 @@
        "0",
        "1",
        "0",
-       "2"
+       "2",
+       "0",
+       "0",
+       "0"
       ],
       "id": "19",
       "color": "#005a9c"
@@ -1201,7 +1206,7 @@
       {
        "cat": "",
        "name": "W. Contreras",
-       "line": "2-3, HR, 2 RBI, R",
+       "line": "3-4, HR, 3 RBI, R",
        "team": "8"
       }
      ],
@@ -1483,8 +1488,8 @@
      "venue": "Tiger Stadium (LA)",
      "line": {
       "provider": "DraftKings",
-      "detail": "LSU -12.5",
-      "spread": -12.5,
+      "detail": "LSU -13.5",
+      "spread": -13.5,
       "total": 58.5,
       "favorite": "home"
      }
@@ -2542,11 +2547,11 @@
     {
      "id": "401898402",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/12 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "2:09 - 2nd",
+     "detail": "2:09",
+     "period": 2,
      "start_utc": "2026-10-12T23:00Z",
      "network": "",
      "home": {
@@ -2556,9 +2561,12 @@
       "school": "Atlanta",
       "mascot": "Hawks",
       "rank": null,
-      "score": "0",
+      "score": "48",
       "record": "2-1",
-      "periods": [],
+      "periods": [
+       "29",
+       "19"
+      ],
       "id": "1",
       "color": "#c8102e"
      },
@@ -2569,9 +2577,12 @@
       "school": "Oklahoma City",
       "mascot": "Thunder",
       "rank": null,
-      "score": "0",
+      "score": "41",
       "record": "0-2",
-      "periods": [],
+      "periods": [
+       "28",
+       "13"
+      ],
       "id": "25",
       "color": "#007ac1"
      },
@@ -2581,25 +2592,19 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.46416666666666667,
      "venue_indoor": true,
      "venue": "State Farm Arena",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "ATL -4.5",
-      "spread": -4.5,
-      "total": 224.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401901824",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/12 - 7:00 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "3:19 - 2nd",
+     "detail": "3:19",
+     "period": 2,
      "start_utc": "2026-10-12T23:00Z",
      "network": "MNMT",
      "home": {
@@ -2609,9 +2614,12 @@
       "school": "Washington",
       "mascot": "Wizards",
       "rank": null,
-      "score": "0",
+      "score": "54",
       "record": "2-0",
-      "periods": [],
+      "periods": [
+       "32",
+       "22"
+      ],
       "id": "27",
       "color": "#e31837"
      },
@@ -2622,9 +2630,12 @@
       "school": "Brooklyn",
       "mascot": "Nets",
       "rank": null,
-      "score": "0",
+      "score": "61",
       "record": "2-0",
-      "periods": [],
+      "periods": [
+       "36",
+       "25"
+      ],
       "id": "17",
       "color": "#000000"
      },
@@ -2634,25 +2645,19 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.44472222222222224,
      "venue_indoor": true,
      "venue": "Capital One Arena",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "WSH -2.5",
-      "spread": -2.5,
-      "total": 224.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401914124",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/12 - 7:30 PM EDT",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "2:55 - 1st",
+     "detail": "2:55",
+     "period": 1,
      "start_utc": "2026-10-12T23:30Z",
      "network": "NBA TV",
      "home": {
@@ -2662,9 +2667,11 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "0",
+      "score": "20",
       "record": "0-2",
-      "periods": [],
+      "periods": [
+       "20"
+      ],
       "id": "18",
       "color": "#1d428a"
      },
@@ -2675,9 +2682,11 @@
       "school": "Minnesota",
       "mascot": "Timberwolves",
       "rank": null,
-      "score": "0",
+      "score": "26",
       "record": "2-1",
-      "periods": [],
+      "periods": [
+       "26"
+      ],
       "id": "16",
       "color": "#266092"
      },
@@ -2687,16 +2696,10 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.2013888888888889,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "MIN -1.5",
-      "spread": 1.5,
-      "total": 227.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401898721",
@@ -2745,8 +2748,8 @@
      "venue": "Delta Center",
      "line": {
       "provider": "DraftKings",
-      "detail": "UTAH -4.5",
-      "spread": -4.5,
+      "detail": "UTAH -5.5",
+      "spread": -5.5,
       "total": 226.5,
       "favorite": "home"
      }
@@ -2814,11 +2817,11 @@
     {
      "id": "401892486",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/12 - 7:00 PM EDT",
+     "status_short": "End of 1st",
      "detail": "0:00",
-     "period": 0,
+     "period": 1,
      "start_utc": "2026-10-12T23:00Z",
      "network": "NHL Net",
      "home": {
@@ -2830,7 +2833,9 @@
       "rank": null,
       "score": "0",
       "record": "2-2-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "11",
       "color": "#e30b2b"
      },
@@ -2843,7 +2848,9 @@
       "rank": null,
       "score": "0",
       "record": "4-1-0",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "14",
       "color": "#dd1a32"
      },
@@ -2853,16 +2860,10 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Prudential Center",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "NJ -118",
-      "spread": -1.5,
-      "total": 5.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892487",
