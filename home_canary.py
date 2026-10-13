@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""home_canary.py: Sprint S-1 item 2, the home reduced (12 October 2026).
+
+The home is the week board, the report slot and the footer, and nothing else. Each check
+names the break it exists for and was seen red first (U-9).
+
+  parts       the home renders the board, the report slot and the footer and nothing else
+  removed     Storylines, From the desk, the Record and the Edition are absent before the footer
+  nav         the header reads Week, Scores, Watch, Fantasy, Archive, About; the bar reads
+              Week, Scores, Watch, Fantasy, More
+  board       NFL and CFB only, once each, in kickoff order, tabs and windows from the manifest
+  chips       the network chip and the first stream chip, finals in place of kickoffs
+  scores      the Scores page keeps the NFL and CFB tabs and loses the rest
+  archive     the Archive page lists the sections that left
+
+Called from verify_pipeline.layer1_canary(); returns failure strings.
+"""
+
+import datetime as _d
+import re
+
+from truth_canary import read, visible
+
+
+def _fixture(sb):
+    ET = sb._ET
+
+    def u(et):
+        return _d.datetime.fromisoformat(et).replace(tzinfo=ET).astimezone(_d.timezone.utc)
+
+    def g(lg, a, h, kick, st, net, sa=None, sh=None):
+        return {"league": lg, "id": a + h, "state": st, "period": None, "status_short": "",
+                "network": net,
+                "start_utc": u(kick).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "away": {"abbr": a, "score": sa, "name": a, "full": a},
+                "home": {"abbr": h, "score": sh, "name": h, "full": h}}
+    nfl = [g("NFL", "DEN", "SEA", "2026-10-15T20:15", "pre", "Prime Video"),
+           g("NFL", "LON", "PAR", "2026-10-18T09:30", "pre", "NFL Net"),
+           g("NFL", "CHI", "GB", "2026-10-18T13:00", "pre", "FOX"),
+           g("NFL", "LV", "NE", "2026-10-18T13:00", "pre", "CBS"),
+           g("NFL", "LAC", "KC", "2026-10-18T16:25", "pre", "CBS"),
+           g("NFL", "DAL", "PHI", "2026-10-18T20:20", "pre", "NBC"),
+           g("NFL", "BUF", "MIA", "2026-10-19T20:15", "pre", "ESPN"),
+           g("NFL", "MIN", "DET", "2026-10-13T20:15", "post", "FOX", "24", "16")]
+    # kickoff order and id order disagree on purpose: the noon game sorts last by id
+    cfb = [g("CFB", "TEX", "OKL", "2026-10-17T12:00", "pre", "ESPN"),
+           g("CFB", "ALA", "LSU", "2026-10-17T19:30", "pre", "CBS")]
+    nhl = [g("NHL", "BOS", "NYR", "2026-10-18T19:00", "pre", "ESPN+"),
+           g("NBA", "LAL", "BOS", "2026-10-18T19:00", "pre", "TNT")]
+    sbd = {"fetched_at": "2026-10-18T12:00:00Z",
+           "leagues": [{"league": "NFL", "games": nfl}, {"league": "CFB", "games": cfb},
+                       {"league": "NHL", "games": nhl[:1]}, {"league": "NBA", "games": nhl[1:]}]}
+    carr = lambda *n: [{"name": x, "market": "National", "type": "TV"} for x in n]
+    w2w_games = [{"id": x["id"], "carriers": carr(x["network"]), "kickoff_utc": x["start_utc"]}
+                 for x in nfl]
+    w2w = {"fetched_at": "2026-10-18T12:00:00Z",
+           "weeks": [{"season": 2026, "week": 6, "games": w2w_games,
+                      "cfb_games": [{"id": x["id"], "carriers": carr(x["network"]),
+                                     "kickoff_utc": x["start_utc"]} for x in cfb]}]}
+    doc = {"schema": 1, "stale_days": 30, "rows": [
+        {"id": "yt", "service": "YouTube TV", "leagues": ["NFL"],
+         "match": {"networks": ["CBS", "FOX", "NBC"], "days": ["*"], "windows": ["*"]},
+         "status": "ok", "verified": "2026-10-12"},
+        {"id": "fubo", "service": "Fubo", "leagues": ["NFL"],
+         "match": {"networks": ["ESPN"], "days": ["*"], "windows": ["*"]},
+         "status": "verify", "verified": "2026-10-12"}]}
+    return u, sbd, w2w, doc
+
+
+def home_canary():
+    import build_manifest as bm
+    import site_build as sb
+    fails = []
+    u, sbd, w2w, doc = _fixture(sb)
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
+           sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF)
+    try:
+        # Thursday 15 October 2026, 9:00 AM ET: the week board for week 6
+        sb._NOW_CACHE = u("2026-10-15T09:00")
+        sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
+        sb.IA_BOARD = {"teams": [], "last_change": ""}
+        sb.EDITION_HREF = "/edition/2026-10-14.html"
+        sb._carriage.load = lambda: doc
+        sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
+        m = sb.MANIFEST
+        home = sb.render_home([], "")
+        scores = sb.render_scores_page(sbd, {}, "")
+        archive = sb.render_archive([], "")
+
+        # parts: the main holds the board and the empty slot, and nothing else
+        main = re.search(r'<main[^>]*class="wrap"><section class="page">(.*?)</section></main>', home, re.S)
+        if not main:
+            fails.append("home: no main section found")
+            return fails
+        kids = re.findall(r'<div class="([^"]*)"', main.group(1))
+        top = [k for k in kids if k.startswith(("scoreband scoreband-page wb-board", "cr-slot"))]
+        if top != ["scoreband scoreband-page wb-board", "cr-slot"]:
+            fails.append(f"home: the page body is {top}, expected the board then the report slot")
+        slot = re.search(r'<div class="cr-slot"[^>]*id="conditions-report"[^>]*>(.*?)</div>', main.group(1), re.S)
+        if not slot:
+            fails.append("home: no empty slot named conditions-report")
+        elif slot.group(1).strip():
+            fails.append("home: the conditions report slot is not empty")
+        if '<footer class="site">' not in home:
+            fails.append("home: no footer")
+        for cls in ("sp-lead", "bd-sec", "tracking", "lane-card", "sp-deskcard", "bd-card"):
+            if f'class="{cls}' in main.group(1) or f' {cls} ' in main.group(1):
+                fails.append(f"home: a {cls} block is still in the page body")
+
+        # removed: before the footer, none of these appear
+        before = home.split('<footer class="site">')[0]
+        vis = visible(before)
+        for word in ("From the desk", "Storylines", "The Record", "The Edition", "Edition",
+                     "Tracking", "Read tonight"):
+            if word in vis:
+                fails.append(f"home: {word!r} is still on the page before the footer")
+        foot = home.split('<footer class="site">')[1]
+        for label in ("Storylines", "The Record", "The Edition"):
+            if f">{label}</a>" not in foot:
+                fails.append(f"home: the footer does not link {label}")
+
+        # nav and bar as named
+        nav = re.search(r'<nav class="mh-nav">(.*?)</nav>', home, re.S).group(1)
+        labels = re.findall(r"<a [^>]*>([^<]*)</a>", nav)
+        if labels != ["Week", "Scores", "Watch", "Fantasy", "Archive", "About"]:
+            fails.append(f"home: the header reads {labels}")
+        if "<details" in nav:
+            fails.append("home: the header still has a More menu")
+        bar = re.search(r'<nav class="tabbar"[^>]*>(.*?)</nav>', home, re.S).group(1)
+        blabels = re.findall(r"<span>([^<]*)</span></a>", bar)
+        if blabels != ["Week", "Scores", "Watch", "Fantasy", "More"]:
+            fails.append(f"home: the phone bar reads {blabels}")
+
+        # board: NFL and CFB only, once each, in kickoff order
+        d = read(home)
+        gids = d.units
+        want = ["MINDET", "DENSEA", "TEXOKL", "ALALSU", "LONPAR", "CHIGB", "LVNE", "LACKC",
+                "DALPHI", "BUFMIA"]
+        if gids != want:
+            fails.append(f"home: the board reads {gids}, expected {want}")
+        if re.search(r'data-league="(NHL|NBA|MLB)"', home):
+            fails.append("home: a card from a league the home no longer carries")
+        # the tabs and windows come from the manifest
+        tabs = re.findall(r'class="tk-tab wb-t[^"]*" data-day="([^"]*)"[^>]*>[^<]*(?:<small>(\d+)</small>)?', home)
+        exp = [("all", ""), ("tue", "1"), ("thu", "1"), ("sat", "2"), ("sun", "5"), ("mon", "1")]
+        # Tuesday's game (the finished MINDET) sits on Tuesday 13 Oct, before the Thursday
+        if tabs != exp:
+            fails.append(f"home: the day tabs read {tabs}, expected {exp} from the manifest")
+        wins = re.findall(r'class="tk-tab" href="#win-([^"]*)">[^<]*<small>(\d+)</small>', home)
+        if wins != [("early", "1"), ("1pm", "2"), ("late", "1"), ("night", "1")]:
+            fails.append(f"home: the Sunday windows read {wins}")
+        heads = re.findall(r'<h3 class="wb-wl" id="win-([^"]*)">', home)
+        if heads != ["early", "1pm", "late", "night"]:
+            fails.append(f"home: the Sunday window headings read {heads}")
+
+        # chips: network, then the first stream; a final shows its score in place of a kickoff
+        def card(gid):
+            mm = re.search(r'<article[^>]*data-gid="%s".*?</article>' % gid, home, re.S)
+            return mm.group(0) if mm else ""
+        c = card("CHIGB")
+        if "tk-stream" not in c or "YouTube TV" not in c:
+            fails.append("home: the CHI at GB card has no first stream chip (YouTube TV)")
+        if ">FOX<" not in c:
+            fails.append("home: the CHI at GB card has no network chip")
+        c = card("BUFMIA")
+        if "tk-verify" not in c:
+            fails.append("home: a game that matches only a verify row has no verify chip")
+        c = card("MINDET")
+        if "Final" not in visible(c) or "24" not in visible(c):
+            fails.append("home: the finished game does not show Final and its score")
+        c = card("LONPAR")
+        if "tk-stream" in c:
+            fails.append("home: a game that matches no carriage row shows a stream chip")
+
+        # count and stamp are the manifest's
+        mf = d.marks
+        if ("count", bm.count_line(m, ["NFL", "CFB"])) not in mf:
+            fails.append(f"home: the count reads {[x for x in mf if x[0] == 'count']}")
+
+        # scores: NFL and CFB tabs only
+        stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', scores or "")
+        if stabs != ["All", "NFL", "CFB"]:
+            fails.append(f"scores: the tabs read {stabs}, expected All, NFL, CFB")
+        if re.search(r'data-league="(NHL|NBA|MLB)"', scores or ""):
+            fails.append("scores: a card from a league the page no longer carries")
+
+        # archive: the sections that left the home
+        left = sb.archive_left_home()
+        if left not in archive:
+            fails.append("archive: the page does not carry the block of sections that left the home")
+        archive = left       # the footer links Storylines too; only the block itself counts here
+        for href in ("/news.html", "/keepers.html", "/edition/2026-10-14.html",
+                     "/sections/nba.html", "/sections/nhl.html", "/sections/mlb.html",
+                     "/sections/soccer.html", "/sections/wnba.html", "/sections/tennis.html",
+                     "/sections/college-basketball.html", "/sections/more-sports.html",
+                     "/sections/injuries.html", "/sections/transactions.html",
+                     "/standings/nfl.html"):
+            if f'href="{href}"' not in archive:
+                fails.append(f"archive: no link to {href}")
+    except Exception as e:
+        import traceback
+        fails.append(f"home: the fixture page raised {type(e).__name__}: {e} "
+                     f"({traceback.format_exc().splitlines()[-3].strip()})")
+    finally:
+        (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
+         sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF) = was
+    return fails
+
+
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, ".")
+    fs = home_canary()
+    for f in fs:
+        print("::error::" + f)
+    print("HOME CANARY: " + ("FAIL" if fs else "PASS"))
+    sys.exit(1 if fs else 0)
