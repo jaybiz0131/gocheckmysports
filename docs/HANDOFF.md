@@ -127,101 +127,39 @@ deploy`). Until then the evening slot has no automatic backstop; if it has not
 published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
 and note it in the report.
 
-## Where this session ended (6 October 2026)
+## Sprint S-1, the truth and the cut (Program 7; session of 12 to 13 October 2026)
 
-Every push below is verified by hash (U-8): the branch tip equals `origin/<branch>`, the
-count `origin/<branch>..HEAD` is 0, and the merge is the PR's merge commit.
-
-| Item | Branch tip | Merge on main |
-|---|---|---|
-| 0, documents (U-14 to U-16, cloud lines, settings) | `ee5d1c6` | `112f83d` |
-| S-2, games out of the sitemaps | `f190a6c` | `1954716` |
-| Item 2, the deep-URL register | `8f24da2` | `4068d4b` |
-| Cause C, the H-6 hour sweep (test only) | `069cc7c` | `c4a35f8` |
-| IndexNow | `5f42109` | `041d72c` |
-| netlify_ignore, `.claude/` | `9e02cd1` | `5719f67` |
-
-- **S-2 live**, read at 9:31 AM ET at stamp `1954716986b6`: `sitemap.xml` lists three files,
-  `sitemap-priority.xml` 137 URLs, `sitemap-archive.xml` 897 (913 on main), 0 `/games/` URLs
-  in either, and `/games/401872964` returns 200. On 29 September the archive held 915 with 16
-  game URLs. No `<lastmod>` exists on this desk before or after.
-- **Cause C**: the line was right, the canary's fixture was wrong for four hours a day. No
-  line change. Full finding in the history file.
-- **The ignore proof, a second reason to build**: the Item 0 merge built because
-  `.claude/settings.json` was not a document path. Fixed. A documents-only push still builds
-  inside a poller's build window, as recorded on 1 October; leave it.
-- **The count ruling, Jack, 6 October 2026: the allowance of 12 (16 on Sundays) counts
-  PRODUCTION builds only.** Previews do not count; the count line reports them beside it
-  ("7 production, 6 previews") so build minutes stay visible. One pull request per item stays
-  the law; batching is not the relief. Count of record at 10:08 AM ET: **7 production built, 1
-  skipped, 6 previews**. The Worker's `built` adds previews (13); read the `production:` keys.
-- **Gate on this machine**: 206 to 329 s over seven runs against the Mac's 262 s; load 0.30 to
-  0.98 at start and end of each. Do not edit tracked files while it runs: its cleanup restores
-  them from the index.
-- **Stashes: none.** Branches on origin besides main: the six merged ones above awaiting
-  Jack's delete, `search-s1-canonical-urls` (`64fe43f`), and two `claude/*` branches from other
-  days (`checkmysports-repo-access-t30ove`, `strip-process-disclosure`), untouched.
-- **Open, with the last commit of each**: A-17's font and poster work, shared with Crypto,
-  nothing yet; H-5b, the byline carrying the date when it differs, nothing yet; H-12's Sunday
-  grouping, still to be checked on a Sunday at 1:30 PM ET; the S-D day-14 report, owed since
-  28 September and still owed; 38 dead `/games/<id>.html` links on `/scores.html` (past
-  weeks' NFL games with no page), found and not fixed; the S-6 Search Console read against the
-  register. Next session's order is Jack's to set.
-
-## Where the second cloud session ended (6 October 2026, 4:33 to 5:20 PM ET)
-
-Each push read by hash: the branch tip equals `origin/<branch>`, `origin/<branch>..HEAD` is 0, the
-merge is the PR's merge commit. Every gate exited 0 and every message was read for trailers first.
+Day history, baseline and after, carriage rows to verify, hosts, spend: `HANDOFF-2026-10-12.md`.
+Every push read by hash (U-8), every push behind the canary's exit status (U-14).
 
 | Item | Branch tip | Merge on main |
 |---|---|---|
-| 0, trailer law, gate case, open list | `656a795` | `ee00c7c` |
-| 1, dead `/games/` links | `5ed6038` | `34a37ed` |
-| 2, H-5b byline date | `6810903` | `c6c18fa` |
-| 3, H-12 under a fixture | `55cf9e0` | `9bc6854` |
-| 4, S-6 register reader | `e25f03e` | `4cd1b85` |
+| 0, one truth for counts and stamps (manifest, no "live", no duplicate ids, the week) | `5201a8f` | `eb0150e` |
+| 1, Where to Watch by day and window, `data/carriage.json` | `f45ce82` | `3282f22` |
+| 2, the home is the week board | `a4ad7f9` | **not merged**: draft PR 103, waiting on Jack's yes on `review/s1/` |
+| 3, the desk's jobs (brief off, conditions report stub) | `273aafd` | `66b729a` |
+| 4, the small truths | `7a763c1` | `d898749` |
+| 5, archive and index | no branch | IndexNow sent (7 URLs, 200); the rest waits on item 2 |
 
-- **The 38 dead links were not past finals.** The first cloud session's description was wrong: in
-  the built tree they were upcoming CFB, MLB, NBA, NHL, soccer and WNBA cards (42 distinct ids on
-  /scores.html here, 58 across /scores.html and the homepage band, the count moves with the
-  slate), each linking `/games/<id>.html`, and game pages are built for the NFL only (box score and
-  inactives). So neither branch of the brief applied: no past-week finals exist to archive.
-  `_has_game_page` is the one rule; cards, folds and the finals list link a game page only for
-  the NFL, and a non-NFL card before the game keeps "Where to watch". **The register's count of
-  game pages is 16, unchanged,** and the sitemaps carry 0 games (the S-2 case is green).
-  `_game_link_canary` reads every `/games/` href in the gate's own tree and the card renderers on
-  fixtures per league, red first against the 42, 0 dead after. Production read at stamp
-  `9bc6854`: `/scores.html` and the homepage carry 0 `/games/` links because the live snapshot
-  held no NFL games at 5:13 PM ET, and 0 dead is the proof for the non-NFL side; the NFL side
-  (16 pages, 16 links, all 200, one clicked through at 375 and 1440) was read on a local build,
-  because the Netlify preview URL cannot be found from here.
-- **H-5b.** The only byline that showed a time alone is the "Also today" list; `byline_stamp`
-  adds "Sun, Oct 4 ·" ahead of the published time when the updated stamp is on a different
-  Eastern date. A reading call, flagged for Jack: the date shown is the published date and the
-  trigger is the updated stamp. 35 of the 57 stories carrying `updated_utc` would show a date.
-  A legacy date-only story no longer prints an invented clock time. Cause C's trap is a fixture.
-- **H-12 was green first.** The grouping is right at Sunday 1:30 PM ET. Fixture
-  `sunday-130pm-early-live`, three plants each red. The live look is **Sunday 11 October, 1:30 PM
-  ET, one line:** live games first (tie, then one-score), then the 4:05 and 4:25, then the night
-  game, with the header, the NFL tab and the Next line (4:05 PM ET) agreeing.
-- **Trailers.** Read on `origin/main` from 5 October: 24 commits, 0 hits. The settings file was
-  already there. `commit_trailers.py` and its canary case are the door; PR descriptions here carry
-  no session link either.
-- **A mistake worth a line:** `git reset --hard` to drop a fixture commit also discarded an
-  uncommitted canary edit, redone. Commit before any reset.
-- **Count of record**, `/counts/today` at 5:13 PM ET, before the Item 4 merge built: sports
-  **11 production ready, 2 production canceled, 10 previews ready, 2 previews canceled**, against
-  12. Item 4's merge may have made it 12; read `production:` keys before pushing anything else
-  today. This close is documents only.
-- **Branches left for Jack to delete** (the proxy refuses deletion): `item0-trailer-law-and-record`,
-  `item1-dead-game-links`, `item2-byline-date`, `item3-h12-sunday-grouping`,
-  `item4-register-read`, this close branch, and the six from the first session.
-- **Hosts touched:** github.com (clone, fetch, push), the GitHub API through the session's tools
-  (pull requests, merges), gcm-slot-trigger.gocheckmybrands.workers.dev (`/counts/today`),
-  gocheckmysports.com (live reads). None refused.
-- **Open:** A-17 fonts and poster; the S-D source-trial day-14 report; **Jack's Search read on
-  Monday 20 October** with `scripts/register-read.mjs` and the two exports (see Search); the
-  Sunday 11 October H-12 live look; the six first-session branches.
+- **Jack's:** say yes or no on PR 103 (screenshots, eight PNGs, from the deploy preview of
+  `dca5c4b`); deploy the Worker line below; read the six `verify` carriage rows and the
+  regional maps link; supply the affiliate links; keep the Sunday 1:30 PM glance until S-4.
+- **Worker line (the Worker is outside this repository and was not read):** in
+  `../gcm-newsroom/slot-trigger/`, remove the sports `sports-news-brief.yml` dispatch windows
+  (the evening slot at 23:38 UTC and its 23:48 to 05:00 recovery, and any breaking dispatch);
+  keep the five-minute tick for `inactives.yml` and the deploy-counter routes. Until then each
+  dispatch starts a run whose job skips, because it is gated on the repository variable
+  `NEWSROOM_JOBS`. If that variable exists and is "on", delete it: it could not be read here.
+- **Open, S-2:** the conditions Worker and the stadium table in the Weather repository first,
+  then on this one the strip, the block, the week board and the report (`conditions_report.py`
+  is the stub, Thursday 11:17 UTC).
+- **Open, found in S-1:** the home board draws the scoreboard feed's college slate (16 games
+  for Oct 17 to 18, its default group) while Where to Watch lists every FBS game of the week
+  (58 on Oct 6 to 12); the board needs the per-day group-80 read before it can claim "every
+  FBS game". `build_manifest.slate` counts all leagues; the home, Scores and Fantasy print
+  NFL and CFB (Fantasy NFL) counts of it.
+- **Trap, again:** the gate restores every tracked file that was clean when it started, so a
+  document edited during a gate is wiped. Item 0's handoff edit was lost that way and redone.
 
 ## Search
 
@@ -266,34 +204,13 @@ merge is the PR's merge commit. Every gate exited 0 and every message was read f
 
 | Item | Status | Last commit |
 |---|---|---|
-| V-1 Ticket scoreboard SC-1..SC-9 | done | `cdf4c41`, `fb6a16e` |
-| V-2 copy pass, 51 lines + law | done, 0 banned words in chrome | `9197599` |
-| V-3 lead row N-4 + D-13 | done, verified not assumed | earlier |
-| V-4 fantasy surfaces | done | `ffd8983`, `7464d98` |
-| V-5 punch 12 and 7 | done | `133fa98` |
-| H-1, H-2, H-4, H-5, H-9, H-10, H-11 | done | `0f62903`, `157af75`, `9ed93e7` |
-| L-2, L-3, L-4 live poll | done | `a3fd5bd` |
-| X-1, X-2, X-2b, ledger `since` | done | `09ee73c`, `9ed93e7` |
-| H-7, H-3, H-6, H-8 | done | `69878d9` |
-| H-5b byline carries the date when it differs | done: `byline_stamp`, fixtures red first | `6810903`, merge `c6c18fa` |
 | H-12 Sunday grouping | grouping checked under fixture `sunday-130pm-early-live` (`_sunday_slate_canary`), green first, plants red; **live look Sunday 11 October 1:30 PM ET, one line:** the band's marquee and folds read live games first (tie, then one-score, then the rest), then the 4:05 and 4:25, then the night game, and the header, the NFL tab and the Next line (the 4:05) match | `55cf9e0`, merge `9bc6854` |
-| V-6 inner pages and phone | done | `89dd26a` |
-| V-7 fonts, poster, dead CSS | done | `0d1037e`, `00c618a` |
 | V-8..V-12 Crypto visual | open, Sprint I | see the Crypto handoff |
 | V-13 Crypto copy | **hold**, do not touch | Jack has not reviewed |
 | V-14 Wire + reader panel W-4/W-7 | open, Sprint I | |
 | L-1..L-6 live engine | open, Sprint H | Program 4 part 4 |
 | Punch 5, 6, 8 (Crypto) | open | close Thu 6 PM ET |
 | S-D day-14 report | **owed since Sep 28, still owed.** Not the Search read; this one is the source trial (`source_trial.py --report`) | |
-| U-13 preflight, both canaries, six plants red | done | `d9a093c` |
-| Cause A, the workflow that loads with no jobs | fixed on Crypto `build-stamp` | `e2b77ec` |
-| Cause B, the stamp and ignore proof | done | `0d02aa2` |
-| Cause C, the H-6 scoreboard canary line | done, line right, fixture was wrong, test added | `069cc7c`, merge `c4a35f8` |
-| S-2, games out of the sitemaps | done, live | `f190a6c`, merge `1954716` |
-| Deep-URL register | done, live | `8f24da2`, merge `4068d4b` |
-| IndexNow | done, live, first send 200 | `5f42109`, merge `041d72c` |
-| 38 dead `/games/` links on `/scores.html` | done: they were CFB, NBA, NHL, MLB, soccer and WNBA cards, not past finals; no archive built, the link now exists only for the NFL | `5ed6038`, merge `34a37ed` |
-| Trailer law and gate case | done | `656a795`, merge `ee00c7c` |
 | S-6 register reader, `scripts/register-read.mjs` | tool done; **the read is Jack's, Monday 20 October** | `e25f03e`, merge `4cd1b85` |
 
 Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
