@@ -17,6 +17,7 @@ Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
 
 import datetime as _d
+import os
 import re
 
 from truth_canary import read, visible
@@ -50,6 +51,7 @@ def _fixture(sb):
     sbd = {"fetched_at": "2026-10-18T12:00:00Z",
            "leagues": [{"league": "NFL", "games": nfl}, {"league": "CFB", "games": cfb},
                        {"league": "NHL", "games": nhl[:1]}, {"league": "NBA", "games": nhl[1:]}]}
+    nfl[-1]["away"]["record"], nfl[-1]["home"]["record"] = "1-4", "4-1"   # a finished game
     carr = lambda *n: [{"name": x, "market": "National", "type": "TV"} for x in n]
     w2w_games = [{"id": x["id"], "carriers": carr(x["network"]), "kickoff_utc": x["start_utc"]}
                  for x in nfl]
@@ -183,6 +185,28 @@ def home_canary():
             fails.append(f"scores: the tabs read {stabs}, expected All, NFL, CFB")
         if re.search(r'data-league="(NHL|NBA|MLB)"', scores or ""):
             fails.append("scores: a card from a league the page no longer carries")
+
+        # records: a team's record is its own muted element with a clear gap from the score
+        # (13 October 2026: "Buccaneers 241-4" at 390 was a score and a record run together)
+        chips = re.findall(r'<span class="tk-sc">\d+</span></span><span class="tk-trec">[^<]+</span>', home)
+        if not chips:
+            fails.append("home: no finished card carries a record outside its score element")
+        css = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "site", "assets", "site.css"),
+                   encoding="utf-8").read()
+        rule = re.search(r"\.tk-chip-score \.tk-trec\{([^}]*)\}", css)
+        if not rule:
+            fails.append("home: no .tk-chip-score .tk-trec rule, so the record has no gap and no style of its own")
+        else:
+            body = rule.group(1)
+            ml = re.search(r"margin-left:\s*(\d+(?:\.\d+)?)px", body)
+            fs = re.search(r"font-size:\s*(\d+(?:\.\d+)?)px", body)
+            al = re.search(r"color:\s*rgba\(255,\s*255,\s*255,\s*(0?\.\d+)\)", body)
+            if not ml or float(ml.group(1)) < 8:
+                fails.append(f"home: the record's gap from the score is {ml.group(1) + 'px' if ml else 'none'}, under 8px")
+            if not fs or float(fs.group(1)) > 11:
+                fails.append("home: the record is not set smaller than the score line (11px or less)")
+            if not al or float(al.group(1)) > 0.7:
+                fails.append("home: the record is not muted (white at 70 percent or less)")
 
         # archive: the sections that left the home
         left = sb.archive_left_home()
