@@ -10,6 +10,8 @@ each was seen red before it was committed (U-9) and the break is recorded in HAN
   dup-id         a game id renders twice on one page
   live           the word "live" is on a page (visible text, titles, alt, aria, meta)
   week           the NFL week number on the Tuesday 6:00 AM ET boundary, from a fixture clock
+  masthead       the masthead date is the build clock's day in ET on every page, never a story's
+                 date and never the browser's (13 October 2026: 12:35 PM ET read OCTOBER 12)
 
 Called from verify_pipeline.layer1_canary(); returns a list of failure strings.
 """
@@ -220,6 +222,44 @@ def _fixture(sb):
     return u, sbd, w2w, games
 
 
+def check_masthead_dates(sb, pages, u):
+    """The date over the wordmark is the build clock's day in ET. The dateline argument that
+    every call site passes is the newest story's date (the build) or the article's own date,
+    so each page is rendered with a dateline a day behind the clock: a masthead that prints it
+    reads the wrong day. A second clock sits at 10:30 PM ET, which is already tomorrow in UTC."""
+    fails = []
+    rx = re.compile(r"<span data-live-date>([^<]*)</span>")
+    was = sb._NOW_CACHE
+    try:
+        for iso, want in (("2026-10-13T12:35", "OCTOBER 13, 2026"),
+                          ("2026-10-13T22:30", "OCTOBER 13, 2026"),
+                          ("2026-10-14T00:05", "OCTOBER 14, 2026")):
+            sb._NOW_CACHE = u(iso)
+            stale = "OCTOBER 12, 2026"
+            for name, html in list(pages.items()) + [
+                    ("article", sb.masthead("Latest", stale)),
+                    ("shell", sb.shell("t", "d", "Home", "<p>x</p>", stale, path="/"))]:
+                if name in pages:
+                    html = {"home": lambda: sb.render_home([], stale),
+                            "scores": lambda: sb.render_scores_page(
+                                sb.SB_DATA, {}, stale),
+                            "fantasy": lambda: sb.render_fantasy_hub(
+                                None, {"groups": {}, "last_poll": ""}, {}, None, sb.SB_DATA, stale),
+                            "where-to-watch": lambda: sb.render_where_to_watch(
+                                sb.W2W_DATA["weeks"][0], sb.W2W_DATA["weeks"], stale, current=True),
+                            }[name]()
+                m = rx.search(html)
+                if not m:
+                    fails.append(f"masthead: {name} has no date over the wordmark at {iso} ET")
+                elif m.group(1) != want:
+                    fails.append(f"masthead: {name} reads {m.group(1)!r} at {iso} ET, expected {want!r}")
+                if "toLocaleDateString" in html:
+                    fails.append(f"masthead: {name} sets the date from the browser's clock")
+    finally:
+        sb._NOW_CACHE = was
+    return fails
+
+
 def truth_canary():
     import build_manifest as bm
     import site_build as sb
@@ -279,6 +319,9 @@ def truth_canary():
         twice = pages["home"].replace("</main>", "</main>" + _first_unit(pages["home"]), 1)
         if not check_unique_ids("home", twice):
             fails.append("truth: a doubled game card did not fail the duplicate-id test")
+
+        # the masthead date: the build clock in ET, on every page
+        fails += check_masthead_dates(sb, pages, u)
 
         # the word live
         for name, html in pages.items():

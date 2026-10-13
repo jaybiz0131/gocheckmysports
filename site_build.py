@@ -1218,6 +1218,16 @@ def load_content():
 
 # ---- shared chrome -----------------------------------------------------------
 
+def _masthead_date():
+    """THE DATE OVER THE WORDMARK IS THE BUILD CLOCK'S DAY IN ET, on every page (13 October 2026).
+    It was the newest story's date, so a build at 12:35 PM on the 13th read OCTOBER 12 until a story
+    was dated the 13th; and a script rewrote it from the reader's own clock, which is not the
+    build's and not Eastern. The dateline argument every call site passes is kept for those
+    sites and is not printed here."""
+    now = _build_now().astimezone(_ET)
+    return f"{MONTHS[now.month]} {now.day}, {now.year}".upper()
+
+
 def masthead(active, dateline, brand="site"):
     """One identity everywhere: GoCheckMySports is both the site and the desk. The brand
     parameter is kept for the shared call sites; every page renders the same masthead."""
@@ -1256,11 +1266,9 @@ def masthead(active, dateline, brand="site"):
   </a>"""
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
-<script>document.addEventListener("DOMContentLoaded",function(){{var e=document.querySelector("[data-live-date]");
-if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
   <div class="mh-top">
     {fam}
-    <span class="mh-dateline"><span data-live-date>{esc(dateline)}</span></span>
+    <span class="mh-dateline"><span data-live-date>{esc(_masthead_date())}</span></span>
   </div>
   {brand_row}
 </div></header>
