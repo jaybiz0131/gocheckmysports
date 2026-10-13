@@ -1,45 +1,38 @@
 {
   "note": "The desk register: what this newsroom is configured to run, in one place. Two checks read it. The canary asserts the workflow files match it exactly, so a stale cron or a placeholder cannot survive a push. The morning tally compares the Actions log and the ledger to it and prints one health line. Cron times are UTC; the ET column is Eastern and shifts by an hour when DST ends on 1 November.",
   "desk": "gocheckmysports",
-  "updated": "2026-09-17",
-  "paid_runs_per_day": 1,
+  "updated": "2026-10-12",
+  "paid_runs_per_day": 0,
   "breaking_runs_per_day": 0,
   "spend_cap_usd_per_run": 1.5,
   "served_slots": [
     "evening-brief"
   ],
   "netlify_builds_per_day": {
-    "min": 1,
+    "min": 0,
     "max": 6
   },
   "worker_dispatches": [
     "inactives.yml in its posting windows",
-    "sports-news-brief.yml at the evening slot, as the cron's backstop"
+    "sports-news-brief.yml at the evening slot until Jack removes the window from the Worker; the run it starts skips"
   ],
   "workflows": {
     "sports-news-brief.yml": {
-      "purpose": "The one Edition run a day. Ingest, edit, verify, write, approve, publish.",
-      "crons": [
-        {
-          "utc": "38 23 * * *",
-          "et": "7:38 PM",
-          "slot": "evening-brief"
-        }
-      ],
+      "purpose": "OFF since 2026-10-12: the recap, storyline, lane and Edition job (was the one Edition run a day). Code kept.",
+      "crons": [],
       "triggers": [
-        "schedule",
         "workflow_dispatch",
         "workflow_call"
       ],
       "runs_per_day": {
-        "min": 1,
+        "min": 0,
         "max": 6
       },
       "paid_runs_per_day": {
         "min": 0,
-        "max": 1
+        "max": 0
       },
-      "note": "Runs beyond the first stand down at the slot guard and cost nothing."
+      "note": "Gated on NEWSROOM_JOBS (unset), so any dispatch skips and spends nothing."
     },
     "inactives.yml": {
       "purpose": "The Sunday inactives poller. Its dated snapshots are the record.",
@@ -166,6 +159,29 @@
         "min": 0,
         "max": 0
       }
+    },
+    "conditions-report.yml": {
+      "purpose": "The conditions report job, a stub until Sprint S-2: prints nothing, calls no model.",
+      "crons": [
+        {
+          "utc": "17 11 * * 4",
+          "et": "Thu 7:17 AM EDT (6:17 AM EST)",
+          "slot": null
+        }
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "runs_per_day": {
+        "min": 0,
+        "max": 1
+      },
+      "paid_runs_per_day": {
+        "min": 0,
+        "max": 0
+      }
     }
-  }
+  },
+  "newsroom": "OFF from 2026-10-12 (Program 7, S-1 item 3): sports-news-brief.yml has no schedule key and its job is gated on the repository variable NEWSROOM_JOBS, unset. served_slots and the slot table in watcher.py are kept for the day it returns; no slot is served while it is off."
 }

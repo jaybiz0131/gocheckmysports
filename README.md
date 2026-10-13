@@ -102,12 +102,15 @@ annotations on a green run.
 
 | Workflow | What it runs |
 |---|---|
-| `sports-news-brief.yml` | the daily run and the edition slots |
-| `watcher.yml` | breaking-news threshold checks |
-| `sports-aging.yml` | archive and aging passes |
-| `verify-sports-pipeline.yml` | the canary on a schedule |
+| `inactives.yml` | the inactives and designations poll, Sundays through the night game and the Thursday, Friday, Saturday and Monday lists |
+| `conditions-report.yml` | Thursday 11:17 UTC, a stub that prints nothing until Sprint S-2 gives it the conditions Worker |
+| `sports-aging.yml` | archive and aging passes, monthly |
+| `verify-sports-pipeline.yml` | the canary on a schedule, weekly |
 | `janitor.yml` | housekeeping |
+| `sports-news-brief.yml` | OFF since 12 October 2026 (Program 7): the recap, storyline, lane and Edition job. No `schedule:` key, and its job is gated on the repository variable `NEWSROOM_JOBS`, which is unset. Code kept |
 | `publicist.yml` | disabled; schedule removed, code kept |
+
+The scores refresh is in the Netlify build command (`scores_pulse.py`), and the deploy counts are the Worker's.
 
 ## The site
 

@@ -233,7 +233,7 @@ NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("Scores", "/scores.html"),
        ("Standings", "/standings/nfl.html"),
        ("Where to watch", "/where-to-watch.html"),
-       ("Fantasy", "/fantasy/inactives.html"),
+       ("Fantasy", "/fantasy/index.html"),
        ("NFL", "/sections/nfl.html"),
        ("College Football", "/sections/college-football.html"),
        ("MLB", "/sections/mlb.html"),
@@ -3358,7 +3358,7 @@ TAB_BAR = [
      "M3 13h3l2-5 3 9 2.5-6 1.5 2h4"),                       # a scoreline
     ("Watch", "/where-to-watch.html",
      "M3 5h14v9H3zM7 17h6"),                                  # a screen
-    ("Fantasy", "/fantasy/inactives.html",
+    ("Fantasy", "/fantasy/index.html",
      "M4 6h10M4 10h7M4 14h10M17 7v7M17 16.5v.5"),            # a list with a flag
     ("More", "/archive.html",
      "M4 6h12M4 10h12M4 14h12"),                              # a menu
@@ -3613,8 +3613,8 @@ def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
     if big:
         nm = (f'<span class="sb-stack"><span class="abbr big">{esc(t.get("abbr") or "")}'
               f'</span><span class="tname">{esc(t.get("name") or "")}{rec}</span></span>')
-    sc = t.get("score")
-    sc = "" if sc in (None, "") or not started else str(sc)
+    sc = _tk_score(t)
+    sc = "" if sc is None or not started else str(sc)
     # S-9: before kickoff the score column is not empty, it carries the time, in mono,
     # in the place the score will occupy. Passed on one row only so it prints once.
     if not started and kick:
@@ -3807,10 +3807,12 @@ def _is_postponed(g):
 def _tk_score(side, g=None):
     if g is not None and _is_postponed(g):
         return None
-    try:
-        return int(side.get("score"))
-    except (TypeError, ValueError):
-        return None
+    # S-1 item 4: A SCORE IS A WHOLE NUMBER, NOT NEGATIVE. NHL cards printed "-218" as a
+    # score: a moneyline the feed put where a score goes, which int() reads happily. The
+    # odds field never renders as a score, because nothing that is not a count of goals
+    # gets past this.
+    raw = str((side or {}).get("score") if side is not None else "").strip()
+    return int(raw) if re.fullmatch(r"\d{1,3}", raw) else None
 
 
 def _tk_sc9(g):
@@ -4083,6 +4085,24 @@ def _tk_story(g, items):
             f'{esc(best.get("title") or "")}</a></div>')
 
 
+def _fit_stats(parts, limit=34, sep="; "):
+    """S-1 item 4: A STAT LINE RENDERS WHOLE OR NOT AT ALL. The leaders line was cut at 34
+    characters with a slice, so "12 att, 79 yds" printed as "12 att, 79 yd" and a reader met
+    a number with its unit sawn off. Whole stats are kept in order while they fit; the first
+    that does not fit ends the line; a first stat too long for the line leaves the line empty."""
+    out, used = [], 0
+    for part in parts:
+        part = (part or "").strip()
+        if not part:
+            continue
+        add = len(part) + (len(sep) if out else 0)
+        if used + add > limit:
+            break
+        out.append(part)
+        used += add
+    return sep.join(out)
+
+
 def _tk_leaders(g):
     """Punch item 12: three leaders on a live or final card, from the fantasy points the
     desk already computes for every started game.
@@ -4104,7 +4124,8 @@ def _tk_leaders(g):
         # leaders for most of them, stated as the feed states them, and they are used
         # only where the desk has nothing of its own. Measured on tonight's board: 30 of
         # 46 started games have them.
-        return [(f'{L["name"]} {L["cat"]}'.strip(), (L["line"] or "")[:34])
+        return [(f'{L["name"]} {L["cat"]}'.strip(),
+                 _fit_stats([x for x in (L["line"] or "").split(", ")], sep=", "))
                 for L in (g.get("leaders") or [])[:3]]
     # fantasy_points.leaders is the desk's own ranking, and it is the one the live
     # board and the game page already use. Reimplementing the sort here would be a
@@ -4112,8 +4133,8 @@ def _tk_leaders(g):
     import fantasy_points as _fp
     rows = []
     for p in _fp.leaders(pts, n=3):
-        line = "; ".join(p.get("line") or [])
-        rows.append((f'{p.get("name", "")} {p.get("ppr", 0):.1f}', line[:34]))
+        rows.append((f'{p.get("name", "")} {p.get("ppr", 0):.1f}',
+                     _fit_stats(p.get("line") or [])))
     return rows
 
 
@@ -4150,6 +4171,9 @@ def _tk_winprob(g):
             f'<span class="wp-src" data-wp-model="ESPN">ESPN\'s model</span></div>')
 
 
+_TK_REGULATION = {"NFL": 4, "CFB": 4, "NBA": 4, "WNBA": 4, "NHL": 3}
+
+
 def _tk_linescore(g):
     """C-2: how the score happened, not just what it is.
 
@@ -4168,8 +4192,21 @@ def _tk_linescore(g):
     pa, ph = a.get("periods") or [], h.get("periods") or []
     if not pa or len(pa) != len(ph):
         return ""
+    # S-1 item 4: THE FIFTH-QUARTER COLUMN LEAVES THE BOX UNLESS THE GAME WENT TO OVERTIME.
+    # A period past regulation prints only when the feed says overtime, and then it is
+    # headed OT, not "5".
+    reg = _TK_REGULATION.get(g.get("league") or "")
+    over = (g.get("status_short") or "").upper().count("OT") > 0
+    if reg and len(pa) > reg:
+        if not over:
+            pa, ph = pa[:reg], ph[:reg]
     n = len(pa)
-    head = "".join(f"<th>{i + 1}</th>" for i in range(n))
+
+    def _hd(i):
+        if reg and i >= reg:
+            return "OT" if i == reg else f"{i - reg + 1}OT"
+        return str(i + 1)
+    head = "".join(f"<th>{_hd(i)}</th>" for i in range(n))
 
     def row(t, ps):
         sc = _tk_score(t, g)
@@ -7915,7 +7952,8 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     if merged:
         blocks.append(("live", _leaders_module(merged, "Points this week", n=8, expand=False)
                       .replace('</section>',
-                               '<a class="bd-more" href="/fantasy/live.html">'
+                               fantasy_asof("Points", _mf()["data_utc"] or _mf()["built_utc"])
+                               + '<a class="bd-more" href="/fantasy/live.html">'
                                'The full board</a></section>')))
     if not blocks:
         return None
