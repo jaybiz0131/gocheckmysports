@@ -136,13 +136,13 @@ Every push read by hash (U-8), every push behind the canary's exit status (U-14)
 |---|---|---|
 | 0, one truth for counts and stamps (manifest, no "live", no duplicate ids, the week) | `5201a8f` | `eb0150e` |
 | 1, Where to Watch by day and window, `data/carriage.json` | `f45ce82` | `3282f22` |
-| 2, the home is the week board | `a4ad7f9` | **not merged**: draft PR 103, waiting on Jack's yes on `review/s1/` |
+| 2, the home is the week board (PR 103, approved by Jack 13 October 8:15 AM ET, with the record-gap fix `76a8beb`) | `a136824` | `ed82c84` |
+| 2b, the Watch pages get the same header, bar and Edition link (found on the production read) | `ec33489` | `7c07a3c` |
 | 3, the desk's jobs (brief off, conditions report stub) | `273aafd` | `66b729a` |
 | 4, the small truths | `7a763c1` | `d898749` |
-| 5, archive and index | no branch | IndexNow sent (7 URLs, 200); the rest waits on item 2 |
+| 5, archive and index | no branch | IndexNow sent twice, 7 URLs then 8 with `/archive`, both HTTP 200; sitemaps regenerate in every build; the register needed no new page |
 
-- **Jack's:** say yes or no on PR 103 (screenshots, eight PNGs, from the deploy preview of
-  `dca5c4b`); deploy the Worker line below; read the six `verify` carriage rows and the
+- **Jack's:** deploy the Worker line below; read the six `verify` carriage rows and the
   regional maps link; supply the affiliate links; keep the Sunday 1:30 PM glance until S-4.
 - **Worker line (the Worker is outside this repository and was not read):** in
   `../gcm-newsroom/slot-trigger/`, remove the sports `sports-news-brief.yml` dispatch windows
