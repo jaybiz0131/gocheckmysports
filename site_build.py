@@ -10467,20 +10467,6 @@ def build():
     print(f"manifest: {MANIFEST['stamp']}, date {MANIFEST['date']}, week {MANIFEST['week']}, "
           f"{MANIFEST['slate']['date']['total']} today, {MANIFEST['slate']['week']['total']} this week")
 
-    if W2W_LIVE:
-        _wks = _w2w["weeks"]
-        # item 30: the page opened with Week 1 - sixteen finished games - because it
-        # took the first week in the file. It opens with the week that still has a
-        # window ahead, the same rule the rail card uses (D-14).
-        _cur = next((w for w in _wks if w.get("week") == MANIFEST["week"]), _wks[0])
-        w("where-to-watch.html", render_where_to_watch(_cur, _wks, dateline, current=True))
-        for _wk in _wks:
-            w(f"where-to-watch/{_w2w_slug(_wk)}.html",
-              render_where_to_watch(_wk, _wks, dateline))
-        print(f"where to watch: {len(_wks)} week(s), "
-              f"{sum(len(x.get('games') or []) for x in _wks)} games, "
-              f"as of {_w2w.get('fetched_at')}")
-
     # C-1: log the line while the game is still scheduled, because the feed drops its
     # odds object at kickoff and a line nobody logged before then is gone for good.
     # This runs on every build, which is why the Worker's build hooks matter to it: the
@@ -10547,6 +10533,24 @@ def build():
         IA_DESIG = _ia2.designations()
     except Exception:
         pass
+    # S-1: THE WATCH PAGES RENDER HERE, after the Edition link and the inactives board are set.
+    # They were written before either was loaded, so their header and phone bar had no Fantasy
+    # link (masthead hides it while IA_BOARD is None) and their footer pointed The Edition at
+    # /bottom-line instead of the newest issue. nav_consistency_scan fails the gate on it.
+    if W2W_LIVE:
+        _wks = _w2w["weeks"]
+        # item 30: the page opened with Week 1 - sixteen finished games - because it
+        # took the first week in the file. It opens with the week that still has a
+        # window ahead, the same rule the rail card uses (D-14).
+        _cur = next((w for w in _wks if w.get("week") == MANIFEST["week"]), _wks[0])
+        w("where-to-watch.html", render_where_to_watch(_cur, _wks, dateline, current=True))
+        for _wk in _wks:
+            w(f"where-to-watch/{_w2w_slug(_wk)}.html",
+              render_where_to_watch(_wk, _wks, dateline))
+        print(f"where to watch: {len(_wks)} week(s), "
+              f"{sum(len(x.get('games') or []) for x in _wks)} games, "
+              f"as of {_w2w.get('fetched_at')}")
+
     if IA_DESIG:
         _dg = render_designations(IA_DESIG, IA_BOARD, dateline)
         if _dg:
