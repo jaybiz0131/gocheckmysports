@@ -69,6 +69,41 @@ def _fixture(sb):
     return u, sbd, w2w, doc
 
 
+def _record_gap(pages):
+    """Run scripts/record-gap.mjs over rendered pages; its failures come back as strings."""
+    import json
+    import shutil
+    import subprocess
+    import tempfile
+    here = os.path.dirname(os.path.abspath(__file__))
+    node = shutil.which("node")
+    if not node:
+        return ["records: node is not installed, so the score and record gap was not measured"]
+    tmp = tempfile.mkdtemp(prefix="record-gap-")
+    try:
+        for name, html in pages.items():
+            with open(os.path.join(tmp, name), "w", encoding="utf-8") as f:
+                f.write(html)
+        try:
+            r = subprocess.run([node, os.path.join(here, "scripts", "record-gap.mjs"), tmp],
+                               capture_output=True, text=True, timeout=240)
+        except subprocess.TimeoutExpired:
+            return ["records: the browser measure timed out"]
+        out = []
+        for line in r.stdout.splitlines():
+            try:
+                o = json.loads(line)
+            except ValueError:
+                continue
+            if "fail" in o:
+                out.append("records: " + o["fail"])
+        if r.returncode != 0 and not out:
+            out.append("records: the browser measure exited %d: %s" % (r.returncode, r.stderr[-200:]))
+        return out
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def home_canary():
     import build_manifest as bm
     import site_build as sb
@@ -207,6 +242,10 @@ def home_canary():
                 fails.append("home: the record is not set smaller than the score line (11px or less)")
             if not al or float(al.group(1)) > 0.7:
                 fails.append("home: the record is not muted (white at 70 percent or less)")
+
+        # records, measured: the same pages in a browser at seven widths in both modes, so a later
+        # rule that shrinks the gap fails here and not in a reader's phone
+        fails.extend(_record_gap({"home.html": home, "scores.html": scores}))
 
         # archive: the sections that left the home
         left = sb.archive_left_home()
