@@ -947,18 +947,21 @@ def _h6_hour_sweep():
                 _now = _d.datetime(*_day, _hr, 25, tzinfo=_d.timezone.utc)
                 _c = _line(_now, [_game(_now, -1, "post", "et", "f") for _ in range(15)]
                            + [_game(_now, 7, "pre", "et", "n")])
-                _check(_c.startswith("15 final") and "next" in _c, fails,
+                # fifteen finals dated yesterday in Eastern and one game a week out: nothing
+                # is today, and the manifest says what is next, by weekday
+                _wd = (_now.astimezone(_sb._ET) + _d.timedelta(days=7)).strftime("%A")
+                _check(_c == f"No games today \u00b7 1 game {_wd}", fails,
                        f"H-6 sweep: at {_now:%Y-%m-%d %H:%MZ} 15 finals plus an upcoming "
                        f"game said {_c!r}")
-        # the live count comes from the games that are live: two live today, finals before
+        # two games in play today, finals yesterday: the count is the date's
         _now = _d.datetime(2026, 10, 6, 20, 25, tzinfo=_d.timezone.utc)
         _c = _line(_now, [_game(_now, -1, "post", "et", "f") for _ in range(15)]
-                   + [dict(_game(_now, 0, "in", "et", "l"), id=f"live{k}") for k in range(2)])
-        _check(_c.startswith("2 games today") and _c.endswith("2 live now"), fails,
-               f"H-6 sweep: two live games today were counted as {_c!r}")
+                   + [dict(_game(_now, 0, "in", "et", "l"), id=f"play{k}") for k in range(2)])
+        _check(_c == "2 games today", fails,
+               f"H-6 sweep: two games in play today were counted as {_c!r}")
         # the legacy fixture must still reproduce the poller's string at 02:00Z, and heal at
         # 05:00Z, or this sweep cannot fail for the reason it was written
-        for _hr, _want in ((2, "15 games today"), (5, "15 final")):
+        for _hr, _want in ((2, "15 games today"), (5, "No games today")):
             _now = _d.datetime(2026, 9, 20, _hr, 0, tzinfo=_d.timezone.utc)
             _c = _line(_now, [_game(_now, -1, "post", "utc", "f") for _ in range(15)]
                        + [_game(_now, 7, "pre", "utc", "n")])
@@ -1177,30 +1180,29 @@ def _sunday_slate_canary():
     _live = ["TIEEARLY2", "CLSEARLY1", "MIDEARLY3", "BLOEARLY4"]
     _next = ["LATEONE", "LATETWO"]
     _want = _live + _next + ["NIGHT"]
-    # the band: one marquee, then the folds in the scoreboard's order
-    _mq = _r.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', _band)[:1]
+    # the band: one marquee, then the folds in the scoreboard's order, each game once
+    _mq = _r.findall(r'<article[^>]*class="tk-c[^"]*" data-gid="([^"]*)"', _band)[:1]
     _fold = _r.findall(r'class="tk-fold(?: wide)?" data-gid="([^"]*)"', _band)
-    _fold = _fold[:len(_fold) // 2]   # the same six are rendered once per tab
     _check(_mq + _fold == _want, fails,
            f"H-12 canary: the band's order at Sunday 1:30 PM is {_mq + _fold}, not {_want}")
-    # the page: every game, in the same order, live first and the night game last
+    # the page: every game, in the same order, games in play first and the night game last
     _pg = _r.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', _page or "")
     _check(_pg == _want, fails, f"H-12 canary: /scores order at Sunday 1:30 PM is {_pg}, not {_want}")
     _check(_pg[:4] == _live and _pg[4:6] == _next and _pg[-1] == "NIGHT", fails,
-           "H-12 canary: the groups are not live, then the 4:05 and 4:25, then the night game")
-    # counts: header, tab, panel and the page's league row all describe those same groups
-    _hdr = _r.findall(r'class="sb-count">([^<]*)', _band)
-    _check(_hdr == ["7 games today \u00b7 4 live now"], fails,
-           f"H-12 canary: the header reads {_hdr}, the slate is 7 games and 4 live")
+           "H-12 canary: the groups are not in play, then the 4:05 and 4:25, then the night game")
+    # counts: header, tab and panel all read the manifest's seven games today
+    _hdr = _r.findall(r'class="sb-count" data-mf="count">([^<]*)', _band)
+    _check(_hdr == ["7 games today"], fails,
+           f"H-12 canary: the header reads {_hdr}, the slate is 7 games")
     _tabs = _r.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"[^>]*>[^<]*<small>([^<]*)', _band)
-    _check(_tabs == [("All", "4 live"), ("NFL", "4 live")], fails,
-           f"H-12 canary: the tab counts read {_tabs}, not 4 live on both")
-    _pc = _r.findall(r'class="tk-count" hidden>([^<]*)', _band)
-    _check(_pc and all(x == "7 games today \u00b7 4 live now" for x in _pc), fails,
+    _check(_tabs == [("All", "7 today"), ("NFL", "7 today")], fails,
+           f"H-12 canary: the tab counts read {_tabs}, not 7 today on both")
+    _pc = _r.findall(r'class="tk-count" data-for="[^"]*" hidden>([^<]*)', _band)
+    _check(_pc and all(x == "7 games today" for x in _pc), fails,
            f"H-12 canary: a panel count disagrees with the header: {_pc}")
     _lg = _r.findall(r'class="tk-lg-n">([^<]*)', _page or "")
-    _check(_lg == ["7 games \u00b7 4 live"], fails,
-           f"H-12 canary: the league row on /scores reads {_lg}, not 7 games and 4 live")
+    _check(_lg == ["7 today \u00b7 7 this week"], fails,
+           f"H-12 canary: the league row on /scores reads {_lg}, not the manifest's 7 today, 7 this week")
     _nx = _r.findall(r'class="sb-next">([^<]*)', _band)
     _check(_nx and all(x == "Next: LATE at ONE 4:05 PM ET" for x in _nx), fails,
            f"H-12 canary: the Next line is {_nx}, not the 4:05")
@@ -1554,6 +1556,8 @@ def layer1_canary():
     fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
     fails.extend(_byline_date_canary())   # H-5b
     fails.extend(_sunday_slate_canary())   # H-12 under a fixture
+    import truth_canary as _tc
+    fails.extend(_tc.truth_canary())   # S-1 item 0: one truth for counts and stamps
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
@@ -1822,6 +1826,13 @@ def layer1_canary():
            f"N-1 canary: {_bare} element(s) on the built site are a bare city, which "
            f"names neither of the two teams that share it")
 
+    # S-1 item 0: THE WORD "LIVE" IS ON NO PAGE THE DESK DOES NOT WRITE BY HAND. Until the
+    # Worker of Sprint S-4 makes it true, no template says it (visible text, titles, alt,
+    # aria-labels, meta). The desk's own articles, editions and story lists are exempt: they
+    # are authored text and "live" is an ordinary word in a sentence.
+    import truth_canary as _tc2
+    fails.extend(_tc2.live_word_scan(_walk_root))
+
     # N-2: TODAY IS A DATE, NOT EVERY CARD ON THE PAGE.
     #
     # The band held 31 cards on a Monday and said "31 games today" over an All tab the
@@ -1832,30 +1843,16 @@ def layer1_canary():
     #
     # The browser half was read live; what a canary can hold is the SHAPE of the client
     # rule, because every part of this bug was a line of that script.
-    _sbj = _sb.SB_LIVE_JS
-    _check("etDay(" in _sbj and "toLocaleDateString('en-CA'" in _sbj, fails,
-           "N-2 canary: the recount has no Eastern date test, so it counts every card "
-           "on the page as today")
-    _check("(st === 'in') || (g.kick && etDay(g.kick) === now)" in _sbj, fails,
-           "N-2 canary: the definition of today is not kickoff-on-today's-ET-date or "
-           "in play, which is the only definition the header, the tabs and Next share")
-    # The tab label is written from b.today and never from b.total: the total is every
-    # card in that league on the page, which is what made the tabs disagree with the
-    # header. Asserting both names appear was the bug restated, not tested.
-    _tabblk = _sbj.split(".tk-tab'")[1] if ".tk-tab'" in _sbj else _sbj
-    _tabtext = _tabblk[:_tabblk.find("var nx")] if "var nx" in _tabblk else _tabblk
-    _check("b.today" in _tabtext, fails,
-           "N-2 canary: the tab label is not written from the count of games today")
-    _check("b.total" not in _tabtext, fails,
-           "N-2 canary: a tab label still uses the league's total card count, which "
-           "counts next Saturday's slate as today")
-    _check(".toLowerCase() === 'all'" in _sbj, fails,
-           "N-2 canary: the All tab is matched case-sensitively; the attribute is "
-           "written \"All\" and a CSS attribute selector compares values exactly, so "
-           "the tab silently kept the build's text and disagreed with the header")
-    _check("function seed()" in _sbj and _sbj.count("seed();") >= 2, fails,
-           "N-2 canary: the slate is seeded once at parse, so cards below the band do "
-           "not exist yet and the header counts a fraction of the page")
+    # S-1 item 0 (12 October 2026): the browser recount that this block pinned is gone. A
+    # second author of "N games today" in the browser is what let the header and the tabs
+    # disagree, and the counts are now the manifest's (truth_canary). What a canary holds
+    # is that the poll does not come back: no script on the band re-counts cards.
+    _check(not hasattr(_sb, "SB_LIVE_JS"), fails,
+           "N-2 canary: SB_LIVE_JS is back; the browser poll that re-counted the day and "
+           "wrote 'live' states was removed on 12 October 2026 (Program 7, S-1 item 0)")
+    _check("recount" not in _sb.SB_TABS_JS and "etDay(" not in _sb.SB_TABS_JS, fails,
+           "N-2 canary: the tab script re-counts games in the browser; the counts have one "
+           "source, build_manifest.py")
 
     # N-3: THE STANDALONE PAGES TAKE THE PAGE'S INK, NOT THE BAND'S.
     #
@@ -2868,10 +2865,11 @@ def layer1_canary():
         return _m[0] if _m else ""
 
     _c6 = _count6([_g6("post", -1) for _ in range(15)] + [_g6("pre", 7)])
-    _check(_c6.startswith("15 final"), fails,
+    # S-1 item 0: the count is the manifest's. Finals dated yesterday are not today's games;
+    # the line says nothing is on today and names the next day that has a game.
+    _wd6 = (_now6.astimezone(_sb._ET) + _dt6.timedelta(days=7)).strftime("%A")
+    _check(_c6 == f"No games today \u00b7 1 game {_wd6}", fails,
            f"H-6 canary: a panel of 15 finals plus an upcoming game said {_c6!r}")
-    _check("next" in _c6, fails,
-           f"H-6 canary: the finals line did not name the next fixture: {_c6!r}")
     _c6b = _count6([_g6("pre", 1) for _ in range(3)])
     _check(_c6b.startswith("No games today"), fails,
            f"H-6 canary: a panel with only upcoming games said {_c6b!r}")

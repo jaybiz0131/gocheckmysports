@@ -67,6 +67,23 @@ No tokens, no keys, no hook URLs in this file or any other. The repos are public
   every commit at the start of the 1 October evening session while another session was live in
   `~/Berno Projects/gocheckmyweather`. Check for a running git process before removing one.
 
+## Program 7, Game Day: Jack's rulings of Monday, October 12, 2026
+
+The program is `docs/PROGRAM-7-GAME-DAY-2026-10-12.md`. Sprint S-1 (the truth and the cut)
+runs from this date; the rulings it executes:
+
+- **The site is the game-day conditions desk.** NFL and FBS college football in the fall.
+  MLB joins in April. Nothing else until one of those draws an audience.
+- **The desk stops** the game recaps, the Storylines lanes, the Record stories and the
+  Edition as a news digest. Its one piece a day becomes the conditions report, which Sprint
+  S-2 builds.
+- **The other leagues leave the home and the Scores tabs.** Their pages stay at their URLs.
+- **The word "live" leaves every page** until the Worker of Sprint S-4 makes it true.
+- **Counts and stamps have one source,** `build_manifest.py`, written once per build and read
+  by every page that prints one (S-1 item 0). The NFL week rolls at 6:00 AM ET on Tuesday.
+- The September 20 rulings (the line on the cards, team colors not logos) and the September
+  16 copy law stand.
+
 ---
 
 # Standing rules, all desks, U-1 to U-16
