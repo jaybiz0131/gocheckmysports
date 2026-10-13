@@ -21,6 +21,7 @@ USAGE
 """
 
 import datetime
+import build_manifest as _bm
 import glob
 import json
 from zoneinfo import ZoneInfo
@@ -212,7 +213,7 @@ CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analyt
 DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
         "get the stories right and keep the facts honest. Scores are facts; stories get "
         "checked against their sources before they run. Never betting advice.")
-FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with live scores and the sourcing behind every story. No betting picks.")
+FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with scores and the sourcing behind every story. No betting picks.")
 # C-L5: the one guard line. It appears in the footer and nowhere above the fold.
 NFA = "No betting advice."
 YEAR = "2026"
@@ -2431,7 +2432,7 @@ def render_news(items, dateline):
                     f'<div class="grid">{"".join(card(i) for i in rest)}</div></div></section>')
     else:
         lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">The desk is live</span>
+    <span class="kicker">The desk is open</span>
     <h1>Honest sports news, on a cadence we can keep.</h1>
     <p class="dek">{esc(DESK_LINE)} The first published brief lands here. In the meantime, read how
        the desk works and why you can trust the byline.</p>
@@ -2839,34 +2840,38 @@ def _w2w_stamp(data):
     return f'<p class="bd-src">Updated {esc(_et_clock(t))}</p>'
 
 
+def _w2w_final(g):
+    """S-1 item 0: A GAME IS FINAL WHEN THE FEED SAYS SO AND FOR NO OTHER REASON.
+    `state == "post"` or `completed`. A scheduled game never prints Final: on the morning
+    of 12 October Monday night's game, still scheduled in the feed, was marked Final on
+    Where to Watch because its kickoff had passed on a file a day old."""
+    return bool(g.get("completed")) or g.get("state") == "post"
+
+
 def _w2w_split(week):
-    """Upcoming windows first, then anything the feed says is finished. Read from the
-    feed's `completed`, never from the clock: a build at 03:00 UTC cannot tell whether
-    Thursday's game finished, was postponed, or is in a weather delay."""
-    # D-14: `completed` alone is not enough. It is the right signal on a FRESH file -
-    # a build at 03:00 UTC cannot tell whether Thursday's game finished, was postponed
-    # or is in a weather delay - but where_to_watch keeps its committed file when the
-    # fetch fails, and on a stale file yesterday's game is still completed:false and
-    # therefore still "upcoming". That is how the rail card offered Monday night's game
-    # on Tuesday. A kickoff that has already passed is not a NEXT window, whatever the
-    # flag says; the grace period keeps a game actually in progress on the card.
-    import datetime as _dt
-    _grace = _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=4)
-
-    def _still_ahead(g):
-        k = _utc_dt(g.get("kickoff_utc") or g.get("start_utc") or "")
-        return True if k is None else k > _grace
-
+    """Games the feed has not finished first, then the finals. Read from the feed's
+    state, never from the clock: a build at 03:00 UTC cannot tell whether Thursday's game
+    finished, was postponed, or is in a weather delay. A game whose kickoff has passed and
+    whose state is still scheduled stays in the first list with its kickoff time; it is
+    not promoted to Final by the clock."""
     up, done = [], []
     for wname, games in _w2w_windows(week):
-        pending = [g for g in games if not g.get("completed") and _still_ahead(g)]
-        played = [g for g in games
-                  if g.get("completed") or not _still_ahead(g)]
+        pending = [g for g in games if not _w2w_final(g)]
+        played = [g for g in games if _w2w_final(g)]
         if pending:
             up.append((wname, pending))
         if played:
             done.append((wname, played))
     return up, done
+
+
+def _w2w_ahead(g):
+    """A kickoff that has not passed (with four hours of grace for a game in progress).
+    Used by the home rail card, which offers the NEXT window and must not offer a game the
+    clock says is over; Where to Watch itself prints every game with its kickoff."""
+    import datetime as _dt
+    k = _utc_dt(g.get("kickoff_utc") or g.get("start_utc") or "")
+    return True if k is None else k > _build_now() - _dt.timedelta(hours=4)
 
 
 def _w2w_windows(week):
@@ -2922,7 +2927,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
     n = len(week.get("games") or [])
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">NFL Week {esc(str(week.get("week") or ""))}</h1>
-  {_w2w_stamp(W2W_DATA)}
+  {_mf_stamp_p()}
   <div class="w2w">{"".join(rows)}</div>
   <div class="lx-actions">{others}</div>
   <p class="bd-src" style="margin-top:14px">Weather: National Weather Service.
@@ -2935,13 +2940,12 @@ def render_where_to_watch(week, weeks, dateline, current=False):
 
 
 def nfl_week(w2w=None):
-    """F-2: the NFL week, computed from the SCHEDULE file, never from the calendar.
+    """F-2, rewritten for S-1 item 0: the NFL week by the manifest's rule.
 
-    A week runs from the Tuesday after the last game of the previous week through the
-    Monday night game. The schedule gives the kickoffs, so the rule is simply: the
-    current week is the first one whose last kickoff has not yet passed. Every surface
-    that names a week reads this one function, so the band, the hub, the inactives
-    board, the game pages and the player pages cannot disagree.
+    The week rolls at 6:00 AM ET on Tuesday (build_manifest.week_for). It used to turn four
+    hours after the last kickoff of the file, so a Monday game that ran long, or a file a
+    day behind, kept last week's number on the page for hours. Every surface that names a
+    week reads this one function, and it reads the same rule the manifest does.
 
     Returns (week_number, last_kickoff_utc) or (None, None) when the file has no weeks.
     """
@@ -2949,20 +2953,14 @@ def nfl_week(w2w=None):
     weeks = (data or {}).get("weeks") or []
     if not weeks:
         return (None, None)
-    import datetime as _dt
-    now = _dt.datetime.now(_dt.timezone.utc)
+    wk = _bm.week_for(_build_now(), weeks)
+    if wk is None:
+        return (None, None)
     for w in weeks:
-        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (w.get("games") or [])]
-        ks = [k for k in ks if k]
-        if not ks:
-            continue
-        last = max(ks)
-        # a Monday night game runs about four hours; the week turns after it ends
-        if now < last + _dt.timedelta(hours=4):
-            return (w.get("week"), last)
-    last_w = weeks[-1]
-    ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (last_w.get("games") or [])]
-    return (last_w.get("week"), max([k for k in ks if k], default=None))
+        if w.get("week") == wk:
+            ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (w.get("games") or [])]
+            return (wk, max([k for k in ks if k], default=None))
+    return (wk, None)
 
 
 def fantasy_asof(label, when_iso, source=""):
@@ -3019,6 +3017,8 @@ def where_to_watch_card(data):
     week = None
     for w in data["weeks"]:
         up, _played = _w2w_split(w)
+        up = [(wn, [g for g in gs if _w2w_ahead(g)]) for wn, gs in up]
+        up = [(wn, gs) for wn, gs in up if gs]
         if up:
             # N-4: one window on the rail card, not two. The rail clamps to the lead
             # card; the whole week is one click away on /where-to-watch.
@@ -4174,27 +4174,33 @@ def _tk_state(g):
     return detail if clock_is_real else ""
 
 
+def _tk_day(g):
+    """S-1 item 0: THE CARD CARRIES ITS DATE. "Sat" on a Sunday page read as today's game;
+    "Sat Oct 10" cannot. Month-first US order, from the game's own kickoff in ET."""
+    dt = _utc_dt(g.get("start_utc") or "")
+    return dt.astimezone(_ET).strftime("%a %b %-d") if dt else ""
+
+
 def _tk_kicker(g):
-    """The stub's top line: league, week and day, or the live state."""
+    """The stub's top line: league, week, state and the date. Every card dates itself."""
     league = esc(g.get("league") or "")
+    day = _tk_day(g)
     if g.get("state") == "in":
-        det = esc(_tk_state(g) or "Live")
-        return f'<span class="tk-k live"><span class="dot"></span>Live \u00b7 {league} \u00b7 {det}</span>'
+        det = esc(_tk_state(g) or "In progress")
+        return f'<span class="tk-k">{_TK_MID.join(x for x in (league, det, esc(day)) if x)}</span>'
     if g.get("state") == "post":
         # A POSTPONED GAME IS NOT A FINAL. The feed marks it post and the card said
         # "MLB · Final" over two empty score slots, which reads as a nil-nil result
         # rather than a game that was never played. It says what happened, alone.
-        if _is_postponed(g):
-            return f'<span class="tk-k">{league} \u00b7 Postponed</span>'
-        return f'<span class="tk-k">{league} \u00b7 Final</span>'
+        word = "Postponed" if _is_postponed(g) else "Final"
+        return f'<span class="tk-k">{_TK_MID.join(x for x in (league, word, esc(day)) if x)}</span>'
     bits = [league]
     if league == "NFL":
         wk, _ = nfl_week()
         if wk:
             bits.append(f"Week {wk}")
-    dt = _utc_dt(g.get("start_utc") or "")
-    if dt:
-        bits.append(dt.astimezone(_ET).strftime("%A"))
+    if day:
+        bits.append(day)
     line = _TK_MID.join(bits)
     return f'<span class="tk-k">{esc(line)}</span>'
 
@@ -4798,23 +4804,18 @@ def lens_control():
 def _tk_tabs(games, active="all", href="/scores.html"):
     """SC-4: the league switcher. Each tab carries its count today or its next date.
 
-    A league with nothing today shows its next slate rather than a zero, because a zero
-    reads as "this league is off" when the truth is "not until Saturday". Tabs are real
+    S-1 item 0: every count on a tab is the manifest's. This function no longer looks at a
+    card's kickoff or state; it asks the manifest what the date holds for the league.
+    A league with nothing today shows its next slate rather than a zero. Tabs are real
     links to /scores#nfl so they work with no script at all.
     """
-    import datetime as _d
-    today = _build_now().astimezone(_ET).date()
+    m = _mf()
+    d = m["slate"]["date"]
     by_league = {}
     for g in games:
         by_league.setdefault(g.get("league"), []).append(g)
     out = []
-    n_today = sum(1 for g in games
-                  if (_utc_dt(g.get("start_utc") or "") or _d.datetime.max.replace(
-                      tzinfo=_d.timezone.utc)).astimezone(_ET).date() == today)
-    n_live = sum(1 for g in games if g.get("state") == "in")
-    sub_all = f"{n_today} today" if n_today else "next up"
-    if n_live:
-        sub_all = f"{n_live} live"
+    sub_all = f"{d['total']} today" if d["total"] else "next up"
     out.append((["", " on"][active == "all"], "All", sub_all, "all"))
     # CFB-1: the tab strip is the band's order, so the tabs and the cards under them
     # cannot disagree about which league leads today.
@@ -4822,38 +4823,16 @@ def _tk_tabs(games, active="all", href="/scores.html"):
         gs = by_league.get(name)
         if not gs:
             continue
-        mine_today = [g for g in gs
-                      if (_utc_dt(g.get("start_utc") or "") or _d.datetime.max.replace(
-                          tzinfo=_d.timezone.utc)).astimezone(_ET).date() == today]
-        live = sum(1 for g in gs if g.get("state") == "in")
-        if live:
-            sub = f"{live} live"
-        elif mine_today:
-            # M-21: A TAB THAT HOLDS A FINAL SAYS SO. "1 today" over a board of one
-            # finished game tells a reader there is something to come. The count line
-            # below carries the full sentence with the next kickoff.
-            _fin_t = [x for x in mine_today if x.get("state") == "post"]
-            sub = (f"{len(_fin_t)} final" if len(_fin_t) == len(mine_today)
-                   else f"{len(mine_today)} today")
-        elif [x for x in gs if _is_recent_final(x)]:
-            # A final from last night is still the thing this tab holds, even though it
-            # is not today's. "NFL Sun" over the Bills result is the front page telling
-            # a reader to come back in three days.
-            _rf = [x for x in gs if _is_recent_final(x)]
-            sub = f"{len(_rf)} final"
+        mine = d["by_league"].get(name) or {}
+        if mine.get("total"):
+            # M-21: A TAB THAT HOLDS ONLY FINALS SAYS SO.
+            sub = (f"{mine['final']} final" if mine["final"] == mine["total"]
+                   else f"{mine['total']} today")
         else:
-            nxt = sorted((_utc_dt(g.get("start_utc") or "") for g in gs
-                          if _utc_dt(g.get("start_utc") or "")), key=lambda d: d)
-            nxt = [d for d in nxt if d.astimezone(_ET).date() > today]
-            if nxt:
-                d0 = nxt[0].astimezone(_ET)
-                sub = (d0.strftime("%a") if (d0.date() - today).days < 7
-                       else d0.strftime("%b %-d"))
-            else:
-                # H-6: A LEAGUE WITH A PANEL ALWAYS HAS A TAB. This used to skip a
-                # league whose games were all in the past, so at 7:57 AM the MLB panel
-                # existed with fifteen finals and no tab could reach it. A board the
-                # reader cannot open is worse than no board.
+            n_next = (d.get("next_by_league") or {}).get(name, 0)
+            sub = d["next_label"][:3].title() if n_next and d["next_label"] != "tomorrow" \
+                else ("tomorrow" if n_next else "")
+            if not sub:
                 done = sum(1 for g in gs if g.get("state") == "post")
                 sub = f"{done} final" if done else f"{len(gs)} games"
         slug = name.lower().replace(" ", "-")
@@ -5203,451 +5182,10 @@ def _ia_for_game(g, ia_index, side):
     return t if seen and opens <= seen <= day_end else None
 
 
-SB_LIVE_JS = """
-<script>(function(){
-  /* L-2/L-3/L-4: the live poll.
-
-     The page is rendered from the last committed snapshot and is complete without this
-     script; crawlers and a reader with JS off see a finished board. This only rewrites
-     values that are already on the page, in place. It never adds or removes a card.
-
-     THE SOURCE IS THE PUBLIC SCOREBOARD FEED, the same one the build reads. L-1 swaps
-     the URL for the Worker's /live/scores.json route and nothing else here changes:
-     the reshape below is the site's own shape either way.
-
-     Cadence (L-2): 60s while any game on this page is live, 10 minutes otherwise, and
-     only while the tab is visible. Freshness (L-4): three consecutive misses mark the
-     band stale beside its stamp and drop the live dot, rather than leaving a wrong
-     score looking current. */
-  var CARDS = document.querySelectorAll('[data-gid]');
-  if (!CARDS.length) return;
-  var PATHS = {NFL:'football/nfl', MLB:'baseball/mlb', CFB:'football/college-football',
-               NBA:'basketball/nba', NHL:'hockey/nhl', WNBA:'basketball/wnba'};
-  var BASE = 'https://site.api.espn.com/apis/site/v2/sports/';
-  var UP = '#3DDC84', DOWN = '#FF7A6B', TIE = '#F0C674';
-  var FAST = 60000, SLOW = 600000, MISS = 0, timer = null;
-
-  var leagues = {};
-  [].forEach.call(CARDS, function(c){
-    var l = c.getAttribute('data-league'); if (PATHS[l]) leagues[l] = 1;
-  });
-  leagues = Object.keys(leagues);
-  if (!leagues.length) return;
-
-  function byId(gid){ return document.querySelectorAll('[data-gid="' + gid + '"]'); }
-
-  function colours(a, h){
-    if (a === null || h === null) return [null, null];
-    if (a === h) return [TIE, TIE];
-    return a > h ? [UP, DOWN] : [DOWN, UP];
-  }
-
-  function num(v){ var n = parseInt(v, 10); return isNaN(n) ? null : n; }
-
-  /* A-4: A BAKED LIVE STATE EXPIRES. The page is built from a snapshot, and between
-     builds that snapshot ages: on Sunday morning the 8:00 PM Saturday build still
-     painted six MLB games as live in the first inning, and on a hidden tab the poll
-     does not run at all (L-2), so a phone resuming from the background showed
-     Saturday's first quarter as "Live" until the reader looked at it.
-
-     If the build is older than STALE_BUILD_MS, every card baked live is marked as of
-     the build's own time, with no live dot, until the poll answers for it. This removes
-     a claim; it never invents one. The poll clears the mark the moment it has a real
-     state for that card. */
-  var STALE_BUILD_MS = 3 * 3600 * 1000;
-  var BAND = document.querySelector('[data-built]');
-  var BUILT = BAND ? Date.parse(BAND.getAttribute('data-built') || '') : NaN;
-  var BUILD_STALE = isFinite(BUILT) && (Date.now() - BUILT) >= STALE_BUILD_MS;
-  (function expireBakedLive(){
-    var band = BAND;
-    if (!band || !BUILD_STALE) return;
-    var asof = band.getAttribute('data-built-et') || '';
-    [].forEach.call(CARDS, function(c){
-      if (c.getAttribute('data-state') !== 'in') return;
-      c.setAttribute('data-baked-stale', '1');
-      var k = c.querySelector('[data-role="kicker"]');
-      if (k) k.textContent = (c.getAttribute('data-league') || '')
-                             + (asof ? ' \u00b7 as of ' + asof : '');
-      var w = c.querySelector('[data-role="when"]');
-      if (w && asof) w.textContent = 'as of ' + asof;
-    });
-  })();
-  setTimeout(recount, 0);   /* A-2: correct the baked counts even before the first poll */
-
-  /* B-2: THE COUNTDOWN. Written by the client, never baked: a countdown rendered at
-     build time is wrong the moment it is served, and on this desk a build can be hours
-     old. It ticks once a minute, which is the resolution it shows, and it stops the
-     moment the game is no longer upcoming so a started game never reads "kicks in". */
-  function countdowns(){
-    var now = Date.now();
-    document.querySelectorAll('[data-countdown]').forEach(function(el){
-      var card = el.closest('[data-gid]');
-      if (card && card.getAttribute('data-state') !== 'pre') { el.textContent = ''; return; }
-      var k = Date.parse(el.getAttribute('data-kick') || '');
-      if (!isFinite(k)) { el.textContent = ''; return; }
-      var mins = Math.round((k - now) / 60000);
-      if (mins < 0) { el.textContent = ''; return; }
-      if (mins < 60) { el.textContent = 'kicks in ' + mins + 'm'; return; }
-      var h = Math.floor(mins / 60), m = mins % 60;
-      el.textContent = h < 24
-        ? 'kicks in ' + h + 'h ' + (m < 10 ? '0' : '') + m + 'm'
-        : '';
-    });
-  }
-  countdowns();
-  setInterval(countdowns, 60000);
-
-  function paint(gid, s){
-    [].forEach.call(byId(gid), function(card){
-      var started = s.state === 'in' || s.state === 'post';
-      var c = colours(started ? s.away : null, started ? s.home : null);
-      card.setAttribute('data-state', s.state);
-      card.removeAttribute('data-baked-stale');   /* A-4: the poll has answered */
-      card.classList.toggle('wide', started);
-      ['away','home'].forEach(function(side, i){
-        var sc = side === 'away' ? s.away : s.home;
-        /* the full card's stub: abbreviation and score live in one span */
-        var big = card.querySelector('.tk-mu [data-side="' + side + '"]');
-        if (big) {
-          /* CFB-1: data-label is what this league calls the team ("Georgia"), and
-             data-abbr stays the abbreviation the pin and this poll match on. Without
-             the label the first poll rewrote every college name back to its initials. */
-          var ab = big.getAttribute('data-label') || big.getAttribute('data-abbr') || '';
-          /* B-2: the score is its own node now so it can be set at 64px against a name
-             at 15px. textContent on the parent would delete both children, which is
-             how the first cut of this silently erased every score it painted. */
-          var nm = big.querySelector('.tk-nm'), scn = big.querySelector('.tk-sc');
-          if (nm) {
-            nm.textContent = ab;
-            if (scn) scn.textContent = started && sc !== null ? sc : '';
-          } else {
-            big.textContent = started && sc !== null ? ab + ' ' + sc : ab;
-          }
-          big.style.color = c[i] || '#FFFFFF';
-        }
-        /* the folded card: score and abbreviation are separate */
-        var cell = card.querySelector('.s[data-side="' + side + '"]');
-        if (cell) {
-          cell.textContent = started && sc !== null ? sc : '';
-          cell.className = started && sc !== null ? 's sc' : 's';
-          cell.style.color = c[i] || '';
-        }
-        var abb = card.querySelector('b[data-side="' + side + '"]');
-        if (abb) abb.style.color = c[i] || '';
-      });
-      var st = card.querySelector('[data-role="status"]');
-      if (st && started) st.textContent = s.status;
-      var k = card.querySelector('[data-role="kicker"] .tk-k');
-      if (k) {
-        if (s.state === 'in') {
-          k.className = 'tk-k live';
-          k.innerHTML = '<span class="dot"></span>Live · ' +
-                        (card.getAttribute('data-league') || '') + ' · ' +
-                        esc(s.status);
-        } else if (s.state === 'post') {
-          k.className = 'tk-k';
-          k.textContent = (card.getAttribute('data-league') || '') + ' · Final';
-        }
-      }
-      /* UX-3: the situation belongs on the second line, beside where the kickoff
-         time was, not on the records line. */
-      var when = card.querySelector('[data-role="when"]');
-      if (when) {
-        /* A-4: A FINAL HAS NO SITUATION. The poll wrote the situation on a live game
-           and never took it back, so ten Saturday finals sat under their final scores
-           reading "3rd & 4 at MSU 31" all Sunday morning. A card that leaves the live
-           state drops the line with it. */
-        if (s.state === 'in' && s.situation) when.textContent = s.situation;
-        else if (s.state === 'post') when.textContent = s.short || 'Final';
-        else if (s.state === 'pre' && s.kick) when.textContent = s.kick;
-      }
-    });
-    /* A-3: the strip moves with the cards. Same game, same source, same paint. */
-    [].forEach.call(document.querySelectorAll('.msb-g[data-gid="' + gid + '"]'),
-      function(it){
-        it.setAttribute('data-state', s.state);
-        var started = s.state === 'in' || s.state === 'post';
-        ['away', 'home'].forEach(function(side){
-          var el = it.querySelector('.msb-s[data-side="' + side + '"]');
-          if (!el) return;
-          var v = side === 'away' ? s.away : s.home;
-          el.textContent = (started && v !== null && v !== undefined) ? String(v) : '';
-        });
-        var a = s.away, h = s.home, tie = (a === h);
-        ['away', 'home'].forEach(function(side){
-          var el = it.querySelector('.msb-s[data-side="' + side + '"]');
-          if (!el) return;
-          var mine = side === 'away' ? a : h, other = side === 'away' ? h : a;
-          var lead = (mine !== null && other !== null && !tie && mine > other);
-          el.classList.toggle('msb-lead', !!lead);
-        });
-        var st = it.querySelector('[data-role="msb-status"]');
-        if (st) st.textContent = started ? (s.status || '') : (st.textContent || '');
-      });
-    recount();        /* A-2: the header, the tabs and "Next" follow the cards */
-  }
-
-  /* A-2: THE COUNTS COME FROM THE CARDS, NEVER FROM THE BUILD. "49 games today · 16
-     live now" was baked at 8:00 PM Saturday and survived a poll that had just turned
-     every one of those games into a final, so the header claimed sixteen live games
-     above a board showing none. The tab counts and the "Next" line had the same
-     problem. They are recomputed from the cards' CURRENT state after every paint.
-
-     "Next" is the first card whose state is pre, by kickoff. It named LSU at Ole Miss,
-     a game that had already started at build time: a game that has kicked off is never
-     the next one. */
-  /* THE SLATE, not the page. The band renders a marquee and six cards per panel, so
-     counting the DOM said "NFL 7 today" on a sixteen-game Sunday. The feed carries
-     every game in every league the page shows, so the counts are computed from that
-     and seeded from the cards only until the first answer arrives. */
-  var SLATE = {};
-  /* SEEDED FROM THE DOM EVERY TIME, NOT ONCE AT PARSE.
-     This script is attached to the band, and on the home page and on /scores there are
-     cards BELOW it that do not exist yet when it runs: the band's own panel was seeded
-     and the rest of the slate was invisible, so the header counted 14 of 20 games and
-     disagreed with tabs that the build had written correctly. The same boot-order trap
-     as the lens and the pins panel, in a third place.
-     Re-seeding is cheap, it is the only way a card added after parse is ever counted,
-     and an entry the poll has already updated keeps its state rather than being reset
-     to whatever the build baked. */
-  function seed(){
-  [].forEach.call(document.querySelectorAll('.tk-c[data-gid]'), function(c){
-    var gid = c.getAttribute('data-gid');
-    if (gid && !SLATE[gid]) SLATE[gid] = {
-      lg: c.getAttribute('data-league') || '', state: c.getAttribute('data-state'),
-      kick: c.getAttribute('data-kick') || '', ket: c.getAttribute('data-kick-et') || '',
-      a: c.getAttribute('data-away') || '', h: c.getAttribute('data-home') || '',
-      /* a live state the poll has not confirmed counts as live only while the build
-         it came from is recent; past that it is A-4's expired state */
-      baked: BUILD_STALE ? 1 : 0};
-  });
-  }
-  seed();
-
-  function etTime(iso){
-    if (!iso) return '';
-    try {
-      return new Date(iso).toLocaleTimeString('en-US', {
-        timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit'}) + ' ET';
-    } catch (e) { return ''; }
-  }
-
-  /* N-2: TODAY IS A DATE, NOT "EVERY CARD ON THE PAGE".
-     The band held 31 cards on a Monday and said "31 games today" over an All tab that
-     said 14, which the BUILD had written and which was right: a Monday has one NFL
-     game and the rest of those cards are next Saturday's college slate and the coming
-     week's fixtures. The header and the All tab disagreed with each other on the same
-     screen, and the Scores page said "0 games today" over a tab saying "14 today".
-     A game is today when its kickoff falls on today's Eastern date, or when it is in
-     play. Nothing else counts, and everything below counts the same way. */
-  function etDay(iso){
-    try {
-      return new Date(iso).toLocaleDateString('en-CA', {timeZone: 'America/New_York'});
-    } catch (e) { return ''; }
-  }
-  function todayET(){
-    return new Date().toLocaleDateString('en-CA', {timeZone: 'America/New_York'});
-  }
-
-  function recount(){
-    seed();
-    var byLeague = {}, live = 0, today = 0, upcoming = [];
-    var now = todayET();
-    Object.keys(SLATE).forEach(function(gid){
-      var g = SLATE[gid], lg = g.lg, st = g.state;
-      var isToday = (st === 'in') || (g.kick && etDay(g.kick) === now);
-      byLeague[lg] = byLeague[lg] || {live:0, total:0, fin:0, today:0};
-      byLeague[lg].total++;
-      if (isToday) { today++; byLeague[lg].today++; }
-      /* a baked live state that the poll has not confirmed is not counted as live */
-      if (st === 'in' && !g.baked) { live++; byLeague[lg].live++; }
-      if (st === 'post' && isToday) byLeague[lg].fin++;
-      if (st === 'pre') upcoming.push({k:g.kick, t:g.ket || etTime(g.kick),
-                                       a:g.a, h:g.h});
-    });
-    var head = document.querySelector('.sb-count');
-    if (head) {
-      /* "0 live now" is said out loud rather than dropped: on a Sunday morning it
-         tells the reader nothing has started, which is the thing they came to learn. */
-      head.textContent = today + ' game' + (today === 1 ? '' : 's') + ' today'
-                       + ' \u00b7 ' + live + ' live now';
-    }
-    [].forEach.call(document.querySelectorAll('.tk-tab'), function(tab){
-      var lg = tab.getAttribute('data-league'), sm = tab.querySelector('small');
-      if (!sm || !lg) return;
-      var b = byLeague[Object.keys(byLeague).filter(function(k){
-        return k.toLowerCase() === lg.toLowerCase(); })[0]];
-      if (!b) return;
-      if (b.live) sm.textContent = b.live + ' live';
-      else if (b.today && b.fin === b.today) sm.textContent = b.fin + ' final';
-      else if (b.today) sm.textContent = b.today + ' today';
-      /* A LEAGUE WITH NOTHING ON TODAY KEEPS THE BUILD'S LABEL. The build already
-         writes "CFB Sat" and "NBA Oct 3", which is the useful thing to say; a recount
-         that overwrote it with a count of games that are not today is how the header
-         and the tabs came to disagree. */
-    });
-    /* The header IS the All tab. They are one number and they are computed once. */
-    /* THE ALL TAB CARRIES THE HEADER'S NUMBER, which is the count of games today. The
-       live figure sits beside it in the header already, so showing "1 live" here left
-       the two reading differently on one screen, which is the whole complaint. Every
-       other tab still leads with its live count, because a league tab has nowhere else
-       to say it. */
-    /* Matched case-insensitively: the attribute is written "All" and a CSS attribute
-       selector compares values case-sensitively, so [data-league="all"] matched nothing
-       and the tab silently kept the build's text. */
-    var allTab = null;
-    [].forEach.call(document.querySelectorAll('.tk-tab'), function(x){
-      if ((x.getAttribute('data-league') || '').toLowerCase() === 'all') {
-        allTab = x.querySelector('small');
-      }
-    });
-    if (allTab) allTab.textContent = today + ' today';
-    var nx = document.querySelector('.sb-next');
-    if (nx) {
-      upcoming.sort(function(x, y){ return x.k < y.k ? -1 : x.k > y.k ? 1 : 0; });
-      var n = upcoming[0];
-      nx.textContent = n ? ('Next: ' + n.a + ' at ' + n.h + (n.t ? ' ' + n.t : '')) : '';
-      nx.hidden = !n;
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function(){ seed(); recount(); });
-  }
-
-  function esc(t){ var d = document.createElement('div'); d.textContent = t || '';
-                   return d.innerHTML; }
-
-  function stamp(when, stale){
-    var el = document.querySelector('.sb-head .sb-stamp, .sb-countwrap .sb-stamp');
-    if (el) {
-      /* L-3: THE STAMP IS THE SOURCE'S OWN TIME, NEVER THE BROWSER'S. The public feed
-         carries no response time, so until the Worker route does (L-1) the stamp stays
-         the one the build wrote and only the stale mark moves. Writing the browser's
-         clock here would be the page asserting a freshness the source never claimed,
-         which is the same class of error as a fabricated number. */
-      var base = (el.getAttribute('data-base') || el.textContent || '')
-                 .replace(/ · stale$/, '');
-      if (!el.getAttribute('data-base')) el.setAttribute('data-base', base);
-      var d = when ? new Date(when) : null;
-      if (d && !isNaN(d)) {
-        base = 'Updated ' + d.toLocaleTimeString('en-US', {timeZone:'America/New_York',
-                 hour:'numeric', minute:'2-digit'}) + ' ET';
-        el.setAttribute('data-base', base);
-      }
-      /* D-1, found at checkpoint 4: at 9:16 PM the stamp read "Updated 8:00 PM ET"
-         while the scores under it were seconds old, because this function rewrites the
-         numbers and leaves the stamp at the build's time. One page, two ages, and the
-         older one is the one in words.
-
-         The rule above still holds and is not being relaxed: we do not know when the
-         SOURCE last updated, so we do not say. But we do know, exactly, when this page
-         last asked and got an answer, and that is a different claim: "updated" is about
-         the feed, "checked" is about us. Saying the second is honest, and it is the fact
-         the reader actually wants when the board is moving. */
-      var seen = '';
-      if (!stale && when !== undefined) {
-        seen = ' · checked ' + new Date().toLocaleTimeString('en-US',
-                 {timeZone:'America/New_York', hour:'numeric', minute:'2-digit'});
-      }
-      el.textContent = base + seen + (stale ? ' · stale' : '');
-    }
-    document.querySelectorAll('.tk-k.live .dot').forEach(function(d){
-      d.style.visibility = stale ? 'hidden' : '';
-    });
-  }
-
-  function leagueOf(json){
-    var l = (((json || {}).leagues || [])[0] || {}).abbreviation || '';
-    if (l === 'NCAAF') l = 'CFB';
-    return l;
-  }
-
-  function reshape(json){
-    var out = [], when = null;
-    ((json && json.events) || []).forEach(function(ev){
-      var comp = (ev.competitions || [])[0]; if (!comp) return;
-      var cs = comp.competitors || [];
-      var home = null, away = null;
-      cs.forEach(function(x){ if (x.homeAway === 'home') home = x; else away = x; });
-      var st = ((comp.status || {}).type) || {};
-      out.push({id: String(ev.id),
-                state: st.state || '',
-                status: st.shortDetail || st.detail || st.description || '',
-                short: st.shortDetail || st.description || 'Final',
-                kick: ev.date || '',
-                away: away ? num(away.score) : null,
-                home: home ? num(home.score) : null,
-                aabbr: (away && away.team && away.team.abbreviation) || '',
-                habbr: (home && home.team && home.team.abbreviation) || '',
-                situation: (comp.situation || {}).downDistanceText || ''});
-    });
-    /* NOT A TIME. json.day.date is the scoreboard's CALENDAR DAY, "2026-09-20", and
-       passing it to stamp() rendered it as one: new Date() reads it as UTC midnight,
-       which in Eastern is 8:00 PM the day before, so the live band read "Updated 8:00
-       PM ET" all Sunday afternoon. The rule stamp() already states is the right one
-       and was not being followed: the public feed carries no response time, so the
-       build's stamp stands and only the stale mark moves. */
-    return {games: out, when: null};
-  }
-
-  function tick(){
-    var wanted = leagues.map(function(l){
-      return fetch(BASE + PATHS[l] + '/scoreboard', {cache:'no-store'})
-             .then(function(r){ return r.ok ? r.json() : null; })
-             .catch(function(){ return null; });
-    });
-    Promise.all(wanted).then(function(all){
-      var got = 0, live = 0;
-      all.forEach(function(j){
-        if (!j) return;
-        got++;
-        var r = reshape(j);
-        r.games.forEach(function(s){
-          /* A-2: EVERY game the feed names enters the slate, whether or not the band
-             renders a card for it. The counts are about the day, not about the six
-             cards that fit. */
-          var prev = SLATE[s.id] || {};
-          SLATE[s.id] = {lg: prev.lg || leagueOf(j) || '', state: s.state,
-                         kick: s.kick || prev.kick || '', ket: prev.ket || '',
-                         a: s.aabbr || prev.a || '', h: s.habbr || prev.h || '',
-                         baked: 0};
-          if (!byId(s.id).length) return;
-          paint(s.id, s);
-          if (s.state === 'in') live++;
-        });
-      });
-      if (!got) {
-        /* L-4: a miss changes nothing on the page. Three in a row says so. */
-        if (++MISS >= 3) stamp(null, true);
-      } else {
-        MISS = 0;
-        stamp(null, false);
-      }
-      schedule(live > 0);
-    });
-  }
-
-  function schedule(fast){
-    clearTimeout(timer);
-    timer = setTimeout(function(){ if (!document.hidden) tick(); else schedule(fast); },
-                       fast ? FAST : SLOW);
-  }
-
-  /* Poll on load only if something on the page could change. */
-  var anyLive = false, anyPre = false;
-  [].forEach.call(CARDS, function(c){
-    var s = c.getAttribute('data-state');
-    if (s === 'in') anyLive = true;
-    if (s === 'pre') anyPre = true;
-  });
-  if (!anyLive && !anyPre) return;
-  document.addEventListener('visibilitychange', function(){
-    if (!document.hidden) tick();
-  });
-  if (!document.hidden) tick(); else schedule(anyLive);
-})();</script>
-"""
+# S-1 item 0, 12 October 2026: THE BROWSER POLL IS GONE. It re-counted games and rewrote
+# states in the page ("N games today", "Live"), which made it a second author of every count
+# on the site. Jack's ruling of 12 October: the word "live" leaves every page until the Worker
+# of Sprint S-4 makes it true, and the counts have one source, build_manifest.py.
 
 SB_TABS_JS = """
 <script>(function(){
@@ -5665,20 +5203,25 @@ SB_TABS_JS = """
   function slugOf(a){ var h = a.getAttribute('href') || ''; var i = h.indexOf('#');
     return i < 0 ? 'all' : h.slice(i + 1); }
   function show(slug){
-    var found = false;
-    panels.forEach(function(p){
-      var mine = p.getAttribute('data-league') === slug;
-      if (mine) found = true;
-      p.hidden = !mine;
+    var panel = document.querySelector('.tk-panel');
+    if (!panel) return false;
+    var found = slug === 'all';
+    var units = panel.querySelectorAll('[data-league]');
+    units.forEach(function(u){
+      if (u === panel) return;
+      var lg = u.getAttribute('data-league');
+      if (lg === slug) found = true;
     });
     if (!found) return false;
+    units.forEach(function(u){
+      if (u === panel) return;
+      u.hidden = slug !== 'all' && u.getAttribute('data-league') !== slug;
+    });
     tabs.forEach(function(t){
       t.classList.toggle('on', slugOf(t) === slug);
     });
-    /* H-6: the count in the band header describes the panel on screen, not the whole
-       slate. Each panel carries its own; this moves it up. */
-    var panel = document.querySelector('.tk-panel[data-league="' + slug + '"]');
-    var count = panel && panel.querySelector('.tk-count');
+    /* The count in the band header is the manifest's count for the tab on screen. */
+    var count = panel.querySelector('.tk-count[data-for="' + slug + '"]');
     var head = document.querySelector('.sb-count');
     if (count && head) head.textContent = count.textContent;
     try { localStorage.setItem(KEY, slug); } catch (e) {}
@@ -5788,6 +5331,65 @@ def _sb_ornament(games):
     return (f'<svg class="sb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
             f'role="img" aria-label="{esc(_legend)}">'
             f'<title>{esc(_legend)}</title>{"".join(bars)}</svg>')
+
+
+# ---- S-1 item 0: the manifest's readers ---------------------------------------------
+# Every count and stamp a page prints comes through these. They read MANIFEST, made once
+# per build in build_manifest.py, and none of them looks at a card.
+
+_MF_PRIMED = None
+
+
+def _mf_prime(sb):
+    """A renderer handed data that is not the build's own (the canary, a one-page render)
+    makes a manifest from what it was handed, so the page still reads a manifest and never
+    counts for itself. The build's own call passes SB_DATA, which clears this and leaves
+    the one MANIFEST made at build start."""
+    global _MF_PRIMED
+    _MF_PRIMED = None if (sb is SB_DATA and MANIFEST is not None) else \
+        _bm.build(_build_now(), sb, W2W_DATA)
+
+
+def _mf():
+    if _MF_PRIMED is not None:
+        return _MF_PRIMED
+    if MANIFEST is not None:
+        return MANIFEST
+    return _bm.build(_build_now(), SB_DATA, W2W_DATA)
+
+
+def _mf_count_line(league=None):
+    return _bm.count_line(_mf(), league)
+
+
+def _mf_today_total(league=None):
+    d = _mf()["slate"]["date"]
+    return d["total"] if league is None else (d["by_league"].get(league) or {}).get("total", 0)
+
+
+def _mf_stamp():
+    """The page stamp: the scoreboard feed's own time when the build has it, with the
+    date, in ET. One format on every page."""
+    m = _mf()
+    return m["data_stamp"] or m["stamp"]
+
+
+def _mf_league_row(league, n_cards=None):
+    """The league row on /scores: the manifest's date count and week count for the
+    league, not the number of cards the section happens to hold."""
+    s = _mf()["slate"]
+    today = (s["date"]["by_league"].get(league) or {}).get("total", 0)
+    week = (s["week"]["by_league"].get(league) or {}).get("total", 0)
+    return f"{today} today \u00b7 {week} this week"
+
+
+def _mf_stamp_p(cls="bd-src"):
+    """The page-level stamp, marked so a test can read it: data-mf="stamp"."""
+    return f'<p class="{cls}" data-mf="stamp">Updated {esc(_mf_stamp())}</p>'
+
+
+def _mf_count_p(league=None, cls="bd-src"):
+    return f'<p class="{cls}" data-mf="count">{esc(_mf_count_line(league))}</p>'
 
 
 def _sb_day_split(games):
@@ -6218,6 +5820,7 @@ def scoreboard_band(sb, board, wx=None):
     the homepage simply does not carry it rather than carrying an empty shell."""
     if not sb or not sb.get("leagues"):
         return ""
+    _mf_prime(sb)
     games = [g for L in sb["leagues"] for g in L["games"]]
     if not games:
         return ""
@@ -6230,122 +5833,64 @@ def scoreboard_band(sb, board, wx=None):
     # Saturday in September.
     rest.sort(key=_sb_sort_key)
     present = [n for n in _day_league_order() if any(g["league"] == n for g in games)]
-    n_live = sum(1 for g in games if g.get("state") == "in")
-    _today, _nxt_lab, _nxt_n = _sb_day_split(games)
-    if _today:
-        count_line = (f"{len(_today)} game{'' if len(_today) == 1 else 's'} today"
-                      f" · {n_live} live now")
-        foot_link = f"All {len(_today)} game{'' if len(_today) == 1 else 's'}"
-    elif _nxt_n:
-        count_line = (f"No games today · {_nxt_n} "
-                      f"{'game' if _nxt_n == 1 else 'games'} {_nxt_lab}")
-        foot_link = "All games"
-    else:
-        count_line = "No games scheduled"
-        foot_link = "All games"
+    # S-1 item 0: the count is the manifest's, never this function's.
+    count_line = _mf_count_line()
+    _n_today = _mf_today_total()
+    foot_link = (f"All {_n_today} game{'' if _n_today == 1 else 's'}" if _n_today
+                 else "All games")
     # SC-4: the tabs carry a count or a next date and switch the whole band.
     tabs = _tk_tabs(games, active="all")
-    # SC-4: every league's own marquee and folded set is rendered, and the script shows
-    # one at a time. Rendering only the active league would mean a tab could not switch
-    # anything without a round trip, and rendering nothing but links would make the tabs
-    # a navigation rather than a switcher. The cost is about 8 KB gzipped for a band
-    # that then switches instantly and still works with no script at all, because every
-    # tab is a real link to that league's section on /scores.
-    def _panel(league):
-        pool = [g for g in games if league == "all" or g.get("league") == league]
-        if not pool:
-            return ""
-        m = _sb_marquee_pick(pool)
-        others = [g for g in pool if g is not m]
-        others.sort(key=_sb_sort_key_in_league)
-        slug = "all" if league == "all" else league.lower().replace(" ", "-")
-        # H-6: the count and the next kickoff belong to the panel, so they follow the
-        # tab. They used to sit in the band header and describe the whole slate, so
-        # picking NFL left "No games today \u00b7 6 games tomorrow" and "Next: CON at
-        # ATL" above a board of NFL games.
-        _today_p, _lab_p, _n_p = _sb_day_split(pool)
-        _live_p = sum(1 for g in pool if g.get("state") == "in")
-        if _today_p:
-            _count_p = (f"{len(_today_p)} game{'' if len(_today_p) == 1 else 's'} today"
-                        f" \u00b7 {_live_p} live now")
-            _foot_p = f"All {len(_today_p)} game{'' if len(_today_p) == 1 else 's'}"
-        else:
-            # H-6 follow-up: THE COUNT LINE NAMES WHAT THE TAB HOLDS. With the MLB tab
-            # reading "15 final" the count line read "No games scheduled", which
-            # contradicts the board beside it.
-            #
-            # The first cut of this fix only caught the case where the pool held
-            # nothing but finals, which almost never happens: a pool that holds
-            # yesterday's finals usually holds the next fixture too, and then the count
-            # read "No games today - 1 game Thursday" over fifteen final scorecards.
-            # Finals are named whenever the panel has them, before the no-games line
-            # gets a turn.
-            _done = sum(1 for g in pool if g.get("state") == "post")
-            _nxt_all = sorted((_utc_dt(g.get("start_utc") or "") for g in pool
-                               if _utc_dt(g.get("start_utc") or "")))
-            _nxt_all = [d for d in _nxt_all if d > _build_now()]
-            if _done:
-                _count_p = f"{_done} final"
-                if _nxt_all:
-                    _d0 = _nxt_all[0].astimezone(_ET)
-                    _count_p += (f" \u00b7 next {_d0.strftime('%a')} "
-                                 f"{_et_clock(_nxt_all[0])}")
-            elif _n_p:
-                _count_p = (f"No games today \u00b7 {_n_p} "
-                            f"{'game' if _n_p == 1 else 'games'} {_lab_p}")
-            else:
-                _count_p = "No games scheduled"
-            _foot_p = "All games"
-        _nxt_p = ""
-        _pre_p = sorted((g for g in pool if g.get("state") == "pre"),
-                        key=lambda g: g.get("start_utc") or "")
-        if _pre_p:
-            _pg = _pre_p[0]
-            _pd = _utc_dt(_pg.get("start_utc") or "")
-            if _pd:
-                _nxt_p = (f'<span class="sb-next">Next: '
-                          f'{esc(_team_label(_pg, _pg.get("away") or {}))} at '
-                          f'{esc(_team_label(_pg, _pg.get("home") or {}))} '
-                          f'{esc(_et_clock(_pd))}</span>')
-        # H-3: each fold carries its own full card beside it, hidden. The panel already
-        # holds every game, so opening one is a class swap with nothing fetched and no
-        # layout built from scratch. A reader with no script still gets the fold's link
-        # to the game page, which is the same information.
-        def _pair(gg):
-            return (f'<div class="tk-pair" data-gid="{esc(str(gg.get("id")))}">'
-                    f'{_tk_fold(gg, ia, desig=IA_DESIG)}'
-                    f'<div class="tk-open" hidden>'
-                    f'{_tk_card(gg, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)}'
-                    f'<button class="tk-close" type="button" aria-label="Close">'
-                    f'Close</button></div></div>')
-        return (f'<div class="sb-grid tk-panel" data-league="{esc(slug)}"'
-                f'{"" if slug == "all" else " hidden"}>'
-                f'{_tk_card(m, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS) if m else ""}'
-                f'<div class="sb-cards">'
-                + "".join(_pair(g) for g in others[:6])
-                + f'</div><div class="sb-foot tk-foot">'
-                  f'<a class="sb-link" href="/scores.html#{esc(slug)}">{esc(_foot_p)}'
-                  f' &rarr;</a>{_nxt_p}</div>'
-                  f'<span class="tk-count" hidden>{esc(_count_p)}</span>'
-                + '</div>')
+    # S-1 item 0: ONE PANEL, EVERY GAME ONCE. The band used to render a panel per tab, so a
+    # game in the NFL tab was rendered a second time under All, and the Ravens card and the
+    # whole NFL block printed twice on the home. Now there is one grid; a tab filters it by
+    # the league each unit carries (data-league), and the per-tab count sits in a hidden
+    # span from the manifest. A reader with no script still has every tab as a real link to
+    # that league's section on /scores.
+    def _slug(lg):
+        return lg.lower().replace(" ", "-")
 
-    panels = "".join(_panel(n) for n in ["all"] + present)
-    stamp = _et(sb.get("fetched_at") or "")
-    # H-7: the stale mark rides beside the stamp, and the live dot goes with it.
-    if sb.get("stale"):
-        stamp += " \u00b7 stale"
-    # S-25: the next kickoff, from the feed. Absent when nothing is scheduled.
-    nxt = ""
-    _pre = sorted((g for g in games if g.get("state") == "pre"),
-                  key=lambda g: g.get("start_utc") or "")
-    if _pre:
-        _g = _pre[0]
-        _dt = _utc_dt(_g.get("start_utc") or "")
-        if _dt:
-            nxt = (f'<span class="sb-next">Next: '
-                   f'{esc(_team_label(_g, _g.get("away") or {}))} at '
-                   f'{esc(_team_label(_g, _g.get("home") or {}))} '
-                   f'{esc(_et_clock(_dt))}</span>')
+    def _tag(html_, lg):
+        return html_.replace('<article class="tk-c', f'<article data-league="{esc(_slug(lg))}" class="tk-c', 1)
+
+    def _pair(gg):
+        return (f'<div class="tk-pair" data-gid="{esc(str(gg.get("id")))}" '
+                f'data-league="{esc(_slug(gg.get("league") or ""))}">'
+                f'{_tk_fold(gg, ia, desig=IA_DESIG)}'
+                f'<div class="tk-open" hidden>'
+                f'{_tk_card(gg, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)}'
+                f'<button class="tk-close" type="button" aria-label="Close">'
+                f'Close</button></div></div>')
+
+    _m = _sb_marquee_pick(games)
+    _others = [g for g in games if g is not _m]
+    _others.sort(key=_sb_sort_key)
+    _counts = "".join(
+        f'<span class="tk-count" data-for="{esc("all" if n == "all" else _slug(n))}" hidden>'
+        f'{esc(_mf_count_line(None if n == "all" else n))}</span>'
+        for n in ["all"] + present)
+    _pre_all = sorted((g for g in games if g.get("state") == "pre"),
+                      key=lambda g: g.get("start_utc") or "")
+    _next_html = ""
+    if _pre_all:
+        _ng = _pre_all[0]
+        _nd = _utc_dt(_ng.get("start_utc") or "")
+        if _nd:
+            _when = _et_clock(_nd)
+            if _nd.astimezone(_ET).date().isoformat() != _mf()["date"]:
+                _when = f"{_nd.astimezone(_ET).strftime('%a %b %-d')} {_when}"
+            _next_html = (f'<span class="sb-next">Next: '
+                          f'{esc(_team_label(_ng, _ng.get("away") or {}))} at '
+                          f'{esc(_team_label(_ng, _ng.get("home") or {}))} '
+                          f'{esc(_when)}</span>')
+    panels = (f'<div class="sb-grid tk-panel" data-league="all">'
+              + (_tag(_tk_card(_m, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS),
+                      _m.get("league") or "") if _m else "")
+              + '<div class="sb-cards">' + "".join(_pair(g) for g in _others)
+              + f'</div><div class="sb-foot tk-foot"><a class="sb-link" '
+                f'href="/scores.html">{esc(foot_link)} &rarr;</a>{_next_html}</div>{_counts}</div>')
+    stamp = _mf_stamp()
+    # H-7: the stale mark rides beside the stamp, outside the manifest's own element.
+    _stale = ' <span class="sb-stale">\u00b7 stale</span>' if sb.get("stale") else ""
     _orn = _sb_ornament(games)
     return f"""<section class="scoreband sb-hero{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="The Scoreboard">
   <div class="sb-bg" aria-hidden="true"></div>
@@ -6356,19 +5901,19 @@ def scoreboard_band(sb, board, wx=None):
         <h2 class="sb-claim">Scoreboard</h2>
 
       </div>
-      <span class="sb-count">{esc(count_line)}</span>
+      <span class="sb-count" data-mf="count">{esc(count_line)}</span>
     </div>
     <div class="sb-head">
       <div class="sb-head-l">
         <div class="sb-tabs">{tabs}{_week_link()}</div>
         {lens_control()}</div>
-      <span class="sb-stamp">Updated {esc(stamp)}</span>
+      <span class="sb-stamp" data-mf="stamp">Updated {esc(stamp)}</span>{_stale}
     </div>
     {panels}
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS + LENS_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + SB_TABS_JS + TEAM_PIN_JS + LENS_JS
 
 
 # ---- S-L1: standings and the college football rankings ---------------------------
@@ -6832,7 +6377,7 @@ def render_week_page(team_data, wk, dateline, week_now=None):
     head = (f'<div class="wk-head"><h1>NFL week {wk}</h1>'
             + (f'<span class="wk-c">{esc(count)}</span>' if count else "") + '</div>')
     note = ('<p class="bd-src">Fixtures and results as the league reports them. '
-            'Today\'s games are live on the '
+            'Today\'s games are on the '
             '<a href="/scores.html">scoreboard</a>.</p>')
     return shell(
         f"NFL week {wk} - {NAME}",
@@ -7107,6 +6652,7 @@ def render_scores_page(sb, board, dateline, wx=None):
     The strip links only days we actually hold data for."""
     if not sb or not sb.get("leagues"):
         return None
+    _mf_prime(sb)
     ia = _ia_index(board)
     secs = []
     for L in sb["leagues"]:
@@ -7117,10 +6663,7 @@ def render_scores_page(sb, board, dateline, wx=None):
         # SC-5: every game as a full Ticket card, three across, grouped by league with
         # a sticky league row. Live first, then upcoming, then final, which is the order
         # the reader opened the page for.
-        n_live = sum(1 for g in games if g.get("state") == "in")
-        count = f'{len(games)} game{"" if len(games) == 1 else "s"}'
-        if n_live:
-            count += f' \u00b7 {n_live} live'
+        count = _mf_league_row(L["league"], len(games))
         secs.append(
             f'<section class="bd-mod" id="{esc(L["league"].lower())}">'
             f'<div class="tk-lg"><span>{esc(L["league"])}</span><i></i>'
@@ -7128,17 +6671,8 @@ def render_scores_page(sb, board, dateline, wx=None):
             f'<div class="tk-g3">'
             + "".join(_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)
                       for g in games) + '</div></section>')
-    n_live = sum(1 for L in sb["leagues"] for g in L["games"] if g.get("state") == "in")
     _all = [g for L in sb["leagues"] for g in L["games"]]
-    _today, _nxt_lab, _nxt_n = _sb_day_split(_all)
-    if _today:
-        count_line = (f"{len(_today)} game{'' if len(_today) == 1 else 's'} today"
-                      f" · {n_live} live now")
-    elif _nxt_n:
-        count_line = (f"No games today · {_nxt_n} "
-                      f"{'game' if _nxt_n == 1 else 'games'} {_nxt_lab}")
-    else:
-        count_line = "No games scheduled"
+    count_line = _mf_count_line()
     # Revised G-2: an inner page carrying the same product opens with the SAME band at
     # reduced height, then continues light. That amends S-10's "run the page inside the
     # band"; the addendum wins, and it is the better read - a page-length dark surface
@@ -7154,7 +6688,6 @@ def render_scores_page(sb, board, dateline, wx=None):
     # league because it carries the league tabs; this one has no tabs, and grouping by
     # league here put five Sunday NFL games under a header reading "6 games tomorrow"
     # while the five games that are actually tomorrow sat below the fold.
-    _band_games = sorted(_all, key=_sb_sort_key)
     # Six cards, two rows of three. The homepage band carries a marquee and eight;
     # six without the marquee is the 60 percent A-14 asks for, and it is measured
     # from the content rather than pinned to a pixel height the slate would break.
@@ -7162,7 +6695,6 @@ def render_scores_page(sb, board, dateline, wx=None):
     # tabs and taller folded cards and pushed it to 84, which is not a reduced band,
     # it is a second homepage above the board the reader came for. Three folds, not six:
     # every game is a full card a few hundred pixels below.
-    _band_cards = "".join(_tk_fold(g, ia, desig=IA_DESIG) for g in _band_games[:3])
     _orn = _sb_ornament(_all)
     band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
@@ -7173,26 +6705,23 @@ def render_scores_page(sb, board, dateline, wx=None):
         <h1 class="sb-claim">Scores</h1>
       </div>
       <span class="sb-countwrap">
-        <span class="sb-count">{esc(count_line)}</span>
-        <span class="sb-stamp">Updated {esc(_et(sb.get("fetched_at") or ""))}</span>
+        <span class="sb-count" data-mf="count">{esc(count_line)}</span>
+        <span class="sb-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>
       </span>
     </div>
     <div class="sb-tabrow">{_tk_tabs(_all, active="all")}{_week_link()}</div>
     {lens_control()}
     {pins_panel()}
-    <div class="sb-grid sb-grid-inner">
-      <div class="sb-cards">{_band_cards}</div>
-    </div>
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + mini_scoreboard(sb) + _team_pin_index(TEAM_DATA) + SB_LIVE_JS + MINI_SB_JS + TEAM_PIN_JS + LENS_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + LENS_JS
     body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(secs)}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
 </section></main>"""
     return shell(f"Scores - {NAME}",
-                 "Every live score across the leagues this desk covers, with the "
+                 "Every score across the leagues this desk covers, with the "
                  "network carrying each game and the line as the book reported it.",
                  "Scores", body, dateline, path="/scores.html")
 
@@ -7853,7 +7382,7 @@ def _ia_by_game(board, games):
         # page is still readable and every section still opens.
         _open = "" if _ph == 2 else " open"
         _mark = ('<span class="ia-st done">Final</span>' if _ph == 2
-                 else '<span class="ia-st live">Live</span>' if _ph == 0 else "")
+                 else '<span class="ia-st">In progress</span>' if _ph == 0 else "")
         groups.append(
             f'<details class="ia-game" data-phase="{_ph}" '
             f'data-window="{esc(g.get("window") or "")}"{_open}>'
@@ -8156,7 +7685,7 @@ def render_inactives(board, w2w, dateline):
 # item 38: "Computed from the official box score at each refresh" is process (C-L3).
 # The caveat a reader needs is what remains.
 FANTASY_FOOT = "Your league's scoring may differ."
-TWO_PT_NOTE = "Two-point conversions are not included live."
+TWO_PT_NOTE = "Two-point conversions are not included."
 
 FORMAT_JS = """<script>(function(){
   var KEY='gcms_fmt', fmts=['ppr','half','standard'];
@@ -8387,9 +7916,8 @@ def render_game_page(g, points, board, wx, items, dateline):
     head = (f'<div class="scoreband scoreband-page gp-head">'
             f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}'
             f'<div class="sb-head"><div class="sb-head-l"></div>'
-            f'<span class="sb-stamp">Updated '
-            f'{esc(_et((SB_DATA or {}).get("fetched_at") or ""))}</span></div></div>'
-            + SB_LIVE_JS)
+            f'<span class="sb-stamp" data-mf="stamp">Updated '
+            f'{esc(_mf_stamp())}</span></div></div>')
 
     # The inactives block says WHEN a list is expected rather than being absent, so a
     # reader before kickoff learns something instead of nothing (S-20).
@@ -8452,15 +7980,15 @@ def render_fantasy_live(all_points, dateline):
     if not merged:
         return None
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Live points</p>
-  <h1 class="lx-h1" style="margin-bottom:6px">Live fantasy points</h1>
+  <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Points</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">Fantasy points</h1>
   <p class="lx-dek">Every player with a stat line this week, across every game.</p>
   {fantasy_asof("Points", _build_now().strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "the official box score")}
   {_leaders_module(merged, f"Week {nfl_week()[0]} leaders", n=25, expand=False)}
 </section></main>"""
-    return shell(f"Live fantasy points - {NAME}",
-                 "Live fantasy points in PPR, half-PPR and standard, computed from the "
+    return shell(f"Fantasy points - {NAME}",
+                 "Fantasy points in PPR, half-PPR and standard, computed from the "
                  "official box score. No projections, ever.",
                  "Fantasy", body, dateline, path="/fantasy/live.html")
 
@@ -8638,7 +8166,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     for pts in (all_points or {}).values():
         merged.update(pts)
     if merged:
-        blocks.append(("live", _leaders_module(merged, "Live points", n=8, expand=False)
+        blocks.append(("live", _leaders_module(merged, "Points this week", n=8, expand=False)
                       .replace('</section>',
                                '<a class="bd-more" href="/fantasy/live.html">'
                                'The full board</a></section>')))
@@ -8726,11 +8254,12 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">Fantasy</h1>
+  {_mf_stamp_p()}{_mf_count_p("NFL")}
   {player_check_block()}
   {"".join(_out)}
 </section></main>"""
     return shell(f"Fantasy facts - {NAME}",
-                 "Official inactives, designations and live points. Facts, not advice: "
+                 "Official inactives, designations and points. Facts, not advice: "
                  "we never tell you whom to start.",
                  "Fantasy", body, dateline, path="/fantasy/index.html")
 
@@ -9967,6 +9496,7 @@ NAV_CROSSCUT = frozenset({"Scores section", "Injuries", "Transactions"})
 # but filtered out of the rail; they render in the masthead and the footer instead.
 # Set at build once where_to_watch has reported. False keeps its nav entry off.
 W2W_LIVE = False
+MANIFEST = None      # set at build by build_manifest.build(): the one truth
 W2W_DATA = None      # set at build by where_to_watch.load()
 HOME_LEAD_SLUG = None  # set at build: the homepage lead, so the Record cannot repeat it
 EDITION_HREF = None  # set at build: the newest dated edition (S-1 nav)
@@ -11206,6 +10736,28 @@ def build():
         print(f"kickoff_weather: unavailable ({type(_e).__name__}); weather withheld")
 
     W2W_DATA = _w2w if W2W_LIVE else None
+    # S-A: the Scoreboard band's own data. scores_pulse.py is frozen and writes a
+    # ticker's worth of each game; the band needs networks, records, period and
+    # situation, so this reads the public scoreboards itself.
+    global SB_DATA, LINES_DATA
+    SB_DATA = None
+    try:
+        import scoreboard as _sbmod
+        _sbmod.refresh()
+        SB_DATA = _sbmod.load()
+    except Exception as _e:
+        print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
+
+    # S-1 item 0: ONE TRUTH FOR COUNTS AND STAMPS. The manifest is made once, here, from
+    # the build clock, the scoreboard and the schedule, and every page that prints a count
+    # or a stamp reads it. Nothing below counts a card for itself.
+    global MANIFEST
+    MANIFEST = _bm.build(_build_now(), SB_DATA, _w2w)
+    os.makedirs(PUBLISH, exist_ok=True)
+    _bm.dump(MANIFEST, os.path.join(PUBLISH, "build-manifest.json"))
+    print(f"manifest: {MANIFEST['stamp']}, date {MANIFEST['date']}, week {MANIFEST['week']}, "
+          f"{MANIFEST['slate']['date']['total']} today, {MANIFEST['slate']['week']['total']} this week")
+
     if W2W_LIVE:
         _wks = _w2w["weeks"]
         # item 30: the page opened with Week 1 - sixteen finished games - because it
@@ -11219,18 +10771,6 @@ def build():
         print(f"where to watch: {len(_wks)} week(s), "
               f"{sum(len(x.get('games') or []) for x in _wks)} games, "
               f"as of {_w2w.get('fetched_at')}")
-
-    # S-A: the Scoreboard band's own data. scores_pulse.py is frozen and writes a
-    # ticker's worth of each game; the band needs networks, records, period and
-    # situation, so this reads the public scoreboards itself.
-    global SB_DATA, LINES_DATA
-    SB_DATA = None
-    try:
-        import scoreboard as _sbmod
-        _sbmod.refresh()
-        SB_DATA = _sbmod.load()
-    except Exception as _e:
-        print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
 
     # C-1: log the line while the game is still scheduled, because the feed drops its
     # odds object at kickoff and a line nobody logged before then is gone for good.
