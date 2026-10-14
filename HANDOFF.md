@@ -100,6 +100,17 @@ runs from this date; the rulings it executes:
   committed. If the Thursday 7:17 AM cron slips (it has run four hours late), the report is
   late but correct; the trigger is not changed.
 
+## Program 7, S-2c: Jack's rulings of 14 October 2026
+
+- **9:33 AM:** the Sports game-day look is approved as designed: the conditions HUD on the board
+  cards, the kickoff-conditions hero on the game page, the two-column desktop game page. Glow on
+  data only (big numbers, wind arrows, rain ring, active day tab), never labels, body or links.
+  Amber #FFB03D means the Worker's flags say a number matters, nothing else; no flag, no amber.
+  Temperatures take the Weather ramp the strip vendors (`CX_TEMP_INK`), the same on both sites.
+- **3:05 PM:** on every width the game page reads the Ticket, the hero, where to watch, then
+  venue, designations and inactives. Desktop field column about 300px, the tiles the rest. When
+  both primaries are one family the home end zone takes the feed's alternate colour.
+
 ---
 
 # Standing rules, all desks, U-1 to U-16
@@ -284,12 +295,3 @@ pipe kills the suite before its finally runs, and its server stays up as an orph
 (the two orphaned servers of 2026-10-05, both the desk's own). The preflight's red on an orphaned
 port is the rule working, not noise. Recorded 2026-10-05, 9:28 PM ET.
 
----
-
-# For tomorrow's handoff
-
-**The board's stamp between slates.** At 6:02 PM on 22 September the home scoreboard read
-"Updated 3:28 PM ET" with no game live and the next first pitch at 6:40. That is the
-build's stamp doing what D-1 asks of it, and it is not a finding. Confirm two things once
-games are live: that the stamp moves with the Worker's refresh, and that between slates
-the board still tells the reader when the next game starts, as it does now.
