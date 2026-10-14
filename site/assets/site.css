@@ -2715,3 +2715,45 @@ table.ls .ls-t{font-weight:700;color:#fff;
   .tm-full{display:none}
   .tm-abbr{display:inline}
 }
+
+/* ---- S-2b item 1: THE CONDITIONS STRIP (Program 7, section 3) -------------------------
+   One line on every game card, in GoCheckMyWeather's glyphs and colours, on the Ticket's dark
+   ground in both themes. The left rule carries the state: quiet when no number matters, the
+   Weather site's sun when one does, red with the NWS's own word when an alert is in force.
+   Every text colour here is held at 4.5:1 or better on the card's lightest composite ground by
+   cx_canary (light and dark paper, under the brightest team wash). */
+.cx{border-left:3px solid rgba(235,233,227,.22);padding:7px 10px 7px 10px;display:flex;
+  flex-direction:column;gap:5px;font-size:12.5px;color:#EBE9E3;
+  background:rgba(19,20,25,.66);border-radius:0 6px 6px 0}
+.cx-cells{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.cx-c{display:inline-flex;align-items:center;gap:6px;min-width:0;border-radius:6px}
+.cx-v{display:inline-flex;flex-direction:column;line-height:1.15}
+.cx-v b{font-family:var(--mono);font-weight:700;font-size:14px;color:#EBE9E3}
+.cx-v small{font-size:11px;color:#C3C7CE}
+.cx-g,.cx .wxi{flex:0 0 auto}
+.cx-field .cx-fld{fill:none;stroke:rgba(235,233,227,.55);stroke-width:1.2}
+.cx-field .cx-ez{fill:rgba(235,233,227,.18)}
+.cx-field .cx-n{fill:#C3C7CE}
+.cx-field .cx-arr line{stroke:#EBE9E3;stroke-width:2.2;stroke-linecap:round}
+.cx-field .cx-arr path{fill:#EBE9E3}
+.cx-bright{border-left-color:#F5B83F}
+.cx-c.on{background:rgba(245,184,63,.07);box-shadow:0 0 0 4px rgba(245,184,63,.07)}
+.cx-c.on .cx-v b{color:#FFD569}
+.cx-c.on .cx-arr line{stroke:#FFD569}
+.cx-c.on .cx-arr path{fill:#FFD569}
+.cx-alert{border-left-color:#E8615A}
+.cx-aw{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#F0877F}
+.cx-nc{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#C3C7CE}
+.cx-muted{border-left-color:rgba(235,233,227,.12)}
+.cx-line{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:#C3C7CE}
+.cx p.cx-credit{margin:0;font-size:10.5px;line-height:1.35;color:#C3C7CE}
+.cx-credit a{color:#C3C7CE;text-decoration:underline;text-decoration-color:rgba(195,199,206,.45);
+  text-underline-offset:2px}
+.cx-credit a:hover{color:#EBE9E3}
+.cx-lg{font-size:14px;padding:10px 14px 10px 14px;gap:8px}
+.cx-lg .cx-cells{gap:10px 22px}
+.cx-lg .cx-v b{font-size:20px}
+.cx-lg .cx-v small{font-size:12.5px}
+.cx-lg p.cx-credit{font-size:11.5px}
+@media (max-width:420px){.cx-cells{gap:6px 12px}}
