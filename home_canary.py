@@ -12,6 +12,8 @@ names the break it exists for and was seen red first (U-9).
   chips       the network chip and the first stream chip, finals in place of kickoffs
   scores      the Scores page keeps the NFL and CFB tabs and loses the rest
   archive     the Archive page lists the sections that left
+  report      with this week's report written, the slot holds that report section and nothing
+              else (S-2b item 3); with none, the slot is empty
 
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
@@ -165,8 +167,10 @@ def home_canary():
     fails.extend(_intake_canary())
     u, sbd, w2w, doc = _fixture(sb)
     was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
-           sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF)
+           sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF, sb.CR_REPORTS)
     try:
+        # S-2b item 3: the slot is empty with no report this week; a report is checked below
+        sb.CR_REPORTS = []
         # Thursday 15 October 2026, 9:00 AM ET: the week board for week 6
         sb._NOW_CACHE = u("2026-10-15T09:00")
         sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
@@ -321,7 +325,48 @@ def home_canary():
                      f"({traceback.format_exc().splitlines()[-3].strip()})")
     finally:
         (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
-         sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF) = was
+         sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF, sb.CR_REPORTS) = was
+    fails.extend(_report_slot_canary())
+    return fails
+
+
+def _report_slot_canary():
+    """S-2b item 3: with this week's report written, the slot holds the report section and
+    nothing else, and the body still holds the board and the slot only."""
+    import build_manifest as bm
+    import site_build as sb
+    fails = []
+    u, sbd, w2w, doc = _fixture(sb)
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
+           sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF, sb.CR_REPORTS)
+    try:
+        sb._NOW_CACHE = u("2026-10-15T09:00")
+        sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
+        sb.IA_BOARD = {"teams": [], "last_change": ""}
+        sb.EDITION_HREF = "/edition/2026-10-14.html"
+        sb._carriage.load = lambda: doc
+        sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
+        sb.CR_REPORTS = [{"id": "2026-10-15-thu", "title": "Conditions report, Thursday Oct 15",
+                          "lead": "The weather touches 1 of the 6 games with a forecast.",
+                          "written_at": "2026-10-15T11:17:00Z", "written_et": "Thu, Oct 15, 7:17 AM ET",
+                          "flagged": [{"head": "Den at Sea, Thu 8:15 PM ET, Field.",
+                                       "href": "/games/DENSEA.html"}],
+                          "stamp": "Conditions by GoCheckMyWeather, from the National Weather Service."}]
+        home = sb.render_home([], "")
+        m = re.search(r'<div class="cr-slot"[^>]*id="conditions-report"[^>]*>(.*?)</div>\s*</section></main>',
+                      home, re.S)
+        inner = m.group(1).strip() if m else ""
+        if not re.fullmatch(r'<section class="cr">.*</section>', inner, re.S) or inner.count("<section") != 1:
+            fails.append("home: with this week's report, the slot does not hold exactly the report section")
+        if "/conditions/2026-10-15-thu.html" not in inner or "Conditions report, Thursday Oct 15" not in inner:
+            fails.append("home: the report in the slot has no title or no link to its page")
+        before = home.split('<footer class="site">')[0]
+        for word in ("From the desk", "Storylines", "The Record", "Read tonight"):
+            if word in visible(before):
+                fails.append(f"home: with a report, {word!r} is on the page before the footer")
+    finally:
+        (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
+         sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF, sb.CR_REPORTS) = was
     return fails
 
 

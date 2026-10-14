@@ -161,11 +161,21 @@
       }
     },
     "conditions-report.yml": {
-      "purpose": "The conditions report job, a stub until Sprint S-2: prints nothing, calls no model.",
+      "purpose": "The conditions report (Program 7, S-2b): written from the conditions Worker's numbers by template, gated, committed and pushed. Calls no model. Each run is one build.",
       "crons": [
         {
           "utc": "17 11 * * 4",
           "et": "Thu 7:17 AM EDT (6:17 AM EST)",
+          "slot": null
+        },
+        {
+          "utc": "17 21 * * 6",
+          "et": "Sat 5:17 PM EDT (4:17 PM EST)",
+          "slot": null
+        },
+        {
+          "utc": "17 10 * * 0",
+          "et": "Sun 6:17 AM EDT (5:17 AM EST)",
           "slot": null
         }
       ],

@@ -2,12 +2,14 @@
 """jobs_canary.py: Sprint S-1 item 3, the desk's jobs (12 October 2026).
 
 The recap, storyline, lane and Edition job is off; the inactives poll, the designations, the
-scores refresh and the counts stay; the conditions report job is a stub that prints nothing.
+scores refresh and the counts stay. The conditions report job (S-2b item 3) runs Thursday,
+Saturday and Sunday, calls no model and publishes only through its gate.
 
   brief-off     sports-news-brief.yml has no schedule: key and its job is gated on NEWSROOM_JOBS
   kept          the inactives poller still has its crons
-  stub          the conditions report job exists, runs Thursday only, runs the stub, and the
-                stub prints nothing, exits 0 and imports no model client and no network code
+  report        the conditions report job runs Thursday morning, Saturday evening and Sunday
+                morning before the freeze, runs conditions_report.py --publish and then the build,
+                reads no secret, and the script imports no model client
   set           the set of workflows with a schedule is exactly the expected five
 
 Called from verify_pipeline.layer1_canary(); returns failure strings.
@@ -20,7 +22,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 WF = os.path.join(HERE, ".github", "workflows")
 # the live cron lines each workflow keeps, exactly: nothing gained, nothing lost
-EXPECTED = {"conditions-report.yml": 1, "inactives.yml": 5, "janitor.yml": 1,
+EXPECTED = {"conditions-report.yml": 3, "inactives.yml": 5, "janitor.yml": 1,
             "sports-aging.yml": 1, "verify-sports-pipeline.yml": 1}
 
 
@@ -70,28 +72,36 @@ def jobs_canary():
                      f"expected {dict(sorted(EXPECTED.items()))}")
 
     cr = files.get("conditions-report.yml", "")
-    cc = _crons(cr)
-    if len(cc) != 1 or not re.fullmatch(r"\d+ \d+ \* \* 4", cc[0]):
-        fails.append(f"jobs: the conditions report cron is {cc}, expected one Thursday-only line")
-    if "python3 conditions_report.py" not in cr:
-        fails.append("jobs: the conditions report workflow does not run conditions_report.py")
-    if re.search(r"contents:\s*write|secrets\.", cr):
-        fails.append("jobs: the conditions report stub can push or reads a secret")
-
-    stub = os.path.join(HERE, "conditions_report.py")
+    cc = sorted(_crons(cr))
+    want = sorted(["17 11 * * 4", "17 21 * * 6", "17 10 * * 0"])
+    if cc != want:
+        fails.append(f"jobs: the conditions report crons are {cc}, expected {want} "
+                     "(Thu 7:17 AM, Sat 5:17 PM, Sun 6:17 AM EDT)")
+    for c in cc:
+        m = re.fullmatch(r"(\d+) (\d+) \* \* 0", c)
+        if m and int(m.group(2)) >= 15:
+            fails.append(f"jobs: the Sunday report cron {c} lands too close to the 12:30 PM ET freeze "
+                         "for a scheduler that runs up to four hours late")
+    if "python3 conditions_report.py --publish" not in cr:
+        fails.append("jobs: the conditions report workflow does not run conditions_report.py --publish")
+    if cr.find("python3 site_build.py") < cr.find("conditions_report.py --publish") or "git push" not in cr \
+            or cr.find("git push") < cr.find("python3 site_build.py"):
+        fails.append("jobs: the conditions report is pushed without the build as its gate")
+    if re.search(r"secrets\.", cr):
+        fails.append("jobs: the conditions report job reads a secret")
+    if "git add site/reports/conditions" not in cr or "git add -A" in cr:
+        fails.append("jobs: the conditions report job stages more than its report")
+    src = open(os.path.join(HERE, "conditions_report.py"), encoding="utf-8").read()
+    for bad in ("llm", "anthropic", "publicist", "openai"):
+        if re.search(r"^\s*(import|from)\s+" + bad + r"\b", src, re.M):
+            fails.append(f"jobs: conditions_report.py imports {bad}")
     try:
-        r = subprocess.run([sys.executable, stub], capture_output=True, text=True, timeout=30)
+        r = subprocess.run([sys.executable, os.path.join(HERE, "conditions_report.py")],
+                           capture_output=True, text=True, timeout=30)
         if r.returncode != 0:
-            fails.append(f"jobs: the conditions report stub exited {r.returncode}")
-        if r.stdout or r.stderr:
-            fails.append(f"jobs: the conditions report stub printed {(r.stdout + r.stderr)[:80]!r}")
-        src = open(stub, encoding="utf-8").read()
-        for bad in ("import llm", "urllib", "requests", "anthropic", "open(", "subprocess"):
-            if re.search(r"^\s*(import|from)\s+" + re.escape(bad.split()[-1]) + r"\b", src, re.M) \
-                    or (bad in ("open(", "subprocess") and bad in src.split('"""')[2]):
-                fails.append(f"jobs: the conditions report stub uses {bad}")
+            fails.append(f"jobs: conditions_report.py with no arguments exited {r.returncode}")
     except Exception as e:
-        fails.append(f"jobs: the stub did not run: {type(e).__name__}: {e}")
+        fails.append(f"jobs: conditions_report.py did not run: {type(e).__name__}: {e}")
     return fails
 
 

@@ -9431,6 +9431,79 @@ def week_board(sb):
     return band, ("".join(sections))
 
 
+# ---- S-2b item 3: the conditions report ----------------------------------------------------
+# The desk's one piece a day (Program 7). conditions_report.py writes one file per run into
+# site/reports/conditions/; the build renders the newest of this week into the home's report
+# slot and every report at /conditions/<id>.html, with its share card as the page's image.
+CR_REPORTS = []      # set at build: every report, oldest first
+
+
+def cr_load(root=None):
+    root = root or os.path.join(HERE, "site", "reports", "conditions")
+    out = []
+    for fp in sorted(glob.glob(os.path.join(root, "*.json"))):
+        try:
+            r = json.load(open(fp, encoding="utf-8"))
+        except Exception as e:
+            print(f"::warning::conditions report: {os.path.basename(fp)} unreadable ({type(e).__name__})")
+            continue
+        if r.get("id") and r.get("title"):
+            out.append(r)
+    out.sort(key=lambda r: r.get("written_at") or "")
+    return out
+
+
+def cr_latest():
+    """The newest report written since this week rolled, or None."""
+    ws = _bm.week_start(_build_now())
+    for r in reversed(CR_REPORTS or []):
+        w = _iso_dt(r.get("written_at"))
+        if w and w >= ws:
+            return r
+    return None
+
+
+def cr_slot(rep):
+    """The home's report slot: the title, the stamp, the lead, the games written up, a link."""
+    if not rep:
+        return ""
+    items = "".join(f'<li><a href="{esc(f["href"])}">{esc(f["head"].rstrip("."))}</a></li>'
+                    for f in rep.get("flagged") or [])
+    return (f'<section class="cr"><div class="bd-sec"><div class="bd-sec-l"><span class="bd-eyebrow">'
+            f'Conditions report</span></div><a class="bd-more" href="/conditions/{esc(rep["id"])}.html">'
+            f'The full report</a></div><h2 class="cr-h">{esc(rep["title"])}</h2>'
+            f'<p class="cr-when">{esc(rep.get("written_et") or "")}</p>'
+            f'<p class="cr-lead">{esc(rep["lead"])}</p>'
+            + (f'<ul class="cr-list">{items}</ul>' if items else "")
+            + f'<p class="cr-src">{esc(rep.get("stamp") or "")}</p></section>')
+
+
+def render_report_page(rep, dateline):
+    """One conditions report: the write-ups, the one-liners, the lists, the stamp, the card."""
+    body = [f'<p class="cr-when">{esc(rep.get("written_et") or "")}</p>',
+            f'<p class="cr-lead">{esc(rep["lead"])}</p>']
+    for f in rep.get("flagged") or []:
+        body.append(f'<section class="cr-game"><h2 class="cr-gh"><a href="{esc(f["href"])}">'
+                    f'{esc(f["head"].rstrip("."))}</a></h2><p>{esc(f["body"])}</p></section>')
+    if rep.get("quiet"):
+        body.append('<h2 class="cr-sub">The rest, with no number that matters</h2><ul class="cr-quiet">'
+                    + "".join(f'<li><a href="{esc(q["href"])}">{esc(q["line"])}</a></li>' for q in rep["quiet"])
+                    + '</ul>')
+    for key, label in (("indoor", "Indoors"), ("outside", "Outside NWS coverage"), ("later", "Not yet in range")):
+        if rep.get(key):
+            body.append(f'<p class="cr-list-line"><b>{label}:</b> {esc("; ".join(rep[key]))}.</p>')
+    body.append(f'<p class="cr-src">{esc(rep.get("stamp") or "")}</p>')
+    body.append(f'<figure class="cr-card"><img src="{esc(rep["card"])}" width="540" height="540" '
+                f'alt="{esc(rep["title"])}: the NFL games with the temperature, wind and chance of '
+                f'precipitation at kickoff" loading="lazy" decoding="async"></figure>')
+    html = (f'<main class="wrap"><section class="page cr-page"><h1 class="lx-h1">{esc(rep["title"])}</h1>'
+            + "".join(body) + '</section></main>')
+    return shell(f'{rep["title"]}: the weather at kickoff - {NAME}',
+                 f'{rep["lead"]} From the National Weather Service, via GoCheckMyWeather.',
+                 "Home", html, dateline, path=f'/conditions/{rep["id"]}.html',
+                 og_image=f'{ORIGIN}{rep["card"]}')
+
+
 def render_home(items, dateline):
     """The front door is the week board and nothing else: the band with the day tabs, the
     week's NFL and FBS games in kickoff order, and under them one empty slot named the
@@ -9445,7 +9518,7 @@ def render_home(items, dateline):
                  'this week.</p>')
     body = band + f"""<main class="wrap"><section class="page">
   <div class="scoreband scoreband-page wb-board" data-today="{esc(_mf()["date"])}">{board}</div>
-  <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report"></div>
+  <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
 </section></main>"""
     return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/",
                  schema_extra=home_schema())
@@ -11015,6 +11088,17 @@ def build():
                     _all_wp[str(_g["id"])] = _wp
     LIVE_POINTS = _all_points
     LIVE_WP = _all_wp
+    global CR_REPORTS
+    CR_REPORTS = cr_load()
+    for _rep in CR_REPORTS:
+        w(f'conditions/{_rep["id"]}.html', render_report_page(_rep, dateline))
+        try:
+            import conditions_report as _crm
+            _crm.share_card(_rep, os.path.join(PUBLISH, _rep["card"].lstrip("/")))
+        except Exception as _e:
+            print(f"::warning::conditions report: card for {_rep['id']} not drawn ({type(_e).__name__})")
+    print(f"conditions report: {len(CR_REPORTS)} report(s), latest this week "
+          f"{(cr_latest() or {}).get('id')}")
     w("index.html", render_home(items, dateline))
     if SB_DATA:
         _cards = 0
@@ -11350,6 +11434,8 @@ def build():
     # register, as S-2 ruled.
     topic_locs += [f"/games/{_i}.html" for _i in sorted(BOARD_IDS)
                    if os.path.exists(os.path.join(PUBLISH, "games", f"{_i}.html"))]
+    # S-2b item 3: every conditions report is a page a reader can land on
+    topic_locs += [f'/conditions/{_r["id"]}.html' for _r in CR_REPORTS]
     prio = locs + topic_locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
     # P-2: player, game and Edition pages are real pages a reader can land on and were
     # in no tier at all. They ride the archive tier rather than the priority one, which
