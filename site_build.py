@@ -4991,12 +4991,9 @@ def cx_card_flag(g):
     return " cx-flag" if (e and e.get("status") == "forecast" and cx_number_flags(e)) else ""
 
 
-def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream="", strip=True):
-    """SC-1: the full Ticket card. Three states; only the lines that exist render."""
-    a_col, b_col = _tk_colors(g)
+def _tk_facts(g, ia_index, wx=None, desig=None):
+    """The Ticket's fact rows: the venue before the game, then who is available."""
     state = g.get("state")
-    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(network_name(g.get("network")))}'
-           f'</span>' if g.get("network") else "")
     # B-3: the spec grid holds two different KINDS of fact, and the lenses separate
     # them: where and in what weather is a watching fact, who is out is a fantasy one.
     # They render as two grids rather than one so a lens can take either without the
@@ -5012,7 +5009,26 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
             f'<span class="sk">{esc(k)}</span><span class="sv">{esc(v)}</span>'
             for k, v in rr) + '</div>')
 
-    spec = _grid(watch_rows, "watch") + _grid(fan_rows, "fantasy")
+    return _grid(watch_rows, "watch") + _grid(fan_rows, "fantasy")
+
+
+def gp_facts(g, ia_index, wx=None, desig=None):
+    """S-2c, Jack's fix of 14 October, 3:05 PM ET: on a game page the Ticket's fact rows (the
+    venue, designations, inactives) leave the Ticket and sit under where to watch, so the
+    conditions hero is the first thing below the matchup."""
+    rows = _tk_facts(g, ia_index, wx, desig)
+    return f'<div class="tk-c gp-facts"><div class="tk-body">{rows}</div></div>' if rows else ""
+
+
+def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream="", strip=True,
+             facts=True):
+    """SC-1: the full Ticket card. Three states; only the lines that exist render. `facts`
+    False leaves the venue and availability rows out (the game page carries them below)."""
+    a_col, b_col = _tk_colors(g)
+    state = g.get("state")
+    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(network_name(g.get("network")))}'
+           f'</span>' if g.get("network") else "")
+    spec = _tk_facts(g, ia_index, wx, desig) if facts else ""
     leaders = _tk_leaders(g)
     lead_html = ""
     if leaders:
@@ -7878,6 +7894,39 @@ def _cx_hr(iso):
     return f'{int(t.strftime("%I"))}{t.strftime("%p")[0]}'
 
 
+def _cx_family(a, b):
+    """True when two team colours read as one family on the field: hues within 30 degrees and
+    lightness within .15, or both near black."""
+    import colorsys
+    try:
+        h1, l1, s1 = colorsys.rgb_to_hls(*(int(a[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+        h2, l2, s2 = colorsys.rgb_to_hls(*(int(b[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+    except (ValueError, TypeError, IndexError):
+        return False
+    if l1 < .1 and l2 < .1:
+        return True
+    dh = abs(h1 - h2) * 360
+    return min(dh, 360 - dh) <= 30 and abs(l1 - l2) <= .15
+
+
+def cx_endzones(g):
+    """The field's end zones: the away team's colour at the top, the home team's at the
+    bottom. Jack, 14 October: when the two primaries are one family and the feed carries an
+    alternate, the home end zone takes the home team's alternate (else the away end zone takes
+    the away team's); otherwise both stay the primaries."""
+    a_col, b_col = _tk_colors(g)
+    if not _cx_family(a_col, b_col):
+        return a_col, b_col
+    ok = lambda c: bool(re.fullmatch(r"#[0-9a-fA-F]{6}", c or ""))
+    h_alt = ((g.get("home") or {}).get("alt_color") or "").strip()
+    a_alt = ((g.get("away") or {}).get("alt_color") or "").strip()
+    if ok(h_alt) and not _cx_family(a_col, h_alt):
+        return a_col, h_alt
+    if ok(a_alt) and not _cx_family(a_alt, b_col):
+        return a_alt, b_col
+    return a_col, b_col
+
+
 def cx_field(e, g, flagged):
     """The game page's field graphic (S-2c item 1, the SportsGamePhone artboard): north up and
     an "N" mark; the field drawn rotated to the stadium's recorded orientation, its yard lines,
@@ -7908,7 +7957,7 @@ def cx_field(e, g, flagged):
         vw, vh = round(bw + 32), round(bh + 12)
         cx_, cy_ = vw / 2, vh / 2
         x0, y0 = cx_ - W / 2, cy_ - H / 2
-        a_col, b_col = _tk_colors(g)
+        a_col, b_col = cx_endzones(g)
         lines = "".join(f'<line x1="{x0:.1f}" y1="{y0 + 22 + i * (H - 44) / 10:.1f}" '
                         f'x2="{x0 + W:.1f}" y2="{y0 + 22 + i * (H - 44) / 10:.1f}"/>'
                         for i in range(1, 10))
@@ -8063,7 +8112,7 @@ def cx_block(g):
     # the temperature
     tsub = " · ".join(x for x in ((f"feels {p['feels']}°" if p["feels"] is not None else ""),
                                        p["feel_peak"], p["sky"]) if x)
-    temp = (f'<b class="cxh-big cx-glow" style="color:{p["ink"]}">{p["temp"]}°</b>'
+    temp = (f'<b class="cxh-big cx-glow{" cxh-4" if len(str(p["temp"])) >= 3 else ""}" style="color:{p["ink"]}">{p["temp"]}°</b>'
             if p["temp"] is not None else '<b class="cxh-big cx-miss">missing</b>')
     t_tile = (f'<div class="cxh-tile cxh-t{" on" if on["feels"] else ""}"><span class="cxh-k">Temp</span>'
               f'{temp}' + (f'<p>{esc(tsub)}</p>' if tsub else "") + '</div>')
@@ -8080,11 +8129,16 @@ def cx_block(g):
                                     else "") if x)
     else:
         wbig, wsub = '<b class="cxh-big cx-miss">missing</b>', ""
+    # the desktop tile's short line (the SportsGameDesktop artboard): "mph from the N, gusts 23"
+    wshort = ", ".join(x for x in (("mph" + (f" from the {p['dir']}" if p["dir"] else "")),
+                                   (f"gusts {p['gust']}" if p["gust"] is not None else ""))
+                       if x) if (p["mph"] is not None and not p["calm"]) else ""
     w_tile = (f'<div class="cxh-tile cxh-w{" on" if on["wind"] else ""}"><span class="cxh-k">Wind</span>'
-              f'{wbig}' + (f'<p>{esc(wsub)}</p>' if wsub else "") + '</div>')
+              f'{wbig}' + (f'<p class="cxh-long">{esc(wsub)}</p>' if wsub else "")
+              + (f'<p class="cxh-short">{esc(wshort)}</p>' if wshort else "") + '</div>')
     # the rain
     if p["pop"] is not None:
-        rbig = f'<b class="cxh-big cx-glow">{p["pop"]}%</b>'
+        rbig = f'<b class="cxh-big cx-glow{" cxh-4" if p["pop"] >= 100 else ""}">{p["pop"]}%</b>'
         if p["peak"] is not None:
             ph = _hs_hour(p["peak_hour"]) if p["peak_hour"] else ""
             rsub = f"at kickoff, up to {p['peak']}%" + (f" at {ph}" if ph else " in the window")
@@ -8316,7 +8370,7 @@ def render_game_page(g, points, board, wx, items, dateline):
     # read "Updated Sep 16, 7:57 AM ET" on game day, which is the build time, not the
     # data's.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False, strip=False)}'
+            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False, strip=False, facts=False)}'
             f'<div class="sb-head"><div class="sb-head-l"></div>'
             f'<span class="sb-stamp" data-mf="stamp">Updated '
             f'{esc(_mf_stamp())}</span></div></div>')
@@ -8352,16 +8406,17 @@ def render_game_page(g, points, board, wx, items, dateline):
                    f'<div class="tk-c gp-linec"><div class="tk-stub">{_line}</div></div></section>'
                    if _line else "")
     # S-2c item 1 (the SportsGameDesktop artboard): at 900px and up the page is two columns,
-    # the Ticket, where to watch, the inactives, the designations and the line on the left and
-    # the conditions hero filling the right. The source order stays Ticket, where to watch,
-    # conditions, so a phone reads them in that order in one column.
+    # the hero filling the right. Jack, 14 October, 3:05 PM ET: on every width the order is
+    # the Ticket, the conditions hero directly under it, where to watch, then the venue,
+    # designations and inactives. The weather is the first thing below the matchup.
     body = f"""<main class="wrap gp-main"><section class="page">
     <h1 class="lx-h1" style="margin-bottom:6px">{esc(_team_label(g, away))} at
      {esc(_team_label(g, home))}</h1>
   <div class="gp-grid">
   {head}
-  {_w2w}
   {cx_block(g)}
+  {_w2w}
+  {gp_facts(g, ia, wx, IA_DESIG)}
   {inact_block}
   {_desig}
   {_line_block}

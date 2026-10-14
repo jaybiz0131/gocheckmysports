@@ -2870,25 +2870,30 @@ table.ls .ls-t{font-weight:700;color:#fff;
 .cx-hero.cxh-muted p.cxh-credit a{color:#8EC9E8}
 /* the page: two columns at 900px and up, the hero filling the right */
 .gp-grid{display:block}
+.gp-facts{margin-top:16px}
+.cxh-tile p.cxh-short{display:none}
 @media (min-width:900px){
-  main.gp-main{max-width:1312px}
+  main.gp-main{max-width:1356px}
   .gp-grid{display:grid;grid-template-columns:440px minmax(0,1fr);gap:0 32px;
     grid-template-rows:repeat(6,auto) 1fr;align-items:start}
   .gp-grid>*{grid-column:1;min-width:0}
   .gp-grid .gp-dz{grid-template-columns:1fr;gap:14px}
   .gp-grid>.cx-block{grid-column:2;grid-row:1 / 8;margin-top:0}
-  .cx-hero{grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:22px 28px;padding:28px;border-radius:24px;
+  .cx-hero{grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:22px 24px;padding:28px;border-radius:24px;
     grid-template-areas:"top top" "nc nc" "field tiles" "field hourly" "field al" "field link" "field rest"}
   .cxh-field{align-self:start}
   .cxf-svg{max-width:220px}
   .cx-hero p.cxh-fw{display:block}
   .cxh-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-  .cxh-tile{border-radius:16px;padding:16px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
+  .cxh-tile{border-radius:16px;padding:16px 14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
   .cxh-r{background:rgba(142,201,232,.07);border-color:rgba(142,201,232,.3)}
   .cxh-tile.on{background:rgba(255,176,61,.09);border-color:rgba(255,176,61,.4)}
   .cxh-k{display:block}
-  .cxh-big,.cxh-t .cxh-big{font-size:clamp(34px,3.3vw,56px);line-height:1.05}
-  .cxh-big small{font-size:14px}
+  .cxh-big,.cxh-t .cxh-big{font-size:clamp(34px,4.2vw,60px);line-height:1.05;white-space:nowrap}
+  .cxh-big.cxh-4,.cxh-t .cxh-big.cxh-4{font-size:clamp(28px,3.2vw,46px)}
+  .cxh-big small{display:none}
+  .cxh-tile p.cxh-long{display:none}
+  .cxh-tile p.cxh-short{display:block}
   .cx-hero .cxh-tile p{font-size:14px}
   .cx-hero p.cxc-head{font-size:11px;letter-spacing:.12em}
   .cxh-link{font-size:15px;padding:14px 18px;border-radius:14px}
