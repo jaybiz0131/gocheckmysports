@@ -715,10 +715,17 @@ def _sitemap_canary(out=None):
     for _n in ("sitemap-priority.xml", "sitemap-archive.xml"):
         _check(len(_urls.get(_n, [])) > 0, fails,
                f"S-2 canary: {_n} parsed to no URLs, so the no-games check below proves nothing")
+    # S-2b item 2 (Program 7, 13 October 2026): the week board's game pages are the product and
+    # are in the priority sitemap. Every OTHER game page stays out, as S-2 ruled. The board is
+    # the keys of the tree's own /data/conditions.json, which the build writes for the board.
+    _cxp = os.path.join(out, "data", "conditions.json")
+    _board = set(((json.load(open(_cxp, encoding="utf-8")) if os.path.exists(_cxp) else {})
+                  .get("games") or {}).keys())
     for _n, _u in sorted(_urls.items()):
-        _g = [x for x in _u if "/games/" in x]
+        _g = [x for x in _u if "/games/" in x
+              and x.rsplit("/", 1)[-1].replace(".html", "") not in _board]
         _check(not _g, fails,
-               f"S-2 canary: {_n} lists {len(_g)} per-game URL(s), first {(_g or [''])[0]}")
+               f"S-2 canary: {_n} lists {len(_g)} per-game URL(s) off the week board, first {(_g or [''])[0]}")
     # THE OTHER DIRECTION: only the games left. Every player page the build wrote is still
     # offered, so a change that emptied the loop instead of narrowing it goes red here.
     _pdir = os.path.join(out, "players")
@@ -889,9 +896,16 @@ def _register_canary(out=None, log=None):
                    f"which does not link it")
     # every game page the build wrote is a game entry
     _gdir = os.path.join(out, "games")
+    # S-2b item 2: a week-board game page is in the priority sitemap, so it is NOT registered;
+    # every other game page is deep and registered as a game.
+    _cxp = os.path.join(out, "data", "conditions.json")
+    _board = set(((json.load(open(_cxp, encoding="utf-8")) if os.path.exists(_cxp) else {})
+                  .get("games") or {}).keys())
     for _f in (sorted(os.listdir(_gdir)) if os.path.isdir(_gdir) else []):
         _k = {e["url"]: e["kind"] for e in _ents}.get(f"{_origin}/games/{_f[:-5]}")
-        _check(_k == "game", fails, f"register canary: game page {_f} is registered as {_k!r}")
+        _want = None if _f[:-5] in _board else "game"
+        _check(_k == _want, fails, f"register canary: game page {_f} is registered as {_k!r}, "
+               f"expected {_want!r}")
     # and the build log says the count, beside the sitemap counts
     _check(f"deep urls: {len(_ents)} in no sitemap" in log, fails,
            "register canary: the build log does not print the register's count")
@@ -1565,6 +1579,8 @@ def layer1_canary():
     fails.extend(_cxc.conditions_canary())   # S-2b item 0: the conditions intake
     import strip_canary as _stc
     fails.extend(_stc.strip_canary())   # S-2b item 1: the conditions strip on every card
+    import gamepage_canary as _gpc
+    fails.extend(_gpc.gamepage_canary(_built_tree()))   # S-2b item 2: the game pages
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day

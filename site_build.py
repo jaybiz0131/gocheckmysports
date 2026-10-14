@@ -3745,11 +3745,19 @@ def _wx_chip(g, wx):
     return ""
 
 
+BOARD_IDS = set()     # set at build: the week board's game ids (S-2b item 2)
+
+
 def _has_game_page(g):
-    """True where the build writes /games/<id>.html for this game: the NFL, which surfaces a
-    box score and an inactives list. A link exists only where its page does (6 October 2026:
-    38 CFB, NBA, NHL, MLB, soccer and WNBA cards linked pages that were never built)."""
-    return bool(g.get("league") == "NFL" and g.get("id"))
+    """True where the build writes /games/<id>.html for this game: every NFL game, and since
+    S-2b (Program 7) every FBS game on the week board. A link exists only where its page does
+    (6 October 2026: 38 CFB, NBA, NHL, MLB, soccer and WNBA cards linked pages that were
+    never built), so a college game off the board still links nothing."""
+    if not g.get("id"):
+        return False
+    if g.get("league") == "NFL":
+        return True
+    return g.get("league") == "CFB" and str(g.get("id")) in BOARD_IDS
 
 
 def _game_href(g):
@@ -4721,9 +4729,9 @@ CX_TEMP_INK = [(30, "#6EA8FF"), (50, "#4FC3E8"), (65, "#4ECFA0"), (78, "#F2C14E"
                (88, "#F09248"), (100, "#F0877F")]
 
 
-def cx_temp_ink(v):
-    """The Weather site's rampAt(TEMP_INK_DARK, v), as a hex colour."""
-    st = CX_TEMP_INK
+def cx_temp_ink(v, stops=None):
+    """The Weather site's rampAt(TEMP_INK_DARK, v), as a hex colour; `stops` takes another ramp."""
+    st = stops or CX_TEMP_INK
     if v is None:
         return None
     if v <= st[0][0]:
@@ -4805,7 +4813,7 @@ def cx_credit(e, cls="cx-credit"):
     return f'<p class="{cls}"><a href="{esc(url)}">{esc(text)}</a></p>'
 
 
-def cx_strip(g, large=False):
+def cx_strip(g, large=False, credit=True):
     """The conditions strip for one game, or '' when the build holds nothing for it."""
     e = cx_entry(g)
     if not e:
@@ -4882,10 +4890,10 @@ def cx_strip(g, large=False):
     elif alerts is None:
         head = '<span class="cx-nc">Alerts not checked</span>'
     return (f'<div class="cx {state}{big}" data-cx="forecast" data-lens-only="watch">'
-            f'{head}<div class="cx-cells">{"".join(cells)}</div>{cx_credit(e)}</div>')
+            f'{head}<div class="cx-cells">{"".join(cells)}</div>{cx_credit(e) if credit else ""}</div>')
 
 
-def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=""):
+def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream="", strip=True):
     """SC-1: the full Ticket card. Three states; only the lines that exist render."""
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
@@ -4961,7 +4969,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
             f'{_tk_line(g)}'
             f'{_tk_ruling(g)}'
             f'</div><div class="tk-perf"></div>'
-            f'<div class="tk-body">{cx_strip(g)}{spec}{ls_html}{lead_html}{story}{btns}'
+            f'<div class="tk-body">{cx_strip(g) if strip else ""}{spec}{ls_html}{lead_html}{story}{btns}'
             f'</div></article>')
 
 
@@ -7724,29 +7732,212 @@ def _leaders_module(points, title, n=8, expand=True, anchor=""):
             f'<p class="bd-src">{esc(FANTASY_FOOT)} {esc(TWO_PT_NOTE)}</p></section>')
 
 
-def _game_wx_block(g, wx):
-    w = _wx_for(g, wx)
-    if not w:
+# ---- S-2b item 2: the game page's conditions block --------------------------------
+# Program 7, section 3: the strip large, the hourly line from an hour before kickoff to an
+# hour after the expected end in the Weather site's hour-strip style, the wind drawn on the
+# field graphic, the alert if any, and the credit linked to the stadium's Weather page.
+# Every number is the build's, from the Worker; the page reads nothing at runtime.
+
+# The Weather site's sky band (wx-chart.js BAND) and TEMP_MARK, for the dots.
+_HS_BAND = {"day": "#2E86AE", "night": "#0B1D33"}
+_HS_MARK = [(30, "#4E7FD4"), (50, "#3FA8D8"), (65, "#57C9A6"), (78, "#F2C14E"),
+            (88, "#F09248"), (100, "#E8615A")]
+
+
+def _hs_mark(v):
+    return cx_temp_ink(v, _HS_MARK)
+
+
+def _iso_dt(iso):
+    """Any ISO stamp with a zone (NWS writes its hours in the stadium's offset, the Worker
+    its window in Z), as an aware datetime; None when it is not one."""
+    try:
+        d = datetime.datetime.fromisoformat(str(iso or "").replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return d if d.tzinfo else None
+
+
+def _hs_hour(iso):
+    d = _iso_dt(iso)
+    if not d:
         return ""
-    if w.get("indoors"):
-        return ('<div class="bd-card" style="padding:14px 16px"><span class="bd-label">'
-                # H-11: the game's own name, corrected, not the weather file's, which
-                # takes it from venues.json and was still saying Reliant.
-                'Kickoff weather</span><p class="bd-read">Indoors at '
-                f'{esc(_venue_name(g) or w.get("venue") or "the venue")}.</p></div>')
-    bits = []
-    if w.get("temp_f") is not None:
-        bits.append(f'{w["temp_f"]}F')
-    if w.get("wind_mph") is not None:
-        bits.append(f'wind {w["wind_mph"]} mph {esc(w.get("wind_dir") or "")}'.strip())
-    if w.get("precip_pct") is not None:
-        bits.append(f'{w["precip_pct"]}% chance of precipitation')
-    if w.get("summary"):
-        bits.append(str(w["summary"]).lower())
-    return ('<div class="bd-card" style="padding:14px 16px"><span class="bd-label">'
-            'Kickoff weather</span>'
-            f'<p class="bd-read">{esc(", ".join(bits))}.</p>'
-            '<p class="bd-src">National Weather Service, via GoCheckMyWeather.</p></div>')
+    t = d.astimezone(_ET)
+    return f'{t.strftime("%I").lstrip("0")} {t.strftime("%p")}'
+
+
+def cx_hourly(e):
+    """The hourly line as a static hour strip: one fixed column per NWS hour, the sky band
+    by day and night, the temperature as straight segments with the Weather site's halo, a
+    dot per hour in its mark colour and the numeral in its dark ink, the chance of
+    precipitation and the wind under it, the game's hours shaded. A table carries every
+    number for a screen reader. Returns '' with fewer than two hours."""
+    hours = [h for h in (e.get("hours") or []) if isinstance(h.get("temp_f"), (int, float))]
+    if len(hours) < 2:
+        return ""
+    win = e.get("window") or {}
+    kick, end = _iso_dt(win.get("kickoff")), _iso_dt(win.get("expected_end"))
+    col, gut, top, ico, th = 46, 40, 18, 26, 70
+    rain_y = top + ico + th + 22
+    wind_y = rain_y + 22
+    H = wind_y + 16
+    W = gut + col * len(hours)
+    temps = [h["temp_f"] for h in hours]
+    lo, hi = min(temps), max(temps)
+    if hi - lo < 6:
+        mid = (hi + lo) / 2
+        lo, hi = mid - 3, mid + 3
+    pad = max(2, round((hi - lo) * .12))
+    lo, hi = lo - pad, hi + pad
+    x = lambda i: gut + i * col + col / 2
+    yT = lambda t: top + ico + th - (t - lo) / (hi - lo) * th
+    parts = []
+    for i, h in enumerate(hours):
+        band = _HS_BAND["night" if h.get("is_daytime") is False else "day"]
+        parts.append(f'<rect x="{gut + i * col}" y="{top}" width="{col}" height="{ico + th + 6}" fill="{band}"/>')
+        a, b = _iso_dt(h.get("start")), _iso_dt(h.get("end"))
+        if kick and end and a and b and a < end and b > kick:
+            parts.append(f'<rect class="hs-game" x="{gut + i * col + 1}" y="{top + 1}" '
+                         f'width="{col - 2}" height="{ico + th + 4}" rx="4"/>')
+        parts.append(f'<text class="hs-hl" x="{x(i):.0f}" y="12">{esc(_hs_hour(h.get("start")))}</text>')
+        gl = __import__("wx_glyphs").for_sky(h.get("sky"), h.get("is_daytime"))
+        if gl:
+            parts.append(f'<use href="#wxg-{gl}" x="{x(i) - 10:.0f}" y="{top + 3}" width="20" height="20"/>')
+    pts = " ".join(f"{x(i):.1f},{yT(h['temp_f']):.1f}" for i, h in enumerate(hours))
+    parts.append(f'<polyline class="hs-line-under" points="{pts}"/><polyline class="hs-line" points="{pts}"/>')
+    for i, h in enumerate(hours):
+        y = yT(h["temp_f"])
+        ly = y - 10 if y - 22 > top + ico else y + 18
+        parts.append(f'<circle class="hs-dot" cx="{x(i):.1f}" cy="{y:.1f}" r="3.2" fill="{_hs_mark(h["temp_f"])}"/>')
+        parts.append(f'<text class="hs-tv" x="{x(i):.1f}" y="{ly:.1f}" fill="{cx_temp_ink(h["temp_f"])}">'
+                     f'{round(h["temp_f"])}\u00b0</text>')
+        p = h.get("pop_pct")
+        if isinstance(p, (int, float)):
+            parts.append(f'<text class="hs-rain{" dry" if p < 15 else ""}" x="{x(i):.0f}" y="{rain_y}">{round(p)}%</text>')
+        wm, wdeg = h.get("wind_mph"), h.get("wind_from_deg")
+        if isinstance(wm, (int, float)):
+            arr = ""
+            if isinstance(wdeg, (int, float)) and wm >= 5:
+                # the arrow points the way the wind blows: from wdeg, so toward wdeg + 180
+                arr = (f'<path class="hs-wind-arrow" d="M0 -6 L4 3 L0 1 L-4 3Z" '
+                       f'transform="translate({x(i) - 14:.0f} {wind_y - 4}) rotate({round(wdeg + 180) % 360})"/>')
+            parts.append(f'{arr}<text class="hs-wind-sp" x="{x(i) + 4:.0f}" y="{wind_y}">{round(wm)}</text>')
+    parts.append(f'<text class="hs-rowlab" x="0" y="{rain_y}">RAIN</text>'
+                 f'<text class="hs-rowlab" x="0" y="{wind_y}">MPH</text>')
+    lo_t, hi_t = round(min(temps)), round(max(temps))
+    mp = max([h.get("pop_pct") or 0 for h in hours])
+    summary = (f"Hourly forecast from {_hs_hour(hours[0].get('start'))} to "
+               f"{_hs_hour(hours[-1].get('start'))} ET. Temperature from {lo_t} to {hi_t} degrees. "
+               f"Highest chance of precipitation {round(mp)} percent. Shaded columns are the game's "
+               f"hours. Every value is in the table below this chart.")
+    svg = (f'<svg class="hs-svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" '
+           f'aria-label="{esc(summary)}">{"".join(parts)}</svg>')
+    rows = "".join(
+        f'<tr><th scope="row">{esc(_hs_hour(h.get("start")))}</th><td>{round(h["temp_f"])}\u00b0</td>'
+        f'<td>{"" if h.get("pop_pct") is None else str(round(h["pop_pct"])) + "%"}</td>'
+        f'<td>{esc(" ".join(str(v) for v in (h.get("wind_dir"), "" if h.get("wind_mph") is None else str(round(h["wind_mph"])) + " mph") if v))}'
+        f'{"" if not h.get("gust_mph") else ", gusts " + str(round(h["gust_mph"]))}</td>'
+        f'<td>{esc(h.get("sky") or "")}</td></tr>' for h in hours)
+    table = ('<details class="hs-table"><summary>Every hour, as a table</summary>'
+             '<table><thead><tr><th scope="col">Hour (ET)</th><th scope="col">Temp</th>'
+             '<th scope="col">Precip</th><th scope="col">Wind</th><th scope="col">Sky</th></tr>'
+             f'</thead><tbody>{rows}</tbody></table></details>')
+    return f'<div class="hs-wrap"><div class="hs-scroll">{svg}</div>{table}</div>'
+
+
+def _cx_alert_detail(e):
+    out = []
+    for a in (e.get("alerts") or [])[:3]:
+        d = _iso_dt(a.get("ends") or a.get("expires"))
+        when = f' until {d.astimezone(_ET).strftime("%a")} {_et_clock(d)}' if d else ""
+        out.append(f'<div class="cx-al"><b>{esc(a.get("event") or "")}</b>{esc(when)}'
+                   + (f'<p>{esc(a.get("headline"))}</p>' if a.get("headline") else "")
+                   + (f'<p class="cx-al-by">{esc(a.get("sender_name"))}</p>' if a.get("sender_name") else "")
+                   + '</div>')
+    return "".join(out)
+
+
+def cx_block(g):
+    """The game page's conditions section, or '' when the build holds nothing printable."""
+    e = cx_entry(g)
+    if not e:
+        return ""
+    st = e.get("status")
+    kind = {"forecast": "forecast", "indoor": "indoor", "outside_nws": "outside",
+            "out_of_range": "later"}.get(st)
+    if not kind:
+        return ""
+    strip = cx_strip(g, large=True, credit=False)
+    if not strip:
+        return ""
+    extra = ""
+    if kind == "forecast":
+        k = e.get("kickoff_hour") or {}
+        wd = k.get("wind") or {}
+        oriented = wd.get("arrow_field_deg") is not None
+        deg = None if wd.get("text") == "Calm" else (
+            wd.get("arrow_field_deg") if oriented else wd.get("arrow_true_deg"))
+        wind = ""
+        if wd.get("text"):
+            sub = ("The field drawn with its " + (f'{e["stadium"]["orientation_deg"]}-degree end'
+                   if (e.get("stadium") or {}).get("orientation_deg") is not None else "end") +
+                   " at the top; the arrow points the way the wind blows."
+                   if oriented else "No field direction is recorded for this stadium, so the "
+                   "arrow is on a compass, north up, pointing the way the wind blows.")
+            wind = (f'<div class="cx-windp">{_cx_field(deg, oriented, 84)}<div>'
+                    f'<p class="cx-wt">{esc(wd["text"])}'
+                    + (f' <span>from the {esc(k.get("wind_dir"))}</span>' if k.get("wind_dir") and wd.get("relative") else "")
+                    + f'</p><p class="cx-ws">{esc(sub)}</p></div></div>')
+        extra = cx_hourly(e) + wind + _cx_alert_detail(e) + cx_credit(e)
+    return (f'<section class="bd-mod cx-block" data-cx-block="{kind}" aria-label="Conditions">'
+            f'<div class="bd-sec"><div class="bd-sec-l"><span class="bd-eyebrow">Conditions at kickoff'
+            f'</span></div></div><div class="cx-panel">{strip}{extra}</div></section>')
+
+
+def gp_watch_block(g):
+    """Where to watch, from the schedule's carriers and data/carriage.json: the network, then
+    each stream as a button to the service's own page; a row past its date prints verify."""
+    k = _utc_dt(g.get("start_utc") or "")
+    car = _w2w_carriers_by_id().get(str(g.get("id"))) or (
+        [{"name": g["network"]}] if g.get("network") else [])
+    if not car:
+        return ""
+    doc = _carriage.load()
+    today = datetime.date.fromisoformat(_mf()["date"]) if MANIFEST else _build_now().astimezone(_ET).date()
+    chips = _carriage.streams_for({"league": g.get("league"), "carriers": car}, k, doc, today) if k else []
+    src = {r.get("id"): r.get("source") for r in (doc or {}).get("rows") or []}
+    nets = "".join(f'<span class="tk-chip">{esc(network_name(c.get("name")))}</span>' for c in car)
+    btn = []
+    for c in chips:
+        if c["state"] != "ok":
+            btn.append('<span class="tk-chip tk-verify">verify</span>')
+            continue
+        u = src.get(c.get("id")) or ""
+        btn.append(f'<a class="gp-svc" href="{esc(u)}" rel="noopener">{esc(c["label"])}</a>' if u
+                   else f'<span class="gp-svc">{esc(c["label"])}</span>')
+    reg = ""
+    rm = (doc or {}).get("regional_maps") or {}
+    if g.get("league") == "NFL" and k and _carriage.window_key(k, "NFL") in ("1:00", "4:05-4:25"):
+        reg = (f'<p class="bd-src">{esc(rm.get("label") or "Regional maps")}: '
+               + (f'<a href="{esc(rm["url"])}" rel="noopener">the maps</a>' if rm.get("status") == "ok"
+                  and rm.get("url") else "verify") + '</p>')
+    return (f'<section class="bd-mod gp-watch"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Where to watch</span></div>'
+            f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
+            f'<div class="gp-nets">{nets}</div>'
+            + (f'<div class="gp-svcs">{"".join(btn)}</div>' if btn else "") + reg + '</section>')
+
+
+def gp_title(g):
+    """Program 7: the title is the search. "Seahawks at Broncos: weather, where to watch,
+    inactives. Thursday 8:15 PM ET." College games have no inactives list to name."""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    an = a.get("name") or a.get("abbr") or ""
+    hn = h.get("name") or h.get("abbr") or ""
+    what = "weather, where to watch, inactives" if g.get("league") == "NFL" else "weather, where to watch"
+    k = _utc_dt(g.get("start_utc") or "")
+    when = f' {k.astimezone(_ET).strftime("%A")} {_et_clock(k)}.' if k else ""
+    return f"{an} at {hn}: {what}.{when}"
 
 
 def _gp_designations(g, desig):
@@ -7885,7 +8076,7 @@ def render_game_page(g, points, board, wx, items, dateline):
     # read "Updated Sep 16, 7:57 AM ET" on game day, which is the build time, not the
     # data's.
     head = (f'<div class="scoreband scoreband-page gp-head">'
-            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False)}'
+            f'{_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=items, buttons=False, strip=False)}'
             f'<div class="sb-head"><div class="sb-head-l"></div>'
             f'<span class="sb-stamp" data-mf="stamp">Updated '
             f'{esc(_mf_stamp())}</span></div></div>')
@@ -7912,22 +8103,23 @@ def render_game_page(g, points, board, wx, items, dateline):
     # shallow key, silently returning nothing rather than the wrong thing.
     _desig = _gp_designations(g, IA_DESIG)
 
-    # Where to watch, when the feed has this game.
-    _w2w = ""
-    if W2W_LIVE and g.get("network"):
-        _w2w = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                f'<span class="bd-eyebrow">Where to watch</span></div>'
-                f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
-                f'<p class="bd-read">{esc(g.get("network"))} carries this game.</p>'
-                f'</section>')
+    # S-2b item 2: above the fold, the Ticket, where to watch and the conditions; below, the
+    # inactives and designations, the line as the book reported it, and after the game the box.
+    _w2w = gp_watch_block(g)
+    _line = _tk_line(g)
+    _line_block = (f'<section class="bd-mod gp-line"><div class="bd-sec"><div class="bd-sec-l">'
+                   f'<span class="bd-eyebrow">The line</span></div></div>'
+                   f'<div class="tk-c gp-linec"><div class="tk-stub">{_line}</div></div></section>'
+                   if _line else "")
     body = f"""<main class="wrap"><section class="page">
     <h1 class="lx-h1" style="margin-bottom:6px">{esc(_team_label(g, away))} at
      {esc(_team_label(g, home))}</h1>
   {head}
-  {_game_wx_block(g, wx)}
+  {_w2w}
+  {cx_block(g)}
   {inact_block}
   {_desig}
-  {_w2w}
+  {_line_block}
   {"" if _pre else _leaders_module(points, "Fantasy leaders", anchor="box")}
   {rel_block}
   {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
@@ -7936,9 +8128,10 @@ def render_game_page(g, points, board, wx, items, dateline):
     # N-1: the title names the teams the way the page does. "DET at BUF" in a browser
     # tab, a bookmark and a search result was the only place on this site a reader met
     # the initials with no card around them to decode them.
-    return shell(f'{_team_label(g, away)} at {_team_label(g, home)} - {NAME}',
-                 f'{away.get("name")} at {home.get("name")}: score, inactives, fantasy '
-                 f'leaders and kickoff weather. Facts, not advice.',
+    return shell(gp_title(g),
+                 f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
+                 f'National Weather Service, where to watch, inactives and the score. Facts, '
+                 f'not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
                  og_image=f'{ORIGIN}/share/games/{g.get("id")}.png')
 
@@ -10656,6 +10849,9 @@ def build():
     print(f"manifest: {MANIFEST['stamp']}, date {MANIFEST['date']}, week {MANIFEST['week']}, "
           f"{MANIFEST['slate']['date']['total']} today, {MANIFEST['slate']['week']['total']} this week")
 
+    global BOARD_IDS
+    BOARD_IDS = {str(g.get("id")) for _k, g in board_games(SB_DATA) if g.get("id")}
+
     # S-2b item 0: the week board's conditions. /stadiums once, /game once per NFL and FBS
     # game on the board; written to site/data/conditions.json and published beside the
     # manifest. A Worker failure costs the strips and nothing else.
@@ -10800,8 +10996,12 @@ def build():
         import fantasy_points as _fpm
         _nfl = [g for L in SB_DATA["leagues"] if L["league"] == "NFL"
                 for g in L["games"]]
+        # S-2b item 2: and every FBS game on the week board (no box score is fetched for
+        # them; the page is the Ticket, where to watch and the conditions)
+        _nfl += [g for L in SB_DATA["leagues"] if L["league"] == "CFB"
+                 for g in L["games"] if _has_game_page(g)]
         for _g in _nfl:
-            if _g.get("state") in ("in", "post"):
+            if _g.get("state") in ("in", "post") and _g.get("league") == "NFL":
                 # C-3: one fetch, two readings. The win-probability track has been in
                 # this response since the points feature shipped and was thrown away
                 # every build.
@@ -11145,6 +11345,11 @@ def build():
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"
                        for _wk in (W2W_DATA.get("weeks") or [])]
+    # S-2b item 2 (Program 7): the week board's game pages are the product and their titles are
+    # the search, so they are in the priority tier. Every other game page stays deep, on the
+    # register, as S-2 ruled.
+    topic_locs += [f"/games/{_i}.html" for _i in sorted(BOARD_IDS)
+                   if os.path.exists(os.path.join(PUBLISH, "games", f"{_i}.html"))]
     prio = locs + topic_locs + hub_paths + [f"/articles/{i['slug']}.html" for i in prio_arts]
     # P-2: player, game and Edition pages are real pages a reader can land on and were
     # in no tier at all. They ride the archive tier rather than the priority one, which
