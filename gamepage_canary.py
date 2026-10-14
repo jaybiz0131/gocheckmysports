@@ -118,11 +118,18 @@ def check_tree(out):
             fails.append(f"game pages: {gid} title {title!r} is not the search")
         elif (e.get("league") == "NFL") != ("inactives" in title):
             fails.append(f"game pages: {gid} title names inactives wrongly for {e.get('league')}")
+        # Jack, 14 October 3:05 PM ET: the Ticket, the conditions hero, where to watch, then the
+        # venue, designations and inactives; the Ticket itself carries no fact rows
         i_card = html.find('class="scoreband scoreband-page gp-head"')
         i_watch = html.find('class="bd-mod gp-watch"')
         i_cx = html.find('class="bd-mod cx-block')
-        if i_card < 0 or (i_watch >= 0 and i_watch < i_card) or (i_cx >= 0 and i_watch >= 0 and i_cx < i_watch):
-            fails.append(f"game pages: {gid} is not Ticket, where to watch, conditions")
+        i_facts = html.find('class="tk-c gp-facts"')
+        seq = [i for i in (i_card, i_cx, i_watch, i_facts) if i >= 0]
+        if i_card < 0 or seq != sorted(seq):
+            fails.append(f"game pages: {gid} is not Ticket, conditions, where to watch, then the facts")
+        head = html[i_card:html.find("</article>", i_card)] if i_card >= 0 else ""
+        if 'class="tk-spec"' in head:
+            fails.append(f"game pages: {gid} still carries the venue and availability inside the Ticket")
         if f'href="/games/{gid}.html"' not in home:
             fails.append(f"game pages: the home's card for {gid} does not link its page")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
@@ -211,6 +218,15 @@ def check_hero():
             fails.append("hero: the field has no N mark")
         if 'fill="#002244"' not in h or 'fill="#FB4F14"' not in h:
             fails.append("hero: the end zones are not in the two teams' colours")
+        # one family (Seattle and Denver navy): the home end zone takes the home alternate
+        fam = {"away": {"color": "#002A5C", "alt_color": "#69BE28"}, "home": {"color": "#0A2343", "alt_color": "#FC4C02"}}
+        if sb.cx_endzones(fam) != ("#002A5C", "#FC4C02"):
+            fails.append(f"hero: one-family primaries do not take the home alternate: {sb.cx_endzones(fam)}")
+        if sb.cx_endzones({"away": {"color": "#002244", "alt_color": "#69BE28"},
+                           "home": {"color": "#FB4F14", "alt_color": "#0A2343"}}) != ("#002244", "#FB4F14"):
+            fails.append("hero: distinct primaries were replaced by an alternate")
+        if sb.cx_endzones({"away": {"color": "#002A5C"}, "home": {"color": "#0A2343"}}) != ("#002A5C", "#0A2343"):
+            fails.append("hero: with no alternate in the feed the end zones are not left as the primaries")
         m = sb.cx_block(dict(g, id="mia"))
         if 'data-cx-field="compass"' not in m or "cxf-turf" in m or "cxf-yd" in m:
             fails.append("hero: a stadium with no orientation got a guessed field")
@@ -278,6 +294,13 @@ def check_hero_css(css=None):
     if not re.search(r"@media \(min-width:900px\)\{[^@]*\.gp-grid\{display:grid;grid-template-columns:440px "
                      r"minmax\(0,1fr\)[^@]*\.gp-grid>\.cx-block\{grid-column:2;", css):
         fails.append("hero: the game page is not two columns with the hero on the right at 900px and up")
+    # Jack, 14 October: the field column about 300px, the tiles the rest, the numerals at size
+    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.cx-hero\{grid-template-columns:minmax\(220px,300px\) "
+                     r"minmax\(0,1fr\)", css):
+        fails.append("hero: the desktop field column is not about 300px with the tiles taking the rest")
+    nm = re.search(r"@media \(min-width:900px\)\{[^@]*\.cxh-big,\.cxh-t \.cxh-big\{font-size:clamp\(\d+px,[.\d]+vw,(\d+)px\)", css)
+    if not nm or int(nm.group(1)) < 56:
+        fails.append("hero: the desktop numerals are not at the design's size (56px or more)")
     hero = re.search(r"\.cx-hero\{background:(#[0-9A-Fa-f]{6})", css)
     if not hero:
         return fails + ["hero: the hero has no solid ground in site.css"]

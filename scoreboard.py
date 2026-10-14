@@ -23,6 +23,7 @@ USAGE  python3 scoreboard.py            refresh
 import datetime
 import json
 import os
+import re
 import sys
 import urllib.request
 
@@ -262,6 +263,10 @@ def _league(name, path, colorkey, cmap):
                             for x in (c.get("linescores") or [])],
                 "id": str(team.get("id") or ""),
                 "color": ((cmap.get(colorkey) or {}).get(ab) or {}).get("color", ""),
+                # S-2c (Jack, 14 October): the feed's alternate colour, for the game page's
+                # field when both teams' primaries are one family (Denver and Seattle, navy).
+                "alt_color": ("#" + team["alternateColor"]) if re.fullmatch(
+                    r"[0-9a-fA-F]{6}", team.get("alternateColor") or "") else "",
             }
         sit = comp.get("situation") or {}
         games.append({
