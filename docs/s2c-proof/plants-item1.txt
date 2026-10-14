@@ -1,0 +1,80 @@
+baseline: status 0, 0 FAIL
+break: field: not rotated to the orientation
+  status 1; RED: FAIL hero: the field is not drawn rotated to the stadium's orientation
+  restored from the saved copy: status 0
+break: field: the N mark dropped
+  status 1; RED: FAIL hero: the field has no N mark
+  restored from the saved copy: status 0
+break: field: end zones not in team colours
+  status 1; RED: FAIL hero: the end zones are not in the two teams' colours
+  restored from the saved copy: status 0
+break: field: a field guessed where no orientation is recorded
+  status 1; RED: FAIL hero: a stadium with no orientation got a guessed field | FAIL hero: an unflagged compass arrow is not white at arrow_true_deg
+  restored from the saved copy: status 0
+break: arrows: drawn at the field angle
+  status 1; RED: FAIL hero: the three arrows do not point the way the wind blows | FAIL hero: an unflagged compass arrow is not white at arrow_true_deg
+  restored from the saved copy: status 0
+break: arrows: amber with no flag
+  status 1; RED: FAIL hero: an unflagged compass arrow is not white at arrow_true_deg
+  restored from the saved copy: status 0
+break: arrows: white with the flag on
+  status 1; RED: FAIL hero: the wind flag is on and the arrows are not amber
+  restored from the saved copy: status 0
+break: arrows: Calm draws arrows
+  status 1; RED: FAIL hero: Calm draws arrows
+  restored from the saved copy: status 0
+break: caption: dropped
+  status 1; RED: FAIL hero: the caption line is missing under the field
+  restored from the saved copy: status 0
+break: panels: the temperature in a fixed blue
+  status 1; RED: FAIL hero: the big temperature is not in the Weather ramp's ink
+  restored from the saved copy: status 0
+break: panels: the wind words dropped
+  status 1; RED: FAIL hero: the wind panel does not carry its words
+  restored from the saved copy: status 0
+break: panels: the rain peak dropped
+  status 1; RED: FAIL hero: the rain panel does not name its peak, or the wind panel is not lit
+  restored from the saved copy: status 0
+break: panels: a missing temperature printed as 0
+  status 1; RED: FAIL hero: a number the Worker did not give does not print as missing
+  restored from the saved copy: status 0
+break: chart: the line in one colour
+  status 1; RED: FAIL hero: the temperature line is not in each hour's ramp ink
+  restored from the saved copy: status 0
+break: chart: the kickoff hour's dot dropped
+  status 1; RED: FAIL hero: the chart does not draw a dot per hour
+  restored from the saved copy: status 0
+break: chart: the game window band dropped
+  status 1; RED: FAIL hero: the game window is not a band over the game's hours
+  restored from the saved copy: status 0
+break: chart: the wind amber over the threshold only (> not >=)
+  status 1; RED: FAIL hero: the wind is amber at ['15'], not at or over the threshold
+  restored from the saved copy: status 0
+break: chart: the label drops the wind
+  status 1; RED: FAIL hero: the chart's label does not carry every hour's numbers
+  restored from the saved copy: status 0
+break: link: the stamp dropped from the card
+  status 1; RED: FAIL hero: the link card does not go to the stadium page with the credit and stamp
+  restored from the saved copy: status 0
+break: amber: the hero amber with no flag
+  status 1; RED: FAIL hero: an unflagged hero carries amber
+  restored from the saved copy: status 0
+break: desktop: the hero in the left column (CSS)
+  status 1; RED: FAIL hero: the game page is not two columns with the hero on the right at 900px and up
+  restored from the saved copy: status 0
+break: contrast: the caption at #4A505B (CSS)
+  status 1; RED: FAIL hero contrast: .cxh-cap #4A505B on hero is 2.25:1 | FAIL hero contrast: .cxh-cap #4A505B on a tile is 2.08:1 | FAIL hero contrast: .cxh-cap #4A505B on a flagged tile is 1.92:1
+  restored from the saved copy: status 0
+break: contrast: the chart's hour row at #3A404B (CSS)
+  status 1; RED: FAIL hero contrast: .cxc-h #3A404B on hero is 1.75:1 | FAIL hero contrast: .cxc-h #3A404B on a tile is 1.62:1 | FAIL hero contrast: .cxc-h #3A404B on a flagged tile is 1.50:1
+  restored from the saved copy: status 0
+baseline (0, [])
+break: order: the hero above where to watch 
+  status 1 RED: FAIL game pages: 401872995 is not Ticket, where to watch, conditions
+  restored from the saved copy: status 0
+break: indoor: the Raiders page prints a chart 
+  status 1 RED: FAIL game pages: 401873005 is indoor and prints a forecast
+  restored from the saved copy: status 0
+break: indoor: a temperature inside the hero section 
+  status 1 RED: FAIL game pages: 401873005 is indoor and prints a forecast
+  restored from the saved copy: status 0
