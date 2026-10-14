@@ -329,20 +329,77 @@ def check_hero_css(css=None):
     return fails
 
 
+def check_desk():
+    """S-2c item 2: "From the desk" carries stories from the last seven days that name either
+    team, and nothing when there are none."""
+    import datetime as _d
+    import site_build as sb
+    fails = []
+    was = sb._NOW_CACHE
+    try:
+        now = _d.datetime(2026, 10, 15, 13, 0, tzinfo=_d.timezone.utc)
+        sb._NOW_CACHE = now
+        z = lambda dt: dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+        g = {"league": "NFL", "away": {"name": "Seahawks"}, "home": {"name": "Broncos"}}
+        old = {"slug": "s2c-desk-old", "league": "NFL", "published_utc": "2026-09-16T23:43:00Z",
+               "title": "Seahawks rule out Sam Darnold for Week 2"}
+        new = {"slug": "s2c-desk-new", "league": "NFL", "published_utc": z(now - _d.timedelta(days=2)),
+               "title": "Broncos sign a kicker before Seahawks visit"}
+        edge = {"slug": "s2c-desk-edge", "league": "NFL", "published_utc": z(now - _d.timedelta(days=8)),
+                "title": "Broncos open the week with a walkthrough"}
+        other = {"slug": "s2c-desk-other", "league": "NFL", "published_utc": z(now - _d.timedelta(days=1)),
+                 "title": "Chiefs hold a closed practice"}
+        got = [i["slug"] for i in sb.gp_desk_stories(g, [old, new, edge, other])]
+        if got != ["s2c-desk-new"]:
+            fails.append(f"game pages: From the desk carries {got}, not only the last week's story naming a team")
+        if sb.gp_desk_stories(g, [old, edge, other]):
+            fails.append("game pages: From the desk is not empty with no story from the last seven days")
+    finally:
+        sb._NOW_CACHE = was
+    return fails
+
+
+def check_desk_tree(out):
+    """On the built tree: every From the desk row on a board page is dated within seven days of
+    the build."""
+    import datetime as _d
+    fails = []
+    cxp = os.path.join(out, "data", "conditions.json")
+    if not os.path.exists(cxp):
+        return ["game pages: the build published no /data/conditions.json, so From the desk was not checked"]
+    d = json.load(open(cxp, encoding="utf-8"))
+    built = _d.datetime.strptime(d["built_at"], "%Y-%m-%dT%H:%M:%SZ").date()
+    for gid in sorted((d.get("games") or {})):
+        fp = os.path.join(out, "games", f"{gid}.html")
+        if not os.path.exists(fp):
+            continue
+        html = open(fp, encoding="utf-8").read()
+        i = html.find('<span class="bd-eyebrow">From the desk</span>')
+        if i < 0:
+            continue
+        sec = html[i:html.find("</section>", i)]
+        for m in re.findall(r'<span class="bd-stamp">([A-Z][a-z]+ \d{1,2}, \d{4})', sec):
+            day = _d.datetime.strptime(m, "%B %d, %Y").date()
+            if (built - day).days > 7:
+                fails.append(f"game pages: {gid} carries a From the desk story dated {m}, more than seven days old")
+    return fails
+
+
 def gamepage_canary(out=None):
     if out is None:
         import verify_pipeline as vp
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_tree(out) + check_verify() + check_hero() + check_hero_css()
+    return check_tree(out) + check_desk_tree(out) + check_verify() + check_hero() + check_hero_css() + check_desk()
 
 
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
-    f = (check_tree(root) if root != "--fixtures" else []) + check_verify() + check_hero() + check_hero_css()
+    f = ((check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) + check_verify() \
+        + check_hero() + check_hero_css() + check_desk()
     for x in f:
         print("FAIL", x)
     print("game page canary:", "PASS" if not f else f"{len(f)} FAIL")
