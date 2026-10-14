@@ -1,0 +1,30 @@
+baseline: status 0, 0 FAIL
+break: desktop: the field column back to a share (minmax(0,1fr) 1fr)
+  status 1; RED: FAIL hero: the desktop field column is not about 300px with the tiles taking the rest
+  restored from the saved copy: status 0
+break: desktop: the numerals back at 47px
+  status 1; RED: FAIL hero: the desktop numerals are not at the design's size (56px or more)
+  restored from the saved copy: status 0
+break: end zones: one family kept as the primaries
+  status 1; RED: FAIL hero: one-family primaries do not take the home alternate: ('#002A5C', '#0A2343')
+  restored from the saved copy: status 0
+break: end zones: an alternate used for distinct primaries
+  status 0; STAYED GREEN
+  restored from the saved copy: status 0
+break: end zones: the alternate from the wrong team
+  status 1; RED: FAIL hero: one-family primaries do not take the home alternate: ('#69BE28', '#0A2343')
+  restored from the saved copy: status 0
+baseline: status 0, 0 FAIL
+break: end zones: an alternate used for distinct primaries
+  status 1; RED: FAIL hero: distinct primaries were replaced by an alternate
+  restored from the saved copy: status 0
+baseline (0, [])
+break: order: the hero back under where to watch (the S-2b order) 
+  status 1 RED: FAIL game pages: 401872995 is not Ticket, conditions, where to watch, then the facts
+  restored from the saved copy: status 0
+break: order: the facts above the hero 
+  status 1 RED: FAIL game pages: 401872995 is not Ticket, conditions, where to watch, then the facts
+  restored from the saved copy: status 0
+break: Ticket: the venue row back inside the Ticket 
+  status 1 RED: FAIL game pages: 401872995 still carries the venue and availability inside the Ticket
+  restored from the saved copy: status 0

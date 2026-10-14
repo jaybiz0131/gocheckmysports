@@ -19,6 +19,21 @@ was seen red first (U-9).
   sitemap    the board's game pages are in the priority sitemap; no other game page is in any
   verify     a carriage row past its date prints "verify" in the watch block, never the service
 
+S-2c item 1 (the SportsGamePhone and SportsGameDesktop artboards, approved 14 October 2026):
+  field      with an orientation, the field is drawn rotated to it, north up with an N mark, its
+             end zones in the two teams' colours; with none, a compass rose and never a field
+  arrows     three arrows (one on the compass) point the way the wind blows (arrow_true_deg),
+             amber when the wind flag is on and white otherwise; Calm draws none
+  caption    one line under the graphic: "Arrows point the way the wind blows"
+  panels     the big temperature in the Weather ramp's ink, the wind with its words, the rain
+             with its peak; a missing number prints as missing
+  chart      the temperature line in each hour's ramp ink with a dot per hour, the game window
+             as a green band, the wind amber at or over the Worker's threshold and only there,
+             and an accessible label carrying every hour's numbers
+  link       the link card goes to the Weather site's stadium page with the credit and stamp
+  desktop    at 900px and up the page is two columns with the hero filling the right (CSS)
+  contrast   every hero text colour clears 4.5:1 (3:1 at 24px and up) on the hero's grounds
+
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
 
@@ -91,8 +106,8 @@ def check_tree(out):
         if len(re.findall(r'data-cx="', html)) > 1:
             fails.append(f"game pages: {gid} carries a second strip beside its block")
         if e.get("status") == "indoor":
-            if blocks != ["indoor"] or "hs-svg" in html or 'data-cx="forecast"' in html \
-                    or re.search(r'<section class="bd-mod cx-block"[^>]*>.*?\d+°', html, re.S):
+            if blocks != ["indoor"] or "cxc-svg" in html or 'data-cx="forecast"' in html \
+                    or re.search(r'<section class="bd-mod cx-block[^"]*"[^>]*>.*?\d+°', html, re.S):
                 fails.append(f"game pages: {gid} is indoor and prints a forecast")
         bad = runtime_hosts(html) - ALLOWED_HOSTS
         if bad:
@@ -103,11 +118,18 @@ def check_tree(out):
             fails.append(f"game pages: {gid} title {title!r} is not the search")
         elif (e.get("league") == "NFL") != ("inactives" in title):
             fails.append(f"game pages: {gid} title names inactives wrongly for {e.get('league')}")
+        # Jack, 14 October 3:05 PM ET: the Ticket, the conditions hero, where to watch, then the
+        # venue, designations and inactives; the Ticket itself carries no fact rows
         i_card = html.find('class="scoreband scoreband-page gp-head"')
         i_watch = html.find('class="bd-mod gp-watch"')
-        i_cx = html.find('class="bd-mod cx-block"')
-        if i_card < 0 or (i_watch >= 0 and i_watch < i_card) or (i_cx >= 0 and i_watch >= 0 and i_cx < i_watch):
-            fails.append(f"game pages: {gid} is not Ticket, where to watch, conditions")
+        i_cx = html.find('class="bd-mod cx-block')
+        i_facts = html.find('class="tk-c gp-facts"')
+        seq = [i for i in (i_card, i_cx, i_watch, i_facts) if i >= 0]
+        if i_card < 0 or seq != sorted(seq):
+            fails.append(f"game pages: {gid} is not Ticket, conditions, where to watch, then the facts")
+        head = html[i_card:html.find("</article>", i_card)] if i_card >= 0 else ""
+        if 'class="tk-spec"' in head:
+            fails.append(f"game pages: {gid} still carries the venue and availability inside the Ticket")
         if f'href="/games/{gid}.html"' not in home:
             fails.append(f"game pages: the home's card for {gid} does not link its page")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
@@ -149,20 +171,178 @@ def check_verify():
     return fails
 
 
+def _hero_entry(**kw):
+    import conditions as cx
+    hours = []
+    for i, (t, p, w) in enumerate(((49, 57, 15), (47, 23, 12), (46, 23, 9), (45, 23, 7), (43, 23, 6), (42, 23, 5))):
+        hours.append({"start": f"2026-10-15T{17 + i}:00:00-06:00", "end": f"2026-10-15T{18 + i}:00:00-06:00",
+                      "temp_f": t, "pop_pct": p, "wind_mph": w, "is_daytime": False})
+    e = {"status": "forecast", "roof": "open", "venue": "Empower Field at Mile High",
+         "stadium": {"name": "Empower Field at Mile High", "orientation_deg": 20},
+         "window": {"kickoff": "2026-10-16T00:15:00Z", "expected_end": "2026-10-16T03:30:00Z"},
+         "kickoff_hour": dict(hours[1], feels_like_f=42, sky="Rain Showers", gust_mph=23, wind_dir="N",
+                              precip_type="rain showers",
+                              wind={"text": "12 mph down the field, gusting 23", "arrow_field_deg": 170,
+                                    "arrow_true_deg": 190}),
+         "hours": hours,
+         "flags": {"wind": {"on": True, "max_mph": 15, "threshold_mph": 12},
+                   "precip": {"on": False, "max_pct": 57, "threshold_pct": 60},
+                   "feels": {"on": False}, "alert": {"on": False}, "any": True},
+         "alerts": [], "stale": False,
+         "credit": {"text": "Conditions by GoCheckMyWeather, NWS, 10:14 PM ET",
+                    "url": "https://gocheckmyweather.com/stadiums/empower-field-at-mile-high.html"}}
+    e.update(kw)
+    e["words"] = cx.words(e)
+    return e
+
+
+def check_hero():
+    """The hero on fixtures: the field, the arrows, the panels, the chart and the link."""
+    import site_build as sb
+    fails = []
+    was = sb.CX_DATA
+    g = {"id": "den", "away": {"color": "#002244"}, "home": {"color": "#FB4F14"}}
+    quiet = {"wind": {"on": False, "max_mph": 12, "threshold_mph": 15}, "precip": {"on": False},
+             "feels": {"on": False}, "alert": {"on": False}, "any": False}
+    try:
+        e = _hero_entry()
+        noori = _hero_entry(stadium={"name": "Hard Rock Stadium", "orientation_deg": None}, flags=quiet)
+        calm = _hero_entry(kickoff_hour=dict(e["kickoff_hour"], wind={"text": "Calm"}, wind_mph=0))
+        gap = _hero_entry(kickoff_hour=dict(e["kickoff_hour"], temp_f=None, pop_pct=None))
+        sb.CX_DATA = {"games": {"den": e, "mia": noori, "calm": calm, "gap": gap}}
+        h = sb.cx_block(g)
+        # field
+        if 'data-cx-field="field"' not in h or 'rotate(20.0 ' not in h:
+            fails.append("hero: the field is not drawn rotated to the stadium's orientation")
+        if not re.search(r'<g class="cxf-n">.*?>N</text>', h):
+            fails.append("hero: the field has no N mark")
+        if 'fill="#002244"' not in h or 'fill="#FB4F14"' not in h:
+            fails.append("hero: the end zones are not in the two teams' colours")
+        # one family (Seattle and Denver navy): the home end zone takes the home alternate
+        fam = {"away": {"color": "#002A5C", "alt_color": "#69BE28"}, "home": {"color": "#0A2343", "alt_color": "#FC4C02"}}
+        if sb.cx_endzones(fam) != ("#002A5C", "#FC4C02"):
+            fails.append(f"hero: one-family primaries do not take the home alternate: {sb.cx_endzones(fam)}")
+        if sb.cx_endzones({"away": {"color": "#002244", "alt_color": "#69BE28"},
+                           "home": {"color": "#FB4F14", "alt_color": "#0A2343"}}) != ("#002244", "#FB4F14"):
+            fails.append("hero: distinct primaries were replaced by an alternate")
+        if sb.cx_endzones({"away": {"color": "#002A5C"}, "home": {"color": "#0A2343"}}) != ("#002A5C", "#0A2343"):
+            fails.append("hero: with no alternate in the feed the end zones are not left as the primaries")
+        m = sb.cx_block(dict(g, id="mia"))
+        if 'data-cx-field="compass"' not in m or "cxf-turf" in m or "cxf-yd" in m:
+            fails.append("hero: a stadium with no orientation got a guessed field")
+        # arrows
+        a = re.search(r'<g class="cxf-arrows"[^>]*stroke="(#[0-9A-F]{6})"[^>]*rotate\((\d+) ', h)
+        if not a or a.group(2) != "190" or len(re.findall(r"<path d=", h[h.find("cxf-arrows"):h.find("</g>", h.find("cxf-arrows"))])) != 3:
+            fails.append("hero: the three arrows do not point the way the wind blows")
+        elif a.group(1) != "#FFB03D":
+            fails.append("hero: the wind flag is on and the arrows are not amber")
+        ma = re.search(r'stroke="(#[0-9A-F]{6})"[^>]*transform="rotate\(190 66 66\)"', m)
+        if not ma or ma.group(1) != "#EEF1F5":
+            fails.append("hero: an unflagged compass arrow is not white at arrow_true_deg")
+        c = sb.cx_block(dict(g, id="calm"))
+        if "cxf-arrows" in c or "Calm" not in c:
+            fails.append("hero: Calm draws arrows")
+        # caption
+        if '<span class="cxh-cap">Arrows point the way the wind blows</span>' not in h:
+            fails.append("hero: the caption line is missing under the field")
+        # panels
+        ink = sb.cx_temp_ink(47)
+        if f'<b class="cxh-big cx-glow" style="color:{ink}">47°</b>' not in h:
+            fails.append("hero: the big temperature is not in the Weather ramp's ink")
+        if "Down the field, gusting 23, up to 15 mph. From the north." not in h:
+            fails.append("hero: the wind panel does not carry its words")
+        if "up to 57% at 7 PM" not in h or 'class="cxh-tile cxh-w on"' not in h:
+            fails.append("hero: the rain panel does not name its peak, or the wind panel is not lit")
+        gp = sb.cx_block(dict(g, id="gap"))
+        if gp.count(">missing<") < 2:
+            fails.append("hero: a number the Worker did not give does not print as missing")
+        # chart
+        stops = re.findall(r'<stop offset="[.\d]+" stop-color="(#[0-9A-F]{6})"/>', h)
+        if stops != [sb.cx_temp_ink(t) for t in (49, 47, 46, 45, 43, 42)]:
+            fails.append("hero: the temperature line is not in each hour's ramp ink")
+        if h.count('class="cxc-dot"') != 6:
+            fails.append("hero: the chart does not draw a dot per hour")
+        if 'class="cxc-win"' not in h or "Game window 8 PM to 12 AM" not in h:
+            fails.append("hero: the game window is not a band over the game's hours")
+        hot = re.findall(r'<text class="cxc-w on"[^>]*>(\d+)</text>', h)
+        if hot != ["15", "12"]:
+            fails.append(f"hero: the wind is amber at {hot}, not at or over the threshold")
+        lab = re.search(r'<svg class="cxc-svg"[^>]*aria-label="([^"]+)"', h)
+        if not lab or not all(f"{t} degrees, {p} percent rain, {w} mph" in lab.group(1)
+                              for t, p, w in ((49, 57, 15), (42, 23, 5))) or lab.group(1).count("degrees") != 6:
+            fails.append("hero: the chart's label does not carry every hour's numbers")
+        # link
+        lk = re.search(r'<a class="cxh-link" href="([^"]+)"><span>Full forecast for ([^<]+)<small>([^<]+)</small>', h)
+        if not lk or not lk.group(1).startswith("https://gocheckmyweather.com/stadiums/") \
+                or lk.group(3) != "Conditions by GoCheckMyWeather, NWS, 10:14 PM ET":
+            fails.append("hero: the link card does not go to the stadium page with the credit and stamp")
+        if 'class="bd-mod cx-block cx-hero cx-flag"' not in h:
+            fails.append("hero: a flagged hero has no amber border")
+        if "cx-flag" in m:
+            fails.append("hero: an unflagged hero carries amber")
+    finally:
+        sb.CX_DATA = was
+    return fails
+
+
+def check_hero_css(css=None):
+    """The desktop grid and the hero's contrast, from the shipped site.css."""
+    import strip_canary as sc
+    css = css if css is not None else open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                        "site", "assets", "site.css"), encoding="utf-8").read()
+    fails = []
+    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.gp-grid\{display:grid;grid-template-columns:440px "
+                     r"minmax\(0,1fr\)[^@]*\.gp-grid>\.cx-block\{grid-column:2;", css):
+        fails.append("hero: the game page is not two columns with the hero on the right at 900px and up")
+    # Jack, 14 October: the field column about 300px, the tiles the rest, the numerals at size
+    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.cx-hero\{grid-template-columns:minmax\(220px,300px\) "
+                     r"minmax\(0,1fr\)", css):
+        fails.append("hero: the desktop field column is not about 300px with the tiles taking the rest")
+    nm = re.search(r"@media \(min-width:900px\)\{[^@]*\.cxh-big,\.cxh-t \.cxh-big\{font-size:clamp\(\d+px,[.\d]+vw,(\d+)px\)", css)
+    if not nm or int(nm.group(1)) < 56:
+        fails.append("hero: the desktop numerals are not at the design's size (56px or more)")
+    hero = re.search(r"\.cx-hero\{background:(#[0-9A-Fa-f]{6})", css)
+    if not hero:
+        return fails + ["hero: the hero has no solid ground in site.css"]
+    g0 = sc._rgb(hero.group(1))
+    grounds = {"hero": g0, "a tile": sc._over((255, 255, 255, .035), g0),
+               "a flagged tile": sc._over((255, 176, 61, .09), g0),
+               "the rain panel": sc._over((142, 201, 232, .07), g0),
+               "the game window": sc._over((61, 220, 132, .08), g0),
+               "the link card": sc._over((121, 184, 190, .1), g0)}
+    body = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    n = 0
+    for sel, decl in re.findall(r"([^{}]+)\{([^{}]*)\}", body):
+        if not re.search(r"\.(cxh|cxc|cxf)-", sel):
+            continue
+        big = re.search(r"cxh-big", sel)
+        texty = re.search(r"cxc-[thrw]\b|text", sel)
+        for c in re.findall(r"(?:^|;)\s*(?:color|fill):\s*(#[0-9A-Fa-f]{6})" if texty
+                            else r"(?:^|;)\s*color:\s*(#[0-9A-Fa-f]{6})", decl):
+            n += 1
+            for gname, g in grounds.items():
+                r = sc.contrast(sc._rgb(c), g)
+                if r < (3.0 if big else 4.5):
+                    fails.append(f"hero contrast: {sel.strip()} {c} on {gname} is {r:.2f}:1")
+    if n < 12:
+        fails.append(f"hero contrast: only {n} hero text colours found in site.css")
+    return fails
+
+
 def gamepage_canary(out=None):
     if out is None:
         import verify_pipeline as vp
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_tree(out) + check_verify()
+    return check_tree(out) + check_verify() + check_hero() + check_hero_css()
 
 
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
-    f = check_tree(root) + check_verify()
+    f = (check_tree(root) if root != "--fixtures" else []) + check_verify() + check_hero() + check_hero_css()
     for x in f:
         print("FAIL", x)
     print("game page canary:", "PASS" if not f else f"{len(f)} FAIL")
