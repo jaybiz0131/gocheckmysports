@@ -11146,7 +11146,12 @@ def deep_url_register(publish, items, origin, now, stamp):
             "sitemap_listed": len(listed), "pages": len(pages), "entries": entries}
 
 
+BUILD_STARTED = None   # W-45: the wall clock when build() began; the manifest's started_utc
+
+
 def build():
+    global BUILD_STARTED
+    BUILD_STARTED = datetime.datetime.now(datetime.timezone.utc)
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
     newest = next((i.get("date") for i in items if not i.get("example") and i.get("date")), None)
@@ -11218,7 +11223,19 @@ def build():
     # or a stamp reads it. Nothing below counts a card for itself.
     global MANIFEST
     MANIFEST = _bm.build(_build_now(), SB_DATA, _w2w)
+    MANIFEST["started_utc"] = BUILD_STARTED.strftime("%Y-%m-%dT%H:%M:%SZ")
     os.makedirs(PUBLISH, exist_ok=True)
+    # W-45 (14 October 2026): the schedule and the scoreboard this build read are published
+    # beside the manifest, as conditions.json is. Before this the only copies outside a build
+    # were the repository's, which refresh only when the inactives poller commits site/data,
+    # so between Sunday night and the next poll they sat days old while the pages were fresh.
+    # A fetch that failed leaves the committed file in place, and it is published as it is:
+    # its fetched_at says how old it is, and the canary fails on a file older than the build.
+    os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+    for _src in ("where-to-watch.json", "scoreboard.json"):
+        _sp = os.path.join(HERE, "site", "data", _src)
+        if os.path.exists(_sp):
+            open(os.path.join(PUBLISH, "data", _src), "wb").write(open(_sp, "rb").read())
     _bm.dump(MANIFEST, os.path.join(PUBLISH, "build-manifest.json"))
     print(f"manifest: {MANIFEST['stamp']}, date {MANIFEST['date']}, week {MANIFEST['week']}, "
           f"{MANIFEST['slate']['date']['total']} today, {MANIFEST['slate']['week']['total']} this week")

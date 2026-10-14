@@ -385,20 +385,51 @@ def check_desk_tree(out):
     return fails
 
 
+FRESH_DATA = ("where-to-watch.json", "scoreboard.json")
+
+
+def check_data_fresh(out):
+    """W-45 (14 October 2026): the schedule and the scoreboard the build read are published at
+    /data/, each with its own fetched_at, and neither is older than the build that published it
+    (the manifest's started_utc). The repository's copies sat at Sunday night's poll for two days
+    while the pages were fresh, because nothing but the inactives poller ever wrote them out."""
+    import datetime as _d
+    fails = []
+    mf = os.path.join(out, "build-manifest.json")
+    started = (json.load(open(mf, encoding="utf-8")) if os.path.exists(mf) else {}).get("started_utc")
+    if not started:
+        return ["data: the manifest carries no started_utc, so the published data's age was not checked"]
+    t0 = _d.datetime.strptime(started, "%Y-%m-%dT%H:%M:%SZ")
+    for name in FRESH_DATA:
+        fp = os.path.join(out, "data", name)
+        if not os.path.exists(fp):
+            fails.append(f"data: the build published no /data/{name}")
+            continue
+        got = (json.load(open(fp, encoding="utf-8")) or {}).get("fetched_at") or ""
+        try:
+            t = _d.datetime.strptime(got, "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError:
+            fails.append(f"data: /data/{name} carries no readable fetched_at ({got!r})")
+            continue
+        if t < t0:
+            fails.append(f"data: /data/{name} was fetched {got}, before this build began at {started}")
+    return fails
+
+
 def gamepage_canary(out=None):
     if out is None:
         import verify_pipeline as vp
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_tree(out) + check_desk_tree(out) + check_verify() + check_hero() + check_hero_css() + check_desk()
+    return check_data_fresh(out) + check_tree(out) + check_desk_tree(out) + check_verify() + check_hero() + check_hero_css() + check_desk()
 
 
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
-    f = ((check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) + check_verify() \
+    f = ((check_data_fresh(root) + check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) + check_verify() \
         + check_hero() + check_hero_css() + check_desk()
     for x in f:
         print("FAIL", x)
