@@ -2757,3 +2757,43 @@ table.ls .ls-t{font-weight:700;color:#fff;
 .cx-lg .cx-v small{font-size:12.5px}
 .cx-lg p.cx-credit{font-size:11.5px}
 @media (max-width:420px){.cx-cells{gap:6px 12px}}
+
+/* ---- S-2b item 2: the game page's conditions block, in the Weather hour-strip style ----
+   The panel is the Ticket's dark ground in both themes, so the strip's inks hold here too. */
+.cx-panel{background:#1A1C22;border:1px solid rgba(255,255,255,.08);border-radius:12px;
+  padding:14px;display:flex;flex-direction:column;gap:14px;color:#EBE9E3}
+.cx-panel .cx{background:rgba(19,20,25,.66)}
+.hs-wrap{display:flex;flex-direction:column;gap:8px}
+.hs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cx-panel .hs-svg{display:block}
+.cx-panel .hs-hl{font-family:var(--mono);font-size:11px;fill:#C3C7CE;text-anchor:middle}
+.cx-panel .hs-tv{font-family:var(--mono);font-size:13px;font-weight:600;text-anchor:middle;
+  paint-order:stroke;stroke:rgba(8,14,22,.78);stroke-width:3.2px;stroke-linejoin:round}
+.cx-panel .hs-line-under{fill:none;stroke:rgba(8,14,22,.66);stroke-width:5;stroke-linejoin:round;stroke-linecap:round}
+.cx-panel .hs-line{fill:none;stroke:rgba(244,241,234,.85);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.cx-panel .hs-dot{stroke:rgba(8,14,22,.9);stroke-width:1.7}
+.cx-panel .hs-game{fill:rgba(255,211,61,.16);stroke:rgba(255,211,61,.55);stroke-width:1}
+.cx-panel .hs-rain{font-family:var(--mono);font-size:11px;font-weight:600;fill:#8FC6CC;text-anchor:middle}
+.cx-panel .hs-rain.dry{fill:#C3C7CE;font-weight:400}
+.cx-panel .hs-wind-arrow{fill:#79B8BE}
+.cx-panel .hs-wind-sp{font-family:var(--mono);font-size:11px;fill:#C3C7CE;text-anchor:middle}
+.cx-panel .hs-rowlab{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;fill:#C3C7CE}
+.cx-panel .hs-table summary{cursor:pointer;font-size:13px;color:#C3C7CE}
+.cx-panel .hs-table table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.cx-panel .hs-table th,.cx-panel .hs-table td{text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.08);color:#EBE9E3}
+.cx-windp{display:flex;gap:14px;align-items:center}
+.cx-panel p.cx-wt{margin:0;font-family:var(--mono);font-size:15px;font-weight:700;color:#EBE9E3}
+.cx-panel p.cx-wt span{font-weight:400;color:#C3C7CE}
+.cx-panel p.cx-ws{margin:4px 0 0;font-size:12px;line-height:1.4;color:#C3C7CE}
+.cx-al{border-left:3px solid #E8615A;padding:6px 10px;background:rgba(232,97,90,.08);border-radius:0 6px 6px 0}
+.cx-al b{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#F0877F}
+.cx-panel .cx-al p{margin:4px 0 0;font-size:12.5px;line-height:1.4;color:#EBE9E3}
+.cx-panel .cx-al p.cx-al-by{color:#C3C7CE;font-size:11.5px}
+.cx-panel p.cx-credit{margin:0;font-size:11.5px;line-height:1.35;color:#C3C7CE}
+.gp-nets,.gp-svcs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.gp-nets .tk-chip{background:#1A1C22;color:#EBE9E3}
+.gp-svc{display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;
+  border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:13.5px;text-decoration:none}
+a.gp-svc:hover{border-color:var(--ink)}
+.gp-linec{max-width:520px}
+.gp-watch p.bd-src{font-size:12.5px;line-height:1.45;margin:10px 0 0;color:var(--muted)}
