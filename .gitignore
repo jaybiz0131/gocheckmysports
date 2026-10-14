@@ -21,3 +21,7 @@ site/publish/
 # .github/workflows/ would register as a SECOND scheduled job if it were ever committed.
 * [0-9].*
 * [0-9]
+
+# S-2b (Jack, 14 October 2026): the conditions intake writes this on every build, from the
+# Worker. The build publishes it at /data/conditions.json; it is never committed.
+site/data/conditions.json

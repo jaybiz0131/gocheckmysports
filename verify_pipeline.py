@@ -1561,6 +1561,8 @@ def layer1_canary():
     fails.extend(_wc.watch_canary())   # S-1 item 1: Where to Watch by day and window
     import home_canary as _hc
     fails.extend(_hc.home_canary())   # S-1 item 2: the home is the week board
+    import conditions_canary as _cxc
+    fails.extend(_cxc.conditions_canary())   # S-2b item 0: the conditions intake
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day

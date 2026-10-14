@@ -292,6 +292,12 @@ def _league(name, path, colorkey, cmap):
             # after it was renamed NRG. A table of ours goes stale silently; the feed
             # does not. A game the feed does not name gets no venue line.
             "venue": (comp.get("venue") or {}).get("fullName") or "",
+            # S-2b item 0: the conditions intake matches the game to a stadium row. The id
+            # and the address are the feed's own; the country says whether NWS covers it.
+            "venue_id": str((comp.get("venue") or {}).get("id") or ""),
+            "venue_city": ((comp.get("venue") or {}).get("address") or {}).get("city") or "",
+            "venue_state": ((comp.get("venue") or {}).get("address") or {}).get("state") or "",
+            "venue_country": ((comp.get("venue") or {}).get("address") or {}).get("country") or "",
             "line": _line(comp),
         })
     return games
