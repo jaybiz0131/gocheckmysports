@@ -1,0 +1,119 @@
+item 0 conditions_canary plants (each red, restored from saved copy, green after):
+indoor-as-forecast -> "the dome is 'error' {}, not Indoor"
+retractable-word -> retractable roof word 'Open air'
+range-day-in-utc -> "out of range reads 'Forecast from Sat, Oct 17', expected 'Forecast from Fri, Oct 16'"
+international-asked -> "Wembley reads {}, not 'Outside NWS coverage'"
+missing-not-listed -> "the missing venue is not in the payload's missing list" + build log
+alerts-null-as-clear -> "alerts null reads 'No alerts'"
+college-loose-name -> "a near venue name matched a row"
+final-drops-strip -> "a final lost its strip ('over', {})"
+alert-before-window-kept -> alert word printed + flag set; flag-not-recomputed -> see below
+PLANT cells-precip-dropped: exit=1
+  FAIL strip: the cells are ['cx-t', 'cx-w', 'cx-r'], expected temperature, wind, precipitation, venue
+  FAIL strip: 'rain showers' is not printed
+PLANT indoor-not-muted: exit=1
+  FAIL strip: the indoor strip is not muted, wordless or numberless: <div class="cx cx-calm cx-indoor" data-cx="indoor" data-lens-only="watch"><span class="cx-line">Indoor</span></div>
+PLANT flags-not-bright: exit=1
+  FAIL strip: flags.any is true and the strip is not bright
+PLANT alert-word-dropped: exit=1
+  FAIL strip: an alert does not turn the edge red with the NWS's word
+PLANT alert-edge-grey: exit=1
+  FAIL strip: the alert's edge rule is not red in site.css
+PLANT unchecked-silent: exit=1
+  FAIL strip: alerts null does not print 'Alerts not checked'
+PLANT credit-unlinked: exit=1
+  FAIL strip: the credit is not under the strip, linked to the stadium page
+PLANT arrow-true-on-field: exit=1
+  FAIL strip: the oriented field does not carry the arrow at arrow_field_deg
+PLANT no-compass: exit=1
+  FAIL strip: a stadium with no orientation does not get the compass at arrow_true_deg
+PLANT calm-arrow: exit=0
+  
+PLANT final-loses-strip: exit=1
+  FAIL strip: a final's card lost its strip
+PLANT contrast-small-grey: exit=1
+  FAIL strip contrast: .cx-v small #7A7F88 on the light card is 4.04:1
+  FAIL strip contrast: .cx-v small #7A7F88 on the light card under #ffffff is 3.27:1
+  FAIL strip contrast: .cx-v small #7A7F88 on the light flagged cell under #ffffff is 2.81:1
+  FAIL strip contrast: .cx-v small #7A7F88 on the dark card is 4.49:1
+  FAIL strip contrast: .cx-v small #7A7F88 on the dark card under #ffffff is 3.61:1
+  FAIL strip contrast: .cx-v small #7A7F88 on the dark flagged cell under #ffffff is 3.12:1
+PLANT sprite-duplicates: exit=1
+  FAIL strip: the page does not carry the rain glyph exactly once
+PLANT calm-arrow: exit=1
+  FAIL strip: Calm draws an arrow
+PLANT peak-dropped: exit=1
+  FAIL strip: the lit wind cell does not say the window's peak
+PLANT peak-unlit: exit=1
+  FAIL strip: an unlit cell prints a peak
+PLANT cfb-page-missing: RED
+  FAIL game pages: board game 401856719 (CFB) has no page
+PLANT two-blocks: RED
+  FAIL game pages: 401872995 (forecast) has 2 conditions blocks, not one
+  FAIL game pages: 401872995 carries a second strip beside its block
+PLANT no-block: RED
+  FAIL game pages: 401872995 (forecast) has 0 conditions blocks, not one
+PLANT missing-venue-block: RED
+  FAIL game pages: 401856724 (missing) prints a conditions block
+PLANT indoor-forecast: RED
+  FAIL game pages: 401873005 is indoor and prints a forecast
+PLANT foreign-host: RED
+  FAIL game pages: 401872995 reads ['cdn.example.com'] at runtime
+PLANT title: RED
+  FAIL game pages: 401872995 title 'Seahawks at Broncos - GoCheckMySports' is not the search
+PLANT order: RED
+  FAIL game pages: 401872995 is not Ticket, where to watch, conditions
+PLANT home-unlinked: RED
+  FAIL game pages: the home's card for 401872995 does not link its page
+PLANT sitemap-dropped: RED
+  FAIL game pages: 401872995 is not in the priority sitemap
+PLANT sitemap-offboard: RED
+  FAIL game pages: /games/401872994 is in a sitemap and not on the board
+clean tree: PASS
+PLANT verify-prints-service: exit=0
+  
+PLANT verify-prints-service: exit=1
+  FAIL game pages: a verify row printed its service, or no verify chip
+PLANT quiet-written-up: exit=1
+  
+PLANT wind-meaning-dropped: exit=1
+  FAIL report: the wind and rain write-up lacks its numbers or what they usually mean
+PLANT cold-meaning-dropped: exit=1
+  FAIL report: the cold write-up lacks its number, the kicking, or the alert
+PLANT stamp-in-utc: exit=0
+  
+PLANT gate-no-banned: exit=1
+  FAIL report gate: an em dash passed
+PLANT gate-no-picks: exit=1
+  FAIL report gate: a pick passed
+PLANT gate-no-ai: exit=1
+  FAIL report gate: a mention of AI passed
+PLANT gate-no-facts: exit=1
+  FAIL report gate: a smuggled number passed
+PLANT gate-no-quiet: exit=1
+  FAIL report gate: a quiet game written up passed
+PLANT gate-no-stamp: exit=1
+  FAIL report gate: a missing NWS stamp passed
+PLANT card-weather-mark: exit=1
+  FAIL report card: a mark is missing (GoCheckMySports left, GoCheckMyWeather right)
+PLANT freeze-saturday: exit=1
+  FAIL report: the Sunday freeze is not 12:30 to 8:30 PM ET on Sundays only
+PLANT slot-last-week: exit=1
+  FAIL report slot: last week's report fills this week's slot
+PLANT quiet-written-up: exit=1
+  FAIL report: the written-up games are ['1', '2', '5', '7'], expected 1, 2, 7 (the flagged games, in board order)
+  FAIL report: the one-line games are [], expected 5
+  FAIL report gate: the a quiet game written up case could not be built (IndexError), so the report's shape is wrong
+PLANT clock-in-utc: exit=0
+  
+PLANT stamp-not-et: exit=1
+  FAIL report: the stamp reads 'Conditions by GoCheckMyWeather, from the National Weather Service. Forecasts issued 11:02 AM to 11:40 AM ET Thursday, Oct 15.'
+PLANT slot-never-filled: exit=1
+  FAIL home: with this week's report, the slot does not hold exactly the report section
+  FAIL home: the report in the slot has no title or no link to its page
+PLANT slot-extra-block: exit=1
+  FAIL home: with this week's report, the slot does not hold exactly the report section
+  FAIL home: with a report, 'Storylines' is on the page before the footer
+PLANT fixture-not-isolated: exit=1
+  FAIL home: the conditions report slot is not empty
+  FAIL home: a bd-sec block is still in the page body
