@@ -8226,36 +8226,28 @@ def _injury_case(text):
     return parts[0] if len(parts) == 1 else f"{parts[0]} ({', '.join(parts[1:])})"
 
 
-def render_game_page(g, points, board, wx, items, dateline):
-    """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
-    the desk's recent stories for both teams."""
-    ia = _ia_index(board)
-    away, home = g.get("away") or {}, g.get("home") or {}
-    inact = []
-    for key in ("away", "home"):
-        side = g.get(key) or {}
-        # H-1: this game's list, not this team's most recent one. The page was listing
-        # Week 1's inactives under a Week 2 fixture, with the names.
-        t = _ia_for_game(g, ia, key)
-        if not t:
-            continue
-        names = ", ".join(f'{p.get("name")} ({p.get("pos")})' for p in t["players"])
-        inact.append(f'<div class="gp-ia"><span class="bd-label">{esc(side.get("abbr"))}'
-                     f' inactive</span><span class="bd-read">{esc(names)}</span></div>')
-    inact_block = ""
-    if inact:
-        inact_block = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                       f'<span class="bd-eyebrow">Inactives</span></div>'
-                       f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a>'
-                       f'</div>{"".join(inact)}</section>')
+DESK_DAYS = 7   # S-2c item 2: "From the desk" carries the last seven days only
+
+
+def gp_desk_stories(g, items):
+    """S-2c item 2: "From the desk" on a game page. Stories from the last DESK_DAYS days that
+    name either team, at most four; none, and the section is absent. The Week 6 Seahawks at
+    Broncos page carried the September 16 Darnold story ("Week 2"), because the only rule was
+    the team's name and a team's name is in its stories all season."""
     # UX-4: ONLY STORIES ABOUT THESE TWO TEAMS. This matched a nickname against the
     # title or the key fact, case-insensitively, which is how a Cowboys-Giants
     # viewership story reached the Lions-Bills page. It is the same shallow key the
     # card story line had, and it takes the same rule: the full team name where the
     # desk knows it, the nickname in the HEADLINE only otherwise, and never a headline
     # whose subject is a different team in the same league.
+    since = _build_now() - datetime.timedelta(days=DESK_DAYS)
+
+    def recent(i):
+        d = _parse_utc(i)
+        return d is not None and d >= since
+
     live_items = [i for i in (items or [])
-                  if not i.get("example") and not _is_wrap(i)][:120]
+                  if not i.get("example") and not _is_wrap(i) and recent(i)][:120]
     league = (g.get("league") or "").upper()
     full, nicks = [], []
     for _side in ("away", "home"):
@@ -8282,6 +8274,32 @@ def render_game_page(g, points, board, wx, items, dateline):
         rel.append(i)
         if len(rel) == 4:
             break
+    return rel
+
+
+def render_game_page(g, points, board, wx, items, dateline):
+    """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
+    the desk's recent stories for both teams."""
+    ia = _ia_index(board)
+    away, home = g.get("away") or {}, g.get("home") or {}
+    inact = []
+    for key in ("away", "home"):
+        side = g.get(key) or {}
+        # H-1: this game's list, not this team's most recent one. The page was listing
+        # Week 1's inactives under a Week 2 fixture, with the names.
+        t = _ia_for_game(g, ia, key)
+        if not t:
+            continue
+        names = ", ".join(f'{p.get("name")} ({p.get("pos")})' for p in t["players"])
+        inact.append(f'<div class="gp-ia"><span class="bd-label">{esc(side.get("abbr"))}'
+                     f' inactive</span><span class="bd-read">{esc(names)}</span></div>')
+    inact_block = ""
+    if inact:
+        inact_block = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                       f'<span class="bd-eyebrow">Inactives</span></div>'
+                       f'<a class="bd-more" href="/fantasy/inactives.html">All lists</a>'
+                       f'</div>{"".join(inact)}</section>')
+    rel = gp_desk_stories(g, items)
     rel_block = ""
     if rel:
         rel_block = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'

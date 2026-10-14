@@ -160,11 +160,33 @@ def _record_gap(pages):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def _fade_canary(css=None):
+    """S-2c item 2: the band's fade ends on the theme's paper. Every .sb-fade background in the
+    shipped site.css ends on var(--paper); a fixed colour there ends it on one theme's paper in
+    both, and the light one made a white bar across the dark home at 1440 (production 4f026ed)."""
+    css = css if css is not None else open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                        "site", "assets", "site.css"), encoding="utf-8").read()
+    body = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    fails, n = [], 0
+    for sel, decl in re.findall(r"([^{}]+)\{([^{}]*)\}", body):
+        if ".sb-fade" not in sel or "gradient" not in decl:
+            continue
+        n += 1
+        g = re.search(r"gradient\((.*)\)", decl, re.S)
+        last = re.split(r",(?![^(]*\))", g.group(1))[-1].strip() if g else ""
+        if not last.startswith("var(--paper)"):
+            fails.append(f"home: the band's fade ({sel.strip()}) ends on {last!r}, not the theme's paper")
+    if not n:
+        fails.append("home: no .sb-fade gradient found in site.css")
+    return fails
+
+
 def home_canary():
     import build_manifest as bm
     import site_build as sb
     fails = []
     fails.extend(_intake_canary())
+    fails.extend(_fade_canary())
     u, sbd, w2w, doc = _fixture(sb)
     was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD,
            sb.WX_DATA, sb._carriage.load, sb.EDITION_HREF, sb.CR_REPORTS)

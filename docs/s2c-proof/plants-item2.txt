@@ -1,0 +1,14 @@
+baseline: status 0, 0 FAIL
+break: desk: no date rule (the S-2b behaviour)
+  status 1; RED: FAIL game pages: From the desk carries ['s2c-desk-old', 's2c-desk-new', 's2c-desk-edge'], not only the last week's story naming a team | FAIL game pages: From the desk is not empty with no story from the last seven days
+  restored from the saved copy: status 0
+break: desk: thirty days instead of seven
+  status 1; RED: FAIL game pages: From the desk carries ['s2c-desk-old', 's2c-desk-new', 's2c-desk-edge'], not only the last week's story naming a team | FAIL game pages: From the desk is not empty with no story from the last seven days
+  restored from the saved copy: status 0
+break: desk: a story naming neither team kept
+  status 1; RED: FAIL game pages: From the desk carries ['s2c-desk-new', 's2c-desk-other'], not only the last week's story naming a team | FAIL game pages: From the desk is not empty with no story from the last seven days
+  restored from the saved copy: status 0
+baseline: status 0, 0 FAIL
+break: fade: ends on the light paper again (the S-2b rule)
+  status 1; RED: FAIL home: the band's fade (.sb-fade) ends on '#FBFAF6 92%', not the theme's paper
+  restored from the saved copy: status 0

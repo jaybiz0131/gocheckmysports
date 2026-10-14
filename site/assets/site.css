@@ -1556,7 +1556,10 @@ body>*:not(.ground){position:relative;z-index:1}
    last line sits above the fade, never inside it. */
 .sb-hero{padding-bottom:150px}
 .sb-fade{height:130px;margin-top:-130px;position:relative;z-index:2;pointer-events:none;
-  background:linear-gradient(180deg, rgba(19,20,25,0), #FBFAF6 92%)}
+  background:linear-gradient(180deg, rgba(19,20,25,0), var(--paper) 92%)}
+/* S-2c item 2: the fade ends on the theme's paper. It ended on the light paper in both themes,
+   so in dark the home band dissolved into a white bar across the page (production 4f026ed,
+   1440 dark). home_canary holds the last stop to var(--paper). */
 /* D-8: the padding and the fade exist to give the ornament room. With no games in the
    ET day there is no ornament, and the same numbers left about 170px of empty
    dark-to-paper. The band carries .no-orn on those days and both come down. */
