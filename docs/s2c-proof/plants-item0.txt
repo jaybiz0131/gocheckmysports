@@ -1,0 +1,72 @@
+baseline: status 0, 0 FAIL
+break: contrast: the tile label at #5A606B
+  status 1; RED: FAIL strip contrast: .cx-k #5A606B on the light card is 2.89:1 | FAIL strip contrast: .cx-k #5A606B on the light card, a tile is 2.67:1 | FAIL strip contrast: .cx-k #5A606B on the light card under #ffffff is 2.86:1
+  restored from the saved copy: status 0
+break: contrast: the active day tab green on a pale ground
+  status 1; RED: FAIL strip contrast: the active day tab #3DDC84 on #7FB89A is 1.28:1 | FAIL strip contrast: the active day tab count #A6EFC4 on #7FB89A is 1.71:1
+  restored from the saved copy: status 0
+break: tiles: the rain tile dropped
+  status 1; RED: FAIL strip: the tiles are ['cx-t', 'cx-w'], expected kickoff, wind, rain | FAIL strip: the ring is not filled to the kickoff hour's chance | FAIL strip: the ring does not name the window's higher peak
+  restored from the saved copy: status 0
+break: muted: the indoor line loses its roof icon
+  status 1; RED: FAIL strip: the indoor HUD is not one muted, numberless line with the roof: <div class="cx cx-muted cx-indoor" data-cx="indoor" data-lens-only="watch"><svg class="cx-roof" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fo | FAIL strip: the page does not carry the roof drawing exactly once
+  restored from the saved copy: status 0
+break: bright: a flag does not light its tile
+  status 1; RED: FAIL strip: the wind flag is on and the wind tile is not lit
+  restored from the saved copy: status 0
+break: amber: the flagged card loses its border
+  status 1; RED: FAIL strip: a flagged card has no amber border | FAIL strip: a pre-game card has no HUD, or a flagged card no amber border
+  restored from the saved copy: status 0
+break: amber: an alert alone turns the card amber
+  status 1; RED: FAIL strip: an alert alone turned the card amber
+  restored from the saved copy: status 0
+break: amber: the words line amber with no flag
+  status 1; RED: FAIL strip: no flag is on and the card carries amber
+  restored from the saved copy: status 0
+break: amber rule: amber on the tile label with no flag (CSS)
+  status 1; RED: FAIL strip rules: amber on '.cx-k', which needs no flag
+  restored from the saved copy: status 0
+break: glow rule: a glow on the words line (CSS)
+  status 1; RED: FAIL strip rules: glow on '.cx p.cx-words', which is not data
+  restored from the saved copy: status 0
+PLANT NOT APPLIED (0 matches): ramp: the temperature in a fixed blue
+break: ring: filled to the remainder
+  status 1; RED: FAIL strip: the ring is not filled to the kickoff hour's chance
+  restored from the saved copy: status 0
+break: ring: the peak only on a flagged tile (the S-2b rule)
+  status 1; RED: FAIL strip: the ring does not name the window's higher peak
+  restored from the saved copy: status 0
+break: ring: a peak printed when not higher
+  status 1; RED: FAIL strip: the ring names a peak that is not higher
+  restored from the saved copy: status 0
+break: missing: a missing temperature printed as 0
+  status 1; RED: FAIL strip: a number the Worker did not give does not print as missing
+  restored from the saved copy: status 0
+break: alert: the NWS word dropped
+  status 1; RED: FAIL strip: an alert does not put the NWS's word on a red rule
+  restored from the saved copy: status 0
+break: unchecked: alerts null silent
+  status 1; RED: FAIL strip: alerts null does not print 'Alerts not checked'
+  restored from the saved copy: status 0
+break: credit: unlinked
+  status 1; RED: FAIL strip: the credit is not under the HUD, linked to the stadium page
+  restored from the saved copy: status 0
+break: arrow: drawn at the field angle
+  status 1; RED: FAIL strip: the compass arrow is not at arrow_true_deg
+  restored from the saved copy: status 0
+break: arrow: Calm draws an arrow
+  status 1; RED: FAIL strip: Calm draws an arrow, or does not say Calm
+  restored from the saved copy: status 0
+break: sprite: the arrow drawn inline on every card
+  status 1; RED: FAIL strip: the page does not carry the arrow drawing exactly once | FAIL strip: a HUD draws a path inline instead of placing the sprite
+  restored from the saved copy: status 0
+break: sprite: the drawings not appended
+  status 1; RED: FAIL strip: the page does not carry the compass drawing exactly once | FAIL strip: the page does not carry the arrow drawing exactly once | FAIL strip: the page does not carry the ring drawing exactly once
+  restored from the saved copy: status 0
+break: final: a final's card loses its HUD
+  status 1; RED: FAIL strip: a final's card lost its HUD
+  restored from the saved copy: status 0
+baseline: status 0, 0 FAIL
+break: ramp: the temperature in a fixed blue
+  status 1; RED: FAIL strip: the temperature is not in the Weather ramp's ink #54BFEB
+  restored from the saved copy: status 0
