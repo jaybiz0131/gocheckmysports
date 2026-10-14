@@ -2796,3 +2796,19 @@ table.ls .ls-t{font-weight:700;color:#fff;
   border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:13.5px;text-decoration:none}
 a.gp-svc:hover{border-color:var(--ink)}
 .gp-linec{max-width:520px}
+
+/* ---- S-2b item 3: the conditions report, in the home's slot and on its own page ---- */
+.cr{margin:28px 0 8px}
+.cr-h{font-family:var(--serif);font-size:26px;line-height:1.2;margin:6px 0 4px;color:var(--ink)}
+.cr-when{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 10px}
+.cr-page p.cr-lead,.cr p.cr-lead{font-size:17px;line-height:1.55;margin:0 0 12px;color:var(--ink)}
+.cr-list{margin:0 0 12px;padding-left:18px;line-height:1.7}
+.cr-src{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.cr-game{margin:22px 0 0}
+.cr-gh{font-family:var(--serif);font-size:21px;line-height:1.25;margin:0 0 6px}
+.cr-game p{font-size:16px;line-height:1.6;margin:0;color:var(--ink)}
+.cr-sub{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:28px 0 8px}
+.cr-quiet{margin:0;padding-left:18px;line-height:1.7;font-size:14.5px}
+.cr-list-line{font-size:14.5px;margin:12px 0 0}
+.cr-card{margin:24px 0 0}
+.cr-card img{width:100%;max-width:540px;height:auto;border-radius:10px;display:block}
