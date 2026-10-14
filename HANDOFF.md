@@ -84,6 +84,22 @@ runs from this date; the rulings it executes:
 - The September 20 rulings (the line on the cards, team colors not logos) and the September
   16 copy law stand.
 
+## Program 7, S-2b: Jack's rulings, 12 to 14 October 2026
+
+- **12 Oct:** conditions come only from GoCheckMyWeather's Worker, from the NWS; the ESPN
+  feed's weather is never read. The credit reads "Conditions by GoCheckMyWeather, NWS,
+  h:mm AM ET" and links to the Weather site's stadium page.
+- **13 Oct:** "the Watch ramp is Watch-only; every web page uses IEM's palette." This site
+  draws no radar in S-2b.
+- **13 Oct:** an international venue (Wembley) prints no conditions, one line: "Outside NWS
+  coverage".
+- **14 Oct, 7:35 AM:** merge yes on the contact sheet and the dry-run report. The Cloudflare
+  Web Analytics beacon stays on game pages, the cookie-free beacon ruled on Crypto 12 Oct, as
+  the one named exception in `gamepage_canary.ALLOWED_HOSTS`; every other host is a red. The
+  article dateline stays above the headline. `site/data/conditions.json` is ignored, never
+  committed. If the Thursday 7:17 AM cron slips (it has run four hours late), the report is
+  late but correct; the trigger is not changed.
+
 ---
 
 # Standing rules, all desks, U-1 to U-16

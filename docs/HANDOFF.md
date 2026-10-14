@@ -8,14 +8,13 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 6 October 2026, 5:20 PM ET, end of the second cloud session (its section follows the first's).
-`main` ended at the merge of the close commit (see the end section). Merged today, each
-with 0 commits outstanding: `docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`,
-`deep-url-register`, `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`. **Not
-deleted: the session's proxy refused the delete (HTTP 403), so Jack deletes the six.**
+Last updated: 14 October 2026, after the S-2b merge (`4f026ed`, Program 7). The six 6 October
+branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
+`cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`) are merged; the proxy refuses branch
+deletes, so Jack deletes them, and the S-1 and S-2b item branches with them.
 `search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac artifact. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
 this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
-`HANDOFF-2026-09-23-to-10-01.md` and `HANDOFF-2026-10-06.md`.
+`HANDOFF-2026-09-23-to-10-01.md`, `HANDOFF-2026-10-06.md` and `HANDOFF-2026-10-12.md`.
 
 ## 1. Where things live
 
@@ -127,42 +126,35 @@ deploy`). Until then the evening slot has no automatic backstop; if it has not
 published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
 and note it in the report.
 
-## Sprint S-1, the truth and the cut (Program 7; session of 12 to 13 October 2026)
+## Sprint S-2b, the conditions on the site (Program 7; session of 13 to 14 October 2026)
 
-Day history, baseline and after, carriage rows to verify, hosts, spend, and the 13 October afternoon addendum: `HANDOFF-2026-10-12.md`.
-Every push read by hash (U-8), every push behind the canary's exit status (U-14).
+S-1's section moved to `HANDOFF-2026-10-12.md` (end) on 14 October; its open items are below.
+The S-2b report is `S-2b-REPORT.md`. Every push read by hash (U-8), behind the canary (U-14).
 
 | Item | Branch tip | Merge on main |
 |---|---|---|
-| 0, one truth for counts and stamps (manifest, no "live", no duplicate ids, the week) | `5201a8f` | `eb0150e` |
-| 1, Where to Watch by day and window, `data/carriage.json` | `f45ce82` | `3282f22` |
-| 2, the home is the week board (PR 103, approved by Jack 13 October 8:15 AM ET, with the record-gap fix `76a8beb`) | `a136824` | `ed82c84` |
-| 2b, the Watch pages get the same header, bar and Edition link (found on the production read) | `ec33489` | `7c07a3c` |
-| 2c, the score and the record measured in a browser (`scripts/record-gap.mjs`, in `home_canary`) | `320dfb1` | `e4d7083` |
-| 2d, the masthead date is the build clock's day in ET on every page (`truth_canary.check_masthead_dates`) | `45315c0` | `cbf99a3` |
-| 2e, the NFL read asks for each of the next seven days, so Thursday leads the board (`home_canary._intake_canary`) | `b114fdb` | `3b11d14` |
-| 3, the desk's jobs (brief off, conditions report stub) | `273aafd` | `66b729a` |
-| 4, the small truths | `7a763c1` | `d898749` |
-| 5, archive and index | no branch | IndexNow sent twice, 7 URLs then 8 with `/archive`, both HTTP 200; sitemaps regenerate in every build; the register needed no new page |
+| 0, the intake: `conditions.py`, `site/data/conditions.json` (ignored), `kickoff_weather.py` retired | `5232473` | `849649c` |
+| 1, the strip on every card: `wx_glyphs.py` (the Weather glyphs, generated), contrast held | `7fac7a8` | `4b6c33f` |
+| 2, game pages: the conditions block and hourly line; FBS board games get pages; board pages in the priority sitemap | `57f7ebe` | `cc068fa` |
+| 3, the report: `conditions_report.py`, `conditions-report.yml` (Thu 11:17, Sat 21:17, Sun 10:17 UTC), share card | `eb43403` | `4f026ed` |
 
-- **Jack's:** deploy the Worker line below; read the six `verify` carriage rows and the
-  regional maps link; supply the affiliate links; keep the Sunday 1:30 PM glance until S-4.
-- **Worker line (the Worker is outside this repository and was not read):** in
-  `../gcm-newsroom/slot-trigger/`, remove the sports `sports-news-brief.yml` dispatch windows
-  (the evening slot at 23:38 UTC and its 23:48 to 05:00 recovery, and any breaking dispatch);
-  keep the five-minute tick for `inactives.yml` and the deploy-counter routes. Until then each
-  dispatch starts a run whose job skips, because it is gated on the repository variable
-  `NEWSROOM_JOBS`. If that variable exists and is "on", delete it: it could not be read here.
-- **Open, S-2:** the conditions Worker and the stadium table in the Weather repository first,
-  then on this one the strip, the block, the week board and the report (`conditions_report.py`
-  is the stub, Thursday 11:17 UTC).
-- **Open, found in S-1:** the home board draws the feed's default college slate (16 games for
-  Oct 17 to 18) while Where to Watch lists every FBS game of the week (58 on Oct 6 to 12); the
-  board needs the per-day group-80 read (as 2e did for the NFL) before it can claim "every FBS
-  game". The masthead date and the NFL intake were fixed on the desk's own pages only: Crypto
-  and News share the chassis and were not touched (CLAUDE.md: a shared fix belongs in all three).
-- **Trap, again:** the gate restores every tracked file that was clean when it started, so a
-  document edited during a gate is wiped. Item 0's handoff edit was lost that way and redone.
+- One push, `98ec496..4f026ed`, 7:43 AM ET 14 Oct; production read by stamp `4f026ed` at 390
+  and 1440; count 2 ready that day after it; IndexNow 32 URLs, HTTP 200. PR 104 (the preview,
+  with the dry-run report) closed unmerged. The item branches are left for Jack to delete.
+- **Canaries:** `conditions_canary`, `strip_canary`, `gamepage_canary`, `report_canary`, and
+  `home_canary._report_slot_canary`; `jobs_canary` holds the three report crons.
+- **The report calls no model.** It is written by template from the Worker's numbers, and its
+  gate holds every number in a write-up to that game's own data. Each run that writes is a build.
+- **Thursday 15 Oct, 7:17 AM EDT:** the first live report. Read it on production by stamp
+  (`/conditions/2026-10-15-thu.html` and the home slot). Late is fine; wrong is not.
+- **Open, Jack's:** the six `verify` carriage rows and the regional maps link; the Worker line
+  for the brief's dispatch and `NEWSROOM_JOBS`; the affiliate links; DKR-Texas Memorial and
+  TDECU have no coordinates in the Weather table, so those games print nothing (Weather desk).
+- **Open, the desk's:** the board's college slate is the feed's default group, not every FBS
+  game; the masthead and intake fixes are not on Crypto or News; the old weather helpers
+  (`_wx_chip`, `_w2w_wx`, the weather half of `_tk_venue`) are inert and can go.
+- **Trap, twice in S-2b:** `.lx p` (17px) and the page's `h2` outrank a one-class rule. Give a
+  new `<p>` or `<h2>` a selector with a parent class.
 
 ## Search
 
