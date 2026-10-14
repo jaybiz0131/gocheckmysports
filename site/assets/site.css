@@ -2716,47 +2716,70 @@ table.ls .ls-t{font-weight:700;color:#fff;
   .tm-abbr{display:inline}
 }
 
-/* ---- S-2b item 1: THE CONDITIONS STRIP (Program 7, section 3) -------------------------
-   One line on every game card, in GoCheckMyWeather's glyphs and colours, on the Ticket's dark
-   ground in both themes. The left rule carries the state: quiet when no number matters, the
-   Weather site's sun when one does, red with the NWS's own word when an alert is in force.
-   Every text colour here is held at 4.5:1 or better on the card's lightest composite ground by
-   cx_canary (light and dark paper, under the brightest team wash). */
-.cx{border-left:3px solid rgba(235,233,227,.22);padding:7px 10px 7px 10px;display:flex;
-  flex-direction:column;gap:5px;font-size:12.5px;color:#EBE9E3;
-  background:rgba(19,20,25,.66);border-radius:0 6px 6px 0}
-.cx-cells{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
-.cx-c{display:inline-flex;align-items:center;gap:6px;min-width:0;border-radius:6px}
-.cx-v{display:inline-flex;flex-direction:column;line-height:1.15}
-.cx-v b{font-family:var(--mono);font-weight:700;font-size:14px;color:#EBE9E3}
-.cx-v small{font-size:11px;color:#C3C7CE}
-.cx-g,.cx .wxi{flex:0 0 auto}
-.cx-field .cx-fld{fill:none;stroke:rgba(235,233,227,.55);stroke-width:1.2}
-.cx-field .cx-ez{fill:rgba(235,233,227,.18)}
-.cx-field .cx-n{fill:#C3C7CE}
-.cx-field .cx-arr line{stroke:#EBE9E3;stroke-width:2.2;stroke-linecap:round}
-.cx-field .cx-arr path{fill:#EBE9E3}
-.cx-bright{border-left-color:#F5B83F}
-.cx-c.on{background:rgba(245,184,63,.07);box-shadow:0 0 0 4px rgba(245,184,63,.07)}
-.cx-c.on .cx-v b{color:#FFD569}
-.cx-c.on .cx-arr line{stroke:#FFD569}
-.cx-c.on .cx-arr path{fill:#FFD569}
-.cx-alert{border-left-color:#E8615A}
-.cx-aw{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;color:#F0877F}
-.cx-nc{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#C3C7CE}
-.cx-muted{border-left-color:rgba(235,233,227,.12)}
-.cx-line{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:#C3C7CE}
-.cx p.cx-credit{margin:0;font-size:10.5px;line-height:1.35;color:#C3C7CE}
-.cx-credit a{color:#C3C7CE;text-decoration:underline;text-decoration-color:rgba(195,199,206,.45);
+/* ---- S-2c item 0: THE CONDITIONS HUD (Jack's approval of 14 October, the Main artboard) ----
+   Three tiles under each card's Ticket on the HUD's own near-black ground, the same in both
+   themes: the kickoff temperature, the wind on a compass, the rain on a ring. The rulings of
+   14 October: glow is on data only (the big numbers, the arrow, the ring; never a label, the
+   words or a link), amber #FFB03D means the Worker's flags say a number matters and nothing
+   else, and the temperature takes the Weather site's ramp (set inline from CX_TEMP_INK). Every
+   text colour here is held at 4.5:1 or better on the HUD's grounds, glow not counted, by
+   strip_canary. The arrow, the compass, the ring and the roof are one sprite per page. */
+.cx{background:rgba(17,20,26,.97);border-radius:12px;padding:10px 10px 10px;display:flex;
+  flex-direction:column;gap:8px;font-size:12.5px;color:#EEF1F5;
+  border:1px solid rgba(255,255,255,.06)}
+.cx-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cx-tile{border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);
+  padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;
+  text-align:center}
+.cx-k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A9B0BC}
+.cx-big{font-family:var(--mono);font-size:34px;font-weight:700;line-height:1.1;color:#EEF1F5}
+.cx-glow{text-shadow:0 0 14px color-mix(in srgb,currentColor 75%,transparent),
+  0 0 32px color-mix(in srgb,currentColor 35%,transparent)}
+.cx-w .cx-big{font-size:30px}
+.cx-w .cx-big.cx-glow{text-shadow:0 0 12px rgba(238,241,245,.35)}
+.cx .cx-big.cx-calm{font-size:22px;line-height:1.55}
+.cx .cx-big.cx-miss{font-size:13px;font-weight:600;line-height:2.6;color:#C9CED8}
+.cx-s{font-size:12px;line-height:1.3;color:#C9CED8}
+.cx-wrow{display:flex;align-items:center;gap:6px}
+.cx-arw{flex:0 0 auto;color:#EEF1F5;filter:drop-shadow(0 0 4px rgba(238,241,245,.45))}
+.cx-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;color:#8EC9E8}
+.cx-ring svg{position:absolute;inset:0;filter:drop-shadow(0 0 5px rgba(142,201,232,.7))}
+.cx-ring .cx-arc{fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round}
+.cx-ring b{position:relative;font-family:var(--mono);font-size:13px;font-weight:700;color:#8EC9E8}
+.cx-ring.cx-miss b{font-size:9px;font-weight:600;color:#C9CED8}
+/* amber: only where a flag is on */
+.cx-tile.on{background:rgba(255,176,61,.08);border-color:rgba(255,176,61,.35)}
+.cx-tile.on .cx-k,.cx-tile.on .cx-s{color:#FFCF86}
+.cx-w.on .cx-big{color:#FFB03D}
+.cx-w.on .cx-big.cx-glow{text-shadow:0 0 14px rgba(255,176,61,.7)}
+.cx-w.on .cx-arw{color:#FFB03D;filter:drop-shadow(0 0 5px rgba(255,176,61,.9))}
+.cx p.cx-words{margin:2px 6px 0;font-size:14px;font-weight:600;line-height:1.35;color:#DCE3EC}
+.cx p.cx-words.on{color:#FFCF86}
+.cx p.cx-meta{margin:0 6px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;
+  font-family:var(--mono);font-size:11px;line-height:1.4;letter-spacing:.04em;text-transform:uppercase;color:#A9B0BC}
+.cx p.cx-meta span:last-child{margin-left:auto;text-align:right}
+.cx p.cx-credit{margin:0 6px 2px;font-size:12px;line-height:1.35;color:#C9CED8}
+.cx-credit a{color:#8EC9E8;text-decoration:underline;text-decoration-color:rgba(142,201,232,.45);
   text-underline-offset:2px}
-.cx-credit a:hover{color:#EBE9E3}
-.cx-lg{font-size:14px;padding:10px 14px 10px 14px;gap:8px}
-.cx-lg .cx-cells{gap:10px 22px}
-.cx-lg .cx-v b{font-size:20px}
-.cx-lg .cx-v small{font-size:12.5px}
-.cx-lg p.cx-credit{font-size:11.5px}
-@media (max-width:420px){.cx-cells{gap:6px 12px}}
+.cx-credit a:hover{color:#BFE3F5}
+/* the flagged card: the amber border and the outer glow */
+.tk-c.cx-flag{border-color:rgba(255,176,61,.45);
+  box-shadow:0 0 0 1px rgba(255,176,61,.12),0 0 32px rgba(255,176,61,.18),0 20px 40px -20px rgba(0,0,0,.8)}
+/* an alert: the NWS's own word on a red rule */
+.cx-alert{border-left:3px solid #E8615A}
+.cx-aw{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#F0877F;padding:0 6px}
+.cx-nc{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#C9CED8;padding:0 6px}
+/* indoor, outside NWS coverage and later: one muted line */
+.cx-muted{flex-direction:row;align-items:center;gap:10px;padding:12px 14px;background:rgba(17,20,26,.97)}
+.cx-roof{flex:0 0 auto;color:#A9B0BC}
+.cx-line{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A9B0BC}
+@media (max-width:420px){.cx-tile{padding:10px 4px}.cx-big{font-size:30px}.cx-w .cx-big{font-size:26px}}
+/* the day tabs: the active day is the green one (Jack, 14 October) */
+.wb-tabs .tk-tab.on{background:#193028;color:#3DDC84;
+  box-shadow:inset 0 0 0 1px rgba(61,220,132,.55),0 0 18px rgba(61,220,132,.25)}
+.wb-tabs .tk-tab.on:hover{color:#3DDC84}
+.wb-tabs .tk-tab.on small{opacity:1;color:#A6EFC4}
 
 /* ---- S-2b item 2: the game page's conditions block, in the Weather hour-strip style ----
    The panel is the Ticket's dark ground in both themes, so the strip's inks hold here too. */
