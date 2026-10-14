@@ -8962,10 +8962,9 @@ def _first_stream_chip(g, carriers, doc, today):
     return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
 
 
-def week_board(sb):
-    """The week's NFL and FBS games in kickoff order on the Ticket cards, under a band with
-    the day tabs and the Sunday windows. Every count is the manifest's. Returns
-    (band_html, board_html); both are '' when the feed gave no game."""
+def board_games(sb):
+    """The week board's games: NFL and CFB inside the manifest's week, as (kickoff, game) in
+    kickoff order. The board and the conditions intake both read this list."""
     games = []
     ws = _bm.week_start(_build_now())
     we = ws + datetime.timedelta(days=7)
@@ -8977,6 +8976,14 @@ def week_board(sb):
             if k and ws <= k < we:
                 games.append((k, g))
     games.sort(key=lambda kg: (kg[0], str(kg[1].get("id"))))
+    return games
+
+
+def week_board(sb):
+    """The week's NFL and FBS games in kickoff order on the Ticket cards, under a band with
+    the day tabs and the Sunday windows. Every count is the manifest's. Returns
+    (band_html, board_html); both are '' when the feed gave no game."""
+    games = board_games(sb)
     m = _mf()
     ia = _ia_index(IA_BOARD)
     carriers = _w2w_carriers_by_id()
@@ -9221,7 +9228,8 @@ IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
 LINES_DATA = None    # set at build by lines.log(): the line at open per game
-WX_DATA = None       # set at build by kickoff_weather.load()
+WX_DATA = None       # retired with kickoff_weather.py (S-2b item 0); always None
+CX_DATA = None       # set at build by conditions.refresh(): the Worker's slices per game id
 LIVE_POINTS = {}     # set at build: fantasy points per game id, for live/final cards
 LIVE_WP = {}         # set at build: ESPN's win probability, LIVE games only (C-3)
 ALL_ITEMS = []       # set at build: the published story pool the card story line draws
@@ -10440,17 +10448,11 @@ def build():
     except Exception as _e:
         print(f"where_to_watch: unavailable ({type(_e).__name__}); page and nav withheld")
     W2W_LIVE = bool(_w2w and (_w2w.get("weeks") or []))
-    # S-B5: kickoff weather from NWS. It reads the schedule file, so it runs after
-    # where_to_watch.refresh() writes it and BEFORE the schedule pages render: the
-    # first ordering had the pages asking an empty WX_DATA for a reading.
+    # S-2b item 0: kickoff_weather.py is retired. Conditions come from the GoCheckMyWeather
+    # Worker only, read once per build below, after the scoreboard, because the week board's
+    # games are what it reads for.
     global WX_DATA
     WX_DATA = None
-    try:
-        import kickoff_weather as _wxmod
-        _wxmod.refresh()
-        WX_DATA = _wxmod.load()
-    except Exception as _e:
-        print(f"kickoff_weather: unavailable ({type(_e).__name__}); weather withheld")
 
     W2W_DATA = _w2w if W2W_LIVE else None
     # S-A: the Scoreboard band's own data. scores_pulse.py is frozen and writes a
@@ -10474,6 +10476,20 @@ def build():
     _bm.dump(MANIFEST, os.path.join(PUBLISH, "build-manifest.json"))
     print(f"manifest: {MANIFEST['stamp']}, date {MANIFEST['date']}, week {MANIFEST['week']}, "
           f"{MANIFEST['slate']['date']['total']} today, {MANIFEST['slate']['week']['total']} this week")
+
+    # S-2b item 0: the week board's conditions. /stadiums once, /game once per NFL and FBS
+    # game on the board; written to site/data/conditions.json and published beside the
+    # manifest. A Worker failure costs the strips and nothing else.
+    global CX_DATA
+    CX_DATA = None
+    try:
+        import conditions as _cxmod
+        CX_DATA = _cxmod.refresh([g for _k, g in board_games(SB_DATA)])
+        os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+        with open(os.path.join(PUBLISH, "data", "conditions.json"), "w", encoding="utf-8") as _f:
+            json.dump(CX_DATA, _f, indent=1, sort_keys=True)
+    except Exception as _e:
+        print(f"conditions: unavailable ({type(_e).__name__}: {_e}); strips withheld")
 
     # C-1: log the line while the game is still scheduled, because the feed drops its
     # odds object at kickoff and a line nobody logged before then is gone for good.
