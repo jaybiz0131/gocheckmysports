@@ -10275,10 +10275,16 @@ def wall_row(g):
         wx = f'<span class="wl-pl wl-one">{esc(note)}</span>'
     a, h = g.get("away") or {}, g.get("home") or {}
     lab = gp_title(g)
+    # S-3a item 3 (the S-2d close): a row lit ONLY by an alert shows why, in a plate under it: the
+    # alert's own name when it is short, ALERT when it is not. A row lit by a number needs none.
+    why = ""
+    if st == "forecast" and lit and not cx_number_flags(e) and e.get("alerts"):
+        ev = (e["alerts"][0].get("event") or "").strip()
+        why = f'<span class="wl-pl wl-alert">{esc(ev if 0 < len(ev) <= 20 else "Alert")}</span>'
     inner = (f'<span class="wl-bulb{" on" if lit else ""}" aria-hidden="true"></span>'
              f'<span class="wl-pl wl-tm">{esc(a.get("abbr") or "")}</span><span class="wl-at">at</span>'
              f'<span class="wl-pl wl-tm">{esc(h.get("abbr") or "")}</span><span class="wl-when">{esc(when)}</span>'
-             f'{wx}<span class="sr-only">{" weather matters" if lit else ""}</span>')
+             f'{wx}{why}<span class="sr-only">{" weather matters" if lit else ""}</span>')
     href = _game_href(g) if _has_game_page(g) else ""
     tag, attr = ("a", f' href="{esc(href)}" aria-label="{esc(lab)}"') if href else ("div", "")
     return (f'<{tag} class="wl-row{" wl-lit" if lit else ""}" data-wall-gid="{esc(str(g.get("id")))}"{attr}>'

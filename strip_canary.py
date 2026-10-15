@@ -437,6 +437,11 @@ def check_wall(css=None):
             fails.append("wall: a row does not carry its temperature and rain")
         if '<span class="wl-pl wl-one">Dome</span>' not in w or '<span class="wl-pl wl-one">London</span>' not in w:
             fails.append("wall: a dome or outside coverage is not one plate")
+        r5 = w[w.find('data-wall-gid="5"'):w.find("</a>", w.find('data-wall-gid="5"'))]
+        if '<span class="wl-pl wl-alert">Freeze Watch</span>' not in r5:
+            fails.append("wall: a row lit only by an alert does not say why in its plates")
+        if "wl-alert" in r1 or "wl-alert" in r2:
+            fails.append("wall: a row with no alert, or lit by a number, carries an alert plate")
         if "Saturday, Oct 17" not in w:
             fails.append("wall: the college wall is not titled by its day")
     finally:
