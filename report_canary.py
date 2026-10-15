@@ -175,6 +175,16 @@ def check():
     sat1 = datetime.datetime(2026, 10, 17, 17, 0, tzinfo=UTC)
     if not cr.in_freeze(sun1) or cr.in_freeze(sun6) or cr.in_freeze(sat1):
         fails.append("report: the Sunday freeze is not 12:30 to 8:30 PM ET on Sundays only")
+    # catch-up: a late or repeated scheduled run for a slot already published is a no-op
+    with tempfile.TemporaryDirectory() as td:
+        if not hasattr(cr, "already_published") or cr.already_published(rep["id"], td):
+            fails.append("report catch-up: an empty directory reads as already published (or the check is missing)")
+        else:
+            open(os.path.join(td, rep["id"] + ".json"), "w").write("{}")
+            if not cr.already_published(rep["id"], td):
+                fails.append("report catch-up: a slot with its report on disk would be published twice")
+            if cr.already_published(rep["id"].replace("thu", "sat"), td):
+                fails.append("report catch-up: one slot's report stands in for another slot's")
     # slot
     was = (sb.CR_REPORTS, sb._NOW_CACHE)
     try:
