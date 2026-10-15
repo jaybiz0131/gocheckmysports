@@ -28,6 +28,11 @@
   font-display:swap;src:url('/assets/fonts/plexmono-400.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;
   font-display:swap;src:url('/assets/fonts/plexmono-700.woff2') format('woff2')}
+/* S-2d: Oswald for the scoreboard look, 500 to 700 only, subset to capitals, figures and the
+   punctuation the plates print (scripts/oswald_subset.py); every Oswald surface is set in
+   capitals by CSS, so the subset holds no lower case. */
+@font-face{font-family:'Oswald';font-style:normal;font-weight:500 700;
+  font-display:swap;src:url('/assets/fonts/oswald.woff2') format('woff2')}
 
 /* THE MASTHEAD DOES NOT MOVE WHEN THE SERIF LANDS. Measured from the two fonts' own
    tables rather than guessed: Georgia matches Newsreader to 0.3 percent on the
@@ -2778,11 +2783,6 @@ table.ls .ls-t{font-weight:700;color:#fff;
 .cx-roof{flex:0 0 auto;color:#A9B0BC}
 .cx-line{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A9B0BC}
 @media (max-width:420px){.cx-tile{padding:10px 4px}.cx-big{font-size:30px}.cx-w .cx-big{font-size:26px}}
-/* the day tabs: the active day is the green one (Jack, 14 October) */
-.wb-tabs .tk-tab.on{background:#193028;color:#3DDC84;
-  box-shadow:inset 0 0 0 1px rgba(61,220,132,.55),0 0 18px rgba(61,220,132,.25)}
-.wb-tabs .tk-tab.on:hover{color:#3DDC84}
-.wb-tabs .tk-tab.on small{opacity:1;color:#A6EFC4}
 
 /* ---- S-2c item 1: the game page's kickoff-conditions hero (SportsGamePhone, SportsGameDesktop) --
    Dark in both themes, like the Ticket. On a phone the field sits beside the big temperature and
@@ -2922,3 +2922,96 @@ a.gp-svc:hover{border-color:var(--ink)}
 .cr-page p.cr-list-line{font-size:14.5px;margin:12px 0 0}
 .cr-card{margin:24px 0 0}
 .cr-card img{width:100%;max-width:540px;height:auto;border-radius:10px;display:block}
+
+
+/* ---- S-2d item 0: THE BOARD CARD AS A SCOREBOARD (Jack, 14 October 2026, 3:11 PM ET) ----------
+   ScoreboardBoard.dc.html is the spec. Deep green panels (#0E3B2A) in a darker green frame
+   (#072619), dark number plates (#141A17) with an inset shadow, cream numerals and names
+   (#F4F1E6) in Oswald, scoreboard yellow (#FFD23F) for labels, the kickoff line and lit bulbs,
+   Plex Mono for small labels. The boards stay green in both themes; the page ground around
+   them follows the theme. Yellow means a Worker flag is on and nothing else: a lit bulb, the
+   plate that matters, the board's edge, the words line under a wind flag. Glow is on lit bulbs,
+   the plate that matters, the active day and the board's edge, never on text that is not data.
+   Every text colour here clears 4.5:1 (3:1 at 24px and up) on the panel, the frame and a plate,
+   glow not counted (strip_canary). The artboard's off-bulb #8E8A6E is 3.58:1 on the panel;
+   the labels take #A7A285 (4.86:1). */
+:root{--sbc-panel:#0E3B2A;--sbc-frame:#072619;--sbc-plate:#141A17;--sbc-cream:#F4F1E6;
+  --sbc-yellow:#FFD23F;--sbc-q:26px;--sbc-t:34px;
+  --sbc-display:'Oswald',Impact,'Arial Narrow',sans-serif}
+.tk-c.sbc{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;padding:12px;
+  gap:10px;color:var(--sbc-cream);overflow:visible;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 34px -18px rgba(0,0,0,.9);
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.tk-c.sbc::before{content:none}
+.tk-c.sbc.sbc-lit,.tk-c.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2px rgba(255,210,63,.55),
+  0 0 26px rgba(255,210,63,.25)}
+.sbc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sbc-kick{color:var(--sbc-yellow);min-width:0;flex:1 1 auto}
+.sbc-chips{display:inline-flex;gap:6px;flex:0 0 auto}
+.sbc-chip{padding:3px 7px;border-radius:3px;background:var(--sbc-plate);color:var(--sbc-cream);white-space:nowrap}
+.sbc-ls{display:grid;gap:4px;align-items:center;text-align:center}
+.sbc-h{font-family:var(--mono);font-size:10px;font-weight:700;color:#D9D3B4}
+.sbc-h.sbc-th{color:var(--sbc-yellow)}
+.sbc-team{text-align:left;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);min-width:0;
+  font-family:var(--sbc-display);font-size:20px;font-weight:600;line-height:1.2;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--sbc-cream);overflow-wrap:anywhere}
+.sbc-team b{font-weight:600}
+.sbc-team small{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0;color:#B8B293}
+.sbc-pl{height:32px;border-radius:3px;background:var(--sbc-plate);box-shadow:inset 0 2px 4px rgba(0,0,0,.7);
+  display:flex;align-items:center;justify-content:center;font-family:var(--sbc-display);font-size:19px;
+  font-weight:600;color:var(--sbc-cream)}
+.sbc-pl.sbc-tot{font-size:20px}
+.sbc-pl.sbc-lose{color:#8E8A6E}
+.sbc .tk-line{margin:0;padding:0;background:none;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  color:#D9D3B4;display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;
+  gap:2px 10px;text-align:left}
+.sbc .tk-line span{color:#D9D3B4}
+.sbc-wx{display:flex;flex-direction:column;gap:10px}
+.tk-c:not(.sbc) .sbc-wx{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:10px;
+  padding:10px;color:var(--sbc-cream)}
+.sbc-wps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.sbc-wp{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.sbc-k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sbc-yellow)}
+.sbc-big{width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:4px 0;border-radius:3px;background:var(--sbc-plate);box-shadow:inset 0 2px 4px rgba(0,0,0,.7);
+  font-family:var(--sbc-display);font-size:30px;line-height:1.2;font-weight:600;text-transform:uppercase;
+  color:var(--sbc-cream)}
+.sbc-arw{flex:0 0 auto;color:currentColor}
+.sbc-miss{font-family:var(--mono);font-size:12px;font-weight:500;line-height:2.4;text-transform:none;color:#D9D3B4}
+.sbc-s{font-size:11px;line-height:1.3;color:#D9D3B4;min-height:1.3em;text-align:center}
+.sbc-wp.on .sbc-big{color:var(--sbc-yellow);text-shadow:0 0 12px rgba(255,210,63,.7)}
+.sbc-wp.on .sbc-arw{filter:drop-shadow(0 0 5px rgba(255,210,63,.8))}
+.sbc-bulbs{display:flex;align-items:center;justify-content:space-between;gap:6px;font-family:var(--mono);
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A7A285}
+.sbc-bulb{display:flex;align-items:center;gap:4px}
+.sbc-bulb i{width:10px;height:10px;border-radius:50%;background:#3B3A22}
+.sbc-bulb.on{color:var(--sbc-yellow)}
+.sbc-bulb.on i{background:var(--sbc-yellow);box-shadow:0 0 8px #FFD23F,0 0 18px rgba(255,210,63,.6)}
+.sbc p.sbc-words,.sbc-wx p.sbc-words{margin:0;font-size:13px;line-height:1.4;color:var(--sbc-cream)}
+.sbc-wx p.sbc-words.on>span:first-child{font-weight:600;color:#FFE680}
+.sbc-credit a{font-size:12px;color:var(--sbc-yellow);text-decoration:underline;
+  text-decoration-color:rgba(255,210,63,.45);text-underline-offset:2px}
+.sbc-credit a:hover{color:#FFE680}
+.sbc-wx p.sbc-aw{margin:0;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--sbc-cream)}
+.sbc-wx p.sbc-nc{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#D9D3B4}
+.sbc-wx p.sbc-one{margin:0;text-align:center;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);
+  font-family:var(--sbc-display);font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#B8B293}
+.sbc p.sbc-fact{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#D9D3B4}
+.sbc .tk-card-a:focus-visible{outline:2px solid #FFD23F}
+@media (max-width:360px){.sbc-team{font-size:17px}.sbc-big{font-size:26px}:root{--sbc-q:22px}}
+/* the day tabs as plates in a green panel: the active day's text yellow, with a soft glow */
+.sb-tabrow .wb-tabs{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:100%;
+  box-sizing:border-box;max-width:560px;gap:6px;padding:6px;overflow:visible;
+  border-radius:10px;background:var(--sbc-panel);border:3px solid var(--sbc-frame);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.wb-tabs .tk-tab{border-radius:4px;background:var(--sbc-plate);color:var(--sbc-cream);padding:6px 0 5px;
+  font-family:var(--sbc-display);font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
+.wb-tabs .tk-tab small{font-family:var(--mono);font-size:10px;font-weight:500;opacity:1;color:#B8B293}
+.wb-tabs .tk-tab.on{background:var(--sbc-plate);color:var(--sbc-yellow);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7),0 0 14px rgba(255,210,63,.35)}
+.wb-tabs .tk-tab:hover,.wb-tabs .tk-tab.on:hover{color:#FFE680}

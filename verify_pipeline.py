@@ -1578,7 +1578,7 @@ def layer1_canary():
     import conditions_canary as _cxc
     fails.extend(_cxc.conditions_canary())   # S-2b item 0: the conditions intake
     import strip_canary as _stc
-    fails.extend(_stc.strip_canary())   # S-2b item 1: the conditions strip on every card
+    fails.extend(_stc.strip_canary(_built_tree()))   # S-2b/S-2d item 0: the conditions on every card
     import gamepage_canary as _gpc
     fails.extend(_gpc.gamepage_canary(_built_tree()))   # S-2b item 2: the game pages
     import report_canary as _rpc
