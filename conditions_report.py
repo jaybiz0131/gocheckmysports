@@ -439,11 +439,19 @@ def in_freeze(now):
     return et.weekday() == 6 and (12, 30) <= (et.hour, et.minute) < (20, 30)
 
 
+def already_published(rid, directory=REPORTS):
+    """True when this slot's report is already on disk. The workflow carries catch-up crons because
+    GitHub's scheduler delivered no run at all for the 15 Oct Thursday slot; a repeat for a slot
+    that has its report publishes nothing and costs no build."""
+    return os.path.exists(os.path.join(directory, f"{rid}.json"))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--publish", action="store_true")
     ap.add_argument("--out")
+    ap.add_argument("--force", action="store_true", help="rewrite a slot that already has its report")
     a = ap.parse_args(argv)
     if not (a.dry_run or a.publish):
         ap.print_help()
@@ -451,6 +459,11 @@ def main(argv=None):
     now = datetime.datetime.now(datetime.timezone.utc)
     if a.publish and in_freeze(now):
         print("conditions report: inside the Sunday freeze (12:30 to 8:30 PM ET); nothing published")
+        return 0
+    et = now.astimezone(ET)
+    rid = f"{et.date().isoformat()}-{SLOTS.get(et.weekday(), 'extra')}"
+    if a.publish and not a.force and already_published(rid):
+        print(f"conditions report: {rid} is already published; nothing to do")
         return 0
     games, data = board(now)
     rep = write(games, data, now)

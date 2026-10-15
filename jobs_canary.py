@@ -22,7 +22,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 WF = os.path.join(HERE, ".github", "workflows")
 # the live cron lines each workflow keeps, exactly: nothing gained, nothing lost
-EXPECTED = {"conditions-report.yml": 3, "inactives.yml": 5, "janitor.yml": 1,
+EXPECTED = {"conditions-report.yml": 9, "inactives.yml": 5, "janitor.yml": 1,
             "sports-aging.yml": 1, "verify-sports-pipeline.yml": 1}
 
 
@@ -73,10 +73,14 @@ def jobs_canary():
 
     cr = files.get("conditions-report.yml", "")
     cc = sorted(_crons(cr))
-    want = sorted(["17 11 * * 4", "17 21 * * 6", "17 10 * * 0"])
+    # each slot has the primary and two catch-ups: GitHub delivered no run at all for the 14 Oct
+    # primary (15 Oct 7:17 AM EDT), and conditions_report.py publishes a slot once, so a repeat is free
+    want = sorted(["17 11 * * 4", "47 12 * * 4", "17 14 * * 4",
+                   "17 21 * * 6", "47 22 * * 6", "47 23 * * 6",
+                   "17 10 * * 0", "17 11 * * 0", "17 12 * * 0"])
     if cc != want:
         fails.append(f"jobs: the conditions report crons are {cc}, expected {want} "
-                     "(Thu 7:17 AM, Sat 5:17 PM, Sun 6:17 AM EDT)")
+                     "(Thu 7:17 AM, Sat 5:17 PM, Sun 6:17 AM EDT, each with two catch-ups)")
     for c in cc:
         m = re.fullmatch(r"(\d+) (\d+) \* \* 0", c)
         if m and int(m.group(2)) >= 15:
