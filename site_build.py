@@ -5020,6 +5020,10 @@ def sbc_weather(g, e):
     if st == "indoor":
         return ('<div class="sbc-wx" data-cx="indoor" data-lens-only="watch">'
                 '<p class="sbc-one">Dome · No weather</p></div>'), False
+    if st == "roofed":
+        # S-3a (15 October): a roofed stadium reads like a dome row, with the roof's own words
+        return ('<div class="sbc-wx" data-cx="roofed" data-lens-only="watch">'
+                f'<p class="sbc-one">{esc(w.get("line") or "")}</p></div>'), False
     if st == "outside_nws":
         city = g.get("venue_city") or ((e.get("stadium") or {}).get("city")) or ""
         return ('<div class="sbc-wx" data-cx="outside" data-lens-only="watch">'
@@ -5079,7 +5083,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     e = cx_entry(g)
     wx, lit = sbc_weather(g, e)
     roof = ""
-    if e and e.get("status") == "forecast" and ((e.get("roof") or "") == "retractable"
+    if e and e.get("status") in ("forecast", "roofed") and ((e.get("roof") or "") in ("retractable", "fixed")
                                                 or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
         roof = '<span class="sbc-chip sbc-roof">Roof</span>'
     net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
@@ -6375,35 +6379,248 @@ def _team_row(e, colors):
             f'<td class="tm-r">{res}</td><td class="tm-n">{net}</td></tr>')
 
 
+# ---- S-3a item 1: THE TEAM PAGES (Program 7, section 3) -----------------------------------------
+# One per NFL team and the top forty college programs, in the S-2d scoreboard look: the next game's
+# full card, the last result, the schedule as a scoreboard (where to watch each game, and the
+# TEMP, WIND and RAIN plates once the game is in the Worker's range), the record and standing,
+# and the team's conditions log. NFL pages live at /teams/<abbr>.html, as they have since S-L2.
+# College pages live at /teams/cfb/<school-slug>.html: an abbreviation is not an identity across
+# leagues (MIA is the Dolphins and the Hurricanes), so the two never share a path.
+
+COND_LOG = []            # set at build: every logged game, one per id (teams.merge_logs)
+COND_LOG_SINCE = ""      # the date of the earliest report the log reads, for its footnote
+CFB_PROGRAMS = []        # set at build: teams.top_programs
+
+
+def _cond_log_build(sb_data):
+    """The log: every report's logged games, then the live board's, the latest reading winning."""
+    import teams as _teams
+    reps = [r.get("log") or [] for r in (CR_REPORTS or [])]
+    live = []
+    for _k, g in board_games(sb_data):
+        ent = _teams.log_entry(g, cx_entry(g))
+        if ent:
+            live.append(ent)
+    since = min((r.get("date") or "" for r in (CR_REPORTS or []) if r.get("date")), default="")
+    return _teams.merge_logs(*reps, live), since
+
+
+def _tms_when(utc, clock=True):
+    d = _utc_dt(utc or "")
+    if not d:
+        return ""
+    t = d.astimezone(_ET)
+    return f'{t.strftime("%a %b")} {t.day}' + (f' \u00b7 {_et_clock(d)}' if clock else "")
+
+
+def _tms_wx(game_id):
+    """The three plates for a game inside the Worker's range, or one plate saying why not.
+    Returns (html, lit)."""
+    e = cx_entry({"id": game_id}) if game_id else None
+    st = (e or {}).get("status")
+    if st == "forecast":
+        p = cx_parts(e)
+        lit = bool(cx_number_flags(e) or e.get("alerts"))
+        temp = f'{p["temp"]}°' if p["temp"] is not None else ""
+        wind = "Calm" if p["calm"] else (f'{p["mph"]} mph' if p["mph"] is not None else "")
+        rain = f'{p["pop"]}%' if p["pop"] is not None else ""
+        cell = lambda lab, v, on=False: (f'<span class="tms-pl{" on" if on else ""}{"" if v else " miss"}">'
+                                         f'<i>{lab}</i>{esc(v) if v else "missing"}</span>')
+        return (cell("Temp", temp) + cell("Wind", wind, p["on"]["wind"])
+                + cell("Rain", rain, p["on"]["precip"])), lit
+    note = {"indoor": "Dome · No weather", "outside_nws": "Outside NWS coverage",
+            "out_of_range": "Forecast later", "roofed": ((e or {}).get("words") or {}).get("line")}.get(st)
+    return (f'<span class="tms-pl tms-one">{esc(note)}</span>' if note else ""), False
+
+
+def _tms_row(r):
+    """One schedule row. r: week, date, home, opp, opp_full, state, result, score, opp_score,
+    time_set, net, id, bye."""
+    if r.get("bye"):
+        return (f'<div class="tms-row tms-bye" data-state="bye" data-label="WK {esc(str(r.get("week") or ""))} \u00b7 BYE">'
+                f'<span class="tms-bulb" aria-hidden="true"></span>'
+                f'<span class="tms-wk">{esc(str(r.get("week") or ""))}</span>'
+                f'<span class="tms-opp"><span class="tms-pl tms-name">Bye</span></span>'
+                f'<span class="sr-only">Week {esc(str(r.get("week") or ""))}, bye</span></div>')
+    post = r.get("state") == "post"
+    wx, lit = ("", False) if post else _tms_wx(r.get("id"))
+    opp = esc(r.get("opp") or "")
+    opp_lnk = (f'/teams/{(r.get("opp") or "").lower()}.html' if r.get("opp_link") == "nfl"
+               else (f'/teams/cfb/{esc(r["opp_link"])}.html' if r.get("opp_link") else ""))
+    name = esc(r.get("opp_full") or r.get("opp") or "")
+    opp_h = (f'<span class="tms-opp" title="{name}"><span class="tms-at">{"vs" if r.get("home") else "at"}</span>'
+             f'<span class="tms-pl tms-ab">{opp}</span><span class="tms-nm">{name}</span></span>')
+    if post and r.get("result"):
+        cls = {"W": "w", "L": "l"}.get(r["result"], "t")
+        res = (f'<span class="tms-res {cls}"><b>{esc(r["result"])}</b>'
+               f'<span class="tms-sc">{esc(str(r.get("score")))}-{esc(str(r.get("opp_score")))}</span></span>')
+    elif r.get("time_set", True):
+        d = _utc_dt(r.get("date") or "")
+        res = f'<span class="tms-res"><span class="tms-ko">{esc(_et_clock(d)) if d else "TBA"}</span></span>'
+    else:
+        res = '<span class="tms-res"><span class="tms-ko">Time TBA</span></span>'
+    net = "" if post else (f'<span class="tms-tv">{esc(r["net"])}</span>' if r.get("net")
+                           else '<span class="tms-tv tms-tba">TV TBA</span>')
+    href = f'/games/{r["id"]}.html' if r.get("page") else ""
+    tag, attr = ("a", f' href="{esc(href)}"') if href else ("div", "")
+    d8 = _tms_when(r.get("date"), clock=False)
+    wkp = f'<span class="tms-wk">{esc(str(r["week"]))}</span>' if r.get("week") else '<span class="tms-wk"></span>'
+    return (f'<{tag} class="tms-row{" tms-lit" if lit else ""}" data-state="{"post" if post else "pre"}"'
+            f' data-gid="{esc(str(r.get("id") or ""))}"{attr}>'
+            f'<span class="tms-bulb{" on" if lit else ""}" aria-hidden="true"></span>{wkp}{opp_h}'
+            f'<span class="tms-dt">{esc(d8)}</span>{res}{net}<span class="tms-wxs">{wx}</span>'
+            f'<span class="sr-only">{" weather matters" if lit else ""}</span></{tag}>')
+
+
+def _tms_board(rows, title="Schedule"):
+    return ('<section class="tms" aria-label="Schedule, where to watch and conditions">'
+            f'<div class="tms-head"><h2 class="tms-h">{esc(title)} <span>· Where to watch</span></h2>'
+            '<span class="tms-leg"><i class="tms-bulb on" aria-hidden="true"></i>Weather matters</span></div>'
+            f'<div class="tms-rows">{"".join(_tms_row(r) for r in rows)}</div>'
+            '<p class="tms-src">Conditions by GoCheckMyWeather · National Weather Service · '
+            'Shown once a game is inside the forecast range</p></section>')
+
+
+def _tms_last(r, who):
+    """The last result as one scoreboard line."""
+    if not r:
+        return ""
+    cls = {"W": "w", "L": "l"}.get(r.get("result"), "t")
+    d = _utc_dt(r.get("date") or "")
+    when = f'{d.astimezone(_ET).strftime("%a %b")} {d.astimezone(_ET).day}' if d else ""
+    href = f'/games/{r["id"]}.html' if r.get("page") else ""
+    inner = (f'<span class="tms-lk">Last result</span><span class="tms-res {cls}"><b>{esc(r.get("result") or "")}</b>'
+             f'<span class="tms-sc">{esc(str(r.get("score")))}-{esc(str(r.get("opp_score")))}</span></span>'
+             f'<span class="tms-lo">{"vs" if r.get("home") else "at"} {esc(r.get("opp_full") or r.get("opp") or "")}'
+             f'{", " + esc(when) if when else ""}</span>')
+    return (f'<a class="tms-last" href="{esc(href)}">{inner}</a>' if href
+            else f'<div class="tms-last">{inner}</div>')
+
+
+def _tms_log(entries, who_name):
+    """The conditions log: the team's own flagged games, the Worker's numbers."""
+    since = COND_LOG_SINCE
+    if entries:
+        rows = []
+        for x in entries:
+            opp = x["home"] if (x["away"].get("name") or "") == who_name else x["away"]
+            at = "vs" if x["home"].get("name") == who_name else "at"
+            d = _tms_when(x.get("start_utc"))
+            href = f'/games/{x["id"]}.html' if (x.get("league") == "NFL" or str(x["id"]) in BOARD_IDS) else ""
+            tags = "".join(f'<span class="tms-pl tms-tag {esc(t["kind"])}">{esc(t["text"])}</span>' for t in x["tags"])
+            inner = (f'<span class="tms-bulb on" aria-hidden="true"></span><span class="tms-dt">{esc(d)}</span>'
+                     f'<span class="tms-opp"><span class="tms-at">{at}</span>'
+                     f'<span class="tms-nm tms-nm-on">{esc(opp.get("name") or opp.get("abbr") or "")}</span></span>'
+                     f'<span class="tms-tags">{tags}</span>')
+            rows.append(f'<a class="tms-row tms-log" data-log-gid="{esc(x["id"])}" href="{esc(href)}">{inner}</a>'
+                        if href else
+                        f'<div class="tms-row tms-log" data-log-gid="{esc(x["id"])}">{inner}</div>')
+        body = f'<div class="tms-rows">{"".join(rows)}</div>'
+    else:
+        body = '<p class="tms-none">No game on this team’s schedule has been flagged yet.</p>'
+    foot = ("Wind 15 mph and over, a 40 percent chance of precipitation and over, a feel below 32 or "
+            "above 90, or an NWS alert" + (f". Logged since {fmt_short_date(since)}." if since else "."))
+    return ('<section class="tms" id="team-log" aria-label="Conditions log">'
+            '<div class="tms-head"><h2 class="tms-h">Conditions log <span>· This season</span></h2>'
+            f'<span class="tms-leg">{len(entries)} game{"" if len(entries) == 1 else "s"}</span></div>'
+            f'{body}<p class="tms-src">{esc(foot)}</p></section>')
+
+
+def _tms_next_card(g, board_ok=True):
+    """The next game's full card, the same card the week board prints, when the scoreboard holds
+    the game; '' otherwise (a game weeks away is a row, not a card)."""
+    if not g:
+        return ""
+    ia = _ia_index(IA_BOARD)
+    carriers = _w2w_carriers_by_id()
+    doc = _carriage.load()
+    today = datetime.date.fromisoformat(_mf()["date"])
+    return ('<section class="tms-next" aria-label="Next game"><div class="tk-g3 tms-card">'
+            + sbc_card(g, ia, ticket=True, desig=IA_DESIG, stream=_first_stream_chip(g, carriers, doc, today))
+            + '</div></section>')
+
+
+def _sb_game_by_id(gid):
+    for L in (SB_DATA or {}).get("leagues") or []:
+        for g in L.get("games") or []:
+            if str(g.get("id")) == str(gid):
+                return g
+    return None
+
+
+def _game_page_built(gid):
+    """A schedule row links its game page only when the build has written it (the week board's games);
+    a game weeks away has no page, and a link to one is a 404 (the game link canary)."""
+    return bool(gid) and os.path.exists(os.path.join(PUBLISH, "games", f"{gid}.html"))
+
+
+def _nfl_rows(tm, evs):
+    rows = []
+    for e in evs:
+        if e.get("bye"):
+            rows.append({"bye": True, "week": e.get("week")})
+            continue
+        net = (e.get("network") or "").strip() or _w2w_carrier(e.get("id"))
+        sbg = _sb_game_by_id(e.get("id"))
+        rows.append({"week": e.get("week"), "date": e.get("date"), "home": e.get("home"),
+                     "opp": e.get("opp"), "opp_full": e.get("opp_full") or e.get("opp"),
+                     "opp_link": "nfl" if _team_page_exists(e.get("opp") or "") else "",
+                     "state": e.get("state"), "result": e.get("result"), "score": e.get("score"),
+                     "opp_score": e.get("opp_score"), "time_set": e.get("time_set", True),
+                     "net": net, "id": e.get("id"), "page": _game_page_built(e.get("id"))})
+    return rows
+
+
+def _team_ld(name, league, path, next_row, tm_abbr):
+    """The page's structured data: the team, and its next game with the carriers the row names."""
+    import structured as _sd
+    ng = None
+    carriers = []
+    if next_row and next_row.get("id"):
+        sbg = _sb_game_by_id(next_row["id"])
+        if sbg:
+            ng = sbg
+        else:
+            own = {"full": name, "name": name, "abbr": tm_abbr}
+            oth = {"full": next_row.get("opp_full") or next_row.get("opp"), "abbr": next_row.get("opp")}
+            ng = {"id": next_row["id"], "league": league, "start_utc": next_row.get("date"),
+                  "away": oth if next_row.get("home") else own, "home": own if next_row.get("home") else oth,
+                  "venue": ""}
+        if next_row.get("net"):
+            carriers = [next_row["net"]]
+        elif ng.get("network"):
+            carriers = [network_name(ng["network"])]
+    g = _sd.team_graph({"name": name}, league, ORIGIN, path,
+                       next_game=ng if (ng and ng.get("start_utc")) else None, carriers=carriers)
+    return ('\n<script type="application/ld+json">' + json.dumps(g, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
 def render_team_page(tm, items, dateline):
+    import teams as _teams
     abbr = tm["abbr"]
     name = tm.get("name") or abbr
     stand = _team_standing_line(abbr)
     evs = sorted(tm.get("events") or [], key=lambda e: e.get("date") or "")
     played = [e for e in evs if e.get("result")]
-    # S-L2: the bye is a week of the season. Without it the table reads 5 then 7 and
-    # looks like a missing row rather than a week off.
     fixtures = len(evs)          # the bye is a week, not a fixture, and is not counted
-    bye = tm.get("bye")
-    if bye:
+    # S-3a (15 October): the bye is its own row, in the week the team has no fixture. The feed's own
+    # "bye" field is wrong for many teams (Chicago's said week 7; it did not play in week 10).
+    for bye in _teams.bye_weeks(evs):
         weeks = [e.get("week") for e in evs]
-        if bye not in weeks:
-            at = next((n for n, w in enumerate(weeks) if w and w > bye), len(evs))
-            evs = evs[:at] + [{"week": bye, "bye": True}] + evs[at:]
-    nxt = next((e for e in evs if e.get("state") != "post"), None)
-
-    next_line = ""
-    if nxt:
+        at = next((n for n, w in enumerate(weeks) if w and w > bye), len(evs))
+        evs = evs[:at] + [{"week": bye, "bye": True}] + evs[at:]
+    rows = _nfl_rows(tm, evs)
+    nxt = next((r for r in rows if not r.get("bye") and r.get("state") != "post"), None)
+    last = next((r for r in reversed(rows) if not r.get("bye") and r.get("result")), None)
+    card = _tms_next_card(_sb_game_by_id(nxt["id"])) if nxt else ""
+    if nxt and not card:
         dt = _utc_dt(nxt.get("date") or "")
-        when = f'{dt.astimezone(_ET).strftime("%a, %b %-d")} {_et_clock(dt)}' if dt else ""
-        next_line = (
-            f'<div class="tm-next"><span class="bd-label">Next</span>'
-            f'<span class="tm-next-o">{"vs" if nxt.get("home") else "at"} '
-            f'{esc(nxt.get("opp_name") or nxt.get("opp") or "")}</span>'
-            + (f'<span class="bd-stamp">{esc(when)}</span>' if when else "")
-            + (f'<span class="bd-stamp">{esc(nxt["network"])}</span>'
-               if nxt.get("network") else "")
-            + '</div>')
+        card = ('<div class="tm-next"><span class="bd-label">Next</span>'
+                f'<span class="tm-next-o">{"vs" if nxt.get("home") else "at"} {esc(nxt.get("opp_full") or nxt.get("opp") or "")}</span>'
+                + (f'<span class="bd-stamp">{esc(_tms_when(nxt.get("date")))}</span>' if dt else "")
+                + (f'<span class="bd-stamp">{esc(nxt["net"])}</span>' if nxt.get("net") else "") + '</div>')
+    log = _teams.team_log(COND_LOG, "NFL", abbr=abbr)
 
     desig = _team_desig(name)
     inj = ""
@@ -6422,41 +6639,125 @@ def render_team_page(tm, items, dateline):
                    f'</div>'
                    for p in desig)
                + '</div>')
-
     stories = _team_stories(name, tm.get("nickname") or "", items)
     news = ""
     if stories:
         news = ('<div class="sec-head" style="margin-top:26px"><h2>From the desk</h2>'
                 '<span class="bar"></span></div><div class="rs">'
-                + "".join(
-                    f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">'
-                    f'{esc(i.get("title") or "")}</a>' for i in stories)
-                + '</div>')
-
-    body = f"""<main class="wrap"><section class="page">
-  <h1 class="sr-only">{esc(name)}: schedule, results, injury report and standing</h1>
+                + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
+                          for i in stories) + '</div>')
+    rec = (f'<p class="tm-rec">{esc(stand)}</p>' if stand else "")
+    body = f"""<main class="wrap tm-main"><section class="page">
+  <h1 class="sr-only">{esc(name)}: next game, schedule, where to watch, conditions and standing</h1>
   <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
-    {f'<span class="sec-n">{esc(stand)}</span>' if stand else ""}
+    <span class="sec-n">{len(played)} played of {fixtures}</span>
     {team_pin(abbr, name)}</div>
-  {next_line}
-  <div class="sec-head" style="margin-top:24px"><h2>Schedule and results</h2>
-    <span class="bar"></span>
-    <span class="sec-n">{len(played)} played of {fixtures}</span></div>
-  <div class="st-wrap"><table class="st-t tm-t">
-    <thead><tr><th scope="col">Wk</th><th scope="col">Date</th>
-      <th scope="col">Opponent</th><th scope="col">Result</th>
-      <th scope="col">TV</th></tr></thead>
-    <tbody>{"".join(_team_row(e, None) for e in evs)}</tbody></table></div>
+  {rec}
+  {card}
+  {_tms_last(last, name)}
+  {_tms_board(rows)}
+  {_tms_log(log, name)}
   {inj}{news}
   <nav class="st-nav" aria-label="Related">
     <a class="st-nav-a" href="/standings/nfl.html">NFL standings</a>
     <a class="st-nav-a" href="/fantasy/inactives.html">Inactives</a>
     <a class="st-nav-a" href="/scores.html">Scores</a></nav>
 </section></main>""" + TEAM_PIN_JS
-    return shell(f"{name}: schedule, results and injury report - {NAME}",
-                 f"{name} schedule and results, the official injury report, the "
-                 f"standing, and the desk's stories about the team.",
-                 "Scores", body, dateline, path=f"/teams/{abbr.lower()}.html")
+    path = f"/teams/{abbr.lower()}.html"
+    return shell(f"{name}: next game, schedule, where to watch and conditions - {NAME}",
+                 f"{name}: the next game with its kickoff weather, the schedule with where to watch every "
+                 f"game, the last result, the standing, the injury report and the team's conditions log.",
+                 "Scores", body, dateline, path=path, schema_extra=_team_ld(name, "NFL", path, nxt, abbr))
+
+
+def _cfb_rows(prog):
+    """This week's board games for a program, as schedule rows (the only college games the
+    scoreboard holds: the season's schedule is not on file for college)."""
+    out = []
+    for L in (SB_DATA or {}).get("leagues") or []:
+        if L.get("league") != "CFB":
+            continue
+        for g in L.get("games") or []:
+            a, h = g.get("away") or {}, g.get("home") or {}
+            mine, theirs, home = (h, a, True) if str(h.get("id")) == prog["id"] else \
+                                 ((a, h, False) if str(a.get("id")) == prog["id"] else (None, None, None))
+            if mine is None:
+                continue
+            res = sc = osc = None
+            if g.get("state") == "post":
+                try:
+                    ms, ts = int(mine.get("score")), int(theirs.get("score"))
+                    res, sc, osc = ("W" if ms > ts else "L" if ms < ts else "T"), ms, ts
+                except (TypeError, ValueError):
+                    pass
+            oslug = _teams_slug_for(theirs)
+            out.append({"week": None, "date": g.get("start_utc"), "home": home, "opp": theirs.get("abbr"),
+                        "opp_full": theirs.get("school") or theirs.get("full"), "opp_link": oslug,
+                        "state": g.get("state"), "result": res, "score": sc, "opp_score": osc,
+                        "time_set": True, "net": network_name(g.get("network")) if g.get("network") else "",
+                        "id": g.get("id"), "page": _game_page_built(g.get("id")), "_g": g})
+    out.sort(key=lambda r: r.get("date") or "")
+    return out
+
+
+def _teams_slug_for(t):
+    """The program's page slug if that school has a page this build, else ''."""
+    import teams as _teams
+    s = _teams.slug(t.get("school") or "")
+    return s if s in {p["slug"] for p in CFB_PROGRAMS} else ""
+
+
+def render_college_page(prog, items, dateline):
+    import teams as _teams
+    school = prog["school"]
+    full = f'{school} {prog["mascot"]}'.strip()
+    rows = _cfb_rows(prog)
+    nxt = next((r for r in rows if r.get("state") != "post"), None)
+    last = next((r for r in reversed(rows) if r.get("result")), None)
+    card = _tms_next_card(nxt["_g"]) if nxt else ""
+    bits = []
+    if prog.get("rank"):
+        bits.append(f'No. {prog["rank"]} in the AP Top 25')
+    if prog.get("record"):
+        bits.append(prog["record"])
+    tr = prog.get("trend") or ""
+    if prog.get("rank") and tr not in ("", "0", "-"):
+        bits.append(f'{"up" if tr.startswith("+") else "down"} {tr.lstrip("+-")} from last week')
+    rec = f'<p class="tm-rec">{esc(" · ".join(bits))}</p>' if bits else ""
+    log = _teams.team_log(COND_LOG, "CFB", tid=prog["id"]) if prog["id"] else []
+    stories = _team_stories(full, prog["mascot"], items)
+    news = ""
+    if stories:
+        news = ('<div class="sec-head" style="margin-top:26px"><h2>From the desk</h2>'
+                '<span class="bar"></span></div><div class="rs">'
+                + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
+                          for i in stories) + '</div>')
+    sched = _tms_board(rows, "This week") if rows else (
+        '<p class="tms-none">No game for this program is on the week board.</p>')
+    body = f"""<main class="wrap tm-main"><section class="page">
+  <h1 class="sr-only">{esc(full)}: next game, where to watch, conditions and ranking</h1>
+  <div class="sec-head"><h2>{esc(full)}</h2><span class="bar"></span></div>
+  {rec}
+  {card}
+  {_tms_last(last, full)}
+  {sched}
+  {_tms_log(log, school)}
+  {news}
+  <nav class="st-nav" aria-label="Related">
+    <a class="st-nav-a" href="/standings/college-football.html">AP Top 25</a>
+    <a class="st-nav-a" href="/scores.html">Scores</a></nav>
+</section></main>"""
+    path = f'/teams/cfb/{prog["slug"]}.html'
+    nxt_g = nxt["_g"] if nxt else None
+    import structured as _sd
+    carriers = [network_name(nxt_g["network"])] if (nxt_g and nxt_g.get("network")) else []
+    graph = _sd.team_graph({"name": full}, "CFB", ORIGIN, path, next_game=nxt_g, carriers=carriers)
+    ld = ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
+          + "</script>")
+    return shell(f"{full}: next game, where to watch and conditions - {NAME}",
+                 f"{full}: the next game with its kickoff weather, where to watch, this week's schedule, "
+                 f"the ranking and the team's conditions log.",
+                 "Scores", body, dateline, path=path, schema_extra=ld)
 
 
 WEEK_COUNT = 18
@@ -8199,7 +8500,8 @@ def sbg_conditions(g, e):
     if not e:
         return ""
     st = e.get("status")
-    kind = {"forecast": "forecast", "indoor": "indoor", "outside_nws": "outside", "out_of_range": "later"}.get(st)
+    kind = {"forecast": "forecast", "indoor": "indoor", "roofed": "roofed", "outside_nws": "outside",
+            "out_of_range": "later"}.get(st)
     if not kind:
         return ""
     head = '<div class="sbg-rule"></div><p class="sbg-sec"><span>Conditions at kickoff</span></p>'
@@ -8455,6 +8757,21 @@ def gp_desk_stories(g, items):
     return rel
 
 
+def _game_ld(g):
+    """S-3a item 2: SportsEvent, and a BroadcastEvent for each carrier the where-to-watch block names."""
+    import structured as _sd
+    cars = [c["name"] for c in (_w2w_carriers_by_id().get(str(g.get("id"))) or []) if c.get("name")]
+    if not cars and g.get("network"):
+        cars = [network_name(g["network"])]
+    city = ""
+    m = re.search(r"\(([^)]*)\)\s*$", g.get("venue") or "")
+    if m:
+        city = m.group(1)
+    graph = _sd.game_graph(g, ORIGIN, carriers=cars, venue_city=city)
+    return ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
 def render_game_page(g, points, board, wx, items, dateline):
     """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
     the desk's recent stories for both teams."""
@@ -8553,7 +8870,8 @@ def render_game_page(g, points, board, wx, items, dateline):
                  f'National Weather Service, where to watch, inactives and the score. Facts, '
                  f'not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
-                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png')
+                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png',
+                 schema_extra=_game_ld(g))
 
 
 def render_fantasy_live(all_points, dateline):
@@ -9960,14 +10278,20 @@ def wall_row(g):
         wx = cell(temp) + cell(wind, " wl-w on" if p["on"]["wind"] else " wl-w") + cell(rain)
     else:
         note = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
-                "out_of_range": "Later"}.get(st, "No forecast")
+                "out_of_range": "Later", "roofed": (e.get("words") or {}).get("line")}.get(st, "No forecast")
         wx = f'<span class="wl-pl wl-one">{esc(note)}</span>'
     a, h = g.get("away") or {}, g.get("home") or {}
     lab = gp_title(g)
+    # S-3a item 3 (the S-2d close): a row lit ONLY by an alert shows why, in a plate under it: the
+    # alert's own name when it is short, ALERT when it is not. A row lit by a number needs none.
+    why = ""
+    if st == "forecast" and lit and not cx_number_flags(e) and e.get("alerts"):
+        ev = (e["alerts"][0].get("event") or "").strip()
+        why = f'<span class="wl-pl wl-alert">{esc(ev if 0 < len(ev) <= 20 else "Alert")}</span>'
     inner = (f'<span class="wl-bulb{" on" if lit else ""}" aria-hidden="true"></span>'
              f'<span class="wl-pl wl-tm">{esc(a.get("abbr") or "")}</span><span class="wl-at">at</span>'
              f'<span class="wl-pl wl-tm">{esc(h.get("abbr") or "")}</span><span class="wl-when">{esc(when)}</span>'
-             f'{wx}<span class="sr-only">{" weather matters" if lit else ""}</span>')
+             f'{wx}{why}<span class="sr-only">{" weather matters" if lit else ""}</span>')
     href = _game_href(g) if _has_game_page(g) else ""
     tag, attr = ("a", f' href="{esc(href)}" aria-label="{esc(lab)}"') if href else ("div", "")
     return (f'<{tag} class="wl-row{" wl-lit" if lit else ""}" data-wall-gid="{esc(str(g.get("id")))}"{attr}>'
@@ -11726,6 +12050,18 @@ def build():
 
     # S-L2: one page per team. Each page claims its own stories, so _page_reset runs
     # per page and a story can lead one team's page and another's.
+    # S-3a: the conditions log and the top forty college programs, before any team page is drawn
+    global COND_LOG, COND_LOG_SINCE, CFB_PROGRAMS
+    COND_LOG, COND_LOG_SINCE = [], ""
+    CFB_PROGRAMS = []
+    try:
+        import teams as _teams
+        COND_LOG, COND_LOG_SINCE = _cond_log_build(SB_DATA)
+        _cfb_games = [g for L in (SB_DATA or {}).get("leagues") or [] if L.get("league") == "CFB"
+                      for g in L.get("games") or []]
+        CFB_PROGRAMS = _teams.top_programs((ST_DATA or {}).get("rankings"), _cfb_games, 40)
+    except Exception as _e:
+        print(f"::warning::team pages: log or programs unavailable ({type(_e).__name__}: {_e})")
     if TEAM_DATA and (TEAM_DATA.get("teams") or {}):
         _tm_n = 0
         for _abbr, _tm in sorted((TEAM_DATA.get("teams") or {}).items()):
@@ -11733,6 +12069,10 @@ def build():
             w(f"teams/{_abbr.lower()}.html", render_team_page(_tm, items, dateline))
             _tm_n += 1
         print(f"team pages: {_tm_n}")
+    for _prog in CFB_PROGRAMS:
+        _page_reset()
+        w(f'teams/cfb/{_prog["slug"]}.html', render_college_page(_prog, items, dateline))
+    print(f"college program pages: {len(CFB_PROGRAMS)}; conditions log: {len(COND_LOG)} game(s)")
 
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
@@ -11941,6 +12281,8 @@ def build():
         # desk has decided nobody will find. Only the weeks actually written are listed.
         topic_locs += [f"/nfl/week-{_w}.html" for _w in range(1, WEEK_COUNT + 1)
                        if _sched_week(TEAM_DATA, _w)]
+    # S-3a: the top forty college programs are listed with the NFL teams, only as written
+    topic_locs += [f'/teams/cfb/{_p["slug"]}.html' for _p in CFB_PROGRAMS]
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"

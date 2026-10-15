@@ -25,6 +25,19 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
+      # The canary draws the conditions report's share card (Pillow) and measures the score and
+      # record gap in a real browser (Playwright, scripts/record-gap.mjs). Neither was installed
+      # here, so this gate failed on every run from 14 October (S-2d, runs 319 to 323) for the two
+      # reasons below and nothing else: "report card: Pillow is not installed" and "records: no
+      # browser". They are the gate's own inputs, installed like conditions-report.yml installs Pillow.
+      - name: Pillow, for the share card the canary draws
+        run: pip install --quiet Pillow
+      - name: Playwright and Chromium, for the record-gap measure
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw"
+          npm install --prefix "$RUNNER_TEMP/pw" --silent playwright@1.56.1
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+          echo "PLAYWRIGHT_NODE_MODULES=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
       - name: Run offline canary (blocks on failure)
         run: python3 verify_pipeline.py canary
 

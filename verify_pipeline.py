@@ -1583,6 +1583,10 @@ def layer1_canary():
     fails.extend(_gpc.gamepage_canary(_built_tree()))   # S-2b item 2: the game pages
     import report_canary as _rpc
     fails.extend(_rpc.report_canary())   # S-2b item 3: the conditions report and its card
+    import roof_canary as _rfc
+    fails.extend(_rfc.roof_canary())   # S-3a: a roofed stadium reads like a dome, on every surface
+    import teams_canary as _tmc
+    fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
@@ -1693,19 +1697,18 @@ def layer1_canary():
         # EVERY UNPLAYED FIXTURE SAYS SOMETHING. Checking that the page contains a
         # carrier ANYWHERE passes on a table with one filled row and sixteen blank
         # ones, which is the bug with one exception. Each future row carries either a
-        # named carrier or the reason there is not one yet.
-        _future = re.findall(r'<td class="tm-r">(?!.*tm-res)(.*?)</td>\s*'
-                             r'<td class="tm-n">(.*?)</td>', _th, re.S)
-        # A BYE IS NOT A FIXTURE. It has no opponent and no broadcast, and its empty
-        # cell is the correct answer rather than a missing one.
-        _blank = [t for r, t in _future
-                  if "tm-time" in r and ">Bye<" not in r and not t.strip()]
+        # named carrier or the reason there is not one yet. S-3a: the schedule is the
+        # scoreboard (tms-row), and a row's TV cell is always printed, "TV TBA" when the
+        # league has not named a carrier.
+        _rows = re.findall(r'<(?:a|div) class="tms-row[^"]*" data-state="pre"(.*?)</(?:a|div)>', _th, re.S)
+        _blank = [r for r in _rows if 'class="tms-tv' not in r]
         _check(not _blank, fails,
-               f"N-8 canary: {len(_blank)} fixture row(s) have an empty TV cell, which "
+               f"N-8 canary: {len(_blank)} fixture row(s) have no TV cell, which "
                f"reads as broken rather than as pending")
-        _check("tm-full" in _th and "tm-abbr" in _th, fails,
+        # A BYE IS NOT A FIXTURE: it carries data-state="bye" and no TV cell.
+        _check("tms-ab" in _th and "tms-nm" in _th, fails,
                "N-8 canary: the schedule names the opponent only one way; the full name "
-               "belongs at desktop and the abbreviation under 600px")
+               "belongs at desktop and the abbreviation under 700px")
 
     # N-4, N-5, N-6: three small things, each of which was telling a reader something
     # untrue about the page.

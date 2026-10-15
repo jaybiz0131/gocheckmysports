@@ -29,8 +29,9 @@ Each check names the break it exists for and was seen red first (U-9).
   arrow      the wind arrow points the way the wind blows (arrow_true_deg); Calm draws none
   missing    a number the Worker did not give prints as missing
   unchecked  alerts null prints "Alerts not checked"
-  single     a dome is one plate, "Dome · No weather", with no number; a retractable roof keeps
-             the plates and adds a ROOF plate; outside NWS coverage is one plate with the city
+  single     a dome is one plate, "Dome \u00b7 No weather", with no number; a retractable or fixed roof
+             (S-3a, 15 October) is one plate too, "Roof \u00b7 usually closed", with the ROOF chip and no
+             bulb; outside NWS coverage is one plate with the city
   sprite     the arrow is drawn once per page and placed with <use>
   font       Oswald is self-hosted woff2, weights 500 to 700, and is the file the subset script
              made from OSWALD_TEXT
@@ -353,8 +354,11 @@ def check_render():
         if '<p class="sbc-one">London · Outside NWS coverage</p>' not in lon:
             fails.append("strip: outside NWS coverage is not one plate with the city")
         rf = card("roof")
-        if '<span class="sbc-chip sbc-roof">Roof</span>' not in rf or 'data-cx="forecast"' not in rf:
-            fails.append("strip: a retractable roof does not keep the plates and add a ROOF plate")
+        # S-3a, Jack 15 October: a roof reads like a dome row (one plate, no number, no bulb); the
+        # ROOF chip stays. This replaces S-2d's "keeps the plates and adds a ROOF plate".
+        if '<span class="sbc-chip sbc-roof">Roof</span>' not in rf or 'data-cx="roofed"' not in rf \
+                or '<p class="sbc-one">Roof \u00b7 usually closed</p>' not in rf or "sbc-bulb" in rf:
+            fails.append("strip: a retractable roof is not one numberless plate with the ROOF chip")
         # the kicker
         if '<span class="sbc-kick" data-role="kicker">Thu Oct 15 · 8:15 PM ET · Empower Field</span>' not in den:
             fails.append("strip: the kicker is not the kickoff in ET and the stadium's short name")
@@ -437,6 +441,11 @@ def check_wall(css=None):
             fails.append("wall: a row does not carry its temperature and rain")
         if '<span class="wl-pl wl-one">Dome</span>' not in w or '<span class="wl-pl wl-one">London</span>' not in w:
             fails.append("wall: a dome or outside coverage is not one plate")
+        r5 = w[w.find('data-wall-gid="5"'):w.find("</a>", w.find('data-wall-gid="5"'))]
+        if '<span class="wl-pl wl-alert">Freeze Watch</span>' not in r5:
+            fails.append("wall: a row lit only by an alert does not say why in its plates")
+        if "wl-alert" in r1 or "wl-alert" in r2:
+            fails.append("wall: a row with no alert, or lit by a number, carries an alert plate")
         if "Saturday, Oct 17" not in w:
             fails.append("wall: the college wall is not titled by its day")
     finally:

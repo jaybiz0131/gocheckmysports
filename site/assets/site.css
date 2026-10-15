@@ -2979,8 +2979,91 @@ a.sbg-link small{font-family:var(--mono);font-size:11px;font-weight:400;color:va
     white-space:nowrap;overflow:hidden}
   .wl-pl.wl-w.on{color:var(--sbc-yellow)}
   .wl-pl.wl-miss{font-family:var(--mono);font-size:11px;font-weight:500;line-height:2.6;color:#D9D3B4}
+  .wl-pl.wl-alert{grid-column:2 / -1;padding:3px 0;font-size:16px;letter-spacing:.14em;color:var(--sbc-yellow)}
   .wl-pl.wl-one{grid-column:span 3;padding:9px 0;font-size:18px;letter-spacing:.12em;color:#B8B293}
   .wl-at{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;color:#D9D3B4}
   .wl-when{text-align:center;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-yellow)}
   .wl-board p.wl-src{margin:6px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
+}
+
+/* ---- S-3a item 1: THE TEAM PAGES, in the scoreboard look (Program 7, section 3) --------------------
+   A team's schedule is a scoreboard: a bulb lit when the game's weather matters, the week, the
+   opponent's plate, the date, the result or the kickoff, the network, and the TEMP, WIND and RAIN
+   plates once the game is inside the Worker's range. The conditions log is the same board with the
+   flagged games and the Worker's own words. Green in both themes, like every board. At 700px and
+   up one line a game; under it the row folds to three lines. */
+.tm-main .tm-rec{margin:6px 0 16px;font:600 14px/1.4 var(--mono);color:var(--muted);letter-spacing:.02em}
+.tms-next{margin:0 0 18px}
+.tms-card{display:block}
+.tms{border-radius:14px;background:var(--sbc-panel);border:8px solid var(--sbc-frame);color:var(--sbc-cream);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 30px 60px -30px rgba(0,0,0,.9);padding:18px 16px;
+  display:flex;flex-direction:column;gap:12px;font-family:var(--mono);margin:0 0 20px}
+.tms-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.tms h2.tms-h{margin:0;font-family:var(--sbc-display);font-size:clamp(26px,5.4vw,36px);line-height:1;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-cream)}
+.tms h2.tms-h span{color:var(--sbc-yellow)}
+.tms-leg{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#D9D3B4;white-space:nowrap}
+.tms-rows{display:flex;flex-direction:column;gap:12px}
+.tms-row{display:grid;grid-template-columns:22px 40px minmax(0,1fr) auto;
+  grid-template-areas:"bulb wk opp res" "bulb dt dt tv" "bulb wxs wxs wxs";gap:6px 8px;align-items:center;
+  color:var(--sbc-cream);text-decoration:none;border-radius:4px;padding:8px 0;border-top:1px solid rgba(244,241,230,.12)}
+.tms-rows .tms-row:first-child{border-top:0;padding-top:0}
+a.tms-row:hover .tms-ab{box-shadow:inset 0 2px 5px rgba(0,0,0,.75),0 0 0 1px rgba(244,241,230,.5)}
+a.tms-row:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
+.tms-bulb{grid-area:bulb;display:inline-block;width:14px;height:14px;border-radius:50%;background:#3B3A22;justify-self:center}
+.tms-leg .tms-bulb{width:12px;height:12px}
+.tms-bulb.on{background:var(--sbc-yellow);box-shadow:0 0 8px #FFD23F,0 0 18px rgba(255,210,63,.6)}
+.tms-wk{grid-area:wk;font:700 12px/1 var(--mono);letter-spacing:.06em;color:#D9D3B4;text-align:center}
+.tms-wk:not(:empty)::before{content:"WK ";opacity:.8}
+.tms-opp{grid-area:opp;display:flex;align-items:center;gap:8px;min-width:0}
+.tms-at{font-size:12px;font-weight:700;text-transform:uppercase;color:#D9D3B4;min-width:18px}
+.tms-pl{display:inline-block;padding:5px 10px;text-align:center;border-radius:3px;background:var(--sbc-plate);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:22px;line-height:1.2;
+  font-weight:600;text-transform:uppercase;color:var(--sbc-cream);white-space:nowrap}
+.tms-nm{font-family:var(--sbc-display);font-size:16px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
+  color:#D9D3B4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tms-nm-on{color:var(--sbc-cream);font-size:20px}
+.tms-name{font-size:18px;letter-spacing:.12em;color:#B8B293}
+.tms-dt{grid-area:dt;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-yellow)}
+.tms-res{grid-area:res;display:flex;align-items:baseline;gap:8px;justify-self:end;font-family:var(--sbc-display);
+  font-size:22px;font-weight:600}
+.tms-res b{font-weight:700}
+.tms-res.w b{color:#7DE3A8}
+.tms-res.l b{color:#FF9A8D}
+.tms-res.t b{color:#F0C674}
+.tms-sc{font-variant-numeric:tabular-nums}
+.tms-ko{font-size:18px;letter-spacing:.04em;color:var(--sbc-cream)}
+.tms-tv{grid-area:tv;justify-self:end;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--sbc-cream)}
+.tms-tv.tms-tba{color:#B8B293}
+.tms-wxs{grid-area:wxs;display:flex;gap:6px;flex-wrap:wrap}
+.tms-wxs:empty{display:none}
+.tms-wxs .tms-pl{flex:1 1 0;min-width:64px;font-size:20px;padding:5px 6px}
+.tms-wxs .tms-pl i{display:block;font:700 10px/1.3 var(--mono);letter-spacing:.1em;color:#D9D3B4;font-style:normal}
+.tms-wxs .tms-pl.on{color:var(--sbc-yellow)}
+.tms-wxs .tms-pl.miss{font:500 11px/2.2 var(--mono);color:#D9D3B4}
+.tms-wxs .tms-one{flex-basis:100%;font-size:16px;letter-spacing:.12em;color:#B8B293}
+.tms-bye .tms-opp{grid-column:3 / -1}
+.tms .tms-src{margin:2px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
+.tms .tms-none{margin:0;font-size:13px;color:#D9D3B4}
+.tms-last{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;margin:0 0 18px;padding:12px 16px;border-radius:10px;
+  background:var(--sbc-panel);border:6px solid var(--sbc-frame);color:var(--sbc-cream);text-decoration:none;font-family:var(--mono)}
+.tms-last .tms-lk{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sbc-yellow)}
+.tms-last .tms-lo{font-size:13px;color:#D9D3B4}
+a.tms-last:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
+.tms-log .tms-tags{grid-area:wxs;display:flex;gap:6px;flex-wrap:wrap}
+.tms-tag{font-size:16px;letter-spacing:.04em;color:var(--sbc-yellow)}
+.tms-tag.alert{color:#FFB3A8}
+@media (max-width:699px){
+  .tms-row:not(.tms-log) .tms-nm{display:none}
+  .tms-log .tms-nm-on{font-size:18px}
+}
+@media (min-width:700px){
+  .tms{padding:22px 26px}
+  .tms-row{grid-template-columns:22px 44px minmax(0,1.3fr) 118px 112px 70px minmax(0,1.9fr);
+    grid-template-areas:"bulb wk opp dt res tv wxs";gap:8px;padding:6px 0;border-top:0}
+  .tms-res,.tms-tv{justify-self:start}
+  .tms-log{grid-template-columns:22px 210px minmax(0,1fr) minmax(0,2fr);grid-template-areas:"bulb dt opp wxs"}
+  .tms-log .tms-opp{grid-area:opp}
 }
