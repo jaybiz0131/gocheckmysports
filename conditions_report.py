@@ -39,6 +39,7 @@ from zoneinfo import ZoneInfo
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+import teams  # noqa: E402  (the team pages' log reads this field; same flags, one definition)
 ET = ZoneInfo("America/New_York")
 REPORTS = os.path.join(HERE, "site", "reports", "conditions")
 SLOTS = {3: "thu", 5: "sat", 6: "sun"}          # weekday -> slot; any other day is "extra"
@@ -238,6 +239,7 @@ def write(games, data, now):
         "flagged": flagged, "quiet": quiet, "indoor": indoor, "outside": outside, "later": later,
         "stamp": _stamp(data, games),
         "card": f"/share/conditions/{rid}.png",
+        "log": [x for x in (teams.log_entry(g, G.get(str(g.get("id")))) for g in games) if x],
         "board": [card_row(g, G[str(g["id"])]) for g in games
                   if g.get("league") == "NFL" and G.get(str(g.get("id")))][:14],
         "numbers": {str(g["id"]): sorted(game_numbers(g, G.get(str(g["id"])) or {}))

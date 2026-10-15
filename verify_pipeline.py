@@ -1583,6 +1583,8 @@ def layer1_canary():
     fails.extend(_gpc.gamepage_canary(_built_tree()))   # S-2b item 2: the game pages
     import report_canary as _rpc
     fails.extend(_rpc.report_canary())   # S-2b item 3: the conditions report and its card
+    import teams_canary as _tmc
+    fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
