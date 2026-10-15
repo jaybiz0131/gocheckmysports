@@ -106,8 +106,8 @@ def check_tree(out):
         if len(re.findall(r'data-cx="', html)) > 1:
             fails.append(f"game pages: {gid} carries a second strip beside its block")
         if e.get("status") == "indoor":
-            if blocks != ["indoor"] or "cxc-svg" in html or 'data-cx="forecast"' in html \
-                    or re.search(r'<section class="bd-mod cx-block[^"]*"[^>]*>.*?\d+°', html, re.S):
+            if blocks != ["indoor"] or "sbg-hgrid" in html or 'data-cx-block="forecast"' in html \
+                    or re.search(r'class="sbg-big">\d', html):
                 fails.append(f"game pages: {gid} is indoor and prints a forecast")
         bad = runtime_hosts(html) - ALLOWED_HOSTS
         if bad:
@@ -118,18 +118,22 @@ def check_tree(out):
             fails.append(f"game pages: {gid} title {title!r} is not the search")
         elif (e.get("league") == "NFL") != ("inactives" in title):
             fails.append(f"game pages: {gid} title names inactives wrongly for {e.get('league')}")
-        # Jack, 14 October 3:05 PM ET: the Ticket, the conditions hero, where to watch, then the
-        # venue, designations and inactives; the Ticket itself carries no fact rows
-        i_card = html.find('class="scoreband scoreband-page gp-head"')
+        # S-2d item 1 (and Jack's S-2c order): the title, the one board with the weather right under
+        # the matchup, the watch buttons and the Weather link, then where to watch, then the venue,
+        # designations and inactives. The Ticket has left the page; no S-2c amber is on it.
+        i_h1 = html.find('class="lx-h1 sbg-h1"')
+        i_board = html.find('class="bd-mod sbc sbg')
         i_watch = html.find('class="bd-mod gp-watch"')
-        i_cx = html.find('class="bd-mod cx-block')
         i_facts = html.find('class="tk-c gp-facts"')
-        seq = [i for i in (i_card, i_cx, i_watch, i_facts) if i >= 0]
-        if i_card < 0 or seq != sorted(seq):
-            fails.append(f"game pages: {gid} is not Ticket, conditions, where to watch, then the facts")
-        head = html[i_card:html.find("</article>", i_card)] if i_card >= 0 else ""
-        if 'class="tk-spec"' in head:
-            fails.append(f"game pages: {gid} still carries the venue and availability inside the Ticket")
+        seq = [i for i in (i_h1, i_board, i_watch, i_facts) if i >= 0]
+        if i_h1 < 0 or i_board < 0 or seq != sorted(seq):
+            fails.append(f"game pages: {gid} is not the title, the board, where to watch, then the facts")
+        if 'class="scoreband scoreband-page gp-head"' in html or "cx-hero" in html:
+            fails.append(f"game pages: {gid} still carries S-2c's Ticket or hero")
+        if any(a in html.lower() for a in ("#ffb03d", "#ffcf86", "#ffe1b3")):
+            fails.append(f"game pages: {gid} carries S-2c's amber")
+        if html.count('class="bd-mod sbc sbg') != 1:
+            fails.append(f"game pages: {gid} does not carry exactly one board")
         if f'href="/games/{gid}.html"' not in home:
             fails.append(f"game pages: the home's card for {gid} does not link its page")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
@@ -196,136 +200,182 @@ def _hero_entry(**kw):
     return e
 
 
-def check_hero():
-    """The hero on fixtures: the field, the arrows, the panels, the chart and the link."""
+def check_board():
+    """S-2d item 1, the board on fixtures: the line score, the field, the plates, the words, the
+    hours, the edge, the buttons and the Weather link."""
     import site_build as sb
     fails = []
-    was = sb.CX_DATA
-    g = {"id": "den", "away": {"color": "#002244"}, "home": {"color": "#FB4F14"}}
+    was = (sb.CX_DATA, sb._carriage.load, sb.W2W_DATA, sb.MANIFEST, sb._NOW_CACHE)
+    g = {"id": "den", "league": "NFL", "state": "pre", "start_utc": "2026-10-16T00:15Z", "network": "Prime Video",
+         "venue": "Empower Field at Mile High",
+         "away": {"abbr": "SEA", "name": "Seahawks", "record": "3-2", "color": "#002244"},
+         "home": {"abbr": "DEN", "name": "Broncos", "record": "3-2", "color": "#FB4F14"}}
     quiet = {"wind": {"on": False, "max_mph": 12, "threshold_mph": 15}, "precip": {"on": False},
              "feels": {"on": False}, "alert": {"on": False}, "any": False}
     try:
+        import datetime as _d
+        sb._NOW_CACHE = _d.datetime(2026, 10, 15, 13, 0, tzinfo=_d.timezone.utc)
+        sb.MANIFEST = None
         e = _hero_entry()
         noori = _hero_entry(stadium={"name": "Hard Rock Stadium", "orientation_deg": None}, flags=quiet)
-        calm = _hero_entry(kickoff_hour=dict(e["kickoff_hour"], wind={"text": "Calm"}, wind_mph=0))
+        calm = _hero_entry(kickoff_hour=dict(e["kickoff_hour"], wind={"text": "Calm"}, wind_mph=0), flags=quiet)
         gap = _hero_entry(kickoff_hour=dict(e["kickoff_hour"], temp_f=None, pop_pct=None))
-        sb.CX_DATA = {"games": {"den": e, "mia": noori, "calm": calm, "gap": gap}}
-        h = sb.cx_block(g)
-        # field
-        if 'data-cx-field="field"' not in h or 'rotate(20.0 ' not in h:
-            fails.append("hero: the field is not drawn rotated to the stadium's orientation")
+        dome = {"status": "indoor", "venue": "Allegiant Stadium", "words": {"line": "Indoor", "roof": "Indoor"}}
+        sb.CX_DATA = {"games": {"den": e, "mia": noori, "calm": calm, "gap": gap, "dome": dome}}
+        h = sb.sbg_board(g)
+        # the line score: the full form with an OT column, the abbreviations, empty before kickoff
+        heads = re.findall(r'<span class="sbc-h( sbc-th)?">([^<]*)</span>', h)
+        if [x for _c, x in heads] != ["", "1", "2", "3", "4", "OT", "T"]:
+            fails.append(f"board: the line score heads are {[x for _c, x in heads]}, not 1 to 4, OT and T")
+        if ">SEA</b>" not in h or ">DEN</b>" not in h or "3-2" not in h:
+            fails.append("board: the line score does not name the teams by abbreviation with the record")
+        if re.search(r'class="sbc-pl[^"]*">(?:<span class="tk-sc">)?\d', h):
+            fails.append("board: a plate is filled before kickoff")
+        fin = dict(g, state="post", status_short="Final",
+                   away=dict(g["away"], score="20", periods=["7", "3", "0", "10"]),
+                   home=dict(g["home"], score="17", periods=["0", "7", "7", "3"]))
+        fh = sb.sbg_board(fin)
+        vals = [v for v in re.findall(r'class="sbc-pl[^"]*"[^>]*>(?:<span class="tk-sc">)?([^<]*)<', fh)]
+        if vals != ["7", "3", "0", "10", "", "20", "0", "7", "7", "3", "", "17"]:
+            fails.append(f"board: a final's plates do not fill from the feed with OT empty: {vals}")
+        # the meta row: the line with its provider (the 20 September law) and the network
+        if 'class="sbg-meta"' not in h or 'class="sbg-net">Prime Video<' not in h:
+            fails.append("board: the line and network row is missing")
+        # the field
+        if 'data-cx-field="field"' not in h or "rotate(20.0 " not in h:
+            fails.append("board: the field is not drawn rotated to the stadium's orientation")
         if not re.search(r'<g class="cxf-n">.*?>N</text>', h):
-            fails.append("hero: the field has no N mark")
+            fails.append("board: the field has no N mark")
         if 'fill="#002244"' not in h or 'fill="#FB4F14"' not in h:
-            fails.append("hero: the end zones are not in the two teams' colours")
-        # one family (Seattle and Denver navy): the home end zone takes the home alternate
+            fails.append("board: the end zones are not in the two teams' colours")
         fam = {"away": {"color": "#002A5C", "alt_color": "#69BE28"}, "home": {"color": "#0A2343", "alt_color": "#FC4C02"}}
         if sb.cx_endzones(fam) != ("#002A5C", "#FC4C02"):
-            fails.append(f"hero: one-family primaries do not take the home alternate: {sb.cx_endzones(fam)}")
+            fails.append("board: one-family primaries do not take the home alternate")
         if sb.cx_endzones({"away": {"color": "#002244", "alt_color": "#69BE28"},
                            "home": {"color": "#FB4F14", "alt_color": "#0A2343"}}) != ("#002244", "#FB4F14"):
-            fails.append("hero: distinct primaries were replaced by an alternate")
-        if sb.cx_endzones({"away": {"color": "#002A5C"}, "home": {"color": "#0A2343"}}) != ("#002A5C", "#0A2343"):
-            fails.append("hero: with no alternate in the feed the end zones are not left as the primaries")
-        m = sb.cx_block(dict(g, id="mia"))
-        if 'data-cx-field="compass"' not in m or "cxf-turf" in m or "cxf-yd" in m:
-            fails.append("hero: a stadium with no orientation got a guessed field")
-        # arrows
+            fails.append("board: distinct primaries were replaced by an alternate")
+        m = sb.sbg_board(dict(g, id="mia"))
+        if 'data-cx-field="compass"' not in m or "cxf-turf" in m:
+            fails.append("board: a stadium with no orientation got a guessed field")
+        # the arrows: three, glowing yellow, the way the wind blows
         a = re.search(r'<g class="cxf-arrows"[^>]*stroke="(#[0-9A-F]{6})"[^>]*rotate\((\d+) ', h)
-        if not a or a.group(2) != "190" or len(re.findall(r"<path d=", h[h.find("cxf-arrows"):h.find("</g>", h.find("cxf-arrows"))])) != 3:
-            fails.append("hero: the three arrows do not point the way the wind blows")
-        elif a.group(1) != "#FFB03D":
-            fails.append("hero: the wind flag is on and the arrows are not amber")
-        ma = re.search(r'stroke="(#[0-9A-F]{6})"[^>]*transform="rotate\(190 66 66\)"', m)
-        if not ma or ma.group(1) != "#EEF1F5":
-            fails.append("hero: an unflagged compass arrow is not white at arrow_true_deg")
-        c = sb.cx_block(dict(g, id="calm"))
-        if "cxf-arrows" in c or "Calm" not in c:
-            fails.append("hero: Calm draws arrows")
-        # caption
+        seg = h[h.find("cxf-arrows"):h.find("</g>", h.find("cxf-arrows"))]
+        if not a or a.group(2) != "190" or len(re.findall(r"<path d=", seg)) != 3 or a.group(1) != "#FFD23F" \
+                or 'filter="url(#cxglow)"' not in seg[:200]:
+            fails.append("board: the three glowing yellow arrows do not point the way the wind blows")
+        if not re.search(r'stroke="#FFD23F"[^>]*transform="rotate\(190 66 66\)"', m):
+            fails.append("board: the compass arrow is not yellow at arrow_true_deg")
+        c = sb.sbg_board(dict(g, id="calm"))
+        if "cxf-arrows" in c or 'class="sbg-big">Calm<' not in c:
+            fails.append("board: Calm draws arrows or does not say Calm")
         if '<span class="cxh-cap">Arrows point the way the wind blows</span>' not in h:
-            fails.append("hero: the caption line is missing under the field")
-        # panels
-        ink = sb.cx_temp_ink(47)
-        if f'<b class="cxh-big cx-glow" style="color:{ink}">47°</b>' not in h:
-            fails.append("hero: the big temperature is not in the Weather ramp's ink")
-        if "Down the field, gusting 23, up to 15 mph. From the north." not in h:
-            fails.append("hero: the wind panel does not carry its words")
-        if "up to 57% at 7 PM" not in h or 'class="cxh-tile cxh-w on"' not in h:
-            fails.append("hero: the rain panel does not name its peak, or the wind panel is not lit")
-        gp = sb.cx_block(dict(g, id="gap"))
-        if gp.count(">missing<") < 2:
-            fails.append("hero: a number the Worker did not give does not print as missing")
-        # chart
-        stops = re.findall(r'<stop offset="[.\d]+" stop-color="(#[0-9A-F]{6})"/>', h)
-        if stops != [sb.cx_temp_ink(t) for t in (49, 47, 46, 45, 43, 42)]:
-            fails.append("hero: the temperature line is not in each hour's ramp ink")
-        if h.count('class="cxc-dot"') != 6:
-            fails.append("hero: the chart does not draw a dot per hour")
-        if 'class="cxc-win"' not in h or "Game window 8 PM to 12 AM" not in h:
-            fails.append("hero: the game window is not a band over the game's hours")
-        hot = re.findall(r'<text class="cxc-w on"[^>]*>(\d+)</text>', h)
+            fails.append("board: the caption line is missing under the field")
+        # the four plates
+        keys = re.findall(r'<div class="sbg-p sbg-([twgr])( on)?"><span class="sbc-k">([A-Za-z]+)</span>'
+                          r'<span class="sbg-big">([^<]*)', h)
+        if [(k, l, v) for k, _o, l, v in keys] != [("t", "Temp", "47°"), ("w", "Wind", "12"), ("g", "Gust", "23"),
+                                                     ("r", "Rain", "23%")]:
+            fails.append(f"board: the plates are {keys}, not TEMP, WIND, GUST, RAIN with the kickoff numbers")
+        if [o for _k, o, _l, _v in keys] != ["", " on", " on", ""]:
+            fails.append("board: the wind flag does not light exactly the WIND and GUST plates")
+        if "sbc-lit" not in h[:80] or "sbc-lit" in sb.sbg_board(dict(g, id="calm"))[:80]:
+            fails.append("board: the edge is not yellow exactly when a flag is on")
+        gp = sb.sbg_board(dict(g, id="gap"))
+        if gp.count(">missing<") < 2 or re.search(r'class="sbg-big">0', gp):
+            fails.append("board: a number the Worker did not give does not print as missing")
+        # the words
+        wd = re.search(r'<p class="sbg-words( on)?">([^<]+)</p>', h)
+        if not wd or wd.group(1) != " on" or wd.group(2) != ("12 mph down the field, gusting 23, up to 15 mph. "
+                                                            "Feels 42°, rain showers, rain up to 57% at 7 PM."):
+            fails.append(f"board: the words line is {wd.groups() if wd else None}")
+        if 'class="sbg-words on"' in c:
+            fails.append("board: the words line is yellow with no wind flag")
+        # by the hour
+        hh = re.findall(r'<span class="sbg-hh( on)?">([^<]+)</span>', h)
+        if [x for _o, x in hh] != ["7P", "8P", "9P", "10P", "11P", "12A"] or [o for o, _x in hh] != ["", " on", " on", " on", " on", ""]:
+            fails.append(f"board: the hours are {hh}, not 7P to 12A with the game's hours lit")
+        if h.count("sbg-hp sbg-g") != 12:
+            fails.append("board: the game's hours are not framed in yellow on every row")
+        hot = re.findall(r'<span class="sbg-hp[^"]*? on">(\d+)</span>', h)
         if hot != ["15", "12"]:
-            fails.append(f"hero: the wind is amber at {hot}, not at or over the threshold")
-        lab = re.search(r'<svg class="cxc-svg"[^>]*aria-label="([^"]+)"', h)
-        if not lab or not all(f"{t} degrees, {p} percent rain, {w} mph" in lab.group(1)
-                              for t, p, w in ((49, 57, 15), (42, 23, 5))) or lab.group(1).count("degrees") != 6:
-            fails.append("hero: the chart's label does not carry every hour's numbers")
-        # link
-        lk = re.search(r'<a class="cxh-link" href="([^"]+)"><span>Full forecast for ([^<]+)<small>([^<]+)</small>', h)
+            fails.append(f"board: the wind is yellow at {hot}, not at or over the threshold")
+        lab = re.search(r'class="sbg-hgrid" role="img" aria-label="([^"]+)"', h)
+        if not lab or lab.group(1).count("degrees") != 6 or "49 degrees, 15 mph, 57 percent rain" not in lab.group(1):
+            fails.append("board: the hours' label does not carry every hour's numbers")
+        # a dome: one plate, no field, no hours, no numbers
+        dm = sb.sbg_board(dict(g, id="dome"))
+        if "Dome · No weather" not in dm or "cxf-svg" in dm or "sbg-hgrid" in dm or 'data-cx-block="indoor"' not in dm:
+            fails.append("board: a dome is not one plate with no field and no hours")
+        # under the board: the buttons and the Weather link
+        doc = {"stale_days": 30, "rows": [
+            {"id": "a", "service": "Prime Video", "label": "Prime Video", "leagues": ["NFL"],
+             "match": {"networks": ["Prime Video"]}, "status": "ok", "verified": "2026-10-12", "source": "https://www.amazon.com/x"},
+            {"id": "b", "service": "NFL+", "label": "NFL+ on a phone", "leagues": ["NFL"],
+             "match": {"networks": ["*"]}, "status": "ok", "verified": "2026-10-12", "source": "https://www.nfl.com/plus/"},
+            {"id": "c", "service": "Fubo", "label": "Fubo", "leagues": ["NFL"],
+             "match": {"networks": ["Prime Video"]}, "status": "verify", "verified": "2026-08-01", "source": "https://fubo.tv/"}]}
+        sb._carriage.load = lambda: doc
+        sb.W2W_DATA = {"weeks": [{"games": [{"id": "den", "carriers": [{"name": "Prime Video"}]}]}]}
+        u = sb.sbg_under(g)
+        if '<a class="sbg-btn" href="https://www.amazon.com/x" rel="noopener">Watch on Prime Video</a>' not in u \
+                or '<a class="sbg-btn sbg-btn2" href="https://www.nfl.com/plus/" rel="noopener">NFL+ on a phone</a>' not in u \
+                or "Fubo" in u:
+            fails.append("board: the yellow Watch button and the outlined second stream are not the table's in-date rows")
+        doc["rows"] = [r for r in doc["rows"] if r["id"] != "b"]
+        u1 = sb.sbg_under(g)
+        if "Fubo" in u1 or "sbg-btn2" in u1:
+            fails.append("board: a carriage row past its date became the second stream's button")
+        lk = re.search(r'<a class="sbg-link" href="([^"]+)">Full forecast for ([^<]+) on GoCheckMyWeather<small>([^<]+)</small>', u)
         if not lk or not lk.group(1).startswith("https://gocheckmyweather.com/stadiums/") \
                 or lk.group(3) != "Conditions by GoCheckMyWeather, NWS, 10:14 PM ET":
-            fails.append("hero: the link card does not go to the stadium page with the credit and stamp")
-        if 'class="bd-mod cx-block cx-hero cx-flag"' not in h:
-            fails.append("hero: a flagged hero has no amber border")
-        if "cx-flag" in m:
-            fails.append("hero: an unflagged hero carries amber")
+            fails.append("board: the Weather link does not go to the stadium page with the credit and stamp")
     finally:
-        sb.CX_DATA = was
+        sb.CX_DATA, sb._carriage.load, sb.W2W_DATA, sb.MANIFEST, sb._NOW_CACHE = was
     return fails
 
 
-def check_hero_css(css=None):
-    """The desktop grid and the hero's contrast, from the shipped site.css."""
+def check_board_css(css=None):
+    """The board's contrast on its own grounds, the kicker on each theme's paper, and the desktop
+    grid, from the shipped site.css."""
     import strip_canary as sc
     css = css if css is not None else open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                                         "site", "assets", "site.css"), encoding="utf-8").read()
     fails = []
-    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.gp-grid\{display:grid;grid-template-columns:440px "
-                     r"minmax\(0,1fr\)[^@]*\.gp-grid>\.cx-block\{grid-column:2;", css):
-        fails.append("hero: the game page is not two columns with the hero on the right at 900px and up")
-    # Jack, 14 October: the field column about 300px, the tiles the rest, the numerals at size
-    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.cx-hero\{grid-template-columns:minmax\(220px,300px\) "
-                     r"minmax\(0,1fr\)", css):
-        fails.append("hero: the desktop field column is not about 300px with the tiles taking the rest")
-    nm = re.search(r"@media \(min-width:900px\)\{[^@]*\.cxh-big,\.cxh-t \.cxh-big\{font-size:clamp\(\d+px,[.\d]+vw,(\d+)px\)", css)
-    if not nm or int(nm.group(1)) < 56:
-        fails.append("hero: the desktop numerals are not at the design's size (56px or more)")
-    hero = re.search(r"\.cx-hero\{background:(#[0-9A-Fa-f]{6})", css)
-    if not hero:
-        return fails + ["hero: the hero has no solid ground in site.css"]
-    g0 = sc._rgb(hero.group(1))
-    grounds = {"hero": g0, "a tile": sc._over((255, 255, 255, .035), g0),
-               "a flagged tile": sc._over((255, 176, 61, .09), g0),
-               "the rain panel": sc._over((142, 201, 232, .07), g0),
-               "the game window": sc._over((61, 220, 132, .08), g0),
-               "the link card": sc._over((121, 184, 190, .1), g0)}
-    body = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    if not re.search(r"@media \(min-width:900px\)\{[^@]*\.gp-grid\{display:grid;grid-template-columns:minmax\(0,1fr\) "
+                     r"\d+px;[^@]*\.gp-grid>\.sbg-col\{grid-column:1;", css):
+        fails.append("board: at 900px and up the board does not fill the left column")
+    on_plate = re.compile(r"sbg-big|sbg-hp|sbc-pl\b|sbc-team|sbc-one|sbc-miss")
+    grounds = {"the panel": sc._rgb(sc.PANEL), "a plate": sc._rgb(sc.PLATE)}
     n = 0
-    for sel, decl in re.findall(r"([^{}]+)\{([^{}]*)\}", body):
-        if not re.search(r"\.(cxh|cxc|cxf)-", sel):
-            continue
-        big = re.search(r"cxh-big", sel)
-        texty = re.search(r"cxc-[thrw]\b|text", sel)
+    for sel, decl in sc._rules(css, r"\.sbg(?!-top|-stamp|-under|-btn|-link|-col|-kicker|-h1)"):
+        if re.search(r"sbg-top|sbg-kicker|sbg-h1", sel):
+            continue        # on the page's own paper; the kicker is measured per theme below
+        texty = re.search(r"text", sel)     # a fill is a colour of text only on <text>; else a shape
         for c in re.findall(r"(?:^|;)\s*(?:color|fill):\s*(#[0-9A-Fa-f]{6})" if texty
                             else r"(?:^|;)\s*color:\s*(#[0-9A-Fa-f]{6})", decl):
             n += 1
-            for gname, g in grounds.items():
-                r = sc.contrast(sc._rgb(c), g)
+            size = re.search(r"font-size:(\d+)px", decl)
+            big = bool(size and int(size.group(1)) >= 24) or "sbg-big" in sel
+            gs = {"a plate": grounds["a plate"]} if all(on_plate.search(p) for p in sel.split(",")) else grounds
+            for gname, gr in gs.items():
+                r = sc.contrast(sc._rgb(c), gr)
                 if r < (3.0 if big else 4.5):
-                    fails.append(f"hero contrast: {sel.strip()} {c} on {gname} is {r:.2f}:1")
-    if n < 12:
-        fails.append(f"hero contrast: only {n} hero text colours found in site.css")
+                    fails.append(f"board contrast: {sel} {c} on {gname} is {r:.2f}:1")
+    if n < 10:
+        fails.append(f"board contrast: only {n} board text colours found in site.css")
+    papers = {"light": "#FBFAF6", "dark": "#131419"}
+    lk = re.search(r"\.sbg-top p\.sbg-kicker\{[^}]*color:(#[0-9A-Fa-f]{6})", css)
+    dk = re.search(r':root\[data-theme="dark"\] \.sbg-top p\.sbg-kicker\{color:(#[0-9A-Fa-f]{6})', css)
+    if not lk or not dk:
+        fails.append("board: the kicker has no colour for each theme")
+    else:
+        for theme, col in (("light", lk.group(1)), ("dark", dk.group(1))):
+            r = sc.contrast(sc._rgb(col), sc._rgb(papers[theme]))
+            if r < 4.5:
+                fails.append(f"board contrast: the kicker {col} on the {theme} paper is {r:.2f}:1")
+    btn = re.search(r"\.sbg-btn\{[^}]*background:var\(--sbc-yellow\);color:(#[0-9A-Fa-f]{6})", css)
+    if not btn or sc.contrast(sc._rgb(btn.group(1)), sc._rgb("#FFD23F")) < 4.5:
+        fails.append("board contrast: the Watch button's text does not clear 4.5:1 on yellow")
     return fails
 
 
@@ -422,7 +472,7 @@ def gamepage_canary(out=None):
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_data_fresh(out) + check_tree(out) + check_desk_tree(out) + check_verify() + check_hero() + check_hero_css() + check_desk()
+    return check_data_fresh(out) + check_tree(out) + check_desk_tree(out) + check_verify() + check_board() + check_board_css() + check_desk()
 
 
 if __name__ == "__main__":
@@ -430,7 +480,7 @@ if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
     f = ((check_data_fresh(root) + check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) + check_verify() \
-        + check_hero() + check_hero_css() + check_desk()
+        + check_board() + check_board_css() + check_desk()
     for x in f:
         print("FAIL", x)
     print("game page canary:", "PASS" if not f else f"{len(f)} FAIL")
