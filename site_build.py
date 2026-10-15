@@ -9929,6 +9929,79 @@ def render_report_page(rep, dateline):
                  og_image=f'{ORIGIN}{rep["card"]}')
 
 
+# ---- S-2d item 2: THE WALL (ScoreboardWall.dc.html, Jack's ruling of 14 October 2026, 3:11 PM ET)
+# At 1100px and wider the home's first view is the week as one wall scoreboard: every NFL game on
+# the board in two columns, one row each, a bulb lit when any of that game's flags is on (wind,
+# precipitation, the feel, an NWS alert), the two team plates and the kickoff, then TEMP, WIND and
+# RAIN plates with the wind yellow when flagged, or one plate for a dome or outside coverage. The
+# college games follow in their own wall section for each day. Each row links to its game page.
+# The wall is the same data the cards print; under 1100px it is not shown and the cards lead.
+
+def wall_row(g):
+    """One row of the wall for one game."""
+    e = cx_entry(g) or {}
+    st = e.get("status")
+    k = _utc_dt(g.get("start_utc") or "")
+    when = ""
+    if g.get("state") == "post":
+        when = "Final"
+    elif k:
+        t = k.astimezone(_ET)
+        when = f'{t.strftime("%a")} {int(t.strftime("%I"))}:{t.strftime("%M")}{t.strftime("%p")[0]}'
+    lit = False
+    if st == "forecast":
+        p = cx_parts(e)
+        lit = bool(cx_number_flags(e) or e.get("alerts"))
+        temp = f'{p["temp"]}°' if p["temp"] is not None else ""
+        wind = "Calm" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else "")
+        rain = f'{p["pop"]}%' if p["pop"] is not None else ""
+        cell = lambda v, cls="": (f'<span class="wl-pl{cls}{" wl-miss" if not v else ""}">'
+                                  f'{esc(v) if v else "missing"}</span>')
+        wx = cell(temp) + cell(wind, " wl-w on" if p["on"]["wind"] else " wl-w") + cell(rain)
+    else:
+        note = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
+                "out_of_range": "Later"}.get(st, "No forecast")
+        wx = f'<span class="wl-pl wl-one">{esc(note)}</span>'
+    a, h = g.get("away") or {}, g.get("home") or {}
+    lab = gp_title(g)
+    inner = (f'<span class="wl-bulb{" on" if lit else ""}" aria-hidden="true"></span>'
+             f'<span class="wl-pl wl-tm">{esc(a.get("abbr") or "")}</span><span class="wl-at">at</span>'
+             f'<span class="wl-pl wl-tm">{esc(h.get("abbr") or "")}</span><span class="wl-when">{esc(when)}</span>'
+             f'{wx}<span class="sr-only">{" weather matters" if lit else ""}</span>')
+    href = _game_href(g) if _has_game_page(g) else ""
+    tag, attr = ("a", f' href="{esc(href)}" aria-label="{esc(lab)}"') if href else ("div", "")
+    return (f'<{tag} class="wl-row{" wl-lit" if lit else ""}" data-wall-gid="{esc(str(g.get("id")))}"{attr}>'
+            f'{inner}</{tag}>')
+
+
+def wall(sb_data):
+    """The wall: the NFL week, then each day's college games. '' with no game on the board."""
+    games = board_games(sb_data)
+    if not games:
+        return ""
+    nfl = [g for _k, g in games if g.get("league") == "NFL"]
+    cfb = {}
+    for k, g in games:
+        if g.get("league") == "CFB":
+            cfb.setdefault(k.astimezone(_ET).date(), []).append(g)
+    wk, _ = nfl_week()
+    head = ('<div class="wl-legend"><span><i class="wl-bulb on" aria-hidden="true"></i>Weather matters</span>'
+            '<span>Temp °F · Wind mph · Rain %</span></div>')
+    out = []
+    if nfl:
+        out.append(f'<section class="wl-board" aria-label="This week\'s NFL games and kickoff weather">'
+                   f'<div class="wl-head"><h2 class="wl-h">NFL{f" Week {wk}" if wk else ""} '
+                   f'<span>· Kickoff weather</span></h2>{head}</div>'
+                   f'<div class="wl-rows">{"".join(wall_row(g) for g in nfl)}</div>'
+                   f'<p class="wl-src">Conditions by GoCheckMyWeather · National Weather Service</p></section>')
+    for d in sorted(cfb):
+        out.append(f'<section class="wl-board wl-cfb" aria-label="College games, {esc(d.strftime("%A"))}">'
+                   f'<div class="wl-head"><h2 class="wl-h">{esc(d.strftime("%A, %b %-d"))} '
+                   f'<span>· College football</span></h2></div>'
+                   f'<div class="wl-rows">{"".join(wall_row(g) for g in cfb[d])}</div></section>')
+    return f'<div class="wl" data-wall>{"".join(out)}</div>'
+
+
 def render_home(items, dateline):
     """The front door is the week board and nothing else: the band with the day tabs, the
     week's NFL and FBS games in kickoff order, and under them one empty slot named the
@@ -9941,7 +10014,8 @@ def render_home(items, dateline):
     if not board:
         board = ('<p class="bd-src wb-none">No NFL or college football games are scheduled '
                  'this week.</p>')
-    body = band + f"""<main class="wrap"><section class="page">
+    # S-2d item 2: at 1100px and up the wall is the first view; the band and the cards follow
+    body = (f'<div class="wrap wl-wrap">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
   <div class="scoreband scoreband-page wb-board" data-today="{esc(_mf()["date"])}">{board}</div>
   <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
 </section></main>"""

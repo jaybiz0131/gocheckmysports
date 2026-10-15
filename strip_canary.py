@@ -34,6 +34,11 @@ Each check names the break it exists for and was seen red first (U-9).
   sprite     the arrow is drawn once per page and placed with <use>
   font       Oswald is self-hosted woff2, weights 500 to 700, and is the file the subset script
              made from OSWALD_TEXT
+  wall       S-2d item 2 (ScoreboardWall.dc.html): the wall is shown at 1100px and up and not
+             under; one row per NFL game in kickoff order, then each day's college games in a wall
+             of their own; a row's bulb is lit exactly when one of its flags is on, its wind yellow
+             exactly with the wind flag; a dome or outside coverage is one plate; each row links
+             its game page; every wall text colour clears 4.5:1 (3:1 at 24px) on the panel or plate
   tree       on the gate's own build: every board card is a scoreboard, each day's first card the
              Ticket and the rest compact; no S-2c amber anywhere on the home; every character set
              in Oswald on the home is one the subset carries
@@ -362,6 +367,98 @@ def check_render():
     return fails
 
 
+def check_wall(css=None):
+    import site_build as sb
+    import datetime as _d
+    css = css if css is not None else _css()
+    fails = []
+    if not re.search(r"\.wl-wrap\{display:none\}", css) or not re.search(
+            r"@media \(min-width:1100px\)\{\s*\.wl-wrap\{display:block", css):
+        fails.append("wall: it is not hidden under 1100px and shown at 1100px and up")
+    on_plate = re.compile(r"wl-pl|wl-tm")
+    n = 0
+    for sel, decl in _rules(css, r"\.wl-"):
+        for c in re.findall(r"(?:^|;)\s*color:\s*(#[0-9A-Fa-f]{6})", decl):
+            n += 1
+            size = re.search(r"font-size:(\d+)px", decl)
+            big = bool(size and int(size.group(1)) >= 24)
+            gs = {"a plate": _rgb(PLATE)} if all(on_plate.search(p) for p in sel.split(",")) else \
+                {"the panel": _rgb(PANEL), "a plate": _rgb(PLATE)}
+            for gname, g in gs.items():
+                r = contrast(_rgb(c), g)
+                if r < (3.0 if big else 4.5):
+                    fails.append(f"wall contrast: {sel} {c} on {gname} is {r:.2f}:1")
+        low = decl.lower().replace(" ", "")
+        if any(y in low for y in YELLOW) and re.search(r"wl-w\b|wl-bulb", sel) and ".on" not in sel:
+            fails.append(f"wall: yellow on '{sel}', which needs a flag")
+    if n < 6:
+        fails.append(f"wall contrast: only {n} wall text colours found in site.css")
+    was = (sb.CX_DATA, sb._NOW_CACHE, sb.W2W_DATA)
+    try:
+        sb._NOW_CACHE = _d.datetime(2026, 10, 15, 13, 0, tzinfo=_d.timezone.utc)
+        sb.W2W_DATA = None
+        sb.CX_DATA = {"games": {"1": _entry(), "2": _entry(flags=_QUIET, alerts=None),
+                                "3": {"status": "indoor", "venue": "Allegiant Stadium", "words": {"line": "Indoor"}},
+                                "4": {"status": "outside_nws", "venue": "Wembley Stadium", "words": {}},
+                                "5": _entry(alerts=[{"event": "Freeze Watch"}], flags=_flags(alert=True)),
+                                "6": _entry(flags=_QUIET)}}
+        mk = lambda gid, lg, start, a, h, **kw: dict({"id": gid, "league": lg, "state": "pre", "start_utc": start,
+                                                     "away": {"abbr": a}, "home": {"abbr": h}}, **kw)
+        L = [{"league": "NFL", "games": [mk("5", "NFL", "2026-10-18T17:00Z", "BAL", "CLE"),
+                                         mk("1", "NFL", "2026-10-16T00:15Z", "SEA", "DEN"),
+                                         mk("3", "NFL", "2026-10-18T20:25Z", "BUF", "LV"),
+                                         mk("4", "NFL", "2026-10-18T13:30Z", "HOU", "JAX", venue_city="London"),
+                                         mk("2", "NFL", "2026-10-18T17:00Z", "CAR", "PHI")]},
+             {"league": "CFB", "games": [mk("6", "CFB", "2026-10-17T16:00Z", "OSU", "IU")]}]
+        was_ids = sb.BOARD_IDS
+        sb.BOARD_IDS = {"1", "2", "3", "4", "5", "6"}
+        try:
+            w = sb.wall({"leagues": L})
+        finally:
+            sb.BOARD_IDS = was_ids
+        boards = re.findall(r'<section class="wl-board( wl-cfb)?"', w)
+        if boards != ["", " wl-cfb"]:
+            fails.append(f"wall: the walls are {boards}, not the NFL then a college day")
+        rows = re.findall(r'<a class="wl-row( wl-lit)?" data-wall-gid="(\d+)" href="/games/(\d+)\.html"', w)
+        nfl = w[:w.find("wl-cfb")]
+        if [g for _l, g, _h in re.findall(r'<a class="wl-row( wl-lit)?" data-wall-gid="(\d+)" href="/games/(\d+)\.html"', nfl)] \
+                != ["1", "4", "2", "5", "3"]:     # kickoff, then the game id, as the board orders them
+            fails.append("wall: the NFL rows are not in kickoff order")
+        if len(rows) != 6 or any(g != h for _l, g, h in rows):
+            fails.append("wall: a row does not link its own game page")
+        lit = {g for l, g, _h in rows if l}
+        if lit != {"1", "5"}:
+            fails.append(f"wall: the lit rows are {sorted(lit)}, not exactly the games with a flag on")
+        r1 = w[w.find('data-wall-gid="1"'):w.find("</a>", w.find('data-wall-gid="1"'))]
+        r2 = w[w.find('data-wall-gid="2"'):w.find("</a>", w.find('data-wall-gid="2"'))]
+        if 'class="wl-pl wl-w on">18<' not in r1 or "wl-w on" in r2:
+            fails.append("wall: the wind is not yellow exactly with the wind flag")
+        if 'class="wl-pl">47°<' not in r1 or 'class="wl-pl">33%<' not in r1:
+            fails.append("wall: a row does not carry its temperature and rain")
+        if '<span class="wl-pl wl-one">Dome</span>' not in w or '<span class="wl-pl wl-one">London</span>' not in w:
+            fails.append("wall: a dome or outside coverage is not one plate")
+        if "Saturday, Oct 17" not in w:
+            fails.append("wall: the college wall is not titled by its day")
+    finally:
+        sb.CX_DATA, sb._NOW_CACHE, sb.W2W_DATA = was
+    return fails
+
+
+def check_wall_tree(out, home):
+    fails = []
+    nfl_cards = re.findall(r'<article class="tk-c[^"]*" data-gid="(\d+)"[^>]*data-league="NFL"', home)
+    wall = home[home.find('data-wall'):home.find('wl-cfb') if 'wl-cfb' in home else len(home)]
+    rows = re.findall(r'class="wl-row[^"]*" data-wall-gid="(\d+)"', wall)
+    if nfl_cards and rows != nfl_cards:
+        fails.append(f"wall tree: the wall's NFL rows {len(rows)} are not the board's NFL cards {len(nfl_cards)} in order")
+    for gid in re.findall(r'class="wl-row[^"]*" data-wall-gid="\d+" href="/games/(\d+)\.html"', home):
+        if not os.path.exists(os.path.join(out, "games", f"{gid}.html")):
+            fails.append(f"wall tree: a row links /games/{gid}.html, which the build did not write")
+    if home.find("data-wall") > home.find('class="scoreband sb-hero'):
+        fails.append("wall tree: the wall is not the home's first view")
+    return fails
+
+
 def check_tree(out):
     fails = []
     fp = os.path.join(out, "index.html")
@@ -379,6 +476,7 @@ def check_tree(out):
             fails.append(f"strip tree: {len(allc) - len(cards)} board card(s) are not scoreboards")
         if cards and (cards[0] != "ticket" or any(c != "compact" for c in cards[1:])):
             fails.append(f"strip tree: a day's cards are {cards}, not the Ticket then compact")
+    fails += check_wall_tree(out, home)
     low = home.lower()
     if any(a in low for a in AMBER) or "cx-flag" in home or "cx-hud" in home:
         fails.append("strip tree: S-2c amber is still on the home")
@@ -402,7 +500,7 @@ def check_tree(out):
 
 
 def strip_canary(out=None):
-    f = check_contrast() + check_rules() + check_font() + check_render()
+    f = check_contrast() + check_rules() + check_font() + check_render() + check_wall()
     if out:
         f += check_tree(out)
     return f
