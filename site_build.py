@@ -6542,6 +6542,12 @@ def _sb_game_by_id(gid):
     return None
 
 
+def _game_page_built(gid):
+    """A schedule row links its game page only when the build has written it (the week board's games);
+    a game weeks away has no page, and a link to one is a 404 (the game link canary)."""
+    return bool(gid) and os.path.exists(os.path.join(PUBLISH, "games", f"{gid}.html"))
+
+
 def _nfl_rows(tm, evs):
     rows = []
     for e in evs:
@@ -6555,7 +6561,7 @@ def _nfl_rows(tm, evs):
                      "opp_link": "nfl" if _team_page_exists(e.get("opp") or "") else "",
                      "state": e.get("state"), "result": e.get("result"), "score": e.get("score"),
                      "opp_score": e.get("opp_score"), "time_set": e.get("time_set", True),
-                     "net": net, "id": e.get("id"), "page": True})
+                     "net": net, "id": e.get("id"), "page": _game_page_built(e.get("id"))})
     return rows
 
 
@@ -6658,7 +6664,7 @@ def _cfb_rows(prog):
                         "opp_full": theirs.get("school") or theirs.get("full"), "opp_link": oslug,
                         "state": g.get("state"), "result": res, "score": sc, "opp_score": osc,
                         "time_set": True, "net": network_name(g.get("network")) if g.get("network") else "",
-                        "id": g.get("id"), "page": _has_game_page(g), "_g": g})
+                        "id": g.get("id"), "page": _game_page_built(g.get("id")), "_g": g})
     out.sort(key=lambda r: r.get("date") or "")
     return out
 
@@ -12215,6 +12221,8 @@ def build():
         # desk has decided nobody will find. Only the weeks actually written are listed.
         topic_locs += [f"/nfl/week-{_w}.html" for _w in range(1, WEEK_COUNT + 1)
                        if _sched_week(TEAM_DATA, _w)]
+    # S-3a: the top forty college programs are listed with the NFL teams, only as written
+    topic_locs += [f'/teams/cfb/{_p["slug"]}.html' for _p in CFB_PROGRAMS]
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")
         topic_locs += [f"/where-to-watch/{_w2w_slug(_wk)}.html"

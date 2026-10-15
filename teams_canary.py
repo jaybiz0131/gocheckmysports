@@ -190,6 +190,15 @@ def tree_checks(tree):
                        for a in teams_nfl)
         if hits + nfl_hits == 0:
             fails.append("tree: games are flagged this week and no team page logs one")
+    # sitemap
+    sm = _read(tree, "sitemap-priority.xml") or ""
+    for ab in teams_nfl:
+        if f"/teams/{ab.lower()}<" not in sm:
+            fails.append(f"sitemap: /teams/{ab.lower()} is not in the priority sitemap")
+            break
+    missing = [f for f in cfb if f"/teams/cfb/{f[:-5]}<" not in sm]
+    if missing:
+        fails.append(f"sitemap: {len(missing)} college team pages are not in the priority sitemap")
     return fails
 
 
