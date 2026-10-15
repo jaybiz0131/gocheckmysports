@@ -515,17 +515,28 @@ def check_data_fresh_retry():
         json.dump(fresh, open(os.path.join(t, "data", "scoreboard.json"), "w"))
         json.dump(stale, open(os.path.join(t, "data", "where-to-watch.json"), "w"))
         later = {"fetched_at": "2026-10-15T01:04:00Z"}
-        if not check_data_fresh(t, refetch=lambda n: None):
-            fails.append("data retry: a stale file whose retry failed passed")
-        if not check_data_fresh(t, refetch=lambda n: stale):
-            fails.append("data retry: a stale file whose retry came back stale passed")
-        if check_data_fresh(t, refetch=lambda n: later):
-            fails.append("data retry: a stale file whose retry succeeded is still red")
-        os.remove(os.path.join(t, "data", "where-to-watch.json"))
-        if not check_data_fresh(t, refetch=lambda n: later):
-            fails.append("data retry: a file the build did not publish was excused by a retry")
+        import contextlib
+        import io
+        # the fixture's own warning is not an annotation on a real run (CLAUDE.md: advisory
+        # checks warn; deliberate fixture cases post nothing)
+        with contextlib.redirect_stdout(io.StringIO()):
+            return fails + _retry_cases(t, stale, later)
     finally:
         shutil.rmtree(t, ignore_errors=True)
+
+
+def _retry_cases(t, stale, later):
+    """The four retry cases on the fixture tree `t`."""
+    fails = []
+    if not check_data_fresh(t, refetch=lambda n: None):
+        fails.append("data retry: a stale file whose retry failed passed")
+    if not check_data_fresh(t, refetch=lambda n: stale):
+        fails.append("data retry: a stale file whose retry came back stale passed")
+    if check_data_fresh(t, refetch=lambda n: later):
+        fails.append("data retry: a stale file whose retry succeeded is still red")
+    os.remove(os.path.join(t, "data", "where-to-watch.json"))
+    if not check_data_fresh(t, refetch=lambda n: later):
+        fails.append("data retry: a file the build did not publish was excused by a retry")
     return fails
 
 
