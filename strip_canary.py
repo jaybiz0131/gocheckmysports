@@ -351,7 +351,7 @@ def check_render():
         if '<span class="sbc-chip sbc-roof">Roof</span>' not in rf or 'data-cx="forecast"' not in rf:
             fails.append("strip: a retractable roof does not keep the plates and add a ROOF plate")
         # the kicker
-        if '<span class="sbc-kick" data-role="kicker">Thu 8:15 PM ET · Empower Field</span>' not in den:
+        if '<span class="sbc-kick" data-role="kicker">Thu Oct 15 · 8:15 PM ET · Empower Field</span>' not in den:
             fails.append("strip: the kicker is not the kickoff in ET and the stadium's short name")
         # sprite
         page = sb.cx_sprite(den + den + c)

@@ -5023,17 +5023,17 @@ def sbc_team_name(g, t):
 
 
 def sbc_kicker(g, e=None):
-    """The card's top line: the kickoff in ET and the stadium before the game; the feed's own
-    state after kickoff ("Final", "Q3 4:12")."""
+    """The card's top line: the day, the kickoff in ET and the stadium before the game; the feed's
+    own state after kickoff ("Final", "Q3 4:12"). Every card dates itself (S-1)."""
     venue = sbc_short_venue(g, e)
+    k = _utc_dt(g.get("start_utc") or "")
+    day = k.astimezone(_ET).strftime("%a %b %-d") if k else ""
     if g.get("state") in ("in", "post"):
         word = ("Postponed" if _is_postponed(g) else "Final") if g.get("state") == "post" else (_tk_state(g) or "")
         if g.get("state") == "post" and "OT" in (g.get("status_short") or "").upper() and word == "Final":
             word = "Final/OT"
-        return " · ".join(x for x in (word, venue) if x)
-    k = _utc_dt(g.get("start_utc") or "")
-    when = f'{k.astimezone(_ET).strftime("%a")} {_et_clock(k)}' if k else ""
-    return " · ".join(x for x in (when, venue) if x)
+        return " · ".join(x for x in (word, day, venue) if x)
+    return " · ".join(x for x in (day, _et_clock(k) if k else "", venue) if x)
 
 
 def sbc_periods(g):
@@ -5179,7 +5179,7 @@ def sbc_weather(g, e):
     return (f'<div class="sbc-wx" data-cx="forecast" data-lens-only="watch">{plates}{bulbs}{note}{words}</div>'), lit
 
 
-def sbc_card(g, ia_index, ticket=False, desig=None):
+def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     """S-2d item 0: one card of the week board as a small scoreboard. The article keeps the
     Ticket's class and data attributes (the team pins, the lens and the recount read them)."""
     e = cx_entry(g)
@@ -5189,6 +5189,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None):
                                                 or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
         roof = '<span class="sbc-chip sbc-roof">Roof</span>'
     net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
+    # S-1: the network plate, then the first stream that carries the game (or the verify chip)
     facts = _tk_avail(g, ia_index, desig)
     fact = (f'<p class="sbc-fact" data-lens-only="fantasy">' + " · ".join(
         f'{esc(k)} {esc(v)}' for k, v in facts) + '</p>') if facts else ""
@@ -5203,7 +5204,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None):
             f'data-away="{esc((g.get("away") or {}).get("abbr") or "")}" '
             f'data-home="{esc((g.get("home") or {}).get("abbr") or "")}" style="--a:{a_col};--b:{b_col}">'
             f'<div class="sbc-top"><span class="sbc-kick" data-role="kicker">{esc(sbc_kicker(g, e))}</span>'
-            f'<span class="sbc-chips" data-lens-only="watch">{roof}{net}</span></div>'
+            f'<span class="sbc-chips" data-lens-only="watch">{roof}{net}{stream}</span></div>'
             f'{sbc_linescore(g, full=ticket)}{_tk_line(g)}{wx}{fact}{link}</article>')
 
 
@@ -9892,7 +9893,7 @@ def week_board(sb):
     def card(k, g):
         # S-2d item 0: the board's cards are scoreboards; the day's first is the Ticket
         return sbc_card(g, ia, ticket=first_of_day.get(k.astimezone(_ET).date()) == str(g.get("id")),
-                        desig=IA_DESIG)
+                        desig=IA_DESIG, stream=_first_stream_chip(g, carriers, doc, today))
 
     sections = []
     for d in sorted(by_day):

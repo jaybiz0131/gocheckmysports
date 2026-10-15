@@ -304,9 +304,15 @@ def home_canary():
 
         # records: a team's record is its own muted element with a clear gap from the score
         # (13 October 2026: "Buccaneers 241-4" at 390 was a score and a record run together)
-        chips = re.findall(r'<span class="tk-sc">\d+</span></span><span class="tk-trec">[^<]+</span>', home)
+        # S-2d: on the home's scoreboards the record is small mono inside the team's name plate and
+        # the score is alone on its own total plate; the Scores page keeps the chip and its gap
+        fin = card("MINDET")
+        if not re.search(r'<span class="sbc-team"[^>]*>.*?<small class="sbc-rec">[^<]+</small></span>', fin) \
+                or not re.search(r'sbc-tot[^"]*" data-side="(?:away|home)"><span class="tk-sc">\d+</span></span>', fin):
+            fails.append("home: the finished card's record is not in its name plate, apart from the score plate")
+        chips = re.findall(r'<span class="tk-sc">\d+</span></span><span class="tk-trec">[^<]+</span>', scores or "")
         if not chips:
-            fails.append("home: no finished card carries a record outside its score element")
+            fails.append("scores: no finished card carries a record outside its score element")
         css = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "site", "assets", "site.css"),
                    encoding="utf-8").read()
         rule = re.search(r"\.tk-chip-score \.tk-trec\{([^}]*)\}", css)
