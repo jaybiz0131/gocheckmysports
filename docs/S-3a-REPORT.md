@@ -47,7 +47,7 @@ A row lit only by an alert shows the alert's own name in a plate under it (ALERT
 Local gate runs: `s3a-teams` PASS (second run), `s3a-structured` PASS, `s3a-wall` PASS.
 
 ## 3. A finding outside the sprint: CI has been red since 14 October
-`Verify sports pipeline` failed on every run from 319 to 323, main pushes included, for two missing inputs and nothing else: "report card: Pillow is not installed" and "records: no browser: playwright not found". The workflow installed neither. `e0bf9de` installs Pillow and Playwright 1.56.1 with Chromium, and sets `PLAYWRIGHT_NODE_MODULES`. It is untested in CI until the run on this PR finishes; if it is wrong it is a workflow-only change.
+`Verify sports pipeline` failed on every run from 319 to 323, main pushes included, for two missing inputs and nothing else: "report card: Pillow is not installed" and "records: no browser: playwright not found". The workflow installed neither. `e0bf9de` installs Pillow and Playwright 1.56.1 with Chromium, and sets `PLAYWRIGHT_NODE_MODULES`. Confirmed: the Layer 1 canary is green in CI on `e0bf9de` ([run 38821001520](https://github.com/jaybiz0131/gocheckmysports/actions/runs/38821001520)), the first green since 14 October. It rides the stack, so main stays red until the merge.
 
 ## 4. Weights
 - `site.css`: 185,289 to 191,280 bytes raw (+5,991); gzip 47,077 to 48,175 (+1,098).
