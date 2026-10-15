@@ -1,0 +1,61 @@
+[
+ {
+  "@context": "https://schema.org",
+  "@graph": [
+   {
+    "@type": "SportsEvent",
+    "@id": "https://gocheckmysports.com/games/401872999.html#event",
+    "name": "Chicago Bears at Atlanta Falcons",
+    "url": "https://gocheckmysports.com/games/401872999.html",
+    "sport": "American football",
+    "startDate": "2026-10-18T13:00:00-04:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+     "@type": "Place",
+     "name": "Mercedes-Benz Stadium"
+    },
+    "awayTeam": {
+     "@type": "SportsTeam",
+     "name": "Chicago Bears",
+     "sport": "American football"
+    },
+    "homeTeam": {
+     "@type": "SportsTeam",
+     "name": "Atlanta Falcons",
+     "sport": "American football"
+    },
+    "competitor": [
+     {
+      "@type": "SportsTeam",
+      "name": "Chicago Bears",
+      "sport": "American football"
+     },
+     {
+      "@type": "SportsTeam",
+      "name": "Atlanta Falcons",
+      "sport": "American football"
+     }
+    ],
+    "superEvent": {
+     "@type": "SportsOrganization",
+     "name": "National Football League",
+     "sport": "American football"
+    }
+   },
+   {
+    "@type": "BroadcastEvent",
+    "name": "Chicago Bears at Atlanta Falcons on Fox",
+    "isLiveBroadcast": true,
+    "startDate": "2026-10-18T13:00:00-04:00",
+    "broadcastOfEvent": {
+     "@id": "https://gocheckmysports.com/games/401872999.html#event"
+    },
+    "publishedOn": {
+     "@type": "BroadcastService",
+     "name": "Fox"
+    }
+   }
+  ]
+ }
+]
