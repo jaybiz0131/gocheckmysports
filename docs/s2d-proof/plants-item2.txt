@@ -1,0 +1,33 @@
+== before: status 0
+== PLANT the wall shown under 1100px: status 1 RED
+    FAIL wall: it is not hidden under 1100px and shown at 1100px and up
+== PLANT a wall label at #8E8A6E: status 1 RED
+    FAIL wall contrast: .wl-at #8E8A6E on the panel is 3.58:1
+== PLANT every wind plate yellow: status 1 RED
+    FAIL wall: yellow on '.wl-pl.wl-w', which needs a flag
+== PLANT a bulb lit by the alert ignored: status 1 RED
+    FAIL wall: the lit rows are ['1'], not exactly the games with a flag on
+== PLANT the wind yellow with no flag: status 1 RED
+    FAIL wall: the wind is not yellow exactly with the wind flag
+== PLANT a dome printed as Indoor: status 1 RED
+    FAIL wall: a dome or outside coverage is not one plate
+== PLANT the college games in the NFL wall: status 1 RED
+    FAIL wall: the walls are [''], not the NFL then a college day
+    FAIL wall: a row does not link its own game page
+    FAIL wall: the college wall is not titled by its day
+== PLANT a row with no link: status 1 RED
+    FAIL wall: the NFL rows are not in kickoff order
+    FAIL wall: a row does not link its own game page
+    FAIL wall: the lit rows are [], not exactly the games with a flag on
+== PLANT the card's bulbs all lit: status 1 RED
+    FAIL report card: BUF at LV's bulb is lit, its flags say off
+    FAIL report card: HOU at JAX's bulb is lit, its flags say off
+    FAIL report card: DAL at GB's bulb is lit, its flags say off
+    FAIL report card: NYG at CHI's bulb is lit, its flags say off
+== PLANT the card's wind yellow with no flag: status 1 RED
+    FAIL report card: PIT at TB's wind is yellow and its wind flag is off
+    FAIL report card: DAL at GB's wind is yellow and its wind flag is off
+== PLANT the card on S-2c's dark ground: status 1 RED
+    FAIL report card: the card is not a green panel in a darker green frame
+== after restore: status 0
+plants missed or not run: 0

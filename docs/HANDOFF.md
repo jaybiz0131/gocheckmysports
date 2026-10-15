@@ -8,10 +8,10 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 14 October 2026, after the S-2b merge (`4f026ed`, Program 7). The six 6 October
-branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
+Last updated: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
+October branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
 `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`) are merged; the proxy refuses branch
-deletes, so Jack deletes them, and the S-1 and S-2b item branches with them.
+deletes, so Jack deletes them, and the S-1, S-2b, S-2c and S-2d item branches with them.
 `search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac artifact. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
 this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
 `HANDOFF-2026-09-23-to-10-01.md`, `HANDOFF-2026-10-06.md` and `HANDOFF-2026-10-12.md`.
@@ -126,35 +126,32 @@ deploy`). Until then the evening slot has no automatic backstop; if it has not
 published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
 and note it in the report.
 
-## Sprint S-2b, the conditions on the site (Program 7; session of 13 to 14 October 2026)
+## Sprints S-2b to S-2d, the conditions and the scoreboard look (Program 7, 13 to 14 October 2026)
 
-S-1's section moved to `HANDOFF-2026-10-12.md` (end) on 14 October; its open items are below.
-The S-2b report is `S-2b-REPORT.md`. Every push read by hash (U-8), behind the canary (U-14).
+S-2b's section moved verbatim to `HANDOFF-2026-10-12.md` (end) on 14 October; the reports are
+`S-2b-REPORT.md`, `S-2c-REPORT.md` and `S-2d-REPORT.md`. Every push read by hash (U-8), gated (U-14).
 
-| Item | Branch tip | Merge on main |
-|---|---|---|
-| 0, the intake: `conditions.py`, `site/data/conditions.json` (ignored), `kickoff_weather.py` retired | `5232473` | `849649c` |
-| 1, the strip on every card: `wx_glyphs.py` (the Weather glyphs, generated), contrast held | `7fac7a8` | `4b6c33f` |
-| 2, game pages: the conditions block and hourly line; FBS board games get pages; board pages in the priority sitemap | `57f7ebe` | `cc068fa` |
-| 3, the report: `conditions_report.py`, `conditions-report.yml` (Thu 11:17, Sat 21:17, Sun 10:17 UTC), share card | `eb43403` | `4f026ed` |
-
-- One push, `98ec496..4f026ed`, 7:43 AM ET 14 Oct; production read by stamp `4f026ed` at 390
-  and 1440; count 2 ready that day after it; IndexNow 32 URLs, HTTP 200. PR 104 (the preview,
-  with the dry-run report) closed unmerged. The item branches are left for Jack to delete.
-- **Canaries:** `conditions_canary`, `strip_canary`, `gamepage_canary`, `report_canary`, and
-  `home_canary._report_slot_canary`; `jobs_canary` holds the three report crons.
-- **The report calls no model.** It is written by template from the Worker's numbers, and its
-  gate holds every number in a write-up to that game's own data. Each run that writes is a build.
-- **Thursday 15 Oct, 7:17 AM EDT:** the first live report. Read it on production by stamp
-  (`/conditions/2026-10-15-thu.html` and the home slot). Late is fine; wrong is not.
-- **Open, Jack's:** the six `verify` carriage rows and the regional maps link; the Worker line
-  for the brief's dispatch and `NEWSROOM_JOBS`; the affiliate links; DKR-Texas Memorial and
-  TDECU have no coordinates in the Weather table, so those games print nothing (Weather desk).
-- **Open, the desk's:** the board's college slate is the feed's default group, not every FBS
-  game; the masthead and intake fixes are not on Crypto or News; the old weather helpers
-  (`_wx_chip`, `_w2w_wx`, the weather half of `_tk_venue`) are inert and can go.
-- **Trap, twice in S-2b:** `.lx p` (17px) and the page's `h2` outrank a one-class rule. Give a
-  new `<p>` or `<h2>` a selector with a parent class.
+- **S-2d, merged `374e5dd` (pushed 10:08 PM ET 14 Oct):** item 0 `s2d-board` `976ca24` merge
+  `bb85c54`; item 1 `s2d-game` `cdd7bf0` merge `e4e4d6f`; item 2 `s2d-wall` `6a7dbce` merge `374e5dd`.
+  W-45 (`aa62909`): the build publishes `/data/where-to-watch.json` and `/data/scoreboard.json`;
+  the gate retries a stale feed once, then is red. PR 105 and 106 closed unmerged.
+- **The look:** board cards are scoreboards (`sbc_card`), the game page is one board (`sbg_board`),
+  the wall is the home's first view at 1100px and up (`wall`), the report's share card is drawn in
+  the wall's look. Oswald is `site/assets/fonts/oswald.woff2`, made by `scripts/oswald_subset.py`
+  (sha pinned there); a new character on a plate means re-running it and re-pinning.
+- **Canaries:** `strip_canary` (cards, wall, font, tree), `gamepage_canary` (board, data age),
+  `report_canary` (card), `home_canary` (record in its plate), with `conditions_canary`, `jobs_canary`.
+- **Thursday 15 Oct, 7:17 AM EDT:** the first live report and the first live wall-look card. Read
+  `/conditions/2026-10-15-thu.html`, its card and the home slot on production by stamp.
+- **Open for S-3:** on the wall, a row lit only by an alert shows why (ALERT or the alert's short
+  name in its plates); Seahawks at Broncos was lit by a Freeze Watch alone on 14 Oct.
+- **Open, Jack's:** the six `verify` carriage rows and the regional maps link; the Worker line for
+  the brief's dispatch and `NEWSROOM_JOBS`; the affiliate links; DKR-Texas Memorial and TDECU have
+  no coordinates in the Weather table (their wall plates read "No forecast"); Weather reads the two
+  `/data/` files instead of the repository's copies.
+- **Open, the desk's:** the college slate is the feed's default group, not every FBS game; the
+  masthead and intake fixes are not on Crypto or News; `_wx_chip`, `_w2w_wx` and the weather half
+  of `_tk_venue` are inert. **Trap:** `.lx p` and the page's `h2` outrank a one-class rule.
 
 ## Search
 
