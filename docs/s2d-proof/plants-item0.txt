@@ -1,0 +1,64 @@
+== before: status 0
+== PLANT off-bulb label back to the artboard's #8E8A6E: status 1 RED
+    FAIL strip contrast: .sbc-bulbs #8E8A6E on the panel is 3.58:1
+== PLANT the sub line under a plate at #8E8A6E: status 1 RED
+    FAIL strip contrast: .sbc-s #8E8A6E on the panel is 3.58:1
+== PLANT a yellow glow on every number plate, flag or not: status 1 RED
+    FAIL strip rules: a yellow glow on '.sbc-wp .sbc-big', which needs a flag
+    FAIL strip rules: yellow on '.sbc-wp .sbc-big', which needs a flag
+== PLANT S-2c amber on a lit bulb: status 1 RED
+    FAIL strip rules: S-2c amber on '.sbc-bulb.on', which retired with the scoreboard look
+== PLANT Oswald declared 400 to 700: status 1 RED
+    FAIL font: Oswald is declared at weights 400 to 700, not 500 to 700
+== PLANT a different woff2 shipped (one byte appended): status 1 RED
+    FAIL font: /assets/fonts/oswald.woff2 is not the file scripts/oswald_subset.py made (sha 6c9efa2ba6db)
+== PLANT the Ticket without quarter 4: status 1 RED
+    FAIL strip: the Ticket's line score heads are [('', ''), ('', '1'), ('', '2'), ('', '3'), (' sbc-th', 'T')], not 1 to 4 and a yellow T
+    FAIL strip: a pre-game plate is not empty
+    FAIL strip: a final's plates do not fill from the feed: ['7', '3', '0', '20', '0', '7', '7', '17']
+== PLANT compact cards with quarters: status 1 RED
+    FAIL strip: a compact card is not the total only
+== PLANT an empty total printed as 0: status 1 RED
+    FAIL strip: a pre-game plate is not empty
+    FAIL strip: a final with no score in the feed printed 0
+== PLANT quarters from a half-filled feed: status 1 RED
+    FAIL strip: a half-filled feed printed quarters
+== PLANT the winner's total dims: status 1 RED
+    FAIL strip: the loser's total does not dim, or the winner's does
+== PLANT OT always a column: status 0 GREEN (the test missed it)
+== PLANT a final loses its weather plates: status 1 RED
+    FAIL strip: a final lost its weather plates
+== PLANT a peak printed when not higher: status 1 RED
+    FAIL strip: the rain plate names a peak that is not higher
+== PLANT the RAIN bulb lit by the wind flag: status 1 RED
+    FAIL strip: den's bulbs are [('wind', True), ('rain', True), ('cold', False), ('alert', False)], not [('wind', True), ('rain', False), ('cold', False), ('alert', False)]
+== PLANT COLD at a 60 feel: status 1 RED
+    FAIL strip: f60's bulbs are [('wind', False), ('rain', False), ('cold', False), ('alert', False)], not [('wind', False), ('rain', False), ('heat', False), ('alert', False)]
+== PLANT the ALERT bulb lit by any flag: status 1 RED
+    FAIL strip: den's bulbs are [('wind', True), ('rain', False), ('cold', False), ('alert', True)], not [('wind', True), ('rain', False), ('cold', False), ('alert', False)]
+== PLANT a yellow edge with no flag: status 1 RED
+    FAIL strip: no flag is on and the card carries yellow
+== PLANT the words line yellow with no wind flag: status 1 RED
+    FAIL strip: no flag is on and the card carries yellow
+    FAIL strip: the words line is not yellow exactly when the wind flag is on
+== PLANT the credit unlinked: status 1 RED
+    FAIL strip: the credit is not on the words line, linked to the stadium page
+== PLANT the arrow at the field angle: status 1 RED
+    FAIL strip: the wind arrow is not at arrow_true_deg
+== PLANT Calm drawing an arrow: status 0 GREEN (the test missed it)
+== PLANT a missing temperature printed as 0: status 1 RED
+    FAIL strip: a number the Worker did not give does not print as missing
+== PLANT alerts null silent: status 1 RED
+    FAIL strip: alerts null does not print 'Alerts not checked'
+== PLANT a dome printed as Indoor: status 1 RED
+    FAIL strip: a dome is not one numberless plate
+== PLANT outside coverage without its city: status 1 RED
+    FAIL strip: outside NWS coverage is not one plate with the city
+== PLANT the ROOF plate dropped: status 1 RED
+    FAIL strip: a retractable roof does not keep the plates and add a ROOF plate
+== PLANT the kicker with the stadium's full name: status 1 RED
+    FAIL strip: the kicker is not the kickoff in ET and the stadium's short name
+== PLANT the arrow drawn inline: status 1 RED
+    FAIL strip: the arrow is not drawn once per page and placed with <use>
+== after restore: status 0
+plants missed or not run: 2

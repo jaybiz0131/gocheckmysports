@@ -100,16 +100,16 @@ runs from this date; the rulings it executes:
   committed. If the Thursday 7:17 AM cron slips (it has run four hours late), the report is
   late but correct; the trigger is not changed.
 
-## Program 7, S-2c: Jack's rulings of 14 October 2026
+## Program 7, S-2d: Jack's rulings of 14 October 2026 (S-2c's are in docs/HANDOFF-2026-10-12.md)
 
-- **9:33 AM:** the Sports game-day look is approved as designed: the conditions HUD on the board
-  cards, the kickoff-conditions hero on the game page, the two-column desktop game page. Glow on
-  data only (big numbers, wind arrows, rain ring, active day tab), never labels, body or links.
-  Amber #FFB03D means the Worker's flags say a number matters, nothing else; no flag, no amber.
-  Temperatures take the Weather ramp the strip vendors (`CX_TEMP_INK`), the same on both sites.
-- **3:05 PM:** on every width the game page reads the Ticket, the hero, where to watch, then
-  venue, designations and inactives. Desktop field column about 300px, the tiles the rest. When
-  both primaries are one family the home end zone takes the feed's alternate colour.
+- **3:11 PM:** the classic scoreboard look: green panels #0E3B2A in #072619 frames, plates
+  #141A17, cream #F4F1E6 in Oswald, yellow #FFD23F labels, kickoffs and lit bulbs, Plex Mono small
+  labels. Weather matters = lit bulbs (WIND, RAIN, COLD/HEAT, ALERT), the plate's glow, the yellow
+  edge; S-2c's amber retires; flags only from the Worker. A style, not a brand: no ballpark's name
+  or team marks anywhere. Boards green in both themes. S-2c's order and end-zone rule stand.
+- **9:50 PM:** yes on the sheet, the seven calls as built (labelled plates on every card, the line
+  on cards, nicknames on cards and abbreviations on the game board, yellow arrows, cream temps,
+  All and counts on the tabs, dated cards). W-45 retries a stale feed once in the gate; hard check.
 
 ---
 

@@ -1,0 +1,12 @@
+== before: status 0
+== PLANT the retry's answer ignored (a stale file always passes): status 1 RED
+    FAIL data retry: a stale file whose retry failed passed
+    FAIL data retry: a stale file whose retry came back stale passed
+== PLANT no retry at all (the first W-45 behaviour): status 1 RED
+    FAIL data retry: a stale file whose retry succeeded is still red
+== PLANT a missing file excused: status 1 RED
+    FAIL data retry: a file the build did not publish was excused by a retry
+== PLANT a stale retry accepted: status 1 RED
+    FAIL data retry: a stale file whose retry came back stale passed
+== after restore: status 0
+plants missed or not run: 0
