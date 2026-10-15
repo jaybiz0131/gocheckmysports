@@ -438,12 +438,33 @@ def check_desk_tree(out):
 FRESH_DATA = ("where-to-watch.json", "scoreboard.json")
 
 
-def check_data_fresh(out):
+def _refetch(name):
+    """The gate's one retry of a feed (Jack, 14 October 2026): fetch again without writing the
+    committed file. Returns the payload, or None when the feed fails again."""
+    try:
+        if name == "where-to-watch.json":
+            import where_to_watch as m
+        else:
+            import scoreboard as m
+        return m.refresh(check=True)
+    except Exception as e:
+        print(f"data: the gate's retry of {name} raised {type(e).__name__}")
+        return None
+
+
+def check_data_fresh(out, refetch=None):
     """W-45 (14 October 2026): the schedule and the scoreboard the build read are published at
     /data/, each with its own fetched_at, and neither is older than the build that published it
     (the manifest's started_utc). The repository's copies sat at Sunday night's poll for two days
-    while the pages were fresh, because nothing but the inactives poller ever wrote them out."""
+    while the pages were fresh, because nothing but the inactives poller ever wrote them out.
+
+    Jack, 14 October, 9:50 PM ET: a file older than the build is first read as the feed failing
+    during the gate's own build (ESPN dropped one fetch on the night it shipped), so the gate
+    fetches that feed once more. If the retry gets it, the check passes with a warning naming the
+    first failure; if the retry fails too, it is red. It stays a hard check: a file the build did
+    not publish, or a manifest with no started_utc, is red at once, because no retry explains it."""
     import datetime as _d
+    refetch = refetch or _refetch
     fails = []
     mf = os.path.join(out, "build-manifest.json")
     started = (json.load(open(mf, encoding="utf-8")) if os.path.exists(mf) else {}).get("started_utc")
@@ -461,8 +482,50 @@ def check_data_fresh(out):
         except ValueError:
             fails.append(f"data: /data/{name} carries no readable fetched_at ({got!r})")
             continue
-        if t < t0:
-            fails.append(f"data: /data/{name} was fetched {got}, before this build began at {started}")
+        if t >= t0:
+            continue
+        again = refetch(name) or {}
+        try:
+            t2 = _d.datetime.strptime(again.get("fetched_at") or "", "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError:
+            t2 = None
+        if t2 and t2 >= t0:
+            print(f"::warning::data: /data/{name} was fetched {got}, before this build began at {started}; "
+                  f"the gate's one retry fetched it at {again.get('fetched_at')}, so the feed failed during the "
+                  f"build and the build did not")
+            continue
+        fails.append(f"data: /data/{name} was fetched {got}, before this build began at {started}, "
+                     f"and the gate's one retry failed too")
+    return fails
+
+
+def check_data_fresh_retry():
+    """The retry on a fixture tree, with the feed stubbed: a stale file whose retry fails is red, a
+    stale file whose retry succeeds is green, and a file the build did not publish is red even
+    when a retry would succeed."""
+    import shutil
+    import tempfile
+    fails = []
+    t = tempfile.mkdtemp(prefix="w45-retry-")
+    try:
+        os.makedirs(os.path.join(t, "data"))
+        json.dump({"started_utc": "2026-10-15T01:00:00Z"}, open(os.path.join(t, "build-manifest.json"), "w"))
+        fresh = {"fetched_at": "2026-10-15T01:00:02Z"}
+        stale = {"fetched_at": "2026-10-13T00:05:27Z"}
+        json.dump(fresh, open(os.path.join(t, "data", "scoreboard.json"), "w"))
+        json.dump(stale, open(os.path.join(t, "data", "where-to-watch.json"), "w"))
+        later = {"fetched_at": "2026-10-15T01:04:00Z"}
+        if not check_data_fresh(t, refetch=lambda n: None):
+            fails.append("data retry: a stale file whose retry failed passed")
+        if not check_data_fresh(t, refetch=lambda n: stale):
+            fails.append("data retry: a stale file whose retry came back stale passed")
+        if check_data_fresh(t, refetch=lambda n: later):
+            fails.append("data retry: a stale file whose retry succeeded is still red")
+        os.remove(os.path.join(t, "data", "where-to-watch.json"))
+        if not check_data_fresh(t, refetch=lambda n: later):
+            fails.append("data retry: a file the build did not publish was excused by a retry")
+    finally:
+        shutil.rmtree(t, ignore_errors=True)
     return fails
 
 
@@ -472,14 +535,15 @@ def gamepage_canary(out=None):
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_data_fresh(out) + check_tree(out) + check_desk_tree(out) + check_verify() + check_board() + check_board_css() + check_desk()
+    return check_data_fresh(out) + check_data_fresh_retry() + check_tree(out) + check_desk_tree(out) + check_verify() + check_board() + check_board_css() + check_desk()
 
 
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
-    f = ((check_data_fresh(root) + check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) + check_verify() \
+    f = ((check_data_fresh(root) + check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) \
+        + check_data_fresh_retry() + check_verify() \
         + check_board() + check_board_css() + check_desk()
     for x in f:
         print("FAIL", x)

@@ -308,7 +308,9 @@ def _league(name, path, colorkey, cmap):
     return games
 
 
-def refresh():
+def refresh(check=False):
+    """Fetch every league. `check` fetches without writing the committed file (the gate's retry,
+    W-45). Returns the payload, or None when every league failed."""
     cmap = _colors()
     out, failed = [], []
     for name, path, ck in LEAGUES:
@@ -324,6 +326,8 @@ def refresh():
     payload = {"fetched_at": datetime.datetime.now(datetime.timezone.utc)
                                      .strftime("%Y-%m-%dT%H:%M:%SZ"),
                "leagues": out, "failed": failed}
+    if check:
+        return payload
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=1)
