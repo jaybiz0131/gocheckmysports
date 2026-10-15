@@ -4985,10 +4985,227 @@ def cx_strip(g, large=False, credit=True):
             f'{cx_credit(e) if credit else ""}</div>')
 
 
-def cx_card_flag(g):
-    """' cx-flag' for a card whose conditions carry a number flag (the amber border and glow)."""
+# ---- S-2d item 0: THE BOARD CARD AS A SCOREBOARD ---------------------------------------------
+# Jack approved the classic scoreboard look at 3:11 PM ET on 14 October 2026 (the "Game Day
+# Weather Looks" canvas, the scoreboard row; ScoreboardBoard.dc.html is the spec). Each card on
+# the week board is a small hand-turned scoreboard: deep green panel in a darker green frame,
+# dark number plates, cream numerals and names in Oswald, scoreboard yellow for labels, the
+# kickoff line and lit bulbs. It is a style, not a borrowed brand: no ballpark is named here.
+# "Weather matters" is shown by four bulbs, each lit only by its own Worker flag (WIND by the
+# wind flag, RAIN by precipitation, COLD or HEAT by the feel threshold, ALERT by an NWS alert),
+# a yellow glow on the plate that matters, and a yellow edge on the board. Yellow replaces
+# S-2c's amber. The day's first card (the Ticket) carries the full line score, quarters and a
+# total; the rest the compact form, the total only. A plate is empty until the feed has its
+# number: quarters fill from the feed's periods, the total from its score.
+
+SBC_COLD_BELOW = 60     # Jack, 14 October: the third bulb reads COLD under a 60°F feel, HEAT at 60 and over
+
+
+def sbc_short_venue(g, e=None):
+    """The stadium's short name for the kicker: the feed's name to the first " at ", with an NFL
+    venue's trailing "Stadium" dropped ("Raymond James", "Allegiant", "Empower Field"). A college
+    venue keeps its name whole, since "Ohio Stadium" is not "Ohio"."""
+    name = ((e or {}).get("stadium") or {}).get("name") or g.get("venue") or (e or {}).get("venue") or ""
+    name = re.split(r"\s+at\s+", name.strip(), maxsplit=1)[0]
+    if (g.get("league") or "") == "NFL":
+        short = re.sub(r"\s+Stadium$", "", name)
+        if short:
+            name = short
+    return name
+
+
+def sbc_team_name(g, t):
+    """What a plate prints: the nickname in the NFL ("Seahawks"), the school in college ("Ohio
+    State"), as the artboard sets them; the full name rides in the plate's label."""
+    if (g.get("league") or "") == "NFL":
+        return t.get("name") or t.get("abbr") or ""
+    return t.get("school") or _team_label(g, t)
+
+
+def sbc_kicker(g, e=None):
+    """The card's top line: the day, the kickoff in ET and the stadium before the game; the feed's
+    own state after kickoff ("Final", "Q3 4:12"). Every card dates itself (S-1)."""
+    venue = sbc_short_venue(g, e)
+    k = _utc_dt(g.get("start_utc") or "")
+    day = k.astimezone(_ET).strftime("%a %b %-d") if k else ""
+    if g.get("state") in ("in", "post"):
+        word = ("Postponed" if _is_postponed(g) else "Final") if g.get("state") == "post" else (_tk_state(g) or "")
+        if g.get("state") == "post" and "OT" in (g.get("status_short") or "").upper() and word == "Final":
+            word = "Final/OT"
+        return " · ".join(x for x in (word, day, venue) if x)
+    return " · ".join(x for x in (day, _et_clock(k) if k else "", venue) if x)
+
+
+def sbc_periods(g):
+    """(headings, away periods, home periods) for the full line score: quarters 1 to 4 always,
+    OT only when the feed says the game went to overtime. A quarter's plate is empty until both
+    sides' periods are in the feed with the same count."""
+    reg = _TK_REGULATION.get(g.get("league") or "", 4)
+    a, h = g.get("away") or {}, g.get("home") or {}
+    pa, ph = list(a.get("periods") or []), list(h.get("periods") or [])
+    started = g.get("state") in ("in", "post")
+    if not started or len(pa) != len(ph):
+        pa, ph = [], []
+    over = "OT" in (g.get("status_short") or "").upper()
+    n = max(reg, len(pa) if over else min(len(pa), reg))
+    heads = [str(i + 1) if i < reg else ("OT" if i == reg else f"{i - reg + 1}OT") for i in range(n)]
+    pad = lambda p: [str(x) for x in p[:n]] + [""] * (n - len(p[:n]))
+    return heads, pad(pa), pad(ph)
+
+
+def _sbc_plate_num(v, cls="sbc-pl"):
+    v = "" if v is None else str(v)
+    return f'<span class="{cls}{" sbc-empty" if v == "" else ""}">{esc(v)}</span>'
+
+
+def sbc_linescore(g, full=True, ot_col=False):
+    """The line score: one plate per team with the name in Oswald and the record in small mono,
+    the quarter plates (full form) and the total under a yellow T. `ot_col` keeps an OT column
+    even before overtime (the game page). The winner's total is cream, the loser's dims."""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    started = g.get("state") in ("in", "post")
+    heads, pa, ph = sbc_periods(g) if full else ([], [], [])
+    if full and ot_col and "OT" not in heads:
+        heads, pa, ph = heads + ["OT"], pa + [""], ph + [""]
+    sa, sh = (_tk_score(a, g), _tk_score(h, g)) if started else (None, None)
+    lose = {"away": False, "home": False}
+    if g.get("state") == "post" and sa is not None and sh is not None and sa != sh:
+        lose["away" if sa < sh else "home"] = True
+    cols = f"minmax(0,1fr) repeat({len(heads)},var(--sbc-q)) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
+    out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols}">']
+    if heads:
+        out.append('<span class="sbc-h"></span>' + "".join(f'<span class="sbc-h">{x}</span>' for x in heads)
+                   + '<span class="sbc-h sbc-th">T</span>')
+    for side, t, ps, sc in (("away", a, pa, sa), ("home", h, ph, sh)):
+        rk = t.get("rank")
+        rank = f'<small class="sbc-rk">{rk}</small> ' if isinstance(rk, int) else ""
+        rec = f' <small class="sbc-rec">{esc(t.get("record") or "")}</small>' if t.get("record") else ""
+        out.append(f'<span class="sbc-team" title="{esc(_team_label(g, t))}">{rank}'
+                   f'<b data-side="{side}" data-abbr="{esc(t.get("abbr") or "")}">{esc(sbc_team_name(g, t))}</b>{rec}</span>')
+        out.append("".join(_sbc_plate_num(x) for x in ps))
+        tot = "" if sc is None else str(sc)
+        out.append(f'<span class="sbc-pl sbc-tot{" sbc-empty" if tot == "" else ""}{" sbc-lose" if lose[side] else ""}" '
+                   f'data-side="{side}"><span class="tk-sc">{esc(tot)}</span></span>')
+    out.append('</div>')
+    return "".join(out)
+
+
+def sbc_bulbs(e, p=None):
+    """The four bulbs, each lit only by its own flag. Returns (html, any_lit)."""
+    p = p or cx_parts(e)
+    k = e.get("kickoff_hour") or {}
+    feel = k.get("feels_like_f") if isinstance(k.get("feels_like_f"), (int, float)) else k.get("temp_f")
+    third = "Cold" if (isinstance(feel, (int, float)) and feel < SBC_COLD_BELOW) else "Heat"
+    if not isinstance(feel, (int, float)):
+        third = "Cold" if cx_flag_on(e, "feels") and ((e.get("flags") or {}).get("feels") or {}).get("min_f", 99) < 60 else "Heat"
+    lit = [("Wind", cx_flag_on(e, "wind")), ("Rain", cx_flag_on(e, "precip")),
+           (third, cx_flag_on(e, "feels")), ("Alert", bool(e.get("alerts")))]
+    html = ('<div class="sbc-bulbs">' + "".join(
+        f'<span class="sbc-bulb{" on" if on else ""}" data-bulb="{n.lower()}"><i aria-hidden="true"></i>{n}'
+        f'<span class="sr-only">{" lit" if on else " off"}</span></span>' for n, on in lit) + '</div>')
+    return html, any(on for _n, on in lit)
+
+
+def sbc_wind_arrow(deg, label=""):
+    """The wind's direction on a plate: the sprite arrow, rotated to the way the wind blows."""
+    if not isinstance(deg, (int, float)):
+        return ""
+    lab = f' role="img" aria-label="{esc(label)}"' if label else ' aria-hidden="true"'
+    return (f'<svg class="sbc-arw" viewBox="0 0 30 30" width="20" height="20"{lab} focusable="false">'
+            f'<use href="#cxs-arrow" transform="rotate({round(float(deg)) % 360} 15 15)"/></svg>')
+
+
+def sbc_weather(g, e):
+    """The card's weather: the three plates, the four bulbs and the words line with the credit,
+    or one plate for a dome, outside NWS coverage, or a forecast not yet in range. Returns
+    (html, lit) where lit says the board's edge is yellow. '' when the build holds nothing."""
+    if not e:
+        return "", False
+    st = e.get("status")
+    w = e.get("words") or {}
+    if st == "indoor":
+        return ('<div class="sbc-wx" data-cx="indoor" data-lens-only="watch">'
+                '<p class="sbc-one">Dome · No weather</p></div>'), False
+    if st == "outside_nws":
+        city = g.get("venue_city") or ((e.get("stadium") or {}).get("city")) or ""
+        return ('<div class="sbc-wx" data-cx="outside" data-lens-only="watch">'
+                f'<p class="sbc-one">{esc(" · ".join(x for x in (city, "Outside NWS coverage") if x))}</p></div>'), False
+    if st == "out_of_range":
+        return ('<div class="sbc-wx" data-cx="later" data-lens-only="watch">'
+                f'<p class="sbc-one">{esc(w.get("line") or "")}</p></div>') if w.get("line") else "", False
+    if st != "forecast":
+        return "", False
+    p = cx_parts(e)
+    on = p["on"]
+
+    def plate(key, label, big, sub, lit):
+        return (f'<div class="sbc-wp sbc-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span>'
+                f'<span class="sbc-big">{big}</span>'
+                + (f'<span class="sbc-s">{esc(sub)}</span>' if sub else '<span class="sbc-s"></span>') + '</div>')
+    temp = f'{p["temp"]}°' if p["temp"] is not None else '<span class="sbc-miss">missing</span>'
+    tsub = ", ".join(x for x in ((f"feels {p['feels']}°" if p["feels"] is not None else ""), p["feel_peak"]) if x)
+    if p["calm"]:
+        wbig, wsub = "Calm", ""
+    elif p["mph"] is not None:
+        lab = f"Wind from the {p['dir_words']}" if p["dir_words"] else "Wind direction"
+        wbig = f'{p["mph"]}{sbc_wind_arrow(p["true_deg"], lab)}'
+        wsub = f"gust {p['gust']} mph" if p["gust"] is not None else "mph"
+    else:
+        wbig, wsub = '<span class="sbc-miss">missing</span>', ""
+    rbig = f'{p["pop"]}%' if p["pop"] is not None else '<span class="sbc-miss">missing</span>'
+    rsub = f"up to {p['peak']}%" if p["peak"] is not None else (p["ptype"] or "")
+    plates = ('<div class="sbc-wps">' + plate("t", "Temp", temp, tsub, on["feels"])
+              + plate("w", "Wind", wbig, wsub, on["wind"]) + plate("r", "Rain", rbig, rsub, on["precip"]) + '</div>')
+    bulbs, lit = sbc_bulbs(e, p)
+    alerts = e.get("alerts")
+    note = ""
+    if alerts:
+        note = f'<p class="sbc-aw">{esc(w.get("alert") or alerts[0].get("event") or "")}</p>'
+    elif alerts is None:
+        note = '<p class="sbc-nc">Alerts not checked</p>'
+    c = e.get("credit") or {}
+    ctext = (c.get("text") or "") + (", last reading" if (c.get("text") and e.get("stale")) else "")
+    curl = c.get("url") or ""
+    credit = ""
+    if ctext:
+        credit = (f'<a href="{esc(curl)}">{esc(ctext)}</a>' if curl.startswith("https://gocheckmyweather.com/")
+                  else esc(ctext))
+    words = ""
+    if p["words"] or credit:
+        words = (f'<p class="sbc-words{" on" if on["wind"] else ""}">'
+                 + (f'<span>{esc(p["words"])}</span>' if p["words"] else "")
+                 + (" · " if p["words"] and credit else "")
+                 + (f'<span class="sbc-credit">{credit}</span>' if credit else "") + '</p>')
+    return (f'<div class="sbc-wx" data-cx="forecast" data-lens-only="watch">{plates}{bulbs}{note}{words}</div>'), lit
+
+
+def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
+    """S-2d item 0: one card of the week board as a small scoreboard. The article keeps the
+    Ticket's class and data attributes (the team pins, the lens and the recount read them)."""
     e = cx_entry(g)
-    return " cx-flag" if (e and e.get("status") == "forecast" and cx_number_flags(e)) else ""
+    wx, lit = sbc_weather(g, e)
+    roof = ""
+    if e and e.get("status") == "forecast" and ((e.get("roof") or "") == "retractable"
+                                                or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
+        roof = '<span class="sbc-chip sbc-roof">Roof</span>'
+    net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
+    # S-1: the network plate, then the first stream that carries the game (or the verify chip)
+    facts = _tk_avail(g, ia_index, desig)
+    fact = (f'<p class="sbc-fact" data-lens-only="fantasy">' + " · ".join(
+        f'{esc(k)} {esc(v)}' for k, v in facts) + '</p>') if facts else ""
+    gp = _game_href(g) if _has_game_page(g) else ""
+    link = (f'<a class="tk-card-a" href="{esc(gp)}" aria-label="{esc(gp_title(g))}"></a>' if gp else "")
+    _kd = _utc_dt(g.get("start_utc") or "")
+    a_col, b_col = _tk_colors(g)
+    return (f'<article class="tk-c sbc{" sbc-lit" if lit else ""}" data-gid="{esc(str(g.get("id")))}" '
+            f'data-sbc="{"ticket" if ticket else "compact"}" data-league="{esc(g.get("league") or "")}" '
+            f'data-state="{esc(g.get("state") or "")}" data-kick="{esc(g.get("start_utc") or "")}" '
+            f'data-kick-et="{esc(_et_clock(_kd) if _kd else "")}" '
+            f'data-away="{esc((g.get("away") or {}).get("abbr") or "")}" '
+            f'data-home="{esc((g.get("home") or {}).get("abbr") or "")}" style="--a:{a_col};--b:{b_col}">'
+            f'<div class="sbc-top"><span class="sbc-kick" data-role="kicker">{esc(sbc_kicker(g, e))}</span>'
+            f'<span class="sbc-chips" data-lens-only="watch">{roof}{net}{stream}</span></div>'
+            f'{sbc_linescore(g, full=ticket)}{_tk_line(g)}{wx}{fact}{link}</article>')
 
 
 def _tk_facts(g, ia_index, wx=None, desig=None):
@@ -5067,7 +5284,10 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
     # A-2: the card carries what the recount needs, so the counts and the "Next" line
     # are read off the board rather than baked into the header.
     _kd = _utc_dt(g.get("start_utc") or "")
-    return (f'<article class="tk-c{wide}{cx_card_flag(g) if strip else ""}" data-gid="{esc(str(g.get("id")))}" '
+    # S-2d item 0: S-2c's amber HUD retires; a Ticket elsewhere (the Scores page) carries the
+    # scoreboard's weather panel, the same plates and bulbs as the week board, yellow edge and all
+    wx_html, wx_lit = sbc_weather(g, cx_entry(g)) if strip else ("", False)
+    return (f'<article class="tk-c{wide}{" sbc-lit" if wx_lit else ""}" data-gid="{esc(str(g.get("id")))}" '
             f'data-league="{esc(g.get("league") or "")}" data-state="{esc(state or "")}" '
             f'data-kick="{esc(g.get("start_utc") or "")}" '
             f'data-kick-et="{esc(_et_clock(_kd) if _kd else "")}" '
@@ -5083,7 +5303,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
             f'{_tk_line(g)}'
             f'{_tk_ruling(g)}'
             f'</div><div class="tk-perf"></div>'
-            f'<div class="tk-body">{cx_strip(g) if strip else ""}{spec}{ls_html}{lead_html}{story}{btns}'
+            f'<div class="tk-body">{wx_html}{spec}{ls_html}{lead_html}{story}{btns}'
             f'</div></article>')
 
 
@@ -9666,9 +9886,14 @@ def week_board(sb):
     for k, g in games:
         by_day.setdefault(k.astimezone(_ET).date(), []).append((k, g))
 
+    first_of_day = {}
+    for k, g in games:
+        first_of_day.setdefault(k.astimezone(_ET).date(), str(g.get("id")))
+
     def card(k, g):
-        return _tk_card(g, ia, wx=WX_DATA, desig=IA_DESIG, items=ALL_ITEMS,
-                        stream=_first_stream_chip(g, carriers, doc, today))
+        # S-2d item 0: the board's cards are scoreboards; the day's first is the Ticket
+        return sbc_card(g, ia, ticket=first_of_day.get(k.astimezone(_ET).date()) == str(g.get("id")),
+                        desig=IA_DESIG, stream=_first_stream_chip(g, carriers, doc, today))
 
     sections = []
     for d in sorted(by_day):
