@@ -1,0 +1,37 @@
+== before: status 0
+   scoreboard: NFL 20261013 unavailable (OSError)
+   scoreboard: NFL 20261014 unavailable (OSError)
+   scoreboard: NFL 20261015 unavailable (OSError)
+   scoreboard: NFL 20261016 unavailable (OSError)
+   scoreboard: NFL 20261017 unavailable (OSError)
+   scoreboard: NFL 20261018 unavailable (OSError)
+   scoreboard: NFL 20261019 unavailable (OSError)
+== PLANT the record out of the name plate, run into the score plate: status 1 RED
+    scoreboard: NFL 20261013 unavailable (OSError)
+    scoreboard: NFL 20261014 unavailable (OSError)
+    scoreboard: NFL 20261015 unavailable (OSError)
+    scoreboard: NFL 20261016 unavailable (OSError)
+== PLANT the stream chip dropped from the board card: status 1 RED
+    scoreboard: NFL 20261013 unavailable (OSError)
+    scoreboard: NFL 20261014 unavailable (OSError)
+    scoreboard: NFL 20261015 unavailable (OSError)
+    scoreboard: NFL 20261016 unavailable (OSError)
+== PLANT the card's date dropped from the kicker: status 0 GREEN (the test missed it)
+    scoreboard: NFL 20261013 unavailable (OSError)
+    scoreboard: NFL 20261014 unavailable (OSError)
+    scoreboard: NFL 20261015 unavailable (OSError)
+    scoreboard: NFL 20261016 unavailable (OSError)
+== after restore: status 0
+   scoreboard: NFL 20261013 unavailable (OSError)
+   scoreboard: NFL 20261014 unavailable (OSError)
+   scoreboard: NFL 20261015 unavailable (OSError)
+   scoreboard: NFL 20261016 unavailable (OSError)
+   scoreboard: NFL 20261017 unavailable (OSError)
+   scoreboard: NFL 20261018 unavailable (OSError)
+   scoreboard: NFL 20261019 unavailable (OSError)
+plants missed or not run: 1
+== before: status 0
+== PLANT the card's date dropped from the kicker: status 1 RED
+    FAIL strip: the kicker is not the kickoff in ET and the stadium's short name
+== after restore: status 0
+plants missed or not run: 0

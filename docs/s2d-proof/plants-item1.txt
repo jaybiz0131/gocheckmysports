@@ -1,0 +1,45 @@
+== before: status 0
+== PLANT the board without its OT column: status 1 RED
+    FAIL board: the line score heads are ['', '1', '2', '3', '4', 'T'], not 1 to 4, OT and T
+    FAIL board: a final's plates do not fill from the feed with OT empty: ['7', '3', '0', '10', '20', '0', '7', '7', '3', '17']
+== PLANT the line score by nickname, not abbreviation: status 1 RED
+    FAIL board: the line score does not name the teams by abbreviation with the record
+== PLANT the network dropped from the meta row: status 1 RED
+    FAIL board: the line and network row is missing
+== PLANT the arrows white, the S-2c unflagged colour: status 1 RED
+    FAIL board: the three glowing yellow arrows do not point the way the wind blows
+    FAIL board: the compass arrow is not yellow at arrow_true_deg
+== PLANT the field not rotated: status 1 RED
+    FAIL board: the field is not drawn rotated to the stadium's orientation
+== PLANT the GUST plate dropped: status 1 RED
+    FAIL board: the plates are [('t', '', 'Temp', '47°'), ('w', ' on', 'Wind', '12'), ('r', '', 'Rain', '23%')], not TEMP, WIND, GUST, RAIN with the kickoff numbers
+    FAIL board: the wind flag does not light exactly the WIND and GUST plates
+== PLANT the GUST plate unlit under the wind flag: status 1 RED
+    FAIL board: the wind flag does not light exactly the WIND and GUST plates
+== PLANT a missing temperature printed as 0: status 1 RED
+    FAIL board: a number the Worker did not give does not print as missing
+== PLANT the words line yellow with no flag: status 1 RED
+    FAIL board: the words line is yellow with no wind flag
+== PLANT the edge lit with no flag: status 1 RED
+    FAIL board: the edge is not yellow exactly when a flag is on
+== PLANT the game's hours not framed: status 1 RED
+    FAIL board: the game's hours are not framed in yellow on every row
+== PLANT the wind yellow only over the threshold: status 1 RED
+    FAIL board: the wind is yellow at ['15'], not at or over the threshold
+== PLANT the hours' label without the wind: status 1 RED
+    FAIL board: the hours' label does not carry every hour's numbers
+== PLANT a dome drawing hours: status 1 RED
+    FAIL board: a dome is not one plate with no field and no hours
+== PLANT the second stream filled from a verify row: status 0 GREEN (the test missed it)
+== PLANT the Weather link without the stamp: status 1 RED
+    FAIL board: the Weather link does not go to the stadium page with the credit and stamp
+== PLANT the board in the right column at 900px: status 1 RED
+    FAIL board: at 900px and up the board does not fill the left column
+== PLANT the kicker in scoreboard yellow on the light paper: status 1 RED
+    FAIL board contrast: the kicker #FFD23F on the light paper is 1.38:1
+== PLANT an hour label at #8E8A6E on the panel: status 1 RED
+    FAIL board contrast: .sbg-hgrid #8E8A6E on the panel is 3.58:1
+== PLANT the Watch button in cream on yellow: status 1 RED
+    FAIL board contrast: the Watch button's text does not clear 4.5:1 on yellow
+== after restore: status 0
+plants missed or not run: 1

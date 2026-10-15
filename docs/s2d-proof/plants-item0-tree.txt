@@ -1,0 +1,13 @@
+== built home as is: GREEN
+== a board card that is not a scoreboard (data-sbc dropped): RED
+    strip tree: 1 board card(s) are not scoreboards
+== a day whose first card is compact: RED
+    strip tree: a day's cards are ['compact'], not the Ticket then compact
+== a second Ticket in a day: RED
+    strip tree: a day's cards are ['ticket', 'ticket', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact', 'compact'], not the Ticket then compact
+== S-2c amber left on the home: RED
+    strip tree: S-2c amber is still on the home
+== a name the subset cannot draw (S removed from the subset): RED
+    strip tree: the home sets ['S'] in Oswald and the subset cannot draw them
+== the Oswald texts not found (plates renamed): RED
+    strip tree: no Oswald text found on the home, so the subset was not checked

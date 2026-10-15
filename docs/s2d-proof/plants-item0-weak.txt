@@ -1,0 +1,7 @@
+== before: status 0
+== PLANT OT always a column: status 1 RED
+    FAIL strip: a fifth period the feed carries without OT in its status made a column
+== PLANT Calm drawing an arrow: status 1 RED
+    FAIL strip: Calm draws an arrow, or does not say Calm
+== after restore: status 0
+plants missed or not run: 0
