@@ -98,9 +98,19 @@ def _kind_tags(e):
     return tags
 
 
+def bye_weeks(events):
+    """The weeks of the season (1 to 18) a team has no fixture, from its fixtures. The feed's own
+    "bye" field is wrong for many teams (Chicago's said 7; the week it did not play was 10)."""
+    have = {e.get("week") for e in events or [] if e.get("week")}
+    if not have:
+        return []
+    return [w for w in range(1, 19) if w not in have]
+
+
 def log_entry(g, e):
-    """One log line for a game, or None when the Worker's flags say nothing matters."""
-    if not e or e.get("status") != "forecast":
+    """One log line for a game, or None when the Worker's flags say nothing matters. A game under a
+    roof is never logged: the weather outside is not the game's weather (S-3a, 15 October)."""
+    if not e or e.get("status") != "forecast" or e.get("roof") in ("retractable", "fixed"):
         return None
     tags = _kind_tags(e)
     if not tags:

@@ -123,8 +123,6 @@ def paragraph(g, e):
             line += f", feeling like {fl}"
         sky = (k.get("sky") or "").lower()
         s.append(line + (f", {sky}." if sky else "."))
-    if e.get("roof") == "retractable":
-        s.append("The stadium has a retractable roof, and whether it is open is the team's call.")
     w = (f.get("wind") or {})
     if w.get("on"):
         txt = (k.get("wind") or {}).get("text") or ""
@@ -167,8 +165,6 @@ def quiet_line(g, e):
     w = e.get("words") or {}
     wind = w.get("wind")
     bits = [w.get("temp"), "calm" if wind == "Calm" else wind, w.get("precip")]
-    if e.get("roof") == "retractable":
-        bits.append("retractable roof")
     return f'{matchup(g)}, {when_et(g)}: {", ".join(b for b in bits if b)}.'
 
 
@@ -200,7 +196,8 @@ def write(games, data, now):
     et = now.astimezone(ET)
     slot = SLOTS.get(et.weekday(), "extra")
     rid = f"{et.date().isoformat()}-{slot}"
-    G = data.get("games") or {}
+    import conditions as _cx
+    G = {k: _cx.roofed_entry(v) for k, v in (data.get("games") or {}).items()}   # a roofed stadium reads like a dome
     flagged, quiet, indoor, outside, later = [], [], [], [], []
     leagues = {}
     for g in games:
@@ -215,13 +212,14 @@ def write(games, data, now):
         elif st == "forecast":
             quiet.append({"id": str(g["id"]), "league": g.get("league"), "line": quiet_line(g, e),
                           "href": f'/games/{g["id"]}.html'})
-        elif st == "indoor":
-            indoor.append(f'{matchup(g)}, {when_et(g)}, {(e.get("stadium") or {}).get("name") or g.get("venue")}')
+        elif st in ("indoor", "roofed"):
+            indoor.append(f'{matchup(g)}, {when_et(g)}, {(e.get("stadium") or {}).get("name") or g.get("venue")}'
+                          + (f' ({(e.get("words") or {}).get("line", "").lower()})' if st == "roofed" else ""))
         elif st == "outside_nws":
             outside.append(f'{matchup(g)}, {when_et(g)}, {g.get("venue")}')
         elif st == "out_of_range":
             later.append(f'{matchup(g)}, {when_et(g)}: {(e.get("words") or {}).get("line")}')
-        if st in ("forecast", "indoor"):
+        if st in ("forecast", "indoor", "roofed"):
             leagues[g.get("league")] = leagues.get(g.get("league"), 0) + 1
     n_fc = sum(1 for g in games if (G.get(str(g.get("id"))) or {}).get("status") == "forecast")
     title = f"Conditions report, {et.strftime('%A')} {et.strftime('%b')} {et.day}"
@@ -324,6 +322,8 @@ def gate(rep):
 
 def card_row(g, e):
     """What the share card draws for one NFL game, kept in the report so the build can draw it."""
+    import conditions as _cx
+    e = _cx.roofed_entry(e)
     dd = _dt(g.get("start_utc") or "")
     k, f = e.get("kickoff_hour") or {}, e.get("flags") or {}
     return {"id": str(g.get("id")), "away": (g.get("away") or {}).get("abbr"),
@@ -403,7 +403,8 @@ def share_card(rep, out_path):
                 else:
                     plate(x0, x0 + 140, y, "missing", SOFT, sc._mono(16))
         else:
-            note = {"indoor": "DOME", "outside_nws": (r.get("city") or "OUTSIDE NWS").upper()}.get(
+            note = {"indoor": "DOME", "outside_nws": (r.get("city") or "OUTSIDE NWS").upper(),
+                    "roofed": (w.get("line") or "ROOF").upper()}.get(
                 r.get("status"), (w.get("line") or "").upper())
             plate(572, 1012, y, note, MUTE, osw(max(18, fs - 8)))
         y += rh

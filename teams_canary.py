@@ -58,6 +58,43 @@ def _game(gid, league, a, h, start="2026-10-18T17:00Z"):
             "home": {"abbr": h[0], "id": h[1], "full": h[2], "name": h[2].split()[-1], "school": h[2]}}
 
 
+# A small schema.org type table: the properties the markup uses and the types each accepts. A property
+# whose value is of a type the schema does not accept is a type error (the 15 October superEvent: the
+# league is an organization, and superEvent takes an Event).
+_PARENT = {"SportsEvent": "Event", "BroadcastEvent": "PublicationEvent", "PublicationEvent": "Event",
+           "Event": "Thing", "SportsTeam": "SportsOrganization", "SportsOrganization": "Organization",
+           "Organization": "Thing", "Place": "Thing", "BroadcastService": "Service", "Service": "Thing",
+           "PostalAddress": "ContactPoint", "ContactPoint": "StructuredValue", "StructuredValue": "Thing"}
+_TEAMISH = {"SportsTeam", "Person"}
+_ACCEPTS = {"SportsEvent": {"homeTeam": _TEAMISH, "awayTeam": _TEAMISH, "competitor": _TEAMISH,
+                            "location": {"Place", "PostalAddress", "VirtualLocation"}, "superEvent": {"Event"},
+                            "subEvent": {"Event"}, "organizer": {"Person", "Organization"}},
+            "BroadcastEvent": {"broadcastOfEvent": {"Event"}, "publishedOn": {"BroadcastService"},
+                               "superEvent": {"Event"}, "organizer": {"Person", "Organization"}},
+            "SportsTeam": {"memberOf": {"Organization", "ProgramMembership"}},
+            "Place": {"address": {"PostalAddress"}}}
+
+
+def _is_a(t, want):
+    while t:
+        if t in want:
+            return True
+        t = _PARENT.get(t)
+    return False
+
+
+def type_errors(graph):
+    """Every property in the graph whose value's type the schema does not accept."""
+    out = []
+    for n in graph.get("@graph") or [graph]:
+        for prop, ok in _ACCEPTS.get(n.get("@type"), {}).items():
+            vals = n.get(prop)
+            for v in (vals if isinstance(vals, list) else [vals]):
+                if isinstance(v, dict) and v.get("@type") and not _is_a(v["@type"], ok):
+                    out.append(f'{n["@type"]}.{prop} is a {v["@type"]}, which the schema does not accept')
+    return out
+
+
 def unit():
     fails = []
     try:
@@ -140,6 +177,14 @@ def unit():
         fails.append("event: a BroadcastEvent does not point at its SportsEvent")
     if "\u2014" in json.dumps(ld, ensure_ascii=False) or "\u2013" in json.dumps(ld, ensure_ascii=False):
         fails.append("event: a dash character in the structured data")
+    errs = type_errors(ld)
+    if errs:
+        fails.append("event: " + "; ".join(errs[:3]))
+    if not any((n.get("organizer") or {}).get("@type") == "SportsOrganization" for n in ld["@graph"] if n["@type"] == "SportsEvent"):
+        fails.append("event: the league is not the SportsEvent's organizer (a SportsOrganization)")
+    errs = type_errors(structured.team_graph({"name": "Chicago Bears"}, "NFL", "https://example.test", "/teams/chi.html", next_game=g, carriers=["CBS"]))
+    if errs:
+        fails.append("event (team page): " + "; ".join(errs[:3]))
     ld2 = structured.game_graph(g, "https://example.test", carriers=[])
     if any(n["@type"] == "BroadcastEvent" for n in ld2["@graph"]):
         fails.append("event: a BroadcastEvent with no carrier")
@@ -199,6 +244,19 @@ def tree_checks(tree):
                              ('class="tm-rec', "the record line")):
             if needle not in h:
                 fails.append(f"tree: college {f} has no {what}")
+    # the bye is its own row, in the week the team does not play (the feed's own "bye" field is wrong for
+    # many teams: Chicago's said 7 and the week it did not play was 10)
+    import teams as _tb
+    if _tb.bye_weeks([{"week": w} for w in range(1, 19) if w != 10]) != [10]:
+        fails.append("bye: the missing week is not found from the fixtures")
+    if _tb.bye_weeks([{"week": w} for w in range(1, 19) if w not in (4, 11)]) != [4, 11]:
+        fails.append("bye: two missing weeks are not both found")
+    for ab in teams_nfl:
+        h = _read(tree, f"teams/{ab.lower()}.html") or ""
+        sched = json.loads(_read(tree, "data/schedules.json") or "{}") if False else None
+        byes = re.findall(r'<div class="tms-row tms-bye" data-state="bye" data-label="WK (\d+) \u00b7 BYE"', h)
+        if len(byes) != 1:
+            fails.append(f"tree: {ab} has {len(byes)} bye rows, expected 1")
     # a scheduled game prints no score: the page for a team with an unplayed next game
     for ab in teams_nfl[:32]:
         h = _read(tree, f"teams/{ab.lower()}.html") or ""
@@ -246,6 +304,9 @@ def tree_checks(tree):
             continue
         checked += 1
         ev = ev[0]
+        errs = type_errors({"@graph": graph})
+        if errs:
+            fails.append(f"tree: game {f}'s structured data has type errors: {'; '.join(errs[:2])}")
         for team in ("homeTeam", "awayTeam"):
             nm = (ev.get(team) or {}).get("name") or ""
             if not nm or nm.split()[-1] not in h:

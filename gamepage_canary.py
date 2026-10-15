@@ -98,13 +98,18 @@ def check_tree(out):
         leagues.add(e.get("league"))
         html = open(fp, encoding="utf-8").read()
         blocks = re.findall(r'data-cx-block="([a-z]+)"', html)
-        printable = e.get("status") in ("forecast", "indoor", "outside_nws", "out_of_range")
+        printable = e.get("status") in ("forecast", "indoor", "roofed", "outside_nws", "out_of_range")
         if printable and len(blocks) != 1:
             fails.append(f"game pages: {gid} ({e.get('status')}) has {len(blocks)} conditions blocks, not one")
         if not printable and blocks:
             fails.append(f"game pages: {gid} ({e.get('status')}) prints a conditions block")
         if len(re.findall(r'data-cx="', html)) > 1:
             fails.append(f"game pages: {gid} carries a second strip beside its block")
+        if e.get("status") == "roofed":
+            # S-3a (Jack, 15 October): a roofed stadium reads like a dome, with its own words
+            if blocks != ["roofed"] or "sbg-hgrid" in html or 'data-cx-block="forecast"' in html \
+                    or re.search(r'class="sbg-big">\d', html) or "Roof \u00b7" not in html:
+                fails.append(f"game pages: {gid} has a roof and prints a forecast or no roof line")
         if e.get("status") == "indoor":
             if blocks != ["indoor"] or "sbg-hgrid" in html or 'data-cx-block="forecast"' in html \
                     or re.search(r'class="sbg-big">\d', html):

@@ -17,6 +17,8 @@ where two rows share a name, the feed's city and state choose. Nothing is matche
 WHAT EACH GAME GETS (`status`):
   forecast       the Worker's slice: kickoff hour, hours, flags, alerts, roof, credit, stamps
   indoor         a fixed roof: no forecast, one line, "Indoor"
+  roofed         a retractable or fixed roof in the stadium table: no forecast, no flag, one line,
+                 "Roof . usually closed" (S-3a, 15 October 2026)
   out_of_range   past the NWS hourly product: "Forecast from Sat, Oct 17", the day it comes in
   outside_nws    an international venue (Wembley): "Outside NWS coverage" (Jack, 13 October)
   missing        no row in the table, or a row the Worker cannot place: prints nothing, and
@@ -50,7 +52,34 @@ ET = ZoneInfo("America/New_York")
 LEAGUE = {"NFL": "nfl", "CFB": "cfb"}
 US = {"USA", "US", "United States"}
 
-ROOF_WORDS = {"open": "Open air", "retractable": "Retractable roof", "indoor": "Indoor"}
+ROOF_WORDS = {"open": "Open air", "retractable": "Retractable roof", "fixed": "Roof", "indoor": "Indoor"}
+
+# S-3a, Jack's ruling of 15 October 2026: a game at a stadium with a roof is played under a roof the
+# team decides about, so the weather outside is not the game's weather. The STADIUM TABLE's roof field
+# says which stadiums those are (not a name list), and such a game reads like a dome row: no flag, no
+# alert, no forecast plates. "roof_state" ("open" or "closed") is the venue's published state when a
+# source carries one; with none, the words say what is usual.
+ROOFED = ("retractable", "fixed")
+ROOF_LINES = {"open": "Roof \u00b7 open", "closed": "Roof \u00b7 closed"}
+ROOF_USUAL = "Roof \u00b7 usually closed"
+
+
+def roofed(e):
+    return bool(e) and e.get("roof") in ROOFED
+
+
+def roofed_entry(e):
+    """A forecast entry for a roofed stadium becomes status "roofed": the forecast, the flags and
+    the alerts are dropped, the words say the roof. Anything else is returned untouched, and a
+    roofed entry is returned as it is (idempotent: the build applies this to what it reads)."""
+    if not e or e.get("status") != "forecast" or not roofed(e):
+        return e
+    out = {k: v for k, v in e.items()
+           if k not in ("kickoff_hour", "hours", "flags", "alerts", "alerts_status", "nws", "words")}
+    out["status"] = "roofed"
+    out["words"] = {"line": ROOF_LINES.get(e.get("roof_state") or "", ROOF_USUAL),
+                    "roof": ROOF_WORDS.get(e.get("roof") or "", "Roof")}
+    return out
 
 
 def fetch(path):
@@ -228,7 +257,7 @@ def entry(game, row, status, ans):
         e["credit"] = {"text": "Conditions by GoCheckMyWeather, NWS",
                        "url": e["stadium"]["page"]}
     e["words"] = words(e)
-    return e
+    return roofed_entry(e)
 
 
 def game_key(g):
@@ -315,7 +344,9 @@ def load():
 
 
 def for_game(data, g):
-    return ((data or {}).get("games") or {}).get(game_key(g))
+    """The game's entry as the pages read it: a roofed stadium's forecast is a roof line, whatever
+    an older file held (roofed_entry is idempotent)."""
+    return roofed_entry(((data or {}).get("games") or {}).get(game_key(g)))
 
 
 def main():

@@ -120,6 +120,7 @@ def conditions_canary():
         _game("gone", "NFL", "9999", "Nowhere Field", "Somewhere", "KS"),
         _game("iu", "CFB", "", "Memorial Stadium (Bloomington, IN)", "Bloomington", "IN"),
         _game("near", "CFB", "", "Memorial Stadium (Bloomington)", "Bloomington", "IN"),
+        _game("lnk", "CFB", "", "Memorial Stadium (Lincoln, NE)", "Lincoln", "NE"),
     ]
     answers = {
         "3937": (200, _forecast(alerts=None)),
@@ -128,6 +129,10 @@ def conditions_canary():
         "3812": (200, _forecast(roof="retractable", alerts=[
             {"event": "Severe Thunderstorm Watch", "ends": "2026-10-14T03:00:00Z"}])),
         "3830": (200, _forecast(alerts=[{"event": "Wind Advisory", "headline": "h"}])),
+        # S-3a: the alert that ended before the window sits on an open-air game now, since a roofed
+        # game carries no alert at all
+        "3834": (200, _forecast(roof="open", alerts=[
+            {"event": "Severe Thunderstorm Watch", "ends": "2026-10-14T03:00:00Z"}])),
     }
     out_of_range = (200, {"venue": "3937", "league": "nfl", "roof": "open", "in_range": False,
                           "in_range_from": "2026-10-17T03:00:00Z", "reason": "past"})
@@ -148,11 +153,14 @@ def conditions_canary():
     if any(k in d for k in ("kickoff_hour", "hours", "flags")) or "°" in _printed(d):
         fails.append("conditions: the dome carries a forecast")
     # retractable
-    r = G.get("retr") or {}
-    if r.get("status") != "forecast" or (r.get("words") or {}).get("roof") != "Retractable roof":
-        fails.append(f"conditions: the retractable is {r.get('status')!r} {r.get('words')!r}")
-    if "temp" not in (r.get("words") or {}):
-        fails.append("conditions: the retractable has no temperature")
+    r0 = G.get("retr") or {}
+    if r0.get("status") != "roofed" or (r0.get("words") or {}).get("line") != "Roof \u00b7 usually closed" \
+            or (r0.get("words") or {}).get("roof") != "Retractable roof":
+        fails.append(f"conditions: the retractable is {r0.get('status')!r} {r0.get('words')!r}, expected a roofed "
+                     "entry that says 'Roof \u00b7 usually closed'")
+    if any(k in r0 for k in ("kickoff_hour", "hours", "flags", "alerts")) or "temp" in (r0.get("words") or {}):
+        fails.append("conditions: a roofed game carries a forecast, a flag or an alert")
+    r = G.get("lnk") or {}
     # range
     if far.get("status") != "out_of_range" or (far.get("words") or {}).get("line") != "Forecast from Fri, Oct 16":
         fails.append(f"conditions: out of range reads {(far.get('words') or {}).get('line')!r}, "

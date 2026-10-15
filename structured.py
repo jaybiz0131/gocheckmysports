@@ -55,7 +55,10 @@ def game_graph(g, origin, carriers=(), venue_city="", page_path=None):
           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
           "location": place, "awayTeam": team_node(away, league), "homeTeam": team_node(home, league),
           "competitor": [team_node(away, league), team_node(home, league)],
-          "superEvent": {"@type": "SportsOrganization", "name": LEAGUE.get(league, league), "sport": SPORT.get(league, "American football")}}
+          # schema.org's superEvent takes an Event, and a league is an organization: the league is
+          # the organizer (a SportsOrganization), which the schema accepts on an Event.
+          "organizer": {"@type": "SportsOrganization", "name": LEAGUE.get(league, league),
+                        "sport": SPORT.get(league, "American football")}}
     graph = [ev]
     seen = set()
     for c in carriers or []:

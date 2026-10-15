@@ -5020,6 +5020,10 @@ def sbc_weather(g, e):
     if st == "indoor":
         return ('<div class="sbc-wx" data-cx="indoor" data-lens-only="watch">'
                 '<p class="sbc-one">Dome · No weather</p></div>'), False
+    if st == "roofed":
+        # S-3a (15 October): a roofed stadium reads like a dome row, with the roof's own words
+        return ('<div class="sbc-wx" data-cx="roofed" data-lens-only="watch">'
+                f'<p class="sbc-one">{esc(w.get("line") or "")}</p></div>'), False
     if st == "outside_nws":
         city = g.get("venue_city") or ((e.get("stadium") or {}).get("city")) or ""
         return ('<div class="sbc-wx" data-cx="outside" data-lens-only="watch">'
@@ -5079,7 +5083,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     e = cx_entry(g)
     wx, lit = sbc_weather(g, e)
     roof = ""
-    if e and e.get("status") == "forecast" and ((e.get("roof") or "") == "retractable"
+    if e and e.get("status") in ("forecast", "roofed") and ((e.get("roof") or "") in ("retractable", "fixed")
                                                 or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
         roof = '<span class="sbc-chip sbc-roof">Roof</span>'
     net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
@@ -6425,7 +6429,7 @@ def _tms_wx(game_id):
         return (cell("Temp", temp) + cell("Wind", wind, p["on"]["wind"])
                 + cell("Rain", rain, p["on"]["precip"])), lit
     note = {"indoor": "Dome · No weather", "outside_nws": "Outside NWS coverage",
-            "out_of_range": "Forecast later"}.get(st)
+            "out_of_range": "Forecast later", "roofed": ((e or {}).get("words") or {}).get("line")}.get(st)
     return (f'<span class="tms-pl tms-one">{esc(note)}</span>' if note else ""), False
 
 
@@ -6433,9 +6437,11 @@ def _tms_row(r):
     """One schedule row. r: week, date, home, opp, opp_full, state, result, score, opp_score,
     time_set, net, id, bye."""
     if r.get("bye"):
-        return (f'<div class="tms-row tms-bye" data-state="bye"><span class="tms-bulb" aria-hidden="true"></span>'
+        return (f'<div class="tms-row tms-bye" data-state="bye" data-label="WK {esc(str(r.get("week") or ""))} \u00b7 BYE">'
+                f'<span class="tms-bulb" aria-hidden="true"></span>'
                 f'<span class="tms-wk">{esc(str(r.get("week") or ""))}</span>'
-                f'<span class="tms-opp"><span class="tms-pl tms-name">Bye week</span></span></div>')
+                f'<span class="tms-opp"><span class="tms-pl tms-name">Bye</span></span>'
+                f'<span class="sr-only">Week {esc(str(r.get("week") or ""))}, bye</span></div>')
     post = r.get("state") == "post"
     wx, lit = ("", False) if post else _tms_wx(r.get("id"))
     opp = esc(r.get("opp") or "")
@@ -6598,12 +6604,12 @@ def render_team_page(tm, items, dateline):
     evs = sorted(tm.get("events") or [], key=lambda e: e.get("date") or "")
     played = [e for e in evs if e.get("result")]
     fixtures = len(evs)          # the bye is a week, not a fixture, and is not counted
-    bye = tm.get("bye")
-    if bye:
+    # S-3a (15 October): the bye is its own row, in the week the team has no fixture. The feed's own
+    # "bye" field is wrong for many teams (Chicago's said week 7; it did not play in week 10).
+    for bye in _teams.bye_weeks(evs):
         weeks = [e.get("week") for e in evs]
-        if bye not in weeks:
-            at = next((n for n, w in enumerate(weeks) if w and w > bye), len(evs))
-            evs = evs[:at] + [{"week": bye, "bye": True}] + evs[at:]
+        at = next((n for n, w in enumerate(weeks) if w and w > bye), len(evs))
+        evs = evs[:at] + [{"week": bye, "bye": True}] + evs[at:]
     rows = _nfl_rows(tm, evs)
     nxt = next((r for r in rows if not r.get("bye") and r.get("state") != "post"), None)
     last = next((r for r in reversed(rows) if not r.get("bye") and r.get("result")), None)
@@ -8494,7 +8500,8 @@ def sbg_conditions(g, e):
     if not e:
         return ""
     st = e.get("status")
-    kind = {"forecast": "forecast", "indoor": "indoor", "outside_nws": "outside", "out_of_range": "later"}.get(st)
+    kind = {"forecast": "forecast", "indoor": "indoor", "roofed": "roofed", "outside_nws": "outside",
+            "out_of_range": "later"}.get(st)
     if not kind:
         return ""
     head = '<div class="sbg-rule"></div><p class="sbg-sec"><span>Conditions at kickoff</span></p>'
@@ -10271,7 +10278,7 @@ def wall_row(g):
         wx = cell(temp) + cell(wind, " wl-w on" if p["on"]["wind"] else " wl-w") + cell(rain)
     else:
         note = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
-                "out_of_range": "Later"}.get(st, "No forecast")
+                "out_of_range": "Later", "roofed": (e.get("words") or {}).get("line")}.get(st, "No forecast")
         wx = f'<span class="wl-pl wl-one">{esc(note)}</span>'
     a, h = g.get("away") or {}, g.get("home") or {}
     lab = gp_title(g)
