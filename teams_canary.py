@@ -62,6 +62,7 @@ def unit():
     fails = []
     try:
         import teams
+        import structured
     except ImportError as e:
         return [f"teams: cannot import ({e})"]
     # top40
@@ -115,6 +116,33 @@ def unit():
     got = teams.team_log([e1, e2], "CFB", tid="99")
     if [x["id"] for x in got] != ["2"]:
         fails.append("logteam: a college team's log is not matched on its team id")
+    # event
+    g = _game("77", "NFL", ("CHI", "3", "Chicago Bears"), ("GB", "9", "Green Bay Packers"))
+    ld = structured.game_graph(g, "https://example.test", carriers=["CBS", "Paramount+"], venue_city="Green Bay, WI")
+    nodes = {n["@type"]: [] for n in ld["@graph"]}
+    for n in ld["@graph"]:
+        nodes[n["@type"]].append(n)
+    ev = (nodes.get("SportsEvent") or [None])[0]
+    if not ev:
+        fails.append("event: no SportsEvent")
+    else:
+        for k in ("name", "startDate", "homeTeam", "awayTeam", "location", "url", "sport"):
+            if not ev.get(k):
+                fails.append(f"event: SportsEvent has no {k}")
+        if not re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d|\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ", ev.get("startDate") or ""):
+            fails.append(f"event: startDate {ev.get('startDate')!r} is not an ISO time with its offset")
+        if (ev.get("homeTeam") or {}).get("name") != "Green Bay Packers":
+            fails.append("event: homeTeam is not the home team's full name")
+    bc = nodes.get("BroadcastEvent") or []
+    if sorted((b.get("publishedOn") or {}).get("name") for b in bc) != ["CBS", "Paramount+"]:
+        fails.append("event: there is not one BroadcastEvent per carrier")
+    if ev and any((b.get("broadcastOfEvent") or {}).get("@id") != ev.get("@id") for b in bc):
+        fails.append("event: a BroadcastEvent does not point at its SportsEvent")
+    if "\u2014" in json.dumps(ld, ensure_ascii=False) or "\u2013" in json.dumps(ld, ensure_ascii=False):
+        fails.append("event: a dash character in the structured data")
+    ld2 = structured.game_graph(g, "https://example.test", carriers=[])
+    if any(n["@type"] == "BroadcastEvent" for n in ld2["@graph"]):
+        fails.append("event: a BroadcastEvent with no carrier")
     return fails
 
 
@@ -149,6 +177,8 @@ def tree_checks(tree):
                              ('class="tm-rec', "the record line")):
             if needle not in h:
                 fails.append(f"tree: {ab} has no {what}")
+        if not _ld(h):
+            fails.append(f"tree: {ab} has no structured data")
         if "\u2014" in h:
             fails.append(f"tree: {ab} carries an em dash")
     cfb = sorted(os.listdir(os.path.join(tree, "teams", "cfb"))) if os.path.isdir(os.path.join(tree, "teams", "cfb")) else []
@@ -194,16 +224,56 @@ def tree_checks(tree):
     sm = _read(tree, "sitemap-priority.xml") or ""
     for ab in teams_nfl:
         if f"/teams/{ab.lower()}<" not in sm:
-            fails.append(f"sitemap: /teams/{ab.lower()} is not in the priority sitemap")
+            fails.append(f"sitemap: /teams/{ab.lower()}.html is not in the priority sitemap")
             break
     missing = [f for f in cfb if f"/teams/cfb/{f[:-5]}<" not in sm]
     if missing:
         fails.append(f"sitemap: {len(missing)} college team pages are not in the priority sitemap")
+    # a game page's structured data
+    gdir = os.path.join(tree, "games")
+    pages = sorted(f for f in os.listdir(gdir) if f.endswith(".html")) if os.path.isdir(gdir) else []
+    board = [f"{i}.html" for i in (cx.get("games") or {})]
+    checked = 0
+    for f in pages:
+        if f not in board:
+            continue
+        h = _read(tree, f"games/{f}") or ""
+        lds = _ld(h)
+        graph = [n for d in lds for n in (d.get("@graph") or [d])]
+        ev = [n for n in graph if n.get("@type") == "SportsEvent"]
+        if len(ev) != 1:
+            fails.append(f"tree: game {f} has {len(ev)} SportsEvent nodes, expected 1")
+            continue
+        checked += 1
+        ev = ev[0]
+        for team in ("homeTeam", "awayTeam"):
+            nm = (ev.get(team) or {}).get("name") or ""
+            if not nm or nm.split()[-1] not in h:
+                fails.append(f"tree: game {f}'s {team} {nm!r} is not on the page")
+        for b in [n for n in graph if n.get("@type") == "BroadcastEvent"]:
+            nm = (b.get("publishedOn") or {}).get("name") or ""
+            if nm not in h:
+                fails.append(f"tree: game {f} declares a broadcast on {nm!r} that the page does not name")
+    if board and checked == 0:
+        fails.append("tree: no board game page was checked for structured data")
     return fails
 
 
 def indexnow_check():
-    return []
+    fails = []
+    try:
+        sys.path.insert(0, os.path.join(HERE, "scripts"))
+        import indexnow
+        urls = ["https://gocheckmysports.com/teams/det.html", "https://gocheckmysports.com/teams/cfb/ohio-state.html",
+                "https://gocheckmysports.com/articles/a.html"]
+        got = indexnow.with_prefix(urls, ["/teams/"])
+        if got != urls[:2]:
+            fails.append(f"indexnow: --prefix /teams/ chose {got}")
+        if indexnow.with_prefix(urls, []) != urls:
+            fails.append("indexnow: no prefix did not leave the list whole")
+    except Exception as e:
+        fails.append(f"indexnow: {type(e).__name__}: {e}")
+    return fails
 
 
 def teams_canary(tree=None):

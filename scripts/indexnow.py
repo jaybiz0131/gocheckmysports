@@ -7,6 +7,7 @@ to api.indexnow.org. No account, no secret: the key is public by design, the sam
 site in the family.
 
     python3 scripts/indexnow.py                      the whole site: every sitemap, in full
+    python3 scripts/indexnow.py --prefix /teams/ ... the sitemap's URLs under these path prefixes only
     python3 scripts/indexnow.py URL [URL ...]        a targeted send of exactly these URLs
     python3 scripts/indexnow.py --content FILE ...   the article URLs of these content files
 
@@ -71,6 +72,15 @@ def clean(urls):
     return keep
 
 
+def with_prefix(urls, prefixes):
+    """Only the URLs whose path starts with one of these prefixes; no prefix leaves the list whole.
+    The way to send a sprint's new pages (S-3a: /teams/) without resending the whole site."""
+    if not prefixes:
+        return list(urls)
+    return [u for u in urls
+            if any(re.sub(rf"^https?://{re.escape(HOST)}", "", u).startswith(p) for p in prefixes)]
+
+
 def body(urls):
     return {"host": HOST, "key": KEY, "keyLocation": KEY_LOCATION, "urlList": list(urls)}
 
@@ -89,7 +99,11 @@ def post(payload):
 
 def main(argv, get=fetch, send=post):
     args = list(argv)
-    if args[:1] == ["--content"]:
+    if args[:1] == ["--prefix"]:
+        prefixes = [a for a in args[1:] if a.startswith("/")]
+        urls = with_prefix(sitemap_urls(get), prefixes)
+        what = f"{len(urls)} sitemap URL(s) under {', '.join(prefixes)}"
+    elif args[:1] == ["--content"]:
         urls = content_urls(args[1:])
         what = f"{len(urls)} article URL(s) from {len(args) - 1} content file(s)"
     elif args:

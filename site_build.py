@@ -6565,6 +6565,31 @@ def _nfl_rows(tm, evs):
     return rows
 
 
+def _team_ld(name, league, path, next_row, tm_abbr):
+    """The page's structured data: the team, and its next game with the carriers the row names."""
+    import structured as _sd
+    ng = None
+    carriers = []
+    if next_row and next_row.get("id"):
+        sbg = _sb_game_by_id(next_row["id"])
+        if sbg:
+            ng = sbg
+        else:
+            own = {"full": name, "name": name, "abbr": tm_abbr}
+            oth = {"full": next_row.get("opp_full") or next_row.get("opp"), "abbr": next_row.get("opp")}
+            ng = {"id": next_row["id"], "league": league, "start_utc": next_row.get("date"),
+                  "away": oth if next_row.get("home") else own, "home": own if next_row.get("home") else oth,
+                  "venue": ""}
+        if next_row.get("net"):
+            carriers = [next_row["net"]]
+        elif ng.get("network"):
+            carriers = [network_name(ng["network"])]
+    g = _sd.team_graph({"name": name}, league, ORIGIN, path,
+                       next_game=ng if (ng and ng.get("start_utc")) else None, carriers=carriers)
+    return ('\n<script type="application/ld+json">' + json.dumps(g, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
 def render_team_page(tm, items, dateline):
     import teams as _teams
     abbr = tm["abbr"]
@@ -6636,7 +6661,7 @@ def render_team_page(tm, items, dateline):
     return shell(f"{name}: next game, schedule, where to watch and conditions - {NAME}",
                  f"{name}: the next game with its kickoff weather, the schedule with where to watch every "
                  f"game, the last result, the standing, the injury report and the team's conditions log.",
-                 "Scores", body, dateline, path=path)
+                 "Scores", body, dateline, path=path, schema_extra=_team_ld(name, "NFL", path, nxt, abbr))
 
 
 def _cfb_rows(prog):
@@ -6717,10 +6742,16 @@ def render_college_page(prog, items, dateline):
     <a class="st-nav-a" href="/scores.html">Scores</a></nav>
 </section></main>"""
     path = f'/teams/cfb/{prog["slug"]}.html'
+    nxt_g = nxt["_g"] if nxt else None
+    import structured as _sd
+    carriers = [network_name(nxt_g["network"])] if (nxt_g and nxt_g.get("network")) else []
+    graph = _sd.team_graph({"name": full}, "CFB", ORIGIN, path, next_game=nxt_g, carriers=carriers)
+    ld = ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
+          + "</script>")
     return shell(f"{full}: next game, where to watch and conditions - {NAME}",
                  f"{full}: the next game with its kickoff weather, where to watch, this week's schedule, "
                  f"the ranking and the team's conditions log.",
-                 "Scores", body, dateline, path=path)
+                 "Scores", body, dateline, path=path, schema_extra=ld)
 
 
 WEEK_COUNT = 18
@@ -8719,6 +8750,21 @@ def gp_desk_stories(g, items):
     return rel
 
 
+def _game_ld(g):
+    """S-3a item 2: SportsEvent, and a BroadcastEvent for each carrier the where-to-watch block names."""
+    import structured as _sd
+    cars = [c["name"] for c in (_w2w_carriers_by_id().get(str(g.get("id"))) or []) if c.get("name")]
+    if not cars and g.get("network"):
+        cars = [network_name(g["network"])]
+    city = ""
+    m = re.search(r"\(([^)]*)\)\s*$", g.get("venue") or "")
+    if m:
+        city = m.group(1)
+    graph = _sd.game_graph(g, ORIGIN, carriers=cars, venue_city=city)
+    return ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
 def render_game_page(g, points, board, wx, items, dateline):
     """S-B8. The game header, the fantasy strip and inactives, leaders, weather, and
     the desk's recent stories for both teams."""
@@ -8817,7 +8863,8 @@ def render_game_page(g, points, board, wx, items, dateline):
                  f'National Weather Service, where to watch, inactives and the score. Facts, '
                  f'not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
-                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png')
+                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png',
+                 schema_extra=_game_ld(g))
 
 
 def render_fantasy_live(all_points, dateline):
