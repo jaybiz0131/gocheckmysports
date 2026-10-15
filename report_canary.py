@@ -149,6 +149,24 @@ def check():
             fails.append("report card: a mark is missing (GoCheckMySports left, GoCheckMyWeather right)")
         if len(rep.get("board") or []) != 7:
             fails.append(f"report card: {len(rep.get('board') or [])} rows, expected the 7 NFL games with an entry")
+        # S-2d item 2: the wall's look. A green panel in a darker green frame; one row per game with a
+        # bulb lit exactly where a flag is on; the wind yellow exactly where the wind flag is on.
+        if im.getpixel((W // 2, 210)) != (14, 59, 42) or im.getpixel((29, W // 2)) != (7, 38, 25):
+            fails.append("report card: the card is not a green panel in a darker green frame")
+        rows = rep.get("board") or []
+        rh = min(54, (W - 150 - 220) // max(1, len(rows)))
+        yellow = lambda px: px[0] > 230 and px[1] > 190 and px[2] < 120
+        for i, r in enumerate(rows):
+            cy = 220 + i * rh + (rh - 8) // 2
+            lit = bool(r.get("any") or r.get("alert"))
+            if yellow(im.getpixel((74, cy))) != lit:
+                fails.append(f"report card: {r['away']} at {r['home']}'s bulb is {'off' if lit else 'lit'}, "
+                             f"its flags say {'lit' if lit else 'off'}")
+            wind = im.crop((722, cy - 14, 862, cy + 14)).getcolors(maxcolors=1 << 16) or []
+            has_y = sum(n for n, c in wind if yellow(c)) > 20
+            if r.get("status") == "forecast" and has_y != bool(r.get("wind_on")):
+                fails.append(f"report card: {r['away']} at {r['home']}'s wind is "
+                             f"{'yellow' if has_y else 'cream'} and its wind flag is {'on' if r.get('wind_on') else 'off'}")
     except ImportError:
         fails.append("report card: Pillow is not installed, so the card was not drawn")
     # freeze

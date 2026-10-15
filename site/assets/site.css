@@ -2944,3 +2944,43 @@ a.sbg-link small{font-family:var(--mono);font-size:11px;font-weight:400;color:va
   .sbg-big{font-size:48px}
   .sbg-hp{font-size:24px}
 }
+
+/* ---- S-2d item 2: THE WALL (ScoreboardWall.dc.html) ----------------------------------------------
+   At 1100px and wider the home opens on the week as one wall scoreboard: the NFL games in two
+   columns, a bulb lit when any of the game's flags is on, the team plates and the kickoff, then the
+   TEMP, WIND and RAIN plates (the wind yellow when flagged), or one plate for a dome or outside
+   coverage; each day's college games follow in a wall of their own. Under 1100px it is not shown.
+   Green in both themes, like every board. */
+.wl-wrap{display:none}
+@media (min-width:1100px){
+  .wl-wrap{display:block;max-width:1328px;padding-top:28px;padding-bottom:8px}
+  .wl{display:flex;flex-direction:column;gap:22px}
+  .wl-board{border-radius:14px;background:var(--sbc-panel);border:8px solid var(--sbc-frame);color:var(--sbc-cream);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 30px 60px -30px rgba(0,0,0,.9);padding:22px 26px;
+    display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
+  .wl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px}
+  .wl-board h2.wl-h{margin:0;font-family:var(--sbc-display);font-size:clamp(32px,3.1vw,44px);line-height:1;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-cream)}
+  .wl-board h2.wl-h span{color:var(--sbc-yellow)}
+  .wl-cfb h2.wl-h{font-size:32px}
+  .wl-legend{display:flex;gap:18px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:#D9D3B4}
+  .wl-legend span{display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .wl-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 36px}
+  .wl-row{display:grid;grid-template-columns:22px minmax(0,92px) 30px minmax(0,92px) 104px repeat(3,minmax(0,64px));
+    gap:6px;align-items:center;color:var(--sbc-cream);text-decoration:none;border-radius:4px}
+  a.wl-row:hover .wl-tm{box-shadow:inset 0 2px 5px rgba(0,0,0,.75),0 0 0 1px rgba(244,241,230,.5)}
+  a.wl-row:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
+  .wl-bulb{display:inline-block;width:14px;height:14px;border-radius:50%;background:#3B3A22;justify-self:center}
+  .wl-legend .wl-bulb{width:12px;height:12px}
+  .wl-bulb.on{background:var(--sbc-yellow);box-shadow:0 0 8px #FFD23F,0 0 18px rgba(255,210,63,.6)}
+  .wl-pl{padding:6px 0;text-align:center;border-radius:3px;background:var(--sbc-plate);box-shadow:inset 0 2px 5px rgba(0,0,0,.75);
+    font-family:var(--sbc-display);font-size:24px;line-height:1.2;font-weight:600;text-transform:uppercase;color:var(--sbc-cream);
+    white-space:nowrap;overflow:hidden}
+  .wl-pl.wl-w.on{color:var(--sbc-yellow)}
+  .wl-pl.wl-miss{font-family:var(--mono);font-size:11px;font-weight:500;line-height:2.6;color:#D9D3B4}
+  .wl-pl.wl-one{grid-column:span 3;padding:9px 0;font-size:18px;letter-spacing:.12em;color:#B8B293}
+  .wl-at{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;color:#D9D3B4}
+  .wl-when{text-align:center;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-yellow)}
+  .wl-board p.wl-src{margin:6px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
+}

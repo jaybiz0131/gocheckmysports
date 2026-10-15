@@ -184,6 +184,16 @@ def _stamp(data, games):
             f"{span} {day}.")
 
 
+def _nfl_week(now):
+    """The NFL week this report falls in, from the schedule the build reads; None when unknown."""
+    try:
+        import build_manifest as bm
+        import where_to_watch as w2w
+        return bm.week_for(now, (w2w.load() or {}).get("weeks"))
+    except Exception:
+        return None
+
+
 def write(games, data, now):
     """The report as a dict: title, lead, the write-ups, the one-liners, the stamp."""
     et = now.astimezone(ET)
@@ -224,7 +234,7 @@ def write(games, data, now):
         "id": rid, "slot": slot, "date": et.date().isoformat(),
         "written_at": now.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "written_et": f'{et.strftime("%a, %b")} {et.day}, {_clock(et)} ET',
-        "title": title, "lead": lead,
+        "title": title, "lead": lead, "week": _nfl_week(now),
         "flagged": flagged, "quiet": quiet, "indoor": indoor, "outside": outside, "later": later,
         "stamp": _stamp(data, games),
         "card": f"/share/conditions/{rid}.png",
@@ -321,69 +331,84 @@ def card_row(g, e):
             "arrow_true_deg": (k.get("wind") or {}).get("arrow_true_deg"),
             "any": bool(f.get("any")), "alert": bool(e.get("alerts")),
             "wind_on": bool((f.get("wind") or {}).get("on")),
-            "precip_on": bool((f.get("precip") or {}).get("on"))}
+            "precip_on": bool((f.get("precip") or {}).get("on")),
+            "city": g.get("venue_city") or ""}
 
 
 def share_card(rep, out_path):
-    """A square image of the week's weather board: the NFL games in kickoff order, each with the
-    temperature, the wind arrow and speed, the chance of precipitation, the venue flag; flagged
-    numbers lit. Both marks. Drawn with the site's own fonts."""
+    """A square image of the week's weather board in the wall's look (S-2d item 2, Jack's ruling of
+    14 October 2026, 3:11 PM ET, ScoreboardWall.dc.html): a green scoreboard in a darker frame, one
+    row per NFL game in kickoff order, a bulb lit when any of its flags is on, the team plates, the
+    kickoff in yellow, then the TEMP, WIND and RAIN plates with the wind yellow when flagged, or one
+    plate for a dome or outside coverage. Both sites' names in plain text, no marks. Every number is
+    the report's own, so the card cannot say what the page does not."""
     from PIL import Image, ImageDraw
-    import math
+    import re as _re
     import share_cards as sc
     S = 1080
-    BG, CARD, LIGHT, MUTE, SUN, RED = (19, 20, 25), (26, 28, 34), (235, 233, 227), (195, 199, 206), (255, 213, 105), (240, 135, 127)
+    BG, FRAME, PANEL, PLATE = (7, 17, 12), (7, 38, 25), (14, 59, 42), (20, 26, 23)
+    CREAM, YELLOW, SOFT, MUTE, OFF = (244, 241, 230), (255, 210, 63), (217, 211, 180), (184, 178, 147), (59, 58, 34)
+    osw = lambda n: sc._font("Oswald-600.ttf", n)
     im = Image.new("RGB", (S, S), BG)
     d = ImageDraw.Draw(im)
-    d.rectangle([0, 0, S, 10], fill=(31, 94, 63))
-    d.text((56, 40), "GoCheckMySports", font=sc._serif(40), fill=LIGHT)
+    d.rounded_rectangle([24, 24, S - 24, S - 24], radius=18, fill=FRAME)
+    d.rounded_rectangle([34, 34, S - 34, S - 34], radius=12, fill=PANEL)
+    d.text((64, 56), "GoCheckMySports", font=sc._mono(20, True), fill=SOFT)
     mk = "GoCheckMyWeather"
-    d.text((S - 56 - d.textlength(mk, font=sc._serif(40)), 40), mk, font=sc._serif(40), fill=(121, 184, 190))
-    d.text((56, 104), "The weather at kickoff", font=sc._mono(30, True), fill=LIGHT)
-    d.text((56, 146), rep["title"].replace("Conditions report, ", "NFL, ").upper(), font=sc._mono(22), fill=MUTE)
-    leg = "Arrows point the way the wind blows, north up"
-    d.text((S - 56 - d.textlength(leg, font=sc._mono(19)), 150), leg, font=sc._mono(19), fill=MUTE)
-    y, rh = 196, 56
-    for r in rep.get("board") or []:
-        st, w = r.get("status"), r.get("words") or {}
-        d.rounded_rectangle([40, y, S - 40, y + rh - 8], radius=8, fill=CARD)
-        if r.get("any") or r.get("alert"):
-            d.rectangle([40, y, 46, y + rh - 8], fill=RED if r.get("alert") else SUN)
-        d.text((62, y + 12), f'{r.get("away")} at {r.get("home")}', font=sc._mono(24, True), fill=LIGHT)
-        d.text((250, y + 14), r.get("when") or "", font=sc._mono(20), fill=MUTE)
-        x = 470
-        if st == "forecast":
-            d.text((x, y + 10), w.get("temp", ""), font=sc._mono(28, True), fill=LIGHT)
-            x += 90
-            # north up on every row: the card draws no field, so a field-relative angle would
-            # be read in the wrong frame
-            deg = r.get("arrow_true_deg")
-            if deg is not None and w.get("wind") != "Calm":
-                cx_, cy_, rad = x + 18, y + 24, 16
-                ang = math.radians(deg)
-                dx, dy = math.sin(ang), -math.cos(ang)
-                tip = (cx_ + dx * rad, cy_ + dy * rad)
-                tail = (cx_ - dx * rad, cy_ - dy * rad)
-                col = SUN if r.get("wind_on") else LIGHT
-                d.line([tail, tip], fill=col, width=4)
-                px, py = -dy, dx
-                d.polygon([tip, (tip[0] - dx * 11 + px * 7, tip[1] - dy * 11 + py * 7),
-                           (tip[0] - dx * 11 - px * 7, tip[1] - dy * 11 - py * 7)], fill=col)
+    d.text((S - 64 - d.textlength(mk, font=sc._mono(20, True)), 56), mk, font=sc._mono(20, True), fill=SOFT)
+    wk = rep.get("week") or (_re.search(r"Week (\d+)", rep.get("title") or "") or [None, None])[1]
+    t1 = f"NFL WEEK {wk}" if wk else "NFL"
+    d.text((64, 92), t1, font=osw(58), fill=CREAM)
+    d.text((64 + d.textlength(t1 + " ", font=osw(58)), 92), "· KICKOFF WEATHER", font=osw(58), fill=YELLOW)
+    d.ellipse([64, 182, 80, 198], fill=YELLOW)
+    d.text((90, 179), "WEATHER MATTERS", font=sc._mono(17, True), fill=SOFT)
+    leg = "TEMP °F · WIND MPH · RAIN %"
+    d.text((S - 64 - d.textlength(leg, font=sc._mono(17, True)), 179), leg, font=sc._mono(17, True), fill=SOFT)
+    rows = rep.get("board") or []
+    top, bottom = 220, S - 150
+    rh = min(54, (bottom - top) // max(1, len(rows)))
+    ph = rh - 8
+    fs = max(20, min(32, ph - 12))
+
+    def plate(x0, x1, y, text, col=CREAM, font=None):
+        d.rounded_rectangle([x0, y, x1, y + ph], radius=4, fill=PLATE)
+        f = font or osw(fs)
+        tw = d.textlength(text, font=f)
+        d.text(((x0 + x1 - tw) / 2, y + (ph - fs) / 2 - fs * .12), text, font=f, fill=col)
+    y = top
+    for r in rows:
+        lit = bool(r.get("any") or r.get("alert"))
+        cy = y + ph / 2
+        d.ellipse([66, cy - 8, 82, cy + 8], fill=YELLOW if lit else OFF)
+        plate(100, 210, y, (r.get("away") or "").upper())
+        f_at = sc._mono(16, True)
+        d.text((236 - d.textlength("AT", font=f_at) / 2, cy - 10), "AT", font=f_at, fill=SOFT)
+        plate(262, 372, y, (r.get("home") or "").upper())
+        when = _re.sub(r":(\d\d) ([AP])M( ET)?", r":\1\2", (r.get("when") or "")).upper()
+        f_w = sc._mono(19, True)
+        d.text((466 - d.textlength(when, font=f_w) / 2, cy - 12), when, font=f_w, fill=YELLOW)
+        w = r.get("words") or {}
+        if r.get("status") == "forecast":
+            temp = w.get("temp") or ""
             sp = (w.get("wind") or "").split(" mph")[0]
-            d.text((x + 46, y + 12), (sp + " mph") if sp.isdigit() else "calm", font=sc._mono(24, True),
-                   fill=SUN if r.get("wind_on") else LIGHT)
+            wind = sp if sp.isdigit() else ("CALM" if (w.get("wind") or "").startswith("Calm") else "")
             pct = (w.get("precip") or "").split("%")[0]
-            d.text((x + 200, y + 12), f"{pct}%" if pct.isdigit() else "", font=sc._mono(24, True),
-                   fill=SUN if r.get("precip_on") else LIGHT)
-            tag = (w.get("alert") if r.get("alert") else ("Retractable" if r.get("roof") == "retractable" else ""))
-            d.text((x + 300, y + 14), sc._fit(d, tag or "", sc._mono(19), S - 60 - (x + 300)), font=sc._mono(19),
-                   fill=RED if r.get("alert") else MUTE)
+            rain = f"{pct}%" if pct.isdigit() else ""
+            for x0, txt, col in ((572, temp, CREAM), (722, wind, YELLOW if r.get("wind_on") else CREAM),
+                                 (872, rain, CREAM)):
+                if txt:
+                    plate(x0, x0 + 140, y, txt, col)
+                else:
+                    plate(x0, x0 + 140, y, "missing", SOFT, sc._mono(16))
         else:
-            d.text((x, y + 14), (w.get("line") or "").replace("Forecast from", "From"), font=sc._mono(22), fill=MUTE)
+            note = {"indoor": "DOME", "outside_nws": (r.get("city") or "OUTSIDE NWS").upper()}.get(
+                r.get("status"), (w.get("line") or "").upper())
+            plate(572, 1012, y, note, MUTE, osw(max(18, fs - 8)))
         y += rh
-    d.text((56, S - 92), sc._fit(d, rep["stamp"].replace("Conditions by GoCheckMyWeather, from the ", "From the "),
-                                 sc._mono(17), S - 112), font=sc._mono(17), fill=MUTE)
-    d.text((56, S - 58), "gocheckmysports.com  ·  gocheckmyweather.com", font=sc._mono(20, True), fill=LIGHT)
+    d.text((64, S - 128), "CONDITIONS BY GOCHECKMYWEATHER · NATIONAL WEATHER SERVICE", font=sc._mono(17, True), fill=SOFT)
+    d.text((64, S - 100), sc._fit(d, (rep.get("stamp") or "").replace("Conditions by GoCheckMyWeather, from the ", "From the "),
+                                  sc._mono(16), S - 128), font=sc._mono(16), fill=SOFT)
+    d.text((64, S - 72), "gocheckmysports.com  ·  gocheckmyweather.com", font=sc._mono(20, True), fill=CREAM)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     im.save(out_path, "PNG", optimize=True)
     return out_path
