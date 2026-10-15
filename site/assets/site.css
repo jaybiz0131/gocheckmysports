@@ -2945,10 +2945,10 @@ a.gp-svc:hover{border-color:var(--ink)}
 .tk-c.sbc::before{content:none}
 .tk-c.sbc.sbc-lit,.tk-c.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2px rgba(255,210,63,.55),
   0 0 26px rgba(255,210,63,.25)}
-.sbc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;
+.sbc-top{display:flex;justify-content:space-between;align-items:center;gap:6px 8px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.sbc-kick{color:var(--sbc-yellow);min-width:0;flex:1 1 auto}
-.sbc-chips{display:inline-flex;gap:6px;flex:0 0 auto}
+.sbc-kick{color:var(--sbc-yellow);min-width:0;flex:1 1 200px}
+.sbc-chips{display:inline-flex;gap:6px;flex:0 0 auto;margin-left:auto}
 .sbc-chip,.sbc-chips .tk-chip{padding:3px 7px;border-radius:3px;background:var(--sbc-plate);color:var(--sbc-cream);
   white-space:nowrap;font:inherit;letter-spacing:inherit;border:0;margin:0}
 .sbc-chips .tk-chip.tk-verify{color:#D9D3B4}
