@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T18:55:23Z",
- "last_poll": "2026-10-18T18:55:31Z",
+ "last_change": "2026-10-18T19:00:26Z",
+ "last_poll": "2026-10-18T19:01:01Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -521,6 +521,24 @@
   "14": {
    "capped": true,
    "designations": {
+    "3912189": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T18:47Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "name": "Bill Murray",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4240123": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T18:47Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "name": "Larrell Murchison",
+     "pos": "DE",
+     "status": "Out"
+    },
     "4242154": {
      "changed_at": null,
      "detail": "",
@@ -530,14 +548,23 @@
      "pos": "S",
      "status": "Questionable"
     },
-    "4426405": {
+    "4360797": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T18:52Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "name": "Tutu Atwell",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4426405": {
+     "changed_at": "2026-10-18T19:00:26Z",
      "detail": "Groin",
-     "feed_date": "2026-10-17T00:31Z",
+     "feed_date": "2026-10-18T18:54Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Trent McDuffie",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4575003": {
      "changed_at": null,
@@ -547,6 +574,24 @@
      "name": "Keagen Trost",
      "pos": "OT",
      "status": "Questionable"
+    },
+    "4605951": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T18:47Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "name": "CJ Daniels",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T18:47Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "14",
@@ -569,6 +614,15 @@
      "reason": "Coach's Decision",
      "via": "poll"
     },
+    "4360797": {
+     "feed_date": "2026-10-18T18:52Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "jersey": "",
+     "name": "Tutu Atwell",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4426405": {
      "feed_date": "2026-10-17T00:31Z",
      "first_seen": "2026-10-18T18:55:23Z",
@@ -584,6 +638,15 @@
      "jersey": "",
      "name": "CJ Daniels",
      "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685522": {
+     "feed_date": "2026-10-18T18:47Z",
+     "first_seen": "2026-10-18T19:00:26Z",
+     "jersey": "",
+     "name": "Ty Simpson",
+     "pos": "QB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
