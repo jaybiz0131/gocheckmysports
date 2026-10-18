@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T19:00:26Z",
- "last_poll": "2026-10-18T19:01:01Z",
+ "last_change": "2026-10-18T19:05:23Z",
+ "last_poll": "2026-10-18T19:05:48Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -74,7 +74,7 @@
     "4870988": {
      "changed_at": null,
      "detail": "Oblique",
-     "feed_date": "2026-10-18T18:44Z",
+     "feed_date": "2026-10-18T18:55Z",
      "first_seen": "2026-10-18T18:55:23Z",
      "name": "Avieon Terrell",
      "pos": "CB",
@@ -587,7 +587,7 @@
     "4685522": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-18T18:47Z",
+     "feed_date": "2026-10-18T18:56Z",
      "first_seen": "2026-10-18T19:00:26Z",
      "name": "Ty Simpson",
      "pos": "QB",
@@ -836,13 +836,13 @@
      "status": "Questionable"
     },
     "4361432": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T19:05:23Z",
      "detail": "Shoulder",
-     "feed_date": "2026-10-18T17:43Z",
+     "feed_date": "2026-10-18T18:54Z",
      "first_seen": "2026-10-18T18:40:23Z",
      "name": "Romeo Doubs",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4428930": {
      "changed_at": null,
@@ -1161,7 +1161,7 @@
     "3115303": {
      "changed_at": "2026-10-18T16:10:23Z",
      "detail": "Calf",
-     "feed_date": "2026-10-18T18:52Z",
+     "feed_date": "2026-10-18T19:02Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
@@ -1183,6 +1183,15 @@
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Andrew Thomas",
      "pos": "OT",
+     "status": "Questionable"
+    },
+    "4361266": {
+     "changed_at": null,
+     "detail": "Head",
+     "feed_date": "2026-10-18T19:02Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "name": "Greg Newsome II",
+     "pos": "CB",
      "status": "Questionable"
     },
     "4429148": {
@@ -1298,22 +1307,31 @@
    "capped": true,
    "designations": {
     "3915416": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T19:05:23Z",
      "detail": "Shoulder - AC Joint",
-     "feed_date": "2026-10-16T21:19Z",
+     "feed_date": "2026-10-18T18:57Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "DJ Moore",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "3915487": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "name": "Mike Danna",
+     "pos": "DE",
+     "status": "Out"
     },
     "4039303": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T19:05:23Z",
      "detail": "Knee",
-     "feed_date": "2026-10-17T02:59Z",
+     "feed_date": "2026-10-18T19:00Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Ed Oliver",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4242433": {
      "changed_at": null,
@@ -1342,6 +1360,15 @@
      "pos": "CB",
      "status": "Questionable"
     },
+    "4606712": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "name": "Ar'maj Reed-Adams",
+     "pos": "G",
+     "status": "Out"
+    },
     "4684527": {
      "changed_at": null,
      "detail": "Shoulder",
@@ -1350,10 +1377,65 @@
      "name": "T.J. Sanders",
      "pos": "DT",
      "status": "Questionable"
+    },
+    "4869533": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "name": "Jude Bowry",
+     "pos": "OT",
+     "status": "Out"
     }
    },
    "id": "2",
-   "players": {},
+   "players": {
+    "3915416": {
+     "feed_date": "2026-10-18T18:57Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "DJ Moore",
+     "pos": "WR",
+     "reason": "Shoulder - AC Joint",
+     "via": "poll"
+    },
+    "3915487": {
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Mike Danna",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4039303": {
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Ed Oliver",
+     "pos": "DT",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4606712": {
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Ar'maj Reed-Adams",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4869533": {
+     "feed_date": "2026-10-18T19:00Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Jude Bowry",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-18T16:45:33Z",
    "rows_returned": 25,
@@ -1933,6 +2015,15 @@
      "pos": "QB",
      "status": "Out"
     },
+    "4567979": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-10-18T18:55Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "name": "Brandin Echols",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4714771": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -2083,7 +2174,7 @@
     },
     "4430870": {
      "changed_at": null,
-     "detail": "Hamstring",
+     "detail": "",
      "feed_date": "2026-10-18T01:58Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "KeAndre Lambert-Smith",
@@ -2137,7 +2228,35 @@
     }
    },
    "id": "24",
-   "players": {},
+   "players": {
+    "3691739": {
+     "feed_date": "2026-10-17T01:29Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Derwin James Jr.",
+     "pos": "S",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4040842": {
+     "feed_date": "2026-10-16T20:15Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Kayode Awosika",
+     "pos": "G",
+     "reason": "Lower Leg",
+     "via": "poll"
+    },
+    "4683487": {
+     "feed_date": "2026-10-18T12:31Z",
+     "first_seen": "2026-10-18T19:05:23Z",
+     "jersey": "",
+     "name": "Joe Alt",
+     "pos": "OT",
+     "reason": "Neck",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-18T16:45:38Z",
    "rows_returned": 25,
