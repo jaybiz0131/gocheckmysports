@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T23:00:58Z",
- "last_poll": "2026-10-18T23:00:58Z",
+ "last_change": "2026-10-18T23:05:22Z",
+ "last_poll": "2026-10-18T23:05:31Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1442,7 +1442,7 @@
     "3115303": {
      "changed_at": "2026-10-18T16:10:23Z",
      "detail": "Calf",
-     "feed_date": "2026-10-18T22:39Z",
+     "feed_date": "2026-10-18T23:00Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
@@ -4213,6 +4213,15 @@
   "6": {
    "capped": true,
    "designations": {
+    "4240608": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "name": "James Houston",
+     "pos": "LB",
+     "status": "Out"
+    },
     "4259546": {
      "changed_at": null,
      "detail": "Knee",
@@ -4225,16 +4234,25 @@
     "4362088": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-18T00:03Z",
+     "feed_date": "2026-10-18T22:55Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "DeMarvion Overshown",
      "pos": "LB",
      "status": "Out"
     },
+    "4362478": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "name": "Emari Demercado",
+     "pos": "RB",
+     "status": "Out"
+    },
     "4384549": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T02:39Z",
+     "feed_date": "2026-10-18T22:55Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Cobie Durant",
      "pos": "CB",
@@ -4249,13 +4267,31 @@
      "pos": "CB",
      "status": "Questionable"
     },
+    "4595352": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "name": "Alijah Clark",
+     "pos": "S",
+     "status": "Out"
+    },
     "4685554": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T04:54Z",
+     "feed_date": "2026-10-18T22:55Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Drew Shelton",
      "pos": "OT",
+     "status": "Out"
+    },
+    "4808759": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "name": "Camden Brown",
+     "pos": "WR",
      "status": "Out"
     },
     "4870960": {
@@ -4270,6 +4306,33 @@
    },
    "id": "6",
    "players": {
+    "4240608": {
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "jersey": "",
+     "name": "James Houston",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4362088": {
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "jersey": "",
+     "name": "DeMarvion Overshown",
+     "pos": "LB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4362478": {
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "jersey": "",
+     "name": "Emari Demercado",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4384549": {
      "feed_date": "2026-10-17T02:39Z",
      "first_seen": "2026-10-18T23:00:23Z",
@@ -4295,6 +4358,15 @@
      "name": "Drew Shelton",
      "pos": "OT",
      "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4808759": {
+     "feed_date": "2026-10-18T22:55Z",
+     "first_seen": "2026-10-18T23:05:22Z",
+     "jersey": "",
+     "name": "Camden Brown",
+     "pos": "WR",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
