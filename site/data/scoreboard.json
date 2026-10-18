@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-18T22:55:30Z",
+ "fetched_at": "2026-10-18T23:00:27Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,10 +7,10 @@
     {
      "id": "401873004",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "0:47 - 4th",
-     "detail": "0:47",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-10-18T20:05Z",
      "network": "Fox",
@@ -22,7 +22,7 @@
       "mascot": "Rams",
       "rank": null,
       "score": "16",
-      "record": "2-3",
+      "record": "2-4",
       "periods": [
        "3",
        "6",
@@ -40,13 +40,13 @@
       "school": "Arizona",
       "mascot": "Cardinals",
       "rank": null,
-      "score": "15",
-      "record": "1-4",
+      "score": "18",
+      "record": "2-4",
       "periods": [
        "3",
        "6",
        "3",
-       "3"
+       "6"
       ],
       "id": "22",
       "color": "#a40227",
@@ -72,12 +72,12 @@
        "team": "14"
       }
      ],
-     "situation": "1st & 10 at ARI 35",
+     "situation": "",
      "possession": "",
      "red_zone": false,
-     "to_home": 2,
-     "to_away": 0,
-     "progress": 0.9869444444444444,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "SoFi Stadium",
      "venue_id": "7065",
@@ -91,8 +91,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:56 - 4th",
-     "detail": "11:56",
+     "status_short": "11:09 - 4th",
+     "detail": "11:09",
      "period": 4,
      "start_utc": "2026-10-18T20:25Z",
      "network": "CBS",
@@ -154,12 +154,12 @@
        "team": "12"
       }
      ],
-     "situation": "4th & 1 at LAC 35",
-     "possession": "12",
+     "situation": "1st & 10 at KC 46",
+     "possession": "24",
      "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.8011111111111111,
+     "progress": 0.8141666666666667,
      "venue_indoor": false,
      "venue": "Arrowhead Stadium",
      "venue_id": "3622",
@@ -173,8 +173,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:56 - 4th",
-     "detail": "11:56",
+     "status_short": "8:07 - 4th",
+     "detail": "8:07",
      "period": 4,
      "start_utc": "2026-10-18T20:25Z",
      "network": "CBS",
@@ -185,13 +185,13 @@
       "school": "Las Vegas",
       "mascot": "Raiders",
       "rank": null,
-      "score": "16",
+      "score": "22",
       "record": "3-2",
       "periods": [
        "7",
        "6",
        "0",
-       "3"
+       "9"
       ],
       "id": "13",
       "color": "#000000",
@@ -220,7 +220,7 @@
       {
        "cat": "PASS",
        "name": "K. Cousins",
-       "line": "18/31, 200 YDS, 1 INT",
+       "line": "22/36, 269 YDS, 1 TD, 1 INT",
        "team": "13"
       },
       {
@@ -236,12 +236,12 @@
        "team": "13"
       }
      ],
-     "situation": "2nd & 10 at LV 9",
-     "possession": "13",
-     "red_zone": false,
+     "situation": "",
+     "possession": "",
+     "red_zone": true,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.8011111111111111,
+     "progress": 0.8647222222222222,
      "venue_indoor": true,
      "venue": "Allegiant Stadium",
      "venue_id": "6501",
@@ -1236,9 +1236,9 @@
      "league": "MLB",
      "state": "in",
      "completed": false,
-     "status_short": "Bot 6th",
+     "status_short": "Top 7th",
      "detail": "0:00",
-     "period": 6,
+     "period": 7,
      "start_utc": "2026-10-18T21:00Z",
      "network": "TBS",
      "home": {
@@ -1248,7 +1248,7 @@
       "school": "Cleveland",
       "mascot": "Guardians",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "85-77",
       "periods": [
        "0",
@@ -1256,7 +1256,7 @@
        "0",
        "0",
        "0",
-       "0"
+       "1"
       ],
       "id": "5",
       "color": "#002b5c",
@@ -1277,6 +1277,7 @@
        "1",
        "0",
        "0",
+       "0",
        "0"
       ],
       "id": "30",
@@ -1287,7 +1288,7 @@
       {
        "cat": "",
        "name": "D. Rasmussen",
-       "line": "5.1 IP, 0 ER, 3 H, 6 K, BB",
+       "line": "6.0 IP, ER, 3 H, 6 K, BB",
        "team": "30"
       }
      ],

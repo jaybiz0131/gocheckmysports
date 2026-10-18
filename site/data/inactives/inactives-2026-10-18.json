@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T22:55:22Z",
- "last_poll": "2026-10-18T22:56:00Z",
+ "last_change": "2026-10-18T23:00:58Z",
+ "last_poll": "2026-10-18T23:00:58Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -4260,7 +4260,7 @@
     },
     "4870960": {
      "changed_at": null,
-     "detail": "Foot",
+     "detail": "",
      "feed_date": "2026-10-16T21:23Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "LT Overton",
@@ -4269,7 +4269,35 @@
     }
    },
    "id": "6",
-   "players": {},
+   "players": {
+    "4384549": {
+     "feed_date": "2026-10-17T02:39Z",
+     "first_seen": "2026-10-18T23:00:23Z",
+     "jersey": "",
+     "name": "Cobie Durant",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4595352": {
+     "feed_date": "2026-10-15T01:28Z",
+     "first_seen": "2026-10-18T23:00:23Z",
+     "jersey": "",
+     "name": "Alijah Clark",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685554": {
+     "feed_date": "2026-10-17T04:54Z",
+     "first_seen": "2026-10-18T23:00:23Z",
+     "jersey": "",
+     "name": "Drew Shelton",
+     "pos": "OT",
+     "reason": "Hamstring",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-18T19:50:24Z",
    "rows_returned": 25,
@@ -4474,21 +4502,30 @@
      "status": "Out"
     },
     "4242390": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T23:00:58Z",
      "detail": "Toe",
-     "feed_date": "2026-10-17T04:24Z",
+     "feed_date": "2026-10-18T22:52Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Aaron Banks",
      "pos": "G",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4258206": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T04:23Z",
+     "feed_date": "2026-10-18T22:52Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Benjamin St-Juste",
      "pos": "CB",
+     "status": "Out"
+    },
+    "4360887": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:52Z",
+     "first_seen": "2026-10-18T23:00:58Z",
+     "name": "Donovan Jennings",
+     "pos": "G",
      "status": "Out"
     },
     "4361423": {
@@ -4518,9 +4555,18 @@
      "pos": "WR",
      "status": "Questionable"
     },
+    "4569661": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T22:52Z",
+     "first_seen": "2026-10-18T23:00:58Z",
+     "name": "Jager Burton",
+     "pos": "C",
+     "status": "Out"
+    },
     "4887255": {
      "changed_at": null,
-     "detail": "Ankle",
+     "detail": "",
      "feed_date": "2026-10-13T17:10Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Anthony Campbell",
@@ -4539,12 +4585,39 @@
    },
    "id": "9",
    "players": {
+    "4242390": {
+     "feed_date": "2026-10-17T04:24Z",
+     "first_seen": "2026-10-18T23:00:23Z",
+     "jersey": "",
+     "name": "Aaron Banks",
+     "pos": "G",
+     "reason": "Toe",
+     "via": "poll"
+    },
+    "4258206": {
+     "feed_date": "2026-10-17T04:23Z",
+     "first_seen": "2026-10-18T23:00:23Z",
+     "jersey": "",
+     "name": "Benjamin St-Juste",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
     "4360887": {
      "feed_date": "2026-10-12T19:12Z",
      "first_seen": "2026-10-18T22:55:22Z",
      "jersey": "",
      "name": "Donovan Jennings",
      "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4569661": {
+     "feed_date": "2026-10-18T22:52Z",
+     "first_seen": "2026-10-18T23:00:58Z",
+     "jersey": "",
+     "name": "Jager Burton",
+     "pos": "C",
      "reason": "Coach's Decision",
      "via": "poll"
     }
