@@ -8564,8 +8564,9 @@ def game_share_row(g, e=None):
             # the page's own words for a game in progress ("In progress" or the feed's period), and
             # never the word "live", which waits for S-4 (ruling of 12 October, scorecard line 6)
             _w = _tk_state(g) or "In progress"
+            # upper case: the card's Oswald subset has no lowercase
             row["state_word"] = "FINAL" if g.get("state") == "post" else (
-                "In progress" if "live" in _w.lower() else _w)
+                "IN PROGRESS" if "live" in _w.lower() else _w.upper())
     if st == "forecast":
         p = cx_parts(e)
         row["lit"] = bool(cx_number_flags(e) or e.get("alerts"))
@@ -8579,11 +8580,12 @@ def game_share_row(g, e=None):
                            "Outside NWS coverage") if x),
                        "out_of_range": "Not yet in range",
                        "roofed": (e.get("words") or {}).get("line")}.get(st) or "No forecast"
-    c = e.get("credit") or {}
-    if c.get("text") and st in ("forecast", "out_of_range", "indoor", "roofed"):
-        # one credit line, the page's own text; a reading from another day than the build's
-        # carries its day, so a card that outlives its game says when the reading was taken
-        txt = c["text"]
+    cr_ = gp_credit(e)
+    if cr_:
+        # one credit line, printed only when the page prints one (gp_credit, the page's own test); a
+        # reading from another day than the build's carries its day, so a card that outlives its
+        # game says when the reading was taken
+        txt = cr_[0].replace(", last reading", "")
         try:
             gen = datetime.datetime.fromisoformat(((e.get("nws") or {}).get("generated_at") or "").replace("Z", "+00:00")).astimezone(_ET)
             if gen.date() != _build_now().astimezone(_ET).date():
@@ -8630,6 +8632,17 @@ def gp_streams(g):
             if c["state"] == "ok"]
 
 
+def gp_credit(e):
+    """The credit the game page prints under its board, (text, url), or None when it prints none.
+    One function for the page's link and the share card's line, so the card never credits a reading
+    the page does not (a dome and a roofed stadium print no credit)."""
+    c = (e or {}).get("credit") or {}
+    url = c.get("url") or ""
+    if url.startswith("https://gocheckmyweather.com/") and c.get("text") and e.get("status") in ("forecast", "out_of_range"):
+        return c["text"] + (", last reading" if e.get("stale") else ""), url
+    return None
+
+
 def sbg_under(g):
     """Under the board: the yellow "Watch on" button and the outlined second stream, then the link to
     the Weather stadium page with the stamp."""
@@ -8642,12 +8655,11 @@ def sbg_under(g):
         btns = ('<div class="sbg-btns">' + a(st[0][0], st[0][1], "sbg-btn", f"Watch on {st[0][0]}")
                 + (a(st[1][0], st[1][1], "sbg-btn sbg-btn2", st[1][0]) if len(st) > 1 else "") + '</div>')
     e = cx_entry(g) or {}
-    c = e.get("credit") or {}
-    url = c.get("url") or ""
+    cr_ = gp_credit(e)
     link = ""
-    if url.startswith("https://gocheckmyweather.com/") and c.get("text") and e.get("status") in ("forecast", "out_of_range"):
+    if cr_:
+        ctext, url = cr_
         venue = (e.get("stadium") or {}).get("name") or e.get("venue") or "the stadium"
-        ctext = c["text"] + (", last reading" if e.get("stale") else "")
         link = (f'<a class="sbg-link" href="{esc(url)}">Full forecast for {esc(venue)} on GoCheckMyWeather'
                 f'<small>{esc(ctext)}</small><span aria-hidden="true">→</span></a>')
     return (f'<div class="sbg-under">{btns}{link}</div>') if (btns or link) else ""

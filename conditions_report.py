@@ -453,8 +453,8 @@ def game_share_card(row, out_path):
 
     # the matchup: two team plates and AT, abbreviations in Oswald, full names under in mono
     top = 130
-    plate(64, top, 424, top + 150, row.get("away") or "", osw(96))
-    plate(S - 64 - 360, top, S - 64, top + 150, row.get("home") or "", osw(96))
+    plate(64, top, 424, top + 150, (row.get("away") or "").upper(), osw(96))
+    plate(S - 64 - 360, top, S - 64, top + 150, (row.get("home") or "").upper(), osw(96))
     f_at = sc._mono(26, True)
     d.text((S / 2 - d.textlength("AT", font=f_at) / 2, top + 58), "AT", font=f_at, fill=SOFT)
     for x0, x1, nm in ((64, 424, row.get("away_name")), (S - 64 - 360, S - 64, row.get("home_name"))):
@@ -464,11 +464,26 @@ def game_share_card(row, out_path):
     if row.get("score_away") is not None and row.get("score_home") is not None:
         plate(64, y, 424, y + 110, str(row["score_away"]), osw(84), CREAM)
         plate(S - 64 - 360, y, S - 64, y + 110, str(row["score_home"]), osw(84), CREAM)
-        if row.get("state_word"):
-            bx = d.textbbox((0, 0), row["state_word"], font=osw(40))
-            d.text(((424 + S - 64 - 360 - bx[0] - bx[2]) / 2, y + 55 - (bx[1] + bx[3]) / 2),
-                   row["state_word"], font=osw(40), fill=YELLOW)
-        y += 134
+        sw = (row.get("state_word") or "").upper()   # the Oswald subset has no lowercase
+        extra = 0
+        if sw:
+            # the state words sit in the 232 px gap between the score plates, stepped down to fit
+            # inside it; words too long for the gap at 24 px take their own line under the plates
+            gx0, gx1 = 424 + 10, S - 64 - 360 - 10
+            n = 40
+            while n > 24 and d.textlength(sw, font=osw(n)) > gx1 - gx0:
+                n -= 2
+            if d.textlength(sw, font=osw(n)) <= gx1 - gx0:
+                bx = d.textbbox((0, 0), sw, font=osw(n))
+                d.text(((gx0 + gx1 - bx[0] - bx[2]) / 2, y + 55 - (bx[1] + bx[3]) / 2), sw, font=osw(n), fill=YELLOW)
+            else:
+                n = 36
+                while n > 20 and d.textlength(sw, font=osw(n)) > S - 160:
+                    n -= 2
+                bx = d.textbbox((0, 0), sw, font=osw(n))
+                d.text(((S - bx[0] - bx[2]) / 2, y + 120), sw, font=osw(n), fill=YELLOW)
+                extra = 44
+        y += 134 + extra
     # the kickoff, in ET with the zone, and the network
     y += 22
     center((row.get("when") or "").upper(), y, osw(52), YELLOW)

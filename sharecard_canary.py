@@ -38,20 +38,59 @@ sys.path.insert(0, HERE)
 ORIGIN = "https://gocheckmysports.com"
 
 
+_GEOM = {"texts": [], "plates": []}   # what the last _drawn call drew: (text, bbox, font) and plate rects
+
+
 def _drawn(fn, *a):
-    """Run a card draw and return (result, every string it drew, in order)."""
+    """Run a card draw and return (result, every string it drew, in order). Also records each
+    string's box and font and each dark plate, for the glyph and overlap checks."""
     from PIL import ImageDraw
     seen = []
+    _GEOM["texts"], _GEOM["plates"] = [], []
     orig = ImageDraw.ImageDraw.text
+    orig_rr = ImageDraw.ImageDraw.rounded_rectangle
 
     def spy(self, xy, text, *args, **kw):
         seen.append(str(text))
+        _GEOM["texts"].append((str(text), self.textbbox(xy, str(text), font=kw.get("font")), kw.get("font")))
         return orig(self, xy, text, *args, **kw)
+
+    def spy_rr(self, xy, *args, **kw):
+        if kw.get("fill") == (20, 26, 23):
+            _GEOM["plates"].append(tuple(xy))
+        return orig_rr(self, xy, *args, **kw)
     ImageDraw.ImageDraw.text = spy
+    ImageDraw.ImageDraw.rounded_rectangle = spy_rr
     try:
         return fn(*a), seen
     finally:
         ImageDraw.ImageDraw.text = orig
+        ImageDraw.ImageDraw.rounded_rectangle = orig_rr
+
+
+def check_geometry(name):
+    """Glyphs and boxes of the last draw. A string whose characters the font maps to .notdef
+    (the pinned Oswald subset has no lowercase) draws boxes; a string's box must stay on the card
+    and must not cross a plate, only sit wholly inside one."""
+    fails = []
+    notdef = {}
+    for text, (x0, y0, x1, y1), font in _GEOM["texts"]:
+        if font is not None:
+            if (font.path, font.size) not in notdef:
+                m = font.getmask("\ue000")
+                notdef[(font.path, font.size)] = (bytes(m), m.size)
+            for ch in sorted(set(text) - {" "}):
+                m = font.getmask(ch)
+                if (bytes(m), m.size) == notdef[(font.path, font.size)]:
+                    fails.append(f"share card {name}: {text!r} has {ch!r}, which {os.path.basename(font.path)} cannot draw (box glyph)")
+        if x0 < 34 or y0 < 34 or x1 > 1046 or y1 > 1046:
+            fails.append(f"share card {name}: {text!r} leaves the card at {(x0, y0, x1, y1)}")
+        for px0, py0, px1, py1 in _GEOM["plates"]:
+            hit = x0 < px1 and x1 > px0 and y0 < py1 and y1 > py0
+            inside = x0 >= px0 - 1 and x1 <= px1 + 1 and y0 >= py0 - 1 and y1 <= py1 + 1
+            if hit and not inside:
+                fails.append(f"share card {name}: {text!r} at {(x0, y0, x1, y1)} runs over a plate {(px0, py0, px1, py1)}")
+    return fails
 
 
 def check_cards():
@@ -67,15 +106,20 @@ def check_cards():
     tmp = tempfile.mkdtemp()
     try:
         sb._NOW_CACHE = datetime.datetime(2026, 10, 15, 13, 0, tzinfo=datetime.timezone.utc)
+        cred = {"text": "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET",
+                "url": "https://gocheckmyweather.com/stadiums/x.html"}
         dome = {"status": "indoor", "venue": "Allegiant Stadium", "words": {"line": "Indoor", "roof": "Indoor"},
-                "credit": {"text": "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET"}}
-        sb.CX_DATA = {"games": {"den": st._entry(), "dome": dome,
+                "credit": cred}
+        roof = {"status": "roofed", "venue": "Lucas Oil Stadium", "words": {"line": "Roof \u00b7 usually closed"},
+                "credit": cred}
+        sb.CX_DATA = {"games": {"den": st._entry(), "dome": dome, "roof": roof,
                                 "gap": st._entry(kickoff_hour={"temp_f": None, "sky": "Sunny", "pop_pct": None,
                                                                "wind_mph": None, "wind": {}}, flags=st._QUIET)}}
 
         def draw(g, name):
             row = sb.game_share_row(g)
             p, texts = _drawn(cr.game_share_card, row, os.path.join(tmp, name))
+            fails.extend(check_geometry(name))
             return row, Image.open(p).convert("RGB"), texts
 
         # the card from a fixture; the feed carries a 0 for each side of a game not yet played
@@ -111,24 +155,37 @@ def check_cards():
         liv = st._game("den", state="in", status_short="3rd Quarter", detail="5:21")
         liv["away"]["score"], liv["home"]["score"] = "10", "7"
         _r, _i, tl = draw(liv, "live.png")
-        if "3rd Quarter \u00b7 5:21" not in tl or "FINAL" in tl or not {"10", "7"} <= set(tl):
+        if "3RD QUARTER \u00b7 5:21" not in tl or "FINAL" in tl or not {"10", "7"} <= set(tl):
             fails.append(f"share card: a game in progress does not draw the page's words and its running score, or says Final: {tl}")
         liv2 = st._game("den", state="in")
         liv2["away"]["score"], liv2["home"]["score"] = "3", "0"
         _r, _i, tl2 = draw(liv2, "live2.png")
-        if "In progress" not in tl2:
-            fails.append(f"share card: a game in progress with no period words does not say In progress: {tl2}")
+        if "IN PROGRESS" not in tl2:
+            fails.append(f"share card: a game in progress with no period words does not say IN PROGRESS: {tl2}")
+        # state words too long for the gap between the score plates take their own line, whole
+        liv4 = st._game("den", state="in", status_short="End of 3rd Quarter", detail="12:00")
+        liv4["away"]["score"], liv4["home"]["score"] = "10", "7"
+        _r, _i, tl4 = draw(liv4, "live4.png")
+        if "END OF 3RD QUARTER \u00b7 12:00" not in tl4:
+            fails.append(f"share card: long state words are not drawn whole: {tl4}")
         liv3 = st._game("den", state="in", status_short="Live")
         liv3["away"]["score"], liv3["home"]["score"] = "3", "0"
         _r, _i, tl3 = draw(liv3, "live3.png")
-        _everything = texts + t2 + tl + tl2 + tl3
+        _everything = texts + t2 + tl + tl2 + tl3 + tl4
         # a postponed game has no score even when the feed sends zeros
         pp = st._game("den", state="post", status_short="Postponed")
         pp["away"]["score"], pp["home"]["score"] = "0", "0"
         if sb.game_share_row(pp)["score_away"] is not None:
             fails.append("share card: a postponed game draws a score")
-        # plates that say why
+        # a dome and a roofed stadium: the page prints no credit, so the card prints none
         _r, _i, t3 = draw(st._game("dome"), "dome.png")
+        _r, _i, trf = draw(st._game("roof"), "roof.png")
+        for nm, tt in (("a dome", t3), ("a roofed stadium", trf)):
+            if any("conditions by" in t.lower() for t in tt):
+                fails.append(f"share card: {nm} carries an NWS credit the page does not print: {tt}")
+        if "ROOF \u00b7 USUALLY CLOSED" not in trf:
+            fails.append(f"share card: a roofed stadium does not draw the page's roof line: {trf}")
+        # plates that say why
         if "DOME" not in t3 or any(re.fullmatch(r"\d+", t) for t in t3):
             fails.append(f"share card: a dome does not draw one plate saying Dome, no number: {t3}")
         _r, _i, t4 = draw(st._game("none"), "none.png")
@@ -150,7 +207,7 @@ def check_cards():
         # outside NWS coverage: the page's one line, and no NWS credit with no NWS reading
         sb.CX_DATA["games"]["wem"] = {"status": "outside_nws", "venue": "Wembley Stadium",
                                       "words": {"line": "Outside NWS coverage"},
-                                      "credit": {"text": "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET"}}
+                                      "credit": cred}
         wem = st._game("wem", venue_city="London")
         _r, _i, tw = draw(wem, "wem.png")
         if "LONDON \u00b7 OUTSIDE NWS COVERAGE" not in tw:
@@ -170,7 +227,7 @@ def check_cards():
             fails.append(f"share card: an older reading does not carry its day: {[t for t in to if 'onditions' in t]}")
         if "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET" not in tn:
             fails.append(f"share card: today's reading carries a day it does not need: {[t for t in tn if 'onditions' in t]}")
-        _everything += t3 + t4 + tw + to + tn
+        _everything += t3 + trf + t4 + tw + to + tn
         if any(re.search(r"\blive\b", t, re.I) for t in _everything):
             fails.append(f"share card: the word live is on a card: {[t for t in _everything if re.search(r'live', t, re.I)]}")
         # no em dash in anything the card draws
