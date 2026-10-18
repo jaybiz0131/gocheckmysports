@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T19:10:23Z",
- "last_poll": "2026-10-18T19:10:41Z",
+ "last_change": "2026-10-18T19:15:48Z",
+ "last_poll": "2026-10-18T19:15:48Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -502,7 +502,7 @@
     },
     "4431623": {
      "changed_at": null,
-     "detail": "Knee",
+     "detail": "",
      "feed_date": "2026-10-13T17:10Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Trey Zuhn III",
@@ -511,7 +511,44 @@
     }
    },
    "id": "13",
-   "players": {},
+   "players": {
+    "4250393": {
+     "feed_date": "2026-10-12T19:16Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Tristin McCollum",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4260394": {
+     "feed_date": "2026-10-12T19:16Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Aidan O'Connell",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429109": {
+     "feed_date": "2026-10-17T02:51Z",
+     "first_seen": "2026-10-18T19:15:48Z",
+     "jersey": "",
+     "name": "Tonka Hemingway",
+     "pos": "DT",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4682488": {
+     "feed_date": "2026-10-12T19:16Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Dalton Johnson",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-18T16:45:27Z",
    "rows_returned": 25,
@@ -1686,7 +1723,7 @@
     "4714365": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-10-18T17:43Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T18:40:23Z",
      "name": "Carson Steele",
      "pos": "RB",
@@ -2018,7 +2055,7 @@
     "4567979": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-18T18:55Z",
+     "feed_date": "2026-10-18T19:07Z",
      "first_seen": "2026-10-18T19:05:23Z",
      "name": "Brandin Echols",
      "pos": "CB",
@@ -2127,6 +2164,15 @@
   "24": {
    "capped": true,
    "designations": {
+    "2576702": {
+     "changed_at": null,
+     "detail": "Neck",
+     "feed_date": "2026-10-18T19:01Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "name": "Bud Dupree",
+     "pos": "LB",
+     "status": "Out"
+    },
     "2979860": {
      "changed_at": null,
      "detail": "Hamstring",
@@ -2139,7 +2185,7 @@
     "3691739": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T01:29Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Derwin James Jr.",
      "pos": "S",
@@ -2148,7 +2194,7 @@
     "3843769": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T01:24Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Donte Jackson",
      "pos": "CB",
@@ -2157,7 +2203,7 @@
     "4040842": {
      "changed_at": null,
      "detail": "Lower Leg",
-     "feed_date": "2026-10-16T20:15Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Kayode Awosika",
      "pos": "G",
@@ -2202,20 +2248,20 @@
     "4686612": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-16T23:46Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Tre' Harris",
      "pos": "WR",
      "status": "Out"
     },
     "4838693": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T19:15:21Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-17T01:35Z",
+     "feed_date": "2026-10-18T19:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Rodney Shelley",
      "pos": "CB",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "5089178": {
      "changed_at": null,
@@ -2229,12 +2275,30 @@
    },
    "id": "24",
    "players": {
+    "2576702": {
+     "feed_date": "2026-10-18T19:01Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Bud Dupree",
+     "pos": "LB",
+     "reason": "Neck",
+     "via": "poll"
+    },
     "3691739": {
      "feed_date": "2026-10-17T01:29Z",
      "first_seen": "2026-10-18T19:05:23Z",
      "jersey": "",
      "name": "Derwin James Jr.",
      "pos": "S",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "3843769": {
+     "feed_date": "2026-10-18T19:01Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Donte Jackson",
+     "pos": "CB",
      "reason": "Hamstring",
      "via": "poll"
     },
@@ -2262,6 +2326,15 @@
      "jersey": "",
      "name": "Tre' Harris",
      "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4838693": {
+     "feed_date": "2026-10-18T19:01Z",
+     "first_seen": "2026-10-18T19:15:21Z",
+     "jersey": "",
+     "name": "Rodney Shelley",
+     "pos": "CB",
      "reason": "Hamstring",
      "via": "poll"
     }
