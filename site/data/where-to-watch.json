@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-18T19:50:48Z",
+ "fetched_at": "2026-10-18T22:55:29Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -79,11 +79,11 @@
      "id": "401872999",
      "venue_id": "5348",
      "venue_indoor": true,
-     "state": "in",
-     "completed": false,
-     "status": "9:34 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "31",
-     "home_score": "15"
+     "home_score": "23"
     },
     {
      "league": "NFL",
@@ -105,11 +105,11 @@
      "id": "401872997",
      "venue_id": "3679",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "0:52 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "10",
-     "home_score": "10"
+     "home_score": "13"
     },
     {
      "league": "NFL",
@@ -131,10 +131,10 @@
      "id": "401873003",
      "venue_id": "3812",
      "venue_indoor": true,
-     "state": "in",
-     "completed": false,
-     "status": "3:44 - 4th",
-     "away_score": "20",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "26",
      "home_score": "20"
     },
     {
@@ -157,11 +157,11 @@
      "id": "401873001",
      "venue_id": "3738",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "3:50 - 4th",
-     "away_score": "16",
-     "home_score": "23"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "19",
+     "home_score": "26"
     },
     {
      "league": "NFL",
@@ -183,11 +183,11 @@
      "id": "401873000",
      "venue_id": "3839",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "7:08 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "34",
-     "home_score": "10"
+     "home_score": "27"
     },
     {
      "league": "NFL",
@@ -209,11 +209,11 @@
      "id": "401872998",
      "venue_id": "3806",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "11:55 - 4th",
-     "away_score": "19",
-     "home_score": "7"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "25",
+     "home_score": "14"
     },
     {
      "league": "NFL",
@@ -235,11 +235,11 @@
      "id": "401873002",
      "venue_id": "3886",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "5:37 - 4th",
-     "away_score": "13",
-     "home_score": "16"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "26",
+     "home_score": "19"
     },
     {
      "league": "NFL",
@@ -261,11 +261,11 @@
      "id": "401873004",
      "venue_id": "7065",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/18 - 4:05 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "0:47 - 4th",
+     "away_score": "15",
+     "home_score": "16"
     },
     {
      "league": "NFL",
@@ -287,11 +287,11 @@
      "id": "401873006",
      "venue_id": "3622",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/18 - 4:25 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "11:56 - 4th",
+     "away_score": "6",
+     "home_score": "19"
     },
     {
      "league": "NFL",
@@ -313,11 +313,11 @@
      "id": "401873005",
      "venue_id": "6501",
      "venue_indoor": true,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/18 - 4:25 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "11:56 - 4th",
+     "away_score": "23",
+     "home_score": "16"
     },
     {
      "league": "NFL",
@@ -3079,7 +3079,13 @@
      "kickoff_et": "3:30 PM ET",
      "day_et": "Sat, Oct 24",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "CBS",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401858499",
      "venue_id": "1056",
      "venue_indoor": false,
