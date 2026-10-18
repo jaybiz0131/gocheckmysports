@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T15:00:25Z",
- "last_poll": "2026-10-18T15:01:02Z",
+ "last_change": "2026-10-18T15:35:22Z",
+ "last_poll": "2026-10-18T15:35:42Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -40,10 +40,37 @@
     "4039052": {
      "changed_at": null,
      "detail": "Personal",
-     "feed_date": "2026-10-17T01:48Z",
+     "feed_date": "2026-10-18T15:32Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Jordan Elliott",
      "pos": "DT",
+     "status": "Out"
+    },
+    "4039160": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Kylen Granson",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4369835": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Alontae Taylor",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4426987": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
      "status": "Out"
     },
     "4428557": {
@@ -55,18 +82,100 @@
      "pos": "RB",
      "status": "Questionable"
     },
+    "4685555": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "status": "Out"
+    },
     "4685617": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-16T23:17Z",
+     "feed_date": "2026-10-18T15:32Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Kevin Winston Jr.",
      "pos": "S",
      "status": "Out"
+    },
+    "5081785": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Jackie Marshall",
+     "pos": "DT",
+     "status": "Out"
     }
    },
    "id": "10",
-   "players": {},
+   "players": {
+    "4039052": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Jordan Elliott",
+     "pos": "DT",
+     "reason": "Personal",
+     "via": "poll"
+    },
+    "4039160": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Kylen Granson",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4369835": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Alontae Taylor",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4426987": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685555": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685617": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Kevin Winston Jr.",
+     "pos": "S",
+     "reason": "Quadriceps",
+     "via": "poll"
+    },
+    "5081785": {
+     "feed_date": "2026-10-18T15:32Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Jackie Marshall",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -478,7 +587,7 @@
     },
     "4361370": {
      "changed_at": null,
-     "detail": "Illness",
+     "detail": "",
      "feed_date": "2026-10-18T11:44Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Chris Olave",
@@ -517,7 +626,7 @@
     "3115303": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-18T14:12Z",
+     "feed_date": "2026-10-18T15:32Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
@@ -774,7 +883,17 @@
     }
    },
    "id": "21",
-   "players": {},
+   "players": {
+    "4360698": {
+     "feed_date": "2026-10-16T15:37Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Joe Milton III",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1559,7 +1678,7 @@
     "4361748": {
      "changed_at": null,
      "detail": "Undisclosed",
-     "feed_date": "2026-10-17T23:37Z",
+     "feed_date": "2026-10-18T15:22Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Anthony Johnson Jr.",
      "pos": "S",
@@ -1806,7 +1925,17 @@
     }
    },
    "id": "33",
-   "players": {},
+   "players": {
+    "4432260": {
+     "feed_date": "2026-10-17T00:19Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "jersey": "",
+     "name": "Matt Hibner",
+     "pos": "TE",
+     "reason": "Hand",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1850,6 +1979,15 @@
      "name": "Jalen Pitre",
      "pos": "S",
      "status": "Out"
+    },
+    "4243956": {
+     "changed_at": null,
+     "detail": "Concussion",
+     "feed_date": "2026-10-18T14:58Z",
+     "first_seen": "2026-10-18T15:35:22Z",
+     "name": "Reed Blankenship",
+     "pos": "S",
+     "status": "Questionable"
     },
     "4426350": {
      "changed_at": null,

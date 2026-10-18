@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-18T15:00:29Z",
+ "fetched_at": "2026-10-18T15:35:25Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -55,8 +55,8 @@
      "venue_indoor": false,
      "state": "in",
      "completed": false,
-     "status": "0:15 - 2nd",
-     "away_score": "10",
+     "status": "9:13 - 3rd",
+     "away_score": "24",
      "home_score": "14"
     },
     {
@@ -2847,7 +2847,13 @@
      "kickoff_et": "12:00 PM ET",
      "day_et": "Sat, Oct 24",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "ABC",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401856728",
      "venue_id": "3785",
      "venue_indoor": false,
@@ -3147,7 +3153,13 @@
      "kickoff_et": "3:30 PM ET",
      "day_et": "Sat, Oct 24",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "SEC Network",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401856730",
      "venue_id": "3693",
      "venue_indoor": false,
@@ -3575,26 +3587,6 @@
     },
     {
      "league": "CFB",
-     "away": "ISU",
-     "home": "ARIZ",
-     "away_id": "66",
-     "home_id": "12",
-     "kickoff_utc": "2026-10-24T23:30Z",
-     "kickoff_et": "7:30 PM ET",
-     "day_et": "Sat, Oct 24",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856838",
-     "venue_id": "3619",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "10/24 - 7:30 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
      "away": "MISS",
      "home": "TEX",
      "away_id": "145",
@@ -3664,6 +3656,32 @@
      ],
      "id": "401858500",
      "venue_id": "347",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "10/24 - 7:30 PM EDT",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "ISU",
+     "home": "ARIZ",
+     "away_id": "66",
+     "home_id": "12",
+     "kickoff_utc": "2026-10-24T23:30Z",
+     "kickoff_et": "7:30 PM ET",
+     "day_et": "Sat, Oct 24",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN2",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856838",
+     "venue_id": "3619",
      "venue_indoor": false,
      "state": "pre",
      "completed": false,
