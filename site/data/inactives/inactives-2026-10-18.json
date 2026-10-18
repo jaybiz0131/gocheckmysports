@@ -1,8 +1,8 @@
 {
  "day": "2026-10-18",
  "first_poll": "2026-10-18T00:01:07Z",
- "last_change": "2026-10-18T16:05:23Z",
- "last_poll": "2026-10-18T16:05:32Z",
+ "last_change": "2026-10-18T16:10:23Z",
+ "last_poll": "2026-10-18T16:10:49Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -341,7 +341,7 @@
     "4683423": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-18T15:34Z",
+     "feed_date": "2026-10-18T15:50Z",
      "first_seen": "2026-10-18T15:50:22Z",
      "name": "Riley Leonard",
      "pos": "QB",
@@ -843,7 +843,7 @@
     "4076951": {
      "changed_at": "2026-10-18T15:55:24Z",
      "detail": "Illness",
-     "feed_date": "2026-10-18T15:55Z",
+     "feed_date": "2026-10-18T15:46Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Nathan Shepherd",
      "pos": "DT",
@@ -970,13 +970,22 @@
    "capped": true,
    "designations": {
     "3115303": {
-     "changed_at": null,
+     "changed_at": "2026-10-18T16:10:23Z",
      "detail": "Calf",
-     "feed_date": "2026-10-18T15:51Z",
+     "feed_date": "2026-10-18T16:01Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4243322": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:54Z",
+     "first_seen": "2026-10-18T16:10:23Z",
+     "name": "Jake Haener",
+     "pos": "QB",
+     "status": "Out"
     },
     "4259566": {
      "changed_at": null,
@@ -990,7 +999,7 @@
     "4429148": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-10-16T23:08Z",
+     "feed_date": "2026-10-18T15:54Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Theo Johnson",
      "pos": "TE",
@@ -999,7 +1008,7 @@
     "4430261": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-10-17T02:32Z",
+     "feed_date": "2026-10-18T15:54Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Tyler Nubin",
      "pos": "S",
@@ -1017,15 +1026,33 @@
     "4921249": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-17T02:39Z",
+     "feed_date": "2026-10-18T15:54Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Colton Hood",
      "pos": "CB",
+     "status": "Out"
+    },
+    "5144942": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-18T15:54Z",
+     "first_seen": "2026-10-18T16:10:23Z",
+     "name": "CJ Okoye",
+     "pos": "DT",
      "status": "Out"
     }
    },
    "id": "19",
    "players": {
+    "3115303": {
+     "feed_date": "2026-10-18T16:01Z",
+     "first_seen": "2026-10-18T16:10:23Z",
+     "jersey": "",
+     "name": "Jermaine Eluemunor",
+     "pos": "OT",
+     "reason": "Calf",
+     "via": "poll"
+    },
     "4243322": {
      "feed_date": "2026-10-12T19:30Z",
      "first_seen": "2026-10-18T16:05:23Z",
@@ -1060,6 +1087,15 @@
      "name": "Colton Hood",
      "pos": "CB",
      "reason": "Concussion",
+     "via": "poll"
+    },
+    "5144942": {
+     "feed_date": "2026-10-18T15:54Z",
+     "first_seen": "2026-10-18T16:10:23Z",
+     "jersey": "",
+     "name": "CJ Okoye",
+     "pos": "DT",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1579,7 +1615,7 @@
     "4714771": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-18T15:55Z",
+     "feed_date": "2026-10-18T15:42Z",
      "first_seen": "2026-10-18T15:45:23Z",
      "name": "Drew Allar",
      "pos": "QB",
@@ -1588,7 +1624,7 @@
     "5081508": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-18T15:59Z",
+     "feed_date": "2026-10-18T15:42Z",
      "first_seen": "2026-10-18T15:45:23Z",
      "name": "Eli Heidenreich",
      "pos": "RB",
@@ -2075,7 +2111,7 @@
     "4430871": {
      "changed_at": "2026-10-18T16:05:23Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-10-18T15:52Z",
+     "feed_date": "2026-10-18T12:57Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Sean Tucker",
      "pos": "RB",
@@ -2523,7 +2559,7 @@
     },
     "4361093": {
      "changed_at": null,
-     "detail": "Calf",
+     "detail": "",
      "feed_date": "2026-10-17T23:16Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Kyler Gordon",
@@ -2542,7 +2578,7 @@
     "4426374": {
      "changed_at": "2026-10-18T16:00:25Z",
      "detail": "Hip",
-     "feed_date": "2026-10-18T15:59Z",
+     "feed_date": "2026-10-18T15:49Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Tyrique Stevenson Sr.",
      "pos": "CB",
@@ -3222,7 +3258,7 @@
     "4873232": {
      "changed_at": "2026-10-18T15:45:23Z",
      "detail": "Knee - MCL",
-     "feed_date": "2026-10-18T12:27Z",
+     "feed_date": "2026-10-18T15:35Z",
      "first_seen": "2026-10-18T00:01:07Z",
      "name": "Mason Graham",
      "pos": "DT",
