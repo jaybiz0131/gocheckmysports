@@ -1,7 +1,7 @@
 # S-3a report: the team pages, the structured data, the wall's alert note
 
 Thursday 15 October 2026. Base: origin/main at `86bfcb9` (the merge of `34f4a13`). Stack head: `65acd34` on `s3a-wall`.
-**Nothing in S-3a is merged. It waits for Jack's yes.**
+Merged October 15, 2026: b6002f0 (s3a-wall, carrying s3a-teams and s3a-structured); closed 7313a9d.
 
 ## 0. The catch-up merge, as asked first
 
