@@ -8,11 +8,14 @@ seen red first (U-9).
             in plain text (GoCheckMySports and GoCheckMyWeather) with no logo
   pre       an unplayed game draws no score and never the word FINAL, even when the feed carries
             a 0 for each side; its kickoff is drawn in ET with the zone and its network is drawn
-  post      a final draws its two scores from the feed and the word FINAL; a live game draws LIVE and
-            its running score and never FINAL
+  post      a final draws its two scores from the feed and the word FINAL; a game in progress draws
+            the page's own words and its running score, never FINAL, and the word live is on no card
+  outside   a game outside NWS coverage draws the page's one line ("London · Outside NWS coverage")
+            and no NWS credit; a card with a reading carries exactly one credit line, the stamp, with
+            its day when the reading is not from the build's day
   plates    the conditions plates are the page's own numbers; a dome, an unreadable forecast and a
             game with no entry each draw a plate that says why, never a number
-  palette   every color a card paints in bulk is one of the nine in conditions_report.WALL_PALETTE
+  palette   every color a card paints in bulk is one of the nine pinned here as literals, and WALL_PALETTE is them
   tags      a game page's og:image names /share/games/<id>-square.png with width and height 1080,
             twitter:image names the same file and twitter:card is "summary" (a square image under
             summary_large_image is cropped); the 1200x630 default is unchanged on a page with no
@@ -103,12 +106,22 @@ def check_cards():
         _r, _i, t2 = draw(fin, "fin.png")
         if not {"24", "17", "FINAL"} <= set(t2):
             fails.append(f"share card: a final does not draw its scores and FINAL: {t2}")
-        # a game in progress is Live with its running score, never Final
-        liv = st._game("den", state="in")
+        # a game in progress uses the page's own words and its running score, never Final, and the
+        # word "live" is on no card at all until S-4 (ruling of 12 October, scorecard line 6)
+        liv = st._game("den", state="in", status_short="3rd Quarter", detail="5:21")
         liv["away"]["score"], liv["home"]["score"] = "10", "7"
         _r, _i, tl = draw(liv, "live.png")
-        if "LIVE" not in tl or "FINAL" in tl or not {"10", "7"} <= set(tl):
-            fails.append(f"share card: a live game does not draw LIVE and its running score, or says Final: {tl}")
+        if "3rd Quarter \u00b7 5:21" not in tl or "FINAL" in tl or not {"10", "7"} <= set(tl):
+            fails.append(f"share card: a game in progress does not draw the page's words and its running score, or says Final: {tl}")
+        liv2 = st._game("den", state="in")
+        liv2["away"]["score"], liv2["home"]["score"] = "3", "0"
+        _r, _i, tl2 = draw(liv2, "live2.png")
+        if "In progress" not in tl2:
+            fails.append(f"share card: a game in progress with no period words does not say In progress: {tl2}")
+        liv3 = st._game("den", state="in", status_short="Live")
+        liv3["away"]["score"], liv3["home"]["score"] = "3", "0"
+        _r, _i, tl3 = draw(liv3, "live3.png")
+        _everything = texts + t2 + tl + tl2 + tl3
         # a postponed game has no score even when the feed sends zeros
         pp = st._game("den", state="post", status_short="Postponed")
         pp["away"]["score"], pp["home"]["score"] = "0", "0"
@@ -125,13 +138,43 @@ def check_cards():
         if t5.count("missing") != 3:
             fails.append(f"share card: a forecast with no numbers does not print missing: {t5}")
         # palette: every color painted in bulk is a token
-        tok = set(cr.WALL_PALETTE)
+        # pinned here as literals: importing the tuple would let a changed palette pass its own test
+        tok = {(7, 17, 12), (7, 38, 25), (14, 59, 42), (20, 26, 23), (244, 241, 230),
+               (255, 210, 63), (217, 211, 180), (184, 178, 147), (59, 58, 34)}
+        if set(cr.WALL_PALETTE) != tok:
+            fails.append(f"share card: WALL_PALETTE is not the nine ruled colors: {sorted(set(cr.WALL_PALETTE) ^ tok)}")
         cols = im.getcolors(maxcolors=1 << 22) or []
         off = [c for n, c in cols if n >= 400 and c not in tok]
         if off:
             fails.append(f"share card: colors outside the wall's token set paint 400 or more pixels: {off[:3]}")
+        # outside NWS coverage: the page's one line, and no NWS credit with no NWS reading
+        sb.CX_DATA["games"]["wem"] = {"status": "outside_nws", "venue": "Wembley Stadium",
+                                      "words": {"line": "Outside NWS coverage"},
+                                      "credit": {"text": "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET"}}
+        wem = st._game("wem", venue_city="London")
+        _r, _i, tw = draw(wem, "wem.png")
+        if "LONDON \u00b7 OUTSIDE NWS COVERAGE" not in tw:
+            fails.append(f"share card: Wembley does not draw the page's one line, London and Outside NWS coverage: {tw}")
+        if any(t.lower().startswith("conditions by") for t in tw):
+            fails.append(f"share card: a game outside NWS coverage carries an NWS credit: {tw}")
+        # one credit line on a forecast card, never the caps line and the stamp both
+        cred = [t for t in texts if "conditions by" in t.lower()]
+        if cred != ["Conditions by GoCheckMyWeather, NWS, 8:34 PM ET"]:
+            fails.append(f"share card: the credit is not exactly one stamp line: {cred}")
+        # a stamp from another day than the build's carries its day; the build's own day does not
+        sb.CX_DATA["games"]["old"] = dict(st._entry(), nws={"generated_at": "2026-10-14T00:34:00Z"})
+        sb.CX_DATA["games"]["new"] = dict(st._entry(), nws={"generated_at": "2026-10-15T12:34:00Z"})
+        _r, _i, to = draw(st._game("old"), "old.png")
+        _r, _i, tn = draw(st._game("new"), "new.png")
+        if "Conditions by GoCheckMyWeather, NWS, Tue, Oct 13, 8:34 PM ET" not in to:
+            fails.append(f"share card: an older reading does not carry its day: {[t for t in to if 'onditions' in t]}")
+        if "Conditions by GoCheckMyWeather, NWS, 8:34 PM ET" not in tn:
+            fails.append(f"share card: today's reading carries a day it does not need: {[t for t in tn if 'onditions' in t]}")
+        _everything += t3 + t4 + tw + to + tn
+        if any(re.search(r"\blive\b", t, re.I) for t in _everything):
+            fails.append(f"share card: the word live is on a card: {[t for t in _everything if re.search(r'live', t, re.I)]}")
         # no em dash in anything the card draws
-        if any("\u2014" in t for t in texts + t2 + t3 + t4):
+        if any("\u2014" in t for t in _everything):
             fails.append("share card: an em dash is drawn")
     finally:
         sb.CX_DATA, sb._NOW_CACHE = was

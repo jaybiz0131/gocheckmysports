@@ -497,12 +497,17 @@ def game_share_card(row, out_path):
                 f = sc._mono(26)
                 d.text((x0 + (pw - d.textlength("missing", font=f)) / 2, y + ph / 2 + 4), "missing", font=f, fill=SOFT)
     else:
-        plate(64, y, S - 64, y + ph, sc._fit(d, (row.get("note") or "No forecast").upper(), osw(64), S - 160), osw(64), MUTE)
+        note = (row.get("note") or "No forecast").upper()
+        nf = 64
+        while nf > 30 and d.textlength(note, font=osw(nf)) > S - 160:
+            nf -= 2   # one line at any length, never trimmed: the whole of what the page prints
+        plate(64, y, S - 64, y + ph, note, osw(nf), MUTE)
     y += ph
     if row.get("venue"):
         center(sc._fit(d, row["venue"], sc._mono(22), S - 140), y + 28, sc._mono(22), SOFT)
-    d.text((64, S - 128), "CONDITIONS BY GOCHECKMYWEATHER · NATIONAL WEATHER SERVICE", font=sc._mono(17, True), fill=SOFT)
-    d.text((64, S - 100), sc._fit(d, row.get("stamp") or "", sc._mono(16), S - 128), font=sc._mono(16), fill=SOFT)
+    # one credit line, the stamp, and only when the page has an NWS reading to credit
+    if row.get("stamp"):
+        d.text((64, S - 108), sc._fit(d, row["stamp"], sc._mono(18, True), S - 128), font=sc._mono(18, True), fill=SOFT)
     d.text((64, S - 72), "gocheckmysports.com  ·  gocheckmyweather.com", font=sc._mono(20, True), fill=CREAM)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     im.save(out_path, "PNG", optimize=True)

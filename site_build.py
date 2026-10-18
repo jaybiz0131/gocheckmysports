@@ -8561,7 +8561,11 @@ def game_share_row(g, e=None):
         sa, sh = _tk_score(a, g), _tk_score(h, g)
         if sa is not None and sh is not None:
             row["score_away"], row["score_home"] = sa, sh
-            row["state_word"] = "FINAL" if g.get("state") == "post" else "LIVE"
+            # the page's own words for a game in progress ("In progress" or the feed's period), and
+            # never the word "live", which waits for S-4 (ruling of 12 October, scorecard line 6)
+            _w = _tk_state(g) or "In progress"
+            row["state_word"] = "FINAL" if g.get("state") == "post" else (
+                "In progress" if "live" in _w.lower() else _w)
     if st == "forecast":
         p = cx_parts(e)
         row["lit"] = bool(cx_number_flags(e) or e.get("alerts"))
@@ -8570,12 +8574,24 @@ def game_share_row(g, e=None):
         row["rain"] = str(p["pop"]) if p["pop"] is not None else ""
         row["wind_on"] = bool(p["on"]["wind"])
     else:
-        row["note"] = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
+        row["note"] = {"indoor": "Dome", "outside_nws": " \u00b7 ".join(x for x in (
+                           g.get("venue_city") or (e.get("stadium") or {}).get("city") or "",
+                           "Outside NWS coverage") if x),
                        "out_of_range": "Not yet in range",
                        "roofed": (e.get("words") or {}).get("line")}.get(st) or "No forecast"
     c = e.get("credit") or {}
-    if c.get("text") and st in ("forecast", "out_of_range", "indoor", "roofed", "outside_nws"):
-        row["stamp"] = c["text"] + (", last reading" if e.get("stale") else "")
+    if c.get("text") and st in ("forecast", "out_of_range", "indoor", "roofed"):
+        # one credit line, the page's own text; a reading from another day than the build's
+        # carries its day, so a card that outlives its game says when the reading was taken
+        txt = c["text"]
+        try:
+            gen = datetime.datetime.fromisoformat(((e.get("nws") or {}).get("generated_at") or "").replace("Z", "+00:00")).astimezone(_ET)
+            if gen.date() != _build_now().astimezone(_ET).date():
+                txt = re.sub(r", (\d{1,2}:\d{2} [AP]M ET)$",
+                             lambda m: f", {gen.strftime('%a, %b')} {gen.day}, {m.group(1)}", txt)
+        except Exception:
+            pass
+        row["stamp"] = txt + (", last reading" if e.get("stale") else "")
     return row
 
 
@@ -10285,7 +10301,7 @@ def render_report_page(rep, dateline):
     return shell(f'{rep["title"]}: the weather at kickoff - {NAME}',
                  f'{rep["lead"]} From the National Weather Service, via GoCheckMyWeather.',
                  "Home", html, dateline, path=f'/conditions/{rep["id"]}.html',
-                 og_image=f'{ORIGIN}{rep["card"]}', og_size=(1080, 1080))
+                 og_image=f'{ORIGIN}{rep["card"]}')
 
 
 # ---- S-2d item 2: THE WALL (ScoreboardWall.dc.html, Jack's ruling of 14 October 2026, 3:11 PM ET)
