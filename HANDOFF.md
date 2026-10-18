@@ -110,6 +110,8 @@ runs from this date; the rulings it executes:
 - **9:50 PM:** yes on the sheet, the seven calls as built (labelled plates on every card, the line
   on cards, nicknames on cards and abbreviations on the game board, yellow arrows, cream temps,
   All and counts on the tabs, dated cards). W-45 retries a stale feed once in the gate; hard check.
+## The pod, October 18, 2026
+This site is built by the pod in docs/POD.md from docs/BOARD.md; Jack's decisions are in docs/RULINGS.md; what waits on Jack is in docs/JACK.md.
 
 ---
 
