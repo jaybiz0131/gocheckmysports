@@ -1587,6 +1587,8 @@ def layer1_canary():
     fails.extend(_rfc.roof_canary())   # S-3a: a roofed stadium reads like a dome, on every surface
     import teams_canary as _tmc
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
+    import sharecard_canary as _shc
+    fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day

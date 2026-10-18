@@ -1446,7 +1446,7 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          brand="site", og_type="website", schema_extra="", og_image=None,
+          brand="site", og_type="website", schema_extra="", og_image=None, og_size=(1200, 630),
           canonical_path=None):
     body = cx_sprite(body)
     # R-4: the preconnects to Google are gone with the fonts they were for. A
@@ -1525,11 +1525,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
 <meta property="og:image" content="{og_image or OG_IMAGE}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{og_size[0]}">
+<meta property="og:image:height" content="{og_size[1]}">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:alt" content="{esc(NAME)} share card">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{"summary" if og_size[0] == og_size[1] else "summary_large_image"}">
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <meta name="twitter:image:alt" content="{esc(NAME)} share card">
 <meta name="twitter:title" content="{esc(title)}">
@@ -8538,6 +8538,47 @@ def sbg_conditions(g, e):
             f'{note}{_cx_alert_detail(e)}{sbg_hours(e)}</div>')
 
 
+GAME_CARD_SQ = "/share/games/{id}-square.png"   # S-3b.1: the 1080 square card; the 1200x630 /share/games/<id>.png stays, its URL is out in chats
+
+
+def game_share_row(g, e=None):
+    """What the 1080 square card draws for one game page (S-3b.1), from the record the page renders:
+    the matchup, the kickoff in ET with the zone, the network, the score only for a game that has
+    started (and not a postponed one), and the conditions plates from the Weather Worker's entry as
+    the wall prints them, or the plate saying why not. Pure data, so a canary can read it."""
+    e = (cx_entry(g) if e is None else e) or {}
+    a, h = g.get("away") or {}, g.get("home") or {}
+    st = e.get("status")
+    k = _utc_dt(g.get("start_utc") or "")
+    when = k.astimezone(_ET).strftime("%a, %b %-d, %-I:%M %p ET") if k else ""
+    row = {"id": str(g.get("id")), "away": a.get("abbr") or "", "home": h.get("abbr") or "",
+           "away_name": a.get("full") or a.get("school") or a.get("name") or "",
+           "home_name": h.get("full") or h.get("school") or h.get("name") or "",
+           "when": when, "network": network_name(g.get("network")) if g.get("network") else "",
+           "score_away": None, "score_home": None, "state_word": "", "status": st, "lit": False,
+           "venue": g.get("venue") or "", "stamp": ""}
+    if g.get("state") in ("in", "post"):
+        sa, sh = _tk_score(a, g), _tk_score(h, g)
+        if sa is not None and sh is not None:
+            row["score_away"], row["score_home"] = sa, sh
+            row["state_word"] = "FINAL" if g.get("state") == "post" else "LIVE"
+    if st == "forecast":
+        p = cx_parts(e)
+        row["lit"] = bool(cx_number_flags(e) or e.get("alerts"))
+        row["temp"] = str(p["temp"]) if p["temp"] is not None else ""
+        row["wind"] = "CALM" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else "")
+        row["rain"] = str(p["pop"]) if p["pop"] is not None else ""
+        row["wind_on"] = bool(p["on"]["wind"])
+    else:
+        row["note"] = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
+                       "out_of_range": "Not yet in range",
+                       "roofed": (e.get("words") or {}).get("line")}.get(st) or "No forecast"
+    c = e.get("credit") or {}
+    if c.get("text") and st in ("forecast", "out_of_range", "indoor", "roofed", "outside_nws"):
+        row["stamp"] = c["text"] + (", last reading" if e.get("stale") else "")
+    return row
+
+
 def sbg_board(g):
     """The game page's one big board."""
     e = cx_entry(g)
@@ -8870,7 +8911,7 @@ def render_game_page(g, points, board, wx, items, dateline):
                  f'National Weather Service, where to watch, inactives and the score. Facts, '
                  f'not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
-                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png',
+                 og_image=f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}', og_size=(1080, 1080),
                  schema_extra=_game_ld(g))
 
 
@@ -10244,7 +10285,7 @@ def render_report_page(rep, dateline):
     return shell(f'{rep["title"]}: the weather at kickoff - {NAME}',
                  f'{rep["lead"]} From the National Weather Service, via GoCheckMyWeather.',
                  "Home", html, dateline, path=f'/conditions/{rep["id"]}.html',
-                 og_image=f'{ORIGIN}{rep["card"]}')
+                 og_image=f'{ORIGIN}{rep["card"]}', og_size=(1080, 1080))
 
 
 # ---- S-2d item 2: THE WALL (ScoreboardWall.dc.html, Jack's ruling of 14 October 2026, 3:11 PM ET)
@@ -11942,6 +11983,7 @@ def build():
     w("index.html", render_home(items, dateline))
     if SB_DATA:
         _cards = 0
+        _sq = 0
         for _g in _nfl:
             # S-F: the card is drawn from the same game record the page renders, so
             # the number in a group chat and the number on the page cannot disagree.
@@ -11957,10 +11999,21 @@ def build():
                 _cards += 1
             except Exception as _e:
                 pass
+            # S-3b.1: the 1080 square card the game page's og:image names, drawn from the same
+            # record and conditions entry the page renders. A card that fails to draw is named
+            # as a warning, and the canary's tree check fails on a game page whose og:image
+            # file is not in the tree, so a tag pointing at nothing cannot ship.
+            try:
+                import conditions_report as _crm
+                _crm.game_share_card(game_share_row(_g), os.path.join(
+                    PUBLISH, GAME_CARD_SQ.format(id=_g["id"]).lstrip("/")))
+                _sq += 1
+            except Exception as _e:
+                print(f"::warning::share card: square card for game {_g.get('id')} not drawn ({type(_e).__name__})")
             w(f'games/{_g["id"]}.html',
               render_game_page(_g, _all_points.get(_g["id"]), IA_BOARD, WX_DATA,
                                items, dateline))
-        print(f"share cards: {_cards} game card(s)")
+        print(f"share cards: {_cards} game card(s), {_sq} square card(s)")
         print(f"game pages: {len(_nfl)}, {len(_all_points)} with a box score")
         _fl = render_fantasy_live(_all_points, dateline)
         if _fl:
