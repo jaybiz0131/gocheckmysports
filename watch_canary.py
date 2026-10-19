@@ -77,7 +77,9 @@ def watch_canary():
     import site_build as sb
     fails = []
     u, week, doc = _fixture(sb)
+    import affiliates
     was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.MANIFEST, sb._carriage.load, sb.WX_DATA)
+    was_aff = affiliates.load
 
     def page(now_iso):
         sb._NOW_CACHE = u(now_iso)
@@ -87,6 +89,8 @@ def watch_canary():
     try:
         sb.SB_DATA, sb.W2W_DATA, sb.WX_DATA = None, {"weeks": [week]}, None
         sb._carriage.load = lambda: doc
+        # S-3b.2: this canary tests the carriage rows, never Jack's affiliates file: pinned empty
+        affiliates.load = lambda path=None: {"slots": []}
         html = page("2026-10-13T09:00")
         rows = {m.group(1): m.group(2) for m in re.finditer(
             r'<div class="w2w-row" data-gid="([^"]*)">(.*?)</div>', html, re.S)}
@@ -109,7 +113,8 @@ def watch_canary():
             if gid not in rows:
                 return None
             seg = rows[gid].split('class="w2w-streams">', 1)[1].split('<span class="w2w-res"')[0]
-            return re.findall(r'<span class="w2w-str-c[^"]*"[^>]*>([^<]*)</span>', seg)
+            # a service is a span or, when the page links it, an anchor: the label is the same
+            return re.findall(r'<(?:span|a) class="w2w-str-c[^"]*"[^>]*>([^<]*)</(?:span|a)>', seg)
         exp = {"CHIGB": ["YouTube TV", "Sling TV (select markets)", "verify"],
                "LVNE": ["Paramount+", "YouTube TV"],
                "ARILAR": ["YouTube TV", "Sling TV (select markets)", "verify"],
@@ -175,6 +180,7 @@ def watch_canary():
         fails.append(f"watch: the fixture page raised {type(e).__name__}: {e}")
     finally:
         sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.MANIFEST, sb._carriage.load, sb.WX_DATA = was
+        affiliates.load = was_aff
 
     # the college feed: one day at a time, a refused day skipped
     try:

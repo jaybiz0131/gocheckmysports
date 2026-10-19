@@ -18,6 +18,8 @@ resolve. Each check names the break it exists for and was seen red first (U-9).
             filled one is sponsored
   line      the money line follows the money: a page whose href is a file url carries it even when
             the rel is missing (and the missing rel is its own failure)
+  independent  the where-to-watch canary stays green with a slot filled (it pins its own empty
+            affiliates doc and reads a service from a span or an anchor); the chip's hover keeps its color
   file      data/affiliates.json holds the slots Fubo, Sling and Philo; a filled slot is VALID (the
             gate stays green when Jack fills it, J-3): https url, no em dash, no space, a named slot
   tree      the gate's own build. Every slot empty: no rel="sponsored", no money line, no fixture
@@ -196,6 +198,29 @@ def sb_shell_body(body):
         affiliates.load = was
 
 
+def check_independent():
+    """The where-to-watch canary tests the carriage rows and must not read Jack's file: run it with
+    the affiliates file filled (Sling, the slot the reviewer filled) and it must stay green. Also the
+    stream chip's hover keeps the chip's own color (an underline only)."""
+    import affiliates
+    import watch_canary
+    fails = []
+    was = affiliates.load
+    try:
+        affiliates.load = lambda path=None: {"slots": [
+            {"id": "sling", "service": "Sling TV", "names": ["Sling TV"], "network": "Impact",
+             "url": "https://affiliate.example/c/sling"}]}
+        got = watch_canary.watch_canary()
+    finally:
+        affiliates.load = was
+    if got:
+        fails.append(f"affiliates independent: the watch canary went red with the Sling slot filled: {got[:2]}")
+    css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
+    if ".w2w-str-c:hover{color:var(--tag-fg)}" not in css:
+        fails.append("affiliates css: a linked stream chip on the where-to-watch page turns to the link hover color")
+    return fails
+
+
 def check_file():
     fails = []
     import affiliates
@@ -288,7 +313,7 @@ def check_tree_logic():
 
 
 def affiliate_canary(out=None):
-    f = check_empty() + check_filled() + check_file() + check_tree_logic()
+    f = check_empty() + check_filled() + check_file() + check_tree_logic() + check_independent()
     if out:
         f += check_tree(out)
     return f
