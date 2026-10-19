@@ -1632,6 +1632,8 @@ def layer1_canary():
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     import sharecard_canary as _shc
     fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
+    import affiliate_canary as _afc
+    fails.extend(_afc.affiliate_canary(_built_tree()))   # S-3b.2: affiliate links, the plain link, the money line
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_report_link_canary())   # RL-1: a report row links only a page the build writes

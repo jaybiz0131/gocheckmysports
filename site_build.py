@@ -23,6 +23,7 @@ USAGE
 import datetime
 import build_manifest as _bm
 import carriage as _carriage
+import affiliates as _aff
 import glob
 import json
 from zoneinfo import ZoneInfo
@@ -1306,7 +1307,7 @@ def trust_block():
 </div></section>"""
 
 
-def footer(brand="site", fantasy=False):
+def footer(brand="site", fantasy=False, money=False):
     """One identity everywhere; the brand parameter is kept for the shared call sites.
 
     C-L5: the guard line lives here and only here. Fantasy pages add a second line."""
@@ -1326,13 +1327,15 @@ def footer(brand="site", fantasy=False):
     # C-L5 / item 4: one guard line, in one place, muted. The paragraph that used to sit
     # here is the About page's job (C-L9); the footer links there.
     note = ""
+    # S-3b.2: the money line prints only on a page that prints an affiliate link.
+    mline = f'\n  <p class="fnote fmoney">{esc(_aff.MONEY_LINE)}</p>' if money else ""
     return f"""<footer class="site"><div class="wrap">
   <div class="frow">
     <div class="fbrand">{who}</div>
     <div class="flinks">{links}</div>
   </div>
   <p class="fnote">{esc(NFA)}{" Official reports only." if fantasy else ""}
-    {who} · <a href="{FAMILY_HUB}">A GoCheckMy site</a>.<br>&copy; {YEAR} Go Check My Brands LLC</p>
+    {who} · <a href="{FAMILY_HUB}">A GoCheckMy site</a>.<br>&copy; {YEAR} Go Check My Brands LLC</p>{mline}
 </div></footer>"""
 
 
@@ -1445,6 +1448,16 @@ MOTION_JS = (
     '})()</script>')
 
 
+def _aff_on_page(body):
+    """True when the page body prints an affiliate link (S-3b.2): an href that is one of the
+    affiliates file's urls, whatever its rel says. The footer's money line follows the money."""
+    urls = {(x.get("url") or "").strip() for x in ((_aff.load() or {}).get("slots") or [])} - {""}
+    if not urls:
+        return False
+    import html as _html
+    return any(_html.unescape(h) in urls for h in re.findall(r'href="([^"]*)"', body or ""))
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           brand="site", og_type="website", schema_extra="", og_image=None, og_size=(1200, 630),
           canonical_path=None):
@@ -1546,7 +1559,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <div class="ground" aria-hidden="true"></div>
 {skip}{masthead(active, dateline, brand)}
 {body}
-{footer(brand, fantasy=str(path or "").startswith("/fantasy"))}{beacon}
+{footer(brand, fantasy=str(path or "").startswith("/fantasy"), money=_aff_on_page(body))}{beacon}
 {tab_bar(path)}
 {MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
 </body>
@@ -2904,11 +2917,27 @@ def _w2w_games(week):
     return out
 
 
-def _w2w_stream_chips(chips):
+def _svc_tag(label, src, cls, attrs=""):
+    """One service chip (S-3b.2): the affiliate url with rel sponsored where the affiliates file
+    holds one, else the carriage row's own source page as a plain anchor, else text."""
+    au = _aff.url_for(label)
+    if au:
+        return f'<a class="{cls}"{attrs} href="{esc(au)}" rel="{_aff.REL}">{esc(label)}</a>'
+    if src:
+        return f'<a class="{cls}"{attrs} href="{esc(src)}" rel="noopener">{esc(label)}</a>'
+    return f'<span class="{cls}"{attrs}>{esc(label)}</span>'
+
+
+def _row_sources(doc):
+    return {r.get("id"): r.get("source") or "" for r in (doc or {}).get("rows") or []}
+
+
+def _w2w_stream_chips(chips, doc=None):
     out = []
+    src = _row_sources(doc)
     for c in chips:
         if c["state"] == "ok":
-            out.append(f'<span class="w2w-str-c">{esc(c["label"])}</span>')
+            out.append(_svc_tag(c["label"], src.get(c.get("id")) or "", "w2w-str-c"))
         else:
             out.append('<span class="w2w-str-c w2w-verify">verify</span>')
     return "".join(out)
@@ -2962,7 +2991,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                     f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}</span>'
                     f'<span class="bd-src w2w-ko">{esc(k.astimezone(_ET).strftime("%-I:%M %p ET"))}</span>'
                     f'<span class="w2w-cars">{nets}{_w2w_wx(g, WX_DATA)}</span>'
-                    f'<span class="w2w-streams">{_w2w_stream_chips(chips)}</span>'
+                    f'<span class="w2w-streams">{_w2w_stream_chips(chips, doc)}</span>'
                     f'{res}</div>')
             body_rows.append('</div>')
         body_rows.append('</section>')
@@ -8637,7 +8666,7 @@ def gp_streams(g):
     doc = _carriage.load()
     today = datetime.date.fromisoformat(_mf()["date"]) if MANIFEST else _build_now().astimezone(_ET).date()
     src = {r.get("id"): r.get("source") for r in (doc or {}).get("rows") or []}
-    return [(c["label"], src.get(c.get("id")) or "")
+    return [(c["label"], _aff.url_for(c["label"]) or src.get(c.get("id")) or "")
             for c in _carriage.streams_for({"league": g.get("league"), "carriers": car}, k, doc, today)
             if c["state"] == "ok"]
 
@@ -8660,7 +8689,7 @@ def sbg_under(g):
     btns = ""
     if st:
         def a(label, url, cls, text):
-            return (f'<a class="{cls}" href="{esc(url)}" rel="noopener">{esc(text)}</a>' if url
+            return (f'<a class="{cls}" href="{esc(url)}" rel="{_aff.REL if _aff.is_affiliate(url) else "noopener"}">{esc(text)}</a>' if url
                     else f'<span class="{cls}">{esc(text)}</span>')
         btns = ('<div class="sbg-btns">' + a(st[0][0], st[0][1], "sbg-btn", f"Watch on {st[0][0]}")
                 + (a(st[1][0], st[1][1], "sbg-btn sbg-btn2", st[1][0]) if len(st) > 1 else "") + '</div>')
@@ -8693,8 +8722,8 @@ def gp_watch_block(g):
         if c["state"] != "ok":
             btn.append('<span class="tk-chip tk-verify">verify</span>')
             continue
-        u = src.get(c.get("id")) or ""
-        btn.append(f'<a class="gp-svc" href="{esc(u)}" rel="noopener">{esc(c["label"])}</a>' if u
+        u = _aff.url_for(c["label"]) or src.get(c.get("id")) or ""
+        btn.append(f'<a class="gp-svc" href="{esc(u)}" rel="{_aff.REL if _aff.is_affiliate(u) else "noopener"}">{esc(c["label"])}</a>' if u
                    else f'<span class="gp-svc">{esc(c["label"])}</span>')
     reg = ""
     rm = (doc or {}).get("regional_maps") or {}
@@ -10148,7 +10177,10 @@ def _first_stream_chip(g, carriers, doc, today):
         return ""
     c = chips[0]
     cls = "tk-chip tk-stream" + (" tk-verify" if c["state"] != "ok" else "")
-    return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
+    if c["state"] != "ok":
+        return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
+    return _svc_tag(c["label"], _row_sources(doc).get(c.get("id")) or "", cls,
+                    ' data-lens-only="watch"')
 
 
 def board_games(sb):
