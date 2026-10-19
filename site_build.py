@@ -2809,28 +2809,6 @@ def _w2w_slug(week):
     return f"nfl-{week.get('season') or ''}-week-{week.get('week') or ''}"
 
 
-def _w2w_wx(g, wx):
-    """S-B5 detail on the schedule row: the reading, or nothing. Credited to the
-    family's own weather product, as the item asks."""
-    if not wx:
-        return ""
-    w = (wx.get("games") or {}).get(g.get("id") or "")
-    if not w:
-        return ""
-    if w.get("indoors"):
-        return '<span class="bd-src w2w-wx">indoors</span>'
-    bits = []
-    if w.get("temp_f") is not None:
-        bits.append(f'{w["temp_f"]}F')
-    if w.get("wind_mph") is not None:
-        bits.append(f'wind {w["wind_mph"]} mph{" (flagged)" if w.get("windy") else ""}')
-    if w.get("precip_pct") is not None:
-        bits.append(f'{w["precip_pct"]}% precip')
-    if not bits:
-        return ""
-    return f'<span class="bd-src w2w-wx">{esc(", ".join(bits))}</span>'
-
-
 def _w2w_carriers(g):
     if not g.get("carriers"):
         # item 31: the sentence explaining why goes; the column says what it knows.
@@ -2990,7 +2968,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                     f'<span class="w2w-game"><i class="w2w-lg">{esc(g["league"])}</i> '
                     f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}</span>'
                     f'<span class="bd-src w2w-ko">{esc(k.astimezone(_ET).strftime("%-I:%M %p ET"))}</span>'
-                    f'<span class="w2w-cars">{nets}{_w2w_wx(g, WX_DATA)}</span>'
+                    f'<span class="w2w-cars">{nets}</span>'
                     f'<span class="w2w-streams">{_w2w_stream_chips(chips, doc)}</span>'
                     f'{res}</div>')
             body_rows.append('</div>')
@@ -3748,32 +3726,6 @@ def _sb_fantasy_strip(g, ia_index):
     return ""
 
 
-def _wx_for(g, wx):
-    """This game's kickoff weather, keyed the way kickoff_weather writes it."""
-    if not wx:
-        return None
-    games = wx.get("games") or {}
-    for k in (g.get("id") or "", f'{(g.get("away") or {}).get("abbr","")}@'
-                                 f'{(g.get("home") or {}).get("abbr","")}'):
-        if k and k in games:
-            return games[k]
-    return None
-
-
-def _wx_chip(g, wx):
-    """S-B5. A flag only above the threshold, and "indoors" where the roof says so.
-    A game with no reading shows nothing: the omission table's rule, and the reason
-    the feed's own weather is not read at all (no sustained wind, transposed fields)."""
-    w = _wx_for(g, wx)
-    if not w:
-        return ""
-    if w.get("indoors"):
-        return '<span class="wx wx-in">indoors</span>'
-    if w.get("windy"):
-        return (f'<span class="wx wx-wind">wind {esc(str(w.get("wind_mph")))} mph</span>')
-    return ""
-
-
 BOARD_IDS = set()     # set at build: the week board's game ids (S-2b item 2)
 GAME_PAGE_IDS = set()  # set at build: the ids of the game pages this build writes (RL-1)
 
@@ -3921,29 +3873,20 @@ def _venue_name(g):
     return name
 
 
-def _tk_venue(g, wx):
-    """Venue, with the weather when the game is outdoors. WX is keyed by game id."""
-    w = ((wx or {}).get("games") or {}).get(str(g.get("id"))) or {}
-    # H-11: the name is the feed's. kickoff-weather.json's `venue` comes from our own
-    # venues.json, which had "Reliant Stadium" for a stadium renamed NRG in 2014, and
-    # the card printed it as fact. The weather itself stays: it is keyed to the venue's
-    # coordinates and the stadium did not move, so the temperature is true even when we
-    # have no name to put in front of it.
+def _tk_venue(g):
+    """The venue's name and roof. S-3b.3: the weather half is gone. It read WX_DATA, which has
+    been None since kickoff_weather.py was retired (S-2b item 0), so it printed nothing; the
+    conditions on a card come only from the Worker (CX_DATA), and a number here would be a
+    second source for what the strip already says."""
+    # H-11: the name is the feed's, not our own venues.json, which called Houston's stadium
+    # "Reliant" eleven years after it was renamed.
     venue = _venue_name(g)
-    if not venue and not w:
+    if not venue:
         return ""
-    if w.get("indoors") or g.get("venue_indoor"):
-        # UX-13: with the name withheld the line showed only its attribute, "roof",
-        # which reads as a field with its label missing. The value is the fact.
-        return f"{venue} \u00b7 roof" if venue else "Indoors"
-    bits = [venue] if venue else []
-    if isinstance(w.get("temp_f"), (int, float)):
-        bits.append(f"{int(w['temp_f'])}\u00b0F at kickoff")
-    if isinstance(w.get("wind_mph"), (int, float)) and w["wind_mph"] >= 8:
-        bits.append(f"wind {int(w['wind_mph'])} mph")
-    if isinstance(w.get("precip_pct"), (int, float)) and w["precip_pct"] >= 40:
-        bits.append(f"{int(w['precip_pct'])}% rain")
-    return " \u00b7 ".join(bits) if bits else ""
+    if g.get("venue_indoor"):
+        # UX-13: the value is the fact, and "roof" alone read as a label with its field missing
+        return f"{venue} \u00b7 roof"
+    return venue
 
 
 _TK_DESIG = {}
@@ -5152,7 +5095,7 @@ def _tk_facts(g, ia_index, wx=None, desig=None):
     # them: where and in what weather is a watching fact, who is out is a fantasy one.
     # They render as two grids rather than one so a lens can take either without the
     # other, and with no lens chosen they sit one above the other exactly as before.
-    venue = _tk_venue(g, wx)
+    venue = _tk_venue(g)
     watch_rows = [("Venue", venue)] if (venue and state == "pre") else []
     fan_rows = _tk_avail(g, ia_index, desig)
 
@@ -5409,10 +5352,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
             kick = " · ".join(x for x in (("Tonight" if today else "Next up"),
                                           g.get("league")) if x)
             facts = []
-            wxf = _wx_for(g, wx)
-            if wxf:
-                facts.append(esc(wxf))
-            elif g.get("venue_indoor"):
+            if g.get("venue_indoor"):
                 facts.append("Indoors, no weather factor")
             if fan:
                 facts.append(fan)
@@ -5421,7 +5361,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                    if W2W_LIVE else "")
             return (f'<div class="sb-marquee sb-mq-pre"{_mq_vars(g)}>'
                     f'<div class="sb-mq-top"><span class="kicker">{esc(kick)}</span>'
-                    f'<span class="st-r">{_wx_chip(g, wx)}{net}</span></div>'
+                    f'<span class="st-r">{net}</span></div>'
                     f'<div class="sb-mq-grid">'
                     f'{_sb_team_row(g["away"], False, big=True, started=False)}'
                     f'{_sb_team_row(g["home"], False, big=True, started=False)}</div>'
@@ -5434,7 +5374,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                      if g.get("league") == "NFL" else "")
         return (f'<div class="sb-marquee"{_mq_vars(g)}>'
                 f'<div class="sb-mq-top">{_sb_status(g)}<span class="st-r">'
-                f'{_wx_chip(g, wx)}{net}</span></div>'
+                f'{net}</span></div>'
                 f'<div class="sb-mq-grid">'
                 f'{_sb_team_row(g["away"], lose_a, big=True, started=_started)}'
                 f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
@@ -5454,7 +5394,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
             f'{_sb_team_row(g["away"], lose_a, started=_started, kick=_kick)}'
             f'{_sb_team_row(g["home"], lose_h, started=_started)}'
             f'<div class="st">{_sb_status(g)}<span class="st-r">'
-            f'{_wx_chip(g, wx)}{net}</span></div>'
+            f'{net}</span></div>'
             f'{f"<div class=sb-fanrow>{fan}</div>" if fan else ""}{bar}</div>')
 
 
@@ -7936,9 +7876,6 @@ def _ia_by_game(board, games):
             f'<summary class="ia-gh">'
             f'<span class="ia-gh-t">{head}</span>{_mark}'
             f'<span class="ia-kick">{esc(when)}</span>'
-            # N-9: wind and cold decide a fantasy lineup as surely as a designation
-            # does, and the desk already takes the reading for the schedule page.
-            + (_w2w_wx(g, WX_DATA) if _ph != 2 else "")
             + '</summary>'
             f'<div class="ia-grid">' + "".join(cards) + '</div></details>')
     # THE WEEK'S PAGE IS THE WEEK'S GAMES. Teams whose lists belong to an earlier week
@@ -10120,6 +10057,10 @@ _WIN_ID = {"early": "early", "1:00": "1pm", "4:05-4:25": "late", "afternoon": "a
 
 WB_TABS_JS = """
 <script>(function(){
+  /* The script sits in the band, before the board, so the days do not exist yet when it runs.
+     S-3b.3: the setup waits for the document, or the board never opened on today's day and the
+     whole week stood open (the next game 6,037 px down at 390 on main). */
+  function setup(){
   /* The week board's day tabs. Every day's cards are in the page and in kickoff order; the
      tabs are real links to each day's heading, so with no script the page is the whole week
      in order. With script a tab shows one day, and the board opens on today's. */
@@ -10144,10 +10085,37 @@ WB_TABS_JS = """
   document.querySelectorAll('.wb-wins a').forEach(function(a){
     a.addEventListener('click', function(){ show('sun'); });
   });
-  var bd = document.querySelector('.wb-board');
-  var today = bd && bd.getAttribute('data-today');
-  var d = today && document.querySelector('.wb-day[data-date="' + today + '"]');
-  if (d) show(d.getAttribute('data-day'));
+  /* S-3b.3, Jack's ruling of 19 October 2026, 2:54 PM. A #day-* or #win-* link wins: its day is
+     shown, its tab is on and the target is scrolled into view (on load and on hashchange). A hash
+     that names nothing on the board falls through to the opening day: the day of the next game not
+     yet played, which is today while today still has one, else the next such day; with none left,
+     today, else All. Nothing is hidden in the HTML, so without script the whole week shows. */
+  function played(sec){ return !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
+  function opening(){
+    var bd = document.querySelector('.wb-board');
+    var today = (bd && bd.getAttribute('data-today')) || '';
+    var list = Array.prototype.slice.call(days).sort(function(a, b){
+      var x = a.getAttribute('data-date'), y = b.getAttribute('data-date');
+      return x < y ? -1 : x > y ? 1 : 0; });
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].getAttribute('data-date') >= today && !played(list[i])) return list[i].getAttribute('data-day');
+    }
+    var t = document.querySelector('.wb-day[data-date="' + today + '"]');
+    return t ? t.getAttribute('data-day') : 'all';
+  }
+  function fromHash(){
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!/^(day|win)-/.test(id)) return false;
+    var el = document.getElementById(id);
+    var sec = el && (el.classList.contains('wb-day') ? el : el.closest('.wb-day'));
+    if (!sec || !show(sec.getAttribute('data-day'))) return false;
+    el.scrollIntoView();
+    return true;
+  }
+  window.addEventListener('hashchange', fromHash);
+  if (!fromHash()) show(opening());
+}
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();</script>
 """
 
@@ -10204,8 +10172,12 @@ def week_board(sb):
     """The week's NFL and FBS games in kickoff order on the Ticket cards, under a band with
     the day tabs and the Sunday windows. Every count is the manifest's. Returns
     (band_html, board_html); both are '' when the feed gave no game."""
-    games = board_games(sb)
+    all_games = board_games(sb)
+    # S-3b.3: the home draws every NFL game and the FBS games that fit its byte budget
+    # (render_home sets HOME_HIDE); the rest are counted under their day and linked to Scores.
+    games = [(k, g) for k, g in all_games if str(g.get("id")) not in HOME_HIDE]
     m = _mf()
+    hidden_by_day = _home_more_by_day(games)
     ia = _ia_index(IA_BOARD)
     carriers = _w2w_carriers_by_id()
     doc = _carriage.load()
@@ -10213,6 +10185,8 @@ def week_board(sb):
     by_day = {}
     for k, g in games:
         by_day.setdefault(k.astimezone(_ET).date(), []).append((k, g))
+    for _d0 in hidden_by_day:
+        by_day.setdefault(_d0, [])
 
     first_of_day = {}
     for k, g in games:
@@ -10237,8 +10211,10 @@ def week_board(sb):
                 inner.append(f'<h3 class="wb-wl" id="win-{_WIN_ID[wk_]}">'
                              f'{esc(_carriage.WINDOW_LABEL[wk_])}</h3><div class="tk-g3">'
                              + "".join(card(k, g) for k, g in groups[wk_]) + '</div>')
-        else:
+        elif rows:
             inner.append('<div class="tk-g3">' + "".join(card(k, g) for k, g in rows) + '</div>')
+        if hidden_by_day.get(d):
+            inner.append(_home_more(hidden_by_day[d], "bd-src wb-more"))
         sections.append(
             f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}" data-date="{d.isoformat()}">'
             f'<div class="tk-lg"><span>{esc(d.strftime("%A, %b %-d"))}</span><i></i></div>'
@@ -10260,7 +10236,7 @@ def week_board(sb):
             f'<small>{sw[w]}</small></a>'
             for w in _carriage.WINDOW_ORDER if w in sw) + '</div>'
     count_line = _mf_count_line(BOARD_LEAGUES)
-    _orn = _sb_ornament([g for _k, g in games])
+    _orn = _sb_ornament([g for _k, g in all_games])
     band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="This week">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
@@ -10422,9 +10398,13 @@ def wall(sb_data):
         return ""
     nfl = [g for _k, g in games if g.get("league") == "NFL"]
     cfb = {}
-    for k, g in games:
+    drawn = [(k, g) for k, g in games if str(g.get("id")) not in HOME_HIDE]
+    cfb_hidden = _home_more_by_day(drawn)
+    for k, g in drawn:
         if g.get("league") == "CFB":
             cfb.setdefault(k.astimezone(_ET).date(), []).append(g)
+    for d0 in cfb_hidden:
+        cfb.setdefault(d0, [])
     wk, _ = nfl_week()
     head = ('<div class="wl-legend"><span><i class="wl-bulb on" aria-hidden="true"></i>Weather matters</span>'
             '<span>Temp °F · Wind mph · Rain %</span></div>')
@@ -10439,11 +10419,91 @@ def wall(sb_data):
         out.append(f'<section class="wl-board wl-cfb" aria-label="College games, {esc(d.strftime("%A"))}">'
                    f'<div class="wl-head"><h2 class="wl-h">{esc(d.strftime("%A, %b %-d"))} '
                    f'<span>· College football</span></h2></div>'
-                   f'<div class="wl-rows">{"".join(wall_row(g) for g in cfb[d])}</div></section>')
+                   f'<div class="wl-rows">{"".join(wall_row(g) for g in cfb[d])}</div>'
+                   + (_home_more(cfb_hidden[d], "wl-src") if cfb_hidden.get(d) else "") + '</section>')
     return f'<div class="wl" data-wall>{"".join(out)}</div>'
 
 
+# S-3b.3: THE HOME'S WEIGHT. The scorecard holds the home HTML under 150 KB (line 4). Every game on
+# the board is drawn twice, a wall row and a card, about 2.3 KB together, so the whole FBS week
+# (56 games in the week of 20 October 2026, 44 of them on Saturday the 24th) with the NFL's does not fit. The NFL is always drawn. The FBS games
+# are drawn best first (a ranked team before an unranked game, then kickoff) until the page reaches
+# HOME_BUDGET bytes, and each day says how many it left out and links Scores, which lists them all.
+# Nothing is dropped from the build: the board, the game pages, the conditions calls and the
+# counts still hold every game; this only decides what the home draws.
+# The ruling of October 19, 2026, 2:08 PM (last line of docs/RULINGS.md): every NFL game, then college games
+# ranked first and then by kickoff, until the home reaches 140,000 bytes; the games left out are
+# counted from the manifest under the day's cards and the wall, linking Scores.
+HOME_BUDGET = 140000
+HOME_HIDE = frozenset()      # set while the home renders: FBS game ids the home does not draw
+
+
+def _home_more_by_day(drawn):
+    """Scorecard line 1: the count of college games a day left out is the manifest's count of that
+    day's college games (slate.week.days[].by_league) minus the college games drawn that day.
+    {date: n} for the days with n > 0. `drawn` is the (kickoff, game) pairs the home draws."""
+    if not HOME_HIDE:
+        return {}       # nothing was left out, so there is nothing to count
+    got = {}
+    for k, g in drawn:
+        if g.get("league") == "CFB":
+            iso = k.astimezone(_ET).date().isoformat()
+            got[iso] = got.get(iso, 0) + 1
+    out = {}
+    for dd in (_mf()["slate"]["week"].get("days") or []):
+        n = (dd["by_league"].get("CFB") or 0) - got.get(dd["date"], 0)
+        if n > 0:
+            out[datetime.date.fromisoformat(dd["date"])] = n
+    return out
+
+
+def _home_more(n, cls):
+    return (f'<p class="{cls}">{n} more college game{"" if n == 1 else "s"}. '
+            f'<a href="/scores.html#cfb">All scores</a></p>')
+
+
+def _home_rank(g):
+    def r(t):
+        v = (t or {}).get("rank")
+        return v if isinstance(v, int) else 99
+    return min(r(g.get("away")), r(g.get("home")))
+
+
 def render_home(items, dateline):
+    """The home, drawn within HOME_BUDGET: the full board when it fits, else every NFL game and
+    the best FBS games that fit (the largest count, found by search, since the size only grows
+    with it)."""
+    global HOME_HIDE
+    HOME_HIDE = frozenset()
+    try:
+        html = _render_home(items, dateline)
+        if len(html.encode("utf-8")) <= HOME_BUDGET:
+            return html
+        fbs = sorted(((k, g) for k, g in board_games(SB_DATA) if g.get("league") == "CFB"),
+                     key=lambda kg: (_home_rank(kg[1]), kg[0], str(kg[1].get("id"))))
+        ids = [str(g.get("id")) for _k, g in fbs]
+        lo, hi, best = 0, len(ids), None
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            HOME_HIDE = frozenset(ids[mid:])
+            h = _render_home(items, dateline)
+            if len(h.encode("utf-8")) <= HOME_BUDGET:
+                best, lo = (mid, h), mid + 1
+            else:
+                hi = mid - 1
+        if best is None:
+            HOME_HIDE = frozenset(ids)
+            best = (0, _render_home(items, dateline))
+        _tot = sum((dd["by_league"].get("CFB") or 0) for dd in (_mf()["slate"]["week"].get("days") or []))
+        print(f"home: {best[0]} of {_tot} college games drawn within the {HOME_BUDGET}-byte budget "
+              f"({len(best[1].encode('utf-8'))} bytes)")
+        HOME_HIDE = frozenset(ids[best[0]:])
+        return best[1]
+    finally:
+        HOME_HIDE = frozenset()
+
+
+def _render_home(items, dateline):
     """The front door is the week board and nothing else: the band with the day tabs, the
     week's NFL and FBS games in kickoff order, and under them one empty slot named the
     conditions report, which renders nothing until Sprint S-2 fills it. The footer is the
