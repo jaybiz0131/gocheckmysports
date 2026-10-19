@@ -1630,6 +1630,8 @@ def layer1_canary():
     fails.extend(_rfc.roof_canary())   # S-3a: a roofed stadium reads like a dome, on every surface
     import teams_canary as _tmc
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
+    import fbs_canary as _fbc
+    fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
     import sharecard_canary as _shc
     fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
     import affiliate_canary as _afc

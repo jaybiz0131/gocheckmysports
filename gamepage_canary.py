@@ -84,6 +84,10 @@ def check_tree(out):
         print("::warning::game pages: the board holds no games this build; per-page checks not run")
         return fails
     home = open(os.path.join(out, "index.html"), encoding="utf-8").read()
+    try:
+        scores = open(os.path.join(out, "scores.html"), encoding="utf-8").read()
+    except OSError:
+        scores = ""
     prio = open(os.path.join(out, "sitemap-priority.xml"), encoding="utf-8").read()
     every = ""
     for n in ("sitemap-priority.xml", "sitemap-archive.xml", "news-sitemap.xml"):
@@ -140,7 +144,14 @@ def check_tree(out):
         if html.count('class="bd-mod sbc sbg') != 1:
             fails.append(f"game pages: {gid} does not carry exactly one board")
         if f'href="/games/{gid}.html"' not in home:
-            fails.append(f"game pages: the home's card for {gid} does not link its page")
+            # S-3b.3: the home draws every NFL game and the FBS games that fit its byte budget
+            # (site_build.HOME_BUDGET). A college game it left out is counted under its day, with
+            # a link to Scores, and Scores must link its page. An NFL game is never left out.
+            left_out = (e.get("league") == "CFB" and 'class="bd-src wb-more"' in home
+                        and f'href="/games/{gid}.html"' in scores)
+            if not left_out:
+                fails.append(f"game pages: the home's card for {gid} does not link its page, "
+                             f"and the home does not say it left the game to Scores")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
             fails.append(f"game pages: {gid} is not in the priority sitemap")
     for u in re.findall(r"<loc>[^<]*/games/([^<.]+)(?:\.html)?</loc>", every):

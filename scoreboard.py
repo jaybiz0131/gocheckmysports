@@ -182,14 +182,65 @@ def _week_days():
     return [(today + datetime.timedelta(days=n)).strftime("%Y%m%d") for n in range(7)]
 
 
+FBS_GROUP = "80"        # ESPN's group id for all of FBS; the default group is a 16-game slice
+FBS_LIMIT = 300         # a Saturday holds 44 FBS games, past the feed's default page
+
+
+def _board_days(now=None):
+    """The seven days of the board's week in Eastern, as the feed's dates= wants them. The week
+    is the manifest's: it rolls at 6:00 AM ET Tuesday (build_manifest.week_start), so on a Monday
+    the board is still the week that began last Tuesday and its Saturday is already played."""
+    import build_manifest as bm
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    first = bm.week_start(now).date()
+    return [(first + datetime.timedelta(days=n)).strftime("%Y%m%d") for n in range(7)]
+
+
+def _fbs_events(path, default_failed):
+    """S-3b.3: every FBS game of the board's week. The default college scoreboard is ESPN's
+    default group (16 games on 19 October 2026, where the Saturday alone holds 44), so the board,
+    the game pages and the top-forty programs were a third of the slate. The FBS group is asked
+    for each day, the way where_to_watch.py asks for it: a range in dates= answers 400, so each
+    day is its own read. A day that fails is skipped and named; when the default read AND every
+    day failed there is nothing to show and the league raises, as it did, so the file is not
+    written as an empty slate."""
+    out, failed = [], 0
+    days = _board_days()
+    for day in days:
+        try:
+            d = _get(BASE.format(path=path) + f"?groups={FBS_GROUP}&limit={FBS_LIMIT}&dates={day}")
+        except Exception as e:
+            failed += 1
+            print(f"scoreboard: CFB {day} unavailable ({type(e).__name__})")
+            continue
+        out.extend(d.get("events") or [])
+    if default_failed and failed == len(days):
+        raise OSError("scoreboard: every college read failed")
+    return out
+
+
 def _events(name, path):
-    """The league's default slate, plus for the NFL each of the next seven days.
+    """The league's default slate, plus for the NFL each of the next seven days and for college
+    football every FBS game of the board's week (_fbs_events).
 
     13 OCTOBER 2026: THE DEFAULT SLATE IS NOT THE WEEK. At noon on Tuesday the feed's default
     NFL scoreboard still served week 5 (Oct 8 to 13), so Thursday night's Seahawks at Broncos
     was in Where to Watch, which asks by day, and missing from the board, which asked once.
     A range in dates= answers 400, so each day is its own read, as where_to_watch does. A day
     that fails is skipped and the default slate stands; a game seen twice is kept once."""
+    if name == "CFB":
+        try:
+            out = list((_get(BASE.format(path=path)).get("events")) or [])
+            default_failed = False
+        except Exception as e:
+            out, default_failed = [], True
+            print(f"scoreboard: CFB default slate unavailable ({type(e).__name__})")
+        seen = {e.get("id") for e in out}
+        for e in _fbs_events(path, default_failed):
+            if e.get("id") not in seen:
+                seen.add(e.get("id"))
+                out.append(e)
+        return out
     out = list((_get(BASE.format(path=path)).get("events")) or [])
     if name != "NFL":
         return out
