@@ -25,6 +25,9 @@ uses for college. Each check names the break it exists for and was seen red firs
              moves the line by 3, and a line that disagrees with manifest minus drawn is red
   surface    the wall's left-out link uses the wall's yellow, a hidden day is hidden, and the day tabs
              script waits for the board
+  tabs       the day tabs open on the next game not yet played, a #day or #win hash wins and is in
+             view (on load and on hashchange), a hash naming nothing falls back, no `hidden` is in
+             the HTML (a browser check on a hand-made week, plus static checks)
   top40      the top forty college programs fill to forty from the wider read and do not from the
              old default slate
   inert      the weather helpers that were never fed (WX_DATA is always None) are gone, and the
@@ -435,6 +438,139 @@ def surface_unit():
     return fails
 
 
+def _week_home(events_by_league):
+    """The home html for a hand-made week, through the real reader and the real render. The clock is
+    Thursday 22 October 2026, 9 AM ET."""
+    import build_manifest as bm
+    import scoreboard as scb
+    import site_build as sb
+    leagues = []
+    was_get = scb._get
+    try:
+        for name, path, evs in events_by_league:
+            scb._get = lambda url, evs=evs: {"events": evs}
+            scb._week_days = lambda: []
+            scb._board_days = lambda now=None: []
+            try:
+                leagues.append({"league": name, "games": scb._league(name, path, name.lower(), {})})
+            finally:
+                del scb._week_days
+                del scb._board_days
+    finally:
+        scb._get = was_get
+    sbd = {"fetched_at": "2026-10-22T12:00:00Z", "leagues": leagues}
+    nfl = [g for L in leagues if L["league"] == "NFL" for g in L["games"]]
+    w2w = {"fetched_at": "2026-10-22T12:00:00Z",
+           "weeks": [{"season": 2026, "week": 7, "cfb_games": [],
+                      "games": [{"id": g["id"], "carriers": [], "kickoff_utc": g["start_utc"]} for g in nfl]}]}
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+           sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF)
+    try:
+        sb._NOW_CACHE = _clock().astimezone(_d.timezone.utc)
+        sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
+        sb.IA_BOARD = {"teams": [], "last_change": ""}
+        sb._carriage.load = lambda: {"schema": 1, "stale_days": 30, "rows": []}
+        sb.CR_REPORTS, sb.EDITION_HREF = [], "/edition/2026-10-21.html"
+        sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
+        sb.BOARD_IDS = {str(g.get("id")) for _k, g in sb.board_games(sbd) if g.get("id")}
+        return sb.render_home([], "")
+    finally:
+        (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+         sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF) = was
+
+
+def tabs_unit():
+    """The day tabs, Jack's ruling of 19 October 2026, 2:54 PM. Static: no `hidden` is written into
+    a day section (without script the whole week shows), and the script reads the address first.
+    In a browser, on a week where Thursday is finished: the board opens on Saturday, the next day with
+    a game not yet played (never on a day of finals); #win-1pm and #day-thu win over that, with the
+    day's tab on and the target in view; a hash that names nothing falls back to Saturday; a
+    hashchange does the same; a day with no unplayed game left, today included, opens on today."""
+    import site_build as sb
+    fails = []
+    thu = _ev("t1", "20261022", "2000", "post")
+    sun = [_ev("s1", "20261025", "1300"), _ev("s2", "20261025", "1625"), _ev("s3", "20261025", "2020")]
+    mon = _ev("m1", "20261026", "2015")
+    sat = _ev("c1", "20261024", "1200")
+    html = _week_home([("NFL", "football/nfl", [thu] + sun + [mon]),
+                       ("CFB", PATH, [sat])])
+    if re.search(r'<section[^>]*class="bd-mod wb-day"[^>]*\bhidden\b', html):
+        fails.append("tabs: a day section carries `hidden` in the HTML, so without script the week is not whole")
+    if "if (!fromHash()) show(opening());" not in sb.WB_TABS_JS or "'hashchange'" not in sb.WB_TABS_JS:
+        fails.append("tabs: the script does not read the address first, on load and on hashchange")
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("::warning::tabs: playwright is not installed; the browser half of the day-tab check did not run")
+        return fails
+    import functools
+    import http.server
+    import shutil
+    import tempfile
+    import threading
+    tmp = tempfile.mkdtemp(prefix="fbs-tabs-")
+    srv = None
+    try:
+        open(os.path.join(tmp, "index.html"), "w", encoding="utf-8").write(html)
+        os.symlink(os.path.join(HERE, "site", "assets"), os.path.join(tmp, "assets"))
+
+        class Q(http.server.SimpleHTTPRequestHandler):
+            def log_message(self, *a):
+                pass
+        srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Q, directory=tmp))
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        base = f"http://127.0.0.1:{srv.server_port}/index.html"
+        STATE = """()=>({shown:[...document.querySelectorAll('.wb-day')].filter(s=>getComputedStyle(s).display!='none').map(s=>s.dataset.day),
+          on:[...document.querySelectorAll('.wb-tabs .wb-t.on')].map(t=>t.dataset.day),
+          inview:(id)=>0})"""
+        VIEW = """(id)=>{const e=document.getElementById(id); if(!e) return null; const r=e.getBoundingClientRect();
+          return r.top>=0 && r.top<innerHeight}"""
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            try:
+                def look(hash_, then=None):
+                    pg = b.new_page(viewport={"width": 390, "height": 844})
+                    try:
+                        pg.goto(base + hash_)
+                        pg.wait_for_timeout(300)
+                        if then:
+                            pg.evaluate(f"location.hash = '{then}'")
+                            pg.wait_for_timeout(300)
+                        st = pg.evaluate("""()=>({shown:[...document.querySelectorAll('.wb-day')].filter(s=>getComputedStyle(s).display!='none').map(s=>s.dataset.day),
+                          on:[...document.querySelectorAll('.wb-tabs .wb-t.on')].map(t=>t.dataset.day)})""")
+                        tid = (then or hash_).lstrip("#")
+                        st["view"] = pg.evaluate(VIEW, tid) if tid else None
+                        return st
+                    finally:
+                        pg.close()
+                cases = [("no hash", "", None, ["sat"], None),
+                         ("#win-1pm", "#win-1pm", None, ["sun"], True),
+                         ("#day-thu", "#day-thu", None, ["thu"], True),
+                         ("#day-nothing", "#day-nothing", None, ["sat"], None),
+                         ("hashchange to #win-late", "", "#win-late", ["sun"], True)]
+                for name, h, then, want, view in cases:
+                    st = look(h, then)
+                    if st["shown"] != want or st["on"] != want:
+                        fails.append(f"tabs: with {name} the board shows {st['shown']} (tab on {st['on']}), expected {want}")
+                    elif view and not st["view"]:
+                        fails.append(f"tabs: with {name} the target is not in view")
+                # nothing left unplayed after today: open on today
+                late = _week_home([("NFL", "football/nfl", [thu, _ev("t2", "20261022", "1200", "post")])])
+                open(os.path.join(tmp, "index.html"), "w", encoding="utf-8").write(late)
+                st = look("")
+                if st["shown"] != ["thu"]:
+                    fails.append(f"tabs: with every game played the board shows {st['shown']}, expected today (thu)")
+            finally:
+                b.close()
+    except Exception as e:
+        fails.append(f"tabs: the browser check raised {type(e).__name__}: {e}")
+    finally:
+        if srv:
+            srv.shutdown()
+        shutil.rmtree(tmp, ignore_errors=True)
+    return fails
+
+
 def inert_unit():
     import site_build as sb
     fails = []
@@ -503,7 +639,7 @@ def tree_unit():
 
 
 def fbs_canary(tree=None):
-    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + inert_unit() + tree_unit()
+    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + tabs_unit() + inert_unit() + tree_unit()
     if tree:
         fails += tree_checks(tree)
     return fails

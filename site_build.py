@@ -10085,10 +10085,35 @@ WB_TABS_JS = """
   document.querySelectorAll('.wb-wins a').forEach(function(a){
     a.addEventListener('click', function(){ show('sun'); });
   });
-  var bd = document.querySelector('.wb-board');
-  var today = bd && bd.getAttribute('data-today');
-  var d = today && document.querySelector('.wb-day[data-date="' + today + '"]');
-  if (d) show(d.getAttribute('data-day'));
+  /* S-3b.3, Jack's ruling of 19 October 2026, 2:54 PM. A #day-* or #win-* link wins: its day is
+     shown, its tab is on and the target is scrolled into view (on load and on hashchange). A hash
+     that names nothing on the board falls through to the opening day: the day of the next game not
+     yet played, which is today while today still has one, else the next such day; with none left,
+     today, else All. Nothing is hidden in the HTML, so without script the whole week shows. */
+  function played(sec){ return !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
+  function opening(){
+    var bd = document.querySelector('.wb-board');
+    var today = (bd && bd.getAttribute('data-today')) || '';
+    var list = Array.prototype.slice.call(days).sort(function(a, b){
+      var x = a.getAttribute('data-date'), y = b.getAttribute('data-date');
+      return x < y ? -1 : x > y ? 1 : 0; });
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].getAttribute('data-date') >= today && !played(list[i])) return list[i].getAttribute('data-day');
+    }
+    var t = document.querySelector('.wb-day[data-date="' + today + '"]');
+    return t ? t.getAttribute('data-day') : 'all';
+  }
+  function fromHash(){
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!/^(day|win)-/.test(id)) return false;
+    var el = document.getElementById(id);
+    var sec = el && (el.classList.contains('wb-day') ? el : el.closest('.wb-day'));
+    if (!sec || !show(sec.getAttribute('data-day'))) return false;
+    el.scrollIntoView();
+    return true;
+  }
+  window.addEventListener('hashchange', fromHash);
+  if (!fromHash()) show(opening());
 }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();</script>
