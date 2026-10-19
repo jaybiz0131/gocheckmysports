@@ -3431,6 +3431,173 @@ SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener
                "});}</script>")
 
 
+# ---- S-3b.4: web push from the site -----------------------------------------------------------
+# A reader picks a team on its page and allows notifications; the evening before that team's game
+# one push carries the kickoff in ET, the network and, while the build's reading is fresh, the
+# conditions line, and opens the game page. No account: the device holds its subscription and the
+# relay (netlify/functions/push.mjs, push-send.mjs) holds only the endpoint, the two keys and the
+# team list. WHEN THE KEY IS ABSENT THE SITE HAS NO PUSH AT ALL: this reads the public VAPID key
+# from the build's environment, and without it (or with one that is not a P-256 point) the pages
+# carry no button, no script, no data file and the worker carries no push handler.
+PUSH_ENV = "WEB_PUSH_VAPID_PUBLIC_KEY"
+
+
+def push_key():
+    """The public VAPID key from the build's environment, or '' when it is absent or malformed."""
+    import base64
+    raw = (os.environ.get(PUSH_ENV) or "").strip()
+    if not raw or not re.fullmatch(r"[A-Za-z0-9_-]+", raw):
+        return ""
+    try:
+        b = base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4))
+    except Exception:
+        return ""
+    return raw if (len(b) == 65 and b[0] == 4) else ""
+
+
+SW_PUSH = """
+/* Web push (S-3b.4). Present only in a build that carries the public key. A push shows one
+   notification and a click opens the game page it names; nothing is cached. */
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'GoCheckMySports', {
+    body: d.body || '', tag: d.tag || undefined, icon: '/assets/icon-192.png',
+    data: { url: d.url || '/' } }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  let u = new URL('/', self.location.origin);
+  try { const t = new URL((e.notification.data && e.notification.data.url) || '/', self.location.origin);
+        if (t.origin === self.location.origin) u = t; } catch (x) {}
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
+    for (const c of cs) { if (c.url === u.href && 'focus' in c) return c.focus(); }
+    return self.clients.openWindow(u.href);
+  }));
+});
+"""
+
+def sw_source(version, assets):
+    """The worker's text: the shell, plus the push handlers only in a build that carries the key."""
+    return SERVICE_WORKER % {"v": version, "assets": json.dumps(assets)} + (SW_PUSH if push_key() else "")
+
+
+PUSH_JS = """<script>(function(){
+  var b=document.querySelector('[data-tpush]');
+  if(!b||!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return;
+  if(Notification.permission==='denied')return;
+  var K='gcms-push-teams',T='gcms-push-sync',team=b.getAttribute('data-tpush'),vk=b.getAttribute('data-vapid');
+  var note=document.querySelector('.tpush-note'),keep=note?note.textContent:'';
+  function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a:null;}catch(e){return null;}}
+  function wr(a){try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}}
+  if(rd()===null)return;
+  function u8(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var r=atob(s),o=new Uint8Array(r.length);
+    for(var i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o;}
+  function same(a,b2){if(!a||a.length!==b2.length)return false;for(var i=0;i<a.length;i++)if(a[i]!==b2[i])return false;return true;}
+  function on(){return rd().indexOf(team)>-1&&Notification.permission==='granted';}
+  function paint(){var v=on();b.setAttribute('aria-pressed',String(v));b.textContent=v?'Notifications on':'Notify me';}
+  function post(s,teams){return fetch('/api/push',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({subscription:s.toJSON(),teams:teams})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
+  function sub(reg){var want=u8(vk);return reg.pushManager.getSubscription().then(function(s){
+    if(s&&same(s.options&&s.options.applicationServerKey?new Uint8Array(s.options.applicationServerKey):null,want))return s;
+    return(s?s.unsubscribe():Promise.resolve()).then(function(){
+      return reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:want});});});}
+  b.hidden=false;if(note)note.hidden=false;paint();
+  b.addEventListener('click',function(){
+    var teams=rd(),p;b.disabled=true;if(note)note.textContent=keep;
+    if(on()){
+      teams=teams.filter(function(x){return x!==team;});
+      p=navigator.serviceWorker.ready.then(function(reg){return reg.pushManager.getSubscription();}).then(function(s){
+        if(!s)return;return post(s,teams).then(function(){return teams.length?null:s.unsubscribe();});});
+    }else{
+      teams=teams.filter(function(x){return x!==team;}).concat([team]);
+      p=Notification.requestPermission().then(function(perm){if(perm!=='granted')throw new Error('denied');
+        return navigator.serviceWorker.ready;}).then(sub).then(function(s){return post(s,teams);});
+    }
+    p.then(function(){wr(teams);}).catch(function(){if(note)note.textContent='Notifications could not be turned on here.';})
+     .then(function(){b.disabled=false;paint();});
+  });
+  /* A device that follows a team renews its record once a week it visits, so a record the
+     reader has forgotten expires by itself (180 days) instead of living on. */
+  try{var last=Number(localStorage.getItem(T)||0);
+    if(on()&&Date.now()-last>6048e5){navigator.serviceWorker.ready.then(function(reg){return reg.pushManager.getSubscription();})
+      .then(function(s){if(s)return post(s,rd()).then(function(){localStorage.setItem(T,String(Date.now()));});}).catch(function(){});}}catch(e){}
+})();</script>"""
+
+
+def push_ui(team_key, label):
+    """(button, note-and-script) for a team page, or ('', '') when the build has no key. The button
+    and the note start hidden; the script reveals them only on a browser that can receive a push."""
+    k = push_key()
+    if not k or not team_key:
+        return "", ""
+    btn = (f'<button type="button" class="wl-pick tpin tpush" data-tpush="{esc(team_key)}" '
+           f'data-vapid="{esc(k)}" aria-pressed="false" hidden>Notify me</button>')
+    note = (f'<p class="tm-rec tpush-note" hidden>One notification the evening before each '
+            f'{esc(label)} game. No account.</p>')
+    return btn, note + PUSH_JS
+
+
+def _push_cond(e):
+    """The conditions line for the notification, from the build's own entry and in the card's own
+    words: the numbers of a forecast, "Dome", a roof's words. Anything else is no line."""
+    st = (e or {}).get("status")
+    if st == "indoor":
+        return "Dome"
+    if st == "roofed":
+        return ((e.get("words") or {}).get("line") or "")
+    if st != "forecast":
+        return ""
+    p = cx_parts(e)
+    bits = []
+    if p["temp"] is not None:
+        bits.append(f'{p["temp"]}°')
+    if p["calm"]:
+        bits.append("wind calm")
+    elif p["mph"] is not None:
+        bits.append(f'wind {p["mph"]} mph')
+    if p["pop"] is not None:
+        bits.append(f'rain {p["pop"]}%')
+    return ", ".join(bits)
+
+
+def _push_team_key(side):
+    ab = (side or {}).get("abbr") or ""
+    if (side or {}).get("school") and _teams_slug_for(side):
+        return f"cfb:{_teams_slug_for(side)}"
+    return f"nfl:{ab}" if (ab and _team_page_exists(ab)) else ""
+
+
+def push_games_doc():
+    """The index the evening send reads, published at /data/push-games.json: every game on the week
+    board that has a page, has not started and has a kickoff time, with the teams that can follow it,
+    the lead line (kickoff in ET and network) and the conditions line with the stamp it was read at.
+    The relay chooses the evening; nothing here is a clock."""
+    games = []
+    fallback_at = (CX_DATA or {}).get("built_at") or ""
+    for k, g in board_games(SB_DATA):
+        if g.get("state") != "pre" or _is_postponed(g) or not _has_game_page(g):
+            continue
+        if "tbd" in str(g.get("status_short") or "").lower():
+            continue
+        teams = [t for t in (_push_team_key(g.get("away")), _push_team_key(g.get("home"))) if t]
+        if not teams:
+            continue
+        away, home = g.get("away") or {}, g.get("home") or {}
+        nm = lambda t: t.get("full") or t.get("school") or t.get("abbr") or ""
+        net = network_name(g.get("network")) if g.get("network") else ""
+        e = cx_entry(g) if CX_DATA else None
+        cond = _push_cond(e)
+        games.append({
+            "id": str(g["id"]), "kick": k.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "teams": teams,
+            "title": f"{nm(away)} at {nm(home)}",
+            "lead": f"Kickoff {_et_clock(k)}" + (f" on {net}." if net else "."),
+            "cond": cond,
+            "cond_at": (((e or {}).get("nws") or {}).get("read_at") or fallback_at) if cond else "",
+            "path": f"/games/{g['id']}.html"})
+    return {"built_at": _build_now().strftime("%Y-%m-%dT%H:%M:%SZ"), "games": games}
+
+
 # ---- S-A: the Scoreboard band, and S-B1 designations on the cards --------------
 # Artboard: sports-v3-desktop / sports-v3-phone. The band is the product: a reader
 # opening the site on a Sunday should see every live score with its network without
@@ -6055,7 +6222,7 @@ TEAM_PIN_JS = """<script>(function(){
 })();</script>"""
 
 
-def team_pin(abbr, name=""):
+def team_pin(abbr, name="", extra=""):
     """S-L3: pin this team. Device-only, on the same pattern as the crypto desk's coin
     pins, and hidden outright where storage is unavailable rather than offering a
     control that cannot remember anything."""
@@ -6064,7 +6231,7 @@ def team_pin(abbr, name=""):
     nm = f' data-tabbr="{esc(abbr)}" data-tname="{esc(name)}"' if name else ""
     return (f'<span class="tpinwrap" data-tpin{nm}>'
             f'<button type="button" class="wl-pick tpin" data-tpick="{esc(abbr)}" '
-            f'aria-pressed="false">Pin {esc(abbr)}</button></span>')
+            f'aria-pressed="false">Pin {esc(abbr)}</button>{" " + extra if extra else ""}</span>')
 
 
 def pins_panel():
@@ -6626,12 +6793,13 @@ def render_team_page(tm, items, dateline):
                 + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                           for i in stories) + '</div>')
     rec = (f'<p class="tm-rec">{esc(stand)}</p>' if stand else "")
+    _pbtn, _pnote = push_ui(f"nfl:{abbr}", abbr)      # S-3b.4: ('', '') in a build with no key
     body = f"""<main class="wrap tm-main"><section class="page">
   <h1 class="sr-only">{esc(name)}: next game, schedule, where to watch, conditions and standing</h1>
   <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
     <span class="sec-n">{len(played)} played of {fixtures}</span>
-    {team_pin(abbr, name)}</div>
-  {rec}
+    {team_pin(abbr, name, _pbtn)}</div>
+  {rec}{_pnote}
   {card}
   {_tms_last(last, name)}
   {_tms_board(rows)}
@@ -6713,10 +6881,12 @@ def render_college_page(prog, items, dateline):
                           for i in stories) + '</div>')
     sched = _tms_board(rows, "This week") if rows else (
         '<p class="tms-none">No game for this program is on the week board.</p>')
+    _pbtn, _pnote = push_ui(f'cfb:{prog["slug"]}', school)      # S-3b.4: ('', '') in a build with no key
+    _pwrap = f'<span class="tpinwrap">{_pbtn}</span>' if _pbtn else ""
     body = f"""<main class="wrap tm-main"><section class="page">
   <h1 class="sr-only">{esc(full)}: next game, where to watch, conditions and ranking</h1>
-  <div class="sec-head"><h2>{esc(full)}</h2><span class="bar"></span></div>
-  {rec}
+  <div class="sec-head"><h2>{esc(full)}</h2><span class="bar"></span>{_pwrap}</div>
+  {rec}{_pnote}
   {card}
   {_tms_last(last, full)}
   {sched}
@@ -12266,6 +12436,16 @@ def build():
         _page_reset()
         w(f'teams/cfb/{_prog["slug"]}.html', render_college_page(_prog, items, dateline))
     print(f"college program pages: {len(CFB_PROGRAMS)}; conditions log: {len(COND_LOG)} game(s)")
+    # S-3b.4: the game index the evening send reads. Written only in a build that carries the
+    # public key; a build without one publishes no push file at all.
+    if push_key():
+        os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+        _pg = push_games_doc()
+        with open(os.path.join(PUBLISH, "data", "push-games.json"), "w", encoding="utf-8") as _pf:
+            json.dump(_pg, _pf, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        print(f"web push: key present; {len(_pg['games'])} game(s) in /data/push-games.json")
+    else:
+        print("web push: no key in the environment; no button, no script, no data file")
 
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
@@ -12371,9 +12551,7 @@ def build():
     _sw_assets = [a for a in _sw_assets
                   if os.path.exists(os.path.join(PUBLISH, a.lstrip("/")))]
     with open(os.path.join(PUBLISH, "sw.js"), "w", encoding="utf-8") as _swf:
-        _swf.write(SERVICE_WORKER % {
-            "v": _build_now().strftime("%Y%m%d%H%M"),
-            "assets": json.dumps(_sw_assets)})
+        _swf.write(sw_source(_build_now().strftime("%Y%m%d%H%M"), _sw_assets))
     print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect

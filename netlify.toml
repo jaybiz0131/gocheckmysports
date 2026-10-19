@@ -50,3 +50,17 @@
   for = "/og/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# WEB PUSH (S-3b.4). Two functions, both inert until the hosting environment holds the VAPID keys.
+#   push.mjs       POST /api/push  a device follows a team or stops; 503 with no key
+#   push-send.mjs  scheduled hourly; sends from 7 PM ET the evening before a game, once per game
+# Environment variables, set by Jack in the Netlify site settings (never in a file):
+#   WEB_PUSH_VAPID_PUBLIC_KEY   scopes Builds, Functions, Runtime (the build puts it on the team pages)
+#   WEB_PUSH_VAPID_PRIVATE_KEY  scopes Functions, Runtime only, marked secret
+#   WEB_PUSH_SUBJECT            optional, a mailto: or https: contact for the push services
+# The shared code is in netlify/lib (outside this directory, so it is not mistaken for a function),
+# the tests are netlify/test, and the one npm dependency, @netlify/blobs (the subscription store),
+# is pinned in the root package.json.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

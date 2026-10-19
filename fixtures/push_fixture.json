@@ -1,0 +1,203 @@
+{
+ "note": "S-3b.4 fixture. Hourly ticks run from ticks_from to ticks_to (UTC). expected lists every push the run may send: subscription, game, and the UTC instant of the tick that sends it (7:00 PM ET on the evening before, by the Eastern calendar, across the November 1 clock change).",
+ "ticks_from": "2026-10-23T00:00:00Z",
+ "ticks_to": "2026-11-03T00:00:00Z",
+ "games": [
+  {
+   "id": "g1",
+   "kick": "2026-10-25T17:00:00Z",
+   "teams": [
+    "nfl:KC",
+    "nfl:BUF"
+   ],
+   "title": "Kansas City Chiefs at Buffalo Bills",
+   "lead": "Kickoff 1:00 PM ET on CBS.",
+   "cond": "52°, wind 12 mph, rain 20%",
+   "cond_at": "2026-10-24T15:00:00Z",
+   "path": "/games/g1.html"
+  },
+  {
+   "id": "g2",
+   "kick": "2026-10-26T00:20:00Z",
+   "teams": [
+    "nfl:DAL",
+    "nfl:NYG"
+   ],
+   "title": "Dallas Cowboys at New York Giants",
+   "lead": "Kickoff 8:20 PM ET on NBC.",
+   "cond": "",
+   "cond_at": "",
+   "path": "/games/g2.html"
+  },
+  {
+   "id": "g3",
+   "kick": "2026-11-01T18:00:00Z",
+   "teams": [
+    "nfl:MIA",
+    "nfl:NE"
+   ],
+   "title": "Miami Dolphins at New England Patriots",
+   "lead": "Kickoff 1:00 PM ET on FOX.",
+   "cond": "40°, wind 5 mph, rain 0%",
+   "cond_at": "2026-10-20T00:00:00Z",
+   "path": "/games/g3.html"
+  },
+  {
+   "id": "g4",
+   "kick": "2026-11-02T18:00:00Z",
+   "teams": [
+    "nfl:DEN",
+    "nfl:LV"
+   ],
+   "title": "Denver Broncos at Las Vegas Raiders",
+   "lead": "Kickoff 1:00 PM ET on ESPN.",
+   "cond": "Dome",
+   "cond_at": "2026-11-01T12:00:00Z",
+   "path": "/games/g4.html"
+  },
+  {
+   "id": "g5",
+   "kick": "2026-10-22T17:00:00Z",
+   "teams": [
+    "nfl:KC",
+    "nfl:LAC"
+   ],
+   "title": "A game already played",
+   "lead": "Kickoff 1:00 PM ET.",
+   "cond": "",
+   "cond_at": "",
+   "path": "/games/g5.html"
+  },
+  {
+   "id": "g6",
+   "kick": "2026-12-06T18:00:00Z",
+   "teams": [
+    "nfl:KC",
+    "nfl:DEN"
+   ],
+   "title": "A game weeks away",
+   "lead": "Kickoff 1:00 PM ET.",
+   "cond": "",
+   "cond_at": "",
+   "path": "/games/g6.html"
+  },
+  {
+   "id": "g1",
+   "kick": "2026-10-25T17:00:00Z",
+   "teams": [
+    "nfl:KC",
+    "nfl:BUF"
+   ],
+   "title": "The same game listed twice",
+   "lead": "Kickoff 1:00 PM ET on CBS.",
+   "cond": "",
+   "cond_at": "",
+   "path": "/games/g1.html"
+  },
+  {
+   "id": "g7",
+   "kick": "2026-10-24T23:30:00Z",
+   "teams": [
+    "cfb:alabama",
+    "cfb:tennessee"
+   ],
+   "title": "Alabama Crimson Tide at Tennessee Volunteers",
+   "lead": "Kickoff 7:30 PM ET on ESPN.",
+   "cond": "61°, wind 4 mph, rain 10%",
+   "cond_at": "2026-10-23T12:00:00Z",
+   "path": "/games/g7.html"
+  }
+ ],
+ "subs": [
+  {
+   "id": "s1",
+   "teams": [
+    "nfl:KC"
+   ]
+  },
+  {
+   "id": "s2",
+   "teams": [
+    "nfl:KC",
+    "nfl:BUF"
+   ]
+  },
+  {
+   "id": "s3",
+   "teams": [
+    "nfl:NYG"
+   ]
+  },
+  {
+   "id": "s4",
+   "teams": [
+    "nfl:DEN"
+   ]
+  },
+  {
+   "id": "s5",
+   "teams": [
+    "nfl:SEA"
+   ]
+  },
+  {
+   "id": "s6",
+   "teams": [
+    "nfl:KC"
+   ],
+   "sent": {
+    "g1": "2026-10-24T23:00:00Z"
+   }
+  },
+  {
+   "id": "s7",
+   "teams": [
+    "nfl:MIA",
+    "nfl:DEN"
+   ]
+  },
+  {
+   "id": "s8",
+   "teams": [
+    "cfb:alabama"
+   ]
+  }
+ ],
+ "expected": [
+  [
+   "s1",
+   "g1",
+   "2026-10-24T23:00:00Z"
+  ],
+  [
+   "s2",
+   "g1",
+   "2026-10-24T23:00:00Z"
+  ],
+  [
+   "s3",
+   "g2",
+   "2026-10-24T23:00:00Z"
+  ],
+  [
+   "s4",
+   "g4",
+   "2026-11-02T00:00:00Z"
+  ],
+  [
+   "s7",
+   "g3",
+   "2026-10-31T23:00:00Z"
+  ],
+  [
+   "s7",
+   "g4",
+   "2026-11-02T00:00:00Z"
+  ],
+  [
+   "s8",
+   "g7",
+   "2026-10-23T23:00:00Z"
+  ]
+ ]
+}
