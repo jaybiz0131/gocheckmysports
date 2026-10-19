@@ -1446,7 +1446,7 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          brand="site", og_type="website", schema_extra="", og_image=None,
+          brand="site", og_type="website", schema_extra="", og_image=None, og_size=(1200, 630),
           canonical_path=None):
     body = cx_sprite(body)
     # R-4: the preconnects to Google are gone with the fonts they were for. A
@@ -1525,11 +1525,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
 <meta property="og:image" content="{og_image or OG_IMAGE}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{og_size[0]}">
+<meta property="og:image:height" content="{og_size[1]}">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:alt" content="{esc(NAME)} share card">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{"summary" if og_size[0] == og_size[1] else "summary_large_image"}">
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <meta name="twitter:image:alt" content="{esc(NAME)} share card">
 <meta name="twitter:title" content="{esc(title)}">
@@ -3746,6 +3746,7 @@ def _wx_chip(g, wx):
 
 
 BOARD_IDS = set()     # set at build: the week board's game ids (S-2b item 2)
+GAME_PAGE_IDS = set()  # set at build: the ids of the game pages this build writes (RL-1)
 
 
 def _has_game_page(g):
@@ -3758,6 +3759,15 @@ def _has_game_page(g):
     if g.get("league") == "NFL":
         return True
     return g.get("league") == "CFB" and str(g.get("id")) in BOARD_IDS
+
+
+def _written_game_href(gid):
+    """RL-1: a report or log row links /games/<id>.html only when this build writes that page,
+    the S-3a rule ("a row links a game page only when the build wrote it"). GAME_PAGE_IDS is
+    filled from the very list the game-page loop writes, which is filtered by _has_game_page,
+    so no second list is kept. A past report names games that have left the board (last
+    Saturday's FBS slate, last week's NFL games), and those pages are not built. '' otherwise."""
+    return f"/games/{gid}.html" if gid and str(gid) in GAME_PAGE_IDS else ""
 
 
 def _game_href(g):
@@ -6506,7 +6516,7 @@ def _tms_log(entries, who_name):
             opp = x["home"] if (x["away"].get("name") or "") == who_name else x["away"]
             at = "vs" if x["home"].get("name") == who_name else "at"
             d = _tms_when(x.get("start_utc"))
-            href = f'/games/{x["id"]}.html' if (x.get("league") == "NFL" or str(x["id"]) in BOARD_IDS) else ""
+            href = _written_game_href(x.get("id"))
             tags = "".join(f'<span class="tms-pl tms-tag {esc(t["kind"])}">{esc(t["text"])}</span>' for t in x["tags"])
             inner = (f'<span class="tms-bulb on" aria-hidden="true"></span><span class="tms-dt">{esc(d)}</span>'
                      f'<span class="tms-opp"><span class="tms-at">{at}</span>'
@@ -8538,6 +8548,65 @@ def sbg_conditions(g, e):
             f'{note}{_cx_alert_detail(e)}{sbg_hours(e)}</div>')
 
 
+GAME_CARD_SQ = "/share/games/{id}-square.png"   # S-3b.1: the 1080 square card; the 1200x630 /share/games/<id>.png stays, its URL is out in chats
+
+
+def game_share_row(g, e=None):
+    """What the 1080 square card draws for one game page (S-3b.1), from the record the page renders:
+    the matchup, the kickoff in ET with the zone, the network, the score only for a game that has
+    started (and not a postponed one), and the conditions plates from the Weather Worker's entry as
+    the wall prints them, or the plate saying why not. Pure data, so a canary can read it."""
+    e = (cx_entry(g) if e is None else e) or {}
+    a, h = g.get("away") or {}, g.get("home") or {}
+    st = e.get("status")
+    k = _utc_dt(g.get("start_utc") or "")
+    when = k.astimezone(_ET).strftime("%a, %b %-d, %-I:%M %p ET") if k else ""
+    row = {"id": str(g.get("id")), "away": a.get("abbr") or "", "home": h.get("abbr") or "",
+           "away_name": a.get("full") or a.get("school") or a.get("name") or "",
+           "home_name": h.get("full") or h.get("school") or h.get("name") or "",
+           "when": when, "network": network_name(g.get("network")) if g.get("network") else "",
+           "score_away": None, "score_home": None, "state_word": "", "status": st, "lit": False,
+           "venue": g.get("venue") or "", "stamp": ""}
+    if g.get("state") in ("in", "post"):
+        sa, sh = _tk_score(a, g), _tk_score(h, g)
+        if sa is not None and sh is not None:
+            row["score_away"], row["score_home"] = sa, sh
+            # the page's own words for a game in progress ("In progress" or the feed's period), and
+            # never the word "live", which waits for S-4 (ruling of 12 October, scorecard line 6)
+            _w = _tk_state(g) or "In progress"
+            # upper case: the card's Oswald subset has no lowercase
+            row["state_word"] = "FINAL" if g.get("state") == "post" else (
+                "IN PROGRESS" if "live" in _w.lower() else _w.upper())
+    if st == "forecast":
+        p = cx_parts(e)
+        row["lit"] = bool(cx_number_flags(e) or e.get("alerts"))
+        row["temp"] = str(p["temp"]) if p["temp"] is not None else ""
+        row["wind"] = "CALM" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else "")
+        row["rain"] = str(p["pop"]) if p["pop"] is not None else ""
+        row["wind_on"] = bool(p["on"]["wind"])
+    else:
+        row["note"] = {"indoor": "Dome", "outside_nws": " \u00b7 ".join(x for x in (
+                           g.get("venue_city") or (e.get("stadium") or {}).get("city") or "",
+                           "Outside NWS coverage") if x),
+                       "out_of_range": "Not yet in range",
+                       "roofed": (e.get("words") or {}).get("line")}.get(st) or "No forecast"
+    cr_ = gp_credit(e)
+    if cr_:
+        # one credit line, printed only when the page prints one (gp_credit, the page's own test); a
+        # reading from another day than the build's carries its day, so a card that outlives its
+        # game says when the reading was taken
+        txt = cr_[0].replace(", last reading", "")
+        try:
+            gen = datetime.datetime.fromisoformat(((e.get("nws") or {}).get("generated_at") or "").replace("Z", "+00:00")).astimezone(_ET)
+            if gen.date() != _build_now().astimezone(_ET).date():
+                txt = re.sub(r", (\d{1,2}:\d{2} [AP]M ET)$",
+                             lambda m: f", {gen.strftime('%a, %b')} {gen.day}, {m.group(1)}", txt)
+        except Exception:
+            pass
+        row["stamp"] = txt + (", last reading" if e.get("stale") else "")
+    return row
+
+
 def sbg_board(g):
     """The game page's one big board."""
     e = cx_entry(g)
@@ -8573,6 +8642,17 @@ def gp_streams(g):
             if c["state"] == "ok"]
 
 
+def gp_credit(e):
+    """The credit the game page prints under its board, (text, url), or None when it prints none.
+    One function for the page's link and the share card's line, so the card never credits a reading
+    the page does not (a dome and a roofed stadium print no credit)."""
+    c = (e or {}).get("credit") or {}
+    url = c.get("url") or ""
+    if url.startswith("https://gocheckmyweather.com/") and c.get("text") and e.get("status") in ("forecast", "out_of_range"):
+        return c["text"] + (", last reading" if e.get("stale") else ""), url
+    return None
+
+
 def sbg_under(g):
     """Under the board: the yellow "Watch on" button and the outlined second stream, then the link to
     the Weather stadium page with the stamp."""
@@ -8585,12 +8665,11 @@ def sbg_under(g):
         btns = ('<div class="sbg-btns">' + a(st[0][0], st[0][1], "sbg-btn", f"Watch on {st[0][0]}")
                 + (a(st[1][0], st[1][1], "sbg-btn sbg-btn2", st[1][0]) if len(st) > 1 else "") + '</div>')
     e = cx_entry(g) or {}
-    c = e.get("credit") or {}
-    url = c.get("url") or ""
+    cr_ = gp_credit(e)
     link = ""
-    if url.startswith("https://gocheckmyweather.com/") and c.get("text") and e.get("status") in ("forecast", "out_of_range"):
+    if cr_:
+        ctext, url = cr_
         venue = (e.get("stadium") or {}).get("name") or e.get("venue") or "the stadium"
-        ctext = c["text"] + (", last reading" if e.get("stale") else "")
         link = (f'<a class="sbg-link" href="{esc(url)}">Full forecast for {esc(venue)} on GoCheckMyWeather'
                 f'<small>{esc(ctext)}</small><span aria-hidden="true">→</span></a>')
     return (f'<div class="sbg-under">{btns}{link}</div>') if (btns or link) else ""
@@ -8870,7 +8949,7 @@ def render_game_page(g, points, board, wx, items, dateline):
                  f'National Weather Service, where to watch, inactives and the score. Facts, '
                  f'not advice.',
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
-                 og_image=f'{ORIGIN}/share/games/{g.get("id")}.png',
+                 og_image=f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}', og_size=(1080, 1080),
                  schema_extra=_game_ld(g))
 
 
@@ -10206,12 +10285,18 @@ def cr_latest():
     return None
 
 
+def _cr_link(row, text):
+    """RL-1: a report row's text, linked to its game page only when this build writes that page
+    (_written_game_href). The row still prints in full without the link."""
+    href = _written_game_href(row.get("id"))
+    return f'<a href="{esc(href)}">{esc(text)}</a>' if href else esc(text)
+
+
 def cr_slot(rep):
     """The home's report slot: the title, the stamp, the lead, the games written up, a link."""
     if not rep:
         return ""
-    items = "".join(f'<li><a href="{esc(f["href"])}">{esc(f["head"].rstrip("."))}</a></li>'
-                    for f in rep.get("flagged") or [])
+    items = "".join(f'<li>{_cr_link(f, f["head"].rstrip("."))}</li>' for f in rep.get("flagged") or [])
     return (f'<section class="cr"><div class="bd-sec"><div class="bd-sec-l"><span class="bd-eyebrow">'
             f'Conditions report</span></div><a class="bd-more" href="/conditions/{esc(rep["id"])}.html">'
             f'The full report</a></div><h2 class="cr-h">{esc(rep["title"])}</h2>'
@@ -10226,11 +10311,11 @@ def render_report_page(rep, dateline):
     body = [f'<p class="cr-when">{esc(rep.get("written_et") or "")}</p>',
             f'<p class="cr-lead">{esc(rep["lead"])}</p>']
     for f in rep.get("flagged") or []:
-        body.append(f'<section class="cr-game"><h2 class="cr-gh"><a href="{esc(f["href"])}">'
-                    f'{esc(f["head"].rstrip("."))}</a></h2><p>{esc(f["body"])}</p></section>')
+        body.append(f'<section class="cr-game"><h2 class="cr-gh">{_cr_link(f, f["head"].rstrip("."))}'
+                    f'</h2><p>{esc(f["body"])}</p></section>')
     if rep.get("quiet"):
         body.append('<h2 class="cr-sub">The rest, with no number that matters</h2><ul class="cr-quiet">'
-                    + "".join(f'<li><a href="{esc(q["href"])}">{esc(q["line"])}</a></li>' for q in rep["quiet"])
+                    + "".join(f'<li>{_cr_link(q, q["line"])}</li>' for q in rep["quiet"])
                     + '</ul>')
     for key, label in (("indoor", "Indoors"), ("outside", "Outside NWS coverage"), ("later", "Not yet in range")):
         if rep.get(key):
@@ -11928,7 +12013,11 @@ def build():
                     _all_wp[str(_g["id"])] = _wp
     LIVE_POINTS = _all_points
     LIVE_WP = _all_wp
-    global CR_REPORTS
+    global CR_REPORTS, GAME_PAGE_IDS
+    # RL-1: the ids of the game pages this build writes are the list the writing loop below
+    # walks (_nfl, already filtered by _has_game_page), read here before any report or log
+    # row is rendered, so a link and its page cannot disagree.
+    GAME_PAGE_IDS = {str(_g["id"]) for _g in _nfl if _g.get("id")}
     CR_REPORTS = cr_load()
     for _rep in CR_REPORTS:
         w(f'conditions/{_rep["id"]}.html', render_report_page(_rep, dateline))
@@ -11942,6 +12031,7 @@ def build():
     w("index.html", render_home(items, dateline))
     if SB_DATA:
         _cards = 0
+        _sq = 0
         for _g in _nfl:
             # S-F: the card is drawn from the same game record the page renders, so
             # the number in a group chat and the number on the page cannot disagree.
@@ -11957,10 +12047,21 @@ def build():
                 _cards += 1
             except Exception as _e:
                 pass
+            # S-3b.1: the 1080 square card the game page's og:image names, drawn from the same
+            # record and conditions entry the page renders. A card that fails to draw is named
+            # as a warning, and the canary's tree check fails on a game page whose og:image
+            # file is not in the tree, so a tag pointing at nothing cannot ship.
+            try:
+                import conditions_report as _crm
+                _crm.game_share_card(game_share_row(_g), os.path.join(
+                    PUBLISH, GAME_CARD_SQ.format(id=_g["id"]).lstrip("/")))
+                _sq += 1
+            except Exception as _e:
+                print(f"::warning::share card: square card for game {_g.get('id')} not drawn ({type(_e).__name__})")
             w(f'games/{_g["id"]}.html',
               render_game_page(_g, _all_points.get(_g["id"]), IA_BOARD, WX_DATA,
                                items, dateline))
-        print(f"share cards: {_cards} game card(s)")
+        print(f"share cards: {_cards} game card(s), {_sq} square card(s)")
         print(f"game pages: {len(_nfl)}, {len(_all_points)} with a box score")
         _fl = render_fantasy_live(_all_points, dateline)
         if _fl:

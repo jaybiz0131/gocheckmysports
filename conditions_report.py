@@ -337,6 +337,13 @@ def card_row(g, e):
             "city": g.get("venue_city") or ""}
 
 
+# The wall's token set (S-2d item 2). Every square card on this site draws from these nine colors and
+# no others: share_card (the week's board) and game_share_card (one game, S-3b.1) both unpack this
+# one tuple, and the canary reads the pixels of a drawn card against it.
+WALL_PALETTE = ((7, 17, 12), (7, 38, 25), (14, 59, 42), (20, 26, 23),
+                (244, 241, 230), (255, 210, 63), (217, 211, 180), (184, 178, 147), (59, 58, 34))
+
+
 def share_card(rep, out_path):
     """A square image of the week's weather board in the wall's look (S-2d item 2, Jack's ruling of
     14 October 2026, 3:11 PM ET, ScoreboardWall.dc.html): a green scoreboard in a darker frame, one
@@ -348,8 +355,7 @@ def share_card(rep, out_path):
     import re as _re
     import share_cards as sc
     S = 1080
-    BG, FRAME, PANEL, PLATE = (7, 17, 12), (7, 38, 25), (14, 59, 42), (20, 26, 23)
-    CREAM, YELLOW, SOFT, MUTE, OFF = (244, 241, 230), (255, 210, 63), (217, 211, 180), (184, 178, 147), (59, 58, 34)
+    BG, FRAME, PANEL, PLATE, CREAM, YELLOW, SOFT, MUTE, OFF = WALL_PALETTE
     osw = lambda n: sc._font("Oswald-600.ttf", n)
     im = Image.new("RGB", (S, S), BG)
     d = ImageDraw.Draw(im)
@@ -411,6 +417,112 @@ def share_card(rep, out_path):
     d.text((64, S - 128), "CONDITIONS BY GOCHECKMYWEATHER · NATIONAL WEATHER SERVICE", font=sc._mono(17, True), fill=SOFT)
     d.text((64, S - 100), sc._fit(d, (rep.get("stamp") or "").replace("Conditions by GoCheckMyWeather, from the ", "From the "),
                                   sc._mono(16), S - 128), font=sc._mono(16), fill=SOFT)
+    d.text((64, S - 72), "gocheckmysports.com  ·  gocheckmyweather.com", font=sc._mono(20, True), fill=CREAM)
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    im.save(out_path, "PNG", optimize=True)
+    return out_path
+
+
+def game_share_card(row, out_path):
+    """The 1080 square card for one game page (S-3b.1), in the wall's look: the same green panel in a
+    darker frame, Oswald plates, scoreboard yellow. `row` is site_build.game_share_row's dict, built
+    from the same game record and conditions entry the page renders, so the card cannot say what the
+    page does not. Both sites' names in plain text, no logos and no team mark (scorecard line 5).
+    A score is drawn only when the row carries one, and the row carries one only for a game that has
+    started; a scheduled game shows its kickoff and never the word Final."""
+    from PIL import Image, ImageDraw
+    import share_cards as sc
+    S = 1080
+    BG, FRAME, PANEL, PLATE, CREAM, YELLOW, SOFT, MUTE, OFF = WALL_PALETTE
+    osw = lambda n: sc._font("Oswald-600.ttf", n)
+    im = Image.new("RGB", (S, S), BG)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([24, 24, S - 24, S - 24], radius=18, fill=FRAME)
+    d.rounded_rectangle([34, 34, S - 34, S - 34], radius=12, fill=PANEL)
+    d.text((64, 56), "GoCheckMySports", font=sc._mono(20, True), fill=SOFT)
+    mk = "GoCheckMyWeather"
+    d.text((S - 64 - d.textlength(mk, font=sc._mono(20, True)), 56), mk, font=sc._mono(20, True), fill=SOFT)
+
+    def center(text, y, font, fill, x0=64, x1=S - 64):
+        d.text(((x0 + x1 - d.textlength(text, font=font)) / 2, y), text, font=font, fill=fill)
+
+    def plate(x0, y0, x1, y1, text, font, fill=CREAM):
+        d.rounded_rectangle([x0, y0, x1, y1], radius=6, fill=PLATE)
+        bx = d.textbbox((0, 0), text, font=font)
+        d.text(((x0 + x1 - (bx[0] + bx[2])) / 2, (y0 + y1 - (bx[1] + bx[3])) / 2), text, font=font, fill=fill)
+
+    # the matchup: two team plates and AT, abbreviations in Oswald, full names under in mono
+    top = 130
+    plate(64, top, 424, top + 150, (row.get("away") or "").upper(), osw(96))
+    plate(S - 64 - 360, top, S - 64, top + 150, (row.get("home") or "").upper(), osw(96))
+    f_at = sc._mono(26, True)
+    d.text((S / 2 - d.textlength("AT", font=f_at) / 2, top + 58), "AT", font=f_at, fill=SOFT)
+    for x0, x1, nm in ((64, 424, row.get("away_name")), (S - 64 - 360, S - 64, row.get("home_name"))):
+        center(sc._fit(d, nm or "", sc._mono(22), 350), top + 162, sc._mono(22), SOFT, x0, x1)
+    y = top + 226
+    # the score, only when the row has one
+    if row.get("score_away") is not None and row.get("score_home") is not None:
+        plate(64, y, 424, y + 110, str(row["score_away"]), osw(84), CREAM)
+        plate(S - 64 - 360, y, S - 64, y + 110, str(row["score_home"]), osw(84), CREAM)
+        sw = (row.get("state_word") or "").upper()   # the Oswald subset has no lowercase
+        extra = 0
+        if sw:
+            # the state words sit in the 232 px gap between the score plates, stepped down to fit
+            # inside it; words too long for the gap at 24 px take their own line under the plates
+            gx0, gx1 = 424 + 10, S - 64 - 360 - 10
+            n = 40
+            while n > 24 and d.textlength(sw, font=osw(n)) > gx1 - gx0:
+                n -= 2
+            if d.textlength(sw, font=osw(n)) <= gx1 - gx0:
+                bx = d.textbbox((0, 0), sw, font=osw(n))
+                d.text(((gx0 + gx1 - bx[0] - bx[2]) / 2, y + 55 - (bx[1] + bx[3]) / 2), sw, font=osw(n), fill=YELLOW)
+            else:
+                n = 36
+                while n > 20 and d.textlength(sw, font=osw(n)) > S - 160:
+                    n -= 2
+                bx = d.textbbox((0, 0), sw, font=osw(n))
+                d.text(((S - bx[0] - bx[2]) / 2, y + 120), sw, font=osw(n), fill=YELLOW)
+                extra = 44
+        y += 134 + extra
+    # the kickoff, in ET with the zone, and the network
+    y += 22
+    center((row.get("when") or "").upper(), y, osw(52), YELLOW)
+    y += 76
+    if row.get("network"):
+        center(("ON " + row["network"]).upper(), y, sc._mono(26, True), SOFT)
+    y += 66
+    # the conditions plates, the page's own words
+    d.ellipse([64, y + 4, 80, y + 20], fill=YELLOW if row.get("lit") else OFF)
+    d.text((90, y), "WEATHER MATTERS" if row.get("lit") else "KICKOFF CONDITIONS", font=sc._mono(18, True), fill=SOFT)
+    y += 44
+    ph = 150 if row.get("score_away") is not None else 210   # a scored card gives the room to the score
+    if row.get("status") == "forecast":
+        gap, pw = 20, (S - 128 - 40) // 3
+        for i, (lab, val, col) in enumerate((("TEMP °F", row.get("temp"), CREAM),
+                                              ("WIND MPH", row.get("wind"), YELLOW if row.get("wind_on") else CREAM),
+                                              ("RAIN %", row.get("rain"), CREAM))):
+            x0 = 64 + i * (pw + gap)
+            d.rounded_rectangle([x0, y, x0 + pw, y + ph], radius=6, fill=PLATE)
+            d.text((x0 + pw / 2 - d.textlength(lab, font=sc._mono(17, True)) / 2, y + 12), lab, font=sc._mono(17, True), fill=SOFT)
+            if val:
+                f = osw(124 if ph == 210 else 84)
+                bx = d.textbbox((0, 0), val, font=f)
+                d.text((x0 + (pw - bx[0] - bx[2]) / 2, y + (ph + 30) / 2 - (bx[1] + bx[3]) / 2), val, font=f, fill=col)
+            else:
+                f = sc._mono(26)
+                d.text((x0 + (pw - d.textlength("missing", font=f)) / 2, y + ph / 2 + 4), "missing", font=f, fill=SOFT)
+    else:
+        note = (row.get("note") or "No forecast").upper()
+        nf = 64
+        while nf > 30 and d.textlength(note, font=osw(nf)) > S - 160:
+            nf -= 2   # one line at any length, never trimmed: the whole of what the page prints
+        plate(64, y, S - 64, y + ph, note, osw(nf), MUTE)
+    y += ph
+    if row.get("venue"):
+        center(sc._fit(d, row["venue"], sc._mono(22), S - 140), y + 28, sc._mono(22), SOFT)
+    # one credit line, the stamp, and only when the page has an NWS reading to credit
+    if row.get("stamp"):
+        d.text((64, S - 108), sc._fit(d, row["stamp"], sc._mono(18, True), S - 128), font=sc._mono(18, True), fill=SOFT)
     d.text((64, S - 72), "gocheckmysports.com  ·  gocheckmyweather.com", font=sc._mono(20, True), fill=CREAM)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     im.save(out_path, "PNG", optimize=True)

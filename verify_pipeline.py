@@ -814,6 +814,49 @@ def _game_link_canary(out=None):
     return fails
 
 
+def _report_link_canary():
+    """RL-1 (19 October 2026): A REPORT ROW LINKS A GAME PAGE ONLY WHERE THIS BUILD WRITES IT.
+
+    The first Monday after the first Saturday report turned the whole canary red: the conditions
+    reports name last Saturday's FBS games, those games left the feed's board, their pages were
+    not built, and the report pages still linked all 16. The S-3a rule is "a row links a game
+    page only when the build wrote it". Here a report page, the home slot and a team conditions
+    log are rendered from a fixture where one game has a built page and one does not: the built
+    one must be linked, the unbuilt one must print in full with no /games/ link."""
+    import site_build as _sb
+    fails = []
+    _was = getattr(_sb, "GAME_PAGE_IDS", set())
+    try:
+        _sb.GAME_PAGE_IDS = {"700001"}
+        _fl = lambda i, lg: {"id": i, "league": lg, "href": f"/games/{i}.html",
+                             "head": f"Head {i}.", "body": f"Body {i}."}
+        _qt = lambda i, lg: {"id": i, "league": lg, "href": f"/games/{i}.html", "line": f"Line {i}."}
+        _rep = {"id": "2026-01-01-tst", "title": "Test report", "lead": "Lead.", "card": "/share/x.png",
+                "written_et": "", "stamp": "", "flagged": [_fl("700001", "NFL"), _fl("700002", "CFB")],
+                "quiet": [_qt("700001", "NFL"), _qt("700002", "CFB")]}
+        _pages = {"report page": (_sb.render_report_page(_rep, ""), ("Head 700002", "Line 700002")),
+                  "home slot": (_sb.cr_slot(_rep), ("Head 700002",))}
+        for _nm, (_html, _texts) in _pages.items():
+            _check('href="/games/700001.html"' in _html, fails,
+                   f"report link canary: the {_nm} dropped the link to a game page this build writes")
+            _check("/games/700002" not in _html, fails,
+                   f"report link canary: the {_nm} links a game page this build does not write")
+            _check(all(_t in _html for _t in _texts), fails,
+                   f"report link canary: the {_nm} dropped the text of the unlinked game")
+        _tm = lambda i: {"id": i, "league": "NFL", "start_utc": "2026-10-15T00:15Z",
+                         "away": {"name": "Aways", "abbr": "AWY"}, "home": {"name": "Homes", "abbr": "HOM"},
+                         "tags": [{"kind": "alert", "text": "Test"}]}
+        _lg = _sb._tms_log([_tm("700001"), _tm("700002")], "Homes")
+        _check('href="/games/700001.html"' in _lg, fails,
+               "report link canary: the team conditions log dropped the link to a game page this build writes")
+        _check("/games/700002" not in _lg and 'data-log-gid="700002"' in _lg, fails,
+               "report link canary: the team conditions log links a game page this build does not write, "
+               "or dropped the row")
+    finally:
+        _sb.GAME_PAGE_IDS = _was
+    return fails
+
+
 def _register_canary(out=None, log=None):
     """Item 2: EVERY GENERATED PAGE IS IN EXACTLY ONE PLACE, A SITEMAP OR THE REGISTER.
 
@@ -1587,8 +1630,11 @@ def layer1_canary():
     fails.extend(_rfc.roof_canary())   # S-3a: a roofed stadium reads like a dome, on every surface
     import teams_canary as _tmc
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
+    import sharecard_canary as _shc
+    fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
+    fails.extend(_report_link_canary())   # RL-1: a report row links only a page the build writes
     fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
     fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
