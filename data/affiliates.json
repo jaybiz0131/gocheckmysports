@@ -1,0 +1,10 @@
+{
+ "schema": 1,
+ "about": "The only place an affiliate URL lives. One slot per streaming service, filled by Jack (J-3) with the tracking link the affiliate network gives him, through Impact. A slot with an empty url prints the service's plain link and nothing else; a filled slot prints this url with rel=\"sponsored nofollow noopener\" and puts the how-we-make-money line in that page's footer. Add a service by adding a slot. `names` are the labels the where-to-watch rows print, matched without case and without any parenthetical. Never typed in by a builder.",
+ "network": "Impact",
+ "slots": [
+  {"id": "fubo", "service": "Fubo", "names": ["Fubo"], "network": "Impact", "url": ""},
+  {"id": "sling", "service": "Sling TV", "names": ["Sling TV", "Sling"], "network": "Impact", "url": ""},
+  {"id": "philo", "service": "Philo", "names": ["Philo"], "network": "Impact", "url": ""}
+ ]
+}
