@@ -117,6 +117,7 @@ dispatch other than the agreed Edition backstop; every call must appear in
 - **The band never withdraws (H-7).** `scoreboard.load()` returns the snapshot with
   `stale: true` past `STALE_HOURS`; the band renders it and the stamp says
   "· stale". `scores_strip`, `SCORES_JS` and `SCORES_AGE_JS` are deleted.
+- **Web push (S-3b.4, merged October 19).** Two Netlify functions deployed with the site: `netlify/functions/push.mjs` (POST /api/push, the subscribe route) and `netlify/functions/push-send.mjs` (scheduled `0 * * * *`, hourly). Both do nothing until `WEB_PUSH_VAPID_PUBLIC_KEY`, `WEB_PUSH_VAPID_PRIVATE_KEY` and `WEB_PUSH_SINCE` are set in the Netlify environment (J-5): the route answers 503 and the send reaches no network. Once set, the send pushes one notification per device per game between 7 PM and midnight ET the evening before kickoff. It publishes nothing to the site. Spend: one function run an hour, plus a subscribe call per reader action and Netlify Blobs storage (stores `push-subs` and `push-sent`), all within Netlify's plan, no model call. No npm install: the Blobs client is vendored at `netlify/vendor/netlify-blobs.mjs` with its rebuild line and licenses.
 - `site/data/venue_corrections.json`: a correction only where the feed is wrong, keyed
   `LEAGUE:TEAM`. The canary fails the day the feed changes its record; the monthly
   aging job lists every entry with its owner and date.
