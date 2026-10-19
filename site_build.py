@@ -1449,9 +1449,13 @@ MOTION_JS = (
 
 
 def _aff_on_page(body):
-    """True when the page body prints an affiliate link (S-3b.2): one anchor carrying
-    rel sponsored. The footer's money line follows the link, page by page."""
-    return bool(re.search(r'rel="[^"]*\bsponsored\b', body or ""))
+    """True when the page body prints an affiliate link (S-3b.2): an href that is one of the
+    affiliates file's urls, whatever its rel says. The footer's money line follows the money."""
+    urls = {(x.get("url") or "").strip() for x in ((_aff.load() or {}).get("slots") or [])} - {""}
+    if not urls:
+        return False
+    import html as _html
+    return any(_html.unescape(h) in urls for h in re.findall(r'href="([^"]*)"', body or ""))
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
@@ -2913,15 +2917,27 @@ def _w2w_games(week):
     return out
 
 
-def _w2w_stream_chips(chips):
+def _svc_tag(label, src, cls, attrs=""):
+    """One service chip (S-3b.2): the affiliate url with rel sponsored where the affiliates file
+    holds one, else the carriage row's own source page as a plain anchor, else text."""
+    au = _aff.url_for(label)
+    if au:
+        return f'<a class="{cls}"{attrs} href="{esc(au)}" rel="{_aff.REL}">{esc(label)}</a>'
+    if src:
+        return f'<a class="{cls}"{attrs} href="{esc(src)}" rel="noopener">{esc(label)}</a>'
+    return f'<span class="{cls}"{attrs}>{esc(label)}</span>'
+
+
+def _row_sources(doc):
+    return {r.get("id"): r.get("source") or "" for r in (doc or {}).get("rows") or []}
+
+
+def _w2w_stream_chips(chips, doc=None):
     out = []
+    src = _row_sources(doc)
     for c in chips:
         if c["state"] == "ok":
-            au = _aff.url_for(c["label"])
-            if au:
-                out.append(f'<a class="w2w-str-c" href="{esc(au)}" rel="{_aff.REL}">{esc(c["label"])}</a>')
-            else:
-                out.append(f'<span class="w2w-str-c">{esc(c["label"])}</span>')
+            out.append(_svc_tag(c["label"], src.get(c.get("id")) or "", "w2w-str-c"))
         else:
             out.append('<span class="w2w-str-c w2w-verify">verify</span>')
     return "".join(out)
@@ -2975,7 +2991,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
                     f'{esc(g.get("away") or "")} at {esc(g.get("home") or "")}</span>'
                     f'<span class="bd-src w2w-ko">{esc(k.astimezone(_ET).strftime("%-I:%M %p ET"))}</span>'
                     f'<span class="w2w-cars">{nets}{_w2w_wx(g, WX_DATA)}</span>'
-                    f'<span class="w2w-streams">{_w2w_stream_chips(chips)}</span>'
+                    f'<span class="w2w-streams">{_w2w_stream_chips(chips, doc)}</span>'
                     f'{res}</div>')
             body_rows.append('</div>')
         body_rows.append('</section>')
@@ -10161,11 +10177,10 @@ def _first_stream_chip(g, carriers, doc, today):
         return ""
     c = chips[0]
     cls = "tk-chip tk-stream" + (" tk-verify" if c["state"] != "ok" else "")
-    au = _aff.url_for(c["label"]) if c["state"] == "ok" else ""
-    if au:
-        return (f'<a class="{cls}" data-lens-only="watch" href="{esc(au)}" rel="{_aff.REL}">'
-                f'{esc(c["label"])}</a>')
-    return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
+    if c["state"] != "ok":
+        return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
+    return _svc_tag(c["label"], _row_sources(doc).get(c.get("id")) or "", cls,
+                    ' data-lens-only="watch"')
 
 
 def board_games(sb):
