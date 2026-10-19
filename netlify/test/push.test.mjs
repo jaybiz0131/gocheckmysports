@@ -6,13 +6,13 @@ import {
   createECDH, createDecipheriv, createPublicKey, verify, randomBytes,
 } from 'node:crypto';
 import { selectSends, messageFor, etParts } from '../lib/select.mjs';
-import { runTick, EXPIRE_MS } from '../lib/tick.mjs';
+import { runTick } from '../lib/tick.mjs';
 import { encryptPayload, vapidToken, sendPush, hkdf, b64u } from '../lib/webpush.mjs';
 import { readVapid, openStore } from '../lib/config.mjs';
 import * as SUB from '../lib/subscribe.mjs';
 const { subscribe, subId } = SUB;
 import pushHandler from '../functions/push.mjs';
-import sendHandler from '../functions/push-send.mjs';
+import sendHandler, * as SEND from '../functions/push-send.mjs';
 
 const FIX = JSON.parse(readFileSync(new URL('../../fixtures/push_fixture.json', import.meta.url)));
 let failed = 0;
@@ -216,13 +216,17 @@ await check('one-push: a device the push service reports gone (410) is forgotten
   assert.equal(store.m.size, 0);
 });
 
-await check('storage: a record not renewed in 180 days is deleted and never sent to', async () => {
-  const old = new Date(Date.parse('2026-10-24T23:00:00Z') - EXPIRE_MS - 1000).toISOString();
-  const { store, marks } = world([{ id: 'o1', teams: ['nfl:KC'], updated: old }]);
-  let n = 0;
-  await runTick({ store, marks, games: FIX.games, now: new Date('2026-10-24T23:00:00Z'), send: async () => { n++; return 201; } });
-  assert.equal(n, 0);
-  assert.equal(store.m.size, 0);
+// The window is written out in dates here on purpose: no constant is imported, so a relay that
+// keeps records 90 or 400 days instead of 180 fails this.
+await check('storage: a record kept 179 days is sent to, one not renewed for 181 days is deleted and never sent to', async () => {
+  const { store, marks } = world([
+    { id: 'fresh', teams: ['nfl:KC'], updated: '2026-04-28T23:00:00Z' },     // 179 days before the tick
+    { id: 'stale', teams: ['nfl:KC'], updated: '2026-04-26T23:00:00Z' },     // 181 days before the tick
+  ]);
+  const got = [];
+  await runTick({ store, marks, games: FIX.games.filter((x) => x.id === 'g1'), now: new Date('2026-10-24T23:00:00Z'), send: async (sub) => { got.push(sub.id); return 201; } });
+  assert.deepEqual(got, ['fresh']);
+  assert.deepEqual([...store.m.keys()], ['fresh']);
 });
 
 // ---- the line ---------------------------------------------------------------------------
@@ -335,8 +339,23 @@ await check('absent key: the evening send does nothing, reaches for no network a
   });
 });
 
+await check('absent key: both keys without WEB_PUSH_SINCE, or with a malformed one, is no key at all, page and functions alike', async () => {
+  const keys = { WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey };
+  for (const since of [undefined, '', 'Oct 22', '2026-13-45', '2026-02-30', '2026-10-22T00:00:00Z', '10/22/2026', '2026-1-2']) {
+    await withEnv(since === undefined ? keys : { ...keys, WEB_PUSH_SINCE: since }, async () => {
+      assert.equal(readVapid(), null, String(since));
+      assert.equal((await pushHandler(new Request('https://gocheckmysports.com/api/push', { method: 'POST', body: '{}' }))).status, 503);
+      const realFetch = globalThis.fetch; let reached = 0;
+      globalThis.fetch = () => { reached++; throw new Error('reached'); };
+      try { await sendHandler(); } finally { globalThis.fetch = realFetch; }
+      assert.equal(reached, 0);
+    });
+  }
+  await withEnv({ ...keys, WEB_PUSH_SINCE: '2026-10-22' }, async () => assert.ok(readVapid()));
+});
+
 await check('key present: readVapid reads the environment and defaults the subject to the site', async () => {
-  await withEnv({ WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey }, async () => {
+  await withEnv({ WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey, WEB_PUSH_SINCE: '2026-10-22' }, async () => {
     const v = readVapid();
     assert.equal(v.publicKey, VAPID.publicKey); assert.equal(v.subject, 'https://gocheckmysports.com');
   });
@@ -345,9 +364,37 @@ await check('key present: readVapid reads the environment and defaults the subje
 await check('store: the committed Blobs client loads with no install and refuses, by name, to open outside Netlify', async () => {
   await withEnv({}, async () => {
     const keep = process.env.NETLIFY_BLOBS_CONTEXT; delete process.env.NETLIFY_BLOBS_CONTEXT;
-    try { await assert.rejects(() => openStore(), (e) => e && e.name === 'MissingBlobsEnvironmentError'); }
+    try { await assert.rejects(() => openStore('push-subs'), (e) => e && e.name === 'MissingBlobsEnvironmentError'); }
     finally { if (keep !== undefined) process.env.NETLIFY_BLOBS_CONTEXT = keep; }
   });
+});
+
+// The reviewer's plant: openStore('push-sent') changed to openStore() stayed green, and in production
+// the tick's mark sweep would then have run over the subscription store and deleted every record.
+await check('send function: opens exactly the two named stores, and the mark sweep touches only push-sent', async () => {
+  assert.equal(typeof SEND.makeSendHandler, 'function');
+  const opened = [];
+  const stores = { 'push-subs': memStore([{ id: 'live1', dev: 'dev-live1', teams: ['nfl:KC'] }]), 'push-sent': memStore([]) };
+  stores['push-sent'].m.set('old-dev', { sent: { gX: '2026-01-01T00:00:00Z' }, updated: '2026-01-01T00:00:00Z' });
+  const touched = { 'push-subs': [], 'push-sent': [] };
+  for (const [n, st] of Object.entries(stores)) for (const op of ['set', 'del']) {
+    const f = st[op]; st[op] = async (k, ...r) => { touched[n].push(`${op}:${k}`); return f(k, ...r); };
+  }
+  const handler = SEND.makeSendHandler({
+    openStore: async (name) => { opened.push(name); return stores[name]; },
+    fetch: async () => ({ ok: true, json: async () => ({ games: FIX.games.filter((x) => x.id === 'g1') }) }),
+    send: async () => 201, now: () => new Date('2026-10-24T23:00:00Z'),
+  });
+  await withEnv({ WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey, WEB_PUSH_SINCE: '2026-10-22' }, async () => { await handler(); });
+  assert.deepEqual([...opened].sort(), ['push-sent', 'push-subs']);
+  assert.ok(stores['push-subs'].m.has('live1'), 'a subscription was deleted');
+  assert.ok(!stores['push-sent'].m.has('old-dev'), 'the sweep did not run over push-sent');
+  assert.deepEqual(touched['push-subs'], [], 'the subscription store was written');
+  assert.ok(touched['push-sent'].includes('del:old-dev') && touched['push-sent'].includes('set:dev-live1'));
+});
+
+await check('store: a store must be named; opening one with no name is refused', async () => {
+  await assert.rejects(() => openStore(), /name/);
 });
 
 // ---- the subscribe route ----------------------------------------------------------------
@@ -432,7 +479,7 @@ await check('origin: only the site and its deploy previews may post; no Origin, 
 });
 
 await check('origin: the function answers a cross-site post 403 and does not touch the store', async () => {
-  await withEnv({ WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey }, async () => {
+  await withEnv({ WEB_PUSH_VAPID_PUBLIC_KEY: VAPID.publicKey, WEB_PUSH_VAPID_PRIVATE_KEY: VAPID.privateKey, WEB_PUSH_SINCE: '2026-10-22' }, async () => {
     const r = await pushHandler(post({ subscription: goodSub, teams: ['nfl:KC'] }, 'application/json', 'https://evil.example'));
     assert.equal(r.status, 403);
   });

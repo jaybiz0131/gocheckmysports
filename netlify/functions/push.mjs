@@ -8,7 +8,7 @@ export default async (req) => {
     if (!readVapid()) return json(503, { error: 'push is not enabled' });
     const early = preflight(req);                    // method, Origin, type: before any store is opened
     if (early) return early;
-    return await subscribe(req, await openStore());
+    return await subscribe(req, await openStore('push-subs'));
   } catch {
     return json(503, { error: 'push is not available' });
   }

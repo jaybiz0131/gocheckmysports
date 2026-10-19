@@ -57,6 +57,9 @@
 # Environment variables, set by Jack in the Netlify site settings (never in a file):
 #   WEB_PUSH_VAPID_PUBLIC_KEY   scopes Builds, Functions, Runtime (the build puts it on the team pages)
 #   WEB_PUSH_VAPID_PRIVATE_KEY  scopes Functions, Runtime only, marked secret
+#   WEB_PUSH_SINCE              the day push goes on, YYYY-MM-DD; scopes Builds, Functions, Runtime. The
+#                               build prints it as the privacy page's "Last updated" date. REQUIRED: the
+#                               keys without a valid one count as absent, in the build and the functions
 #   WEB_PUSH_SUBJECT            optional, a mailto: or https: contact for the push services
 # The shared code is in netlify/lib (outside this directory, so it is not mistaken for a function),
 # the tests are netlify/test. THE FUNCTIONS HAVE NO INSTALL STEP: there is no package.json anywhere

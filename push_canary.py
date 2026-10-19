@@ -9,7 +9,7 @@ red first (U-9).
             days send each device each of its teams' games once, at 7 PM ET the evening before by the
             Eastern calendar (across the November 1 clock change, and a 8:20 PM ET kickoff that is
             the next day in UTC), and never a second. Proved twice: by the Python twin (push_select.py)
-            and, where Node is present, by the relay's own code (netlify/test/push.test.mjs, 37
+            and, where Node is present, by the relay's own code (netlify/test/push.test.mjs, 40
             checks: the rule, a retry that still lands once, a gone device, the crypto against an
             independent reader, the 503 with no key, the subscribe route, Origin, size and count guards,
             the sent marks that outlive a team turned off and on).
@@ -42,8 +42,24 @@ sys.path.insert(0, HERE)
 # A shape fixture: 0x04 then 64 bytes, base64url. It is not a key and no private half exists.
 FIX_KEY = "BAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE"
 ENV = "WEB_PUSH_VAPID_PUBLIC_KEY"
+ENV_SINCE = "WEB_PUSH_SINCE"
+FIX_SINCE = "2026-10-22"
+
+
+def _key_on(since=FIX_SINCE):
+    """The public key AND the day Jack turned push on: a keyed build needs both."""
+    os.environ[ENV] = FIX_KEY
+    if since is None:
+        os.environ.pop(ENV_SINCE, None)
+    else:
+        os.environ[ENV_SINCE] = since
+
+
+def _key_off():
+    os.environ.pop(ENV, None)
+    os.environ.pop(ENV_SINCE, None)
 MARKERS = ("data-tpush", "tpush-note", "/api/push", "gcms-push-", "PushManager", "data-vapid")
-NODE_MIN_CHECKS = 37
+NODE_MIN_CHECKS = 40
 
 
 def check_rule():
@@ -109,7 +125,24 @@ def check_absent(out):
             if sb.push_key() != "":
                 fails.append(f"push absent: a malformed key ({bad[:12]!r}) was accepted as the public key")
         finally:
-            os.environ.pop(ENV, None)
+            _key_off()
+    # A key with no WEB_PUSH_SINCE, or one that is not a real YYYY-MM-DD date, is no key: the keyed
+    # privacy page takes its "Last updated" date from it, so it cannot be guessed.
+    for since in (None, "", "Oct 22", "2026-13-45", "2026-02-30", "2026-10-22T00:00:00Z", "10/22/2026"):
+        _key_on(since)
+        try:
+            if sb.push_key() != "":
+                fails.append(f"push absent: a key with WEB_PUSH_SINCE={since!r} was accepted; it counts as no key")
+            if sb.push_ui("nfl:KC", "KC") != ("", ""):
+                fails.append(f"push absent: a button was drawn for a key with WEB_PUSH_SINCE={since!r}")
+        finally:
+            _key_off()
+    _key_on()
+    try:
+        if sb.push_key() != FIX_KEY:
+            fails.append("push absent: a key with a valid WEB_PUSH_SINCE was not accepted, so the checks above prove nothing")
+    finally:
+        _key_off()
     if not out or not os.path.isdir(out):
         return fails + ["push absent: the gate's build is missing, so no page was checked"]
     pages = teams = 0
@@ -160,7 +193,7 @@ def _fx_games(sb):
 def check_present(out):
     fails = []
     import site_build as sb
-    os.environ[ENV] = FIX_KEY
+    _key_on()
     was = (sb.SB_DATA, sb.CX_DATA, sb.TEAM_DATA, sb._NOW_CACHE, sb.MANIFEST if hasattr(sb, "MANIFEST") else None)
     try:
         if sb.push_key() != FIX_KEY:
@@ -258,7 +291,7 @@ def check_present(out):
     except Exception as e:
         fails.append(f"push present: raised {type(e).__name__}: {e}")
     finally:
-        os.environ.pop(ENV, None)
+        _key_off()
         sb.SB_DATA, sb.CX_DATA, sb.TEAM_DATA, sb._NOW_CACHE = was[:4]
         if was[4] is not None:
             sb.MANIFEST = was[4]
@@ -277,6 +310,13 @@ def check_files():
                              f"run an install before the build, and the relay has no install step")
     vend = open(os.path.join(HERE, "netlify", "vendor", "netlify-blobs.mjs"), encoding="utf-8").read()
     head = vend.split("\n// node_modules/", 1)[0]
+    for want in ("esbuild 0.28.2", "@netlify/otel 6.0.6", "@netlify/runtime-utils 2.3.0", "LICENSES.txt", "esbuild@0.28.2"):
+        if want not in head:
+            fails.append(f"push files: the vendored Blobs client's header does not pin {want!r}")
+    lic = open(os.path.join(HERE, "netlify", "vendor", "LICENSES.txt"), encoding="utf-8").read()
+    if lic.count("Permission is hereby granted") < 2 or "Copyright (c) 2022 Netlify" not in lic \
+            or not all(n in lic for n in ("@netlify/blobs 10.7.13", "@netlify/otel 6.0.6", "@netlify/runtime-utils 2.3.0")):
+        fails.append("push files: netlify/vendor/LICENSES.txt lacks the full MIT text for the bundled packages")
     for want in ("@netlify/blobs 10.7.13", "MIT", "sha512-LJnmGtQQ2/NdTo0Cm+YP2xR1vtRle6V3kkzMrAOJgRm1SEFOJOcaAFQrth7RnbxCH/IzCM8QakTaCHHKY+K2qA==", "Rebuild"):
         if want not in head:
             fails.append(f"push files: the vendored Blobs client's header lacks {want!r}")
@@ -320,44 +360,118 @@ def check_privacy():
     """The privacy page tells the truth about what the relay keeps, and only in a build that has a relay."""
     fails = []
     import site_build as sb
-    os.environ.pop(ENV, None)
+    _key_off()
     sb._page_reset()
     keyless = sb.render_privacy("")
-    os.environ[ENV] = FIX_KEY
+    _key_on()
     try:
         sb._page_reset()
         keyed = sb.render_privacy("")
+        para = sb.privacy_push()
+        updated = sb.privacy_updated()
+        _key_on("2026-12-01")
+        other = sb.privacy_updated()
     finally:
-        os.environ.pop(ENV, None)
+        _key_off()
     low = keyless.lower()
     for w in ("notification", "push", "blobs", "device number"):
         if w in low:
             fails.append(f"push privacy: the keyless privacy page mentions {w!r}; with no relay it must say nothing of one")
-    para = sb.privacy_push()
-    if para != "":
+    if sb.privacy_push() != "":
         fails.append("push privacy: privacy_push() is not empty with no key in the environment")
-    os.environ[ENV] = FIX_KEY
-    try:
-        para = sb.privacy_push()
-    finally:
-        os.environ.pop(ENV, None)
+    if updated != "October 22, 2026" or other != "December 1, 2026":
+        fails.append(f"push privacy: the keyed 'Last updated' date is not WEB_PUSH_SINCE in words: {updated!r}, {other!r}")
+    if f"Last updated {updated}." not in keyed or "Last updated July 19, 2026." in keyed:
+        fails.append("push privacy: the keyed privacy page does not print WEB_PUSH_SINCE as its Last updated date")
     if not para or para not in keyed:
         fails.append("push privacy: the keyed privacy page does not carry the notifications paragraph")
         return fails
     stripped = keyed.replace(para, "")
-    stripped = stripped.replace(sb.PRIVACY_UPDATED_PUSH, sb.PRIVACY_UPDATED)
+    stripped = stripped.replace(f"Last updated {updated}.", f"Last updated {sb.PRIVACY_UPDATED}.")
     stripped = stripped.replace(sb.PRIVACY_DESC_PUSH, sb.PRIVACY_DESC)
     if stripped != keyless:
         fails.append("push privacy: apart from the paragraph, its date and its description line, the keyed privacy page "
                      "differs from the keyless one")
     text = re.sub(r"<[^>]+>", " ", para)
     text = re.sub(r"\s+", " ", text)
-    for want in ("Netlify Blobs", "push address", "two keys", "teams", "device number", "180 days", "21 days",
-                 "No account", "email", "IP address", "turn", "off"):
+    for want in ("Netlify Blobs", "push address", "two keys", "teams", "device number", "No account",
+                 "IP address", "turn", "off", "created", "updated"):
         if want not in text:
             fails.append(f"push privacy: the paragraph does not say {want!r}")
+    if "desk@" in para or "email us" in text.lower():
+        fails.append("push privacy: the paragraph offers an email deletion route the relay has no way to honor "
+                     "(a reader cannot name a record); the way to remove it is the button")
+    # Every figure the text states is the figure the relay enforces: read from the code, not from here.
+    tick = open(os.path.join(HERE, "netlify", "lib", "tick.mjs"), encoding="utf-8").read()
+    sub = open(os.path.join(HERE, "netlify", "lib", "subscribe.mjs"), encoding="utf-8").read()
+    m1 = re.search(r"EXPIRE_MS\s*=\s*(\d+)\s*\*\s*24\s*\*\s*3600\s*\*\s*1000", tick)
+    m2 = re.search(r"KEEP_SENT_MS\s*=\s*(\d+)\s*\*\s*24\s*\*\s*3600\s*\*\s*1000", tick)
+    m3 = re.search(r"MAX_TEAMS\s*=\s*(\d+)", sub)
+    if not (m1 and m2 and m3):
+        fails.append("push privacy: could not read EXPIRE_MS, KEEP_SENT_MS or MAX_TEAMS from the relay, so the text's figures are unchecked")
+    else:
+        words = {"8": "eight"}
+        for label, n in (("record expiry", m1.group(1)), ("marks expiry", m2.group(1))):
+            if f"{n} days" not in text:
+                fails.append(f"push privacy: the relay's {label} is {n} days and the text does not say {n} days")
+        nums = {m for m in re.findall(r"(\d+) days", text)}
+        if nums != {m1.group(1), m2.group(1)}:
+            fails.append(f"push privacy: the text states {sorted(nums)} days; the relay enforces {m1.group(1)} and {m2.group(1)}")
+        if f"at most {words.get(m3.group(1), m3.group(1))}" not in text:
+            fails.append(f"push privacy: the team cap is {m3.group(1)} and the text does not say it")
     if "\u2014" in para or re.search(r"\blive\b", text, re.I):
         fails.append("push privacy: the paragraph breaks the copy law")
+    return fails
+
+
+def check_script():
+    """The page script, run under node with a stand-in browser: the device number is made on the first
+    Notify me click and not on page load, and the post carries it."""
+    fails = []
+    import site_build as sb
+    node = shutil.which("node")
+    if not node:
+        return fails
+    _key_on()
+    try:
+        _btn, note = sb.push_ui("nfl:KC", "KC")
+    finally:
+        _key_off()
+    js = note.split("<script>", 1)[1].rsplit("</script>", 1)[0]
+    harness = r"""
+const store = new Map(); const posts = []; let clicks = [];
+globalThis.localStorage = { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)), removeItem: (k) => store.delete(k) };
+const attrs = { 'data-tpush': 'nfl:KC', 'data-vapid': VAPID };
+const btn = { hidden: true, disabled: false, textContent: '', getAttribute: (k) => attrs[k], setAttribute: () => {}, addEventListener: (e, f) => { if (e === 'click') clicks.push(f); } };
+globalThis.document = { querySelector: (s) => (s === '[data-tpush]' ? btn : null) };
+const subObj = { endpoint: 'https://fcm.googleapis.com/fcm/send/x', options: { applicationServerKey: null }, toJSON() { return { endpoint: this.endpoint, keys: {} }; }, unsubscribe: async () => true };
+const reg = { pushManager: { getSubscription: async () => null, subscribe: async () => subObj } };
+Object.defineProperty(globalThis, 'navigator', { value: { serviceWorker: { ready: Promise.resolve(reg) } }, configurable: true });
+globalThis.window = globalThis; globalThis.PushManager = function () {};
+globalThis.Notification = { permission: 'default', requestPermission: async () => 'granted' };
+globalThis.fetch = async (u, o) => { posts.push(JSON.parse(o.body)); return { ok: true }; };
+const out = {};
+eval(SCRIPT);
+out.afterLoad = store.get('gcms-push-dev') ?? null;
+await clicks[0]();
+await new Promise((r) => setTimeout(r, 50));
+out.afterClick = store.get('gcms-push-dev') ?? null;
+out.posted = posts.map((p) => p.device);
+out.teams = posts.map((p) => p.teams);
+console.log(JSON.stringify(out));
+"""
+    code = ("const VAPID = %s; const SCRIPT = %s;\n" % (json.dumps(FIX_KEY), json.dumps(js))) + harness
+    r = subprocess.run([node, "--input-type=module", "-e", code], capture_output=True, text=True, timeout=30)
+    try:
+        out = json.loads(r.stdout.strip().splitlines()[-1])
+    except Exception:
+        return fails + [f"push script: the stand-in browser run failed: {(r.stderr or r.stdout).strip()[:200]}"]
+    if out["afterLoad"] is not None:
+        fails.append("push script: the device number was made on page load, before any Notify me click")
+    if not out["afterClick"] or not re.fullmatch(r"[0-9a-f]{32}", out["afterClick"]):
+        fails.append(f"push script: the first Notify me click did not make a 32 hex device number: {out['afterClick']!r}")
+    if out["posted"] != [out["afterClick"]] or out["teams"] != [["nfl:KC"]]:
+        fails.append(f"push script: the post did not carry the device number and the team: {out}")
     return fails
 
 
@@ -379,14 +493,14 @@ def check_button_style():
         fails.append("push button: the push button rules name a color outside the token set")
     if re.search(r"font-family\s*:\s*(?!var\()", css):
         fails.append("push button: the push button rules name a font outside the site's type")
-    os.environ.pop(ENV, None)
+    _key_off()
     if sb.push_ui("nfl:KC", "KC") != ("", "") or "tpin{" in sb.render_privacy("") or "<style>.tpinwrap" in "".join(sb.push_ui("nfl:KC", "KC")):
         fails.append("push button: a build with no key wrote push markup or style")
-    os.environ[ENV] = FIX_KEY
+    _key_on()
     try:
         btn, _note = sb.push_ui("nfl:KC", "KC")
     finally:
-        os.environ.pop(ENV, None)
+        _key_off()
     if not btn.startswith(sb.PUSH_CSS):
         fails.append("push button: a keyed team page does not carry the button rule ahead of the button")
     return fails
@@ -397,6 +511,7 @@ def push_canary(out=None):
     fails.extend(check_rule())
     fails.extend(check_files())
     fails.extend(check_privacy())
+    fails.extend(check_script())
     fails.extend(check_button_style())
     fails.extend(check_absent(out))
     fails.extend(check_present(out))

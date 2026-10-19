@@ -7,10 +7,18 @@ import { b64u } from './webpush.mjs';
 
 export const SITE = 'https://gocheckmysports.com';
 
+// A real calendar date written YYYY-MM-DD, nothing else.
+export function validSince(v) {
+  const t = String(v || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(t)) return false;
+  const d = new Date(`${t}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === t;
+}
+
 export function readVapid(env = process.env) {
   const publicKey = String(env.WEB_PUSH_VAPID_PUBLIC_KEY || '').trim();
   const privateKey = String(env.WEB_PUSH_VAPID_PRIVATE_KEY || '').trim();
-  if (!publicKey || !privateKey) return null;
+  if (!publicKey || !privateKey || !validSince(env.WEB_PUSH_SINCE)) return null;
   const pub = b64u.dec(publicKey);
   const priv = b64u.dec(privateKey);
   if (pub.length !== 65 || pub[0] !== 4 || priv.length !== 32) return null;
@@ -23,7 +31,8 @@ export function readVapid(env = process.env) {
 // own header names the version), so the deploy has no install step to fail. It is imported
 // here and nowhere on the no-key path.
 // 'push-subs' holds a record per subscription; 'push-sent' holds the sent marks per device.
-export async function openStore(name = 'push-subs') {
+export async function openStore(name) {
+  if (!name || typeof name !== 'string') throw new Error('a store must be named');
   const { getStore } = await import('../vendor/netlify-blobs.mjs');
   const s = getStore({ name, consistency: 'strong' });
   return {

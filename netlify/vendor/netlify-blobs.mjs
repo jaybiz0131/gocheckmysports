@@ -1,11 +1,13 @@
 // VENDORED, NOT HAND WRITTEN. @netlify/blobs 10.7.13 (MIT, Copyright (c) 2022 Netlify), with the
-// two packages it needs (@netlify/runtime-utils and @netlify/otel, both MIT, Netlify) bundled in by
-// esbuild, so the relay has no npm install step and a package index outage cannot touch the site's
-// deploy. npm integrity of the published tarball it was built from:
+// two packages it needs (@netlify/otel 6.0.6 and @netlify/runtime-utils 2.3.0, both MIT, Netlify)
+// bundled in by esbuild 0.28.2, so the relay has no npm install step and a package index outage
+// cannot touch the site's deploy. The licenses are in LICENSES.txt beside this file. npm integrity
+// of the published @netlify/blobs tarball it was built from:
 //   sha512-LJnmGtQQ2/NdTo0Cm+YP2xR1vtRle6V3kkzMrAOJgRm1SEFOJOcaAFQrth7RnbxCH/IzCM8QakTaCHHKY+K2qA==
-// Rebuild: in an empty directory, npm install @netlify/blobs@10.7.13 esbuild, then
+// Rebuild (the output below this header is byte for byte what this command gives): in an empty
+// directory, npm install @netlify/blobs@10.7.13 esbuild@0.28.2, then
 //   echo "export { getStore } from '@netlify/blobs';" > entry.mjs
-//   npx esbuild entry.mjs --bundle --platform=node --format=esm --target=node20 --legal-comments=none --outfile=netlify-blobs.mjs
+//   npx esbuild entry.mjs --bundle --platform=node --format=esm --target=node20 --legal-comments=none --outfile=out.mjs
 // and put this header back on top. Only getStore is exported; nothing here reads a key.
 // node_modules/@netlify/runtime-utils/dist/main.js
 var getString = (input) => typeof input === "string" ? input : JSON.stringify(input);

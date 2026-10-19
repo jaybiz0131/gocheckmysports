@@ -3440,12 +3440,31 @@ SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener
 # from the build's environment, and without it (or with one that is not a P-256 point) the pages
 # carry no button, no script, no data file and the worker carries no push handler.
 PUSH_ENV = "WEB_PUSH_VAPID_PUBLIC_KEY"
+# The day Jack turned push on, YYYY-MM-DD, set with the keys. The keyed privacy policy takes effect that
+# day, so its "Last updated" date comes from him and not from this file. A key without a valid one counts
+# as no key, here and in the functions (netlify/lib/config.mjs readVapid), so no page can claim a
+# policy date nobody gave.
+PUSH_SINCE_ENV = "WEB_PUSH_SINCE"
+
+
+def push_since():
+    """The WEB_PUSH_SINCE date as a datetime.date, or None when it is absent or not a real YYYY-MM-DD."""
+    raw = (os.environ.get(PUSH_SINCE_ENV) or "").strip()
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        return None
+    try:
+        return datetime.date.fromisoformat(raw)
+    except ValueError:
+        return None
 
 
 def push_key():
-    """The public VAPID key from the build's environment, or '' when it is absent or malformed."""
+    """The public VAPID key from the build's environment, or '' when it is absent or malformed, or when
+    WEB_PUSH_SINCE is not a valid date."""
     import base64
     raw = (os.environ.get(PUSH_ENV) or "").strip()
+    if push_since() is None:
+        return ""
     if not raw or not re.fullmatch(r"[A-Za-z0-9_-]+", raw):
         return ""
     try:
@@ -3491,20 +3510,20 @@ PUSH_JS = """<script>(function(){
   function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a:null;}catch(e){return null;}}
   function wr(a){try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}}
   if(rd()===null)return;
-  /* The device number: random, made here, kept only in this browser and sent with each post. The relay
+  /* The device number: random, made on the first Notify me click (never on page load), kept only in this browser and sent with each post. The relay
      keeps what it has sent under a hash of it, so turning a team off and on again does not send a
      game twice. Not an account: nothing about the reader is in it. */
   function dev(){try{var d=localStorage.getItem(D);if(!/^[0-9a-f]{32}$/.test(d||'')){var a=new Uint8Array(16);
     crypto.getRandomValues(a);d='';for(var i=0;i<16;i++)d+=('0'+a[i].toString(16)).slice(-2);localStorage.setItem(D,d);}
     return d;}catch(e){return '';}}
-  if(!dev())return;
   function u8(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var r=atob(s),o=new Uint8Array(r.length);
     for(var i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o;}
   function same(a,b2){if(!a||a.length!==b2.length)return false;for(var i=0;i<a.length;i++)if(a[i]!==b2[i])return false;return true;}
   function on(){return rd().indexOf(team)>-1&&Notification.permission==='granted';}
   function paint(){var v=on();b.setAttribute('aria-pressed',String(v));b.textContent=v?'Notifications on':'Notify me';}
-  function post(s,teams){return fetch('/api/push',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({subscription:s.toJSON(),teams:teams,device:dev()})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
+  function post(s,teams){var d=dev();if(!d)return Promise.reject(new Error('device'));
+    return fetch('/api/push',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({subscription:s.toJSON(),teams:teams,device:d})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
   function sub(reg){var want=u8(vk);return reg.pushManager.getSubscription().then(function(s){
     if(s&&same(s.options&&s.options.applicationServerKey?new Uint8Array(s.options.applicationServerKey):null,want))return s;
     return(s?s.unsubscribe():Promise.resolve()).then(function(){
@@ -11154,9 +11173,13 @@ def render_standards(dateline):
 PRIVACY_UPDATED = "July 19, 2026"
 PRIVACY_DESC = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
                 "cookieless Cloudflare analytics, and nothing else.")
-# S-3b.4: in a build that carries the push key the policy moves, and says what the relay keeps. In a
-# build without the key none of these differ from the text above, byte for byte.
-PRIVACY_UPDATED_PUSH = "October 19, 2026"
+# S-3b.4: in a build that carries the push key the policy moves, to the day Jack gave in WEB_PUSH_SINCE,
+# and says what the relay keeps. In a build without the key none of these differ from the text above,
+# byte for byte.
+def privacy_updated():
+    d = push_since()
+    return f"{d.strftime('%B')} {d.day}, {d.year}" if (d and push_key()) else PRIVACY_UPDATED
+
 PRIVACY_DESC_PUSH = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
                      "cookieless Cloudflare analytics, and, only if you turn them on, the record that "
                      "sends a team's game-eve notification.")
@@ -11173,26 +11196,26 @@ def privacy_push():
   <p>If you turn on notifications for a team, our relay (a Netlify function, with its records in Netlify
      Blobs, our hosting provider's storage) keeps, for your device: the push address your browser's push
      service gave it (an address at Google, Mozilla, Apple or Microsoft, not your name or your email), the
-     two keys that let a message be encrypted for your device, the teams you picked (at most eight), and a
-     hash of a random device number the page makes and keeps in your browser. That record is kept for up to
-     180 days from the last time you opened a team page with notifications on, which renews it once a week;
-     then it is deleted. Separately, the relay keeps which games it has already notified that device about
-     (game numbers and dates only, under the hashed device number), so that turning a team off and on again
-     the same evening does not send the same game twice. That list is deleted by itself 21 days after the
-     last notification. No account, no email address and no IP address of yours is stored by the relay; the
-     hosting provider's own server logs are described above.</p>
-  <p>To remove it, turn notifications off on each team page, where the button reads "Notifications on". When
-     the last team is turned off, the push address, keys and teams are deleted at once. The list of games
-     already notified stays until its 21 days run out, or until you email
-     <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a> and we delete it. A device you stop
-     using or whose browser clears its data is forgotten the first time a notification to it is refused, or
-     when its 180 days run out.</p>
+     two keys that let a message be encrypted for your device, the teams you picked (at most eight), the
+     date the record was created and the date it was last updated, and a hash of a random device number
+     the page makes the first time you press Notify me and keeps in your browser. That record is kept for
+     up to 180 days from the last time you opened a team page with notifications on, which renews it once
+     a week; then it is deleted. Separately, the relay keeps which games it has already notified that
+     device about (game numbers and dates only, under the hashed device number), so that turning a team
+     off and on again the same evening does not send the same game twice. That list is deleted by itself
+     21 days after the last notification. No account, no email address and no IP address of yours is
+     stored by the relay; the hosting provider's own server logs are described above.</p>
+  <p>To remove it, turn notifications off on each team page, where the button reads "Notifications on".
+     When the last team is turned off, the push address, keys, teams and dates are deleted at once. The
+     list of games already notified stays until its 21 days run out. A device you stop using or whose
+     browser clears its data is forgotten the first time a notification to it is refused, or when its 180
+     days run out.</p>
 """
 
 
 def render_privacy(dateline):
     _push = privacy_push()
-    _updated = PRIVACY_UPDATED_PUSH if _push else PRIVACY_UPDATED
+    _updated = privacy_updated()
     _desc = PRIVACY_DESC_PUSH if _push else PRIVACY_DESC
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Privacy</span>
