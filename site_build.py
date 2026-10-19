@@ -3746,6 +3746,7 @@ def _wx_chip(g, wx):
 
 
 BOARD_IDS = set()     # set at build: the week board's game ids (S-2b item 2)
+GAME_PAGE_IDS = set()  # set at build: the ids of the game pages this build writes (RL-1)
 
 
 def _has_game_page(g):
@@ -3758,6 +3759,15 @@ def _has_game_page(g):
     if g.get("league") == "NFL":
         return True
     return g.get("league") == "CFB" and str(g.get("id")) in BOARD_IDS
+
+
+def _written_game_href(gid):
+    """RL-1: a report or log row links /games/<id>.html only when this build writes that page,
+    the S-3a rule ("a row links a game page only when the build wrote it"). GAME_PAGE_IDS is
+    filled from the very list the game-page loop writes, which is filtered by _has_game_page,
+    so no second list is kept. A past report names games that have left the board (last
+    Saturday's FBS slate, last week's NFL games), and those pages are not built. '' otherwise."""
+    return f"/games/{gid}.html" if gid and str(gid) in GAME_PAGE_IDS else ""
 
 
 def _game_href(g):
@@ -6506,7 +6516,7 @@ def _tms_log(entries, who_name):
             opp = x["home"] if (x["away"].get("name") or "") == who_name else x["away"]
             at = "vs" if x["home"].get("name") == who_name else "at"
             d = _tms_when(x.get("start_utc"))
-            href = f'/games/{x["id"]}.html' if (x.get("league") == "NFL" or str(x["id"]) in BOARD_IDS) else ""
+            href = _written_game_href(x.get("id"))
             tags = "".join(f'<span class="tms-pl tms-tag {esc(t["kind"])}">{esc(t["text"])}</span>' for t in x["tags"])
             inner = (f'<span class="tms-bulb on" aria-hidden="true"></span><span class="tms-dt">{esc(d)}</span>'
                      f'<span class="tms-opp"><span class="tms-at">{at}</span>'
@@ -10275,12 +10285,18 @@ def cr_latest():
     return None
 
 
+def _cr_link(row, text):
+    """RL-1: a report row's text, linked to its game page only when this build writes that page
+    (_written_game_href). The row still prints in full without the link."""
+    href = _written_game_href(row.get("id"))
+    return f'<a href="{esc(href)}">{esc(text)}</a>' if href else esc(text)
+
+
 def cr_slot(rep):
     """The home's report slot: the title, the stamp, the lead, the games written up, a link."""
     if not rep:
         return ""
-    items = "".join(f'<li><a href="{esc(f["href"])}">{esc(f["head"].rstrip("."))}</a></li>'
-                    for f in rep.get("flagged") or [])
+    items = "".join(f'<li>{_cr_link(f, f["head"].rstrip("."))}</li>' for f in rep.get("flagged") or [])
     return (f'<section class="cr"><div class="bd-sec"><div class="bd-sec-l"><span class="bd-eyebrow">'
             f'Conditions report</span></div><a class="bd-more" href="/conditions/{esc(rep["id"])}.html">'
             f'The full report</a></div><h2 class="cr-h">{esc(rep["title"])}</h2>'
@@ -10295,11 +10311,11 @@ def render_report_page(rep, dateline):
     body = [f'<p class="cr-when">{esc(rep.get("written_et") or "")}</p>',
             f'<p class="cr-lead">{esc(rep["lead"])}</p>']
     for f in rep.get("flagged") or []:
-        body.append(f'<section class="cr-game"><h2 class="cr-gh"><a href="{esc(f["href"])}">'
-                    f'{esc(f["head"].rstrip("."))}</a></h2><p>{esc(f["body"])}</p></section>')
+        body.append(f'<section class="cr-game"><h2 class="cr-gh">{_cr_link(f, f["head"].rstrip("."))}'
+                    f'</h2><p>{esc(f["body"])}</p></section>')
     if rep.get("quiet"):
         body.append('<h2 class="cr-sub">The rest, with no number that matters</h2><ul class="cr-quiet">'
-                    + "".join(f'<li><a href="{esc(q["href"])}">{esc(q["line"])}</a></li>' for q in rep["quiet"])
+                    + "".join(f'<li>{_cr_link(q, q["line"])}</li>' for q in rep["quiet"])
                     + '</ul>')
     for key, label in (("indoor", "Indoors"), ("outside", "Outside NWS coverage"), ("later", "Not yet in range")):
         if rep.get(key):
@@ -11997,7 +12013,11 @@ def build():
                     _all_wp[str(_g["id"])] = _wp
     LIVE_POINTS = _all_points
     LIVE_WP = _all_wp
-    global CR_REPORTS
+    global CR_REPORTS, GAME_PAGE_IDS
+    # RL-1: the ids of the game pages this build writes are the list the writing loop below
+    # walks (_nfl, already filtered by _has_game_page), read here before any report or log
+    # row is rendered, so a link and its page cannot disagree.
+    GAME_PAGE_IDS = {str(_g["id"]) for _g in _nfl if _g.get("id")}
     CR_REPORTS = cr_load()
     for _rep in CR_REPORTS:
         w(f'conditions/{_rep["id"]}.html', render_report_page(_rep, dateline))
