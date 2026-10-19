@@ -1919,6 +1919,7 @@ body>*:not(.ground){position:relative;z-index:1}
    Without this every league's panel renders and the band is eight bands tall: 5.4
    phone screens instead of 1.2. The attribute has to be told it wins. */
 .tk-panel[hidden]{display:none !important}
+.wb-day[hidden]{display:none !important}
 /* N-7: the inactives page is the week's games, each with its two lists. */
 .ia-game{margin:22px 0 0}
 .ia-gh{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
@@ -2985,6 +2986,7 @@ a.sbg-link small{font-family:var(--mono);font-size:11px;font-weight:400;color:va
   .wl-at{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;color:#D9D3B4}
   .wl-when{text-align:center;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--sbc-yellow)}
   .wl-board p.wl-src{margin:6px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
+  .wl-board p.wl-src a{color:var(--sbc-yellow);text-decoration:underline;text-underline-offset:2px}
 }
 
 /* ---- S-3a item 1: THE TEAM PAGES, in the scoreboard look (Program 7, section 3) --------------------

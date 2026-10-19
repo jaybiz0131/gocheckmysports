@@ -19,8 +19,12 @@ uses for college. Each check names the break it exists for and was seen red firs
              game page (BOARD_IDS, _has_game_page), and the manifest's count agrees
   final      a scheduled game never prints Final
   weight     the home stays under 150 KB with the whole FBS week and a full NFL Sunday; under a
-             small budget the NFL stays, the best FBS games stay, each day counts what it left
-             out from the manifest's totals and links Scores
+             small budget the NFL stays, the best FBS games stay, and each day's "N more" is the
+             manifest's college count for that day (slate.week.days[].by_league) minus the college
+             cards drawn that day, on the cards and on the wall; a manifest count raised by 3
+             moves the line by 3, and a line that disagrees with manifest minus drawn is red
+  surface    the wall's left-out link uses the wall's yellow, a hidden day is hidden, and the day tabs
+             script waits for the board
   top40      the top forty college programs fill to forty from the wider read and do not from the
              old default slate
   inert      the weather helpers that were never fed (WX_DATA is always None) are gone, and the
@@ -275,6 +279,30 @@ def _nfl_games(n=16):
     return out
 
 
+def _day_problems(html, mf):
+    """Per day: the college cards drawn plus the "N more" on the cards and on the wall must equal the
+    manifest's college count for that day."""
+    out = []
+    for dd in mf["slate"]["week"]["days"]:
+        want = dd["by_league"].get("CFB") or 0
+        if not want:
+            continue
+        sec = re.search(r'<section class="bd-mod wb-day"[^>]*data-date="%s">(.*?)</section>' % dd["date"],
+                        html, re.S)
+        body = sec.group(1) if sec else ""
+        drawn = len(re.findall(r'<article[^>]*data-league="CFB"', body))
+        m = re.search(r'<p class="bd-src wb-more">(\d+) more college game', body)
+        more = int(m.group(1)) if m else 0
+        if drawn + more != want:
+            out.append(f"{dd['date']}: {drawn} drawn + {more} more is not the manifest's {want}")
+        wall = re.search(r'aria-label="College games, %s">(.*?)</section>' % _d.date.fromisoformat(dd["date"]).strftime("%A"),
+                         html, re.S)
+        wm = re.search(r'<p class="wl-src">(\d+) more college game', wall.group(1)) if wall else None
+        if (int(wm.group(1)) if wm else 0) != more:
+            out.append(f"{dd['date']}: the wall says {wm.group(1) if wm else 0} more, the cards {more}")
+    return out
+
+
 def weight_unit():
     """The home stays under 150 KB with the whole FBS week and a full NFL Sunday on the board
     (scorecard line 4). The cut is exercised with a small budget, since the fixture's cards carry
@@ -353,6 +381,23 @@ def weight_unit():
         if sum(more) != FBS_WEEK - len(shown_cfb):
             fails.append(f"weight: the days say {sum(more)} more college games, the board holds "
                          f"{FBS_WEEK - len(shown_cfb)} it did not draw")
+        bad = _day_problems(small, sb.MANIFEST)
+        if bad:
+            fails.append("weight: the left-out count is not the manifest's minus the drawn: " + "; ".join(bad[:2]))
+        # the count's source: raise the manifest's Saturday count by 3 and the line must follow it
+        import copy
+        real_mf = sb.MANIFEST
+        sb.MANIFEST = copy.deepcopy(real_mf)
+        for dd in sb.MANIFEST["slate"]["week"]["days"]:
+            if dd["date"] == "2026-10-24":
+                dd["by_league"]["CFB"] += 3
+        try:
+            moved = sb.render_home([], "")
+            bad = _day_problems(moved, sb.MANIFEST)
+            if bad:
+                fails.append("weight: the left-out count did not follow the manifest: " + "; ".join(bad[:2]))
+        finally:
+            sb.MANIFEST = real_mf
         wall_more = [int(x) for x in re.findall(r'<p class="wl-src">(\d+) more college game', small)]
         if sum(wall_more) != sum(more):
             fails.append(f"weight: the wall says {sum(wall_more)} more, the cards say {sum(more)}")
@@ -368,6 +413,25 @@ def weight_unit():
     finally:
         (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
          sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF, sb.HOME_BUDGET) = was
+    return fails
+
+
+def surface_unit():
+    """Review 1 of S-3b.3, read from the shipped stylesheet and script. The wall's left-out link is
+    the wall's own yellow (var(--sbc-yellow), #FFD23F on the #0E3B2A panel, 8.7 to 1, the same in
+    both themes), never the page's link blue on green; a hidden day is really hidden (.bd-mod is
+    display:flex, which outranks the [hidden] attribute, so the day tabs hid nothing); and the
+    tabs script waits for the board it sits before, or the week opens whole, with the next game
+    6,000 px down at 390."""
+    import site_build as sb
+    css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
+    fails = []
+    if not re.search(r"\.wl-board p\.wl-src a\{[^}]*color:var\(--sbc-yellow\)", css):
+        fails.append("surface: the wall's left-out link is not the wall's yellow token")
+    if not re.search(r"\.wb-day\[hidden\]\{display:none\s*!important", css):
+        fails.append("surface: a hidden day section is still shown (display:flex outranks [hidden])")
+    if "DOMContentLoaded" not in sb.WB_TABS_JS:
+        fails.append("surface: the day tabs script does not wait for the board, so no day is ever hidden at load")
     return fails
 
 
@@ -439,7 +503,7 @@ def tree_unit():
 
 
 def fbs_canary(tree=None):
-    fails = feed_unit() + board_unit() + weight_unit() + inert_unit() + tree_unit()
+    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + inert_unit() + tree_unit()
     if tree:
         fails += tree_checks(tree)
     return fails

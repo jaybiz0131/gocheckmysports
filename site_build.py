@@ -10057,6 +10057,10 @@ _WIN_ID = {"early": "early", "1:00": "1pm", "4:05-4:25": "late", "afternoon": "a
 
 WB_TABS_JS = """
 <script>(function(){
+  /* The script sits in the band, before the board, so the days do not exist yet when it runs.
+     S-3b.3: the setup waits for the document, or the board never opened on today's day and the
+     whole week stood open (the next game 6,037 px down at 390 on main). */
+  function setup(){
   /* The week board's day tabs. Every day's cards are in the page and in kickoff order; the
      tabs are real links to each day's heading, so with no script the page is the whole week
      in order. With script a tab shows one day, and the board opens on today's. */
@@ -10085,6 +10089,8 @@ WB_TABS_JS = """
   var today = bd && bd.getAttribute('data-today');
   var d = today && document.querySelector('.wb-day[data-date="' + today + '"]');
   if (d) show(d.getAttribute('data-day'));
+}
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();</script>
 """
 
@@ -10145,12 +10151,8 @@ def week_board(sb):
     # S-3b.3: the home draws every NFL game and the FBS games that fit its byte budget
     # (render_home sets HOME_HIDE); the rest are counted under their day and linked to Scores.
     games = [(k, g) for k, g in all_games if str(g.get("id")) not in HOME_HIDE]
-    hidden_by_day = {}
-    for k, g in all_games:
-        if str(g.get("id")) in HOME_HIDE:
-            _d0 = k.astimezone(_ET).date()
-            hidden_by_day[_d0] = hidden_by_day.get(_d0, 0) + 1
     m = _mf()
+    hidden_by_day = _home_more_by_day(games)
     ia = _ia_index(IA_BOARD)
     carriers = _w2w_carriers_by_id()
     doc = _carriage.load()
@@ -10370,15 +10372,14 @@ def wall(sb_data):
     if not games:
         return ""
     nfl = [g for _k, g in games if g.get("league") == "NFL"]
-    cfb, cfb_hidden = {}, {}
-    for k, g in games:
+    cfb = {}
+    drawn = [(k, g) for k, g in games if str(g.get("id")) not in HOME_HIDE]
+    cfb_hidden = _home_more_by_day(drawn)
+    for k, g in drawn:
         if g.get("league") == "CFB":
-            d0 = k.astimezone(_ET).date()
-            if str(g.get("id")) in HOME_HIDE:
-                cfb_hidden[d0] = cfb_hidden.get(d0, 0) + 1
-                cfb.setdefault(d0, [])
-            else:
-                cfb.setdefault(d0, []).append(g)
+            cfb.setdefault(k.astimezone(_ET).date(), []).append(g)
+    for d0 in cfb_hidden:
+        cfb.setdefault(d0, [])
     wk, _ = nfl_week()
     head = ('<div class="wl-legend"><span><i class="wl-bulb on" aria-hidden="true"></i>Weather matters</span>'
             '<span>Temp °F · Wind mph · Rain %</span></div>')
@@ -10400,13 +10401,35 @@ def wall(sb_data):
 
 # S-3b.3: THE HOME'S WEIGHT. The scorecard holds the home HTML under 150 KB (line 4). Every game on
 # the board is drawn twice, a wall row and a card, about 2.3 KB together, so the whole FBS week
-# (56 games on 24 October 2026) with the NFL's does not fit. The NFL is always drawn. The FBS games
+# (56 games in the week of 20 October 2026, 44 of them on Saturday the 24th) with the NFL's does not fit. The NFL is always drawn. The FBS games
 # are drawn best first (a ranked team before an unranked game, then kickoff) until the page reaches
 # HOME_BUDGET bytes, and each day says how many it left out and links Scores, which lists them all.
 # Nothing is dropped from the build: the board, the game pages, the conditions calls and the
 # counts still hold every game; this only decides what the home draws.
+# The ruling of October 19, 2026, 2:08 PM (last line of docs/RULINGS.md): every NFL game, then college games
+# ranked first and then by kickoff, until the home reaches 140,000 bytes; the games left out are
+# counted from the manifest under the day's cards and the wall, linking Scores.
 HOME_BUDGET = 140000
 HOME_HIDE = frozenset()      # set while the home renders: FBS game ids the home does not draw
+
+
+def _home_more_by_day(drawn):
+    """Scorecard line 1: the count of college games a day left out is the manifest's count of that
+    day's college games (slate.week.days[].by_league) minus the college games drawn that day.
+    {date: n} for the days with n > 0. `drawn` is the (kickoff, game) pairs the home draws."""
+    if not HOME_HIDE:
+        return {}       # nothing was left out, so there is nothing to count
+    got = {}
+    for k, g in drawn:
+        if g.get("league") == "CFB":
+            iso = k.astimezone(_ET).date().isoformat()
+            got[iso] = got.get(iso, 0) + 1
+    out = {}
+    for dd in (_mf()["slate"]["week"].get("days") or []):
+        n = (dd["by_league"].get("CFB") or 0) - got.get(dd["date"], 0)
+        if n > 0:
+            out[datetime.date.fromisoformat(dd["date"])] = n
+    return out
 
 
 def _home_more(n, cls):
@@ -10446,7 +10469,8 @@ def render_home(items, dateline):
         if best is None:
             HOME_HIDE = frozenset(ids)
             best = (0, _render_home(items, dateline))
-        print(f"home: {best[0]} of {len(ids)} college games drawn within the {HOME_BUDGET}-byte budget "
+        _tot = sum((dd["by_league"].get("CFB") or 0) for dd in (_mf()["slate"]["week"].get("days") or []))
+        print(f"home: {best[0]} of {_tot} college games drawn within the {HOME_BUDGET}-byte budget "
               f"({len(best[1].encode('utf-8'))} bytes)")
         HOME_HIDE = frozenset(ids[best[0]:])
         return best[1]

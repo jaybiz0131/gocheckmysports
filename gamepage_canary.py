@@ -147,7 +147,13 @@ def check_tree(out):
             # S-3b.3: the home draws every NFL game and the FBS games that fit its byte budget
             # (site_build.HOME_BUDGET). A college game it left out is counted under its day, with
             # a link to Scores, and Scores must link its page. An NFL game is never left out.
-            left_out = (e.get("league") == "CFB" and 'class="bd-src wb-more"' in home
+            # The excuse is tied to the game's own day: that day's section carries a "more" line
+            # (its count is at least the one game) and Scores links the page.
+            kick = re.search(r'"startDate":"(\d{4}-\d\d-\d\d)T', html)
+            sec = re.search(r'<section class="bd-mod wb-day"[^>]*data-date="%s">(.*?)</section>'
+                            % re.escape(kick.group(1) if kick else "none"), home, re.S)
+            more = re.search(r'<p class="bd-src wb-more">(\d+) more college game', sec.group(1)) if sec else None
+            left_out = (e.get("league") == "CFB" and bool(more) and int(more.group(1)) >= 1
                         and f'href="/games/{gid}.html"' in scores)
             if not left_out:
                 fails.append(f"game pages: the home's card for {gid} does not link its page, "
