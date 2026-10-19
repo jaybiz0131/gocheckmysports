@@ -1,8 +1,0 @@
-{
-  "name": "gocheckmysports-functions",
-  "private": true,
-  "description": "Dependencies of the Netlify functions (netlify/functions, netlify/lib). @netlify/blobs is the only one: it is the subscription store. The push crypto is node:crypto. The site itself is built by Python.",
-  "dependencies": {
-    "@netlify/blobs": "10.7.13"
-  }
-}
