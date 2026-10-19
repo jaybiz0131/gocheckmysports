@@ -547,6 +547,10 @@ def _built_tree():
     _BUILT["dirty_before"] = _dirty()
     _BUILT["untracked_before"] = _untracked()
     real = _sb.PUBLISH
+    # S-3b.4: THE GATE'S BUILD HAS NO PUSH KEY, whatever the machine's environment holds. The
+    # absent-key checks read this tree, so a developer's exported key would turn them into a pass
+    # about a keyed build. push_canary renders the keyed pages itself, from this build's state.
+    _push_env = os.environ.pop("WEB_PUSH_VAPID_PUBLIC_KEY", None)
     tmp = _tf.mkdtemp(prefix="gate-build-")
     log = _io.StringIO()
 
@@ -609,6 +613,8 @@ def _built_tree():
     finally:
         _sb.PUBLISH = real
         _pix.build, _pix.load = _pix_save
+        if _push_env is not None:
+            os.environ["WEB_PUSH_VAPID_PUBLIC_KEY"] = _push_env
     return _BUILT["path"]
 
 
@@ -1636,6 +1642,8 @@ def layer1_canary():
     fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
     import affiliate_canary as _afc
     fails.extend(_afc.affiliate_canary(_built_tree()))   # S-3b.2: affiliate links, the plain link, the money line
+    import push_canary as _pcn
+    fails.extend(_pcn.push_canary(_built_tree()))   # S-3b.4: web push, the one-push rule, the absent key
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_report_link_canary())   # RL-1: a report row links only a page the build writes

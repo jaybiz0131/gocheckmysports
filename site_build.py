@@ -3431,6 +3431,222 @@ SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener
                "});}</script>")
 
 
+# ---- S-3b.4: web push from the site -----------------------------------------------------------
+# A reader picks a team on its page and allows notifications; the evening before that team's game
+# one push carries the kickoff in ET, the network and, while the build's reading is fresh, the
+# conditions line, and opens the game page. No account: the device holds its subscription and the
+# relay (netlify/functions/push.mjs, push-send.mjs) holds only the endpoint, the two keys and the
+# team list. WHEN THE KEY IS ABSENT THE SITE HAS NO PUSH AT ALL: this reads the public VAPID key
+# from the build's environment, and without it (or with one that is not a P-256 point) the pages
+# carry no button, no script, no data file and the worker carries no push handler.
+PUSH_ENV = "WEB_PUSH_VAPID_PUBLIC_KEY"
+# The day Jack turned push on, YYYY-MM-DD, set with the keys. The keyed privacy policy takes effect that
+# day, so its "Last updated" date comes from him and not from this file. A key without a valid one counts
+# as no key, here and in the functions (netlify/lib/config.mjs readVapid), so no page can claim a
+# policy date nobody gave.
+PUSH_SINCE_ENV = "WEB_PUSH_SINCE"
+
+
+def push_since():
+    """The WEB_PUSH_SINCE date as a datetime.date, or None when it is absent or not a real YYYY-MM-DD."""
+    raw = (os.environ.get(PUSH_SINCE_ENV) or "").strip()
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        return None
+    try:
+        return datetime.date.fromisoformat(raw)
+    except ValueError:
+        return None
+
+
+def push_key():
+    """The public VAPID key from the build's environment, or '' when it is absent or malformed, or when
+    WEB_PUSH_SINCE is not a valid date."""
+    import base64
+    raw = (os.environ.get(PUSH_ENV) or "").strip()
+    if push_since() is None:
+        return ""
+    if not raw or not re.fullmatch(r"[A-Za-z0-9_-]+", raw):
+        return ""
+    try:
+        b = base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4))
+    except Exception:
+        return ""
+    return raw if (len(b) == 65 and b[0] == 4) else ""
+
+
+SW_PUSH = """
+/* Web push (S-3b.4). Present only in a build that carries the public key. A push shows one
+   notification and a click opens the game page it names; nothing is cached. */
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'GoCheckMySports', {
+    body: d.body || '', tag: d.tag || undefined, icon: '/assets/icon-192.png',
+    data: { url: d.url || '/' } }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  let u = new URL('/', self.location.origin);
+  try { const t = new URL((e.notification.data && e.notification.data.url) || '/', self.location.origin);
+        if (t.origin === self.location.origin) u = t; } catch (x) {}
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
+    for (const c of cs) { if (c.url === u.href && 'focus' in c) return c.focus(); }
+    return self.clients.openWindow(u.href);
+  }));
+});
+"""
+
+def sw_source(version, assets):
+    """The worker's text: the shell, plus the push handlers only in a build that carries the key."""
+    return SERVICE_WORKER % {"v": version, "assets": json.dumps(assets)} + (SW_PUSH if push_key() else "")
+
+
+PUSH_JS = """<script>(function(){
+  var b=document.querySelector('[data-tpush]');
+  if(!b||!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return;
+  if(Notification.permission==='denied')return;
+  var K='gcms-push-teams',T='gcms-push-sync',D='gcms-push-dev',team=b.getAttribute('data-tpush'),vk=b.getAttribute('data-vapid');
+  var note=document.querySelector('.tpush-note'),keep=note?note.textContent:'';
+  function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a:null;}catch(e){return null;}}
+  function wr(a){try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}}
+  if(rd()===null)return;
+  /* The device number: random, made on the first Notify me click (never on page load), kept only in this browser and sent with each post. The relay
+     keeps what it has sent under a hash of it, so turning a team off and on again does not send a
+     game twice. Not an account: nothing about the reader is in it. */
+  function dev(){try{var d=localStorage.getItem(D);if(!/^[0-9a-f]{32}$/.test(d||'')){var a=new Uint8Array(16);
+    crypto.getRandomValues(a);d='';for(var i=0;i<16;i++)d+=('0'+a[i].toString(16)).slice(-2);localStorage.setItem(D,d);}
+    return d;}catch(e){return '';}}
+  function u8(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var r=atob(s),o=new Uint8Array(r.length);
+    for(var i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o;}
+  function same(a,b2){if(!a||a.length!==b2.length)return false;for(var i=0;i<a.length;i++)if(a[i]!==b2[i])return false;return true;}
+  function on(){return rd().indexOf(team)>-1&&Notification.permission==='granted';}
+  function paint(){var v=on();b.setAttribute('aria-pressed',String(v));b.textContent=v?'Notifications on':'Notify me';}
+  function post(s,teams){var d=dev();if(!d)return Promise.reject(new Error('device'));
+    return fetch('/api/push',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({subscription:s.toJSON(),teams:teams,device:d})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
+  function sub(reg){var want=u8(vk);return reg.pushManager.getSubscription().then(function(s){
+    if(s&&same(s.options&&s.options.applicationServerKey?new Uint8Array(s.options.applicationServerKey):null,want))return s;
+    return(s?s.unsubscribe():Promise.resolve()).then(function(){
+      return reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:want});});});}
+  b.hidden=false;if(note)note.hidden=false;paint();
+  b.addEventListener('click',function(){
+    var teams=rd(),p;b.disabled=true;if(note)note.textContent=keep;
+    if(on()){
+      teams=teams.filter(function(x){return x!==team;});
+      p=navigator.serviceWorker.ready.then(function(reg){return reg.pushManager.getSubscription();}).then(function(s){
+        if(!s)return;return post(s,teams).then(function(){return teams.length?null:s.unsubscribe();});});
+    }else{
+      teams=teams.filter(function(x){return x!==team;}).concat([team]);
+      p=Notification.requestPermission().then(function(perm){if(perm!=='granted')throw new Error('denied');
+        return navigator.serviceWorker.ready;}).then(sub).then(function(s){return post(s,teams);});
+    }
+    p.then(function(){wr(teams);}).catch(function(){if(note)note.textContent='Notifications could not be turned on here.';})
+     .then(function(){b.disabled=false;paint();});
+  });
+  /* A device that follows a team renews its record once a week it visits, so a record the
+     reader has forgotten expires by itself (180 days) instead of living on. */
+  try{var last=Number(localStorage.getItem(T)||0);
+    if(on()&&Date.now()-last>6048e5){navigator.serviceWorker.ready.then(function(reg){return reg.pushManager.getSubscription();})
+      .then(function(s){if(s)return post(s,rd()).then(function(){localStorage.setItem(T,String(Date.now()));});}).catch(function(){});}}catch(e){}
+})();</script>"""
+
+
+# The Pin and Notify me buttons were the browser's own button (Arial, black on grey) because nothing
+# in site.css styles their class. This takes the site's chip: Plex Mono small caps, the card's paper,
+# the rule's line, the field green when pressed; no color of its own. IT RIDES WITH THE KEY: it is
+# written into a team page only in a build that carries the push key, so a build without one is
+# byte for byte the build it was (site.css, and every page's link to it, are untouched). The Pin
+# button shares the class and is drawn the same way in a keyed build; on a keyless build it is
+# still the browser's default, as on main. Moving this rule into site.css fixes Pin everywhere and
+# moves the stylesheet's hash on every page, which is a decision for the board.
+PUSH_CSS = ("<style>.tpinwrap{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}"
+            ".tpin{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;"
+            "text-transform:uppercase;color:var(--ink);background:var(--card);border:1px solid var(--line);"
+            "border-radius:4px;padding:7px 12px;min-height:36px;line-height:1.2;cursor:pointer}"
+            ".tpin:hover{border-color:var(--rule)}"
+            ".tpin[aria-pressed=\"true\"]{color:var(--rule);border-color:var(--rule)}"
+            ".tpin:focus-visible{outline:2px solid var(--rule);outline-offset:2px}"
+            ".tpin:disabled{opacity:.6;cursor:default}</style>")
+
+
+def push_ui(team_key, label):
+    """(button, note-and-script) for a team page, or ('', '') when the build has no key. The button
+    and the note start hidden; the script reveals them only on a browser that can receive a push."""
+    k = push_key()
+    if not k or not team_key:
+        return "", ""
+    btn = (PUSH_CSS + f'<button type="button" class="wl-pick tpin tpush" data-tpush="{esc(team_key)}" '
+           f'data-vapid="{esc(k)}" aria-pressed="false" hidden>Notify me</button>')
+    note = (f'<p class="tm-rec tpush-note" hidden>One notification the evening before each '
+            f'{esc(label)} game. No account.</p>')
+    return btn, note + PUSH_JS
+
+
+def _push_cond(e):
+    """The conditions line for the notification, from the build's own entry and in the card's own
+    words: the numbers of a forecast, "Dome", a roof's words. Anything else is no line."""
+    st = (e or {}).get("status")
+    # A stale entry is left out whole. The site prints the same entry with "last reading" after its
+    # credit (cx_credit), so a notification that carried its numbers would be saying as current what
+    # the page says is old. The nws block carries its own flag for the same thing.
+    if (e or {}).get("stale") or ((e or {}).get("nws") or {}).get("stale"):
+        return ""
+    if st == "indoor":
+        return "Dome"
+    if st == "roofed":
+        return ((e.get("words") or {}).get("line") or "")
+    if st != "forecast":
+        return ""
+    p = cx_parts(e)
+    bits = []
+    if p["temp"] is not None:
+        bits.append(f'{p["temp"]}°')
+    if p["calm"]:
+        bits.append("wind calm")
+    elif p["mph"] is not None:
+        bits.append(f'wind {p["mph"]} mph')
+    if p["pop"] is not None:
+        bits.append(f'rain {p["pop"]}%')
+    return ", ".join(bits)
+
+
+def _push_team_key(side):
+    ab = (side or {}).get("abbr") or ""
+    if (side or {}).get("school") and _teams_slug_for(side):
+        return f"cfb:{_teams_slug_for(side)}"
+    return f"nfl:{ab}" if (ab and _team_page_exists(ab)) else ""
+
+
+def push_games_doc():
+    """The index the evening send reads, published at /data/push-games.json: every game on the week
+    board that has a page, has not started and has a kickoff time, with the teams that can follow it,
+    the lead line (kickoff in ET and network) and the conditions line with the stamp it was read at.
+    The relay chooses the evening; nothing here is a clock."""
+    games = []
+    fallback_at = (CX_DATA or {}).get("built_at") or ""
+    for k, g in board_games(SB_DATA):
+        if g.get("state") != "pre" or _is_postponed(g) or not _has_game_page(g):
+            continue
+        if "tbd" in str(g.get("status_short") or "").lower():
+            continue
+        teams = [t for t in (_push_team_key(g.get("away")), _push_team_key(g.get("home"))) if t]
+        if not teams:
+            continue
+        away, home = g.get("away") or {}, g.get("home") or {}
+        nm = lambda t: t.get("full") or t.get("school") or t.get("abbr") or ""
+        net = network_name(g.get("network")) if g.get("network") else ""
+        e = cx_entry(g) if CX_DATA else None
+        cond = _push_cond(e)
+        games.append({
+            "id": str(g["id"]), "kick": k.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "teams": teams,
+            "title": f"{nm(away)} at {nm(home)}",
+            "lead": f"Kickoff {_et_clock(k)}" + (f" on {net}." if net else "."),
+            "cond": cond,
+            "cond_at": (((e or {}).get("nws") or {}).get("read_at") or fallback_at) if cond else "",
+            "path": f"/games/{g['id']}.html"})
+    return {"built_at": _build_now().strftime("%Y-%m-%dT%H:%M:%SZ"), "games": games}
+
+
 # ---- S-A: the Scoreboard band, and S-B1 designations on the cards --------------
 # Artboard: sports-v3-desktop / sports-v3-phone. The band is the product: a reader
 # opening the site on a Sunday should see every live score with its network without
@@ -6055,7 +6271,7 @@ TEAM_PIN_JS = """<script>(function(){
 })();</script>"""
 
 
-def team_pin(abbr, name=""):
+def team_pin(abbr, name="", extra=""):
     """S-L3: pin this team. Device-only, on the same pattern as the crypto desk's coin
     pins, and hidden outright where storage is unavailable rather than offering a
     control that cannot remember anything."""
@@ -6064,7 +6280,7 @@ def team_pin(abbr, name=""):
     nm = f' data-tabbr="{esc(abbr)}" data-tname="{esc(name)}"' if name else ""
     return (f'<span class="tpinwrap" data-tpin{nm}>'
             f'<button type="button" class="wl-pick tpin" data-tpick="{esc(abbr)}" '
-            f'aria-pressed="false">Pin {esc(abbr)}</button></span>')
+            f'aria-pressed="false">Pin {esc(abbr)}</button>{" " + extra if extra else ""}</span>')
 
 
 def pins_panel():
@@ -6626,12 +6842,13 @@ def render_team_page(tm, items, dateline):
                 + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                           for i in stories) + '</div>')
     rec = (f'<p class="tm-rec">{esc(stand)}</p>' if stand else "")
+    _pbtn, _pnote = push_ui(f"nfl:{abbr}", abbr)      # S-3b.4: ('', '') in a build with no key
     body = f"""<main class="wrap tm-main"><section class="page">
   <h1 class="sr-only">{esc(name)}: next game, schedule, where to watch, conditions and standing</h1>
   <div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span>
     <span class="sec-n">{len(played)} played of {fixtures}</span>
-    {team_pin(abbr, name)}</div>
-  {rec}
+    {team_pin(abbr, name, _pbtn)}</div>
+  {rec}{_pnote}
   {card}
   {_tms_last(last, name)}
   {_tms_board(rows)}
@@ -6713,10 +6930,12 @@ def render_college_page(prog, items, dateline):
                           for i in stories) + '</div>')
     sched = _tms_board(rows, "This week") if rows else (
         '<p class="tms-none">No game for this program is on the week board.</p>')
+    _pbtn, _pnote = push_ui(f'cfb:{prog["slug"]}', school)      # S-3b.4: ('', '') in a build with no key
+    _pwrap = f'<span class="tpinwrap">{_pbtn}</span>' if _pbtn else ""
     body = f"""<main class="wrap tm-main"><section class="page">
   <h1 class="sr-only">{esc(full)}: next game, where to watch, conditions and ranking</h1>
-  <div class="sec-head"><h2>{esc(full)}</h2><span class="bar"></span></div>
-  {rec}
+  <div class="sec-head"><h2>{esc(full)}</h2><span class="bar"></span>{_pwrap}</div>
+  {rec}{_pnote}
   {card}
   {_tms_last(last, full)}
   {sched}
@@ -10951,7 +11170,53 @@ def render_standards(dateline):
                  "Standards", body, dateline, path="/standards.html")
 
 
+PRIVACY_UPDATED = "July 19, 2026"
+PRIVACY_DESC = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
+                "cookieless Cloudflare analytics, and nothing else.")
+# S-3b.4: in a build that carries the push key the policy moves, to the day Jack gave in WEB_PUSH_SINCE,
+# and says what the relay keeps. In a build without the key none of these differ from the text above,
+# byte for byte.
+def privacy_updated():
+    d = push_since()
+    return f"{d.strftime('%B')} {d.day}, {d.year}" if (d and push_key()) else PRIVACY_UPDATED
+
+PRIVACY_DESC_PUSH = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
+                     "cookieless Cloudflare analytics, and, only if you turn them on, the record that "
+                     "sends a team's game-eve notification.")
+
+
+def privacy_push():
+    """The paragraph about game-eve notifications: empty in a build with no push key, because a build
+    with no key has no relay and keeps nothing. Every figure in it is one the relay's code enforces
+    (netlify/lib/tick.mjs EXPIRE_MS and KEEP_SENT_MS, subscribe.mjs MAX_TEAMS)."""
+    if not push_key():
+        return ""
+    return """
+  <h2>Notifications</h2>
+  <p>If you turn on notifications for a team, our relay (a Netlify function, with its records in Netlify
+     Blobs, our hosting provider's storage) keeps, for your device: the push address your browser's push
+     service gave it (an address at Google, Mozilla, Apple or Microsoft, not your name or your email), the
+     two keys that let a message be encrypted for your device, the teams you picked (at most eight), the
+     date the record was created and the date it was last updated, and a hash of a random device number
+     the page makes the first time you press Notify me and keeps in your browser. That record is kept for
+     up to 180 days from the last time you opened a team page with notifications on, which renews it once
+     a week; then it is deleted. Separately, the relay keeps which games it has already notified that
+     device about (game numbers and dates only, under the hashed device number), so that turning a team
+     off and on again the same evening does not send the same game twice. That list is deleted by itself
+     21 days after the last notification. No account, no email address and no IP address of yours is
+     stored by the relay; the hosting provider's own server logs are described above.</p>
+  <p>To remove it, turn notifications off on each team page, where the button reads "Notifications on".
+     When the last team is turned off, the push address, keys, teams and dates are deleted at once. The
+     list of games already notified stays until its 21 days run out. A device you stop using or whose
+     browser clears its data is forgotten the first time a notification to it is refused, or when its 180
+     days run out.</p>
+"""
+
+
 def render_privacy(dateline):
+    _push = privacy_push()
+    _updated = privacy_updated()
+    _desc = PRIVACY_DESC_PUSH if _push else PRIVACY_DESC
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Privacy</span>
   <h1>Privacy policy</h1>
@@ -10983,7 +11248,7 @@ def render_privacy(dateline):
   <h2>Links out</h2>
   <p>Stories link their sources. Once you leave this site, the site you land on operates
      under its own privacy policy.</p>
-
+{_push}
   <h2>Contact and data requests</h2>
   <p>Questions about this policy, your data, or the newsletter, including unsubscribe requests:
      <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>. A human reads it.
@@ -10992,11 +11257,9 @@ def render_privacy(dateline):
 
   <h2>Changes</h2>
   <p>This policy changes only when the site's behavior changes, and the date below moves when it
-     does. Last updated July 19, 2026.</p>
+     does. Last updated {_updated}.</p>
 </section></main>"""
-    return shell(f"Privacy - {NAME}",
-                 "What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
-                 "cookieless Cloudflare analytics, and nothing else.",
+    return shell(f"Privacy - {NAME}", _desc,
                  "Privacy", body, dateline, path="/privacy.html")
 
 
@@ -12266,6 +12529,16 @@ def build():
         _page_reset()
         w(f'teams/cfb/{_prog["slug"]}.html', render_college_page(_prog, items, dateline))
     print(f"college program pages: {len(CFB_PROGRAMS)}; conditions log: {len(COND_LOG)} game(s)")
+    # S-3b.4: the game index the evening send reads. Written only in a build that carries the
+    # public key; a build without one publishes no push file at all.
+    if push_key():
+        os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+        _pg = push_games_doc()
+        with open(os.path.join(PUBLISH, "data", "push-games.json"), "w", encoding="utf-8") as _pf:
+            json.dump(_pg, _pf, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        print(f"web push: key present; {len(_pg['games'])} game(s) in /data/push-games.json")
+    else:
+        print("web push: no key in the environment; no button, no script, no data file")
 
     w("keepers.html", render_keepers(items, dateline))
     # S3: the living tables, one page each, in the Record lane they belong to.
@@ -12371,9 +12644,7 @@ def build():
     _sw_assets = [a for a in _sw_assets
                   if os.path.exists(os.path.join(PUBLISH, a.lstrip("/")))]
     with open(os.path.join(PUBLISH, "sw.js"), "w", encoding="utf-8") as _swf:
-        _swf.write(SERVICE_WORKER % {
-            "v": _build_now().strftime("%Y%m%d%H%M"),
-            "assets": json.dumps(_sw_assets)})
+        _swf.write(sw_source(_build_now().strftime("%Y%m%d%H%M"), _sw_assets))
     print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
