@@ -59,8 +59,11 @@
 #   WEB_PUSH_VAPID_PRIVATE_KEY  scopes Functions, Runtime only, marked secret
 #   WEB_PUSH_SUBJECT            optional, a mailto: or https: contact for the push services
 # The shared code is in netlify/lib (outside this directory, so it is not mistaken for a function),
-# the tests are netlify/test, and the one npm dependency, @netlify/blobs (the subscription store),
-# is pinned in the root package.json.
+# the tests are netlify/test. THE FUNCTIONS HAVE NO INSTALL STEP: there is no package.json anywhere
+# in the repository, so Netlify runs no npm install before the build or for the functions, and a
+# package index outage cannot fail the site's deploy (Jack's ruling of October 19, 2026, 6:00 PM).
+# The one third-party piece, the Netlify Blobs client, is a single committed file,
+# netlify/vendor/netlify-blobs.mjs, whose header names its version, license and how to rebuild it.
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"

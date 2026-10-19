@@ -9,17 +9,22 @@ red first (U-9).
             days send each device each of its teams' games once, at 7 PM ET the evening before by the
             Eastern calendar (across the November 1 clock change, and a 8:20 PM ET kickoff that is
             the next day in UTC), and never a second. Proved twice: by the Python twin (push_select.py)
-            and, where Node is present, by the relay's own code (netlify/test/push.test.mjs, 21
+            and, where Node is present, by the relay's own code (netlify/test/push.test.mjs, 37
             checks: the rule, a retry that still lands once, a gone device, the crypto against an
-            independent reader, the 503 with no key, the subscribe route).
+            independent reader, the 503 with no key, the subscribe route, Origin, size and count guards,
+            the sent marks that outlive a team turned off and on).
   absent    a build without the key (the gate's build, which clears it) has no push markup, no push
             script, no push handler in the worker and no data file, in any page; and a malformed key is
             no key
   present   with a key the team pages carry the button and the script, hidden until the browser can
             receive a push, the worker carries the handlers, the game index lists only games that
             have a page, a kickoff and a team that can be followed; no host beyond the site's own
-  files     the one dependency is pinned exactly, the function directory is declared, nothing in the
-            relay reads a key from a file, the 180 day expiry and the endpoint allow list exist
+  files     the relay has no install step (no package.json anywhere, the one third-party piece is a
+            committed file whose header names its version), the function directory is declared, nothing
+            in the relay reads a key from a file, the 180 day expiry and the endpoint allow list exist,
+            and every relay path counts as a building change to netlify_ignore
+  privacy   a keyed build's privacy page says what the relay keeps, where, for how long and how to remove
+            it; a keyless build's privacy page carries none of it
 
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
@@ -38,7 +43,7 @@ sys.path.insert(0, HERE)
 FIX_KEY = "BAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE"
 ENV = "WEB_PUSH_VAPID_PUBLIC_KEY"
 MARKERS = ("data-tpush", "tpush-note", "/api/push", "gcms-push-", "PushManager", "data-vapid")
-NODE_MIN_CHECKS = 20
+NODE_MIN_CHECKS = 37
 
 
 def check_rule():
@@ -67,7 +72,7 @@ def check_rule():
         print("::warning::push canary: node not found; the relay's JavaScript was not run, and the one-push "
               "rule was checked through its Python twin (push_select.py) only")
         return fails
-    for rel in ("netlify/lib/select.mjs", "netlify/lib/tick.mjs", "netlify/lib/webpush.mjs", "netlify/lib/config.mjs",
+    for rel in ("netlify/vendor/netlify-blobs.mjs", "netlify/lib/select.mjs", "netlify/lib/tick.mjs", "netlify/lib/webpush.mjs", "netlify/lib/config.mjs",
                 "netlify/lib/subscribe.mjs", "netlify/functions/push.mjs", "netlify/functions/push-send.mjs"):
         r = subprocess.run([node, "--check", os.path.join(HERE, rel)], capture_output=True, text=True)
         if r.returncode != 0:
@@ -164,7 +169,7 @@ def check_present(out):
         for want in ('data-tpush="nfl:KC"', f'data-vapid="{FIX_KEY}"', 'aria-pressed="false" hidden>'):
             if want not in btn:
                 fails.append(f"push present: the team button lacks {want!r} (hidden until the browser can receive a push)")
-        for want in ("tpush-note", "No account", "/api/push", "requestPermission"):
+        for want in ("tpush-note", "No account", "/api/push", "requestPermission", "gcms-push-dev", "device:", "getRandomValues"):
             if want not in note:
                 fails.append(f"push present: the team note and script lack {want!r}")
         if "hidden" not in note.split("<script>")[0]:
@@ -222,6 +227,30 @@ def check_present(out):
         b = by.get("9002") or {}
         if b.get("lead") != "Kickoff 4:20 PM ET." or b.get("cond") != "Dome":
             fails.append(f"push present: the game with no network or a dome is wrong: {b}")
+        # A stale reading is left out, as the site's own cx_credit says "last reading" for it: the
+        # push never carries a figure the site would mark stale.
+        fresh_e = sb.CX_DATA["games"]["9001"]
+        if sb._push_cond(fresh_e) != "52°, wind 12 mph, rain 20%":
+            fails.append("push stale: the fresh entry the stale checks start from has no line, so they prove nothing")
+        for name, mark in (("stale", {"stale": True}), ("nws stale", {"nws": {"read_at": "2026-10-15T11:00:00Z", "stale": True}})):
+            if sb._push_cond(dict(fresh_e, **mark)) != "":
+                fails.append(f"push stale: a {name} conditions entry still gave the push a line: "
+                             f"{sb._push_cond(dict(fresh_e, **mark))!r}")
+        if sb._push_cond({"status": "indoor", "stale": True, "words": {"line": "Indoor"}}) != "":
+            fails.append("push stale: a stale indoor entry still gave the push a line")
+        if sb._push_cond({"status": "roofed", "stale": True, "words": {"line": "Roof closed"}}) != "":
+            fails.append("push stale: a stale roofed entry still gave the push a line")
+        keep = sb.CX_DATA
+        sb.CX_DATA = dict(keep, games=dict(keep["games"], **{"9001": dict(fresh_e, stale=True)}))
+        try:
+            stale_doc = {x["id"]: x for x in sb.push_games_doc()["games"]}
+        finally:
+            sb.CX_DATA = keep
+        a2 = stale_doc.get("9001") or {}
+        if a2.get("cond") or a2.get("cond_at") or "wind" in str(a2):
+            fails.append(f"push stale: the game index carries a figure for a stale entry: {a2}")
+        if a2.get("lead") != "Kickoff 1:00 PM ET on CBS.":
+            fails.append(f"push stale: the kickoff line was lost with the stale reading: {a2}")
         for x in doc["games"]:
             for t in (x["title"], x["lead"], x["cond"]):
                 if "\u2014" in t or re.search(r"\blive\b", t, re.I):
@@ -238,13 +267,23 @@ def check_present(out):
 
 def check_files():
     fails = []
-    pk = json.load(open(os.path.join(HERE, "package.json"), encoding="utf-8"))
-    deps = pk.get("dependencies") or {}
-    if list(deps) != ["@netlify/blobs"] or not re.fullmatch(r"\d+\.\d+\.\d+", deps.get("@netlify/blobs", "")):
-        fails.append(f"push files: package.json must pin exactly one dependency, @netlify/blobs, to an exact version: {deps}")
-    lock = open(os.path.join(HERE, "package-lock.json"), encoding="utf-8").read()
-    if f'"node_modules/@netlify/blobs"' not in lock or f'"version": "{deps.get("@netlify/blobs")}"' not in lock:
-        fails.append("push files: package-lock.json does not hold the pinned version")
+    # No install step, by construction: a package.json at any depth makes Netlify run npm install, and
+    # a failed install must never fail the site's deploy (Jack's ruling of October 19, 2026, 6:00 PM).
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "__pycache__", "publish", "out", "review")]
+        for fn in files:
+            if fn in ("package.json", "package-lock.json", "npm-shrinkwrap.json", "yarn.lock", "pnpm-lock.yaml"):
+                fails.append(f"push files: {os.path.relpath(os.path.join(root, fn), HERE)} exists; it would make Netlify "
+                             f"run an install before the build, and the relay has no install step")
+    vend = open(os.path.join(HERE, "netlify", "vendor", "netlify-blobs.mjs"), encoding="utf-8").read()
+    head = vend.split("\n// node_modules/", 1)[0]
+    for want in ("@netlify/blobs 10.7.13", "MIT", "sha512-LJnmGtQQ2/NdTo0Cm+YP2xR1vtRle6V3kkzMrAOJgRm1SEFOJOcaAFQrth7RnbxCH/IzCM8QakTaCHHKY+K2qA==", "Rebuild"):
+        if want not in head:
+            fails.append(f"push files: the vendored Blobs client's header lacks {want!r}")
+    if re.search(r"^\s*(import|export)\b[^\n]*\bfrom\s+['\"][^./]", vend, re.M) or "require(" in vend:
+        fails.append("push files: the vendored Blobs client imports a package, so it is not self-contained")
+    if "node:fs" in vend or "readFile" in vend:
+        fails.append("push files: the vendored Blobs client touches the filesystem")
     toml = open(os.path.join(HERE, "netlify.toml"), encoding="utf-8").read()
     if not re.search(r'\[functions\]\s*\n\s*directory\s*=\s*"netlify/functions"', toml):
         fails.append("push files: netlify.toml does not declare the functions directory")
@@ -255,13 +294,101 @@ def check_files():
             fails.append(f"push files: {rel} touches the filesystem or a dotenv file; a key is read from the environment only")
         if "\u2014" in txt or re.search(r"\blive\b", re.sub(r"//.*|/\*.*?\*/", "", txt, flags=re.S), re.I):
             fails.append(f"push files: {rel} breaks the copy law (an em dash or the word live)")
+        if re.search(r"""['"]@netlify/blobs['"]""", txt):
+            fails.append(f"push files: {rel} names the npm package; the relay imports the committed file instead")
     cfg = open(os.path.join(HERE, "netlify/lib/config.mjs"), encoding="utf-8").read()
     for name in ("WEB_PUSH_VAPID_PUBLIC_KEY", "WEB_PUSH_VAPID_PRIVATE_KEY"):
         if f"env.{name}" not in cfg:
             fails.append(f"push files: config.mjs does not read {name} from the environment")
+    if "../vendor/netlify-blobs.mjs" not in cfg:
+        fails.append("push files: config.mjs does not import the committed Blobs client")
     sub = open(os.path.join(HERE, "netlify/lib/subscribe.mjs"), encoding="utf-8").read()
     if "fcm\\.googleapis\\.com" not in sub or "MAX_TEAMS" not in sub:
         fails.append("push files: the endpoint allow list or the team cap is gone from the subscribe route")
+    # every path the relay lives in is a change that builds the site (netlify_ignore skips only
+    # documents and the two data-only commits); a skipped build would leave the functions undeployed
+    import netlify_ignore as ni
+    for rel in ("netlify/vendor/netlify-blobs.mjs", "netlify/functions/push.mjs", "netlify/functions/push-send.mjs",
+                "netlify/lib/tick.mjs", "netlify/lib/subscribe.mjs", "netlify.toml"):
+        skip, why = ni.decide([rel])
+        if skip:
+            fails.append(f"push files: netlify_ignore would skip the build for {rel} ({why}); the relay would not deploy")
+    return fails
+
+
+def check_privacy():
+    """The privacy page tells the truth about what the relay keeps, and only in a build that has a relay."""
+    fails = []
+    import site_build as sb
+    os.environ.pop(ENV, None)
+    sb._page_reset()
+    keyless = sb.render_privacy("")
+    os.environ[ENV] = FIX_KEY
+    try:
+        sb._page_reset()
+        keyed = sb.render_privacy("")
+    finally:
+        os.environ.pop(ENV, None)
+    low = keyless.lower()
+    for w in ("notification", "push", "blobs", "device number"):
+        if w in low:
+            fails.append(f"push privacy: the keyless privacy page mentions {w!r}; with no relay it must say nothing of one")
+    para = sb.privacy_push()
+    if para != "":
+        fails.append("push privacy: privacy_push() is not empty with no key in the environment")
+    os.environ[ENV] = FIX_KEY
+    try:
+        para = sb.privacy_push()
+    finally:
+        os.environ.pop(ENV, None)
+    if not para or para not in keyed:
+        fails.append("push privacy: the keyed privacy page does not carry the notifications paragraph")
+        return fails
+    stripped = keyed.replace(para, "")
+    stripped = stripped.replace(sb.PRIVACY_UPDATED_PUSH, sb.PRIVACY_UPDATED)
+    stripped = stripped.replace(sb.PRIVACY_DESC_PUSH, sb.PRIVACY_DESC)
+    if stripped != keyless:
+        fails.append("push privacy: apart from the paragraph, its date and its description line, the keyed privacy page "
+                     "differs from the keyless one")
+    text = re.sub(r"<[^>]+>", " ", para)
+    text = re.sub(r"\s+", " ", text)
+    for want in ("Netlify Blobs", "push address", "two keys", "teams", "device number", "180 days", "21 days",
+                 "No account", "email", "IP address", "turn", "off"):
+        if want not in text:
+            fails.append(f"push privacy: the paragraph does not say {want!r}")
+    if "\u2014" in para or re.search(r"\blive\b", text, re.I):
+        fails.append("push privacy: the paragraph breaks the copy law")
+    return fails
+
+
+def check_button_style():
+    """The Notify me button, and the Pin button beside it, are drawn in the site's tokens and type, not
+    as the browser's default button (Arial, black on grey), and the rule rides with the key: a keyless
+    build writes none of it, so its pages and its stylesheet are the build they were."""
+    fails = []
+    import site_build as sb
+    css = sb.PUSH_CSS
+    rules = re.findall(r"(?<![\w.-])\.tpin(?:\.[\w-]+)?\s*\{([^}]*)\}", css)
+    body = ";".join(rules)
+    if not re.search(r"font(-family)?\s*:[^;]*var\(--(sans|mono)\)", body):
+        fails.append("push button: no .tpin rule sets the site's type (var(--sans) or var(--mono)); the button is the browser's default")
+    if not re.search(r"(^|;)\s*color\s*:\s*var\(--", body) or not re.search(r"background(-color)?\s*:\s*(none|var\(--)", body) \
+            or not re.search(r"border(-color)?\s*:[^;]*var\(--", body):
+        fails.append("push button: the .tpin rules do not set color, background and border from the site's tokens")
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(", css):
+        fails.append("push button: the push button rules name a color outside the token set")
+    if re.search(r"font-family\s*:\s*(?!var\()", css):
+        fails.append("push button: the push button rules name a font outside the site's type")
+    os.environ.pop(ENV, None)
+    if sb.push_ui("nfl:KC", "KC") != ("", "") or "tpin{" in sb.render_privacy("") or "<style>.tpinwrap" in "".join(sb.push_ui("nfl:KC", "KC")):
+        fails.append("push button: a build with no key wrote push markup or style")
+    os.environ[ENV] = FIX_KEY
+    try:
+        btn, _note = sb.push_ui("nfl:KC", "KC")
+    finally:
+        os.environ.pop(ENV, None)
+    if not btn.startswith(sb.PUSH_CSS):
+        fails.append("push button: a keyed team page does not carry the button rule ahead of the button")
     return fails
 
 
@@ -269,6 +396,8 @@ def push_canary(out=None):
     fails = []
     fails.extend(check_rule())
     fails.extend(check_files())
+    fails.extend(check_privacy())
+    fails.extend(check_button_style())
     fails.extend(check_absent(out))
     fails.extend(check_present(out))
     return fails

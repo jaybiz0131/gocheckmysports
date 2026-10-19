@@ -19,9 +19,12 @@ export function readVapid(env = process.env) {
 }
 
 // The store, opened only after the keys are known to be present. Netlify Blobs is the one
-// npm dependency; it is imported here and nowhere on the no-key path.
+// third-party piece, and it is a single committed file (netlify/vendor/netlify-blobs.mjs, its
+// own header names the version), so the deploy has no install step to fail. It is imported
+// here and nowhere on the no-key path.
+// 'push-subs' holds a record per subscription; 'push-sent' holds the sent marks per device.
 export async function openStore(name = 'push-subs') {
-  const { getStore } = await import('@netlify/blobs');
+  const { getStore } = await import('../vendor/netlify-blobs.mjs');
   const s = getStore({ name, consistency: 'strong' });
   return {
     async list() {

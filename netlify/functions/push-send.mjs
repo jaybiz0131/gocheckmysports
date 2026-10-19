@@ -13,7 +13,7 @@ export default async () => {
     if (!r.ok) { console.log(`push-send: the game index answered ${r.status}, nothing sent`); return; }
     const games = (await r.json()).games || [];
     const stats = await runTick({
-      store: await openStore(), games, now: new Date(),
+      store: await openStore(), marks: await openStore('push-sent'), games, now: new Date(),
       send: (sub, msg) => sendPush(sub, msg, vapid),
     });
     console.log(`push-send: ${JSON.stringify(stats)}`);

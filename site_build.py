@@ -3486,18 +3486,25 @@ PUSH_JS = """<script>(function(){
   var b=document.querySelector('[data-tpush]');
   if(!b||!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return;
   if(Notification.permission==='denied')return;
-  var K='gcms-push-teams',T='gcms-push-sync',team=b.getAttribute('data-tpush'),vk=b.getAttribute('data-vapid');
+  var K='gcms-push-teams',T='gcms-push-sync',D='gcms-push-dev',team=b.getAttribute('data-tpush'),vk=b.getAttribute('data-vapid');
   var note=document.querySelector('.tpush-note'),keep=note?note.textContent:'';
   function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a:null;}catch(e){return null;}}
   function wr(a){try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}}
   if(rd()===null)return;
+  /* The device number: random, made here, kept only in this browser and sent with each post. The relay
+     keeps what it has sent under a hash of it, so turning a team off and on again does not send a
+     game twice. Not an account: nothing about the reader is in it. */
+  function dev(){try{var d=localStorage.getItem(D);if(!/^[0-9a-f]{32}$/.test(d||'')){var a=new Uint8Array(16);
+    crypto.getRandomValues(a);d='';for(var i=0;i<16;i++)d+=('0'+a[i].toString(16)).slice(-2);localStorage.setItem(D,d);}
+    return d;}catch(e){return '';}}
+  if(!dev())return;
   function u8(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var r=atob(s),o=new Uint8Array(r.length);
     for(var i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o;}
   function same(a,b2){if(!a||a.length!==b2.length)return false;for(var i=0;i<a.length;i++)if(a[i]!==b2[i])return false;return true;}
   function on(){return rd().indexOf(team)>-1&&Notification.permission==='granted';}
   function paint(){var v=on();b.setAttribute('aria-pressed',String(v));b.textContent=v?'Notifications on':'Notify me';}
   function post(s,teams){return fetch('/api/push',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({subscription:s.toJSON(),teams:teams})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
+    body:JSON.stringify({subscription:s.toJSON(),teams:teams,device:dev()})}).then(function(r){if(!r.ok)throw new Error(String(r.status));});}
   function sub(reg){var want=u8(vk);return reg.pushManager.getSubscription().then(function(s){
     if(s&&same(s.options&&s.options.applicationServerKey?new Uint8Array(s.options.applicationServerKey):null,want))return s;
     return(s?s.unsubscribe():Promise.resolve()).then(function(){
@@ -3525,13 +3532,31 @@ PUSH_JS = """<script>(function(){
 })();</script>"""
 
 
+# The Pin and Notify me buttons were the browser's own button (Arial, black on grey) because nothing
+# in site.css styles their class. This takes the site's chip: Plex Mono small caps, the card's paper,
+# the rule's line, the field green when pressed; no color of its own. IT RIDES WITH THE KEY: it is
+# written into a team page only in a build that carries the push key, so a build without one is
+# byte for byte the build it was (site.css, and every page's link to it, are untouched). The Pin
+# button shares the class and is drawn the same way in a keyed build; on a keyless build it is
+# still the browser's default, as on main. Moving this rule into site.css fixes Pin everywhere and
+# moves the stylesheet's hash on every page, which is a decision for the board.
+PUSH_CSS = ("<style>.tpinwrap{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}"
+            ".tpin{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;"
+            "text-transform:uppercase;color:var(--ink);background:var(--card);border:1px solid var(--line);"
+            "border-radius:4px;padding:7px 12px;min-height:36px;line-height:1.2;cursor:pointer}"
+            ".tpin:hover{border-color:var(--rule)}"
+            ".tpin[aria-pressed=\"true\"]{color:var(--rule);border-color:var(--rule)}"
+            ".tpin:focus-visible{outline:2px solid var(--rule);outline-offset:2px}"
+            ".tpin:disabled{opacity:.6;cursor:default}</style>")
+
+
 def push_ui(team_key, label):
     """(button, note-and-script) for a team page, or ('', '') when the build has no key. The button
     and the note start hidden; the script reveals them only on a browser that can receive a push."""
     k = push_key()
     if not k or not team_key:
         return "", ""
-    btn = (f'<button type="button" class="wl-pick tpin tpush" data-tpush="{esc(team_key)}" '
+    btn = (PUSH_CSS + f'<button type="button" class="wl-pick tpin tpush" data-tpush="{esc(team_key)}" '
            f'data-vapid="{esc(k)}" aria-pressed="false" hidden>Notify me</button>')
     note = (f'<p class="tm-rec tpush-note" hidden>One notification the evening before each '
             f'{esc(label)} game. No account.</p>')
@@ -3542,6 +3567,11 @@ def _push_cond(e):
     """The conditions line for the notification, from the build's own entry and in the card's own
     words: the numbers of a forecast, "Dome", a roof's words. Anything else is no line."""
     st = (e or {}).get("status")
+    # A stale entry is left out whole. The site prints the same entry with "last reading" after its
+    # credit (cx_credit), so a notification that carried its numbers would be saying as current what
+    # the page says is old. The nws block carries its own flag for the same thing.
+    if (e or {}).get("stale") or ((e or {}).get("nws") or {}).get("stale"):
+        return ""
     if st == "indoor":
         return "Dome"
     if st == "roofed":
@@ -11121,7 +11151,49 @@ def render_standards(dateline):
                  "Standards", body, dateline, path="/standards.html")
 
 
+PRIVACY_UPDATED = "July 19, 2026"
+PRIVACY_DESC = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
+                "cookieless Cloudflare analytics, and nothing else.")
+# S-3b.4: in a build that carries the push key the policy moves, and says what the relay keeps. In a
+# build without the key none of these differ from the text above, byte for byte.
+PRIVACY_UPDATED_PUSH = "October 19, 2026"
+PRIVACY_DESC_PUSH = ("What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
+                     "cookieless Cloudflare analytics, and, only if you turn them on, the record that "
+                     "sends a team's game-eve notification.")
+
+
+def privacy_push():
+    """The paragraph about game-eve notifications: empty in a build with no push key, because a build
+    with no key has no relay and keeps nothing. Every figure in it is one the relay's code enforces
+    (netlify/lib/tick.mjs EXPIRE_MS and KEEP_SENT_MS, subscribe.mjs MAX_TEAMS)."""
+    if not push_key():
+        return ""
+    return """
+  <h2>Notifications</h2>
+  <p>If you turn on notifications for a team, our relay (a Netlify function, with its records in Netlify
+     Blobs, our hosting provider's storage) keeps, for your device: the push address your browser's push
+     service gave it (an address at Google, Mozilla, Apple or Microsoft, not your name or your email), the
+     two keys that let a message be encrypted for your device, the teams you picked (at most eight), and a
+     hash of a random device number the page makes and keeps in your browser. That record is kept for up to
+     180 days from the last time you opened a team page with notifications on, which renews it once a week;
+     then it is deleted. Separately, the relay keeps which games it has already notified that device about
+     (game numbers and dates only, under the hashed device number), so that turning a team off and on again
+     the same evening does not send the same game twice. That list is deleted by itself 21 days after the
+     last notification. No account, no email address and no IP address of yours is stored by the relay; the
+     hosting provider's own server logs are described above.</p>
+  <p>To remove it, turn notifications off on each team page, where the button reads "Notifications on". When
+     the last team is turned off, the push address, keys and teams are deleted at once. The list of games
+     already notified stays until its 21 days run out, or until you email
+     <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a> and we delete it. A device you stop
+     using or whose browser clears its data is forgotten the first time a notification to it is refused, or
+     when its 180 days run out.</p>
+"""
+
+
 def render_privacy(dateline):
+    _push = privacy_push()
+    _updated = PRIVACY_UPDATED_PUSH if _push else PRIVACY_UPDATED
+    _desc = PRIVACY_DESC_PUSH if _push else PRIVACY_DESC
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Privacy</span>
   <h1>Privacy policy</h1>
@@ -11153,7 +11225,7 @@ def render_privacy(dateline):
   <h2>Links out</h2>
   <p>Stories link their sources. Once you leave this site, the site you land on operates
      under its own privacy policy.</p>
-
+{_push}
   <h2>Contact and data requests</h2>
   <p>Questions about this policy, your data, or the newsletter, including unsubscribe requests:
      <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>. A human reads it.
@@ -11162,11 +11234,9 @@ def render_privacy(dateline):
 
   <h2>Changes</h2>
   <p>This policy changes only when the site's behavior changes, and the date below moves when it
-     does. Last updated July 19, 2026.</p>
+     does. Last updated {_updated}.</p>
 </section></main>"""
-    return shell(f"Privacy - {NAME}",
-                 "What GoCheckMySports collects and where it goes: newsletter emails via Netlify Forms, "
-                 "cookieless Cloudflare analytics, and nothing else.",
+    return shell(f"Privacy - {NAME}", _desc,
                  "Privacy", body, dateline, path="/privacy.html")
 
 
