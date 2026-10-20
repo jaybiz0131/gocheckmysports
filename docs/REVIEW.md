@@ -1,0 +1,16 @@
+Review 1, October 20, 2026, the strategist
+
+Read on production at 5:20 AM ET, October 20, stamp "commit 437a46b built 2026-10-20T03:45:32+00:00", with the pod's reports for S-3b.1 to S-3b.4 as the record of what the reviewer measured. The rule of the scorecard is that a line nobody measured is unmet, and it is applied here as written.
+
+1. Truth: met. Every stamp in ET with its zone; Final only on played games; the team page says why conditions are absent. One wart: a game page prints two "Updated" stamps a minute apart (11:45 and 11:46 PM ET on /games/401873022), which is two stamps where the copy law allows one.
+2. Fresh: short. A played game keeps its pre-game title and description: /games/401856719 (Auburn at Georgia, Final on October 17) is titled "Auburn at Georgia: weather, where to watch. Saturday 3:30 PM ET." and its description promises conditions at kickoff. A played game rendered as current in the search result is line 2's definition of stale, and line 2 can never be the short one.
+3. First screen: met on the pod's screenshots at 390 and 1440 for every S-3b item. Noted, not scored: between midnight and 6:00 AM ET on Tuesday the home's first card is last Tuesday's final, because the week rolls at 6:00 AM by rule.
+4. Fast: unmet by the rule, because nobody has measured it since S-2d. The home is 139,076 bytes against the 150 KB budget (S-3b.3's report); scores.html is about 277 KB and has no budget; no Lighthouse mobile run is on record for the home or a game page since the look changed.
+5. One look: met on the reviewer's PASS with screenshots kept under review/ for each S-3b item.
+6. Copy: met. No em dash on any page read, no "live", the dateline above the headline, "No betting advice." in the footer only, the line on cards as Jack ruled on October 14.
+7. Doors: short. The sitemap index carries three children, the priority sitemap 76 game and 72 team URLs, IndexNow sent after each merge (151 URLs on October 19); but the structured data has not been validated since S-3a (the S-3b reports do not mention it) and the Monday crawled-not-indexed read has not been taken, which is Jack's.
+8. Money kept honest: met. Every affiliate slot is empty, every stream a plain link, the "how we make money" line renders only where an affiliate link would, no ads, no picks, no email capture.
+9. Operations: met. Six builds on October 19 of twelve; the count of record after every push; CI green on main at 8a045de and 2eb2ef2 (runs 337 and 338); run 339 on 0d4d895 was in progress when the S-3b.4 report closed and the next report states its result.
+10. Reliability: short. Canary before every push, suite output to a file, a report for every merged item; but zero console errors on the built home, game page and team page is not on record for any S-3b build.
+
+Score: 6 of 10 on the rule as written. Three of the four short lines are measurement gaps (4, 7's validation, 10's console), one is a defect (2). Nine out of ten needs line 2 fixed and the three measurements taken and green; the board below is that and nothing else, with the college team URL defect from J-9 first because it is live.
