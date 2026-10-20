@@ -8961,7 +8961,8 @@ def gp_title(g):
 
 def gp_page_title(g):
     """S-5.1: the played game's page. Once the game is Final the title is the result with the
-    feed's real score, "Georgia 21, Auburn 17: final score. Saturday, October 17.", and promises
+    feed's real score, home team first ("Georgia 24, Auburn 27: final score. Saturday, October 17."
+    for Auburn at Georgia), and promises
     no conditions and no where to watch. Anything else (scheduled, live, postponed, or a Final
     the feed gave no score for, where a score would be made up) keeps gp_title, unchanged. Only
     the page's title, og:title and description use this; the cards' and rows' labels stay
@@ -8975,7 +8976,8 @@ def gp_page_title(g):
         return gp_title(g)
     an = a.get("name") or a.get("abbr") or ""
     hn = h.get("name") or h.get("abbr") or ""
-    return f"{an} {sa}, {hn} {sh}: final score. {k.astimezone(_ET).strftime('%A, %B %-d')}."
+    # the board's form names the home team and its score first
+    return f"{hn} {sh}, {an} {sa}: final score. {k.astimezone(_ET).strftime('%A, %B %-d')}."
 
 
 def gp_stamp(desig):

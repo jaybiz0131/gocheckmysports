@@ -69,7 +69,7 @@ _RUNTIME = [
 TITLE = re.compile(r"^[^<>]+ at [^<>]+: weather, where to watch(, inactives)?\. "
                    r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) "
                    r"\d{1,2}:\d{2} (AM|PM) ET\.$")
-# S-5.1: the played game's title, "Georgia 21, Auburn 17: final score. Saturday, October 17."
+# S-5.1: the played game's title, "Georgia 24, Auburn 27: final score. Saturday, October 17."
 TITLE_FINAL = re.compile(r"^[^<>]+ \d+, [^<>]+ \d+: final score\. "
                          r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), "
                          r"(January|February|March|April|May|June|July|August|September|October|"
@@ -178,6 +178,33 @@ def check_tree(out):
                              f"and the home does not say it left the game to Scores")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
             fails.append(f"game pages: {gid} is not in the priority sitemap")
+    # S-5.1: every built Final page, whether or not the conditions board lists it: the title is
+    # the result with the HOME team and its score first (the h1 reads "Away at Home"), og:title
+    # and the description match it, and the page carries one Updated stamp.
+    gdir = os.path.join(out, "games")
+    for name in sorted(os.listdir(gdir)) if os.path.isdir(gdir) else []:
+        if not name.endswith(".html"):
+            continue
+        html = open(os.path.join(gdir, name), encoding="utf-8").read()
+        if not re.search(r'class="sbg-kicker">[^<]*\u00b7 Final<', html):
+            continue
+        t = re.search(r"<title>([^<]*)</title>", html)
+        title = (t.group(1) if t else "").replace("&amp;", "&").replace("&#x27;", "'")
+        if not TITLE_FINAL.match(title):
+            fails.append(f"game pages: Final page {name} title {title!r} is not the result")
+            continue
+        h1 = re.search(r'<h1 class="lx-h1 sbg-h1" title="([^"]*) at ([^"]*)"', html)
+        if h1:
+            home_t = h1.group(2).replace("&amp;", "&").replace("&#x27;", "'")
+            if not (home_t.endswith(title.split(",")[0].rsplit(" ", 1)[0]) or
+                    title.split(",")[0].rsplit(" ", 1)[0].endswith(home_t.split()[-1])):
+                fails.append(f"game pages: Final page {name} title {title!r} does not name the home team "
+                             f"({home_t}) first")
+        if _meta(html, "property", "og:title") != title.replace("&", "&") or \
+                _meta(html, "name", "description") != title:
+            fails.append(f"game pages: Final page {name} og:title or description does not match its title")
+        if len(re.findall(r"Updated ", re.sub(r"<script.*?</script>", "", html, flags=re.S))) != 1:
+            fails.append(f"game pages: Final page {name} does not carry exactly one Updated stamp")
     for u in re.findall(r"<loc>[^<]*/games/([^<.]+)(?:\.html)?</loc>", every):
         if u not in games:
             fails.append(f"game pages: /games/{u} is in a sitemap and not on the board")
@@ -200,12 +227,12 @@ def check_played():
     was = (sb.CX_DATA, sb._carriage.load, sb.W2W_DATA, sb.MANIFEST, sb._NOW_CACHE, sb.IA_DESIG,
            sb.IA_BOARD, sb.SB_DATA)
     pre = {"id": "pl1", "league": "CFB", "state": "pre", "start_utc": "2026-10-17T19:30Z",
-           "venue": "Jordan-Hare Stadium", "network": "ESPN",
-           "away": {"abbr": "UGA", "name": "Georgia", "record": "6-1"},
-           "home": {"abbr": "AUB", "name": "Auburn", "record": "4-3"}}
+           "venue": "Sanford Stadium", "network": "ESPN",
+           "away": {"abbr": "AUB", "name": "Auburn", "record": "4-3"},
+           "home": {"abbr": "UGA", "name": "Georgia", "record": "6-1"}}
     fin = dict(pre, state="post", status_short="Final",
-               away=dict(pre["away"], score="21", periods=["7", "7", "0", "7"]),
-               home=dict(pre["home"], score="17", periods=["3", "7", "0", "7"]))
+               away=dict(pre["away"], score="27", periods=["7", "7", "6", "7"]),
+               home=dict(pre["home"], score="24", periods=["3", "7", "7", "7"]))
     ppd = dict(pre, state="post", status_short="Postponed")
     noscore = dict(pre, state="post", status_short="Final")
     try:
@@ -215,13 +242,13 @@ def check_played():
         sb.CX_DATA = {"games": {}}
         sb.W2W_DATA = {"weeks": []}
         sb.IA_BOARD = {"teams": [], "last_change": ""}
-        want = "Georgia 21, Auburn 17: final score. Saturday, October 17."
+        want = "Georgia 24, Auburn 27: final score. Saturday, October 17."
         if sb.gp_page_title(fin) != want:
             fails.append(f"played: a Final game's title is {sb.gp_page_title(fin)!r}, not {want!r}")
         t = sb.gp_page_title(fin)
         if re.search(r"\d{1,2}:\d{2}|weather|where to watch|inactives| at ", t):
             fails.append(f"played: a Final game's title still names a kickoff time, conditions or where to watch: {t!r}")
-        old = "Georgia at Auburn: weather, where to watch. Saturday 3:30 PM ET."
+        old = "Auburn at Georgia: weather, where to watch. Saturday 3:30 PM ET."
         if sb.gp_title(fin) != old:
             fails.append("played: a card's or a row's label (gp_title) changed for a Final game; only the page's title does")
         if sb.gp_page_title(pre) != old:
