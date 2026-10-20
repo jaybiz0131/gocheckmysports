@@ -77,7 +77,7 @@ def unit():
          "color": "#00274c", "since": "2026-10-19", "source": "fixture"},
         {"slug": "liberty", "school": "Liberty", "mascot": "Flames", "abbr": "", "id": "", "color": "",
          "since": "2026-10-20", "source": "fixture"},
-        {"slug": "better-0", "school": "Better 0", "mascot": "M", "abbr": "B0", "id": "b0", "color": "",
+        {"slug": "better-0", "school": "Better 0", "mascot": "Stored", "abbr": "B0", "id": "b0", "color": "",
          "since": "2026-10-16", "source": "fixture"}]}
     progs = teams.registry_programs(reg, top, games)
     slugs = [p["slug"] for p in progs]
@@ -121,6 +121,8 @@ def unit():
             if v not in ("", None) and (news.get(s) or {}).get(k) != v:
                 fails.append(f"grows: the union changed {s}'s {k} from {v!r}")
                 break
+    if (news.get("better-0") or {}).get("color") != "#123456":
+        fails.append("grows: an empty field the registry holds is not filled from the week's board")
     if not {p["slug"] for p in top} <= set(news):
         fails.append("grows: the week's forty are not all added to the registry")
     added = news.get("good-0") or {}
@@ -139,8 +141,11 @@ def unit():
     got = [e["slug"] for e in teams.registry_entries(bad)]
     if got != ["toledo"]:
         fails.append(f"grows: malformed registry entries were accepted: {got}")
-    if teams.registry_entries(None) != [] or teams.registry_entries({"programs": "x"}) != []:
-        fails.append("grows: an unreadable registry is not read as empty")
+    try:
+        if teams.registry_entries(None) != [] or teams.registry_entries({"programs": "x"}) != []:
+            fails.append("grows: an unreadable registry is not read as empty")
+    except Exception as e:
+        fails.append(f"grows: an unreadable registry raised {type(e).__name__}")
     return fails
 
 
@@ -155,6 +160,13 @@ def _committed(root=HERE):
         return None
 
 
+def _slugs(doc):
+    """The slugs a registry document holds, read here rather than through teams, so the tree checks
+    report what the build wrote even when teams cannot read it."""
+    progs = (doc or {}).get("programs") if isinstance(doc, dict) else None
+    return {e.get("slug") for e in progs if isinstance(e, dict) and e.get("slug")} if isinstance(progs, list) else set()
+
+
 def _read(tree, rel):
     try:
         return open(os.path.join(tree, rel), encoding="utf-8").read()
@@ -164,23 +176,22 @@ def _read(tree, rel):
 
 def tree_checks(tree):
     fails = []
-    import teams
     committed = _committed()
     if committed is None:
         return [f"tree: {REGISTRY_REL} is not committed"]
-    want = {e["slug"] for e in teams.registry_entries(committed)}
+    want = _slugs(committed)
     if not want:
         fails.append(f"tree: the committed {REGISTRY_REL} holds no program")
     pub = _read(tree, "data/cfb-teams-built.json")
-    got = {e["slug"] for e in teams.registry_entries(json.loads(pub))} if pub else set()
+    got = _slugs(json.loads(pub)) if pub else set()
     if not pub:
         fails.append("tree: the build published no /data/cfb-teams-built.json")
     elif not want <= got:
         fails.append(f"tree: the published registry lost {sorted(want - got)[:6]}")
     left = _read(HERE, REGISTRY_REL)
-    if left is None or not want <= {e["slug"] for e in teams.registry_entries(json.loads(left))}:
+    if left is None or not want <= _slugs(json.loads(left)):
         fails.append(f"tree: the build left a {REGISTRY_REL} that does not hold the committed one")
-    elif pub and {e["slug"] for e in teams.registry_entries(json.loads(left))} != got:
+    elif pub and _slugs(json.loads(left)) != got:
         fails.append(f"tree: the {REGISTRY_REL} the build left is not the registry it published")
     cdir = os.path.join(tree, "teams", "cfb")
     pages = {f[:-5] for f in os.listdir(cdir) if f.endswith(".html")} if os.path.isdir(cdir) else set()

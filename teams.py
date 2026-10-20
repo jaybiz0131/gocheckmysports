@@ -77,6 +77,84 @@ def top_programs(rankings, cfb_games, n=40):
     return out[:n]
 
 
+
+# S-5.0: THE REGISTRY (J-9, option (a), ruled October 20, 2026). Under the law that URLs never change, a
+# college team page once built is built every week after; the set only grows. data/cfb-teams-built.json
+# holds every program whose page has been built: its slug, the identity it was built with (school,
+# mascot, abbreviation, ESPN id, color), the Eastern date it was first built and where that is recorded.
+# These three functions are the whole of the rule and touch no file; site_build.py reads and writes.
+
+REGISTRY_FIELDS = ("slug", "school", "mascot", "abbr", "id", "color", "since", "source")
+_SLUG_OK = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+
+
+def registry_entries(doc):
+    """The well-formed entries of a registry document, in its order. An entry is refused unless its slug
+    is the slug of its school and every field it carries is a string (the id may be a number): the published copy is read back
+    by the next build, and nothing it holds may name a path the build would not have made."""
+    progs = doc.get("programs") if isinstance(doc, dict) else None
+    out, seen = [], set()
+    for e in progs if isinstance(progs, list) else []:
+        if not isinstance(e, dict):
+            continue
+        if any(not isinstance(e.get(k, ""), (int, str) if k == "id" else str) or isinstance(e.get(k), bool)
+               for k in REGISTRY_FIELDS):
+            continue
+        sl = e.get("slug") or ""
+        if not _SLUG_OK.fullmatch(sl) or slug(e.get("school")) != sl or len(sl) > 80 or sl in seen:
+            continue
+        seen.add(sl)
+        out.append({k: str(e.get(k) or "") for k in REGISTRY_FIELDS})
+    return out
+
+
+def registry_union(doc, programs, since="", source=""):
+    """The registry with every program added that it does not hold. Nothing is removed and no filled field
+    changes; a field the registry holds empty takes the program's value (an id the board names later).
+    `programs` are the week's forty or another registry's entries. Kept in slug order."""
+    by = {e["slug"]: e for e in registry_entries(doc)}
+    for p in programs or []:
+        sl = (p or {}).get("slug") or ""
+        if not _SLUG_OK.fullmatch(sl) or slug(p.get("school")) != sl:
+            continue
+        ident = {k: str(p.get(k) or "") for k in ("school", "mascot", "abbr", "id", "color")}
+        if sl in by:
+            e = by[sl]
+            for k, v in ident.items():
+                if not e.get(k) and v:
+                    e[k] = v
+            continue
+        by[sl] = {"slug": sl, **ident, "since": str(p.get("since") or since or ""),
+                  "source": str(p.get("source") or source or "")}
+    out = {k: v for k, v in (doc.items() if isinstance(doc, dict) else []) if k != "programs"}
+    out["programs"] = [by[k] for k in sorted(by)]
+    return out
+
+
+def registry_programs(doc, top, cfb_games):
+    """Every program that gets a page: the week's forty first, as top_programs made them, then each
+    registry program not among them, in slug order. A registry program comes from the same data the forty
+    use: the week's board when the board holds it (matched on the ESPN id, else the school), and its
+    stored identity when it does not, with no record, since a record the week does not state is stale."""
+    out = list(top or [])
+    have = {p["slug"] for p in out}
+    by_id, by_school = {}, {}
+    for t in _teams_on_board(cfb_games or []):
+        if t.get("id"):
+            by_id[str(t.get("id"))] = t
+        by_school[slug(t.get("school") or "")] = t
+    for e in registry_entries(doc):
+        if e["slug"] in have:
+            continue
+        b = (by_id.get(e["id"]) if e["id"] else None) or by_school.get(e["slug"]) or {}
+        out.append({"slug": e["slug"], "school": e["school"],
+                    "mascot": b.get("mascot") or e["mascot"], "abbr": b.get("abbr") or e["abbr"],
+                    "id": str(b.get("id") or e["id"] or ""), "color": b.get("color") or e["color"],
+                    "record": b.get("record") or "", "rank": None, "previous": None, "trend": "",
+                    "ranked": False})
+        have.add(e["slug"])
+    return out
+
 def _kind_tags(e):
     f = (e or {}).get("flags") or {}
     tags = []

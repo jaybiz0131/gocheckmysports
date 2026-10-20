@@ -18,7 +18,7 @@ gate's own throwaway tree (verify_pipeline._built_tree).
   event      SportsEvent carries the name, the start with its offset, both teams, the venue; a
              BroadcastEvent per carrier points at it; no em dash; nothing the page does not say
   tree       every NFL team has its page with a next-game block, the scoreboard schedule, the
-             record line and the log; the top forty college programs have theirs; a scheduled
+             record line and the log; every college program in the registry has its page (S-5.0); a scheduled
              game prints no score; the log on a page lists exactly that team's flagged games
   sitemap    every team page the build wrote is in the priority sitemap
   indexnow   scripts/indexnow.py --prefix sends only the URLs under a prefix
@@ -227,21 +227,22 @@ def tree_checks(tree):
         if "\u2014" in h:
             fails.append(f"tree: {ab} carries an em dash")
     cfb = sorted(os.listdir(os.path.join(tree, "teams", "cfb"))) if os.path.isdir(os.path.join(tree, "teams", "cfb")) else []
+    # S-5.0: one page per program the published registry holds (the week's forty and every program built
+    # before them; registry_canary checks the registry itself)
     try:
-        import teams as _t
-        import standings as _st
-        sbt = json.loads(_read(tree, "data/scoreboard.json") or "{}")
-        games = [g for L in sbt.get("leagues") or [] if L.get("league") == "CFB" for g in L.get("games") or []]
-        want = len(_t.top_programs(((_st.load() or {}).get("rankings")), games, 40))
+        want = len(json.loads(_read(tree, "data/cfb-teams-built.json") or "{}").get("programs") or [])
     except Exception as e:
-        want = 40
-        fails.append(f"tree: could not work out the expected college page count ({type(e).__name__})")
-    if not cfb or len(cfb) != want or len(cfb) > 40:
-        fails.append(f"tree: {len(cfb)} college program pages, expected {want} (at most 40)")
+        want = -1
+        fails.append(f"tree: could not read the published college registry ({type(e).__name__})")
+    if not cfb or len(cfb) != want:
+        fails.append(f"tree: {len(cfb)} college program pages, expected {want}, one per registry program")
     for f in cfb:
         h = _read(tree, f"teams/cfb/{f}") or ""
+        # a program with no game this week and no rank has no record the week states, so no record line
         for needle, what in (('class="tms', "the scoreboard schedule"), ('id="team-log"', "the conditions log"),
                              ('class="tm-rec', "the record line")):
+            if needle == 'class="tm-rec' and "No game this week" in h:
+                continue
             if needle not in h:
                 fails.append(f"tree: college {f} has no {what}")
     # the bye is its own row, in the week the team does not play (the feed's own "bye" field is wrong for

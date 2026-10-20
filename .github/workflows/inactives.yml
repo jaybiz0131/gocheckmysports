@@ -167,7 +167,9 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A site/data
+          # S-5.0: the college registry the build grew (a page once built is built every week after;
+          # a Netlify build cannot commit, so this job keeps the committed file grown)
+          git add -A site/data data/cfb-teams-built.json
           git commit -m "inactives: snapshot $(date -u +%H:%MZ)" || exit 0
           # The desk's race-safe push. A brief can land while this runs.
           ok=false
