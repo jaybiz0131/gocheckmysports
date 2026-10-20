@@ -32,10 +32,13 @@ jobs:
       # browser". They are the gate's own inputs, installed like conditions-report.yml installs Pillow.
       - name: Pillow, for the share card the canary draws
         run: pip install --quiet Pillow
-      - name: Playwright and Chromium, for the record-gap measure
+      # S-5.2: Lighthouse, beside Playwright, for scorecard line 4 (mobile performance on the built
+      # home and a game page, scripts/page-measure.mjs). It drives the Chromium installed below and
+      # fetches no browser of its own; 12.8.2 runs on Node 18 and later. A CI tool, never a site script.
+      - name: Playwright and Chromium, for the record-gap measure; Lighthouse, for the performance read
         run: |
           mkdir -p "$RUNNER_TEMP/pw"
-          npm install --prefix "$RUNNER_TEMP/pw" --silent playwright@1.56.1
+          npm install --prefix "$RUNNER_TEMP/pw" --silent playwright@1.56.1 lighthouse@12.8.2
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
           echo "PLAYWRIGHT_NODE_MODULES=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
       - name: Run offline canary (blocks on failure)
