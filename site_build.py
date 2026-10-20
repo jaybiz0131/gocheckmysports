@@ -7557,7 +7557,8 @@ def scores_registry_union(prior, built):
 
 def scores_placeholder(path, dateline):
     """The page at a published Scores path the build has no games for: what it is, with no count,
-    and the way to the current scores. Not indexed."""
+    and the way to the current scores. Not indexed. A day already past says its games rolled off the
+    board; a day not yet past says only that the feed did not return it, never a reason not verified."""
     m = re.fullmatch(r"/scores/(\d{4}-\d{2}-\d{2})(?:-(\d+))?\.html", path)
     if not m:
         return None
@@ -7566,9 +7567,13 @@ def scores_placeholder(path, dateline):
     if m.group(2):
         said = (f"This page held a later part of the scores for {day}. The day no longer needs it. "
                 f'<a href="/scores/{m.group(1)}.html">The first page for that day</a> is the one the scoreboard keeps.')
-    else:
+    elif dt < _build_now().astimezone(_ET).date():
         said = (f"The scoreboard no longer carries {day}: its games have rolled off the current board, "
                 "and the desk does not keep a scoreboard it cannot check.")
+    else:
+        # the day has not passed, so nothing has rolled off: the feed did not return it to this build
+        said = (f"The scoreboard could not read the games for {day} in this build. "
+                "This page fills in when the feed returns them.")
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Scores</span>
   <h1>Scores, {esc(day)}</h1>

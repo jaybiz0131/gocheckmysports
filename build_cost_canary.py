@@ -392,6 +392,17 @@ def urls_unit():
             fails.append("urls: the page for a published day the build no longer holds is missing its date, its link to /scores.html or its noindex")
         if re.search(r"\d+ (game|on)", txt):
             fails.append("urls: the page for a day with no data prints a count")
+        # a registered day the feed did not return, and that has not happened yet, never says it rolled off
+        sb._NOW_CACHE = _d.datetime(2026, 10, 20, 20, 0, tzinfo=_d.timezone.utc)
+        fut = sb.scores_placeholder("/scores/2026-10-25.html", "") or ""
+        fm = re.search(r"<main.*?</main>", fut, re.S)
+        ft = re.sub(r"<[^>]+>", " ", fm.group(0) if fm else "")
+        if "rolled off" in ft or "no longer" in ft:
+            fails.append("urls: the page for October 25, read on October 20, says its games have rolled off the board")
+        if "could not" not in ft or "October 25" not in ft or 'href="/scores.html"' not in fut or "noindex" not in fut:
+            fails.append("urls: the page for a future day the feed did not return must say the games could not be read, with its date and a link to /scores.html")
+        if "rolled off" not in re.sub(r"<[^>]+>", " ", (re.search(r"<main.*?</main>", sb.scores_placeholder("/scores/2026-10-15.html", "") or "", re.S) or re.search("", "")).group(0)):
+            fails.append("urls: a past day's page no longer says its games rolled off")
     except Exception as e:
         fails.append(f"urls: the fixture raised {type(e).__name__}: {e}")
     finally:
