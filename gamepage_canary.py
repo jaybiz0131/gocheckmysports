@@ -193,9 +193,20 @@ def check_tree(out):
                              f"and the home does not say it left the game to Scores")
         if f"/games/{gid}.html" not in prio and f"/games/{gid}<" not in prio:
             fails.append(f"game pages: {gid} is not in the priority sitemap")
+    fails += check_final_pages(out)
+    for u in re.findall(r"<loc>[^<]*/games/([^<.]+)(?:\.html)?</loc>", every):
+        if u not in games:
+            fails.append(f"game pages: /games/{u} is in a sitemap and not on the board")
+    if "CFB" not in leagues:
+        print("::warning::game pages: no FBS game on this build's board")
+    return fails
+
+
+def check_final_pages(out):
     # S-5.1: every built Final page, whether or not the conditions board lists it: the title is
     # the result with the HOME team and its score first (the h1 reads "Away at Home"), og:title
     # and the description match it, and the page carries one Updated stamp.
+    fails = []
     gdir = os.path.join(out, "games")
     feed_games = {}
     try:
@@ -229,11 +240,6 @@ def check_tree(out):
             fails.append(f"game pages: Final page {name} og:title or description does not match its title")
         if len(re.findall(r"Updated ", re.sub(r"<script.*?</script>", "", html, flags=re.S))) != 1:
             fails.append(f"game pages: Final page {name} does not carry exactly one Updated stamp")
-    for u in re.findall(r"<loc>[^<]*/games/([^<.]+)(?:\.html)?</loc>", every):
-        if u not in games:
-            fails.append(f"game pages: /games/{u} is in a sitemap and not on the board")
-    if "CFB" not in leagues:
-        print("::warning::game pages: no FBS game on this build's board")
     return fails
 
 
@@ -254,11 +260,11 @@ def check_played():
            "venue": "Sanford Stadium", "network": "ESPN",
            "away": {"abbr": "AUB", "name": "Auburn", "record": "4-3"},
            "home": {"abbr": "UGA", "name": "Georgia", "record": "6-1"}}
-    fin = dict(pre, state="post", status_short="Final",
+    fin = dict(pre, state="post", status_short="Final", completed=True,
                away=dict(pre["away"], score="27", periods=["7", "7", "6", "7"]),
                home=dict(pre["home"], score="24", periods=["3", "7", "7", "7"]))
     # the same on a second, NFL record, so the order is proven on both name styles (U-9)
-    nfl = {"id": "pl2", "league": "NFL", "state": "post", "status_short": "Final",
+    nfl = {"id": "pl2", "league": "NFL", "state": "post", "status_short": "Final", "completed": True,
            "start_utc": "2026-10-16T00:15Z",
            "away": {"abbr": "SEA", "name": "Seahawks", "score": "14"},
            "home": {"abbr": "DEN", "name": "Broncos", "score": "17"}}
@@ -272,7 +278,10 @@ def check_played():
         if not final_title_problem(flipped, rec):
             fails.append(f"played: the order check passes an away-first {lab} Final title")
     ppd = dict(pre, state="post", status_short="Postponed")
-    noscore = dict(pre, state="post", status_short="Final")
+    noscore = dict(pre, state="post", status_short="Final", completed=True)
+    # a canceled game: the feed marks it post, status Canceled, 0 and 0, and completed false
+    canc = dict(pre, state="post", status_short="Canceled", completed=False,
+                away=dict(pre["away"], score="0"), home=dict(pre["home"], score="0"))
     try:
         sb._NOW_CACHE = _d.datetime(2026, 10, 18, 13, 0, tzinfo=_d.timezone.utc)
         sb.MANIFEST = None
@@ -297,6 +306,40 @@ def check_played():
             fails.append("played: a postponed game got the result title")
         if sb.gp_page_title(noscore) != old:
             fails.append("played: a Final game with no score in the feed got a result title, a score made up")
+        if sb.gp_page_title(canc) != old:
+            fails.append(f"played: a canceled game (0 and 0) got the result title {sb.gp_page_title(canc)!r}")
+        kc = sb.sbg_kicker(canc)
+        if "Final" in kc or "Canceled" not in kc:
+            fails.append(f"played: a canceled game's kicker is {kc!r}, not the feed's word Canceled without Final")
+        if "Final" not in sb.sbg_kicker(fin) or "Final" not in sb.sbg_kicker(noscore):
+            fails.append("played: a completed game's kicker no longer reads Final")
+        sb.IA_DESIG = {"groups": {}, "last_poll": "2026-10-18T10:00:00Z"}
+        chtml = sb.render_game_page(canc, {}, {"teams": []}, None, [], "")
+        ctitle = (re.search(r"<title>([^<]*)</title>", chtml) or [None, ""])[1].replace("&amp;", "&")
+        if ctitle != old or _meta(chtml, "property", "og:title") != old or "where to watch" not in _meta(chtml, "name", "description"):
+            fails.append(f"played: the canceled game's page title, og:title or description changed: {ctitle!r}")
+        if re.search(r'class="sbg-kicker">[^<]*Final<', chtml):
+            fails.append("played: the canceled game's page kicker reads Final")
+        # the built-tree check on a tree of three pages: a Final the feed gave no score for and a
+        # canceled game pass; a completed, scored Final with a pre-game title still fails
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            os.makedirs(os.path.join(td, "games"))
+            os.makedirs(os.path.join(td, "data"))
+            recs = {"ns1": dict(noscore, id="ns1"), "cn1": dict(canc, id="cn1"), "bd1": dict(fin, id="bd1")}
+            for gid, rec in recs.items():
+                h = sb.render_game_page(rec, {}, {"teams": []}, None, [], "")
+                if gid == "bd1":
+                    h = h.replace(sb.esc(sb.gp_page_title(rec)), sb.esc(old))
+                open(os.path.join(td, "games", gid + ".html"), "w", encoding="utf-8").write(h)
+            json.dump({"leagues": [{"league": "CFB", "games": list(recs.values())}]},
+                      open(os.path.join(td, "data", "scoreboard.json"), "w", encoding="utf-8"))
+            got = check_final_pages(td)
+            for gid in ("ns1", "cn1"):
+                if any(f"{gid}.html" in f for f in got):
+                    fails.append(f"played: the built-tree check fails the exempt page {gid}: {got}")
+            if not any("bd1.html" in f for f in got):
+                fails.append("played: the built-tree check passes a completed, scored Final with the pre-game title")
         # the page: title, og:title, twitter:title and description agree; one Updated stamp
         later = "2026-10-18T14:00:00Z"
         for label, g, desig in (("final", fin, {"groups": {}, "last_poll": later}),
