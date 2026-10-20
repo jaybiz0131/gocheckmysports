@@ -192,7 +192,7 @@ def _cfb_week(week):
     for n in range(7):
         day = first + datetime.timedelta(days=n)
         try:
-            d = _get(CFB_BASE + f"?groups=80&limit=300&dates={day.strftime('%Y%m%d')}")
+            d = common.read_once(CFB_BASE + f"?groups=80&limit=300&dates={day.strftime('%Y%m%d')}", _get)
         except Exception as ex:
             print(f"where_to_watch: college football {day} unavailable ({type(ex).__name__})")
             continue

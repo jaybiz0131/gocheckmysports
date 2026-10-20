@@ -404,8 +404,8 @@ def weight_unit():
         wall_more = [int(x) for x in re.findall(r'<p class="wl-src">(\d+) more college game', small)]
         if sum(wall_more) != sum(more):
             fails.append(f"weight: the wall says {sum(wall_more)} more, the cards say {sum(more)}")
-        if more and 'href="/scores.html#cfb">All scores</a>' not in small:
-            fails.append("weight: the cut line does not link Scores")
+        if more and 'href="/scores/2026-10-24.html">All scores</a>' not in small:
+            fails.append("weight: the cut line does not link its day's Scores page (S-5.4 pages Scores by day)")
         tabs = sum(int(x) for x in re.findall(r'class="tk-tab wb-t" data-day="[^"]*"[^>]*>[^<]*<small>(\d+)</small>', small))
         if tabs != FBS_WEEK + len(nfl):
             fails.append(f"weight: the day tabs count {tabs}, the manifest says {FBS_WEEK + len(nfl)}")

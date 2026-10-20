@@ -7,7 +7,7 @@ was seen red first (U-9).
 
   indoor        a fixed roof gets "Indoor" and no forecast fields at all
   retractable   a retractable roof gets the forecast and "Retractable roof"
-  range         a kickoff past the NWS product prints "Forecast from <day>", the day in ET
+  range         a kickoff past the NWS product prints "Conditions from <weekday>", the day in ET
   international a venue outside the U.S. prints "Outside NWS coverage" and the Worker is not asked
   missing       a venue with no row prints nothing and is in the build log's list
   alerts        `alerts: null` prints "Alerts not checked", never "No alerts"; an alert that ends
@@ -162,9 +162,9 @@ def conditions_canary():
         fails.append("conditions: a roofed game carries a forecast, a flag or an alert")
     r = G.get("lnk") or {}
     # range
-    if far.get("status") != "out_of_range" or (far.get("words") or {}).get("line") != "Forecast from Fri, Oct 16":
+    if far.get("status") != "out_of_range" or (far.get("words") or {}).get("line") != "Conditions from Friday":
         fails.append(f"conditions: out of range reads {(far.get('words') or {}).get('line')!r}, "
-                     "expected 'Forecast from Fri, Oct 16' (03:00Z Saturday is Friday 11 PM ET)")
+                     "expected 'Conditions from Friday' (03:00Z Saturday is Friday 11 PM ET)")
     if "temp" in (far.get("words") or {}):
         fails.append("conditions: an out-of-range game prints a temperature")
     # international

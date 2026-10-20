@@ -378,3 +378,32 @@ def _thin_fallbacks(text, html_body):
         if len(og) > len(text):
             text = og
     return text
+
+
+# S-5.4: ONE READ OF A URL PER BUILD. scoreboard.py and where_to_watch.py both ask ESPN for the
+# FBS slate of each day of the same week (groups=80, one read per day, because a range answers
+# 400), so a build paid for the same seven answers twice. A caller that wants the read shared
+# goes through read_once(url, get) while a scope is open; site_build opens the scope around the
+# two refreshes and closes it. With no scope open, read_once is get(url) and nothing is held, so
+# a standalone run, a test and the next build read fresh. A read that failed is NOT held: the
+# second caller asks again, as it did before the scope existed.
+_ONCE = None
+
+
+def once_begin():
+    global _ONCE
+    _ONCE = {}
+
+
+def once_end():
+    global _ONCE
+    _ONCE = None
+
+
+def read_once(url, get):
+    if _ONCE is None:
+        return get(url)
+    import copy
+    if url not in _ONCE:
+        _ONCE[url] = get(url)      # a read that raised is not held: the second caller gets its own chance
+    return copy.deepcopy(_ONCE[url])

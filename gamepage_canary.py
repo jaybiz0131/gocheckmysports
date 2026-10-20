@@ -8,7 +8,7 @@ was seen red first (U-9).
 
   built      every game on the week board has a page, NFL and FBS
   block      every board game page has exactly one conditions block (a forecast, or one
-             "Indoor", "Outside NWS coverage" or "Forecast from" line), or none where the
+             "Indoor", "Outside NWS coverage" or "Conditions from <weekday>" line), or none where the
              build holds nothing printable for the game (a missing venue)
   indoor     no page prints a forecast for an indoor venue: no strip numbers, no hourly line
   hosts      the only runtime hosts on a game page are the site's own and the conditions Worker
@@ -44,6 +44,7 @@ S-2c item 1 (the SportsGamePhone and SportsGameDesktop artboards, approved 14 Oc
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
 
+import datetime
 import json
 import os
 import re
@@ -111,10 +112,17 @@ def check_tree(out):
         print("::warning::game pages: the board holds no games this build; per-page checks not run")
         return fails
     home = open(os.path.join(out, "index.html"), encoding="utf-8").read()
-    try:
-        scores = open(os.path.join(out, "scores.html"), encoding="utf-8").read()
-    except OSError:
-        scores = ""
+    # S-5.4: Scores is paged by day, so a game is linked from the page of its day: read them all
+    scores = ""
+    _sdir = os.path.join(out, "scores")
+    _spages = [os.path.join(out, "scores.html")] + (
+        [os.path.join(_sdir, f) for f in sorted(os.listdir(_sdir)) if f.endswith(".html")]
+        if os.path.isdir(_sdir) else [])
+    for _sp in _spages:
+        try:
+            scores += open(_sp, encoding="utf-8").read()
+        except OSError:
+            pass
     prio = open(os.path.join(out, "sitemap-priority.xml"), encoding="utf-8").read()
     every = ""
     for n in ("sitemap-priority.xml", "sitemap-archive.xml", "news-sitemap.xml"):
@@ -443,6 +451,65 @@ def _hero_entry(**kw):
     e.update(kw)
     e["words"] = cx.words(e)
     return e
+
+
+def _text(html):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", " ", html)).strip()
+
+
+def check_absent_said():
+    """S-5.3: a game outside the Worker's window says on its page, in one line, the day the
+    conditions arrive; the day is the Worker's `in_range_from`, never typed; a game inside the
+    window prints no such line; the team page's schedule row and the game page say it in one
+    wording; a game outside NWS coverage keeps its line."""
+    import site_build as sb
+    import conditions as cx
+    fails = []
+    was = (sb.CX_DATA, sb._carriage.load, sb.W2W_DATA, sb.MANIFEST, sb._NOW_CACHE)
+
+    def far(frm):
+        e = {"status": "out_of_range", "league": "NFL", "venue": "Empower Field at Mile High",
+             "kickoff": "2026-10-26T17:00Z", "in_range_from": frm}
+        e["words"] = cx.words(e)
+        return e
+
+    g = {"id": "far", "league": "NFL", "state": "pre", "start_utc": "2026-10-26T17:00Z",
+         "venue": "Empower Field at Mile High",
+         "away": {"abbr": "SEA", "name": "Seahawks"}, "home": {"abbr": "DEN", "name": "Broncos"}}
+    try:
+        sb._NOW_CACHE = datetime.datetime(2026, 10, 20, 15, 0, tzinfo=datetime.timezone.utc)
+        sb.MANIFEST = None
+        # a fixture six days out: the Worker says it is outside the window and gives the hour the window opens
+        sb.CX_DATA = {"games": {"far": far("2026-10-22T16:00:00Z"), "near": _hero_entry(),
+                                "lon": {"status": "outside_nws", "words": {"line": "Outside NWS coverage"}}}}
+        page = _text(sb.sbg_conditions(g, sb.CX_DATA["games"]["far"]))
+        team = _text(sb._tms_wx("far")[0])
+        if "Conditions from Thursday" not in page:
+            fails.append(f"absent: the game page six days out reads {page!r}, expected one line 'Conditions from Thursday'")
+        if team != "Conditions from Thursday":
+            fails.append(f"absent: the team page's sentence reads {team!r}, expected 'Conditions from Thursday'")
+        m = re.search(r"Conditions from \w+", page)
+        if m and m.group(0) != team:
+            fails.append(f"absent: the game page says {m.group(0)!r} and the team page {team!r}, not one wording")
+        # the day is read from the window: move the window and the line moves, nothing typed
+        sb.CX_DATA["games"]["far"] = far("2026-10-24T16:00:00Z")
+        moved = _text(sb._tms_wx("far")[0])
+        if moved != "Conditions from Saturday":
+            fails.append(f"absent: the window opens Saturday and the line reads {moved!r}, so the day is not read from the window")
+        # inside the window: no such line on either page
+        near = sb.CX_DATA["games"]["near"]
+        gn = dict(g, id="near")
+        both = _text(sb.sbg_conditions(gn, near)) + " " + _text(sb._tms_wx("near")[0])
+        if "Conditions from" in both or "Forecast from" in both:
+            fails.append("absent: a game inside the window prints an arrival line")
+        # outside NWS coverage: the existing line stands on both pages
+        o = _text(sb.sbg_conditions(dict(g, id="lon"), sb.CX_DATA["games"]["lon"]))
+        t = _text(sb._tms_wx("lon")[0])
+        if "Outside NWS coverage" not in o or t != "Outside NWS coverage":
+            fails.append(f"absent: outside NWS coverage reads {o!r} on the game page and {t!r} on the team page")
+    finally:
+        sb.CX_DATA, sb._carriage.load, sb.W2W_DATA, sb.MANIFEST, sb._NOW_CACHE = was
+    return fails
 
 
 def check_board():
@@ -791,7 +858,7 @@ def gamepage_canary(out=None):
         out = vp._built_tree()
     if not out:
         return ["game pages: the gate's own build failed, so nothing was checked"]
-    return check_data_fresh(out) + check_data_fresh_retry() + check_tree(out) + check_desk_tree(out) + check_verify() + check_played() + check_board() + check_board_css() + check_desk()
+    return check_data_fresh(out) + check_data_fresh_retry() + check_tree(out) + check_desk_tree(out) + check_verify() + check_played() + check_board() + check_absent_said() + check_board_css() + check_desk()
 
 
 if __name__ == "__main__":
@@ -800,7 +867,7 @@ if __name__ == "__main__":
     root = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "publish")
     f = ((check_data_fresh(root) + check_tree(root) + check_desk_tree(root)) if root != "--fixtures" else []) \
         + check_data_fresh_retry() + check_verify() + check_played() \
-        + check_board() + check_board_css() + check_desk()
+        + check_board() + check_absent_said() + check_board_css() + check_desk()
     for x in f:
         print("FAIL", x)
     print("game page canary:", "PASS" if not f else f"{len(f)} FAIL")

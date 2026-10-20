@@ -160,7 +160,8 @@ def check_no_live(name, html):
 # paths whose text is the desk's own writing or a list of it: story text may say "live"
 # (archive.html lists story headlines; fantasy/ holds player and injury notes from the league)
 EDITORIAL = ("articles/", "edition/", "news/", "sections/", "coverage/", "share/",
-             "wire.html", "bottom-line.html", "standards.html", "archive.html")
+             "wire.html", "bottom-line.html", "standards.html", "archive.html",
+             "archive/", "bottom-line/")      # S-5.4: the continuation pages of the two listings above
 
 
 def live_word_scan(root):

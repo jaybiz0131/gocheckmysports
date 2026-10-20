@@ -19,7 +19,7 @@ WHAT EACH GAME GETS (`status`):
   indoor         a fixed roof: no forecast, one line, "Indoor"
   roofed         a retractable or fixed roof in the stadium table: no forecast, no flag, one line,
                  "Roof . usually closed" (S-3a, 15 October 2026)
-  out_of_range   past the NWS hourly product: "Forecast from Sat, Oct 17", the day it comes in
+  out_of_range   past the NWS hourly product: "Conditions from Saturday", the weekday it comes in
   outside_nws    an international venue (Wembley): "Outside NWS coverage" (Jack, 13 October)
   missing        no row in the table, or a row the Worker cannot place: prints nothing, and
                  the build log lists it
@@ -147,6 +147,27 @@ def _et_day(iso):
     return d.strftime("%a, %b ") + str(d.day)
 
 
+def _et_weekday(iso):
+    try:
+        return datetime.datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(ET).strftime("%A")
+    except Exception:
+        return None
+
+
+def absent_line(e):
+    """The one line that says conditions are absent, for the game page and the team page alike
+    (S-5.3). A game outside the Worker's window: the weekday its window opens, read from the
+    Worker's `in_range_from` (ET), never typed. A game outside NWS coverage keeps its line
+    (Jack, 13 October). Anything else, and a window with no day, says nothing."""
+    st = (e or {}).get("status")
+    if st == "outside_nws":
+        return "Outside NWS coverage"
+    if st == "out_of_range":
+        day = _et_weekday(e.get("in_range_from") or "")
+        return f"Conditions from {day}" if day else ""
+    return ""
+
+
 def _hour(h):
     keep = ("start", "end", "temp_f", "feels_like_f", "feels_like_kind", "wind_mph", "gust_mph",
             "wind_dir", "wind_from_deg", "pop_pct", "precip_type", "sky", "is_daytime")
@@ -195,8 +216,7 @@ def words(e):
     if st == "outside_nws":
         return {"line": "Outside NWS coverage"}
     if st == "out_of_range":
-        day = _et_day(e.get("in_range_from") or "")
-        return {"line": f"Forecast from {day}" if day else ""}
+        return {"line": absent_line(e)}
     if st != "forecast":
         return {}
     k = e.get("kickoff_hour") or {}
@@ -260,6 +280,21 @@ def entry(game, row, status, ans):
     return roofed_entry(e)
 
 
+NOT_PLAYED = ("postpon", "cancel", "suspend")
+
+
+def finished(g):
+    """S-5.4: a game the feed says is over, and was played. The Worker answers a finished game
+    "not in range, no range" and the build then carries the strip the last build published, so
+    asking it costs a call for an answer the state already gives (61 of the 75 calls on 19 October
+    2026 were finals). A postponed, canceled or suspended game also reads state post, with no
+    result, and is still asked: its strip is not a record of anything."""
+    if (g or {}).get("state") != "post":
+        return False
+    said = str((g or {}).get("status_short") or "").lower()
+    return not any(w in said for w in NOT_PLAYED)
+
+
 def game_key(g):
     return str(g.get("id") or "")
 
@@ -291,6 +326,21 @@ def refresh(games, now=None, get=fetch, published=_published, log=print):
         if not row or not kick:
             out[key] = entry(g, None, "missing", None)
             missing.append(label + (f' (venue id {g.get("venue_id")})' if g.get("venue_id") else ""))
+            continue
+        if finished(g):
+            # S-5.4: no call. A dome stays Indoor; a final keeps the strip the last build
+            # published, as the Worker's "game is over" answer made it do; one never published
+            # reads "over", which prints nothing.
+            if row.get("roof") == "indoor":
+                out[key] = entry(g, row, "indoor", {})
+                continue
+            if prior is None:
+                prior = published()
+            old = prior.get(key)
+            if old and old.get("status") == "forecast":
+                out[key] = dict(old, record=True)
+            else:
+                out[key] = entry(g, row, "over", None)
             continue
         q = urllib.parse.urlencode({"venue": row["espn_venue_id"], "kickoff": kick,
                                     "league": LEAGUE[g["league"]]})
