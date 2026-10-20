@@ -9,15 +9,21 @@ check names the break it exists for and was seen red first (U-9).
            build published, and a final with none prints "over". Break: the post branch removed
            from conditions.refresh (every final is asked again, as it was).
   oneread  one dated FBS read answers both consumers: scoreboard.py and where_to_watch.py ask the
-           feed for each (group, day) once per build, a day that failed is not asked again, and
-           outside a build scope nothing is cached. Break: common.read_once reading through.
+           feed for each (group, day) once per build, a day that failed is asked again by the
+           second consumer, and outside a build scope nothing is cached. Break: common.read_once reading through.
   pages    scores.html is paged by day: every page under 150,000 bytes, every game on exactly one
            page, /scores.html still answers, the day pages are linked from each other. A budget
            lowered to 60,000 splits a day into parts and each part holds to it. Break: the pager
            returning the one page.
-  tree     no built page passes 150,000 bytes. archive.html and bottom-line.html are named below as
-           over the line and outside this item; any other page over it is red, and so is an
-           exemption that no longer needs to be one.
+  tree     no built page is at or over 150,000 bytes. There is no exemption list.
+  archive  archive.html and bottom-line.html are paged by bytes like Scores: every page under the
+           line, every story and every edition on exactly one page, /archive.html and
+           /bottom-line.html answering with the newest. Break: the pager never cutting.
+  counts   every count on a Scores page is the manifest's (slate.week.days, slate.week.by_league),
+           and a day the manifest does not hold prints no count at all.
+  urls     a URL the site has published keeps answering: the opening day is also at
+           /scores/<date>.html, a registry of published Scores paths only grows, and a path in it
+           the build did not make gets an honest page.
   scroll   at 390, a jump to a Sunday window heading lands it clear of the sticky day label and the
            sticky nav. Break: the scroll-margin-top rule removed from the stylesheet.
 
@@ -33,9 +39,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 BUDGET = 150000
-# pages over BUDGET that this item does not name (the board names scores.html); measured 20 October
-# 2026 at 569,554 and 167,414 bytes. Listed so a third page cannot join them in silence.
-OUTSIDE_THIS_ITEM = ("archive.html", "bottom-line.html")
 
 
 def worker_unit():
@@ -120,9 +123,10 @@ def oneread_unit():
         finally:
             common.once_end()
         d = dated(asked)
-        if len(d) != len(fb.DAYS):
+        if len(d) != len(fb.DAYS) + 1:
             fails.append(f"oneread: with one day failing the feed was asked {len(d)} times, expected "
-                         f"{len(fb.DAYS)} (a failure is read once too)")
+                         f"{len(fb.DAYS) + 1} (the day that failed is asked again by the second consumer, "
+                         "which gets its own chance; the six that answered are read once)")
         # outside a build nothing is held over: two standalone runs read twice
         asked = []
         both(asked)
@@ -204,7 +208,8 @@ def pages_unit():
                 n = len(html.encode("utf-8"))
                 if n >= limit:
                     fails.append(f"pages ({label}): {path} is {n} bytes, over the {limit}-byte budget")
-            got = sorted(i for h in pages.values()
+            # /scores.html repeats the opening day's first page, so it is left out of the tally
+            got = sorted(i for p, h in pages.items() if p != "/scores.html"
                          for i in re.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', h))
             if got != want_ids:
                 fails.append(f"pages ({label}): the pages hold {len(got)} game cards ({len(set(got))} distinct), "
@@ -212,7 +217,6 @@ def pages_unit():
             for path in pages:
                 if not re.fullmatch(r"/scores\.html|/scores/\d{4}-\d{2}-\d{2}(-\d+)?\.html", path):
                     fails.append(f"pages ({label}): {path} is not a scores URL")
-            # every page names every other day's page, so the week can be walked from any of them
             days = {}
             for path in pages:
                 m = re.fullmatch(r"/scores/(\d{4}-\d{2}-\d{2})\.html", path)
@@ -220,12 +224,15 @@ def pages_unit():
                     days[m.group(1)] = path
             for path, html in pages.items():
                 for dpath in days.values():
-                    if dpath != path and f'href="{dpath}"' not in html:
+                    if f'href="{dpath}"' not in html:
                         fails.append(f"pages ({label}): {path} does not link {dpath}")
                         break
-            nodays = [p for p, h in pages.items() if p != "/scores.html" and 'href="/scores.html"' not in h]
-            if nodays and not any(re.search(r"/scores\.html", pages[p]) for p in nodays):
-                fails.append(f"pages ({label}): a day page does not link back to /scores.html")
+            # the tabs of every page are exactly All, then the leagues whose sections the page holds
+            for path, html in pages.items():
+                tabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', html)
+                secs = [x.upper() for x in re.findall(r'<section class="bd-mod" id="(\w+)">', html)]
+                if tabs != ["All"] + secs:
+                    fails.append(f"pages ({label}): {path} has tabs {tabs} over sections {secs}")
 
         pages = sb.render_scores_pages(sbd, {}, "")
         check("shipped budget", pages, BUDGET)
@@ -259,25 +266,189 @@ def tree_unit(tree):
     fails = []
     if not tree or not os.path.isdir(tree):
         return ["tree: the gate built no tree, so no page size was read"]
-    over = {}
+    seen = 0
     for root, _dirs, files in os.walk(tree):
         for f in files:
             if f.endswith(".html"):
                 fp = os.path.join(root, f)
                 n = os.path.getsize(fp)
+                seen += 1
                 if n >= BUDGET:
-                    over[os.path.relpath(fp, tree)] = n
-    for rel, n in sorted(over.items()):
-        if rel not in OUTSIDE_THIS_ITEM:
-            fails.append(f"tree: {rel} is {n} bytes, at or over {BUDGET}")
-    for rel in OUTSIDE_THIS_ITEM:
-        if rel not in over and os.path.exists(os.path.join(tree, rel)):
-            fails.append(f"tree: {rel} is under {BUDGET} now; take it off OUTSIDE_THIS_ITEM in build_cost_canary.py")
-    if over:
-        print("::warning::tree: over the 150 KB line and named outside S-5.4: "
-              + ", ".join(f"{k} {v}" for k, v in sorted(over.items()) if k in OUTSIDE_THIS_ITEM))
+                    fails.append(f"tree: {os.path.relpath(fp, tree)} is {n} bytes, at or over {BUDGET}")
+    if seen < 100:
+        fails.append(f"tree: only {seen} pages were read; the size check would mean nothing")
     if not os.path.exists(os.path.join(tree, "scores.html")):
         fails.append("tree: /scores.html is not in the built tree; the URL must keep answering")
+    return fails
+
+
+def _num(t):
+    m = re.search(r"\d+", t or "")
+    return int(m.group(0)) if m else None
+
+
+def counts_unit():
+    """Every count on a Scores page is the manifest's; a day the manifest does not hold prints none."""
+    import fbs_canary as fb
+    import build_manifest as bm
+    import site_build as sb
+    fails = []
+    sbd, w2w, nfl, cfb = _scores_fixture()
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+           sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF)
+    try:
+        sb._NOW_CACHE = fb._clock().astimezone(_d.timezone.utc)
+        sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
+        sb.IA_BOARD = {"teams": [], "last_change": ""}
+        sb._carriage.load = lambda: {"schema": 1, "stale_days": 30, "rows": []}
+        sb.CR_REPORTS, sb.EDITION_HREF = [], "/edition/2026-10-21.html"
+        sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
+        mf = sb.MANIFEST
+        wk = mf["slate"]["week"]
+        mdays = {dd["date"]: dd["by_league"] for dd in wk["days"]}
+        pages = sb.render_scores_pages(sbd, {}, "")
+        held = set()
+        for path, html in sorted(pages.items()):
+            cur = re.search(r'<a class="tk-tab on" href="/scores/(\d{4}-\d{2}-\d{2})(?:-\d+)?\.html" aria-current', html)
+            iso = cur.group(1) if cur else None
+            if not iso:
+                fails.append(f"counts: {path} marks no current day")
+                continue
+            by = mdays.get(iso)
+            held.add(iso in mdays)
+            rows = re.findall(r'<section class="bd-mod" id="(\w+)"><div class="tk-lg"><span>[^<]*</span><i></i>(?:<span class="tk-lg-n">([^<]*)</span>)?', html)
+            for lg_id, txt in rows:
+                lg = lg_id.upper()
+                if by is None:
+                    if txt:
+                        fails.append(f"counts: {path} prints {txt!r} for {iso}, a day the manifest does not hold")
+                    continue
+                want_n = by.get(lg, 0)
+                want_wk = (wk["by_league"].get(lg) or {}).get("total", 0)
+                nums = [int(x) for x in re.findall(r"\d+", txt or "")]
+                if iso == mf["date"]:
+                    ok = bool(nums) and nums[1:] == [want_wk]
+                else:
+                    ok = nums == [want_n, want_wk]
+                if not ok:
+                    fails.append(f"counts: {path} league row {lg} reads {txt!r}, the manifest says {want_n} on {iso}, {want_wk} this week")
+            cnt = re.search(r'data-mf="count">([^<]*)<', html)
+            if by is None and cnt and cnt.group(1):
+                fails.append(f"counts: {path} prints the count {cnt.group(1)!r} for {iso}, a day the manifest does not hold")
+            if by is not None and iso != mf["date"]:
+                tot = sum(by.get(l, 0) for l in sb.BOARD_LEAGUES)
+                if not cnt or _num(cnt.group(1)) != tot:
+                    fails.append(f"counts: {path} count line {cnt.group(1) if cnt else None!r}, the manifest says {tot} on {iso}")
+            for href, small in re.findall(r'<a class="tk-tab[^"]*" href="/scores/(\d{4}-\d{2}-\d{2})\.html"[^>]*>[^<]*(?:<small>([^<]*)</small>)?', html):
+                b2 = mdays.get(href)
+                if b2 is None and small:
+                    fails.append(f"counts: {path} day tab {href} prints {small!r}; the manifest does not hold that day")
+                elif b2 is not None and _num(small) != sum(b2.get(l, 0) for l in sb.BOARD_LEAGUES):
+                    fails.append(f"counts: {path} day tab {href} prints {small!r}, the manifest says {sum(b2.get(l, 0) for l in sb.BOARD_LEAGUES)}")
+        if held != {True, False}:
+            fails.append(f"counts: the fixture must hold days the manifest has and days it lacks (saw {sorted(held)})")
+    except Exception as e:
+        fails.append(f"counts: the fixture raised {type(e).__name__}: {e}")
+    finally:
+        (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+         sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF) = was
+    return fails
+
+
+def urls_unit():
+    """A published URL keeps answering: every day has its own URL on its own day, and the registry."""
+    import fbs_canary as fb
+    import build_manifest as bm
+    import site_build as sb
+    fails = []
+    sbd, w2w, nfl, cfb = _scores_fixture()
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+           sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF)
+    try:
+        sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.WX_DATA = sbd, w2w, True, None
+        sb.IA_BOARD = {"teams": [], "last_change": ""}
+        sb._carriage.load = lambda: {"schema": 1, "stale_days": 30, "rows": []}
+        sb.CR_REPORTS, sb.EDITION_HREF = [], "/edition/2026-10-21.html"
+        from zoneinfo import ZoneInfo
+        sets = {}
+        for day in (22, 23, 24):
+            sb._NOW_CACHE = _d.datetime(2026, 10, day, 9, 0, tzinfo=ZoneInfo("America/New_York")).astimezone(_d.timezone.utc)
+            sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
+            sets[day] = set(sb.render_scores_pages(sbd, {}, ""))
+        every = sets[22] | sets[23] | sets[24]
+        for day, got in sets.items():
+            gone = sorted(p for p in every if p.startswith("/scores/") and p not in got)
+            if gone:
+                fails.append(f"urls: on 2026-10-{day} the build does not write {gone[:2]}, which another day's build writes")
+        # the registry only grows, and a path it holds that the build did not make gets a page
+        got = sb.scores_registry_union(["/scores/2026-10-15.html", "/scores/2026-10-24-2.html"],
+                                       ["/scores/2026-10-24.html", "/scores.html"])
+        if got != ["/scores/2026-10-15.html", "/scores/2026-10-24-2.html", "/scores/2026-10-24.html"]:
+            fails.append(f"urls: the registry union is {got}; it must keep the old paths, add the new, and leave /scores.html out")
+        ph = sb.scores_placeholder("/scores/2026-10-15.html", "")
+        main = re.search(r"<main.*?</main>", ph or "", re.S)
+        txt = re.sub(r"<[^>]+>", " ", main.group(0) if main else "")
+        if not ph or "October 15" not in txt or 'href="/scores.html"' not in ph or "noindex" not in ph:
+            fails.append("urls: the page for a published day the build no longer holds is missing its date, its link to /scores.html or its noindex")
+        if re.search(r"\d+ (game|on)", txt):
+            fails.append("urls: the page for a day with no data prints a count")
+    except Exception as e:
+        fails.append(f"urls: the fixture raised {type(e).__name__}: {e}")
+    finally:
+        (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.IA_BOARD, sb.WX_DATA,
+         sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF) = was
+    return fails
+
+
+def archive_unit():
+    """archive.html and bottom-line.html, paged by bytes."""
+    import site_build as sb
+    fails = []
+    budget = getattr(sb, "PAGE_BUDGET", None)
+    try:
+        items = sb.load_content()
+        live = [i for i in items if not i.get("example") and not i.get("superseded_by")]
+        wraps = [i for i in items if sb._is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+        if len(live) < 100 or len(wraps) < 5:
+            return [f"archive: the committed content holds {len(live)} stories and {len(wraps)} editions; too few to prove paging"]
+        sb.PAGE_BUDGET = BUDGET
+        for label, limit in (("shipped", BUDGET), ("60000", 60000)):
+            sb.PAGE_BUDGET = limit
+            for name, fn, base, units, pat, key in (
+                    ("archive", sb.render_archive_pages, "/archive.html", live,
+                     r'<article class="card">.*?<h3><a href="/articles/([^"]+)\.html"', "slug"),
+                    ("bottom-line", sb.render_bottom_line_pages, "/bottom-line.html", wraps,
+                     r'<a href="/articles/([^"]+)\.html">The full edition', "slug")):
+                pages = fn(items, "")
+                if base not in pages:
+                    fails.append(f"archive ({label}): {base} is not among the pages")
+                    continue
+                for path, html in pages.items():
+                    n = len(html.encode("utf-8"))
+                    if n >= limit:
+                        fails.append(f"archive ({label}): {path} is {n} bytes, over {limit}")
+                    if path != base and not re.fullmatch(base[:-5] + r"/page/\d+\.html", path):
+                        fails.append(f"archive ({label}): {path} is not a page of {base}")
+                got = sorted(x for h in pages.values() for x in re.findall(pat, h, re.S))
+                want = sorted(i["slug"] for i in units)
+                if got != want:
+                    fails.append(f"archive ({label}): {name} pages hold {len(got)} entries ({len(set(got))} distinct), expected {len(want)} once each")
+                if name == "archive" and label == "shipped" and len(pages) < 2:
+                    fails.append(f"archive ({label}): {len(live)} stories fit on one page; the fixture proves nothing")
+                if label == "60000" and len(pages) < 2:
+                    fails.append(f"archive ({label}): {name} stayed one page under a 60,000-byte budget")
+                newest = (pages.get(base) or "")
+                if want and sorted(units, key=lambda i: i.get("published_utc") or i.get("date") or "", reverse=True)[0]["slug"] not in newest:
+                    fails.append(f"archive ({label}): {base} does not carry the newest {name} entry")
+        if budget is None:
+            fails.append("archive: site_build has no PAGE_BUDGET constant a test can move")
+    except Exception as e:
+        fails.append(f"archive: the check raised {type(e).__name__}: {e}")
+    finally:
+        if budget is not None:
+            sb.PAGE_BUDGET = budget
+        elif hasattr(sb, "PAGE_BUDGET"):
+            del sb.PAGE_BUDGET
     return fails
 
 
@@ -321,6 +492,7 @@ def scroll_unit():
 def build_cost_canary(tree=None):
     fails = []
     for name, fn in (("worker", worker_unit), ("oneread", oneread_unit), ("pages", pages_unit),
+                     ("counts", counts_unit), ("urls", urls_unit), ("archive", archive_unit),
                      ("scroll", scroll_unit)):
         try:
             fails.extend(fn())

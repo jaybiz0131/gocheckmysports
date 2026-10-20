@@ -385,8 +385,8 @@ def _thin_fallbacks(text, html_body):
 # 400), so a build paid for the same seven answers twice. A caller that wants the read shared
 # goes through read_once(url, get) while a scope is open; site_build opens the scope around the
 # two refreshes and closes it. With no scope open, read_once is get(url) and nothing is held, so
-# a standalone run, a test and the next build read fresh. A read that failed is held too, and
-# re-raised to the second caller: a host that just refused is not asked again for the same page.
+# a standalone run, a test and the next build read fresh. A read that failed is NOT held: the
+# second caller asks again, as it did before the scope existed.
 _ONCE = None
 
 
@@ -403,13 +403,7 @@ def once_end():
 def read_once(url, get):
     if _ONCE is None:
         return get(url)
-    if url not in _ONCE:
-        try:
-            _ONCE[url] = (True, get(url))
-        except Exception as e:
-            _ONCE[url] = (False, e)
-    ok, v = _ONCE[url]
-    if not ok:
-        raise v
     import copy
-    return copy.deepcopy(v)
+    if url not in _ONCE:
+        _ONCE[url] = get(url)      # a read that raised is not held: the second caller gets its own chance
+    return copy.deepcopy(_ONCE[url])

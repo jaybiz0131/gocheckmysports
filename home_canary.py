@@ -301,9 +301,18 @@ def home_canary():
             fails.append(f"home: the count reads {[x for x in mf if x[0] == 'count']}")
 
         # scores: NFL and CFB tabs only
-        stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', scores_all)
-        if sorted(set(stabs)) != ["All", "CFB", "NFL"]:
-            fails.append(f"scores: the tabs read {sorted(set(stabs))}, expected All, NFL, CFB")
+        # S-5.4: Scores is paged by day, so the old check (the tabs read All, NFL, CFB, in that order, once
+        # each) holds for EACH page: its tabs are exactly All, then the leagues whose sections it holds,
+        # in the order of its sections, and the family as a whole carries NFL and CFB and nothing else.
+        seen = set()
+        for _path, _pg in scores_pages.items():
+            stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', _pg)
+            secs = [x.upper() for x in re.findall(r'<section class="bd-mod" id="(\w+)">', _pg)]
+            if stabs != ["All"] + secs or len(set(secs)) != len(secs):
+                fails.append(f"scores: {_path} tabs read {stabs} over sections {secs}, expected All then its leagues once each, in order")
+            seen.update(secs)
+        if seen != {"NFL", "CFB"}:
+            fails.append(f"scores: the pages carry the leagues {sorted(seen)}, expected NFL and CFB")
         if re.search(r'data-league="(NHL|NBA|MLB)"', scores_all):
             fails.append("scores: a card from a league the page no longer carries")
 
