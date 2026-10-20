@@ -202,7 +202,12 @@ def home_canary():
         sb.MANIFEST = bm.build(sb._build_now(), sbd, w2w)
         m = sb.MANIFEST
         home = sb.render_home([], "")
-        scores = sb.render_scores_page(sbd, {}, "")
+        # S-5.4: Scores is paged by day, so a check about "the page" reads the family: `scores` is the
+        # first page (/scores.html), `scores_all` every page, `scores_rec` the page with the finished card
+        scores_pages = sb.render_scores_pages(sbd, {}, "")
+        scores = scores_pages.get("/scores.html")
+        scores_all = "".join(scores_pages.values())
+        scores_rec = next((h for h in scores_pages.values() if '<span class="tk-trec">' in h), scores)
         archive = sb.render_archive([], "")
 
         # parts: the main holds the board and the empty slot, and nothing else
@@ -296,10 +301,19 @@ def home_canary():
             fails.append(f"home: the count reads {[x for x in mf if x[0] == 'count']}")
 
         # scores: NFL and CFB tabs only
-        stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', scores or "")
-        if stabs != ["All", "NFL", "CFB"]:
-            fails.append(f"scores: the tabs read {stabs}, expected All, NFL, CFB")
-        if re.search(r'data-league="(NHL|NBA|MLB)"', scores or ""):
+        # S-5.4: Scores is paged by day, so the old check (the tabs read All, NFL, CFB, in that order, once
+        # each) holds for EACH page: its tabs are exactly All, then the leagues whose sections it holds,
+        # in the order of its sections, and the family as a whole carries NFL and CFB and nothing else.
+        seen = set()
+        for _path, _pg in scores_pages.items():
+            stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', _pg)
+            secs = [x.upper() for x in re.findall(r'<section class="bd-mod" id="(\w+)">', _pg)]
+            if stabs != ["All"] + secs or len(set(secs)) != len(secs):
+                fails.append(f"scores: {_path} tabs read {stabs} over sections {secs}, expected All then its leagues once each, in order")
+            seen.update(secs)
+        if seen != {"NFL", "CFB"}:
+            fails.append(f"scores: the pages carry the leagues {sorted(seen)}, expected NFL and CFB")
+        if re.search(r'data-league="(NHL|NBA|MLB)"', scores_all):
             fails.append("scores: a card from a league the page no longer carries")
 
         # records: a team's record is its own muted element with a clear gap from the score
@@ -310,7 +324,7 @@ def home_canary():
         if not re.search(r'<span class="sbc-team"[^>]*>.*?<small class="sbc-rec">[^<]+</small></span>', fin) \
                 or not re.search(r'sbc-tot[^"]*" data-side="(?:away|home)"><span class="tk-sc">\d+</span></span>', fin):
             fails.append("home: the finished card's record is not in its name plate, apart from the score plate")
-        chips = re.findall(r'<span class="tk-sc">\d+</span></span><span class="tk-trec">[^<]+</span>', scores or "")
+        chips = re.findall(r'<span class="tk-sc">\d+</span></span><span class="tk-trec">[^<]+</span>', scores_all)
         if not chips:
             fails.append("scores: no finished card carries a record outside its score element")
         css = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "site", "assets", "site.css"),
@@ -332,7 +346,7 @@ def home_canary():
 
         # records, measured: the same pages in a browser at seven widths in both modes, so a later
         # rule that shrinks the gap fails here and not in a reader's phone
-        fails.extend(_record_gap({"home.html": home, "scores.html": scores}))
+        fails.extend(_record_gap({"home.html": home, "scores.html": scores_rec}))
 
         # archive: the sections that left the home
         left = sb.archive_left_home()

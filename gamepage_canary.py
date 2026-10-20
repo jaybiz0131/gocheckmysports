@@ -85,10 +85,17 @@ def check_tree(out):
         print("::warning::game pages: the board holds no games this build; per-page checks not run")
         return fails
     home = open(os.path.join(out, "index.html"), encoding="utf-8").read()
-    try:
-        scores = open(os.path.join(out, "scores.html"), encoding="utf-8").read()
-    except OSError:
-        scores = ""
+    # S-5.4: Scores is paged by day, so a game is linked from the page of its day: read them all
+    scores = ""
+    _sdir = os.path.join(out, "scores")
+    _spages = [os.path.join(out, "scores.html")] + (
+        [os.path.join(_sdir, f) for f in sorted(os.listdir(_sdir)) if f.endswith(".html")]
+        if os.path.isdir(_sdir) else [])
+    for _sp in _spages:
+        try:
+            scores += open(_sp, encoding="utf-8").read()
+        except OSError:
+            pass
     prio = open(os.path.join(out, "sitemap-priority.xml"), encoding="utf-8").read()
     every = ""
     for n in ("sitemap-priority.xml", "sitemap-archive.xml", "news-sitemap.xml"):
