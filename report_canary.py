@@ -93,7 +93,7 @@ def check():
     if [q["id"] for q in rep["quiet"]] != ["5"]:
         fails.append(f"report: the one-line games are {[q['id'] for q in rep['quiet']]}, expected 5")
     if not any("Buf at Lv" in x for x in rep["indoor"]) or not any("Wembley" in x for x in rep["outside"]) \
-            or not any("Forecast from" in x for x in rep["later"]):
+            or not any("Conditions from" in x for x in rep["later"]):
         fails.append("report: indoor, outside NWS coverage or not-yet-in-range is not listed")
     whole = cr.as_text(rep)
     if "Mia at Buf" in whole:

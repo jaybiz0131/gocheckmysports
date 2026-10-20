@@ -5227,8 +5227,10 @@ def sbc_weather(g, e):
         return ('<div class="sbc-wx" data-cx="outside" data-lens-only="watch">'
                 f'<p class="sbc-one">{esc(" · ".join(x for x in (city, "Outside NWS coverage") if x))}</p></div>'), False
     if st == "out_of_range":
+        import conditions as _cx
+        line = _cx.absent_line(e)   # S-5.3: one wording, shared with the team page
         return ('<div class="sbc-wx" data-cx="later" data-lens-only="watch">'
-                f'<p class="sbc-one">{esc(w.get("line") or "")}</p></div>') if w.get("line") else "", False
+                f'<p class="sbc-one">{esc(line)}</p></div>') if line else "", False
     if st != "forecast":
         return "", False
     p = cx_parts(e)
@@ -6698,8 +6700,9 @@ def _tms_wx(game_id):
                                          f'<i>{lab}</i>{esc(v) if v else "missing"}</span>')
         return (cell("Temp", temp) + cell("Wind", wind, p["on"]["wind"])
                 + cell("Rain", rain, p["on"]["precip"])), lit
-    note = {"indoor": "Dome · No weather", "outside_nws": "Outside NWS coverage",
-            "out_of_range": "Forecast later", "roofed": ((e or {}).get("words") or {}).get("line")}.get(st)
+    import conditions as _cx
+    note = {"indoor": "Dome · No weather", "outside_nws": _cx.absent_line(e),
+            "out_of_range": _cx.absent_line(e), "roofed": ((e or {}).get("words") or {}).get("line")}.get(st)
     return (f'<span class="tms-pl tms-one">{esc(note)}</span>' if note else ""), False
 
 
