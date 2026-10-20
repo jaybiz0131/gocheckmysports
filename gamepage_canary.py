@@ -216,19 +216,21 @@ def check_played():
         sb.W2W_DATA = {"weeks": []}
         sb.IA_BOARD = {"teams": [], "last_change": ""}
         want = "Georgia 21, Auburn 17: final score. Saturday, October 17."
-        if sb.gp_title(fin) != want:
-            fails.append(f"played: a Final game's title is {sb.gp_title(fin)!r}, not {want!r}")
-        t = sb.gp_title(fin)
+        if sb.gp_page_title(fin) != want:
+            fails.append(f"played: a Final game's title is {sb.gp_page_title(fin)!r}, not {want!r}")
+        t = sb.gp_page_title(fin)
         if re.search(r"\d{1,2}:\d{2}|weather|where to watch|inactives| at ", t):
             fails.append(f"played: a Final game's title still names a kickoff time, conditions or where to watch: {t!r}")
         old = "Georgia at Auburn: weather, where to watch. Saturday 3:30 PM ET."
-        if sb.gp_title(pre) != old:
-            fails.append(f"played: a scheduled game's title changed to {sb.gp_title(pre)!r}")
-        if sb.gp_title(dict(pre, state="in")) != old:
+        if sb.gp_title(fin) != old:
+            fails.append("played: a card's or a row's label (gp_title) changed for a Final game; only the page's title does")
+        if sb.gp_page_title(pre) != old:
+            fails.append(f"played: a scheduled game's title changed to {sb.gp_page_title(pre)!r}")
+        if sb.gp_page_title(dict(pre, state="in")) != old:
             fails.append("played: a game in progress got the result title")
-        if sb.gp_title(ppd) != old:
+        if sb.gp_page_title(ppd) != old:
             fails.append("played: a postponed game got the result title")
-        if sb.gp_title(noscore) != old:
+        if sb.gp_page_title(noscore) != old:
             fails.append("played: a Final game with no score in the feed got a result title, a score made up")
         # the page: title, og:title, twitter:title and description agree; one Updated stamp
         later = "2026-10-18T14:00:00Z"
