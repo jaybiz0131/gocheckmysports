@@ -1638,6 +1638,8 @@ def layer1_canary():
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     import fbs_canary as _fbc
     fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
+    import registry_canary as _rgc
+    fails.extend(_rgc.registry_canary(_built_tree()))   # S-5.0: college team pages are permanent (J-9)
     import sharecard_canary as _shc
     fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
     import affiliate_canary as _afc

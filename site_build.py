@@ -6584,7 +6584,61 @@ def _team_row(e, colors):
 
 COND_LOG = []            # set at build: every logged game, one per id (teams.merge_logs)
 COND_LOG_SINCE = ""      # the date of the earliest report the log reads, for its footnote
-CFB_PROGRAMS = []        # set at build: teams.top_programs
+CFB_PROGRAMS = []        # set at build: teams.registry_programs, the week's forty and every program built before
+CFB_REGISTRY = os.path.join(HERE, "data", "cfb-teams-built.json")
+
+
+def _cfb_registry_remote():
+    """The registry production published, or None. A Netlify build cannot commit, so a program it adds
+    reaches the repository only when a job that builds and commits (the inactives poller) runs; until
+    then the published copy is the record, and the next build reads it back. Off with
+    CFB_REGISTRY_REMOTE=0. Any failure is None: the committed file and the week's forty still build."""
+    if (os.environ.get("CFB_REGISTRY_REMOTE") or "").strip() == "0":
+        return None
+    import urllib.request
+    try:
+        req = urllib.request.Request(f"{ORIGIN}/data/cfb-teams-built.json",
+                                     headers={"User-Agent": "gocheckmysports-build"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            return json.loads(r.read(2_000_000).decode("utf-8"))
+    except Exception as e:
+        print(f"college registry: the published copy was not read ({type(e).__name__}); "
+              f"the committed file and the week's forty build")
+        return None
+
+
+def _cfb_registry_build(top, cfb_games):
+    """S-5.0: the committed registry, unioned with production's published copy and the week's forty,
+    written back for the poller to commit and published at /data/cfb-teams-built.json. Returns the
+    programs to build. The set only grows (J-9, option (a))."""
+    import teams as _teams
+    try:
+        doc = json.load(open(CFB_REGISTRY, encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        print(f"::warning::college registry: {CFB_REGISTRY} unreadable ({type(e).__name__}); the week's forty only")
+        doc = {"programs": []}
+    n0 = len(_teams.registry_entries(doc))
+    remote = _cfb_registry_remote()
+    if remote is not None:
+        doc = _teams.registry_union(doc, _teams.registry_entries(remote))
+    n1 = len(doc["programs"]) if isinstance(doc.get("programs"), list) else n0
+    doc = _teams.registry_union(doc, top, since=_mf()["date"],
+                                source=f"the week's forty, build {BUILD_COMMIT[:7] or 'local'} of {_mf()['date']}")
+    body = json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
+    try:
+        old = open(CFB_REGISTRY, encoding="utf-8").read()
+    except OSError:
+        old = None
+    if body != old:
+        with open(CFB_REGISTRY, "w", encoding="utf-8") as f:
+            f.write(body)
+    os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+    with open(os.path.join(PUBLISH, "data", "cfb-teams-built.json"), "w", encoding="utf-8") as f:
+        f.write(body)
+    progs = _teams.registry_programs(doc, top, cfb_games)
+    print(f"college registry: {n0} committed, {n1 - n0} from the published copy, "
+          f"{len(doc['programs']) - n1} added by the week's forty; {len(progs)} program page(s)")
+    return progs
 
 
 def _cond_log_build(sb_data):
@@ -6928,8 +6982,7 @@ def render_college_page(prog, items, dateline):
                 '<span class="bar"></span></div><div class="rs">'
                 + "".join(f'<a class="rs-m" href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                           for i in stories) + '</div>')
-    sched = _tms_board(rows, "This week") if rows else (
-        '<p class="tms-none">No game for this program is on the week board.</p>')
+    sched = _tms_board(rows, "This week") if rows else '<p class="tms-none">No game this week.</p>'
     _pbtn, _pnote = push_ui(f'cfb:{prog["slug"]}', school)      # S-3b.4: ('', '') in a build with no key
     _pwrap = f'<span class="tpinwrap">{_pbtn}</span>' if _pbtn else ""
     body = f"""<main class="wrap tm-main"><section class="page">
@@ -12518,6 +12571,20 @@ def build():
         CFB_PROGRAMS = _teams.top_programs((ST_DATA or {}).get("rankings"), _cfb_games, 40)
     except Exception as _e:
         print(f"::warning::team pages: log or programs unavailable ({type(_e).__name__}: {_e})")
+    # S-5.0: a college page once built is built every week after (J-9, option (a)). A failure here
+    # still builds every program the committed file holds, then the week's forty alone.
+    _cfb_board = [g for L in (SB_DATA or {}).get("leagues") or [] if L.get("league") == "CFB"
+                  for g in L.get("games") or []]
+    try:
+        CFB_PROGRAMS = _cfb_registry_build(CFB_PROGRAMS, _cfb_board)
+    except Exception as _e:
+        print(f"::warning::college registry: not written ({type(_e).__name__}: {_e}); building the committed file")
+        try:
+            import teams as _teams
+            CFB_PROGRAMS = _teams.registry_programs(json.load(open(CFB_REGISTRY, encoding="utf-8")),
+                                                    CFB_PROGRAMS, _cfb_board)
+        except Exception as _e2:
+            print(f"::warning::college registry: unreadable ({type(_e2).__name__}); the week's forty only")
     if TEAM_DATA and (TEAM_DATA.get("teams") or {}):
         _tm_n = 0
         for _abbr, _tm in sorted((TEAM_DATA.get("teams") or {}).items()):
@@ -12745,7 +12812,8 @@ def build():
         # desk has decided nobody will find. Only the weeks actually written are listed.
         topic_locs += [f"/nfl/week-{_w}.html" for _w in range(1, WEEK_COUNT + 1)
                        if _sched_week(TEAM_DATA, _w)]
-    # S-3a: the top forty college programs are listed with the NFL teams, only as written
+    # S-3a: the college programs are listed with the NFL teams, only as written; S-5.0: every one the
+    # registry holds, so a page that comes back is listed again
     topic_locs += [f'/teams/cfb/{_p["slug"]}.html' for _p in CFB_PROGRAMS]
     if W2W_LIVE and W2W_DATA:
         topic_locs.append("/where-to-watch.html")

@@ -1,0 +1,655 @@
+{
+ "about": "S-5.0 (J-9, option (a), ruled October 20, 2026): every FBS program whose page at /teams/cfb/ has been built. A page once built is built every week after; site_build.py adds the week's forty and builds every program here, and the inactives poller commits what the build leaves. Never remove an entry. Seeded October 20, 2026 from what main built since October 15; each entry names its source.",
+ "programs": [
+  {
+   "slug": "air-force",
+   "school": "Air Force",
+   "mascot": "Falcons",
+   "abbr": "AFA",
+   "id": "2005",
+   "color": "",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "alabama",
+   "school": "Alabama",
+   "mascot": "Crimson Tide",
+   "abbr": "ALA",
+   "id": "333",
+   "color": "#9e1b32",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "app-state",
+   "school": "App State",
+   "mascot": "Mountaineers",
+   "abbr": "APP",
+   "id": "2026",
+   "color": "#000000",
+   "since": "2026-10-20",
+   "source": "production's sitemap-priority.xml, build 1a5362f of 2026-10-20T10:00:33Z, read 2026-10-20 6:24 AM EDT; in no committed snapshot's forty; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "arizona",
+   "school": "Arizona",
+   "mascot": "Wildcats",
+   "abbr": "ARIZ",
+   "id": "",
+   "color": "",
+   "since": "2026-10-18",
+   "source": "main's build at e69209d (inactives: snapshot 18:41Z, 2026-10-18 18:41 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "arizona-state",
+   "school": "Arizona State",
+   "mascot": "Sun Devils",
+   "abbr": "ASU",
+   "id": "9",
+   "color": "#ffc627",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "army",
+   "school": "Army",
+   "mascot": "Black Knights",
+   "abbr": "ARMY",
+   "id": "349",
+   "color": "#000000",
+   "since": "2026-10-20",
+   "source": "production's sitemap-priority.xml, build 1a5362f of 2026-10-20T10:00:33Z, read 2026-10-20 6:24 AM EDT; in no committed snapshot's forty; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "auburn",
+   "school": "Auburn",
+   "mascot": "Tigers",
+   "abbr": "AUB",
+   "id": "2",
+   "color": "#002b5c",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "boise-state",
+   "school": "Boise State",
+   "mascot": "Broncos",
+   "abbr": "BOIS",
+   "id": "",
+   "color": "",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "byu",
+   "school": "BYU",
+   "mascot": "Cougars",
+   "abbr": "BYU",
+   "id": "252",
+   "color": "#0047ba",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "california",
+   "school": "California",
+   "mascot": "Golden Bears",
+   "abbr": "CAL",
+   "id": "25",
+   "color": "#041e42",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "cincinnati",
+   "school": "Cincinnati",
+   "mascot": "Bearcats",
+   "abbr": "CIN",
+   "id": "2132",
+   "color": "#000000",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "colorado",
+   "school": "Colorado",
+   "mascot": "Buffaloes",
+   "abbr": "COLO",
+   "id": "38",
+   "color": "#cfb87c",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "florida",
+   "school": "Florida",
+   "mascot": "Gators",
+   "abbr": "FLA",
+   "id": "57",
+   "color": "#0021a5",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "florida-state",
+   "school": "Florida State",
+   "mascot": "Seminoles",
+   "abbr": "FSU",
+   "id": "52",
+   "color": "#782f40",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "georgia",
+   "school": "Georgia",
+   "mascot": "Bulldogs",
+   "abbr": "UGA",
+   "id": "61",
+   "color": "#ba0c2f",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "houston",
+   "school": "Houston",
+   "mascot": "Cougars",
+   "abbr": "HOU",
+   "id": "248",
+   "color": "#c8102e",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "indiana",
+   "school": "Indiana",
+   "mascot": "Hoosiers",
+   "abbr": "IU",
+   "id": "84",
+   "color": "#970310",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "iowa",
+   "school": "Iowa",
+   "mascot": "Hawkeyes",
+   "abbr": "IOWA",
+   "id": "",
+   "color": "",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "iowa-state",
+   "school": "Iowa State",
+   "mascot": "Cyclones",
+   "abbr": "ISU",
+   "id": "66",
+   "color": "#ae192d",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "jacksonville-state",
+   "school": "Jacksonville State",
+   "mascot": "Gamecocks",
+   "abbr": "JXST",
+   "id": "55",
+   "color": "#cc0000",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "james-madison",
+   "school": "James Madison",
+   "mascot": "Dukes",
+   "abbr": "JMU",
+   "id": "256",
+   "color": "#450084",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "kentucky",
+   "school": "Kentucky",
+   "mascot": "Wildcats",
+   "abbr": "UK",
+   "id": "96",
+   "color": "#0033a0",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "liberty",
+   "school": "Liberty",
+   "mascot": "Flames",
+   "abbr": "",
+   "id": "",
+   "color": "",
+   "since": "2026-10-20",
+   "source": "production's sitemap-priority.xml, build 1a5362f of 2026-10-20T10:00:33Z, read 2026-10-20 6:24 AM EDT; in no committed snapshot's forty; school and mascot from the production page /teams/cfb/liberty.html (its heading 'Liberty Flames', build 1a5362f, read 6:27 AM EDT); its ESPN id, abbreviation and color are in no committed data"
+  },
+  {
+   "slug": "louisiana",
+   "school": "Louisiana",
+   "mascot": "Ragin' Cajuns",
+   "abbr": "UL",
+   "id": "309",
+   "color": "#ce181e",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "lsu",
+   "school": "LSU",
+   "mascot": "Tigers",
+   "abbr": "LSU",
+   "id": "99",
+   "color": "#461d76",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "memphis",
+   "school": "Memphis",
+   "mascot": "Tigers",
+   "abbr": "MEM",
+   "id": "235",
+   "color": "#004991",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "miami",
+   "school": "Miami",
+   "mascot": "Hurricanes",
+   "abbr": "MIA",
+   "id": "2390",
+   "color": "#f47423",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "michigan",
+   "school": "Michigan",
+   "mascot": "Wolverines",
+   "abbr": "MICH",
+   "id": "130",
+   "color": "#00274c",
+   "since": "2026-10-19",
+   "source": "docs/JACK.md J-9 (53d8bff): named as a page main built that the October 19 S-3b.3 build dropped; in no committed snapshot's forty; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "michigan-state",
+   "school": "Michigan State",
+   "mascot": "Spartans",
+   "abbr": "MSU",
+   "id": "127",
+   "color": "#173f35",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "minnesota",
+   "school": "Minnesota",
+   "mascot": "Golden Gophers",
+   "abbr": "MINN",
+   "id": "135",
+   "color": "#5e0a2f",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "mississippi-state",
+   "school": "Mississippi State",
+   "mascot": "Bulldogs",
+   "abbr": "MSST",
+   "id": "344",
+   "color": "#5d1725",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "missouri",
+   "school": "Missouri",
+   "mascot": "Tigers",
+   "abbr": "MIZ",
+   "id": "142",
+   "color": "#f1b82d",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "nebraska",
+   "school": "Nebraska",
+   "mascot": "Cornhuskers",
+   "abbr": "NEB",
+   "id": "158",
+   "color": "#e31937",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "new-mexico",
+   "school": "New Mexico",
+   "mascot": "Lobos",
+   "abbr": "UNM",
+   "id": "167",
+   "color": "#ba0c2f",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "north-dakota-state",
+   "school": "North Dakota State",
+   "mascot": "Bison",
+   "abbr": "NDSU",
+   "id": "2449",
+   "color": "#01402A",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "northwestern",
+   "school": "Northwestern",
+   "mascot": "Wildcats",
+   "abbr": "NU",
+   "id": "77",
+   "color": "#492f92",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "notre-dame",
+   "school": "Notre Dame",
+   "mascot": "Fighting Irish",
+   "abbr": "ND",
+   "id": "87",
+   "color": "#062340",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "ohio",
+   "school": "Ohio",
+   "mascot": "Bobcats",
+   "abbr": "OHIO",
+   "id": "195",
+   "color": "#154734",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "ohio-state",
+   "school": "Ohio State",
+   "mascot": "Buckeyes",
+   "abbr": "OSU",
+   "id": "194",
+   "color": "#000000",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "oklahoma",
+   "school": "Oklahoma",
+   "mascot": "Sooners",
+   "abbr": "OU",
+   "id": "201",
+   "color": "#990000",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "oklahoma-state",
+   "school": "Oklahoma State",
+   "mascot": "Cowboys",
+   "abbr": "OKST",
+   "id": "197",
+   "color": "#fe5c00",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "ole-miss",
+   "school": "Ole Miss",
+   "mascot": "Rebels",
+   "abbr": "MISS",
+   "id": "145",
+   "color": "#13294b",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "oregon-state",
+   "school": "Oregon State",
+   "mascot": "Beavers",
+   "abbr": "ORST",
+   "id": "204",
+   "color": "#dc4405",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "pittsburgh",
+   "school": "Pittsburgh",
+   "mascot": "Panthers",
+   "abbr": "PITT",
+   "id": "221",
+   "color": "#003594",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "rutgers",
+   "school": "Rutgers",
+   "mascot": "Scarlet Knights",
+   "abbr": "RUTG",
+   "id": "164",
+   "color": "#ce0e2d",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "smu",
+   "school": "SMU",
+   "mascot": "Mustangs",
+   "abbr": "SMU",
+   "id": "2567",
+   "color": "#a80000",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "south-carolina",
+   "school": "South Carolina",
+   "mascot": "Gamecocks",
+   "abbr": "SC",
+   "id": "2579",
+   "color": "#73000a",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "south-florida",
+   "school": "South Florida",
+   "mascot": "Bulls",
+   "abbr": "USF",
+   "id": "58",
+   "color": "#006747",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "tennessee",
+   "school": "Tennessee",
+   "mascot": "Volunteers",
+   "abbr": "TENN",
+   "id": "2633",
+   "color": "#ff8200",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "texas",
+   "school": "Texas",
+   "mascot": "Longhorns",
+   "abbr": "TEX",
+   "id": "251",
+   "color": "#af5c37",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "texas-a-m",
+   "school": "Texas A&M",
+   "mascot": "Aggies",
+   "abbr": "TA&M",
+   "id": "245",
+   "color": "#500000",
+   "since": "2026-10-19",
+   "source": "docs/JACK.md J-9 (53d8bff): named as a page main built that the October 19 S-3b.3 build dropped; in no committed snapshot's forty; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "texas-tech",
+   "school": "Texas Tech",
+   "mascot": "Red Raiders",
+   "abbr": "TTU",
+   "id": "2641",
+   "color": "#da291c",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "toledo",
+   "school": "Toledo",
+   "mascot": "Rockets",
+   "abbr": "TOL",
+   "id": "2649",
+   "color": "#0b2240",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "ucf",
+   "school": "UCF",
+   "mascot": "Knights",
+   "abbr": "UCF",
+   "id": "2116",
+   "color": "#000000",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "ucla",
+   "school": "UCLA",
+   "mascot": "Bruins",
+   "abbr": "UCLA",
+   "id": "26",
+   "color": "#2774ae",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "usc",
+   "school": "USC",
+   "mascot": "Trojans",
+   "abbr": "USC",
+   "id": "",
+   "color": "",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "utah",
+   "school": "Utah",
+   "mascot": "Utes",
+   "abbr": "UTAH",
+   "id": "254",
+   "color": "#be0000",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "utsa",
+   "school": "UTSA",
+   "mascot": "Roadrunners",
+   "abbr": "UTSA",
+   "id": "2636",
+   "color": "#0c2340",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "vanderbilt",
+   "school": "Vanderbilt",
+   "mascot": "Commodores",
+   "abbr": "VAN",
+   "id": "238",
+   "color": "#000000",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "virginia",
+   "school": "Virginia",
+   "mascot": "Cavaliers",
+   "abbr": "UVA",
+   "id": "258",
+   "color": "#232d4b",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "virginia-tech",
+   "school": "Virginia Tech",
+   "mascot": "Hokies",
+   "abbr": "VT",
+   "id": "259",
+   "color": "#6a2c3e",
+   "since": "2026-10-19",
+   "source": "main's build at afd9a1a (inactives: snapshot 23:03Z, 2026-10-19 23:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "wake-forest",
+   "school": "Wake Forest",
+   "mascot": "Demon Deacons",
+   "abbr": "WAKE",
+   "id": "154",
+   "color": "#ceb888",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  },
+  {
+   "slug": "washington-state",
+   "school": "Washington State",
+   "mascot": "Cougars",
+   "abbr": "WSU",
+   "id": "265",
+   "color": "#a60f2d",
+   "since": "2026-10-19",
+   "source": "reconstruction, not a record: main's pre-S-3b.3 forty (scoreboard.py at 09ae375 on the default college slate, read from ESPN 2026-10-20 6:25 AM EDT, with the AP poll in afd9a1a site/data/standings.json) holds it and the S-3b.3 build's does not; J-9 counts fifteen such pages and names two, and no file lists the rest; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "western-michigan",
+   "school": "Western Michigan",
+   "mascot": "Broncos",
+   "abbr": "WMU",
+   "id": "2711",
+   "color": "#532e1f",
+   "since": "2026-10-20",
+   "source": "production's sitemap-priority.xml, build 1a5362f of 2026-10-20T10:00:33Z, read 2026-10-20 6:24 AM EDT; in no committed snapshot's forty; identity from the week board in 437a46b site/data/scoreboard.json"
+  },
+  {
+   "slug": "wisconsin",
+   "school": "Wisconsin",
+   "mascot": "Badgers",
+   "abbr": "WIS",
+   "id": "275",
+   "color": "#a00000",
+   "since": "2026-10-15",
+   "source": "main's build at a0ec9c7 (inactives: snapshot 00:03Z, 2026-10-16 00:03 UTC): teams.top_programs over that commit's site/data/scoreboard.json and site/data/standings.json"
+  }
+ ]
+}
