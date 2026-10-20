@@ -76,6 +76,21 @@ TITLE_FINAL = re.compile(r"^[^<>]+ \d+, [^<>]+ \d+: final score\. "
                          r"November|December) \d{1,2}\.$")
 
 
+def final_title_problem(title, rec):
+    """S-5.1: '' when a Final page's title is the result with the HOME team and its score first,
+    from the feed record the build used (home and away as the feed names them), else the reason.
+    Teams are named by the feed's short name (the school for college, the nickname for the NFL),
+    never read back from the page's own markup, which carries the full name."""
+    a, h = rec.get("away") or {}, rec.get("home") or {}
+    hn, an = h.get("name") or h.get("abbr") or "", a.get("name") or a.get("abbr") or ""
+    want = f"{hn} {h.get('score')}, {an} {a.get('score')}: final score. "
+    if not (hn and an):
+        return "has a feed record with no team names"
+    if title.startswith(want):
+        return ""
+    return f"title {title!r} does not begin {want!r} (home team and its score first)"
+
+
 def runtime_hosts(html):
     hosts = set()
     for rx in _RUNTIME:
@@ -182,6 +197,13 @@ def check_tree(out):
     # the result with the HOME team and its score first (the h1 reads "Away at Home"), og:title
     # and the description match it, and the page carries one Updated stamp.
     gdir = os.path.join(out, "games")
+    feed_games = {}
+    try:
+        for blk in (json.load(open(os.path.join(out, "data", "scoreboard.json"), encoding="utf-8")) or {}).get("leagues") or []:
+            for fg in (blk or {}).get("games") or []:
+                feed_games[str(fg.get("id"))] = fg
+    except (OSError, ValueError, TypeError):
+        pass
     for name in sorted(os.listdir(gdir)) if os.path.isdir(gdir) else []:
         if not name.endswith(".html"):
             continue
@@ -193,13 +215,15 @@ def check_tree(out):
         if not TITLE_FINAL.match(title):
             fails.append(f"game pages: Final page {name} title {title!r} is not the result")
             continue
-        h1 = re.search(r'<h1 class="lx-h1 sbg-h1" title="([^"]*) at ([^"]*)"', html)
-        if h1:
-            home_t = h1.group(2).replace("&amp;", "&").replace("&#x27;", "'")
-            if not (home_t.endswith(title.split(",")[0].rsplit(" ", 1)[0]) or
-                    title.split(",")[0].rsplit(" ", 1)[0].endswith(home_t.split()[-1])):
-                fails.append(f"game pages: Final page {name} title {title!r} does not name the home team "
-                             f"({home_t}) first")
+        gid = name[:-5]
+        rec = feed_games.get(gid)
+        if rec is None:
+            fails.append(f"game pages: Final page {name} has no record in the build's own /data/scoreboard.json, "
+                         f"so its team order could not be checked")
+        else:
+            bad = final_title_problem(title, rec)
+            if bad:
+                fails.append(f"game pages: Final page {name} {bad}")
         if _meta(html, "property", "og:title") != title.replace("&", "&") or \
                 _meta(html, "name", "description") != title:
             fails.append(f"game pages: Final page {name} og:title or description does not match its title")
@@ -233,6 +257,20 @@ def check_played():
     fin = dict(pre, state="post", status_short="Final",
                away=dict(pre["away"], score="27", periods=["7", "7", "6", "7"]),
                home=dict(pre["home"], score="24", periods=["3", "7", "7", "7"]))
+    # the same on a second, NFL record, so the order is proven on both name styles (U-9)
+    nfl = {"id": "pl2", "league": "NFL", "state": "post", "status_short": "Final",
+           "start_utc": "2026-10-16T00:15Z",
+           "away": {"abbr": "SEA", "name": "Seahawks", "score": "14"},
+           "home": {"abbr": "DEN", "name": "Broncos", "score": "17"}}
+    for lab, rec, good, flipped in (
+            ("CFB", fin, "Georgia 24, Auburn 27: final score. Saturday, October 17.",
+             "Auburn 27, Georgia 24: final score. Saturday, October 17."),
+            ("NFL", nfl, "Broncos 17, Seahawks 14: final score. Thursday, October 15.",
+             "Seahawks 14, Broncos 17: final score. Thursday, October 15.")):
+        if final_title_problem(good, rec):
+            fails.append(f"played: the order check fails a correct {lab} Final title: {final_title_problem(good, rec)}")
+        if not final_title_problem(flipped, rec):
+            fails.append(f"played: the order check passes an away-first {lab} Final title")
     ppd = dict(pre, state="post", status_short="Postponed")
     noscore = dict(pre, state="post", status_short="Final")
     try:
