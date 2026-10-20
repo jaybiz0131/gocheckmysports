@@ -1646,6 +1646,8 @@ def layer1_canary():
     fails.extend(_afc.affiliate_canary(_built_tree()))   # S-3b.2: affiliate links, the plain link, the money line
     import push_canary as _pcn
     fails.extend(_pcn.push_canary(_built_tree()))   # S-3b.4: web push, the one-push rule, the absent key
+    import measure_canary as _msc
+    fails.extend(_msc.measure_canary(_built_tree()))   # S-5.2: scorecard lines 4, 7 and 10 measured
     fails.extend(_register_read_canary())   # S-6: the Search Console read
     fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
     fails.extend(_report_link_canary())   # RL-1: a report row links only a page the build writes

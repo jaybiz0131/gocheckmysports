@@ -5304,15 +5304,20 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
             f'{sbc_linescore(g, full=ticket)}{_tk_line(g)}{wx}{fact}{link}</article>')
 
 
-def _tk_facts(g, ia_index, wx=None, desig=None):
-    """The Ticket's fact rows: the venue before the game, then who is available."""
+def _tk_facts(g, ia_index, wx=None, desig=None, place=False):
+    """The Ticket's fact rows: the venue before the game, then who is available. With place (the
+    game page, S-5.2) the venue row carries the city and state and prints in every state."""
     state = g.get("state")
     # B-3: the spec grid holds two different KINDS of fact, and the lenses separate
     # them: where and in what weather is a watching fact, who is out is a fantasy one.
     # They render as two grids rather than one so a lens can take either without the
     # other, and with no lens chosen they sit one above the other exactly as before.
     venue = _tk_venue(g)
-    watch_rows = [("Venue", venue)] if (venue and state == "pre") else []
+    if venue and place:
+        where = ", ".join(x for x in _venue_place(g) if x)
+        if where:
+            venue = f"{_venue_name(g)} \u00b7 {where}" + (" \u00b7 roof" if g.get("venue_indoor") else "")
+    watch_rows = [("Venue", venue)] if (venue and (state == "pre" or place)) else []
     fan_rows = _tk_avail(g, ia_index, desig)
 
     def _grid(rr, lens):
@@ -5325,11 +5330,27 @@ def _tk_facts(g, ia_index, wx=None, desig=None):
     return _grid(watch_rows, "watch") + _grid(fan_rows, "fantasy")
 
 
+def _venue_place(g):
+    """S-5.2: the venue's city and state as the feed gives them, ("", "") when it gives none. An
+    older record carried the city in parentheses after the venue's name, so that is read too."""
+    city, region = (g.get("venue_city") or "").strip(), (g.get("venue_state") or "").strip()
+    if not city:
+        m = re.search(r"\(([^)]*)\)\s*$", g.get("venue") or "")
+        if m:
+            city, region = m.group(1).strip(), ""
+    return city, region
+
+
 def gp_facts(g, ia_index, wx=None, desig=None):
     """S-2c, Jack's fix of 14 October, 3:05 PM ET: on a game page the Ticket's fact rows (the
     venue, designations, inactives) leave the Ticket and sit under where to watch, so the
-    conditions hero is the first thing below the matchup."""
-    rows = _tk_facts(g, ia_index, wx, desig)
+    conditions hero is the first thing below the matchup.
+
+    S-5.2: on the game page the venue row carries the city and state, in every state of the game,
+    because the page's SportsEvent states them as its address (Google's Event documentation
+    requires location.address) and the markup says nothing the page does not. The home's cards
+    keep the venue alone, before the game only."""
+    rows = _tk_facts(g, ia_index, wx, desig, place=True)
     return f'<div class="tk-c gp-facts"><div class="tk-body">{rows}</div></div>' if rows else ""
 
 
@@ -6839,8 +6860,11 @@ def _team_ld(name, league, path, next_row, tm_abbr):
             carriers = [next_row["net"]]
         elif ng.get("network"):
             carriers = [network_name(ng["network"])]
+    # S-5.2: the SportsTeam points at its next game's event only when that game page is built (the
+    # schedule rows' rule); a game weeks away has no page, and a pointer to one dangles.
     g = _sd.team_graph({"name": name}, league, ORIGIN, path,
-                       next_game=ng if (ng and ng.get("start_utc")) else None, carriers=carriers)
+                       next_game=ng if (ng and ng.get("start_utc") and _game_page_built(ng.get("id"))) else None,
+                       carriers=carriers)
     return ('\n<script type="application/ld+json">' + json.dumps(g, ensure_ascii=False, separators=(",", ":"))
             + "</script>")
 
@@ -7002,7 +7026,9 @@ def render_college_page(prog, items, dateline):
     nxt_g = nxt["_g"] if nxt else None
     import structured as _sd
     carriers = [network_name(nxt_g["network"])] if (nxt_g and nxt_g.get("network")) else []
-    graph = _sd.team_graph({"name": full}, "CFB", ORIGIN, path, next_game=nxt_g, carriers=carriers)
+    graph = _sd.team_graph({"name": full}, "CFB", ORIGIN, path,
+                           next_game=nxt_g if (nxt_g and _game_page_built(nxt_g.get("id"))) else None,
+                           carriers=carriers)
     ld = ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
           + "</script>")
     return shell(f"{full}: next game, where to watch and conditions - {NAME}",
@@ -9074,17 +9100,17 @@ def gp_desk_stories(g, items):
     return rel
 
 
-def _game_ld(g):
-    """S-3a item 2: SportsEvent, and a BroadcastEvent for each carrier the where-to-watch block names."""
+def _game_ld(g, description="", image=""):
+    """S-3a item 2: SportsEvent, and a BroadcastEvent for each carrier the where-to-watch block names.
+    S-5.2: the address is the feed's city and state, the ones gp_facts prints beside the venue, and
+    the description and image are the page's own meta description and og:image."""
     import structured as _sd
     cars = [c["name"] for c in (_w2w_carriers_by_id().get(str(g.get("id"))) or []) if c.get("name")]
     if not cars and g.get("network"):
         cars = [network_name(g["network"])]
-    city = ""
-    m = re.search(r"\(([^)]*)\)\s*$", g.get("venue") or "")
-    if m:
-        city = m.group(1)
-    graph = _sd.game_graph(g, ORIGIN, carriers=cars, venue_city=city)
+    city, region = _venue_place(g)
+    graph = _sd.game_graph(g, ORIGIN, carriers=cars, venue_city=city, venue_region=region,
+                           description=description, image=image)
     return ('\n<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False, separators=(",", ":"))
             + "</script>")
 
@@ -9182,13 +9208,14 @@ def render_game_page(g, points, board, wx, items, dateline):
     # N-1: the title names the teams the way the page does. "DET at BUF" in a browser
     # tab, a bookmark and a search result was the only place on this site a reader met
     # the initials with no card around them to decode them.
-    return shell(gp_title(g),
-                 f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
-                 f'National Weather Service, where to watch, inactives and the score. Facts, '
-                 f'not advice.',
+    _desc = (f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
+             f'National Weather Service, where to watch, inactives and the score. Facts, '
+             f'not advice.')
+    _og = f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}'
+    return shell(gp_title(g), _desc,
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
-                 og_image=f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}', og_size=(1080, 1080),
-                 schema_extra=_game_ld(g))
+                 og_image=_og, og_size=(1080, 1080),
+                 schema_extra=_game_ld(g, description=_desc, image=_og))
 
 
 def render_fantasy_live(all_points, dateline):
