@@ -3070,3 +3070,8 @@ a.tms-last:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
   .tms-log{grid-template-columns:22px 210px minmax(0,1fr) minmax(0,2fr);grid-template-areas:"bulb dt opp wxs"}
   .tms-log .tms-opp{grid-area:opp}
 }
+/* S-5.4: a jump to a window heading (#win-*) lands it clear of the sticky day label above it. The
+   label is 30px at 390 (measured by scripts/heading-clear.mjs); the margin leaves it a clear 10. */
+.wb-wl{scroll-margin-top:40px}
+/* S-5.4: Scores is paged by day; the day and part tabs sit under the league tabs. */
+.sc-days,.sc-parts{margin-top:10px}

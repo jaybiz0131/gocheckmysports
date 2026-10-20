@@ -2388,31 +2388,94 @@ def bottom_line_card(items):
             + _BL_GUARD_SCRIPT)
 
 
-def render_bottom_line_history(items, dateline):
-    """/bottom-line.html: the browsable history of the daily reads, one entry per
-    edition, newest first. Each edition's read is preserved with its edition forever."""
+# S-5.4: the two listings that outgrew the scorecard's 150,000-byte line, archive.html (569,554 bytes)
+# and bottom-line.html (167,414), are paged by bytes the way Scores is. The newest entries stay at the
+# page's own URL, so /archive.html and /bottom-line.html keep answering with what a reader came for;
+# the rest continue at /<name>/page/N.html. A page count only grows as stories are added.
+PAGE_BUDGET = 150000
+PAGE_SLACK = 3000
+PAGED_EXTRA = []       # set at build: the continuation pages of the archive and the Bottom Line
+
+
+def _part_url(base, k):
+    return base if k == 1 else base[:-5] + f"/page/{k}.html"
+
+
+def _part_nav(base, part, parts):
+    if parts <= 1:
+        return ""
+    nav = []
+    if part > 1:
+        nav.append(f'<a class="bd-more" href="{_part_url(base, part - 1)}">&larr; Newer</a>')
+    if part < parts:
+        nav.append(f'<a class="bd-more" href="{_part_url(base, part + 1)}">Older &rarr;</a>')
+    return f'<div class="lx-actions">{"".join(nav)}</div>'
+
+
+def _pack_pages(units, render):
+    """Pages of `units` (tuples whose first member is the unit's html) under PAGE_BUDGET bytes, cut by
+    the bytes of the rendered page. render(chunk, part, parts) -> the page's html."""
+    def size(h):
+        return len(h.encode("utf-8"))
+    adj, k = 0, 1
+    for _attempt in range(10):
+        cap = max(1, PAGE_BUDGET - PAGE_SLACK - size(render([], 1, k)) - adj)
+        chunks, cur, n = [], [], 0
+        for u in units:
+            w_ = size(u[0])
+            if cur and n + w_ > cap:
+                chunks.append(cur)
+                cur, n = [], 0
+            cur.append(u)
+            n += w_
+        chunks.append(cur)
+        k = len(chunks)
+        htmls = [render(c, i + 1, k) for i, c in enumerate(chunks)]
+        worst = max(size(h) for h in htmls)
+        if worst < PAGE_BUDGET:
+            return htmls
+        adj += worst - PAGE_BUDGET + PAGE_SLACK
+    print(f"::warning::paging: a page is {worst} bytes, over {PAGE_BUDGET}")
+    return htmls
+
+
+def render_bottom_line_pages(items, dateline):
+    """/bottom-line.html and /bottom-line/page/N.html: the browsable history of the daily reads, one
+    entry per edition, newest first. Each edition's read is preserved with its edition forever."""
     wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
-    rows = []
+    base = "/bottom-line.html"
+    units = []
     for ed in wraps:
         name = esc((ed.get("title") or "").split(":")[0].strip())
-        rows.append(f"""<div class="bl-hist">
+        units.append((f"""<div class="bl-hist">
       <div class="bl-head"><span class="bl-label">{name}</span>
         <span class="dateline">{fmt_when(ed)}</span></div>
       <p class="bl-read">{esc(ed["bottom_line"])}</p>
       <p style="margin:6px 0 0"><a href="/articles/{esc(ed['slug'])}.html">The full edition &rarr;</a></p>
-    </div>""")
-    body = f"""<main class="wrap narrow"><section class="page">
+    </div>""",))
+
+    def render(chunk, part, parts):
+        rows = "".join(u[0] for u in chunk)
+        body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">The Bottom Line</span>
   <h1>The daily reads</h1>
   <p class="lede">Once a day the desk closes its edition with The Bottom Line: what
      happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
-  {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
+  {rows if rows else '<p class="lede">The first edition lands soon.</p>'}
+  {_part_nav(base, part, parts)}
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"The Bottom Line - {NAME}", "The desk's daily reads: what happened, why it "
-                 "mattered, and what comes next. Synthesis, never advice.",
-                 "The Bottom Line", body, dateline, path="/bottom-line.html")
+        return shell(f"The Bottom Line{f', page {part}' if parts > 1 else ''} - {NAME}",
+                     "The desk's daily reads: what happened, why it "
+                     "mattered, and what comes next. Synthesis, never advice.",
+                     "The Bottom Line", body, dateline, path=_part_url(base, part))
+    return {_part_url(base, i + 1): h for i, h in enumerate(_pack_pages(units, render))}
+
+
+def render_bottom_line_history(items, dateline):
+    """/bottom-line.html: the newest page of the paged history (render_bottom_line_pages)."""
+    return render_bottom_line_pages(items, dateline)["/bottom-line.html"]
 
 
 def render_news(items, dateline):
@@ -7430,88 +7493,327 @@ def standings_strip(st):
             + '</nav></section>')
 
 
-def render_scores_page(sb, board, dateline, wx=None):
-    """/scores: every game, grouped by league, with a Yesterday, Today, Tomorrow strip.
-    The strip links only days we actually hold data for."""
-    if not sb or not sb.get("leagues"):
+# S-5.4: /scores is paged by day. One page held every game of the board's week and weighed 283,679
+# bytes on 20 October 2026 (84 cards); the scorecard's line is 150,000 for a page. A day is a
+# page, /scores.html is the page of the opening day (today when it has games, else the next day
+# with games, else the last), the other days are /scores/<date>.html, and a day too heavy for one
+# page continues at /scores/<date>-2.html. The cut is by bytes of the rendered page, never by a
+# card count, because a card's weight changes with what the Worker and the feed give it.
+SCORES_BUDGET = 150000      # the scorecard's byte line for a page
+SCORES_SLACK = 3000         # the pager aims this far under it
+
+
+def _scores_days(sb):
+    """The Scores pages' days: ({iso day: [(league, game), ...]}, opening day). `sb` holds the board
+    leagues only. A game with no kickoff goes to the opening day, where a reader looks first."""
+    days, undated = {}, []
+    for L in (sb or {}).get("leagues") or []:
+        for g in L.get("games") or []:
+            k = _utc_dt(g.get("start_utc") or "")
+            if k:
+                days.setdefault(k.astimezone(_ET).date().isoformat(), []).append((L["league"], g))
+            else:
+                undated.append((L["league"], g))
+    today = _mf()["date"]
+    keys = sorted(days)
+    later = [d for d in keys if d > today]
+    opening = today if today in days else (later[0] if later else (keys[-1] if keys else today))
+    if undated:
+        days.setdefault(opening, []).extend(undated)
+    return days, opening
+
+
+def _scores_url(day_iso, part, opening=None):
+    """A day's URL is its own, on every day: /scores/<date>.html, /scores/<date>-2.html for the
+    second part. /scores.html is the opening day's first page, written beside it. (`opening` is kept
+    for callers that passed it; it no longer changes a URL.)"""
+    return f"/scores/{day_iso}.html" if part == 1 else f"/scores/{day_iso}-{part}.html"
+
+
+def scores_day_href(day_iso):
+    """Where a day's scores begin, for a link from another page: that day's own URL, which the site
+    keeps answering (scores_registry_union). /scores.html when the data is absent."""
+    try:
+        sbd = dict(SB_DATA or {}, leagues=[L for L in (SB_DATA or {}).get("leagues") or []
+                                           if L.get("league") in BOARD_LEAGUES])
+        if not sbd["leagues"]:
+            return "/scores.html"
+        days, _opening = _scores_days(sbd)
+        return _scores_url(day_iso, 1) if day_iso in days else "/scores.html"
+    except Exception:
+        return "/scores.html"
+
+
+SCORES_PATH_RX = re.compile(r"/scores/\d{4}-\d{2}-\d{2}(-\d+)?\.html")
+SCORES_REGISTRY = os.path.join(HERE, "data", "scores-pages-built.json")
+
+
+def scores_registry_union(prior, built):
+    """The Scores paths the site has published: every path in `prior` and every day path in `built`.
+    The set only grows, so a URL a reader was given keeps answering (the way the college team
+    registry does). /scores.html is not a member; it always answers."""
+    return sorted({p for p in list(prior or []) + list(built or []) if SCORES_PATH_RX.fullmatch(p)})
+
+
+def scores_placeholder(path, dateline):
+    """The page at a published Scores path the build has no games for: what it is, with no count,
+    and the way to the current scores. Not indexed. A day already past says its games rolled off the
+    board; a day not yet past says only that the feed did not return it, never a reason not verified."""
+    m = re.fullmatch(r"/scores/(\d{4}-\d{2}-\d{2})(?:-(\d+))?\.html", path)
+    if not m:
         return None
+    dt = datetime.date.fromisoformat(m.group(1))
+    day = dt.strftime("%A, %B %-d")
+    if m.group(2):
+        said = (f"This page held a later part of the scores for {day}. The day no longer needs it. "
+                f'<a href="/scores/{m.group(1)}.html">The first page for that day</a> is the one the scoreboard keeps.')
+    elif dt < _build_now().astimezone(_ET).date():
+        said = (f"The scoreboard no longer carries {day}: its games have rolled off the current board, "
+                "and the desk does not keep a scoreboard it cannot check.")
+    else:
+        # the day has not passed, so nothing has rolled off: the feed did not return it to this build
+        said = (f"The scoreboard could not read the games for {day} in this build. "
+                "This page fills in when the feed returns them.")
+    body = f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Scores</span>
+  <h1>Scores, {esc(day)}</h1>
+  <p class="lede">{said}</p>
+  <p><a href="/scores.html">The current scores &rarr;</a></p>
+</section></main>"""
+    return shell(f"Scores, {day} - {NAME}", f"The scores page for {day}.", "Scores", body, dateline,
+                 path=path, noindex=True)
+
+
+def _scores_registry_remote():
+    """The registry production published, or None (see _cfb_registry_remote). Off with
+    CFB_REGISTRY_REMOTE=0. Any failure is None."""
+    if (os.environ.get("CFB_REGISTRY_REMOTE") or "").strip() == "0":
+        return None
+    import urllib.request
+    try:
+        req = urllib.request.Request(f"{ORIGIN}/data/scores-pages-built.json",
+                                     headers={"User-Agent": "gocheckmysports-build"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            return json.loads(r.read(2_000_000).decode("utf-8"))
+    except Exception as e:
+        print(f"scores registry: the published copy was not read ({type(e).__name__}); the committed file stands")
+        return None
+
+
+def scores_registry_build(built):
+    """S-5.4: the committed registry of Scores paths, unioned with production's published copy and this
+    build's paths, written back for the poller to commit and published at /data/scores-pages-built.json.
+    Returns the registered paths."""
+    try:
+        doc = json.load(open(SCORES_REGISTRY, encoding="utf-8"))
+        prior = list(doc.get("paths") or [])
+    except (OSError, ValueError) as e:
+        print(f"::warning::scores registry: {SCORES_REGISTRY} unreadable ({type(e).__name__}); this build's paths only")
+        prior = []
+    remote = _scores_registry_remote()
+    if remote is not None:
+        prior += list(remote.get("paths") or [])
+    paths = scores_registry_union(prior, built)
+    body = json.dumps({"paths": paths}, indent=1) + "\n"
+    try:
+        old = open(SCORES_REGISTRY, encoding="utf-8").read()
+    except OSError:
+        old = None
+    if body != old:
+        with open(SCORES_REGISTRY, "w", encoding="utf-8") as f:
+            f.write(body)
+    os.makedirs(os.path.join(PUBLISH, "data"), exist_ok=True)
+    with open(os.path.join(PUBLISH, "data", "scores-pages-built.json"), "w", encoding="utf-8") as f:
+        f.write(body)
+    return paths
+
+
+def render_scores_pages(sb, board, dateline, wx=None):
+    """/scores, paged by day: {path: html}, /scores.html first. Every game is on exactly one day page
+    and every page is under SCORES_BUDGET bytes. /scores.html repeats the opening day's first page, so
+    each day keeps its own URL on its own day. Within a page: league sections, the games of the day
+    in the order the reader opened the page for (live first, then upcoming, then final). Every count
+    is the manifest's (slate.week); a day the manifest does not hold prints none."""
+    if not sb or not sb.get("leagues"):
+        return {}
     _mf_prime(sb)
     # S-1 item 2: the Scores page keeps the NFL and CFB tabs and loses the rest. The other
     # leagues' pages stay at their URLs; the manifest was made from the whole feed first.
     sb = dict(sb, leagues=[L for L in sb["leagues"] if L.get("league") in BOARD_LEAGUES])
     if not sb["leagues"]:
-        return None
+        return {}
     ia = _ia_index(board)
-    secs = []
-    for L in sb["leagues"]:
-        games = L["games"]
-        if not games:
-            continue
-        games = sorted(games, key=_sb_sort_key_in_league)
-        # SC-5: every game as a full Ticket card, three across, grouped by league with
-        # a sticky league row. Live first, then upcoming, then final, which is the order
-        # the reader opened the page for.
-        count = _mf_league_row(L["league"], len(games))
-        secs.append(
-            f'<section class="bd-mod" id="{esc(L["league"].lower())}">'
-            f'<div class="tk-lg"><span>{esc(L["league"])}</span><i></i>'
-            f'<span class="tk-lg-n">{esc(count)}</span></div>'
-            f'<div class="tk-g3">'
-            + "".join(_tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS)
-                      for g in games) + '</div></section>')
-    _all = [g for L in sb["leagues"] for g in L["games"]]
-    count_line = _mf_count_line(BOARD_LEAGUES)
-    # Revised G-2: an inner page carrying the same product opens with the SAME band at
-    # reduced height, then continues light. That amends S-10's "run the page inside the
-    # band"; the addendum wins, and it is the better read - a page-length dark surface
-    # is the thing the audit took off /pulse.
-    # A-14: the inner band carries the same photo, scrim, glass cards and ornament as
-    # the homepage band, at about 60 percent of its height. It was a header strip with
-    # nothing in it but the promise line - the photo showed and nothing else did.
-    #
-    # The promise line itself goes with it: copy item 5 took "Every score. No odds. No
-    # noise." off the homepage band as an H1 and C-L2 bans a promise in a heading. It
-    # survived here because item 5 named the homepage. The page's name is its heading.
-    # Live first, then the next kickoffs in time order. The homepage band groups by
-    # league because it carries the league tabs; this one has no tabs, and grouping by
-    # league here put five Sunday NFL games under a header reading "6 games tomorrow"
-    # while the five games that are actually tomorrow sat below the fold.
-    # Six cards, two rows of three. The homepage band carries a marquee and eight;
-    # six without the marquee is the 60 percent A-14 asks for, and it is measured
-    # from the content rather than pinned to a pixel height the slate would break.
-    # A-14: this band is 60 percent of the homepage's. The Ticket rebuild added the
-    # tabs and taller folded cards and pushed it to 84, which is not a reduced band,
-    # it is a second homepage above the board the reader came for. Three folds, not six:
-    # every game is a full card a few hundred pixels below.
-    _orn = _sb_ornament(_all)
-    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{_build_now().strftime('%Y-%m-%dT%H:%M:%SZ')}" data-built-et="{_et_clock(_build_now())}" aria-label="Scores">
+    days, opening = _scores_days(sb)
+    mf = _mf()
+    today = mf["date"]
+    week = mf["slate"]["week"]
+    mdays = {dd["date"]: dd["by_league"] for dd in week.get("days") or []}
+    feed_order = [L["league"] for L in sb["leagues"]]
+    built = _build_now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    built_et = _et_clock(_build_now())
+    stamp = _mf_stamp()
+
+    def dlabel(iso):
+        return datetime.date.fromisoformat(iso).strftime("%a %b %-d")
+
+    def day_total(iso):
+        by = mdays.get(iso)
+        return None if by is None else sum(by.get(l, 0) for l in BOARD_LEAGUES)
+
+    def order_for(iso):
+        # the page's tabs and sections agree: today's follow the day's weighting, as the tabs always did
+        if iso == today:
+            return [l for l in _day_league_order() if l in feed_order]
+        return feed_order
+
+    def items_for(iso):
+        """[(league, card html, game)] in the page's league order."""
+        out = []
+        for lg in order_for(iso):
+            gs = sorted((g for l, g in days[iso] if l == lg), key=_sb_sort_key_in_league)
+            out.extend((lg, _tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS), g) for g in gs)
+        return out
+
+    def sections(iso, items):
+        runs = []
+        for lg, card, _g in items:
+            if not runs or runs[-1][0] != lg:
+                runs.append((lg, []))
+            runs[-1][1].append(card)
+        dt = datetime.date.fromisoformat(iso)
+        by = mdays.get(iso)
+        secs = []
+        for lg, cards in runs:
+            if iso == today:
+                count = _mf_league_row(lg)
+            elif by is not None:
+                count = (f"{by.get(lg, 0)} on {dt.strftime('%A')} · "
+                         f"{(week['by_league'].get(lg) or {}).get('total', 0)} this week")
+            else:
+                count = ""
+            n_span = f'<span class="tk-lg-n">{esc(count)}</span>' if count else ""
+            secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
+                        f'<div class="tk-lg"><span>{esc(lg)}</span><i></i>{n_span}</div>'
+                        f'<div class="tk-g3">' + "".join(cards) + '</div></section>')
+        return secs
+
+    def page(iso, part, parts, items, path=None):
+        path = path or _scores_url(iso, part)
+        dt = datetime.date.fromisoformat(iso)
+        games_here = [g for _l, _c, g in items]
+        leagues_here = []
+        for lg, _c, _g in items:
+            if lg not in leagues_here:
+                leagues_here.append(lg)
+        by = mdays.get(iso)
+        tot = day_total(iso)
+        if iso == today:
+            count_line = _mf_count_line(BOARD_LEAGUES)
+            ltabs = _tk_tabs(games_here, active="all", href=path)
+        else:
+            count_line = (f"{tot} game{'' if tot == 1 else 's'} on {dt.strftime('%A')}"
+                          if tot is not None else "")
+            def sm(n):
+                return f"<small>{n}</small>" if n is not None else ""
+            ltabs = ('<div class="tk-tabs">'
+                     f'<a class="tk-tab on" data-league="All" href="{path}#all">All{sm(tot)}</a>'
+                     + "".join(f'<a class="tk-tab" data-league="{esc(lg)}" href="{path}#{esc(lg.lower())}">'
+                               f'{esc(lg)}{sm(None if by is None else by.get(lg, 0))}</a>'
+                               for lg in leagues_here)
+                     + '</div>')
+        nav = ['<nav class="tk-tabs sc-days" aria-label="Scores by day">']
+        for d in sorted(days):
+            here = d == iso
+            t = day_total(d)
+            nav.append(f'<a class="tk-tab{" on" if here else ""}" href="{_scores_url(d, 1)}"'
+                       + (' aria-current="page"' if here else "") + f'>{esc(dlabel(d))}'
+                       + (f'<small>{t}</small>' if t is not None else '') + '</a>')
+        nav.append('</nav>')
+        if parts > 1:
+            nav.append('<nav class="tk-tabs sc-parts" aria-label="Parts of this day">')
+            for k in range(1, parts + 1):
+                here = k == part
+                nav.append(f'<a class="tk-tab{" on" if here else ""}" href="{_scores_url(iso, k)}"'
+                           + (' aria-current="page"' if here else "") + f'>Part {k}</a>')
+            nav.append('</nav>')
+        h1 = "Scores" if path == "/scores.html" else (
+            f"Scores, {dlabel(iso)}" + (f", part {part}" if parts > 1 else ""))
+        _orn = _sb_ornament([g for _l, g in days[iso]])
+        count_span = (f'<span class="sb-count" data-mf="count">{esc(count_line)}</span>\n        '
+                      if count_line else "")
+        band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{built}" data-built-et="{built_et}" aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
     <div class="sb-promise">
       <div class="sb-promise-l">
-        <h1 class="sb-claim">Scores</h1>
+        <h1 class="sb-claim">{esc(h1)}</h1>
       </div>
       <span class="sb-countwrap">
-        <span class="sb-count" data-mf="count">{esc(count_line)}</span>
-        <span class="sb-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>
+        {count_span}<span class="sb-stamp" data-mf="stamp">Updated {esc(stamp)}</span>
       </span>
     </div>
-    <div class="sb-tabrow">{_tk_tabs(_all, active="all")}{_week_link()}</div>
+    <div class="sb-tabrow">{ltabs}{_week_link()}</div>
+    {"".join(nav)}
     {lens_control()}
     {pins_panel()}
   </div>
   {_orn}
 </section>
 <div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + LENS_JS
-    body = band + f"""<main class="wrap"><section class="page">
-    <div class="scoreband scoreband-page">{"".join(secs)}</div>
+        body = band + f"""<main class="wrap"><section class="page">
+    <div class="scoreband scoreband-page">{"".join(sections(iso, items))}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
 </section></main>"""
-    return shell(f"Scores - {NAME}",
-                 "Every score across the leagues this desk covers, with the "
-                 "network carrying each game and the line as the book reported it.",
-                 "Scores", body, dateline, path="/scores.html")
+        if path == "/scores.html":
+            title = f"Scores - {NAME}"
+            desc = ("Every score across the leagues this desk covers, with the "
+                    "network carrying each game and the line as the book reported it.")
+        else:
+            title = f"Scores, {dt.strftime('%A, %B %-d')}" + (f", part {part}" if parts > 1 else "") + f" - {NAME}"
+            desc = (f"Every game on {dt.strftime('%A, %B %-d')}, with the network carrying each game "
+                    "and the line as the book reported it.")
+        return shell(title, desc, "Scores", body, dateline, path=path, noindex=path != "/scores.html")
+
+    def size(h):
+        return len(h.encode("utf-8"))
+
+    pages = {}
+    alias = None
+    for iso in sorted(days):
+        items = items_for(iso)
+        adj, k_used = 0, 1
+        for _attempt in range(10):
+            base = size(page(iso, 1, k_used, [(lg, "", g) for lg, _c, g in items[:1]]))
+            cap = max(1, SCORES_BUDGET - SCORES_SLACK - base - adj)
+            chunks, cur, cur_n = [], [], 0
+            for it in items:
+                w_ = size(it[1])
+                if cur and cur_n + w_ > cap:
+                    chunks.append(cur)
+                    cur, cur_n = [], 0
+                cur.append(it)
+                cur_n += w_
+            chunks.append(cur)
+            k_used = len(chunks)
+            htmls = [page(iso, i + 1, k_used, c) for i, c in enumerate(chunks)]
+            worst = max(size(h) for h in htmls)
+            if iso == opening:
+                alias = page(iso, 1, k_used, chunks[0], path="/scores.html")
+                worst = max(worst, size(alias))
+            if worst < SCORES_BUDGET:
+                break
+            adj += worst - SCORES_BUDGET + SCORES_SLACK
+        else:
+            print(f"::warning::scores: the page for {iso} is {worst} bytes, over {SCORES_BUDGET}")
+        for i, h in enumerate(htmls):
+            pages[_scores_url(iso, i + 1)] = h
+    return dict(([("/scores.html", alias)] if alias else []) + sorted(pages.items()))
+
+
+def render_scores_page(sb, board, dateline, wx=None):
+    """/scores.html: the opening day's first page of the paged Scores (render_scores_pages)."""
+    return render_scores_pages(sb, board, dateline, wx).get("/scores.html")
 
 
 # ---- S-B2: the Sunday Inactives board -----------------------------------------
@@ -10516,7 +10818,7 @@ def week_board(sb):
         elif rows:
             inner.append('<div class="tk-g3">' + "".join(card(k, g) for k, g in rows) + '</div>')
         if hidden_by_day.get(d):
-            inner.append(_home_more(hidden_by_day[d], "bd-src wb-more"))
+            inner.append(_home_more(hidden_by_day[d], "bd-src wb-more", d))
         sections.append(
             f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}" data-date="{d.isoformat()}">'
             f'<div class="tk-lg"><span>{esc(d.strftime("%A, %b %-d"))}</span><i></i></div>'
@@ -10722,7 +11024,7 @@ def wall(sb_data):
                    f'<div class="wl-head"><h2 class="wl-h">{esc(d.strftime("%A, %b %-d"))} '
                    f'<span>· College football</span></h2></div>'
                    f'<div class="wl-rows">{"".join(wall_row(g) for g in cfb[d])}</div>'
-                   + (_home_more(cfb_hidden[d], "wl-src") if cfb_hidden.get(d) else "") + '</section>')
+                   + (_home_more(cfb_hidden[d], "wl-src", d) if cfb_hidden.get(d) else "") + '</section>')
     return f'<div class="wl" data-wall>{"".join(out)}</div>'
 
 
@@ -10759,9 +11061,12 @@ def _home_more_by_day(drawn):
     return out
 
 
-def _home_more(n, cls):
+def _home_more(n, cls, day=None):
+    """The cut line under a day's cards. S-5.4: Scores is paged by day, so the link goes to that
+    day's page (scores_day_href), where every game of the day is listed."""
+    href = scores_day_href(day.isoformat()) if day else "/scores.html"
     return (f'<p class="{cls}">{n} more college game{"" if n == 1 else "s"}. '
-            f'<a href="/scores.html#cfb">All scores</a></p>')
+            f'<a href="{href}">All scores</a></p>')
 
 
 def _home_rank(g):
@@ -10849,25 +11154,12 @@ def archive_left_home():
             + row("Other leagues", leagues) + row("Across the leagues", cross) + '</div>')
 
 
-def render_archive(items, dateline):
+def render_archive_pages(items, dateline):
+    """/archive.html and /archive/page/N.html: every published story, by day, newest first, paged by
+    bytes (see _pack_pages). The hubs and the left-the-home block ride on the first page."""
     live = [i for i in items if not i.get("example") and not i.get("superseded_by")]
-    if live:
-        # group by day, newest first (items are already sorted): a researcher scans by date
-        days = []
-        for i in live:
-            if not days or days[-1][0] != i.get("date"):
-                days.append((i.get("date"), []))
-            days[-1][1].append(i)
-        inner = "".join(
-            f'<div class="sec-head" style="margin-top:22px"><h2>{esc(fmt_date(d))}</h2>'
-            f'<span class="bar"></span></div><div class="grid">'
-            + "".join(card(i) for i in group) + "</div>"
-            for d, group in days)
-    else:
-        inner = ('<div class="empty"><span class="k">Archive is empty</span>'
-                 '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
-    # Full coverage: the hub layer, listed compactly ahead of the day-by-day listing so
-    # a researcher chasing one storyline never has to walk the whole archive for it.
+    base = "/archive.html"
+    units = [(card(i), i.get("date")) for i in live]
     hubs = coverage_hubs(items)
     hub_html = ""
     if hubs:
@@ -10877,14 +11169,41 @@ def render_archive(items, dateline):
                               f'{esc(h["name"])}</a>' for h in hubs)
                     + '</div>')
     left = archive_left_home()
-    body = f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports archive</h1><section class="sec">
-    {left}
-    {hub_html}
-    <div class="sec-head"{' style="margin-top:22px"' if hub_html else ''}><h2>Archive</h2><span class="bar"></span></div>
+
+    def render(chunk, part, parts):
+        if live:
+            # group by day, newest first (items are already sorted): a researcher scans by date
+            days = []
+            for html, d in chunk:
+                if not days or days[-1][0] != d:
+                    days.append((d, []))
+                days[-1][1].append(html)
+            inner = "".join(
+                f'<div class="sec-head" style="margin-top:22px"><h2>{esc(fmt_date(d))}</h2>'
+                f'<span class="bar"></span></div><div class="grid">' + "".join(group) + "</div>"
+                for d, group in days)
+        else:
+            inner = ('<div class="empty"><span class="k">Archive is empty</span>'
+                     '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
+        first = part == 1
+        # Full coverage: the hub layer, listed compactly ahead of the day-by-day listing so
+        # a researcher chasing one storyline never has to walk the whole archive for it.
+        body = f"""<main class="wrap"><h1 class="sr-only">GoCheckMySports archive</h1><section class="sec">
+    {left if first else ""}
+    {hub_html if first else ""}
+    <div class="sec-head"{' style="margin-top:22px"' if (hub_html and first) else ''}><h2>Archive{esc(_page_note(part, parts))}</h2><span class="bar"></span></div>
     {inner}
+    {_part_nav(base, part, parts)}
   </section></main>"""
-    return shell(f"Archive - {NAME}", "Every published GoCheckMySports story.", "Archive", body,
-                 dateline, path="/archive.html")
+        return shell(f"Archive{f', page {part}' if parts > 1 else ''} - {NAME}",
+                     "Every published GoCheckMySports story.", "Archive", body,
+                     dateline, path=_part_url(base, part))
+    return {_part_url(base, i + 1): h for i, h in enumerate(_pack_pages(units, render))}
+
+
+def render_archive(items, dateline):
+    """/archive.html: the newest page of the paged archive (render_archive_pages)."""
+    return render_archive_pages(items, dateline)["/archive.html"]
 
 
 # ---- section hubs ------------------------------------------------------------
@@ -12237,6 +12556,9 @@ def build():
     # withdraws the page once that file is six days old.
     global W2W_LIVE, W2W_DATA
     _w2w = None
+    # S-5.4: the two refreshes below ask ESPN for the same FBS day reads; one scope, one read each
+    import common as _cmn
+    _cmn.once_begin()
     try:
         import where_to_watch as _w2wmod
         _w2wmod.refresh()
@@ -12262,6 +12584,8 @@ def build():
         SB_DATA = _sbmod.load()
     except Exception as _e:
         print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
+    finally:
+        _cmn.once_end()
 
     # S-1 item 0: ONE TRUTH FOR COUNTS AND STAMPS. The manifest is made once, here, from
     # the build clock, the scoreboard and the schedule, and every page that prints a count
@@ -12545,10 +12869,19 @@ def build():
         print("fantasy hub: built")
 
     if SB_DATA:
-        _sc = render_scores_page(SB_DATA, IA_BOARD, dateline, WX_DATA)
-        if _sc:
-            w("scores.html", _sc)
-            print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games")
+        _scp = render_scores_pages(SB_DATA, IA_BOARD, dateline, WX_DATA)
+        for _sp, _sh in _scp.items():
+            w(_sp.lstrip("/"), _sh)
+        # a Scores URL the site has published keeps answering, whether or not the feed still holds the day
+        try:
+            for _rp in scores_registry_build(list(_scp)):
+                if _rp not in _scp:
+                    w(_rp.lstrip("/"), scores_placeholder(_rp, dateline))
+        except Exception as _e:
+            print(f"::warning::scores registry: {type(_e).__name__}: {_e}")
+        if _scp:
+            print(f"scores page: {sum(len(L['games']) for L in SB_DATA['leagues'])} games, "
+                  f"{len(_scp)} page(s) by day, largest {max(len(h.encode('utf-8')) for h in _scp.values())} bytes")
 
     # E-2: the Wire, the desk's own day in order. Written before the week pages so a
     # failure here costs one page and nothing after it.
@@ -12667,7 +13000,12 @@ def build():
     for _m, _rows in _news_month_archive(_nh_live).items():
         w(f"news/archive/{_m}.html", render_news_month(_m, _rows, dateline))
     print(f"news hub: {len(_nh_lanes)} storyline(s), {len(_nh_urls)} storyline page(s)")
-    w("archive.html", render_archive(items, dateline))
+    global PAGED_EXTRA
+    PAGED_EXTRA = []
+    for _ap, _ah in render_archive_pages(items, dateline).items():
+        w(_ap.lstrip("/"), _ah)
+        if _ap != "/archive.html":
+            PAGED_EXTRA.append(_ap)
     for _slug, _title, _nav, _tags, _blurb in SECTIONS:
         w(f"sections/{_slug}.html",
           render_section(_slug, _title, _nav, _tags, _blurb, items, dateline))
@@ -12684,7 +13022,10 @@ def build():
         _render_og_card(it)  # build-time per-article share card (fail-open) -> PUBLISH/og/
         w(os.path.join("articles", f"{it['slug']}.html"),
           render_article(it, all_items=items, hubs=site_hubs))
-    w("bottom-line.html", render_bottom_line_history(items, dateline))
+    for _bp, _bh in render_bottom_line_pages(items, dateline).items():
+        w(_bp.lstrip("/"), _bh)
+        if _bp != "/bottom-line.html":
+            PAGED_EXTRA.append(_bp)
     w("feed.xml", render_feed(items))
 
     # The site card and the home-screen icon are GENERATED here, not copied from assets.
@@ -12863,7 +13204,7 @@ def build():
     # The Edition pages are written LAST (they must win the /news.html route), so at
     # this point their directory is empty: the build wipes publish on every run. Asking
     # the filesystem gave nothing. The Edition is asked what days it will write instead.
-    _extra = []
+    _extra = list(PAGED_EXTRA)      # S-5.4: the pages after the first of the archive and the Bottom Line
     try:
         import edition as _ed_sm
         _extra += [f"/edition/{_d}.html" for _d in _ed_sm.edition_days(items)]

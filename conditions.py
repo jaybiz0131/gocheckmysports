@@ -280,6 +280,21 @@ def entry(game, row, status, ans):
     return roofed_entry(e)
 
 
+NOT_PLAYED = ("postpon", "cancel", "suspend")
+
+
+def finished(g):
+    """S-5.4: a game the feed says is over, and was played. The Worker answers a finished game
+    "not in range, no range" and the build then carries the strip the last build published, so
+    asking it costs a call for an answer the state already gives (61 of the 75 calls on 19 October
+    2026 were finals). A postponed, canceled or suspended game also reads state post, with no
+    result, and is still asked: its strip is not a record of anything."""
+    if (g or {}).get("state") != "post":
+        return False
+    said = str((g or {}).get("status_short") or "").lower()
+    return not any(w in said for w in NOT_PLAYED)
+
+
 def game_key(g):
     return str(g.get("id") or "")
 
@@ -311,6 +326,21 @@ def refresh(games, now=None, get=fetch, published=_published, log=print):
         if not row or not kick:
             out[key] = entry(g, None, "missing", None)
             missing.append(label + (f' (venue id {g.get("venue_id")})' if g.get("venue_id") else ""))
+            continue
+        if finished(g):
+            # S-5.4: no call. A dome stays Indoor; a final keeps the strip the last build
+            # published, as the Worker's "game is over" answer made it do; one never published
+            # reads "over", which prints nothing.
+            if row.get("roof") == "indoor":
+                out[key] = entry(g, row, "indoor", {})
+                continue
+            if prior is None:
+                prior = published()
+            old = prior.get(key)
+            if old and old.get("status") == "forecast":
+                out[key] = dict(old, record=True)
+            else:
+                out[key] = entry(g, row, "over", None)
             continue
         q = urllib.parse.urlencode({"venue": row["espn_venue_id"], "kickoff": kick,
                                     "league": LEAGUE[g["league"]]})
