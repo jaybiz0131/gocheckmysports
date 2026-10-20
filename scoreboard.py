@@ -208,7 +208,7 @@ def _fbs_events(path, default_failed):
     days = _board_days()
     for day in days:
         try:
-            d = _get(BASE.format(path=path) + f"?groups={FBS_GROUP}&limit={FBS_LIMIT}&dates={day}")
+            d = common.read_once(BASE.format(path=path) + f"?groups={FBS_GROUP}&limit={FBS_LIMIT}&dates={day}", _get)
         except Exception as e:
             failed += 1
             print(f"scoreboard: CFB {day} unavailable ({type(e).__name__})")

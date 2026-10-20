@@ -751,13 +751,18 @@ def _sitemap_canary(out=None):
         print("::warning::S-2 canary: this build holds no game pages, so the built-and-linked "
               "checks were not run")
     else:
+        # S-5.4: Scores is paged by day; a game is linked from the page of its day, so read them all
         _scores = os.path.join(out, "scores.html")
         _sh = open(_scores, encoding="utf-8").read() if os.path.exists(_scores) else ""
+        _sdir = os.path.join(out, "scores")
+        for _sf in (sorted(os.listdir(_sdir)) if os.path.isdir(_sdir) else []):
+            if _sf.endswith(".html"):
+                _sh += open(os.path.join(_sdir, _sf), encoding="utf-8").read()
         for _f in _built:
             _check(os.path.getsize(os.path.join(_gdir, _f)) > 0, fails,
                    f"S-2 canary: game page {_f} was built empty")
             _check(f'href="/games/{_f}"' in _sh, fails,
-                   f"S-2 canary: game page {_f} is built but /scores.html does not link it")
+                   f"S-2 canary: game page {_f} is built but no Scores page links it")
     return fails
 
 
@@ -1638,6 +1643,8 @@ def layer1_canary():
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     import fbs_canary as _fbc
     fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
+    import build_cost_canary as _bcc
+    fails.extend(_bcc.build_cost_canary(_built_tree()))   # S-5.4: the build's cost, scores paged by day, the heading clear
     import registry_canary as _rgc
     fails.extend(_rgc.registry_canary(_built_tree()))   # S-5.0: college team pages are permanent (J-9)
     import sharecard_canary as _shc
