@@ -9027,7 +9027,9 @@ def sbg_kicker(g):
     if k:
         bits.append(k.astimezone(_ET).strftime("%a %b %-d"))
     if g.get("state") == "post":
-        bits.append(("Postponed" if _is_postponed(g) else "Final"))
+        # Final only for a completed game; a canceled game says the feed's own word
+        bits.append("Postponed" if _is_postponed(g) else
+                    ("Final" if g.get("completed") else (g.get("status_short") or "").strip()))
     elif g.get("state") == "in":
         bits.append(_tk_state(g) or "In progress")
     elif k:
@@ -9292,6 +9294,48 @@ def gp_title(g):
     return f"{an} at {hn}: {what}.{when}"
 
 
+def gp_has_result(g):
+    """S-5.1 (the October 20 ruling): a game has a result to print when the feed marks it
+    completed AND both scores are present. A canceled game (state post, status Canceled, 0 and 0)
+    is not completed, and a Final the feed gave no score for has no score to print. The page's
+    title and the built-tree check both ask this one question."""
+    if not (g or {}).get("completed") or g.get("state") != "post" or _is_postponed(g):
+        return False
+    return all(_tk_score(side, g) is not None for side in (g.get("away") or {}, g.get("home") or {}))
+
+
+def gp_page_title(g):
+    """S-5.1: the played game's page. Once the game is Final the title is the result with the
+    feed's real score, home team first ("Georgia 24, Auburn 27: final score. Saturday, October 17."
+    for Auburn at Georgia), and promises
+    no conditions and no where to watch. Anything else (scheduled, live, postponed, or a Final
+    the feed gave no score for, where a score would be made up) keeps gp_title, unchanged. Only
+    the page's title, og:title and description use this; the cards' and rows' labels stay
+    gp_title."""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    k = _utc_dt(g.get("start_utc") or "")
+    if not gp_has_result(g) or not k:
+        return gp_title(g)
+    sa, sh = _tk_score(a, g), _tk_score(h, g)
+    an = a.get("name") or a.get("abbr") or ""
+    hn = h.get("name") or h.get("abbr") or ""
+    # the board's form names the home team and its score first
+    return f"{hn} {sh}, {an} {sa}: final score. {k.astimezone(_ET).strftime('%A, %B %-d')}."
+
+
+def gp_stamp(desig):
+    """S-5.1: the one "Updated" stamp of a game page, in the dateline's place. The page used to
+    print two (the build's, and the designations' at the foot); it prints the later of the two
+    times. The build's carries data-mf, the manifest's mark, and keeps it only when it is the
+    one printed, so the mark never names a time the manifest does not hold."""
+    m = _mf()
+    mine = _bm._utc(m.get("data_utc") or "") or _bm._utc(m.get("built_utc") or "")
+    theirs = _utc_dt((desig or {}).get("last_poll") or "")
+    if theirs and (not mine or theirs > mine):
+        return (f'<span class="sb-stamp sbg-stamp">Updated {esc(_bm._label(theirs))} ET</span>')
+    return f'<span class="sb-stamp sbg-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>'
+
+
 def _gp_designations(g, desig):
     """UX-4 (S-4): WHO, not how many.
 
@@ -9499,7 +9543,7 @@ def render_game_page(g, points, board, wx, items, dateline):
   <div class="sbg-top"><p class="sbg-kicker">{esc(sbg_kicker(g))}</p>
     <h1 class="lx-h1 sbg-h1" title="{esc(_team_label(g, away))} at {esc(_team_label(g, home))}">{esc(sbc_team_name(g, away))} at
      {esc(sbc_team_name(g, home))}</h1>
-    <span class="sb-stamp sbg-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span></div>
+    {gp_stamp(IA_DESIG)}</div>
   <div class="gp-grid">
   <div class="sbg-col">{head}{sbg_under(g)}</div>
   {_w2w}
@@ -9509,17 +9553,18 @@ def render_game_page(g, points, board, wx, items, dateline):
   </div>
   {"" if _pre else _leaders_module(points, "Fantasy leaders", anchor="box")}
   {rel_block}
-  {fantasy_asof("Designations", (IA_DESIG or {}).get("last_poll") or "",
-                "the league injury report")}
 </section></main>"""
     # N-1: the title names the teams the way the page does. "DET at BUF" in a browser
     # tab, a bookmark and a search result was the only place on this site a reader met
     # the initials with no card around them to decode them.
-    _desc = (f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
+    _title = gp_page_title(g)
+    # S-5.1: a played game's description is its title; no promise of conditions or where to watch
+    _desc = (_title if _title != gp_title(g) else
+             f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
              f'National Weather Service, where to watch, inactives and the score. Facts, '
              f'not advice.')
     _og = f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}'
-    return shell(gp_title(g), _desc,
+    return shell(_title, _desc,
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
                  og_image=_og, og_size=(1080, 1080),
                  schema_extra=_game_ld(g, description=_desc, image=_og))
