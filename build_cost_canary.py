@@ -403,6 +403,16 @@ def urls_unit():
             fails.append("urls: the page for a future day the feed did not return must say the games could not be read, with its date and a link to /scores.html")
         if "rolled off" not in re.sub(r"<[^>]+>", " ", (re.search(r"<main.*?</main>", sb.scores_placeholder("/scores/2026-10-15.html", "") or "", re.S) or re.search("", "")).group(0)):
             fails.append("urls: a past day's page no longer says its games rolled off")
+        # a past day still inside the board's week (Tuesday 6:00 AM ET on) that the build did not return
+        # says it could not be read; "rolled off" is only for a day before the week start
+        sb._NOW_CACHE = _d.datetime(2026, 10, 23, 12, 0, tzinfo=ZoneInfo("America/New_York")).astimezone(_d.timezone.utc)
+        wk = sb.scores_placeholder("/scores/2026-10-21.html", "") or ""
+        wm = re.search(r"<main.*?</main>", wk, re.S)
+        wt = re.sub(r"<[^>]+>", " ", wm.group(0) if wm else "")
+        if "rolled off" in wt or "no longer" in wt:
+            fails.append("urls: the page for October 21, read on October 23 (inside the board's week), says its games have rolled off the board")
+        if "could not" not in wt or "October 21" not in wt or 'href="/scores.html"' not in wk or "noindex" not in wk:
+            fails.append("urls: the page for a past day inside the board's week the feed did not return must say the games could not be read, with its date and a link to /scores.html")
     except Exception as e:
         fails.append(f"urls: the fixture raised {type(e).__name__}: {e}")
     finally:
