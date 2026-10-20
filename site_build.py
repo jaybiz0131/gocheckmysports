@@ -8694,7 +8694,9 @@ def sbg_kicker(g):
     if k:
         bits.append(k.astimezone(_ET).strftime("%a %b %-d"))
     if g.get("state") == "post":
-        bits.append(("Postponed" if _is_postponed(g) else "Final"))
+        # Final only for a completed game; a canceled game says the feed's own word
+        bits.append("Postponed" if _is_postponed(g) else
+                    ("Final" if g.get("completed") else (g.get("status_short") or "").strip()))
     elif g.get("state") == "in":
         bits.append(_tk_state(g) or "In progress")
     elif k:
@@ -8959,6 +8961,16 @@ def gp_title(g):
     return f"{an} at {hn}: {what}.{when}"
 
 
+def gp_has_result(g):
+    """S-5.1 (the October 20 ruling): a game has a result to print when the feed marks it
+    completed AND both scores are present. A canceled game (state post, status Canceled, 0 and 0)
+    is not completed, and a Final the feed gave no score for has no score to print. The page's
+    title and the built-tree check both ask this one question."""
+    if not (g or {}).get("completed") or g.get("state") != "post" or _is_postponed(g):
+        return False
+    return all(_tk_score(side, g) is not None for side in (g.get("away") or {}, g.get("home") or {}))
+
+
 def gp_page_title(g):
     """S-5.1: the played game's page. Once the game is Final the title is the result with the
     feed's real score, home team first ("Georgia 24, Auburn 27: final score. Saturday, October 17."
@@ -8969,11 +8981,9 @@ def gp_page_title(g):
     gp_title."""
     a, h = g.get("away") or {}, g.get("home") or {}
     k = _utc_dt(g.get("start_utc") or "")
-    if g.get("state") != "post" or _is_postponed(g) or not k:
+    if not gp_has_result(g) or not k:
         return gp_title(g)
     sa, sh = _tk_score(a, g), _tk_score(h, g)
-    if sa is None or sh is None:
-        return gp_title(g)
     an = a.get("name") or a.get("abbr") or ""
     hn = h.get("name") or h.get("abbr") or ""
     # the board's form names the home team and its score first

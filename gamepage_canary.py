@@ -219,15 +219,21 @@ def check_final_pages(out):
         if not name.endswith(".html"):
             continue
         html = open(os.path.join(gdir, name), encoding="utf-8").read()
-        if not re.search(r'class="sbg-kicker">[^<]*\u00b7 Final<', html):
+        gid = name[:-5]
+        rec = feed_games.get(gid)
+        # exactly the pages gp_page_title gives the result title: the feed says completed and
+        # both scores are present. A record the build did not carry falls back to the kicker.
+        if rec is not None:
+            import site_build
+            if not site_build.gp_has_result(rec):
+                continue
+        elif not re.search(r'class="sbg-kicker">[^<]*\u00b7 Final<', html):
             continue
         t = re.search(r"<title>([^<]*)</title>", html)
         title = (t.group(1) if t else "").replace("&amp;", "&").replace("&#x27;", "'")
         if not TITLE_FINAL.match(title):
             fails.append(f"game pages: Final page {name} title {title!r} is not the result")
             continue
-        gid = name[:-5]
-        rec = feed_games.get(gid)
         if rec is None:
             fails.append(f"game pages: Final page {name} has no record in the build's own /data/scoreboard.json, "
                          f"so its team order could not be checked")
