@@ -35,8 +35,14 @@ def team_node(side, league):
     return {"@type": "SportsTeam", "name": name, "sport": SPORT.get(league, "American football")}
 
 
-def game_graph(g, origin, carriers=(), venue_city="", page_path=None):
-    """The @graph for one game page: the SportsEvent, then a BroadcastEvent per carrier."""
+def game_graph(g, origin, carriers=(), venue_city="", page_path=None, venue_region="", description="",
+               image=""):
+    """The @graph for one game page: the SportsEvent, then a BroadcastEvent per carrier.
+
+    S-5.2: the address is the city and state the page prints beside the venue, and the
+    description and image are the page's own meta description and og:image, so the event carries
+    what Google's Event documentation requires and recommends without saying anything the page
+    does not (measure_canary.SPORTS_EVENT_REQUIRED lists them with the source)."""
     league = g.get("league") or "NFL"
     away, home = g.get("away") or {}, g.get("home") or {}
     an = _clean(away.get("full") or away.get("name"))
@@ -49,6 +55,8 @@ def game_graph(g, origin, carriers=(), venue_city="", page_path=None):
     place = {"@type": "Place", "name": venue or "Venue to be announced"}
     if venue_city:
         place["address"] = {"@type": "PostalAddress", "addressLocality": _clean(venue_city)}
+        if venue_region:
+            place["address"]["addressRegion"] = _clean(venue_region)
     ev = {"@type": "SportsEvent", "@id": ev_id, "name": f"{an} at {hn}", "url": url,
           "sport": SPORT.get(league, "American football"), "startDate": start,
           "eventStatus": "https://schema.org/EventScheduled",
@@ -59,6 +67,10 @@ def game_graph(g, origin, carriers=(), venue_city="", page_path=None):
           # the organizer (a SportsOrganization), which the schema accepts on an Event.
           "organizer": {"@type": "SportsOrganization", "name": LEAGUE.get(league, league),
                         "sport": SPORT.get(league, "American football")}}
+    if description:
+        ev["description"] = _clean(description)
+    if image:
+        ev["image"] = [image]
     graph = [ev]
     seen = set()
     for c in carriers or []:
@@ -73,13 +85,18 @@ def game_graph(g, origin, carriers=(), venue_city="", page_path=None):
 
 
 def team_graph(team, league, origin, path, next_game=None, carriers=()):
-    """A SportsTeam for a team page, and its next game as a SportsEvent when one is known."""
+    """A SportsTeam for a team page, pointing at its next game's event when one is known.
+
+    S-5.2: one event, one page. The next game is its game page's SportsEvent, named here by its
+    @id through Organization.event and not restated: a copy on the team page has no page of its
+    own to stay true to (on the October 20 build four NFL team pages restated a next game whose
+    game page was never built, with no carrier and a URL that answered 404), and it would state a
+    venue address the team page does not print. The caller passes next_game only when its game
+    page is built. `carriers` is kept for callers and no longer used."""
     name = _clean(team.get("name") or team.get("school"))
     node = {"@type": "SportsTeam", "@id": origin + path + "#team", "name": name, "url": origin + path,
             "sport": SPORT.get(league, "American football"),
             "memberOf": {"@type": "SportsOrganization", "name": LEAGUE.get(league, league)}}
-    graph = [node]
-    if next_game:
-        sub = game_graph(next_game, origin, carriers=carriers)
-        graph += sub["@graph"]
-    return {"@context": "https://schema.org", "@graph": graph}
+    if next_game and next_game.get("id"):
+        node["event"] = {"@id": f'{origin}/games/{next_game.get("id")}.html#event'}
+    return {"@context": "https://schema.org", "@graph": [node]}
