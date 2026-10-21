@@ -28,8 +28,16 @@ Each check names the break it exists for and was seen red first (U-9, U-15).
   rendered  the computed color, background and border colors of everything displayed inside main on
             a converted page are in the token set, the shipped S-2d bulb colors and a team's colors:
             a stylesheet color on a page is read where the markup check cannot see it (.fw-odd)
-  css       every color site.css gives a body.sbp rule is a token and clears 4.5:1 on the frame, the
-            panel and a plate
+  css       site.css, read as text: every `color:` a body.sbp rule sets clears 4.5:1 on the frame, the
+            panel and a plate, and every color value (hex, rgb, rgba, hsl, a named color) in ANY
+            declaration of a rule that names body.sbp (backgrounds, borders, outlines, fills, strokes,
+            shadows, gradients, custom properties) is a token, a S-2d bulb color or a team color, alpha
+            ignored as the browser read ignores it. Black and white are allowed in a box-shadow or
+            text-shadow only (a shade is not a color of the look). A rule without body.sbp in its
+            selector is not judged here; the rendered sweep judges it where it lands
+  sweep     round 3 of S-5.5: the rendered half reads EVERY converted page, not a sample (a sample let a
+            color on /fantasy/injuries.html and /standings/mlb.html through). The pages read are
+            counted in both themes and the canary fails when either count is under the converted set
 
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
@@ -47,7 +55,7 @@ S2D = ("#0e3b2a", "#072619", "#141a17", "#f4f1e6", "#ffd23f", "#ffe680")
 BUILT_IN_LOOK = re.compile(r"^(index\.html|games/[^/]+\.html|teams/.+\.html)$")
 # the two bulb colors main's shipped S-2d CSS (site.css, the .sbc lamp rules) prints on the board
 BULBS = ("#a7a285", "#3b3a22")
-SWEEP_TIMEOUT = 300
+SWEEP_TIMEOUT = 900
 SCRIPT_HOSTS = ("static.cloudflareinsights.com",)
 HEX = re.compile(r"#[0-9A-Fa-f]{8}\b|#[0-9A-Fa-f]{6}\b|#[0-9A-Fa-f]{3}\b|rgba?\([^)]*\)|hsla?\([^)]*\)")
 
@@ -181,6 +189,60 @@ def _luminance_fail(css):
         fails.append("css: site.css has no body.sbp color rule, so the look has no text colors to check")
     return fails
 
+NAMED = set("""aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown
+burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan
+darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred
+darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink
+deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold
+goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush
+lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey
+lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime
+limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen
+mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin
+navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise
+palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue
+saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow
+springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen""".split())
+# properties whose value can name a color by word; a hex or rgb in ANY declaration is read
+COLOR_PROPS = re.compile(r"^(?:--[\w-]+|color|background(?:-color|-image)?|border(?:-[a-z]+)*|outline(?:-color)?|"
+                         r"fill|stroke|box-shadow|text-shadow|text-decoration(?:-color)?|caret-color|accent-color|"
+                         r"column-rule(?:-color)?)$")
+
+
+def _decl_colors(prop, val):
+    """(color, kind) for every color a declaration names: hex, rgb(a), hsl(a), and named colors on a color property."""
+    val = re.sub(r"url\([^)]*\)", "", val)
+    val = re.sub(r"var\(--[\w-]+\)", "", val)
+    out = [c for c in HEX.findall(val)]
+    if COLOR_PROPS.match(prop.strip().lower()):
+        out += [w for w in re.findall(r"(?<![\w#-])[a-z]+(?![\w(-])", val.lower()) if w in NAMED]
+    return out
+
+
+def _token_fail(css, allowed):
+    """Static: every color a body.sbp rule names is in the allowed set (tokens, bulbs, teams)."""
+    sc = _strip()
+    fails, n = [], 0
+    css = re.sub(r"@media print\{(?:[^{}]*\{[^{}]*\})*\s*\}", "", css)
+    ok = {h for h in (_hex_of(c) for c in allowed) if h}
+    for sel, decl in sc._rules(css, rx=r"body\.sbp\b"):
+        for prop, val in re.findall(r"(?:^|;)\s*([a-zA-Z-]+)\s*:\s*([^;]*)", decl):
+            for c in _decl_colors(prop, val):
+                n += 1
+                if c.lower() in NAMED:
+                    if c.lower() in ("black", "white") and prop.lower() in ("box-shadow", "text-shadow"):
+                        continue
+                    fails.append(f"css token: {sel[:70]} sets {prop} to the named color {c}, which is not a token")
+                    continue
+                h = _hex_of(c)
+                if h in ("#000000", "#ffffff") and prop.lower() in ("box-shadow", "text-shadow"):
+                    continue
+                if h is None or h not in ok:
+                    fails.append(f"css token: {sel[:70]} sets {prop} to {c.strip()}, which is not a token, a bulb or a team color")
+    if n == 0:
+        fails.append("css token: no color was read from any body.sbp rule, so the token check proves nothing")
+    return fails
+
 
 def _strip():
     import importlib
@@ -225,19 +287,10 @@ def _hex_of(c):
 
 
 def sweep_pages(pgs):
-    """The converted pages the rendered sweep opens: every /scores page, /fantasy, and one page per
-    directory (one per top-level file), none of the pages built in the look by S-2d and S-3a."""
-    want, seen = [], set()
-    for p in pgs:
-        if BUILT_IN_LOOK.match(p):
-            continue
-        d = p.rsplit("/", 1)[0] if "/" in p else p
-        if p == "scores.html" or p.startswith("scores/") or p == "fantasy/index.html":
-            want.append(p)
-        elif d not in seen:
-            seen.add(d)
-            want.append(p)
-    return want
+    """The converted pages the rendered sweep opens: ALL of them (round 3 of S-5.5; a sample of one
+    page per directory let an off-token color on /fantasy/injuries.html and /standings/mlb.html
+    through). The pages built in the look by S-2d and S-3a are the only ones left out."""
+    return [p for p in pgs if not BUILT_IN_LOOK.match(p)]
 
 
 def rendered_sweep(out, pgs, allowed, osw):
@@ -291,6 +344,16 @@ def rendered_sweep(out, pgs, allowed, osw):
         fails.append("look rendered: the browser sweep wrote no summary" + (": " + r.stderr[-200:] if r.stderr else ""))
     elif summary is not None and not summary.get("measured") and not fails:
         fails.append("look rendered: the browser sweep measured nothing")
+    if summary is not None:
+        for sch in ("light", "dark"):
+            got = summary.get("read_" + sch, 0)
+            if got != len(pgs):
+                fails.append(f"look rendered: the {sch} sweep read {got} of the {len(pgs)} converted pages, "
+                             f"so a page a reader can reach was not read")
+        print(f"look sweep: {summary.get('read_light', 0)} of {len(pgs)} converted pages read in light and "
+              f"{summary.get('read_dark', 0)} in dark at 390 wide, {summary.get('measured', 0)} elements, "
+              f"{summary.get('signatures', 0)} tag+class signatures, {summary.get('findings', 0)} findings, "
+              f"{summary.get('seconds', 0)} s in the browser")
     return fails
 
 
@@ -356,8 +419,11 @@ def look_canary(out, root=None):
     if n_wear == 0:
         fails.append("look wears: no page was asked to wear the look, so the check proves nothing")
     fails += _luminance_fail(css)
+    fails += _token_fail(css, allowed | set(BULBS))
     # the browser half: what the converted pages render, in Oswald and in color
     sw = sweep_pages(allp)
+    if set(sw) != {p for p in allp if not BUILT_IN_LOOK.match(p)}:
+        fails.append("look rendered: the sweep's page list is not every converted page")
     for must in ("scores.html", "fantasy/index.html"):
         if must not in sw:
             fails.append(f"look rendered: {must} is not among the pages the sweep reads")
