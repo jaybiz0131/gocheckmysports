@@ -71,8 +71,6 @@ try {
     });
     await pg.goto(base + (process.env.DAY_HASH || ""), { waitUntil: "load" });
     await pg.waitForTimeout(2500);
-    const dbg = process.env.DAY_DEBUG ? await pg.evaluate(() => { const e = document.elementFromPoint(300, 95); const out = []; for (let n = e; n && n.tagName; n = n.parentElement) out.push(n.tagName + "." + n.className + " " + getComputedStyle(n).fontFamily.slice(0, 60)); return out.slice(0, 4); }) : null;
-    if (dbg) console.error(JSON.stringify(dbg));
     const r = await pg.evaluate(() => ({ cls: window.__cls, shifts: window.__shifts, first: window.__first,
       after: [...document.querySelectorAll(".wb-day")].filter(s => getComputedStyle(s).display !== "none").map(s => s.dataset.day) }));
     console.log(JSON.stringify({ width: w, cls: Math.round(r.cls * 10000) / 10000, shifts: r.shifts, firstPaintDays: r.first, settledDays: r.after }));

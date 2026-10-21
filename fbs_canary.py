@@ -522,7 +522,7 @@ def shift_unit():
     """S-5.7, the home's open day is decided before first paint. On a Wednesday fixture with Tuesday
     played: the HTML says Wednesday is open and every other day is off (and carries no `hidden`);
     the script that marks the page scripted sits after the tabs and before the first day; the
-    stylesheet hides the off days only under that mark. The masthead's serif held back 400 ms (a slow runner, S-5.7 round 3) must not move the page either. In a browser: at 390 and at 1440 the only day
+    stylesheet hides the off days only under that mark. The masthead's serif, Oswald (150 and 400 ms) and every font held back 400 ms (a slow runner, S-5.7 rounds 3 and 4) must not move the page either. In a browser: at 390 and at 1440 the only day
     showing at the first paint is Wednesday and the page shifts nothing; a #day-fri address shows
     Friday at the first paint, still with no shift; with script off the whole week shows."""
     import subprocess
@@ -570,6 +570,9 @@ def shift_unit():
             return recs, r
         for name, env, first in (("no hash", {}, ["wed"]),
                                  ("no hash, serif 400 ms late", {"DAY_FONT_DELAY": "400", "DAY_FONT_MATCH": "newsreader"}, ["wed"]),
+                                 ("no hash, Oswald 400 ms late", {"DAY_FONT_DELAY": "400", "DAY_FONT_MATCH": "oswald"}, ["wed"]),
+                                 ("no hash, Oswald 150 ms late", {"DAY_FONT_DELAY": "150", "DAY_FONT_MATCH": "oswald"}, ["wed"]),
+                                 ("no hash, every font 400 ms late", {"DAY_FONT_DELAY": "400"}, ["wed"]),
                                  ("#day-fri", {"DAY_HASH": "#day-fri"}, ["fri"]),
                                  ("#win-1pm", {"DAY_HASH": "#win-1pm"}, ["sun"])):
             recs, r = read(env)

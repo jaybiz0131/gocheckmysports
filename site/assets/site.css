@@ -33,6 +33,16 @@
    capitals by CSS, so the subset holds no lower case. */
 @font-face{font-family:'Oswald';font-style:normal;font-weight:500 700;
   font-display:swap;src:url('/assets/fonts/oswald.woff2') format('woff2')}
+/* S-5.7 round 4: Oswald's stand-in, so the wall and the band's capitals do not move when Oswald
+   lands (0.0071 at 1440 when it arrived 150 ms late). Liberation Sans Bold (fonts-liberation; no
+   Narrow face is installed) with Oswald's own metrics from its tables (ascent 1193, descent 289,
+   line gap 0, per 1000) divided by the size-adjust. The width ratio is measured in Chromium at
+   100px over eight plate strings in capitals, Oswald 600 against Liberation Sans Bold: 6531.2 to
+   8394.9, 0.7778, so 77.8%; per string 0.756 to 0.816. Ascent 119.3/0.778 = 153.4%, descent
+   28.9/0.778 = 37.15%. Where Impact or Arial Narrow stood next, they still do when this is absent. */
+@font-face{font-family:'Oswald Fallback';font-style:normal;font-weight:500 700;
+  src:local('Liberation Sans Bold'),local('LiberationSans-Bold');
+  size-adjust:77.8%;ascent-override:153.4%;descent-override:37.15%;line-gap-override:0%}
 
 /* THE MASTHEAD DOES NOT MOVE WHEN THE SERIF LANDS. Measured from the two fonts' own
    tables rather than guessed: Georgia matches Newsreader to 0.3 percent on the
@@ -50,13 +60,15 @@
    ascent and descent differ, so it moved 4 px (CLS 0.0056 at 1440 on run 372) when Newsreader
    arrived. Liberation Serif Bold stands in at the weight the masthead uses, with Newsreader's own
    ascent, descent and line gap and the width ratio measured at 100px: GoCheckMy 566.75 against
-   544.39 (104.1%), Sports in italic 255.56 against 261.23 (97.8%). Used on .mh-word only. */
+   544.39 (104.1%), Sports in italic 255.56 against 261.23 (97.8%). The overrides are Newsreader's 73.70% and
+   26.57% divided by the size-adjust, because the browser scales them by it (round 4). Used on
+   .mh-word only. */
 @font-face{font-family:'Newsreader Fallback Lib';font-style:normal;font-weight:600;
   src:local('Liberation Serif Bold'),local('LiberationSerif-Bold');
-  size-adjust:104.1%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+  size-adjust:104.1%;ascent-override:70.80%;descent-override:25.52%;line-gap-override:0%}
 @font-face{font-family:'Newsreader Fallback Lib';font-style:italic;font-weight:600;
   src:local('Liberation Serif Bold Italic'),local('LiberationSerif-BoldItalic');
-  size-adjust:97.8%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+  size-adjust:97.8%;ascent-override:75.36%;descent-override:27.17%;line-gap-override:0%}
 
 :root{
   --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#17181C;
@@ -2790,7 +2802,7 @@ a.gp-svc:hover{border-color:var(--ink)}
    the labels take #A7A285 (4.86:1). */
 :root{--sbc-panel:#0E3B2A;--sbc-frame:#072619;--sbc-plate:#141A17;--sbc-cream:#F4F1E6;
   --sbc-yellow:#FFD23F;--sbc-q:26px;--sbc-t:34px;
-  --sbc-display:'Oswald',Impact,'Arial Narrow',sans-serif}
+  --sbc-display:'Oswald','Oswald Fallback',Impact,'Arial Narrow',sans-serif}
 .tk-c.sbc{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;padding:12px;
   gap:10px;color:var(--sbc-cream);overflow:visible;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 34px -18px rgba(0,0,0,.9);
