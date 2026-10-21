@@ -20,7 +20,14 @@ Each check names the break it exists for and was seen red first (U-9, U-15).
             fantasy pages add their own note line and nothing else)
   wears     every page other than the home, a game page and a team page (which are built in the look)
             wears it: body.sbp, one main landmark, one h1; a bare page is wrapped by the shell
-  oswald    the h1 a page sets in Oswald is made only of characters the pinned subset carries
+  oswald    every element a converted page RENDERS in Oswald, whichever rule put it there (the browser's
+            computed font names it; no class list is kept by hand), is made only of characters the
+            pinned subset carries, read after text-transform, so a rule that does not uppercase is
+            read as the mixed case it prints. Round 2 of S-5.5: .tk-num set the matchup in Oswald
+            with no uppercase and no lowercase in the subset
+  rendered  the computed color, background and border colors of everything displayed inside main on
+            a converted page are in the token set, the shipped S-2d bulb colors and a team's colors:
+            a stylesheet color on a page is read where the markup check cannot see it (.fw-odd)
   css       every color site.css gives a body.sbp rule is a token and clears 4.5:1 on the frame, the
             panel and a plate
 
@@ -38,6 +45,9 @@ S2D = ("#0e3b2a", "#072619", "#141a17", "#f4f1e6", "#ffd23f", "#ffe680")
 # the pages built in the look by S-2d and S-3a; they are checked for colors, sheet and chrome, and
 # are not asked to carry the S-5.5 wrapper
 BUILT_IN_LOOK = re.compile(r"^(index\.html|games/[^/]+\.html|teams/.+\.html)$")
+# the two bulb colors main's shipped S-2d CSS (site.css, the .sbc lamp rules) prints on the board
+BULBS = ("#a7a285", "#3b3a22")
+SWEEP_TIMEOUT = 300
 SCRIPT_HOSTS = ("static.cloudflareinsights.com",)
 HEX = re.compile(r"#[0-9A-Fa-f]{8}\b|#[0-9A-Fa-f]{6}\b|#[0-9A-Fa-f]{3}\b|rgba?\([^)]*\)|hsla?\([^)]*\)")
 
@@ -188,18 +198,100 @@ def _oswald_chars():
     return set(m.OSWALD_TEXT)
 
 
-def _oswald_texts(h):
-    """(label, text) for every element the S-5.5 CSS sets in Oswald, as the page prints it."""
-    res = []
-    for m in re.finditer(r"<h1\b([^>]*)>(.*?)</h1>", h, re.S):
-        if "sr-only" in m.group(1) or "sbp-serif" in m.group(1):
+def oswald_selectors(css=None):
+    """The body.sbp selectors site.css itself sets in the display face (Oswald), read from the sheet."""
+    css = css if css is not None else _css()
+    sc = _strip()
+    out = []
+    for sel, decl in sc._rules(css, rx=r"^body\.sbp\b"):
+        if re.search(r"(?:^|;)\s*font(?:-family)?\s*:[^;]*oswald", decl, re.I):
+            out.append(sel)
+    return out
+
+
+def _hex_of(c):
+    """A token written as rgb(a) as #rrggbb, for the browser's computed colors."""
+    c = _norm(c)
+    if c.startswith("#"):
+        return c
+    m = re.fullmatch(r"rgba?\(([^)]*)\)", c)
+    if m:
+        p = re.split(r"[,/ ]+", m.group(1))
+        try:
+            return "#" + "".join("%02x" % round(float(x)) for x in p[:3])
+        except ValueError:
+            return None
+    return None
+
+
+def sweep_pages(pgs):
+    """The converted pages the rendered sweep opens: every /scores page, /fantasy, and one page per
+    directory (one per top-level file), none of the pages built in the look by S-2d and S-3a."""
+    want, seen = [], set()
+    for p in pgs:
+        if BUILT_IN_LOOK.match(p):
             continue
-        res.append(("h1", m.group(2)))
-    for m in re.finditer(r'<(?:span|p|div|small)\b[^>]*class="[^"]*\b(?:kicker|bd-eyebrow|ed-kicker)\b[^"]*"[^>]*>(.*?)</(?:span|p|div|small)>', h, re.S):
-        res.append(("label", m.group(1)))
-    for m in re.finditer(r'<div class="sec-head"[^>]*><h2\b[^>]*>(.*?)</h2>', h, re.S):
-        res.append(("section head", m.group(1)))
-    return [(t, re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", "", x)))) for t, x in res]
+        d = p.rsplit("/", 1)[0] if "/" in p else p
+        if p == "scores.html" or p.startswith("scores/") or p == "fantasy/index.html":
+            want.append(p)
+        elif d not in seen:
+            seen.add(d)
+            want.append(p)
+    return want
+
+
+def rendered_sweep(out, pgs, allowed, osw):
+    """The browser half: scripts/look-sweep.mjs over the pages, its findings as failure strings."""
+    import shutil
+    import subprocess
+    import tempfile
+    node = shutil.which("node")
+    if not node:
+        return ["look rendered: node is not installed, so no page was read in a browser"]
+    tmp = tempfile.mkdtemp(prefix="look-sweep-")
+    try:
+        cfgp = os.path.join(tmp, "config.json")
+        with open(cfgp, "w", encoding="utf-8") as f:
+            json.dump({"pages": pgs, "allowed": sorted(allowed), "oswald": "".join(sorted(osw))}, f)
+        try:
+            r = subprocess.run([node, os.path.join(HERE, "scripts", "look-sweep.mjs"), out, cfgp],
+                               capture_output=True, text=True, timeout=SWEEP_TIMEOUT)
+        except subprocess.TimeoutExpired:
+            return ["look rendered: the browser sweep timed out"]
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    fails, group, summary = [], {}, None
+    for line in r.stdout.splitlines():
+        try:
+            o = json.loads(line)
+        except ValueError:
+            continue
+        if "fail" in o:
+            fails.append("look rendered: " + o["fail"])
+        elif "summary" in o:
+            summary = o["summary"]
+        elif o.get("kind") == "oswald":
+            group.setdefault(("oswald", o["el"]), []).append(o)
+        elif o.get("kind") == "color":
+            group.setdefault(("color", o["el"], o["prop"], o["color"]), []).append(o)
+        else:
+            fails.append("look rendered: " + json.dumps(o))
+    for k, v in sorted(group.items()):
+        pg = sorted({x["page"] for x in v})
+        where = ", ".join(pg[:3]) + (f" and {len(pg) - 3} more" if len(pg) > 3 else "")
+        if k[0] == "oswald":
+            odd = sorted({c for x in v for c in x["odd"]})
+            texts = sorted({x["text"] for x in v})
+            fails.append(f"look oswald: {where}: {k[1]} renders in Oswald (text-transform {v[0]['transform']}) "
+                         f"{len(texts)} text(s) the subset cannot draw, e.g. \"{texts[0]}\" ({''.join(odd[:8])})")
+        else:
+            fails.append(f"look rendered: {where}: {k[1]} renders {k[2]} {k[3]} (\"{v[0]['text']}\"), "
+                         f"outside the token set")
+    if summary is None and not fails:
+        fails.append("look rendered: the browser sweep wrote no summary" + (": " + r.stderr[-200:] if r.stderr else ""))
+    elif summary is not None and not summary.get("measured") and not fails:
+        fails.append("look rendered: the browser sweep measured nothing")
+    return fails
 
 
 def look_canary(out, root=None):
@@ -261,16 +353,18 @@ def look_canary(out, root=None):
             fails.append(f"look wears: {name} has {len(re.findall(r'<main', h))} main landmarks, not one")
         if len(re.findall(r"<h1\b", h)) != 1:
             fails.append(f"look wears: {name} has {len(re.findall(r'<h1', h))} h1 elements, not one")
-        # every text the look sets in Oswald is made only of characters the subset carries; an h1 the
-        # subset cannot draw is marked sbp-serif by the shell and set in the page serif instead
-        for tag, texts in _oswald_texts(h):
-            odd = sorted(set(texts.upper()) - osw)
-            if odd:
-                fails.append(f"look oswald: {name} sets its {tag} in Oswald with {odd[:5]}, which the subset cannot draw")
-                break
     if n_wear == 0:
         fails.append("look wears: no page was asked to wear the look, so the check proves nothing")
     fails += _luminance_fail(css)
+    # the browser half: what the converted pages render, in Oswald and in color
+    sw = sweep_pages(allp)
+    for must in ("scores.html", "fantasy/index.html"):
+        if must not in sw:
+            fails.append(f"look rendered: {must} is not among the pages the sweep reads")
+    if not oswald_selectors(css):
+        fails.append("look oswald: site.css has no body.sbp rule that sets Oswald, so the look has no display face to check")
+    sw_allowed = {h for h in (_hex_of(c) for c in allowed | set(BULBS)) if h}
+    fails += rendered_sweep(out, sw, sw_allowed, osw)
     return fails
 
 

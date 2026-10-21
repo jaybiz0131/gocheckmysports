@@ -3248,7 +3248,12 @@ body.sbp main .tk-chip-score{background:var(--sbc-plate);border:0;border-radius:
   box-shadow:inset 0 2px 4px rgba(0,0,0,.7);padding:6px 10px;width:100%;justify-content:flex-start;gap:8px}
 body.sbp main .tk-chip-score.lead{padding-left:14px}
 body.sbp main .tk-num-chips{align-items:stretch;width:100%}
-body.sbp main .tk-num{font-family:var(--sbc-display);letter-spacing:.02em;font-size:20px !important;line-height:1.15}
+body.sbp main .tk-num{letter-spacing:.02em;font-size:20px !important;line-height:1.15}
+/* Oswald is pinned to capitals: the score chips print capitals (.tk-nm is uppercased); the pre-game
+   matchup line holds mixed-case names, "at" and accented letters, so it stays in the page face
+   it had, and so does the possession dot, which Oswald has no glyph for */
+body.sbp main .tk-num-chips{font-family:var(--sbc-display)}
+body.sbp main .tk-poss{font-family:var(--serif)}
 body.sbp main .tk-chip-score [data-side]{display:flex;flex:1 1 auto;min-width:0;justify-content:space-between;gap:10px;text-align:left}
 body.sbp main .tk-nm{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;letter-spacing:.03em;
   font-size:18px;line-height:1.15;color:inherit;overflow-wrap:anywhere;min-width:0}
@@ -3271,6 +3276,8 @@ body.sbp main .tk-l3 div{background:var(--sbc-plate);border-radius:3px;box-shado
 body.sbp main .tk-l3 b{color:var(--sbc-cream)}
 body.sbp main .tk-btn{color:var(--sbc-yellow);font:700 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 body.sbp main .tk-btn:hover{color:var(--sbc-cream)}
+/* the unusual-window flag on /fantasy is a plate on the board, in tokens */
+body.sbp main .fw-odd{background:var(--sbc-plate);color:var(--sbc-yellow);box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
 body.sbp main .scoreband-page .tk-lg{background:linear-gradient(180deg,var(--sbc-frame) 70%,transparent)}
 body.sbp main .scoreband-page .tk-lg i{background:rgba(255,210,63,.28)}
 
