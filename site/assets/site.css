@@ -45,6 +45,18 @@
    difference was only ever timing: the shift is real wherever the font is slow. */
 @font-face{font-family:'Newsreader Fallback';src:local('Georgia'),local('Times New Roman');
   size-adjust:99.73%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+/* S-5.7 round 3: the same promise where Georgia and Times New Roman are not installed (the Linux
+   runner CI measures on, and any Linux reader): the masthead word fell to the generic serif, whose
+   ascent and descent differ, so it moved 4 px (CLS 0.0056 at 1440 on run 372) when Newsreader
+   arrived. Liberation Serif Bold stands in at the weight the masthead uses, with Newsreader's own
+   ascent, descent and line gap and the width ratio measured at 100px: GoCheckMy 566.75 against
+   544.39 (104.1%), Sports in italic 255.56 against 261.23 (97.8%). Used on .mh-word only. */
+@font-face{font-family:'Newsreader Fallback Lib';font-style:normal;font-weight:600;
+  src:local('Liberation Serif Bold'),local('LiberationSerif-Bold');
+  size-adjust:104.1%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+@font-face{font-family:'Newsreader Fallback Lib';font-style:italic;font-weight:600;
+  src:local('Liberation Serif Bold Italic'),local('LiberationSerif-BoldItalic');
+  size-adjust:97.8%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
 
 :root{
   --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#17181C;
@@ -93,7 +105,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .mh-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 .mh-brand:hover{text-decoration:none}
 .mh-mark{width:38px;height:38px;flex:none}
-.mh-word{font-family:var(--serif);font-weight:600;color:var(--ink);line-height:1;
+.mh-word{font-family:'Newsreader','Newsreader Fallback','Newsreader Fallback Lib',Georgia,'Times New Roman',serif;font-weight:600;color:var(--ink);line-height:1;
   font-size:clamp(28px,5.2vw,46px);letter-spacing:-.01em}
 .mh-word-site{color:var(--rule);font-style:italic}
 .mh-slogan{font-family:var(--serif);font-style:italic;color:var(--muted);
