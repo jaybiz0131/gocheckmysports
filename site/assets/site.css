@@ -1920,6 +1920,18 @@ body>*:not(.ground){position:relative;z-index:1}
    phone screens instead of 1.2. The attribute has to be told it wins. */
 .tk-panel[hidden]{display:none !important}
 .wb-day[hidden]{display:none !important}
+/* S-5.7: the home's open day is in force before the first paint. The build marks each day
+   data-wb="open" or "off"; WB_PAINT_JS adds html.wb-js, and an address that names a day adds
+   html[data-wb-want]. Without script none of these apply and the whole week shows. The tab script
+   removes the marks at DOMContentLoaded and carries on through [hidden]. */
+html.wb-js:not([data-wb-want]) .wb-day[data-wb="off"]{display:none !important}
+html[data-wb-want="mon"] .wb-day:not(#day-mon){display:none !important}
+html[data-wb-want="tue"] .wb-day:not(#day-tue){display:none !important}
+html[data-wb-want="wed"] .wb-day:not(#day-wed){display:none !important}
+html[data-wb-want="thu"] .wb-day:not(#day-thu){display:none !important}
+html[data-wb-want="fri"] .wb-day:not(#day-fri){display:none !important}
+html[data-wb-want="sat"] .wb-day:not(#day-sat){display:none !important}
+html[data-wb-want="sun"] .wb-day:not(#day-sun){display:none !important}
 /* N-7: the inactives page is the week's games, each with its two lists. */
 .ia-game{margin:22px 0 0}
 .ia-gh{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
