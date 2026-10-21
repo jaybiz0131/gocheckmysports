@@ -1458,6 +1458,49 @@ def _aff_on_page(body):
     return any(_html.unescape(h) in urls for h in re.findall(r'href="([^"]*)"', body or ""))
 
 
+_OSWALD_CHARS = None
+
+
+def _oswald_chars():
+    """The characters the pinned Oswald subset draws (scripts/oswald_subset.py OSWALD_TEXT)."""
+    global _OSWALD_CHARS
+    if _OSWALD_CHARS is None:
+        import importlib.util as _iu
+        sp = _iu.spec_from_file_location("oswald_subset", os.path.join(HERE, "scripts", "oswald_subset.py"))
+        m = _iu.module_from_spec(sp)
+        sp.loader.exec_module(m)
+        _OSWALD_CHARS = set(m.OSWALD_TEXT)
+    return _OSWALD_CHARS
+
+
+def _sbp_h1(body):
+    """S-5.5. The look sets a page's h1 in Oswald capitals. A headline with a character the pinned
+    subset cannot draw (a dollar sign, a curly quote) would fall back unseen, so that h1 is set in
+    the page serif instead: class sbp-serif. look_canary reads both."""
+    import html as _h
+
+    def fix(m):
+        attrs, inner = m.group(1), m.group(2)
+        if "sr-only" in attrs or "sbp-serif" in attrs:
+            return m.group(0)
+        txt = _h.unescape(re.sub(r"<[^>]+>", "", inner)).upper()
+        if not (set(txt) - _oswald_chars()):
+            return m.group(0)
+        if 'class="' in attrs:
+            attrs = attrs.replace('class="', 'class="sbp-serif ', 1)
+        else:
+            attrs += ' class="sbp-serif"'
+        return f"<h1{attrs}>{inner}</h1>"
+    return re.sub(r"<h1\b([^>]*)>(.*?)</h1>", fix, body, flags=re.S)
+
+
+def wears_look(path):
+    """S-5.5. True for every page built in the shell except the three kinds S-2d and S-3a built
+    in the look themselves: the home, a game page and a team page. look_canary holds the rest."""
+    p = str(path or "/")
+    return not (p == "/" or p.startswith("/games/") or p.startswith("/teams/"))
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           brand="site", og_type="website", schema_extra="", og_image=None, og_size=(1200, 630),
           canonical_path=None):
@@ -1519,6 +1562,16 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # the skip-link ONLY when such a target exists (list pages built from bare <section>s
     # get no dangling link). The .skip-link CSS lives in site.css.
     skip = ""
+    # S-5.5 (October 20, 2026, Jack's one-look correction): every page a reader can reach wears
+    # the S-2d scoreboard look. The home, the game pages and the team pages were built in it; the
+    # rest wear it through body.sbp, which site.css turns into a green board in a dark frame with
+    # the plates, Oswald and the yellow of the wall. A page built from bare sections gets its
+    # main landmark here, which also gives it the skip link it never had.
+    if wears_look(path):
+        if not re.search(r'<main(\s|>)', body):
+            body = f'<main>{body}</main>'
+        body = _sbp_h1(body)
+        body_class = (str(body_class or "") + " sbp").strip()
     if re.search(r'<main(\s|>)', body):
         body = re.sub(r'<main(\s|>)', r'<main id="main"\1', body, count=1)
         skip = '<a class="skip-link" href="#main">Skip to main content</a>\n'
@@ -4063,7 +4116,7 @@ def _tk_colors(g):
     def one(side, fallback):
         c = ((g.get(side) or {}).get("color") or "").strip()
         return c if re.fullmatch(r"#[0-9a-fA-F]{6}", c or "") else fallback
-    return one("away", "#2A2D35"), one("home", "#1B1E25")
+    return one("away", "#2A2D35"), one("home", "#1A1C22")
 
 
 # N-3b: THE FEED'S ABBREVIATIONS ARE NOT THE NETWORK'S NAME. The card printed "ESPN
@@ -10247,7 +10300,7 @@ def _lane_figures(item):
 
 
 SPORTS_ACCENT = "#1F5E3F"
-LANE_COLORS = {"Lawsuits and rulings": "#4B5563"}
+LANE_COLORS = {"Lawsuits and rulings": "#5C616B"}
 
 
 def lane_card_v3(item, lane_name, stamp=None):
@@ -10270,7 +10323,7 @@ def lane_card_v3(item, lane_name, stamp=None):
     # The style tile is the reference where the board names only two lanes (V-15):
     # ".card.lane { border-left:3px solid #1F5E3F }" is the default and "Sports rule
     # #1F5E3F - Sports accent, lanes, links" confirms it, so lanes take the Sports
-    # accent and lawsuits is the single exception at #4B5563. Nothing invented.
+    # accent and lawsuits is the single exception, the muted token (#5C616B, S-5.5). Nothing invented.
     _lc = LANE_COLORS.get(lane_name, SPORTS_ACCENT)
     return (f'<div class="bd-card lane-v3" style="--lane:{_lc}">'
             f'<div class="bd-cardtop"><span class="bd-eyebrow" style="color:{_lc}">'

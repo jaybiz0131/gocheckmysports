@@ -146,19 +146,24 @@ def _clip(text, n):
 # tuning, phone collapse of topbar/dateline, the skip link the site standard requires).
 CSS = """
 .ed-sheet{
-  --paper:#F7F5F0; --ink:#1A1A1A; --ink-soft:#444444; --ink-faint:#6B6B6B;
-  --rule:#C9C4B8; --rule-heavy:#1A1A1A; --accent:#9C4A21; --link:#184454;
+  --paper:var(--sbc-frame); --ink:var(--sbc-cream); --ink-soft:var(--sbc-cream);
+  --ink-faint:var(--sbc-cream); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-yellow);
+  --accent:var(--sbc-yellow); --link:var(--sbc-yellow);
   --measure:38rem;
   --serif:'Newsreader', Georgia, 'Times New Roman', serif;
   --sans:Inter,system-ui,sans-serif;
 }
+/* S-5.5: the three reading modes keep their names and their behavior, and take their colors from
+   the scoreboard tokens alone. Night is the board; e-ink is the cream plate with the frame's ink. */
 [data-theme="dark"] .ed-sheet{
-  --paper:#141414; --ink:#E8E4DC; --ink-soft:#B8B4AC; --ink-faint:#8A8680;
-  --rule:#3A3833; --rule-heavy:#E8E4DC; --accent:#C89A4A; --link:#79B8BE;
+  --paper:var(--sbc-frame); --ink:var(--sbc-cream); --ink-soft:var(--sbc-cream);
+  --ink-faint:var(--sbc-cream); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-yellow);
+  --accent:var(--sbc-yellow); --link:var(--sbc-yellow);
 }
 [data-theme="eink"] .ed-sheet{
-  --paper:#FFFFFF; --ink:#000000; --ink-soft:#000000; --ink-faint:#333333;
-  --rule:#999999; --rule-heavy:#000000; --accent:#000000; --link:#000000;
+  --paper:var(--sbc-cream); --ink:var(--sbc-frame); --ink-soft:var(--sbc-frame);
+  --ink-faint:var(--sbc-frame); --rule:var(--sbc-frame); --rule-heavy:var(--sbc-frame);
+  --accent:var(--sbc-frame); --link:var(--sbc-frame);
 }
 [data-theme="eink"] .ed-sheet *{transition:none !important; animation:none !important;
   text-shadow:none !important;}
@@ -273,11 +278,11 @@ a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 @media print{
   @page{margin:14mm 12mm}
   .ed-topbar,.ed-sections,.ed-backrow{display:none;}
-  body{background:#fff; color:#000; font-size:10.5pt;}
+  body{background:var(--sbc-cream); color:var(--sbc-frame); font-size:10.5pt;}
   .ed-sheet{max-width:100%; padding:0;}
   .ed-lead .ed-copy{column-count:2;}
   .ed-brief-cols{column-count:3;}
-  a{color:#000;}
+  a{color:var(--sbc-frame);}
   .ed-front{grid-template-columns:2fr 1fr;}
   .ed-rail article,.ed-downpage article{break-inside:avoid;}
 }

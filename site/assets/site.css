@@ -2765,7 +2765,7 @@ a.gp-svc:hover{border-color:var(--ink)}
    glow not counted (strip_canary). The artboard's off-bulb #8E8A6E is 3.58:1 on the panel;
    the labels take #A7A285 (4.86:1). */
 :root{--sbc-panel:#0E3B2A;--sbc-frame:#072619;--sbc-plate:#141A17;--sbc-cream:#F4F1E6;
-  --sbc-yellow:#FFD23F;--sbc-q:26px;--sbc-t:34px;
+  --sbc-yellow:#FFD23F;--sbc-down:#FF7A6B;--sbc-q:26px;--sbc-t:34px;
   --sbc-display:'Oswald',Impact,'Arial Narrow',sans-serif}
 .tk-c.sbc{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;padding:12px;
   gap:10px;color:var(--sbc-cream);overflow:visible;
@@ -3075,3 +3075,48 @@ a.tms-last:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
 .wb-wl{scroll-margin-top:40px}
 /* S-5.4: Scores is paged by day; the day and part tabs sit under the league tabs. */
 .sc-days,.sc-parts{margin-top:10px}
+
+/* ============================================================================
+   S-5.5: ONE LOOK. Every page a reader can reach wears the S-2d scoreboard look (scorecard line
+   5, Jack's one-look correction of October 20, 2026). site_build.shell() puts body.sbp on every
+   page except the home, the game pages and the team pages, which were built in it. The page's
+   main becomes the board: the frame green is the ground, the panel green is every card, the
+   plate is every chip, field and tag, cream is the ink and yellow is the label and the link.
+   The same tokens as the wall and the cards (--sbc-*), the pinned Oswald subset, no new color.
+   Both themes get the same board: it is green in light and in dark.
+   Oswald is set only on text the canary reads: the h1, the kicker and eyebrow labels and the
+   section heads, all in capitals, so the subset (capitals, figures, punctuation) draws them.
+   ========================================================================== */
+body.sbp main{
+  --paper:var(--sbc-frame);--card:var(--sbc-panel);--ink:var(--sbc-cream);--muted:var(--sbc-cream);
+  --faint:var(--sbc-cream);--line:var(--sbc-panel);--rule:var(--sbc-yellow);--link:var(--sbc-yellow);
+  --link-hover:var(--sbc-cream);--verified-fg:var(--sbc-yellow);--verified-bg:var(--sbc-plate);
+  --review-fg:var(--sbc-yellow);--review-bg:var(--sbc-plate);--tag-bg:var(--sbc-plate);
+  --tag-fg:var(--sbc-cream);--up:var(--sbc-yellow);--down:var(--sbc-down);--shadow:none;
+  background:var(--sbc-frame);color:var(--sbc-cream);border-radius:12px;
+  margin:16px auto 28px;padding:14px 14px 22px;width:calc(100% - 24px)}
+body.sbp main a{color:var(--sbc-yellow)}
+body.sbp main a:hover{color:var(--sbc-cream)}
+body.sbp main :is(h1,h2,h3,h4,p,li,td,th,dt,dd,small,label,summary,figcaption,blockquote,time){color:var(--sbc-cream)}
+body.sbp main h1{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.03em;line-height:1.12;color:var(--sbc-cream)}
+body.sbp main h1.sbp-serif{font-family:var(--serif);text-transform:none;letter-spacing:-.01em}
+body.sbp main :is(.kicker,.bd-eyebrow,.ed-kicker){font-family:var(--sbc-display);font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--sbc-yellow)}
+body.sbp main .sec-head h2{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--sbc-yellow);white-space:normal}
+body.sbp main :is(.card,.bd-card,.bd-mod,.article,.page > section){color:var(--sbc-cream)}
+body.sbp main .bd-eyebrow{color:var(--sbc-yellow) !important}
+body.sbp main :is(.card,.bd-card){background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px}
+body.sbp main :is(.chip,.tag,.badge,.bd-chip,.st-nav-a,.fmt-btn,input,button,select,textarea){
+  background:var(--sbc-plate);color:var(--sbc-cream);border:1px solid var(--sbc-panel);border-radius:3px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
+body.sbp main :is(input,select,textarea)::placeholder{color:var(--sbc-cream)}
+body.sbp main :is(.bd-src,.bd-stamp,.dateline,.byline,.dek,.lede,.lx-dek){color:var(--sbc-cream)}
+body.sbp main :is(.bd-stamp,.dateline,.bd-src){color:var(--sbc-yellow)}
+body.sbp main table{border-color:var(--sbc-panel)}
+body.sbp main :is(th,td){border-color:var(--sbc-panel)}
+body.sbp main hr{border-color:var(--sbc-panel)}
+@media (min-width:760px){body.sbp main{padding:18px 20px 26px}}
+@media print{body.sbp main{background:none;color:var(--sbc-frame)}
+  body.sbp main :is(h1,h2,h3,p,li,td,th,a){color:var(--sbc-frame)}}

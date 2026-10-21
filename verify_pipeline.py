@@ -1643,6 +1643,8 @@ def layer1_canary():
     fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
     import fbs_canary as _fbc
     fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
+    import look_canary as _lkc
+    fails.extend(_lkc.look_canary(_built_tree()))   # S-5.5: one look on every page a reader can reach
     import build_cost_canary as _bcc
     fails.extend(_bcc.build_cost_canary(_built_tree()))   # S-5.4: the build's cost, scores paged by day, the heading clear
     import registry_canary as _rgc
