@@ -15,6 +15,10 @@
 //   colors   the computed color of every element that prints text, and the background and border
 //            colors of every element and of its ::before and ::after, against the allowed set (alpha
 //            is ignored; a fully transparent color is no color)
+//            round 4: also the colors of box-shadow, text-shadow, outline, background-image (gradients),
+//            border-image-source and text-decoration, on elements and ::before/::after; a color the browser
+//            reports outside rgb (oklch, oklab, lab, lch, hwb, color()) is painted onto a canvas and judged
+//            as the sRGB it draws; one that cannot be resolved is a finding, never a pass
 //
 // The summary carries the pages read in each scheme, so the caller can fail when a page was skipped,
 // and the distinct tag+class signatures rendered inside main.
@@ -47,14 +51,50 @@ try {
 const READ = ({ allowed, oswald }) => {
   const OK = new Set(allowed);
   const OSW = new Set([...oswald]);
-  const hex = (c) => {
-    const m = c.match(/rgba?\(([^)]*)\)/);
-    if (!m) return null;
-    const p = m[1].split(/[ ,\/]+/).filter(Boolean);
-    const a = p.length > 3 ? parseFloat(p[3]) : 1;
-    if (a === 0) return null;
-    return "#" + p.slice(0, 3).map((x) => Math.round(parseFloat(x)).toString(16).padStart(2, "0")).join("");
+  // Round 4 (J-14): a color is resolved to #rrggbb whatever space the browser reports it in. rgb(a) is read
+  // directly; oklch, oklab, lab, lch, hwb and color() are painted onto a 1x1 canvas and the pixel is read
+  // (sRGB, clipped to gamut). A fully transparent color is no color (null). A color that cannot be turned
+  // into rgb at all is returned as {bad: raw} and the caller reports it, it never passes.
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = 1;
+  const g2 = cv.getContext("2d", { willReadFrequently: true });
+  const parses = (v) => {
+    for (const sentinel of ["#010203", "#fdfcfb"]) {
+      g2.fillStyle = sentinel;
+      g2.fillStyle = v;
+      if (g2.fillStyle !== sentinel) return true;
+    }
+    return false;
   };
+  const hex = (c) => {
+    c = String(c || "").trim();
+    const m = c.match(/^rgba?\(([^)]*)\)$/);
+    if (m) {
+      const p = m[1].split(/[ ,\/]+/).filter(Boolean);
+      const a = p.length > 3 ? parseFloat(p[3]) : 1;
+      if (a === 0) return null;
+      const ch = p.slice(0, 3).map((x) => Math.round(parseFloat(x)));
+      if (ch.length < 3 || ch.some((x) => Number.isNaN(x))) return { bad: c };
+      return "#" + ch.map((x) => x.toString(16).padStart(2, "0")).join("");
+    }
+    if (!c || c === "transparent") return null;
+    let v = c;
+    const am = v.match(/\/\s*([\d.]+%?)\s*\)\s*$/);
+    if (am) {
+      const a = am[1].endsWith("%") ? parseFloat(am[1]) / 100 : parseFloat(am[1]);
+      if (a === 0) return null;
+      v = v.replace(/\/\s*[\d.]+%?\s*\)\s*$/, ")");
+    }
+    if (!parses(v)) return { bad: c };
+    g2.clearRect(0, 0, 1, 1);
+    g2.fillStyle = v;
+    g2.fillRect(0, 0, 1, 1);
+    const d = g2.getImageData(0, 0, 1, 1).data;
+    return "#" + [d[0], d[1], d[2]].map((x) => x.toString(16).padStart(2, "0")).join("");
+  };
+  // every color function a computed box-shadow, text-shadow or background-image names
+  const FN = /(?:rgba?|hsla?|hwb|oklab|oklch|lab|lch|color-mix|color|light-dark)\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/g;
+  const colorsIn = (s) => (String(s || "").match(FN) || []);
   const main = document.querySelector("main");
   const out = [];
   if (!main) return { n: 0, out: [{ kind: "page", what: "no main landmark" }] };
@@ -78,9 +118,31 @@ const READ = ({ allowed, oswald }) => {
   };
   const col = (e, prop, v, where = "") => {
     const h = hex(v);
-    if (!h || OK.has(h)) return;
-    const k = id(e) + where + prop + h;
-    if (!seenC.has(k)) { seenC.add(k); out.push({ kind: "color", el: id(e) + where, prop, color: h, text: (e.textContent || "").trim().slice(0, 30) }); }
+    if (h === null || (typeof h === "string" && OK.has(h))) return;
+    const show = typeof h === "string" ? h : "unresolved:" + h.bad.slice(0, 60);
+    const k = id(e) + where + prop + show;
+    if (!seenC.has(k)) { seenC.add(k); out.push({ kind: "color", el: id(e) + where, prop, color: show, text: (e.textContent || "").trim().slice(0, 30) }); }
+  };
+  // a property whose computed value can hold several colors (shadows, gradients); a black or white
+  // shadow is a shade, not a color of the look, as in the static check
+  const many = (e, prop, v, where, shade) => {
+    if (!v || v === "none") return;
+    for (const c of colorsIn(v)) {
+      if (shade) {
+        const h = hex(c);
+        if (h === "#000000" || h === "#ffffff") continue;
+      }
+      col(e, prop, c, where);
+    }
+  };
+  // outline, decoration, shadows and gradient images: the ones round 3 did not read
+  const paints = (e, cs, where) => {
+    many(e, "box-shadow", cs.boxShadow, where, true);
+    many(e, "text-shadow", cs.textShadow, where, true);
+    many(e, "background-image", cs.backgroundImage, where, false);
+    many(e, "border-image-source", cs.borderImageSource, where, false);
+    if (cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) > 0) col(e, "outline-color", cs.outlineColor, where);
+    if (cs.textDecorationLine && cs.textDecorationLine !== "none") col(e, "text-decoration-color", cs.textDecorationColor, where);
   };
   const borders = (e, cs, where) => {
     for (const side of ["Top", "Right", "Bottom", "Left"]) {
@@ -100,6 +162,7 @@ const READ = ({ allowed, oswald }) => {
     if (own) col(e, "color", cs.color);
     col(e, "background-color", cs.backgroundColor);
     borders(e, cs, "");
+    paints(e, cs, "");
     for (const ps of ["::before", "::after"]) {
       const pc = getComputedStyle(e, ps);
       const c = pc.content;
@@ -107,6 +170,7 @@ const READ = ({ allowed, oswald }) => {
       if (/^["']/.test(c) && c.length > 2) col(e, "color", pc.color, ps);
       col(e, "background-color", pc.backgroundColor, ps);
       borders(e, pc, ps);
+      paints(e, pc, ps);
     }
     if (oswaldIn(cs)) {
       if (own) checkText(e, cs, own, "");

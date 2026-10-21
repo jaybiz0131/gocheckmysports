@@ -209,11 +209,130 @@ COLOR_PROPS = re.compile(r"^(?:--[\w-]+|color|background(?:-color|-image)?|borde
                          r"column-rule(?:-color)?)$")
 
 
+# round 4 of S-5.5 (J-14): oklch, oklab, lab, lch, hwb, color() and color-mix() are colors too; they are
+# judged by conversion to sRGB (_fn_hex), and one that cannot be converted is reported as not a token
+FNCOLOR = re.compile(r"(?<![\w-])(?:oklch|oklab|lab|lch|hwb|color-mix|color)\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)",
+                     re.I)
+
+
+def _fn_num(x, pct=1.0):
+    x = x.strip().lower()
+    if x == "none":
+        return 0.0
+    if x.endswith("%"):
+        return float(x[:-1]) / 100.0 * pct
+    return float(x)
+
+
+def _fn_hue(x):
+    x = x.strip().lower()
+    if x == "none":
+        return 0.0
+    for u, k in (("deg", 1.0), ("grad", 0.9), ("rad", 57.29577951308232), ("turn", 360.0)):
+        if x.endswith(u):
+            return float(x[:-len(u)]) * k
+    return float(x)
+
+
+def _mat(m, v):
+    return [sum(m[i][j] * v[j] for j in range(3)) for i in range(3)]
+
+
+XYZ_TO_LIN = [[3.2409699419, -1.5373831776, -0.4986107603], [-0.9692436363, 1.8759675015, 0.0415550574],
+              [0.0556300797, -0.2039769589, 1.0569715142]]
+P3_TO_XYZ = [[0.4865709486, 0.2656676932, 0.1982172852], [0.2289745641, 0.6917385218, 0.0792869141],
+             [0.0, 0.0451133819, 1.0439443689]]
+D50_TO_D65 = [[0.9555766, -0.0230393, 0.0631636], [-0.0282895, 1.0099416, 0.0210077],
+              [0.0122982, -0.0204830, 1.3299098]]
+
+
+def _lin_hex(lin):
+    """Linear-light sRGB to #rrggbb (clipped to the gamut, as a canvas does)."""
+    out = []
+    for v in lin:
+        v = min(1.0, max(0.0, v))
+        v = 12.92 * v if v <= 0.0031308 else 1.055 * v ** (1 / 2.4) - 0.055
+        out.append("%02x" % round(v * 255))
+    return "#" + "".join(out)
+
+
+def _fn_hex(tok):
+    """A CSS color function as #rrggbb, or None when it cannot be converted (relative colors, var(), color-mix,
+    spaces outside srgb, srgb-linear and display-p3)."""
+    import math
+    m = re.fullmatch(r"\s*(oklch|oklab|lab|lch|hwb|color)\((.*)\)\s*", tok, re.I | re.S)
+    if not m:
+        return None
+    fn, body = m.group(1).lower(), m.group(2)
+    alpha = None
+    if "/" in body:
+        body, alpha = body.rsplit("/", 1)
+    a = body.replace(",", " ").split()
+    try:
+        if alpha is not None and _fn_num(alpha) == 0:
+            return None
+        if fn == "color":
+            space, v = a[0].lower(), a[1:4]
+            if len(v) != 3:
+                return None
+            c = [_fn_num(x) for x in v]
+            if space == "srgb":
+                lin = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+            elif space == "srgb-linear":
+                lin = c
+            elif space == "display-p3":
+                lin = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+                lin = _mat(XYZ_TO_LIN, _mat(P3_TO_XYZ, lin))
+            else:
+                return None
+            return _lin_hex(lin)
+        if len(a) != 3:
+            return None
+        if fn == "hwb":
+            h, w, b = _fn_hue(a[0]) % 360.0, _fn_num(a[1]), _fn_num(a[2])
+            if w + b >= 1:
+                g = w / (w + b)
+                return _lin_hex([((g + 0.055) / 1.055) ** 2.4 if g > 0.04045 else g / 12.92] * 3)
+            rgb = []
+            for n in (0, 8, 4):
+                k = (n + h / 30.0) % 12
+                f = 0.5 - 0.5 * max(-1.0, min(k - 3, 9 - k, 1.0))
+                rgb.append(f * (1 - w - b) + w)
+            return "#" + "".join("%02x" % round(min(1, max(0, x)) * 255) for x in rgb)
+        if fn in ("oklab", "oklch"):
+            L = _fn_num(a[0], 1.0)
+            if fn == "oklab":
+                A, B = _fn_num(a[1], 0.4), _fn_num(a[2], 0.4)
+            else:
+                C, H = _fn_num(a[1], 0.4), math.radians(_fn_hue(a[2]))
+                A, B = C * math.cos(H), C * math.sin(H)
+            l_ = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3
+            m_ = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3
+            s_ = (L - 0.0894841775 * A - 1.2914855480 * B) ** 3
+            return _lin_hex([4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_,
+                             -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+                             -0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_])
+        L = _fn_num(a[0], 100.0)
+        if fn == "lab":
+            A, B = _fn_num(a[1], 125.0), _fn_num(a[2], 125.0)
+        else:
+            C, H = _fn_num(a[1], 150.0), math.radians(_fn_hue(a[2]))
+            A, B = C * math.cos(H), C * math.sin(H)
+        fy = (L + 16) / 116.0
+        fx, fz = fy + A / 500.0, fy - B / 200.0
+        inv = lambda t: t ** 3 if t ** 3 > 216 / 24389 else (116 * t - 16) / (24389 / 27)
+        xyz50 = [0.96422 * inv(fx), 1.0 * (L / (24389 / 27) if L < 8 else fy ** 3), 0.82521 * inv(fz)]
+        return _lin_hex(_mat(XYZ_TO_LIN, _mat(D50_TO_D65, xyz50)))
+    except (ValueError, ZeroDivisionError, OverflowError):
+        return None
+
+
 def _decl_colors(prop, val):
     """(color, kind) for every color a declaration names: hex, rgb(a), hsl(a), and named colors on a color property."""
     val = re.sub(r"url\([^)]*\)", "", val)
     val = re.sub(r"var\(--[\w-]+\)", "", val)
     out = [c for c in HEX.findall(val)]
+    out += [m.group(0) for m in FNCOLOR.finditer(val)]
     if COLOR_PROPS.match(prop.strip().lower()):
         out += [w for w in re.findall(r"(?<![\w#-])[a-z]+(?![\w(-])", val.lower()) if w in NAMED]
     return out
@@ -272,7 +391,10 @@ def oswald_selectors(css=None):
 
 
 def _hex_of(c):
-    """A token written as rgb(a) as #rrggbb, for the browser's computed colors."""
+    """A token written as rgb(a) as #rrggbb, for the browser's computed colors; oklch, oklab, lab, lch, hwb and
+    color() are converted to sRGB, and None says the color could not be read."""
+    if FNCOLOR.fullmatch(c.strip()):
+        return _fn_hex(c)
     c = _norm(c)
     if c.startswith("#"):
         return c
