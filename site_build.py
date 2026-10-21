@@ -4107,7 +4107,11 @@ def _mq_vars(g):
 # filled: that is the same law as "a module with no data is omitted".
 
 _TK_INK = "#EBE9E3"
-_TK_UP, _TK_DOWN, _TK_TIE = "#3DDC84", "#FF7A6B", "#F0C674"
+# S-5.5: the scores page wears the S-2d board, and the board says who leads the way the cards on
+# the home do: the leader and a tie in cream (--sbc-cream), the trailing side one step down in
+# the cards' secondary cream (--sbc-faint, 5.9:1 on the panel), the leader's bar and weight kept.
+# Green and red were the pre-board ticket's; S-2c's amber tie retired with S-2d.
+_TK_UP, _TK_DOWN, _TK_TIE = "#F4F1E6", "#B8B293", "#F4F1E6"
 _TK_MID = " \u00b7 "     # the separator, kept out of f-string expressions
 
 

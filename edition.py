@@ -145,26 +145,34 @@ def _clip(text, n):
 # Demo tokens verbatim; inference only where the demo is silent (print page-break
 # tuning, phone collapse of topbar/dateline, the skip link the site standard requires).
 CSS = """
-.ed-sheet{
-  --paper:var(--sbc-frame); --ink:var(--sbc-cream); --ink-soft:var(--sbc-cream);
-  --ink-faint:var(--sbc-cream); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-yellow);
-  --accent:var(--sbc-yellow); --link:var(--sbc-yellow);
+.ed-sheet,body.sbp main.ed-sheet{
+  --paper:var(--sbc-frame); --ink:var(--sbc-cream); --ink-soft:var(--sbc-dim);
+  --ink-faint:var(--sbc-faint); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-yellow);
+  --accent:var(--sbc-yellow); --link:var(--sbc-cream);
   --measure:38rem;
   --serif:'Newsreader', Georgia, 'Times New Roman', serif;
   --sans:Inter,system-ui,sans-serif;
 }
 /* S-5.5: the three reading modes keep their names and their behavior, and take their colors from
-   the scoreboard tokens alone. Night is the board; e-ink is the cream plate with the frame's ink. */
-[data-theme="dark"] .ed-sheet{
-  --paper:var(--sbc-frame); --ink:var(--sbc-cream); --ink-soft:var(--sbc-cream);
-  --ink-faint:var(--sbc-cream); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-yellow);
-  --accent:var(--sbc-yellow); --link:var(--sbc-yellow);
+   the scoreboard tokens alone, each a different sheet. Print is the board: the frame green, cream
+   heads, the text one step down, yellow labels and rules. Night drops the green for the plate's
+   near black with the same three creams, for reading in the dark. E-ink is the cream plate with
+   the frame's green as its only ink, no yellow, nothing lit. */
+[data-theme="dark"] .ed-sheet,[data-theme="dark"] body.sbp main.ed-sheet{
+  --paper:var(--sbc-plate); --ink:var(--sbc-cream); --ink-soft:var(--sbc-dim);
+  --ink-faint:var(--sbc-faint); --rule:var(--sbc-panel); --rule-heavy:var(--sbc-dim);
+  --accent:var(--sbc-yellow); --link:var(--sbc-cream);
 }
-[data-theme="eink"] .ed-sheet{
+[data-theme="eink"] .ed-sheet,[data-theme="eink"] body.sbp main.ed-sheet{
   --paper:var(--sbc-cream); --ink:var(--sbc-frame); --ink-soft:var(--sbc-frame);
   --ink-faint:var(--sbc-frame); --rule:var(--sbc-frame); --rule-heavy:var(--sbc-frame);
   --accent:var(--sbc-frame); --link:var(--sbc-frame);
 }
+body.sbp main.ed-sheet{background:var(--paper);color:var(--ink)}
+body.sbp .ed-sheet h1{color:var(--ink)}
+body.sbp .ed-sheet a{color:var(--link)}
+body.sbp .ed-sheet a:hover{color:var(--accent)}
+body.sbp .ed-sheet :is(.ed-kicker,.ed-continued a,.ed-brief-cites a,.ed-backrow a,.ed-sections a[aria-current]){color:var(--accent) !important}
 [data-theme="eink"] .ed-sheet *{transition:none !important; animation:none !important;
   text-shadow:none !important;}
 [data-theme="eink"] .ed-sheet{font-family:Georgia,'Times New Roman',serif;}
