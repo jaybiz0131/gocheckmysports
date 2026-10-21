@@ -10769,7 +10769,7 @@ WB_TABS_JS = """
      today, else All. Nothing is hidden in the HTML, so without script the whole week shows. S-5.7:
      the build already wrote that opening day (data-wb), WB_PAINT_JS applied it before the first
      paint, and this repeats the same answer through `hidden`, so it moves nothing. */
-  function played(sec){ return !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
+  function played(sec){ return !sec.hasAttribute('data-cut-unplayed') && !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
   function opening(){
     var bd = document.querySelector('.wb-board');
     var today = (bd && bd.getAttribute('data-today')) || '';
@@ -10847,14 +10847,15 @@ def board_games(sb):
     return games
 
 
-def _wb_open_day(by_day, today):
+def _wb_open_day(by_day, today, cut_unplayed=frozenset()):
     """The day the home opens on, the same rule WB_TABS_JS has always applied (Jack's ruling of
     October 19, 2026, 2:54 PM): the first day, today or later, with a game not yet played; else
     today's; else 'all'. A game is unplayed when its card is pre or in. S-5.7 decides it in the
-    build so the answer is in the HTML before the first paint, not found by script after it."""
+    build so the answer is in the HTML before the first paint, not found by script after it. A game
+    the home's byte budget cut (`cut_unplayed`, the days holding one) is still a game not yet played."""
     for d in sorted(by_day):
-        if d >= today and any(
-                str(g.get("state") or "") in ("pre", "in") for _k, g in by_day[d]):
+        if d >= today and (d in cut_unplayed or any(
+                str(g.get("state") or "") in ("pre", "in") for _k, g in by_day[d])):
             return d.strftime("%a").lower()
     return today.strftime("%a").lower() if today in by_day else "all"
 
@@ -10889,7 +10890,11 @@ def week_board(sb):
                         desig=IA_DESIG, stream=_first_stream_chip(g, carriers, doc, today))
 
     sections = []
-    open_lab = _wb_open_day(by_day, today)
+    # S-5.7 review 1: a game the byte budget cut from the home is still a game not yet played;
+    # its day counts as unplayed when choosing the open day, and the section says so for the script.
+    cut_unplayed = {k.astimezone(_ET).date() for k, g in all_games
+                    if str(g.get("id")) in HOME_HIDE and str(g.get("state") or "") in ("pre", "in")}
+    open_lab = _wb_open_day(by_day, today, cut_unplayed)
     for d in sorted(by_day):
         rows = by_day[d]
         lab = d.strftime("%a").lower()
@@ -10911,6 +10916,8 @@ def week_board(sb):
         # stylesheet can hide them before first paint once WB_PAINT_JS has marked the page as
         # scripted. Nothing is `hidden` here: without script the whole week shows.
         wb = "" if open_lab == "all" else f' data-wb="{"open" if lab == open_lab else "off"}"'
+        if d in cut_unplayed:
+            wb += ' data-cut-unplayed="1"'
         sections.append(
             f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}"{wb} data-date="{d.isoformat()}">'
             f'<div class="tk-lg"><span>{esc(d.strftime("%A, %b %-d"))}</span><i></i></div>'

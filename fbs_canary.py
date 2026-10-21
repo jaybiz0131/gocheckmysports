@@ -497,6 +497,24 @@ def _wed_home():
         _clock = was
 
 
+def _wed_cut_home():
+    """S-5.7 review 1: Wednesday 21 October 2026, 9 AM ET, where Wednesday's only game is a college
+    game not yet played and the home's byte budget cuts it (so the day holds no card, only the
+    "1 more college game" line). Tuesday is played; Thursday has an NFL game. Wednesday is still the
+    day of the next game not yet played."""
+    import site_build as sb
+    global _clock
+    was, was_b = _clock, sb.HOME_BUDGET
+    _clock = lambda: _d.datetime(2026, 10, 21, 9, 0, tzinfo=__import__("zoneinfo").ZoneInfo("America/New_York"))
+    sb.HOME_BUDGET = 1
+    try:
+        return _week_home([("NFL", "football/nfl", [_ev("t0", "20261020", "2000", "post"),
+                                                    _ev("h1", "20261022", "2015")]),
+                           ("CFB", PATH, [_ev("c9", "20261021", "2000")])])
+    finally:
+        _clock, sb.HOME_BUDGET = was, was_b
+
+
 SHIFT_MAX = 0.005   # S-5.7: the home's layout shift, as the 0.00 the board names (two decimals)
 
 
@@ -524,6 +542,12 @@ def shift_unit():
     css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
     if not re.search(r'html\.wb-js:not\(\[data-wb-want\]\) \.wb-day\[data-wb="off"\]\{display:none\s*!important', css):
         fails.append("shift: the stylesheet does not hide the build's off days under html.wb-js")
+    cut = _wed_cut_home()
+    csec = dict(re.findall(r'<section class="bd-mod wb-day" id="day-(\w+)"[^>]*? data-wb="(\w+)"', cut))
+    if csec.get("wed") != "open" or 'id="day-wed"' not in cut or "1 more college game" not in cut:
+        fails.append(f"shift: with Wednesday's only unplayed game cut by the byte budget the build marks the days {csec}, expected wed open")
+    if not re.search(r'id="day-wed"[^>]*data-cut-unplayed="1"', cut):
+        fails.append("shift: the day whose unplayed game the budget cut does not say so for the script")
     node = shutil.which("node")
     if not node or not os.environ.get("PLAYWRIGHT_NODE_MODULES"):
         print("::warning::shift: node or PLAYWRIGHT_NODE_MODULES is missing; the browser half of the day-shift check did not run")
@@ -533,7 +557,7 @@ def shift_unit():
         page = os.path.join(tmp, "wed.html")
         open(page, "w", encoding="utf-8").write(html)
 
-        def read(env_extra):
+        def read(env_extra, page=page):
             r = subprocess.run([node, os.path.join(HERE, "scripts", "day-shift.mjs"), page,
                                 os.path.join(HERE, "site", "assets")], capture_output=True, text=True,
                                timeout=120, env=dict(os.environ, **env_extra))
@@ -556,6 +580,14 @@ def shift_unit():
                     fails.append(f"shift: {tag} the first paint shows {x['firstPaintDays']} and the page settles on {x['settledDays']}, expected {first}")
                 if x["cls"] >= SHIFT_MAX:
                     fails.append(f"shift: {tag} the page shifts {x['cls']} (under {SHIFT_MAX} wanted): {x['shifts'][:2]}")
+        cpage = os.path.join(tmp, "cut.html")
+        open(cpage, "w", encoding="utf-8").write(cut)
+        recs, r = read({}, cpage)
+        for x in recs:
+            if x.get("firstPaintDays") != ["wed"] or x.get("settledDays") != ["wed"]:
+                fails.append(f"shift: with Wednesday's game cut by the budget at {x.get('width')} the home opens on {x.get('firstPaintDays')} and settles on {x.get('settledDays')}, expected wed")
+        if len(recs) != 2:
+            fails.append("shift: the budget-cut read did not run at both widths")
         recs, r = read({"DAY_NOJS": "1"})
         for x in recs:
             if x.get("noScriptDays") != ["tue", "wed", "fri", "sat", "sun", "mon"]:
