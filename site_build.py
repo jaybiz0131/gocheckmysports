@@ -1479,6 +1479,12 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
              'href="/assets/fonts/newsreader-roman.woff2">'
              '<link rel="preload" as="font" type="font/woff2" crossorigin '
              'href="/assets/fonts/inter.woff2">')
+    if path == "/":
+        # S-5.7: the home's wall and band are set in Oswald, which was not preloaded, so the
+        # capitals swapped in after first paint and the wall's text moved (CLS 0.0095 at 1440).
+        # The face is the one already shipped; it is only fetched earlier, on the home alone.
+        fonts += ('<link rel="preload" as="font" type="font/woff2" crossorigin '
+                  'href="/assets/fonts/oswald.woff2">')
     # ONE URL PER PAGE (2026-08-17). Netlify's Pretty URLs serve every page at both
     # /articles/foo and /articles/foo.html, and rewrite internal links to the
     # extensionless form. Emitting a .html canonical meant Google crawled the linked
@@ -10706,6 +10712,23 @@ BOARD_LEAGUES = ("NFL", "CFB")
 _WIN_ID = {"early": "early", "1:00": "1pm", "4:05-4:25": "late", "afternoon": "afternoon",
            "night": "night"}
 
+# S-5.7: the day tabs' first state is decided before the first paint. This runs in the band, after
+# the tabs and before the board, so it sees the tabs and not yet the days. It marks the page as
+# scripted (class wb-js), which is what lets site.css hide the days the build marked data-wb="off";
+# and when the address names a day or a Sunday window that has a tab, it records that day
+# (data-wb-want) so the stylesheet shows that one instead. Without script none of this runs and the
+# whole week shows. WB_TABS_JS takes over at DOMContentLoaded and changes state only on a tap or an
+# address, never to correct the first frame.
+WB_PAINT_JS = """
+<script>(function(){
+  var h = document.documentElement, id = '';
+  try { id = decodeURIComponent((location.hash || '').slice(1)); } catch (e) {}
+  var m = /^day-([a-z]{3})$/.exec(id), d = m ? m[1] : /^win-/.test(id) && document.querySelector('.wb-wins a[href="#' + id + '"]') ? 'sun' : '';
+  h.classList.add('wb-js');
+  if (d && document.querySelector('.wb-tabs [data-day="' + d + '"]')) h.setAttribute('data-wb-want', d);
+})();</script>
+"""
+
 WB_TABS_JS = """
 <script>(function(){
   /* The script sits in the band, before the board, so the days do not exist yet when it runs.
@@ -10719,10 +10742,13 @@ WB_TABS_JS = """
   var days = document.querySelectorAll('.wb-day');
   if (!tabs.length || !days.length) return;
   function show(day){
-    var found = false;
+    /* The build's first state (data-wb, data-wb-want) hands over to the hidden attribute here. */
+    var h = document.documentElement, found = false;
     days.forEach(function(s){ var on = day === 'all' || s.getAttribute('data-day') === day;
       s.hidden = !on; if (on) found = true; });
     if (!found) return false;
+    h.removeAttribute('data-wb-want');
+    days.forEach(function(s){ s.removeAttribute('data-wb'); });
     tabs.forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-day') === day); });
     return true;
   }
@@ -10740,7 +10766,9 @@ WB_TABS_JS = """
      shown, its tab is on and the target is scrolled into view (on load and on hashchange). A hash
      that names nothing on the board falls through to the opening day: the day of the next game not
      yet played, which is today while today still has one, else the next such day; with none left,
-     today, else All. Nothing is hidden in the HTML, so without script the whole week shows. */
+     today, else All. Nothing is hidden in the HTML, so without script the whole week shows. S-5.7:
+     the build already wrote that opening day (data-wb), WB_PAINT_JS applied it before the first
+     paint, and this repeats the same answer through `hidden`, so it moves nothing. */
   function played(sec){ return !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
   function opening(){
     var bd = document.querySelector('.wb-board');
@@ -10819,6 +10847,18 @@ def board_games(sb):
     return games
 
 
+def _wb_open_day(by_day, today):
+    """The day the home opens on, the same rule WB_TABS_JS has always applied (Jack's ruling of
+    October 19, 2026, 2:54 PM): the first day, today or later, with a game not yet played; else
+    today's; else 'all'. A game is unplayed when its card is pre or in. S-5.7 decides it in the
+    build so the answer is in the HTML before the first paint, not found by script after it."""
+    for d in sorted(by_day):
+        if d >= today and any(
+                str(g.get("state") or "") in ("pre", "in") for _k, g in by_day[d]):
+            return d.strftime("%a").lower()
+    return today.strftime("%a").lower() if today in by_day else "all"
+
+
 def week_board(sb):
     """The week's NFL and FBS games in kickoff order on the Ticket cards, under a band with
     the day tabs and the Sunday windows. Every count is the manifest's. Returns
@@ -10849,6 +10889,7 @@ def week_board(sb):
                         desig=IA_DESIG, stream=_first_stream_chip(g, carriers, doc, today))
 
     sections = []
+    open_lab = _wb_open_day(by_day, today)
     for d in sorted(by_day):
         rows = by_day[d]
         lab = d.strftime("%a").lower()
@@ -10866,8 +10907,12 @@ def week_board(sb):
             inner.append('<div class="tk-g3">' + "".join(card(k, g) for k, g in rows) + '</div>')
         if hidden_by_day.get(d):
             inner.append(_home_more(hidden_by_day[d], "bd-src wb-more", d))
+        # S-5.7: the build writes the open day and the others into the HTML (data-wb), so the
+        # stylesheet can hide them before first paint once WB_PAINT_JS has marked the page as
+        # scripted. Nothing is `hidden` here: without script the whole week shows.
+        wb = "" if open_lab == "all" else f' data-wb="{"open" if lab == open_lab else "off"}"'
         sections.append(
-            f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}" data-date="{d.isoformat()}">'
+            f'<section class="bd-mod wb-day" id="day-{lab}" data-day="{lab}"{wb} data-date="{d.isoformat()}">'
             f'<div class="tk-lg"><span>{esc(d.strftime("%A, %b %-d"))}</span><i></i></div>'
             + "".join(inner) + '</section>')
     # tabs: day counts and the Sunday windows come from the manifest, not from the cards
@@ -10908,7 +10953,7 @@ def week_board(sb):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + WB_TABS_JS + TEAM_PIN_JS + LENS_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + WB_PAINT_JS + WB_TABS_JS + TEAM_PIN_JS + LENS_JS
     return band, ("".join(sections))
 
 

@@ -39,6 +39,7 @@ Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
 
 import datetime as _d
+import json
 import os
 import re
 import sys
@@ -479,6 +480,95 @@ def _week_home(events_by_league):
          sb._carriage.load, sb.BOARD_IDS, sb.CR_REPORTS, sb.EDITION_HREF) = was
 
 
+def _wed_home():
+    """The home for a mid-week fixture: Wednesday 21 October 2026, 9 AM ET, Tuesday's game played, so
+    one day stands before the opening day and is hidden."""
+    global _clock
+    was = _clock
+    _clock = lambda: _d.datetime(2026, 10, 21, 9, 0, tzinfo=__import__("zoneinfo").ZoneInfo("America/New_York"))
+    try:
+        sun = [_ev("s1", "20261025", "1300"), _ev("s2", "20261025", "1625"), _ev("s3", "20261025", "2020")]
+        return _week_home([("NFL", "football/nfl", [_ev("t0", "20261020", "2000", "post"),
+                                                    _ev("w1", "20261021", "2000"),
+                                                    _ev("f1", "20261023", "2000")] + sun
+                            + [_ev("m1", "20261026", "2015")]),
+                           ("CFB", PATH, [_ev("c1", "20261024", "1200")])])
+    finally:
+        _clock = was
+
+
+SHIFT_MAX = 0.005   # S-5.7: the home's layout shift, as the 0.00 the board names (two decimals)
+
+
+def shift_unit():
+    """S-5.7, the home's open day is decided before first paint. On a Wednesday fixture with Tuesday
+    played: the HTML says Wednesday is open and every other day is off (and carries no `hidden`);
+    the script that marks the page scripted sits after the tabs and before the first day; the
+    stylesheet hides the off days only under that mark. In a browser: at 390 and at 1440 the only day
+    showing at the first paint is Wednesday and the page shifts nothing; a #day-fri address shows
+    Friday at the first paint, still with no shift; with script off the whole week shows."""
+    import subprocess
+    import shutil
+    import tempfile
+    fails = []
+    html = _wed_home()
+    secs = dict(re.findall(r'<section class="bd-mod wb-day" id="day-(\w+)"[^>]*? data-wb="(\w+)"', html))
+    want = {"tue": "off", "wed": "open", "fri": "off", "sat": "off", "sun": "off", "mon": "off"}
+    if secs != want:
+        fails.append(f"shift: the shipped HTML marks the days {secs}, expected {want}")
+    if re.search(r'<section[^>]*class="bd-mod wb-day"[^>]*\bhidden\b', html):
+        fails.append("shift: a day section carries `hidden` in the HTML, so without script the week is not whole")
+    i_tabs, i_paint, i_day = html.find('class="tk-tabs wb-tabs"'), html.find("wb-js"), html.find('class="bd-mod wb-day"')
+    if not (0 < i_tabs < i_paint < i_day):
+        fails.append("shift: the script that marks the page scripted is not between the day tabs and the first day")
+    css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
+    if not re.search(r'html\.wb-js:not\(\[data-wb-want\]\) \.wb-day\[data-wb="off"\]\{display:none\s*!important', css):
+        fails.append("shift: the stylesheet does not hide the build's off days under html.wb-js")
+    node = shutil.which("node")
+    if not node or not os.environ.get("PLAYWRIGHT_NODE_MODULES"):
+        print("::warning::shift: node or PLAYWRIGHT_NODE_MODULES is missing; the browser half of the day-shift check did not run")
+        return fails
+    tmp = tempfile.mkdtemp(prefix="day-shift-")
+    try:
+        page = os.path.join(tmp, "wed.html")
+        open(page, "w", encoding="utf-8").write(html)
+
+        def read(env_extra):
+            r = subprocess.run([node, os.path.join(HERE, "scripts", "day-shift.mjs"), page,
+                                os.path.join(HERE, "site", "assets")], capture_output=True, text=True,
+                               timeout=120, env=dict(os.environ, **env_extra))
+            recs = []
+            for ln in r.stdout.splitlines():
+                try:
+                    recs.append(json.loads(ln))
+                except ValueError:
+                    pass
+            return recs, r
+        for name, env, first in (("no hash", {}, ["wed"]), ("#day-fri", {"DAY_HASH": "#day-fri"}, ["fri"]),
+                                 ("#win-1pm", {"DAY_HASH": "#win-1pm"}, ["sun"])):
+            recs, r = read(env)
+            if len(recs) != 2 or any("fail" in x for x in recs):
+                fails.append(f"shift: the browser read of {name} failed: {r.stdout[-200:]} {r.stderr[-200:]}")
+                continue
+            for x in recs:
+                tag = f"with {name} at {x['width']}"
+                if x["firstPaintDays"] != first or x["settledDays"] != first:
+                    fails.append(f"shift: {tag} the first paint shows {x['firstPaintDays']} and the page settles on {x['settledDays']}, expected {first}")
+                if x["cls"] >= SHIFT_MAX:
+                    fails.append(f"shift: {tag} the page shifts {x['cls']} (under {SHIFT_MAX} wanted): {x['shifts'][:2]}")
+        recs, r = read({"DAY_NOJS": "1"})
+        for x in recs:
+            if x.get("noScriptDays") != ["tue", "wed", "fri", "sat", "sun", "mon"]:
+                fails.append(f"shift: with script off at {x.get('width')} the page shows {x.get('noScriptDays')}, not the whole week")
+        if len(recs) != 2:
+            fails.append("shift: the script-off read did not run at both widths")
+    except Exception as e:
+        fails.append(f"shift: the browser check raised {type(e).__name__}: {e}")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    return fails
+
+
 def tabs_unit():
     """The day tabs, Jack's ruling of 19 October 2026, 2:54 PM. Static: no `hidden` is written into
     a day section (without script the whole week shows), and the script reads the address first.
@@ -639,7 +729,7 @@ def tree_unit():
 
 
 def fbs_canary(tree=None):
-    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + tabs_unit() + inert_unit() + tree_unit()
+    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + tabs_unit() + shift_unit() + inert_unit() + tree_unit()
     if tree:
         fails += tree_checks(tree)
     return fails
