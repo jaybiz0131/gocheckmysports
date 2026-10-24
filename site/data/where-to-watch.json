@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-23T00:05:47Z",
+ "fetched_at": "2026-10-24T00:00:33Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -27,11 +27,11 @@
      "id": "401873010",
      "venue_id": "3933",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "10/22 - 8:15 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "24",
+     "home_score": "30"
     },
     {
      "league": "NFL",
@@ -507,11 +507,11 @@
      "id": "401869845",
      "venue_id": "3792",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "10:14 - 2nd",
-     "away_score": "7",
-     "home_score": "3"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "31",
+     "home_score": "34"
     },
     {
      "league": "CFB",
@@ -533,11 +533,11 @@
      "id": "401871056",
      "venue_id": "4899",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "7:38 - 2nd",
-     "away_score": "14",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "34",
+     "home_score": "6"
     },
     {
      "league": "CFB",
@@ -559,11 +559,11 @@
      "id": "401862807",
      "venue_id": "3805",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "6:31 - 1st",
-     "away_score": "3",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "34",
+     "home_score": "41"
     },
     {
      "league": "CFB",
@@ -585,11 +585,11 @@
      "id": "401858271",
      "venue_id": "3923",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/23 - 7:00 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "9:06 - 2nd",
+     "away_score": "7",
+     "home_score": "10"
     },
     {
      "league": "CFB",
@@ -611,11 +611,11 @@
      "id": "401861965",
      "venue_id": "3892",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/23 - 7:00 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "7:34 - 2nd",
+     "away_score": "3",
+     "home_score": "7"
     },
     {
      "league": "CFB",
@@ -2341,7 +2341,13 @@
      "kickoff_et": "7:30 PM ET",
      "day_et": "Thu, Oct 29",
      "window": "Thursday night",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "ESPN",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401862812",
      "venue_id": "3825",
      "venue_indoor": false,
@@ -2361,7 +2367,13 @@
      "kickoff_et": "7:30 PM ET",
      "day_et": "Thu, Oct 29",
      "window": "Thursday night",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "ESPN2",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401869963",
      "venue_id": "3651",
      "venue_indoor": false,
