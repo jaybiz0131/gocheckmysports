@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T18:45:35Z",
- "last_poll": "2026-10-25T18:45:35Z",
+ "last_change": "2026-10-25T18:50:27Z",
+ "last_poll": "2026-10-25T18:50:43Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1407,6 +1407,15 @@
      "name": "Breece Hall",
      "pos": "RB",
      "status": "Out"
+    },
+    "4428617": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-10-25T18:45Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "T'Vondre Sweat",
+     "pos": "DT",
+     "status": "Questionable"
     }
    },
    "id": "20",
@@ -1570,7 +1579,7 @@
     "3918331": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-24T00:57Z",
+     "feed_date": "2026-10-25T18:42Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Andrew Wingard",
      "pos": "S",
@@ -1579,20 +1588,20 @@
     "4367199": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-24T01:43Z",
+     "feed_date": "2026-10-25T18:42Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jon Gaines II",
      "pos": "G",
      "status": "Out"
     },
     "4430841": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T18:50:27Z",
      "detail": "Back",
-     "feed_date": "2026-10-24T00:50Z",
+     "feed_date": "2026-10-25T18:44Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Carson Beck",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4569480": {
      "changed_at": null,
@@ -1603,28 +1612,37 @@
      "pos": "DE",
      "status": "Questionable"
     },
+    "4683506": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Albert Reese IV",
+     "pos": "OT",
+     "status": "Out"
+    },
     "4685503": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-23T23:19Z",
+     "feed_date": "2026-10-25T18:42Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Walter Nolen III",
      "pos": "DT",
      "status": "Out"
     },
     "4698113": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T18:50:27Z",
      "detail": "Knee",
-     "feed_date": "2026-10-24T00:55Z",
+     "feed_date": "2026-10-25T18:42Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Max Melton",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4870808": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-23T17:41Z",
+     "feed_date": "2026-10-25T18:42Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jeremiyah Love",
      "pos": "RB",
@@ -1633,6 +1651,24 @@
    },
    "id": "22",
    "players": {
+    "3918331": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Andrew Wingard",
+     "pos": "S",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4367199": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Jon Gaines II",
+     "pos": "G",
+     "reason": "Knee",
+     "via": "poll"
+    },
     "4430841": {
      "feed_date": "2026-10-24T00:50Z",
      "first_seen": "2026-10-25T18:45:27Z",
@@ -1640,6 +1676,42 @@
      "name": "Carson Beck",
      "pos": "QB",
      "reason": "Back",
+     "via": "poll"
+    },
+    "4683506": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Albert Reese IV",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685503": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Walter Nolen III",
+     "pos": "DT",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4698113": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Max Melton",
+     "pos": "CB",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4870808": {
+     "feed_date": "2026-10-25T18:42Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Jeremiyah Love",
+     "pos": "RB",
+     "reason": "Ankle",
      "via": "poll"
     }
    },
@@ -3182,10 +3254,28 @@
   "7": {
    "capped": true,
    "designations": {
+    "4241820": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4261090": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Jordan Jackson",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4360853": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-24T00:44Z",
+     "feed_date": "2026-10-25T18:44Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Talanoa Hufanga",
      "pos": "S",
@@ -3200,6 +3290,15 @@
      "pos": "CB",
      "status": "Out"
     },
+    "4683535": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4702555": {
      "changed_at": null,
      "detail": "Ankle",
@@ -3208,10 +3307,55 @@
      "name": "Jonah Coleman",
      "pos": "RB",
      "status": "Questionable"
+    },
+    "4868598": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5159802": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "name": "Dallen Bentley",
+     "pos": "TE",
+     "status": "Out"
     }
    },
    "id": "7",
    "players": {
+    "4241820": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4261090": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Jordan Jackson",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360853": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Talanoa Hufanga",
+     "pos": "S",
+     "reason": "Ankle",
+     "via": "poll"
+    },
     "4372012": {
      "feed_date": "2026-10-25T11:56Z",
      "first_seen": "2026-10-25T18:45:35Z",
@@ -3219,6 +3363,33 @@
      "name": "Pat Surtain II",
      "pos": "CB",
      "reason": "Ankle",
+     "via": "poll"
+    },
+    "4683535": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4868598": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5159802": {
+     "feed_date": "2026-10-25T18:44Z",
+     "first_seen": "2026-10-25T18:50:27Z",
+     "jersey": "",
+     "name": "Dallen Bentley",
+     "pos": "TE",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
