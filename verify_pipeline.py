@@ -1645,6 +1645,8 @@ def layer1_canary():
     fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
     import look_canary as _lkc
     fails.extend(_lkc.look_canary(_built_tree()))   # S-5.5: one look on every page a reader can reach
+    import plate_canary as _plc
+    fails.extend(_plc.plate_canary(_built_tree()))   # S-5.6: no plate label clipped at 390, 768 or 1440
     import build_cost_canary as _bcc
     fails.extend(_bcc.build_cost_canary(_built_tree()))   # S-5.4: the build's cost, scores paged by day, the heading clear
     import registry_canary as _rgc

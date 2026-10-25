@@ -2840,9 +2840,13 @@ a.gp-svc:hover{border-color:var(--ink)}
 .sbc-wx p.sbc-aw{margin:0;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;color:var(--sbc-cream)}
 .sbc-wx p.sbc-nc{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#D9D3B4}
+/* S-5.6: the week board's and the game page's one-line plate sizes its type to the plate (cqw is the width
+   of the .sbc-wx it fills) from the 18px it always was down to a 12px floor, then wraps and grows; a
+   label can never run past the edge. */
+.sbc-wx:has(>p.sbc-one){container-type:inline-size}
 .sbc-wx p.sbc-one{margin:0;text-align:center;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);
-  font-family:var(--sbc-display);font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:#B8B293}
+  font-family:var(--sbc-display);font-size:clamp(12px,6.5cqw,18px);font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:#B8B293;overflow-wrap:anywhere;text-wrap:balance}
 .sbc p.sbc-fact{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#D9D3B4}
 .sbc .tk-card-a:focus-visible{outline:2px solid #FFD23F}
 @media (max-width:360px){.sbc-team{font-size:17px}.sbc-big{font-size:26px}:root{--sbc-q:22px}}
@@ -2927,7 +2931,7 @@ section.sbc.sbg.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2
 .sbg-hp.sbg-g{box-shadow:0 0 0 1px rgba(255,210,63,.6)}
 .sbg-hp.on{color:var(--sbc-yellow)}
 .sbg-hp .sbc-miss{font-size:9px;line-height:1.6}
-.sbg .sbc-wx p.sbc-one{font-size:18px}
+.sbg .sbc-wx p.sbc-one{font-size:clamp(12px,6.5cqw,18px)}
 .sbg-under{display:flex;flex-direction:column;gap:12px;margin-top:14px}
 .sbg-btns{display:flex;gap:8px;flex-wrap:wrap}
 .sbg-btn{padding:12px 16px;border-radius:8px;background:var(--sbc-yellow);color:#07110C;
@@ -3058,7 +3062,13 @@ a.tms-row:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
 .tms-wxs .tms-pl i{display:block;font:700 10px/1.3 var(--mono);letter-spacing:.1em;color:#D9D3B4;font-style:normal}
 .tms-wxs .tms-pl.on{color:var(--sbc-yellow)}
 .tms-wxs .tms-pl.miss{font:500 11px/2.2 var(--mono);color:#D9D3B4}
-.tms-wxs .tms-one{flex-basis:100%;font-size:16px;letter-spacing:.12em;color:#B8B293}
+.tms-wxs{container-type:inline-size}
+/* S-5.6: a label plate never clips. Its type is sized to the plate it sits in (cqw is the width of
+   .tms-wxs, which this plate fills) down to a 12px floor, and below that the label wraps and
+   the plate grows; nothing is nowrap here, so no width can push a letter past the edge. At the
+   plate's widest the type is the 16px it always was. */
+.tms-wxs .tms-one{flex-basis:100%;font-size:clamp(12px,7.2cqw,16px);letter-spacing:.12em;color:#B8B293;
+  white-space:normal;overflow-wrap:anywhere;text-wrap:balance}
 .tms-bye .tms-opp{grid-column:3 / -1}
 .tms .tms-src{margin:2px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
 .tms .tms-none{margin:0;font-size:13px;color:#D9D3B4}
