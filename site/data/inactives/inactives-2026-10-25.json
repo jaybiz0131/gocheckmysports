@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T19:15:23Z",
- "last_poll": "2026-10-25T19:15:37Z",
+ "last_change": "2026-10-25T19:20:25Z",
+ "last_poll": "2026-10-25T19:20:40Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -195,7 +195,7 @@
     "3915398": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-25T18:48Z",
+     "feed_date": "2026-10-25T19:01Z",
      "first_seen": "2026-10-25T19:05:27Z",
      "name": "Tommy Townsend",
      "pos": "P",
@@ -701,23 +701,32 @@
   "14": {
    "capped": true,
    "designations": {
+    "3912189": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "name": "Bill Murray",
+     "pos": "G",
+     "status": "Out"
+    },
     "4243181": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-23T23:34Z",
+     "feed_date": "2026-10-25T19:05Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Nate Landman",
      "pos": "LB",
      "status": "Out"
     },
     "4426405": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T19:20:25Z",
      "detail": "Groin",
-     "feed_date": "2026-10-23T23:40Z",
+     "feed_date": "2026-10-25T19:05Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Trent McDuffie",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4426515": {
      "changed_at": null,
@@ -727,10 +736,46 @@
      "name": "Puka Nacua",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4575003": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "name": "Keagen Trost",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4833029": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "name": "Max Klare",
+     "pos": "TE",
+     "status": "Out"
     }
    },
    "id": "14",
    "players": {
+    "3912189": {
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "jersey": "",
+     "name": "Bill Murray",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4243181": {
      "feed_date": "2026-10-23T23:34Z",
      "first_seen": "2026-10-25T19:10:27Z",
@@ -740,12 +785,39 @@
      "reason": "Concussion",
      "via": "poll"
     },
+    "4426405": {
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "jersey": "",
+     "name": "Trent McDuffie",
+     "pos": "CB",
+     "reason": "Groin",
+     "via": "poll"
+    },
+    "4575003": {
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "jersey": "",
+     "name": "Keagen Trost",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4685522": {
      "feed_date": "2026-10-18T18:56Z",
      "first_seen": "2026-10-25T19:15:23Z",
      "jersey": "",
      "name": "Ty Simpson",
      "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4833029": {
+     "feed_date": "2026-10-25T19:05Z",
+     "first_seen": "2026-10-25T19:20:25Z",
+     "jersey": "",
+     "name": "Max Klare",
+     "pos": "TE",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -3789,7 +3861,7 @@
     "4819231": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-25T18:58Z",
+     "feed_date": "2026-10-25T19:10Z",
      "first_seen": "2026-10-25T19:05:27Z",
      "name": "Kaleb Johnson",
      "pos": "RB",
