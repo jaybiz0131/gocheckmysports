@@ -2777,7 +2777,7 @@ a.gp-svc:hover{border-color:var(--ink)}
    glow not counted (strip_canary). The artboard's off-bulb #8E8A6E is 3.58:1 on the panel;
    the labels take #A7A285 (4.86:1). */
 :root{--sbc-panel:#0E3B2A;--sbc-frame:#072619;--sbc-plate:#141A17;--sbc-cream:#F4F1E6;
-  --sbc-yellow:#FFD23F;--sbc-q:26px;--sbc-t:34px;
+  --sbc-yellow:#FFD23F;--sbc-dim:#D9D3B4;--sbc-faint:#B8B293;--sbc-q:26px;--sbc-t:34px;
   --sbc-display:'Oswald',Impact,'Arial Narrow',sans-serif}
 .tk-c.sbc{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;padding:12px;
   gap:10px;color:var(--sbc-cream);overflow:visible;
@@ -3087,3 +3087,215 @@ a.tms-last:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
 .wb-wl{scroll-margin-top:40px}
 /* S-5.4: Scores is paged by day; the day and part tabs sit under the league tabs. */
 .sc-days,.sc-parts{margin-top:10px}
+
+/* ============================================================================
+   S-5.5: ONE LOOK. Every page a reader can reach wears the S-2d scoreboard look (scorecard line
+   5, Jack's one-look correction of October 20, 2026). site_build.shell() puts body.sbp on every
+   page except the home, the game pages and the team pages, which were built in it.
+   The page's main is the board: the frame green is the ground, each section a panel in that
+   frame, every chip, tag and number a plate. Cream is the ink and the headline, yellow the label
+   and the action, Plex Mono the small label, Oswald the head. No new color: --sbc-dim and
+   --sbc-faint name the two S-2d secondary creams the cards already print (#D9D3B4 for the small
+   labels and the line, #B8B293 for the counts), so the board keeps the cards' three steps of
+   cream: headline, text, label. On the frame they are 10.7:1 and 7.6:1, on the panel 8.3:1 and
+   5.9:1, on a plate 11.7:1 and 8.3:1; yellow is 8.7:1 at worst.
+   Both themes get the same board: it is green in light and in dark; the ground around it follows
+   the theme. Oswald only on the h1, the eyebrow labels and the structural heads (days, windows,
+   divisions), all in capitals, which the pinned subset draws.
+   ========================================================================== */
+body.sbp main{
+  --paper:var(--sbc-frame);--card:var(--sbc-panel);--ink:var(--sbc-cream);--muted:var(--sbc-dim);
+  --faint:var(--sbc-faint);--line:rgba(244,241,230,.10);--rule:var(--sbc-yellow);--link:var(--sbc-yellow);
+  --link-hover:var(--sbc-cream);--verified-fg:var(--sbc-yellow);--verified-bg:var(--sbc-plate);
+  --review-fg:var(--sbc-cream);--review-bg:var(--sbc-plate);--tag-bg:var(--sbc-plate);
+  --tag-fg:var(--sbc-dim);--up:var(--sbc-cream);--down:var(--sbc-faint);--shadow:none;
+  background:var(--sbc-frame);color:var(--sbc-cream);border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  margin:16px auto 28px;padding:14px 14px 22px;width:calc(100% - 24px)}
+@media (min-width:760px){body.sbp main{padding:18px 20px 26px}}
+/* the ink is cream unless a component says otherwise: zero specificity, so every component rule
+   that names a token (muted, faint, label) keeps its step of the hierarchy */
+:where(body.sbp main) :where(h1,h2,h3,h4,p,li,td,th,dt,dd,small,label,summary,figcaption,blockquote,time,span,div){color:var(--ink)}
+:where(body.sbp main) :where(span,div,small){color:inherit}
+:where(body.sbp main.ed-sheet) :where(h1,h2,h3,h4,p,li,td,th,dt,dd,small,label,summary,figcaption,blockquote,time){color:inherit}
+
+/* links: yellow is the action and the inline link; a headline that is a link stays cream and
+   takes the yellow on hover, so a list of stories reads as cream heads, not a wall of yellow */
+body.sbp main a{color:var(--sbc-yellow)}
+body.sbp main a:hover{color:var(--sbc-cream)}
+body.sbp main :is(h2,h3,h4) a,body.sbp main :is(.nh-t,.nh-mo,.fp-name,.st-team a,.wr-x,.bd-card){color:var(--sbc-cream)}
+body.sbp main :is(h2,h3,h4) a:hover,body.sbp main :is(.nh-t,.nh-mo,.wr-x,.st-team a):hover{color:var(--sbc-yellow);text-decoration:none}
+body.sbp main :is(.prose,.callout,.page > p,.page > ul,.sources,.related,.also-reported) a{text-decoration:underline;
+  text-decoration-color:rgba(255,210,63,.5);text-underline-offset:3px}
+
+/* heads */
+body.sbp main h1{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.03em;line-height:1.1;color:var(--sbc-cream)}
+body.sbp main h1.sbp-serif{font-family:var(--serif);text-transform:none;letter-spacing:-.01em}
+body.sbp main :is(.kicker,.bd-eyebrow,.ed-kicker){font-family:var(--sbc-display);font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--sbc-yellow)}
+body.sbp main .bd-eyebrow{color:var(--sbc-yellow) !important}
+body.sbp main .sec-head h2{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--sbc-cream);white-space:normal}
+body.sbp main .sec-head .bar{background:none;border-top:1px dashed rgba(255,210,63,.35)}
+body.sbp main :is(.w2w-dh,.st-h,.bd-h2,.wr-d){font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.03em;color:var(--sbc-cream);line-height:1.15}
+body.sbp main :is(.w2w-dh,.wr-d){font-size:24px;margin:0 0 6px}
+body.sbp main .wr-d{margin:24px 0 8px}
+body.sbp main .st-h{font-size:19px;margin:0 0 8px}
+body.sbp main :is(.w2w-wl,.tk-lg span){font-family:var(--mono);color:var(--sbc-yellow)}
+body.sbp main .w2w-wl{border-bottom:1px solid rgba(255,210,63,.28);padding-bottom:6px}
+
+/* the small labels: Plex Mono, the label cream; stamps and sources one step down */
+body.sbp main :is(.bd-src,.bd-stamp,.dateline,.byline,.tk-lg-n,.nh-m,.wr-n,.mut,.src,.fx-asof,.lx-dek){color:var(--sbc-dim)}
+body.sbp main :is(.bd-stamp,.dateline,.byline){font-family:var(--mono);letter-spacing:.04em}
+body.sbp main :is(.nh-chip-n,.w2w-verify,.tk-lg-n){opacity:1;color:var(--sbc-faint)}
+body.sbp main .w2w-ko{color:var(--sbc-yellow);font-family:var(--mono);font-weight:700}
+
+/* sections are panels in the frame, as the wall's day boards are */
+body.sbp main :is(.card,.bd-card){background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+body.sbp main :is(.w2w-day,.wr-page ol.wr-l,.page > .bd-mod,.st-wrap,.keyfact,.bottomline,.sources,.related,.callout){
+  background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+body.sbp main :is(.w2w-day,.page > .bd-mod){padding:16px 16px 10px;margin:0 0 14px}
+body.sbp main .wr-page ol.wr-l{padding:6px 14px}
+body.sbp main :is(.keyfact,.bottomline){border-left:4px solid var(--sbc-yellow)}
+
+/* plates: every tag, badge, chip and control is a dark number plate with the inset shadow */
+body.sbp main :is(.tag,.badge,.chip,.bd-chip,.nh-chip,.st-nav-a,.fmt-btn,.lens-b,.w2w-str-c,.share-btn,.tk-chip,input,button,select,textarea){
+  background:var(--sbc-plate);color:var(--sbc-cream);border:0;border-radius:3px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
+body.sbp main :is(.tag,.badge){font:700 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--sbc-dim);padding:4px 7px}
+body.sbp main .badge.verified{color:var(--sbc-yellow)}
+body.sbp main :is(.chip,.nh-chip,.st-nav-a,.fmt-btn,.lens-b,.share-btn){font:700 11.5px/1.2 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;min-height:36px;padding:0 12px;
+  display:inline-flex;align-items:center;gap:7px}
+body.sbp main :is(.chip,.nh-chip,.st-nav-a,.fmt-btn,.lens-b,.share-btn):hover{color:var(--sbc-yellow);text-decoration:none;background:var(--sbc-plate)}
+body.sbp main :is(.on,[aria-current],[aria-pressed="true"]):is(.chip,.nh-chip,.st-nav-a,.fmt-btn,.lens-b){
+  color:var(--sbc-yellow);box-shadow:inset 0 2px 4px rgba(0,0,0,.7),0 0 0 1px rgba(255,210,63,.55),0 0 14px rgba(255,210,63,.25)}
+body.sbp main .w2w-str-c{color:var(--sbc-cream);font:600 12px/1.3 var(--sans);padding:3px 8px}
+body.sbp main .w2w-str-c:hover{color:var(--sbc-yellow)}
+body.sbp main .w2w-str-c.w2w-verify{font:700 10.5px/1.3 var(--mono);color:var(--sbc-faint);letter-spacing:.06em;text-transform:uppercase}
+body.sbp main :is(input,select,textarea)::placeholder{color:var(--sbc-faint)}
+body.sbp main :is(input,select,textarea):focus-visible,body.sbp main :is(a,button):focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:2px}
+
+/* tables and rows: the board's density, numbers in figures that line up, the rows ruled in the
+   frame green so the panel reads as one plate of data */
+body.sbp main table{border-color:var(--sbc-frame)}
+body.sbp main :is(th,td){border-color:rgba(7,38,25,.9)}
+body.sbp main hr{border-color:rgba(244,241,230,.12)}
+body.sbp main .st-t{font-variant-numeric:tabular-nums}
+body.sbp main .st-t th{color:var(--sbc-dim);padding:8px 6px}
+body.sbp main .st-t td{padding:6px;border-bottom:1px solid var(--sbc-frame)}
+body.sbp main .st-wrap{padding:4px 6px}
+body.sbp main .st-abbr{color:var(--sbc-faint)}
+body.sbp main .st-pos{color:var(--sbc-faint)}
+/* at phone width the table fits its panel instead of scrolling out of it: the team's name
+   carries the row (it wraps), the abbreviation steps aside, the figures keep their columns */
+@media (max-width:560px){
+  body.sbp main .st-t{font-size:12.5px}
+  body.sbp main .st-t :is(th,td){padding-left:4px;padding-right:4px}
+  body.sbp main .st-t td.st-team{white-space:normal;line-height:1.25}
+  body.sbp main .st-t .st-abbr{display:none}
+  body.sbp main .st-wrap{padding:2px}
+}
+body.sbp main :is(.w2w-row,.nh-row,.fp-row,.wr-r){border-bottom:1px solid var(--sbc-frame)}
+body.sbp main .w2w-row{padding:6px 0;align-items:center}
+body.sbp main .w2w-row:last-child{border-bottom:0}
+
+/* the article reads long: the headline cream, the standfirst cream, the body one step softer so
+   the page does not glare, the labels yellow, the meta in mono */
+body.sbp main :is(.prose,.page > ul,.page > ol) :is(p,li),body.sbp main .page > p:not(.lede):not(.kicker){color:var(--sbc-dim)}
+body.sbp main :is(.dek,.lede){color:var(--sbc-cream)}
+body.sbp main .prose :is(h2,h3,strong,b){color:var(--sbc-cream)}
+body.sbp main :is(.keyfact,.bottomline) :is(p,div){color:var(--sbc-cream)}
+body.sbp main :is(.keyfact,.bottomline,.sources,.related,.callout){padding:14px 16px}
+body.sbp main :is(.lab,.share-lab,.sig-cap){color:var(--sbc-yellow)}
+
+/* /scores: the photo band becomes the board's head plate. The look is the board and nothing
+   beside it, and a stadium photograph is the one picture that can carry a ballpark's marks;
+   the head plate carries the same h1, counts, stamp and tabs. The kickoff-window ornament is
+   already off below 720px and says nothing the cards do not. */
+body.sbp .sb-hero{background:none;padding-bottom:0;overflow:visible;isolation:auto}
+body.sbp .sb-hero :is(.sb-bg,.sb-scrim,.sb-orn){display:none}
+body.sbp .sb-hero + .sb-fade{display:none}
+body.sbp .sb-hero .sb-inner{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);width:calc(100% - 24px);margin:16px auto 0;
+  padding:4px 14px 16px;gap:12px}
+@media (min-width:760px){body.sbp .sb-hero .sb-inner{padding:6px 20px 18px}}
+body.sbp .sb-hero-inner .sb-promise{padding:12px 0 2px}
+body.sbp .sb-hero .sb-claim{font:600 34px/1.05 var(--sbc-display);text-transform:uppercase;letter-spacing:.03em;color:var(--sbc-cream)}
+body.sbp .sb-hero :is(.sb-count,.sb-stamp){color:var(--sbc-dim);font-family:var(--mono)}
+body.sbp .sb-hero .sb-count{color:var(--sbc-yellow);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px}
+body.sbp .sb-hero .tk-tabs{gap:6px;flex-wrap:wrap}
+body.sbp .sb-hero .tk-tab{background:var(--sbc-plate);color:var(--sbc-cream);border:0;border-radius:4px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7);font:600 14px/1.15 var(--sbc-display);text-transform:uppercase;
+  letter-spacing:.03em;padding:6px 9px 5px;min-height:36px}
+body.sbp .sb-hero .tk-tab small{font:500 10px/1.2 var(--mono);color:var(--sbc-faint);opacity:1;letter-spacing:0}
+body.sbp .sb-hero .tk-tab.on{background:var(--sbc-plate);color:var(--sbc-yellow);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7),0 0 0 1px rgba(255,210,63,.55),0 0 14px rgba(255,210,63,.3)}
+body.sbp .sb-hero .tk-tab:hover{color:var(--sbc-yellow);text-decoration:none}
+body.sbp .sb-hero .wk-link{color:var(--sbc-yellow);font:700 11.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+body.sbp .sb-hero .lens-k{color:var(--sbc-yellow)}
+body.sbp .sb-hero .lens-b{background:var(--sbc-plate);color:var(--sbc-cream);border:0;border-radius:3px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7);font:700 11.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+body.sbp .sb-hero .lens-b.on{color:var(--sbc-yellow);box-shadow:inset 0 2px 4px rgba(0,0,0,.7),0 0 0 1px rgba(255,210,63,.55)}
+body.sbp .sb-hero .mine{border-color:rgba(244,241,230,.12)}
+body.sbp .sb-hero .mine-n{color:var(--sbc-dim)}
+
+/* /scores' ticket cards take the board: a panel in its frame, the matchup on plates in cream
+   Oswald, team colors on the discs (colors, never logos), the kickoff line yellow, nothing cut */
+body.sbp main .tk-c{background:var(--sbc-panel);border:4px solid var(--sbc-frame);border-radius:12px;overflow:visible;
+  color:var(--sbc-cream);-webkit-backdrop-filter:none;backdrop-filter:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 34px -18px rgba(0,0,0,.9)}
+body.sbp main .tk-c.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2px rgba(255,210,63,.55),0 0 26px rgba(255,210,63,.25)}
+body.sbp main .tk-c::before,body.sbp main .tk-stub::before,body.sbp main .tk-stub::after,
+body.sbp main .tk-perf::before,body.sbp main .tk-perf::after{content:none}
+body.sbp main .tk-stub{background:none;border-radius:8px 8px 0 0;padding:14px 12px 12px}
+body.sbp main .tk-k{color:var(--sbc-yellow)}
+body.sbp main .tk-chip{font:700 11px/1.2 var(--mono);letter-spacing:.08em;color:var(--sbc-cream);padding:3px 7px}
+body.sbp main .tk-chip-score{background:var(--sbc-plate);border:0;border-radius:3px;-webkit-backdrop-filter:none;backdrop-filter:none;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.7);padding:6px 10px;width:100%;justify-content:flex-start;gap:8px}
+body.sbp main .tk-chip-score.lead{padding-left:14px}
+body.sbp main .tk-num-chips{align-items:stretch;width:100%}
+body.sbp main .tk-num{letter-spacing:.02em;font-size:20px !important;line-height:1.15}
+/* Oswald is pinned to capitals: the score chips print capitals (.tk-nm is uppercased); the pre-game
+   matchup line holds mixed-case names, "at" and accented letters, so it stays in the page face
+   it had, and so does the possession dot, which Oswald has no glyph for */
+body.sbp main .tk-num-chips{font-family:var(--sbc-display)}
+body.sbp main .tk-poss{font-family:var(--serif)}
+body.sbp main .tk-chip-score [data-side]{display:flex;flex:1 1 auto;min-width:0;justify-content:space-between;gap:10px;text-align:left}
+body.sbp main .tk-nm{font-family:var(--sbc-display);font-weight:600;text-transform:uppercase;letter-spacing:.03em;
+  font-size:18px;line-height:1.15;color:inherit;overflow-wrap:anywhere;min-width:0}
+body.sbp main .tk-sc{font-family:var(--sbc-display);font-weight:600;font-size:22px;color:inherit;flex:none}
+body.sbp main .tk-trec{color:var(--sbc-faint);font-size:11px;flex:none}
+body.sbp main :is(.tk-rec,.tk-when){color:var(--sbc-dim)}
+/* the team's color is the disc's ring and the letters sit on a plate, so every abbreviation is
+   cream on the plate (15.6:1) whatever the team's color: a color, never a logo */
+body.sbp main .tk-disc{background:var(--sbc-plate);color:var(--sbc-cream);text-shadow:none;
+  box-shadow:inset 0 0 0 3px var(--d),inset 0 0 0 4px rgba(0,0,0,.5)}
+body.sbp main .tk-line-src{color:var(--sbc-dim)}
+body.sbp main .tk-perf{border-top:2px dashed rgba(244,241,230,.16);margin:2px 0 0}
+body.sbp main .tk-body{padding:12px}
+body.sbp main .tk-ls .ls{font-family:var(--mono);font-variant-numeric:tabular-nums}
+body.sbp main .tk-ls .ls :is(th,td){color:var(--sbc-cream);border-color:var(--sbc-frame)}
+body.sbp main .tk-ls .ls thead th{color:var(--sbc-dim)}
+body.sbp main .tk-ls .ls .ls-t{color:var(--sbc-yellow)}
+body.sbp main .tk-ls .ls tbody .ls-t{color:var(--sbc-cream)}
+body.sbp main .tk-l3 div{background:var(--sbc-plate);border-radius:3px;box-shadow:inset 0 2px 4px rgba(0,0,0,.7);color:var(--sbc-dim)}
+body.sbp main .tk-l3 b{color:var(--sbc-cream)}
+body.sbp main .tk-btn{color:var(--sbc-yellow);font:700 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+body.sbp main .tk-btn:hover{color:var(--sbc-cream)}
+/* the unusual-window flag on /fantasy is a plate on the board, in tokens */
+body.sbp main .fw-odd{background:var(--sbc-plate);color:var(--sbc-yellow);box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
+body.sbp main .scoreband-page .tk-lg{background:linear-gradient(180deg,var(--sbc-frame) 70%,transparent)}
+body.sbp main .scoreband-page .tk-lg i{background:rgba(255,210,63,.28)}
+
+/* the Edition's mode switch keeps its own quiet type, the pressed mode underlined in the accent */
+body.sbp main .ed-topbar button{background:none;box-shadow:none;border-radius:0;color:var(--ink-faint)}
+body.sbp main .ed-topbar button[aria-pressed="true"]{color:var(--ink)}
+
+@media print{body.sbp main{background:none;color:var(--sbc-frame)}
+  body.sbp main :is(h1,h2,h3,p,li,td,th,a){color:var(--sbc-frame)}}
