@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T00:00:29Z",
- "last_poll": "2026-10-25T00:01:48Z",
+ "last_change": "2026-10-25T15:00:29Z",
+ "last_poll": "2026-10-25T15:00:59Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -11,7 +11,7 @@
     "3043168": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-10-23T23:21Z",
+     "feed_date": "2026-10-25T14:02Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Za'Darius Smith",
      "pos": "DE",
@@ -29,7 +29,7 @@
     "3917914": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-10-23T22:59Z",
+     "feed_date": "2026-10-25T14:07Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Olamide Zaccheaus",
      "pos": "WR",
@@ -65,7 +65,7 @@
     "4429014": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-22T21:41Z",
+     "feed_date": "2026-10-25T14:04Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Gervon Dexter Sr.",
      "pos": "DT",
@@ -233,7 +233,7 @@
     "4043041": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-23T19:32Z",
+     "feed_date": "2026-10-25T14:24Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jaylon Moore",
      "pos": "OT",
@@ -271,7 +271,7 @@
     "4686658": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-10-23T19:20Z",
+     "feed_date": "2026-10-25T11:49Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Mike Washington Jr.",
      "pos": "RB",
@@ -309,7 +309,7 @@
     "4426515": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-23T18:25Z",
+     "feed_date": "2026-10-25T12:03Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Puka Nacua",
      "pos": "WR",
@@ -495,26 +495,144 @@
    "capped": true,
    "designations": {
     "4076951": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:00:29Z",
      "detail": "Illness",
-     "feed_date": "2026-10-23T22:00Z",
+     "feed_date": "2026-10-25T12:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Nathan Shepherd",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4248047": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "John Ridgeway III",
+     "pos": "DT",
+     "status": "Out"
     },
     "4258199": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:00:29Z",
      "detail": "Knee",
-     "feed_date": "2026-10-24T01:29Z",
+     "feed_date": "2026-10-25T12:23Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Cesar Ruiz",
      "pos": "G",
+     "status": "Out"
+    },
+    "4361259": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4372533": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Tyree Wilson",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4430684": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:35Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Treyton Welch",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4775268": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Mike Reid",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "5081999": {
+     "changed_at": null,
+     "detail": "Shoulder",
+     "feed_date": "2026-10-25T14:09Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "CJ Donaldson",
+     "pos": "RB",
      "status": "Questionable"
     }
    },
    "id": "18",
-   "players": {},
+   "players": {
+    "4076951": {
+     "feed_date": "2026-10-25T12:31Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Nathan Shepherd",
+     "pos": "DT",
+     "reason": "Illness",
+     "via": "poll"
+    },
+    "4248047": {
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "John Ridgeway III",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4258199": {
+     "feed_date": "2026-10-25T12:23Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Cesar Ruiz",
+     "pos": "G",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4361259": {
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4372533": {
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Tyree Wilson",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4430684": {
+     "feed_date": "2026-10-25T12:35Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Treyton Welch",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4775268": {
+     "feed_date": "2026-10-25T12:04Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Mike Reid",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -526,7 +644,7 @@
     "3115303": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-24T23:00Z",
+     "feed_date": "2026-10-25T14:06Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
@@ -665,7 +783,7 @@
     "4427366": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-23T15:05Z",
+     "feed_date": "2026-10-25T11:43Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Breece Hall",
      "pos": "RB",
@@ -759,7 +877,7 @@
     "3127287": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-24T00:52Z",
+     "feed_date": "2026-10-25T14:16Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Budda Baker",
      "pos": "S",
@@ -851,7 +969,7 @@
     "4035656": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-22T21:48Z",
+     "feed_date": "2026-10-25T12:15Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Ben Skowronek",
      "pos": "WR",
@@ -866,18 +984,109 @@
      "pos": "RB",
      "status": "Questionable"
     },
+    "4360935": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Terell Smith",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4429955": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Will Howard",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4567979": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-23T01:28Z",
+     "feed_date": "2026-10-25T12:15Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Brandin Echols",
      "pos": "CB",
      "status": "Out"
+    },
+    "4714771": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Drew Allar",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "5081508": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "name": "Eli Heidenreich",
+     "pos": "RB",
+     "status": "Out"
     }
    },
    "id": "23",
-   "players": {},
+   "players": {
+    "4035656": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Ben Skowronek",
+     "pos": "WR",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4360935": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Terell Smith",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429955": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Will Howard",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4567979": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Brandin Echols",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4714771": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Drew Allar",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5081508": {
+     "feed_date": "2026-10-25T12:15Z",
+     "first_seen": "2026-10-25T15:00:29Z",
+     "jersey": "",
+     "name": "Eli Heidenreich",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1073,7 +1282,7 @@
     "3120358": {
      "changed_at": null,
      "detail": "Hip",
-     "feed_date": "2026-10-22T23:22Z",
+     "feed_date": "2026-10-25T14:20Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Uchenna Nwosu",
      "pos": "LB",
@@ -1127,7 +1336,7 @@
     "4869523": {
      "changed_at": null,
      "detail": "Hip",
-     "feed_date": "2026-10-24T00:55Z",
+     "feed_date": "2026-10-25T14:21Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Nick Emmanwori",
      "pos": "S",
@@ -1473,7 +1682,7 @@
     "3916387": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-24T19:35Z",
+     "feed_date": "2026-10-25T12:53Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Lamar Jackson",
      "pos": "QB",
@@ -1606,7 +1815,7 @@
     "4685554": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-24T20:36Z",
+     "feed_date": "2026-10-25T00:36Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Drew Shelton",
      "pos": "OT",
@@ -1635,7 +1844,7 @@
     "4372012": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-22T23:47Z",
+     "feed_date": "2026-10-25T11:56Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Pat Surtain II",
      "pos": "CB",
