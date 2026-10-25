@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T15:40:24Z",
- "last_poll": "2026-10-25T15:40:32Z",
+ "last_change": "2026-10-25T15:45:28Z",
+ "last_poll": "2026-10-25T15:45:34Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -100,7 +100,35 @@
     }
    },
    "id": "1",
-   "players": {},
+   "players": {
+    "14012": {
+     "feed_date": "2026-10-21T23:13Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Andy Dalton",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4037626": {
+     "feed_date": "2026-10-23T23:08Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Divine Deablo",
+     "pos": "LB",
+     "reason": "Forearm",
+     "via": "poll"
+    },
+    "5344782": {
+     "feed_date": "2026-10-19T16:20Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -110,13 +138,22 @@
    "capped": true,
    "designations": {
     "3925357": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Hip",
-     "feed_date": "2026-10-23T16:20Z",
+     "feed_date": "2026-10-25T15:32Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Calvin Ridley",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4039160": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Kylen Granson",
+     "pos": "TE",
+     "status": "Out"
     },
     "4240532": {
      "changed_at": null,
@@ -127,14 +164,41 @@
      "pos": "S",
      "status": "Questionable"
     },
-    "4428557": {
+    "4426987": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4428557": {
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Knee",
-     "feed_date": "2026-10-23T21:31Z",
+     "feed_date": "2026-10-25T15:32Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Tyjae Spears",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4685145": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jaylon Jones",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4685555": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "status": "Out"
     },
     "4685617": {
      "changed_at": null,
@@ -144,10 +208,46 @@
      "name": "Kevin Winston Jr.",
      "pos": "S",
      "status": "Questionable"
+    },
+    "5081785": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jackie Marshall",
+     "pos": "DT",
+     "status": "Out"
     }
    },
    "id": "10",
    "players": {
+    "3925357": {
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Calvin Ridley",
+     "pos": "WR",
+     "reason": "Hip",
+     "via": "poll"
+    },
+    "4039160": {
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Kylen Granson",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4426987": {
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4428557": {
      "feed_date": "2026-10-23T21:31Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -155,6 +255,24 @@
      "name": "Tyjae Spears",
      "pos": "RB",
      "reason": "Knee",
+     "via": "poll"
+    },
+    "4685145": {
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jaylon Jones",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685555": {
+     "feed_date": "2026-10-25T15:32Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "reason": "Coach's Decision",
      "via": "poll"
     },
     "5081785": {
@@ -204,7 +322,7 @@
     },
     "4682909": {
      "changed_at": null,
-     "detail": "Knee",
+     "detail": "",
      "feed_date": "2026-10-21T19:57Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Justin Walley",
@@ -232,6 +350,15 @@
    },
    "id": "11",
    "players": {
+    "4370363": {
+     "feed_date": "2026-10-19T16:41Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Dalton Tucker",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4427250": {
      "feed_date": "2026-10-23T19:21Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -239,6 +366,33 @@
      "name": "Sauce Gardner",
      "pos": "CB",
      "reason": "Calf",
+     "via": "poll"
+    },
+    "4431459": {
+     "feed_date": "2026-10-23T16:52Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Tyler Warren",
+     "pos": "TE",
+     "reason": "Groin",
+     "via": "poll"
+    },
+    "4683423": {
+     "feed_date": "2026-10-19T16:41Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Riley Leonard",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5088571": {
+     "feed_date": "2026-10-23T19:23Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Bryce Boettcher",
+     "pos": "LB",
+     "reason": "Groin",
      "via": "poll"
     }
    },
@@ -355,36 +509,81 @@
   "15": {
    "capped": true,
    "designations": {
-    "4259558": {
+    "4249417": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jalen Tolbert",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4259558": {
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-23T20:18Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Robert Beal Jr.",
      "pos": "DE",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "4259804": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Illness",
-     "feed_date": "2026-10-22T20:18Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Willie Gay Jr.",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4371946": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-10-24T02:00Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Reese Taylor",
      "pos": "CB",
+     "status": "Out"
+    },
+    "4875079": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Marcellas Dial Jr.",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "5081977": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "DJ Campbell",
+     "pos": "G",
+     "status": "Out"
+    },
+    "5144457": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Chukwuebuka Godrick",
+     "pos": "OT",
      "status": "Out"
     }
    },
    "id": "15",
    "players": {
+    "4249417": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jalen Tolbert",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4259558": {
      "feed_date": "2026-10-23T20:18Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -411,6 +610,33 @@
      "pos": "CB",
      "reason": "Quadriceps",
      "via": "poll"
+    },
+    "4875079": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Marcellas Dial Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5081977": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "DJ Campbell",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5144457": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Chukwuebuka Godrick",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
     }
    },
    "reconciled_added": 0,
@@ -420,9 +646,119 @@
   },
   "16": {
    "capped": true,
-   "designations": {},
+   "designations": {
+    "4573398": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:38Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4592836": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Caleb Tiernan",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4696782": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Elijah Williams",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4710865": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jakobe Thomas",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4832846": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:37Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Demond Claiborne",
+     "pos": "RB",
+     "status": "Out"
+    },
+    "5091793": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Charles Demmings",
+     "pos": "CB",
+     "status": "Out"
+    }
+   },
    "id": "16",
-   "players": {},
+   "players": {
+    "4573398": {
+     "feed_date": "2026-10-25T15:38Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4592836": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Caleb Tiernan",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4696782": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Elijah Williams",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4710865": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jakobe Thomas",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4832846": {
+     "feed_date": "2026-10-25T15:37Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Demond Claiborne",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5091793": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Charles Demmings",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -554,7 +890,7 @@
     "3931399": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-25T15:26Z",
+     "feed_date": "2026-10-25T15:28Z",
      "first_seen": "2026-10-25T15:35:27Z",
      "name": "Justin Reid",
      "pos": "S",
@@ -710,11 +1046,20 @@
     "3115303": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-25T15:29Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jermaine Eluemunor",
      "pos": "OT",
      "status": "Questionable"
+    },
+    "4039243": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Josh Sills",
+     "pos": "G",
+     "status": "Out"
     },
     "4242547": {
      "changed_at": null,
@@ -725,10 +1070,19 @@
      "pos": "CB",
      "status": "Questionable"
     },
+    "4243322": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jake Haener",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4361266": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-24T00:25Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Greg Newsome II",
      "pos": "CB",
@@ -754,7 +1108,7 @@
     },
     "4430261": {
      "changed_at": null,
-     "detail": "Neck",
+     "detail": "",
      "feed_date": "2026-10-20T16:10Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Tyler Nubin",
@@ -762,17 +1116,53 @@
      "status": "Questionable"
     },
     "4686362": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Knee",
-     "feed_date": "2026-10-21T20:15Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Marcus Mbow",
      "pos": "OT",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4691043": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Nikko Reed",
+     "pos": "CB",
+     "status": "Out"
     }
    },
    "id": "19",
    "players": {
+    "4039243": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Josh Sills",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4243322": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jake Haener",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4361266": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Greg Newsome II",
+     "pos": "CB",
+     "reason": "Concussion",
+     "via": "poll"
+    },
     "4373809": {
      "feed_date": "2026-10-24T17:31Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -782,6 +1172,15 @@
      "reason": "Concussion",
      "via": "poll"
     },
+    "4429148": {
+     "feed_date": "2026-10-24T17:37Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Theo Johnson",
+     "pos": "TE",
+     "reason": "Neck",
+     "via": "poll"
+    },
     "4686362": {
      "feed_date": "2026-10-21T20:15Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -789,6 +1188,15 @@
      "name": "Marcus Mbow",
      "pos": "OT",
      "reason": "Knee",
+     "via": "poll"
+    },
+    "4691043": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Nikko Reed",
+     "pos": "CB",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -830,27 +1238,36 @@
    "capped": true,
    "designations": {
     "4035537": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Knee",
-     "feed_date": "2026-10-23T23:56Z",
+     "feed_date": "2026-10-25T15:33Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Kene Nwangwu",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4039485": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:33Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jack Heflin",
+     "pos": "DT",
+     "status": "Out"
     },
     "4243375": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Knee",
-     "feed_date": "2026-10-22T01:11Z",
+     "feed_date": "2026-10-25T15:33Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Dylan Parham",
      "pos": "G",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4362094": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-23T22:04Z",
+     "feed_date": "2026-10-25T15:33Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Joseph Ossai",
      "pos": "DE",
@@ -859,20 +1276,29 @@
     "4373656": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-24T01:28Z",
+     "feed_date": "2026-10-25T15:33Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Max Mitchell",
      "pos": "OT",
      "status": "Out"
     },
-    "4427366": {
+    "4426817": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:33Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Jarvis Brownlee Jr.",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4427366": {
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-10-25T11:43Z",
+     "feed_date": "2026-10-25T15:37Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Breece Hall",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
     }
    },
    "id": "20",
@@ -895,6 +1321,15 @@
      "reason": "Coach's Decision",
      "via": "poll"
     },
+    "4243375": {
+     "feed_date": "2026-10-25T15:33Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Dylan Parham",
+     "pos": "G",
+     "reason": "Knee",
+     "via": "poll"
+    },
     "4362094": {
      "feed_date": "2026-10-23T22:04Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -911,6 +1346,24 @@
      "name": "Max Mitchell",
      "pos": "OT",
      "reason": "Concussion",
+     "via": "poll"
+    },
+    "4426817": {
+     "feed_date": "2026-10-25T15:33Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jarvis Brownlee Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4427366": {
+     "feed_date": "2026-10-25T15:37Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Breece Hall",
+     "pos": "RB",
+     "reason": "Quadriceps",
      "via": "poll"
     }
    },
@@ -1487,7 +1940,7 @@
     "4034790": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-10-23T22:34Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Antoine Winfield Jr.",
      "pos": "S",
@@ -1496,19 +1949,46 @@
     "4380507": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-24T01:40Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Luke Goedeke",
      "pos": "OT",
      "status": "Out"
     },
+    "4429007": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "DeMonte Capehart",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4567750": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-23T16:56Z",
+     "feed_date": "2026-10-25T15:34Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Emeka Egbuka",
      "pos": "WR",
+     "status": "Out"
+    },
+    "4685549": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Billy Schrauth",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4890885": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Ayden Garnes",
+     "pos": "CB",
      "status": "Out"
     }
    },
@@ -1521,6 +2001,51 @@
      "name": "Antoine Winfield Jr.",
      "pos": "S",
      "reason": "Ribs",
+     "via": "poll"
+    },
+    "4380507": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Luke Goedeke",
+     "pos": "OT",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4429007": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "DeMonte Capehart",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4567750": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Emeka Egbuka",
+     "pos": "WR",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4685549": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Billy Schrauth",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4890885": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Ayden Garnes",
+     "pos": "CB",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1600,6 +2125,15 @@
    },
    "id": "29",
    "players": {
+    "4239934": {
+     "feed_date": "2026-10-21T23:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "AJ Dillon",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4428993": {
      "feed_date": "2026-10-19T16:27Z",
      "first_seen": "2026-10-25T15:40:24Z",
@@ -1831,21 +2365,39 @@
      "status": "Out"
     },
     "3915837": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-23T23:51Z",
+     "feed_date": "2026-10-25T15:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Broderick Washington Jr.",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "3916387": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-25T15:31Z",
+     "feed_date": "2026-10-25T12:53Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Lamar Jackson",
      "pos": "QB",
+     "status": "Out"
+    },
+    "4243220": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Andrew Vorhees",
+     "pos": "G",
+     "status": "Out"
+    },
+    "5088338": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Elijah Sarratt",
+     "pos": "WR",
      "status": "Out"
     }
    },
@@ -1858,6 +2410,15 @@
      "name": "Jaylinn Hawkins",
      "pos": "S",
      "reason": "Knee",
+     "via": "poll"
+    },
+    "3915837": {
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Broderick Washington Jr.",
+     "pos": "DT",
+     "reason": "Ankle",
      "via": "poll"
     },
     "3916387": {
@@ -1899,7 +2460,7 @@
     "4035538": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-23T20:32Z",
+     "feed_date": "2026-10-25T15:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "David Montgomery",
      "pos": "RB",
@@ -1908,7 +2469,7 @@
     "4241223": {
      "changed_at": null,
      "detail": "Shoulder - AC Joint",
-     "feed_date": "2026-10-24T00:23Z",
+     "feed_date": "2026-10-25T15:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Jalen Pitre",
      "pos": "S",
@@ -1917,19 +2478,46 @@
     "4243956": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-24T00:19Z",
+     "feed_date": "2026-10-25T15:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Reed Blankenship",
      "pos": "S",
      "status": "Out"
     },
+    "4428656": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Nate Thomas",
+     "pos": "OT",
+     "status": "Out"
+    },
     "4432699": {
      "changed_at": null,
      "detail": "Thumb",
-     "feed_date": "2026-10-24T02:01Z",
+     "feed_date": "2026-10-25T15:31Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Blake Fisher",
      "pos": "OT",
+     "status": "Out"
+    },
+    "4695705": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Marlin Klein",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4880873": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Febechi Nwaiwu",
+     "pos": "G",
      "status": "Out"
     }
    },
@@ -1942,6 +2530,15 @@
      "name": "David Montgomery",
      "pos": "RB",
      "reason": "Groin",
+     "via": "poll"
+    },
+    "4241223": {
+     "feed_date": "2026-10-25T15:31Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Jalen Pitre",
+     "pos": "S",
+     "reason": "Shoulder - AC Joint",
      "via": "poll"
     },
     "4243956": {
@@ -1997,9 +2594,101 @@
   },
   "4": {
    "capped": true,
-   "designations": {},
+   "designations": {
+    "4240071": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Russ Yeast",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4429000": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Myles Hinton",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4685562": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Shemar Stewart",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4870866": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Connor Lew",
+     "pos": "C",
+     "status": "Out"
+    },
+    "5081542": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "status": "Out"
+    }
+   },
    "id": "4",
-   "players": {},
+   "players": {
+    "4240071": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Russ Yeast",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429000": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Myles Hinton",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685562": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Shemar Stewart",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870866": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Connor Lew",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5081542": {
+     "feed_date": "2026-10-25T15:34Z",
+     "first_seen": "2026-10-25T15:45:28Z",
+     "jersey": "",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2056,7 +2745,7 @@
     "4600415": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-23T23:33Z",
+     "feed_date": "2026-10-25T15:32Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Mike Hall Jr.",
      "pos": "DT",
