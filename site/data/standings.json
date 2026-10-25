@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-24T00:01:59Z",
+ "fetched_at": "2026-10-25T00:01:33Z",
  "leagues": [
   {
    "key": "nfl",
@@ -1071,18 +1071,18 @@
      "conference": "Eastern Conference",
      "rows": [
       {
-       "team": "Boston Celtics",
-       "abbr": "BOS",
-       "short": "Celtics",
+       "team": "New York Knicks",
+       "abbr": "NY",
+       "short": "Knicks",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1.5",
-       "streak": "L1",
-       "pointsFor": "113",
-       "pointsAgainst": "121",
-       "differential": "-8.0",
-       "playoffSeed": "9"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "203",
+       "pointsAgainst": "213",
+       "differential": "-5.0",
+       "playoffSeed": "12"
       },
       {
        "team": "Brooklyn Nets",
@@ -1096,35 +1096,21 @@
        "pointsFor": "103",
        "pointsAgainst": "110",
        "differential": "-7.0",
-       "playoffSeed": "9"
+       "playoffSeed": "10"
       },
       {
-       "team": "New York Knicks",
-       "abbr": "NY",
-       "short": "Knicks",
-       "wins": "0",
-       "losses": "1",
-       "winPercent": ".000",
-       "gamesBehind": "1.5",
-       "streak": "L1",
-       "pointsFor": "100",
-       "pointsAgainst": "106",
-       "differential": "-6.0",
-       "playoffSeed": "9"
-      },
-      {
-       "team": "Toronto Raptors",
-       "abbr": "TOR",
-       "short": "Raptors",
+       "team": "Boston Celtics",
+       "abbr": "BOS",
+       "short": "Celtics",
        "wins": "1",
-       "losses": "0",
-       "winPercent": "1.000",
-       "gamesBehind": "0.5",
+       "losses": "1",
+       "winPercent": ".500",
+       "gamesBehind": "1",
        "streak": "W1",
-       "pointsFor": "135",
-       "pointsAgainst": "92",
-       "differential": "+43.0",
-       "playoffSeed": "3"
+       "pointsFor": "220",
+       "pointsAgainst": "224",
+       "differential": "-2.0",
+       "playoffSeed": "7"
       },
       {
        "team": "Philadelphia 76ers",
@@ -1138,7 +1124,21 @@
        "pointsFor": "220",
        "pointsAgainst": "206",
        "differential": "+7.0",
-       "playoffSeed": "1"
+       "playoffSeed": "3"
+      },
+      {
+       "team": "Toronto Raptors",
+       "abbr": "TOR",
+       "short": "Raptors",
+       "wins": "2",
+       "losses": "0",
+       "winPercent": "1.000",
+       "gamesBehind": "-",
+       "streak": "W2",
+       "pointsFor": "247",
+       "pointsAgainst": "194",
+       "differential": "+26.5",
+       "playoffSeed": "4"
       }
      ]
     },
@@ -1153,12 +1153,12 @@
        "wins": "0",
        "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1.5",
+       "gamesBehind": "2",
        "streak": "L2",
        "pointsFor": "241",
        "pointsAgainst": "260",
        "differential": "-9.5",
-       "playoffSeed": "15"
+       "playoffSeed": "13"
       },
       {
        "team": "Cleveland Cavaliers",
@@ -1167,12 +1167,26 @@
        "wins": "0",
        "losses": "1",
        "winPercent": ".000",
-       "gamesBehind": "1",
+       "gamesBehind": "1.5",
        "streak": "L1",
        "pointsFor": "106",
        "pointsAgainst": "114",
        "differential": "-8.0",
-       "playoffSeed": "9"
+       "playoffSeed": "11"
+      },
+      {
+       "team": "Indiana Pacers",
+       "abbr": "IND",
+       "short": "Pacers",
+       "wins": "1",
+       "losses": "1",
+       "winPercent": ".500",
+       "gamesBehind": "1",
+       "streak": "L1",
+       "pointsFor": "228",
+       "pointsAgainst": "241",
+       "differential": "-6.5",
+       "playoffSeed": "5"
       },
       {
        "team": "Chicago Bulls",
@@ -1181,7 +1195,7 @@
        "wins": "1",
        "losses": "1",
        "winPercent": ".500",
-       "gamesBehind": "0.5",
+       "gamesBehind": "1",
        "streak": "W1",
        "pointsFor": "224",
        "pointsAgainst": "260",
@@ -1189,32 +1203,18 @@
        "playoffSeed": "8"
       },
       {
-       "team": "Indiana Pacers",
-       "abbr": "IND",
-       "short": "Pacers",
-       "wins": "1",
-       "losses": "0",
-       "winPercent": "1.000",
-       "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "123",
-       "pointsAgainst": "120",
-       "differential": "+3.0",
-       "playoffSeed": "2"
-      },
-      {
        "team": "Detroit Pistons",
        "abbr": "DET",
        "short": "Pistons",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
        "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "121",
-       "pointsAgainst": "113",
-       "differential": "+8.0",
-       "playoffSeed": "5"
+       "streak": "W2",
+       "pointsFor": "249",
+       "pointsAgainst": "224",
+       "differential": "+12.5",
+       "playoffSeed": "2"
       }
      ]
     },
@@ -1227,55 +1227,41 @@
        "abbr": "ORL",
        "short": "Magic",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "125",
-       "pointsAgainst": "132",
-       "differential": "-7.0",
-       "playoffSeed": "9"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "218",
+       "pointsAgainst": "247",
+       "differential": "-14.5",
+       "playoffSeed": "14"
       },
       {
        "team": "Miami Heat",
        "abbr": "MIA",
        "short": "Heat",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "106",
-       "pointsAgainst": "131",
-       "differential": "-25.0",
-       "playoffSeed": "14"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "217",
+       "pointsAgainst": "259",
+       "differential": "-21.0",
+       "playoffSeed": "15"
       },
       {
        "team": "Washington Wizards",
        "abbr": "WSH",
        "short": "Wizards",
        "wins": "1",
-       "losses": "0",
-       "winPercent": "1.000",
-       "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "128",
-       "pointsAgainst": "116",
-       "differential": "+12.0",
-       "playoffSeed": "4"
-      },
-      {
-       "team": "Atlanta Hawks",
-       "abbr": "ATL",
-       "short": "Hawks",
-       "wins": "1",
-       "losses": "0",
-       "winPercent": "1.000",
-       "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "132",
-       "pointsAgainst": "125",
-       "differential": "+7.0",
+       "losses": "1",
+       "winPercent": ".500",
+       "gamesBehind": "1",
+       "streak": "L1",
+       "pointsFor": "230",
+       "pointsAgainst": "228",
+       "differential": "+1.0",
        "playoffSeed": "6"
       },
       {
@@ -1283,14 +1269,28 @@
        "abbr": "CHA",
        "short": "Hornets",
        "wins": "1",
+       "losses": "1",
+       "winPercent": ".500",
+       "gamesBehind": "1",
+       "streak": "L1",
+       "pointsFor": "191",
+       "pointsAgainst": "231",
+       "differential": "-20.0",
+       "playoffSeed": "9"
+      },
+      {
+       "team": "Atlanta Hawks",
+       "abbr": "ATL",
+       "short": "Hawks",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
        "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "110",
-       "pointsAgainst": "103",
-       "differential": "+7.0",
-       "playoffSeed": "7"
+       "streak": "W2",
+       "pointsFor": "260",
+       "pointsAgainst": "206",
+       "differential": "+27.0",
+       "playoffSeed": "1"
       }
      ]
     },
@@ -1310,49 +1310,49 @@
        "pointsFor": "84",
        "pointsAgainst": "96",
        "differential": "-12.0",
-       "playoffSeed": "8"
+       "playoffSeed": "10"
       },
       {
        "team": "Utah Jazz",
        "abbr": "UTAH",
        "short": "Jazz",
-       "wins": "0",
+       "wins": "1",
        "losses": "1",
-       "winPercent": ".000",
-       "gamesBehind": "1.5",
-       "streak": "L1",
-       "pointsFor": "103",
-       "pointsAgainst": "123",
-       "differential": "-20.0",
-       "playoffSeed": "12"
+       "winPercent": ".500",
+       "gamesBehind": "1",
+       "streak": "W1",
+       "pointsFor": "223",
+       "pointsAgainst": "242",
+       "differential": "-9.5",
+       "playoffSeed": "8"
       },
       {
        "team": "Minnesota Timberwolves",
        "abbr": "MIN",
        "short": "Timberwolves",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
-       "gamesBehind": "0.5",
-       "streak": "W1",
-       "pointsFor": "131",
-       "pointsAgainst": "106",
-       "differential": "+25.0",
-       "playoffSeed": "2"
+       "gamesBehind": "-",
+       "streak": "W2",
+       "pointsFor": "246",
+       "pointsAgainst": "199",
+       "differential": "+23.5",
+       "playoffSeed": "1"
       },
       {
        "team": "Portland Trail Blazers",
        "abbr": "POR",
        "short": "Trail Blazers",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
-       "gamesBehind": "0.5",
-       "streak": "W1",
-       "pointsFor": "124",
-       "pointsAgainst": "83",
-       "differential": "+41.0",
-       "playoffSeed": "3"
+       "gamesBehind": "-",
+       "streak": "W2",
+       "pointsFor": "252",
+       "pointsAgainst": "203",
+       "differential": "+24.5",
+       "playoffSeed": "2"
       },
       {
        "team": "Oklahoma City Thunder",
@@ -1366,7 +1366,7 @@
        "pointsFor": "212",
        "pointsAgainst": "188",
        "differential": "+12.0",
-       "playoffSeed": "1"
+       "playoffSeed": "4"
       }
      ]
     },
@@ -1379,28 +1379,28 @@
        "abbr": "GS",
        "short": "Warriors",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "105",
-       "pointsAgainst": "127",
-       "differential": "-22.0",
-       "playoffSeed": "13"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "213",
+       "pointsAgainst": "238",
+       "differential": "-12.5",
+       "playoffSeed": "14"
       },
       {
        "team": "Sacramento Kings",
        "abbr": "SAC",
        "short": "Kings",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "96",
-       "pointsAgainst": "121",
-       "differential": "-25.0",
-       "playoffSeed": "14"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "216",
+       "pointsAgainst": "249",
+       "differential": "-16.5",
+       "playoffSeed": "15"
       },
       {
        "team": "Phoenix Suns",
@@ -1409,40 +1409,40 @@
        "wins": "0",
        "losses": "1",
        "winPercent": ".000",
-       "gamesBehind": "1",
+       "gamesBehind": "1.5",
        "streak": "L1",
        "pointsFor": "83",
        "pointsAgainst": "124",
        "differential": "-41.0",
-       "playoffSeed": "15"
+       "playoffSeed": "11"
       },
       {
        "team": "LA Clippers",
        "abbr": "LAC",
        "short": "Clippers",
        "wins": "1",
-       "losses": "0",
-       "winPercent": "1.000",
-       "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "121",
-       "pointsAgainst": "96",
-       "differential": "+25.0",
-       "playoffSeed": "4"
+       "losses": "1",
+       "winPercent": ".500",
+       "gamesBehind": "1",
+       "streak": "L1",
+       "pointsFor": "238",
+       "pointsAgainst": "221",
+       "differential": "+8.5",
+       "playoffSeed": "7"
       },
       {
        "team": "Los Angeles Lakers",
        "abbr": "LAL",
        "short": "Lakers",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
        "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "127",
-       "pointsAgainst": "105",
-       "differential": "+22.0",
-       "playoffSeed": "5"
+       "streak": "W2",
+       "pointsFor": "252",
+       "pointsAgainst": "222",
+       "differential": "+15.0",
+       "playoffSeed": "3"
       }
      ]
     },
@@ -1455,70 +1455,70 @@
        "abbr": "NO",
        "short": "Pelicans",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "120",
-       "pointsAgainst": "123",
-       "differential": "-3.0",
-       "playoffSeed": "8"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "239",
+       "pointsAgainst": "243",
+       "differential": "-2.0",
+       "playoffSeed": "12"
       },
       {
        "team": "San Antonio Spurs",
        "abbr": "SA",
        "short": "Spurs",
        "wins": "0",
-       "losses": "1",
+       "losses": "2",
        "winPercent": ".000",
-       "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "104",
-       "pointsAgainst": "116",
-       "differential": "-12.0",
-       "playoffSeed": "8"
+       "gamesBehind": "2",
+       "streak": "L2",
+       "pointsFor": "214",
+       "pointsAgainst": "230",
+       "differential": "-8.0",
+       "playoffSeed": "13"
       },
       {
        "team": "Dallas Mavericks",
        "abbr": "DAL",
        "short": "Mavericks",
-       "wins": "0",
+       "wins": "1",
        "losses": "1",
-       "winPercent": ".000",
+       "winPercent": ".500",
        "gamesBehind": "1",
-       "streak": "L1",
-       "pointsFor": "110",
-       "pointsAgainst": "128",
-       "differential": "-18.0",
-       "playoffSeed": "11"
+       "streak": "W1",
+       "pointsFor": "231",
+       "pointsAgainst": "233",
+       "differential": "-1.0",
+       "playoffSeed": "9"
       },
       {
        "team": "Memphis Grizzlies",
        "abbr": "MEM",
        "short": "Grizzlies",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
        "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "123",
-       "pointsAgainst": "103",
-       "differential": "+20.0",
-       "playoffSeed": "6"
+       "streak": "W2",
+       "pointsFor": "234",
+       "pointsAgainst": "211",
+       "differential": "+11.5",
+       "playoffSeed": "5"
       },
       {
        "team": "Houston Rockets",
        "abbr": "HOU",
        "short": "Rockets",
-       "wins": "1",
+       "wins": "2",
        "losses": "0",
        "winPercent": "1.000",
        "gamesBehind": "-",
-       "streak": "W1",
-       "pointsFor": "128",
-       "pointsAgainst": "110",
-       "differential": "+18.0",
-       "playoffSeed": "7"
+       "streak": "W2",
+       "pointsFor": "242",
+       "pointsAgainst": "220",
+       "differential": "+11.0",
+       "playoffSeed": "6"
       }
      ]
     }
@@ -1551,12 +1551,12 @@
        "abbr": "TB",
        "short": "Lightning",
        "wins": "7",
-       "losses": "2",
+       "losses": "3",
        "gamesBehind": "3",
-       "streak": "W3",
-       "pointsFor": "31",
-       "pointsAgainst": "23",
-       "differential": "+0.8",
+       "streak": "L1",
+       "pointsFor": "34",
+       "pointsAgainst": "29",
+       "differential": "+0.5",
        "playoffSeed": "4"
       },
       {
@@ -1570,7 +1570,7 @@
        "pointsFor": "31",
        "pointsAgainst": "30",
        "differential": "+0.1",
-       "playoffSeed": "5"
+       "playoffSeed": "6"
       },
       {
        "team": "Toronto Maple Leafs",
@@ -1583,7 +1583,20 @@
        "pointsFor": "43",
        "pointsAgainst": "39",
        "differential": "+0.3",
-       "playoffSeed": "6"
+       "playoffSeed": "7"
+      },
+      {
+       "team": "Montreal Canadiens",
+       "abbr": "MTL",
+       "short": "Canadiens",
+       "wins": "5",
+       "losses": "3",
+       "gamesBehind": "5",
+       "streak": "W1",
+       "pointsFor": "34",
+       "pointsAgainst": "35",
+       "differential": "-0.1",
+       "playoffSeed": "9"
       },
       {
        "team": "Florida Panthers",
@@ -1596,7 +1609,7 @@
        "pointsFor": "31",
        "pointsAgainst": "34",
        "differential": "-0.3",
-       "playoffSeed": "9"
+       "playoffSeed": "10"
       },
       {
        "team": "Detroit Red Wings",
@@ -1609,20 +1622,7 @@
        "pointsFor": "28",
        "pointsAgainst": "30",
        "differential": "-0.2",
-       "playoffSeed": "10"
-      },
-      {
-       "team": "Montreal Canadiens",
-       "abbr": "MTL",
-       "short": "Canadiens",
-       "wins": "4",
-       "losses": "3",
-       "gamesBehind": "7",
-       "streak": "L1",
-       "pointsFor": "30",
-       "pointsAgainst": "34",
-       "differential": "-0.5",
-       "playoffSeed": "12"
+       "playoffSeed": "11"
       },
       {
        "team": "Buffalo Sabres",
@@ -1670,6 +1670,19 @@
        "playoffSeed": "3"
       },
       {
+       "team": "New Jersey Devils",
+       "abbr": "NJ",
+       "short": "Devils",
+       "wins": "7",
+       "losses": "4",
+       "gamesBehind": "4",
+       "streak": "W3",
+       "pointsFor": "36",
+       "pointsAgainst": "32",
+       "differential": "+0.4",
+       "playoffSeed": "5"
+      },
+      {
        "team": "New York Islanders",
        "abbr": "NYI",
        "short": "Islanders",
@@ -1680,19 +1693,6 @@
        "pointsFor": "29",
        "pointsAgainst": "23",
        "differential": "+0.6",
-       "playoffSeed": "7"
-      },
-      {
-       "team": "New Jersey Devils",
-       "abbr": "NJ",
-       "short": "Devils",
-       "wins": "6",
-       "losses": "4",
-       "gamesBehind": "6",
-       "streak": "W2",
-       "pointsFor": "33",
-       "pointsAgainst": "31",
-       "differential": "+0.2",
        "playoffSeed": "8"
       },
       {
@@ -1706,7 +1706,7 @@
        "pointsFor": "30",
        "pointsAgainst": "29",
        "differential": "+0.1",
-       "playoffSeed": "11"
+       "playoffSeed": "12"
       },
       {
        "team": "Pittsburgh Penguins",
@@ -1726,11 +1726,11 @@
        "abbr": "PHI",
        "short": "Flyers",
        "wins": "3",
-       "losses": "6",
+       "losses": "7",
        "gamesBehind": "9",
-       "streak": "W3",
-       "pointsFor": "20",
-       "pointsAgainst": "37",
+       "streak": "L1",
+       "pointsFor": "24",
+       "pointsAgainst": "42",
        "differential": "-1.4",
        "playoffSeed": "15"
       },
@@ -1796,14 +1796,14 @@
        "team": "Colorado Avalanche",
        "abbr": "COL",
        "short": "Avalanche",
-       "wins": "5",
+       "wins": "6",
        "losses": "4",
-       "gamesBehind": "3",
-       "streak": "L2",
-       "pointsFor": "41",
-       "pointsAgainst": "31",
-       "differential": "+1.0",
-       "playoffSeed": "8"
+       "gamesBehind": "1",
+       "streak": "W1",
+       "pointsFor": "47",
+       "pointsAgainst": "34",
+       "differential": "+1.2",
+       "playoffSeed": "7"
       },
       {
        "team": "St. Louis Blues",
@@ -1842,19 +1842,19 @@
        "pointsFor": "23",
        "pointsAgainst": "30",
        "differential": "-0.7",
-       "playoffSeed": "11"
+       "playoffSeed": "12"
       },
       {
        "team": "Chicago Blackhawks",
        "abbr": "CHI",
        "short": "Blackhawks",
        "wins": "3",
-       "losses": "6",
+       "losses": "7",
        "gamesBehind": "8",
-       "streak": "L1",
-       "pointsFor": "21",
-       "pointsAgainst": "36",
-       "differential": "-1.7",
+       "streak": "L2",
+       "pointsFor": "22",
+       "pointsAgainst": "40",
+       "differential": "-1.8",
        "playoffSeed": "15"
       }
      ]
@@ -1913,33 +1913,20 @@
        "pointsFor": "33",
        "pointsAgainst": "37",
        "differential": "-0.4",
-       "playoffSeed": "7"
+       "playoffSeed": "8"
       },
       {
        "team": "Anaheim Ducks",
        "abbr": "ANA",
        "short": "Ducks",
-       "wins": "4",
+       "wins": "5",
        "losses": "6",
-       "gamesBehind": "9",
-       "streak": "L5",
-       "pointsFor": "27",
-       "pointsAgainst": "33",
-       "differential": "-0.6",
-       "playoffSeed": "12"
-      },
-      {
-       "team": "Los Angeles Kings",
-       "abbr": "LA",
-       "short": "Kings",
-       "wins": "2",
-       "losses": "4",
-       "gamesBehind": "11",
-       "streak": "W2",
-       "pointsFor": "20",
-       "pointsAgainst": "29",
-       "differential": "-1.1",
-       "playoffSeed": "13"
+       "gamesBehind": "7",
+       "streak": "W1",
+       "pointsFor": "32",
+       "pointsAgainst": "37",
+       "differential": "-0.5",
+       "playoffSeed": "11"
       },
       {
        "team": "Calgary Flames",
@@ -1952,6 +1939,19 @@
        "pointsFor": "19",
        "pointsAgainst": "38",
        "differential": "-2.1",
+       "playoffSeed": "13"
+      },
+      {
+       "team": "Los Angeles Kings",
+       "abbr": "LA",
+       "short": "Kings",
+       "wins": "2",
+       "losses": "5",
+       "gamesBehind": "11",
+       "streak": "L1",
+       "pointsFor": "21",
+       "pointsAgainst": "32",
+       "differential": "-1.3",
        "playoffSeed": "14"
       },
       {
