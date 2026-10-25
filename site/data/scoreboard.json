@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-25T15:55:29Z",
+ "fetched_at": "2026-10-25T16:00:38Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "13:22 - 4th",
-     "detail": "13:22",
+     "status_short": "9:32 - 4th",
+     "detail": "9:32",
      "period": 4,
      "start_utc": "2026-10-25T13:30Z",
      "network": "NFL Net",
@@ -56,7 +56,7 @@
       {
        "cat": "PASS",
        "name": "T. Shough",
-       "line": "25/31, 239 YDS, 1 TD, 1 INT",
+       "line": "29/35, 264 YDS, 1 TD, 1 INT",
        "team": "18"
       },
       {
@@ -67,17 +67,17 @@
       },
       {
        "cat": "REC",
-       "name": "B. Brown",
-       "line": "3 REC, 57 YDS",
+       "name": "A. Kamara",
+       "line": "7 REC, 57 YDS",
        "team": "18"
       }
      ],
-     "situation": "1st & 10 at 50",
-     "possession": "18",
+     "situation": "1st & 10 at PIT 34",
+     "possession": "23",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7772222222222223,
+     "progress": 0.8411111111111111,
      "venue_indoor": false,
      "venue": "Stade de France",
      "venue_id": "1781",
@@ -157,7 +157,7 @@
      "venue_state": "GA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SF -2.5",
       "spread": 2.5,
       "total": 50.5,
@@ -235,7 +235,7 @@
      "venue_state": "TN",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CLE -2.5",
       "spread": 2.5,
       "total": 36.5,
@@ -313,7 +313,7 @@
      "venue_state": "MN",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIN -6.5",
       "spread": -6.5,
       "total": 41.5,
@@ -391,7 +391,7 @@
      "venue_state": "NJ",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NYJ -3.5",
       "spread": -3.5,
       "total": 39.5,
@@ -469,7 +469,7 @@
      "venue_state": "NC",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CAR -3",
       "spread": -3.0,
       "total": 44.5,
@@ -547,7 +547,7 @@
      "venue_state": "MD",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CIN -3",
       "spread": 3.0,
       "total": 46.5,
@@ -625,7 +625,7 @@
      "venue_state": "TX",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "HOU -10",
       "spread": -10.0,
       "total": 42.5,
@@ -703,7 +703,7 @@
      "venue_state": "AZ",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DEN -4.5",
       "spread": 4.5,
       "total": 42.5,
@@ -781,7 +781,7 @@
      "venue_state": "MI",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DET -3.5",
       "spread": -3.5,
       "total": 55.5,
@@ -859,7 +859,7 @@
      "venue_state": "NV",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "LAR -3.5",
       "spread": 3.5,
       "total": 48.5,
@@ -937,7 +937,7 @@
      "venue_state": "WA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -3",
       "spread": -3.0,
       "total": 42.5,
@@ -1097,7 +1097,7 @@
      "venue_state": "PA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DAL -4.5",
       "spread": 4.5,
       "total": 43.5,
@@ -1175,7 +1175,7 @@
      "venue_state": "WI",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "GB -3",
       "spread": -3.0,
       "total": 47.5,
@@ -5863,9 +5863,9 @@
     {
      "id": "401879254",
      "league": "Soccer",
-     "state": "in",
-     "completed": false,
-     "status_short": "90'+9'",
+     "state": "post",
+     "completed": true,
+     "status_short": "FT",
      "detail": "90'+9'",
      "period": 2,
      "start_utc": "2026-10-25T14:00Z",
@@ -5878,7 +5878,7 @@
       "mascot": "Crystal Palace",
       "rank": null,
       "score": "0",
-      "record": "2-1-4",
+      "record": "2-1-5",
       "periods": [],
       "id": "384",
       "color": "",
@@ -5892,7 +5892,7 @@
       "mascot": "Newcastle United",
       "rank": null,
       "score": "2",
-      "record": "2-2-3",
+      "record": "3-2-3",
       "periods": [],
       "id": "361",
       "color": "",
@@ -5911,11 +5911,7 @@
      "venue_city": "London",
      "venue_state": "",
      "venue_country": "England",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "CRY +160",
-      "total": 2.5
-     }
+     "line": null
     },
     {
      "id": "401878766",
@@ -5988,7 +5984,7 @@
       "mascot": "Liverpool",
       "rank": null,
       "score": "2",
-      "record": "3-3-1",
+      "record": "4-3-1",
       "periods": [],
       "id": "364",
       "color": "",
@@ -6002,7 +5998,7 @@
       "mascot": "Brighton & Hove Albion",
       "rank": null,
       "score": "0",
-      "record": "5-1-1",
+      "record": "5-1-2",
       "periods": [],
       "id": "331",
       "color": "",
@@ -6190,9 +6186,9 @@
      "venue_state": "UT",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
-      "detail": "LAL -6.5",
-      "spread": 6.5,
+      "provider": "Draft Kings",
+      "detail": "LAL -7.5",
+      "spread": 7.5,
       "total": 237.5,
       "favorite": "away"
      }
@@ -6249,7 +6245,7 @@
      "venue_state": "NY",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "IND -7.5",
       "spread": 7.5,
       "total": 231.5,
@@ -6308,7 +6304,7 @@
      "venue_state": "NY",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NY -7.5",
       "spread": -7.5,
       "total": 224.5,
@@ -6367,7 +6363,7 @@
      "venue_state": "MN",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIN -1.5",
       "spread": -1.5,
       "total": 229.5,
@@ -6426,7 +6422,7 @@
      "venue_state": "OK",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "OKC -15.5",
       "spread": -15.5,
       "total": 224.5,
@@ -6485,7 +6481,7 @@
      "venue_state": "PA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DET -1.5",
       "spread": 1.5,
       "total": 227.5,
@@ -6544,7 +6540,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MEM -3.5",
       "spread": 3.5,
       "total": 234.5,
@@ -6608,7 +6604,7 @@
      "venue_state": "IL",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "FLA -185",
       "spread": 1.5,
       "total": 6.5,
@@ -6667,7 +6663,7 @@
      "venue_state": "TX",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DAL -198",
       "spread": -1.5,
       "total": 5.5,
@@ -6726,8 +6722,8 @@
      "venue_state": "MB",
      "venue_country": "Canada",
      "line": {
-      "provider": "DraftKings",
-      "detail": "MTL -122",
+      "provider": "Draft Kings",
+      "detail": "MTL -118",
       "spread": 1.5,
       "total": 5.5,
       "favorite": "away"
@@ -6785,7 +6781,7 @@
      "venue_state": "TN",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "COL -230",
       "spread": 1.5,
       "total": 6.5,
@@ -6844,7 +6840,7 @@
      "venue_state": "BC",
      "venue_country": "Canada",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIN -192",
       "spread": 1.5,
       "total": 6.5,

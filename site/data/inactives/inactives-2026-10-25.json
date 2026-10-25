@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T15:55:25Z",
- "last_poll": "2026-10-25T15:55:36Z",
+ "last_change": "2026-10-25T16:00:34Z",
+ "last_poll": "2026-10-25T16:00:42Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -620,7 +620,7 @@
     "4259804": {
      "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Illness",
-     "feed_date": "2026-10-25T15:34Z",
+     "feed_date": "2026-10-25T15:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Willie Gay Jr.",
      "pos": "LB",
@@ -1163,7 +1163,7 @@
     "4243322": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-25T15:34Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T15:45:28Z",
      "name": "Jake Haener",
      "pos": "QB",
@@ -1330,7 +1330,7 @@
     "4035537": {
      "changed_at": "2026-10-25T15:45:28Z",
      "detail": "Knee",
-     "feed_date": "2026-10-25T15:33Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Kene Nwangwu",
      "pos": "RB",
@@ -1855,7 +1855,7 @@
     "16737": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-10-23T20:37Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Mike Evans",
      "pos": "WR",
@@ -1873,7 +1873,7 @@
     "3116097": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-24T02:20Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Luke Gifford",
      "pos": "LB",
@@ -1882,7 +1882,7 @@
     "3126486": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-23T21:35Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Deebo Samuel Sr.",
      "pos": "WR",
@@ -1891,7 +1891,7 @@
     "4040605": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-24T01:03Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Nick Bosa",
      "pos": "DE",
@@ -1900,10 +1900,19 @@
     "4241807": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-24T02:27Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Garret Wallow",
      "pos": "LB",
+     "status": "Out"
+    },
+    "4430431": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T15:45Z",
+     "first_seen": "2026-10-25T16:00:34Z",
+     "name": "Kurtis Rourke",
+     "pos": "QB",
      "status": "Out"
     },
     "4565200": {
@@ -1918,7 +1927,7 @@
     "4693337": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-24T01:11Z",
+     "feed_date": "2026-10-25T15:45Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Marques Sigle",
      "pos": "S",
@@ -1927,6 +1936,33 @@
    },
    "id": "25",
    "players": {
+    "16737": {
+     "feed_date": "2026-10-25T15:45Z",
+     "first_seen": "2026-10-25T16:00:34Z",
+     "jersey": "",
+     "name": "Mike Evans",
+     "pos": "WR",
+     "reason": "Achilles",
+     "via": "poll"
+    },
+    "3116097": {
+     "feed_date": "2026-10-25T15:45Z",
+     "first_seen": "2026-10-25T16:00:34Z",
+     "jersey": "",
+     "name": "Luke Gifford",
+     "pos": "LB",
+     "reason": "Groin",
+     "via": "poll"
+    },
+    "3126486": {
+     "feed_date": "2026-10-25T15:45Z",
+     "first_seen": "2026-10-25T16:00:34Z",
+     "jersey": "",
+     "name": "Deebo Samuel Sr.",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
     "4040605": {
      "feed_date": "2026-10-24T01:03Z",
      "first_seen": "2026-10-25T15:55:25Z",
@@ -1952,6 +1988,15 @@
      "name": "Kurtis Rourke",
      "pos": "QB",
      "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4693337": {
+     "feed_date": "2026-10-25T15:45Z",
+     "first_seen": "2026-10-25T16:00:34Z",
+     "jersey": "",
+     "name": "Marques Sigle",
+     "pos": "S",
+     "reason": "Ankle",
      "via": "poll"
     }
    },
@@ -2234,7 +2279,7 @@
     "4239934": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-10-25T15:37Z",
+     "feed_date": "2026-10-25T15:47Z",
      "first_seen": "2026-10-25T15:50:25Z",
      "name": "AJ Dillon",
      "pos": "RB",
