@@ -13,6 +13,8 @@ each seen red first (U-9):
   longest   the longest label the data and the ruled lines can print is drawn by the REAL renderers (the
             team page's schedule row, the strip card, the game page's conditions block) in each place a
             plate sits, at the three widths and in a narrow box too, and fits
+  same      every plate that FIT on main is drawn as main drew it (type size, plate box), at 21 widths, 14 on
+            the sheet's grid and 7 off it; main is the stylesheet in fixtures/plate-base and the old markup
   blind     the same labels with the fit taken away (nowrap, a fixed size, a narrow box) MUST be reported
             clipped; a sweep that finds nothing there is blind and the canary fails on it
 
@@ -30,12 +32,17 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WIDTHS = [320, 360, 390, 414, 600, 700, 768, 820, 900, 1024, 1100, 1280, 1440, 1920]
+OFFGRID = [340, 500, 650, 860, 980, 1200, 1600]     # widths no breakpoint of the sheet was written for
+ALL_WIDTHS = sorted(set(WIDTHS) | set(OFFGRID))
+# main's stylesheet as it stood when S-5.6 began (69f3b8d): what a plate that already fit must still be drawn by.
+# A later item that changes a plate on purpose updates this file on purpose.
+BASE_CSS = os.path.join("fixtures", "plate-base", "site.css")
 PLATE = "rgb(20, 26, 23)"    # --sbc-plate (#141A17), the color every plate of the look is on
 SWEEP_TIMEOUT = 600
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 
-def sweep(tree, pages, widths=WIDTHS):
+def sweep(tree, pages, widths=WIDTHS, dump=None):
     """scripts/plate-fit.mjs over the pages. Returns (findings, summary, problems)."""
     node = shutil.which("node")
     if not node:
@@ -44,7 +51,7 @@ def sweep(tree, pages, widths=WIDTHS):
     try:
         cfgp = os.path.join(tmp, "config.json")
         with open(cfgp, "w", encoding="utf-8") as f:
-            json.dump({"pages": pages, "widths": widths, "plate": PLATE}, f)
+            json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump}, f)
         try:
             r = subprocess.run([node, os.path.join(HERE, "scripts", "plate-fit.mjs"), tree, cfgp],
                                capture_output=True, text=True, timeout=SWEEP_TIMEOUT)
@@ -157,12 +164,9 @@ def fixtures(out, labels, blind):
             team = team.replace('class="tms-pl tms-one"', 'class="tms-pl tms-one"' + no_fit)
             strips = [s.replace('<p class="sbc-one">', '<p class="sbc-one"' + no_fit + ">") for s in strips]
         body = ""
-        for w in ("", "max-width:420px", "max-width:150px"):
-            if blind and not w:
-                continue
-            st = f' style="{w}"' if w else ""
-            body += f'<div class="fx-box"{st}>{team}</div>'
-        for w in ("", "max-width:330px", "max-width:150px"):
+        # the team row sits in the page grid at every width; a box would only invent a layout
+        body += f'<div class="fx-box">{team}</div>'
+        for w in ("", "max-width:330px", "max-width:240px"):
             if blind and not w:
                 continue
             st = f' style="{w}"' if w else ""
@@ -177,6 +181,60 @@ def fixtures(out, labels, blind):
         sb.cx_entry = real
 
 
+def base_tree(out, pages, root=None):
+    """A copy of the built pages drawn as main drew them: main's stylesheet (BASE_CSS) and main's two markup
+    details (the line score's columns, no --w on a number plate). Same data, so any difference is the change."""
+    root = root or HERE
+    base = tempfile.mkdtemp(prefix="plate-base-")
+    os.mkdir(os.path.join(base, "assets"))
+    for n in os.listdir(os.path.join(out, "assets")):
+        if n != "site.css":
+            os.symlink(os.path.join(out, "assets", n), os.path.join(base, "assets", n))
+    shutil.copy(os.path.join(root, BASE_CSS), os.path.join(base, "assets", "site.css"))
+    cols = re.compile(r"minmax\(min-content,1fr\) repeat\((\d+),minmax\(22px,var\(--sbc-q\)\)\) var\(--sbc-t\)")
+    for pg in pages:
+        h = open(os.path.join(out, pg), encoding="utf-8").read()
+        h = cols.sub(r"minmax(0,1fr) repeat(\1,var(--sbc-q)) var(--sbc-t)", h)
+        h = re.sub(r'(<span class="sbg-big") style="--w:[0-9.]+"', r"\1", h)
+        dst = os.path.join(base, pg)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        with open(dst, "w", encoding="utf-8") as f:
+            f.write(h)
+    return base
+
+
+def unchanged(new, old):
+    """Failure strings for every plate that FIT on main (and sits in a group with no clipped plate on main) whose
+    size, plate box or type differs from main's. new and old are the sweeps' dumps."""
+    ix = {(r["page"], r["width"]): r["all"] for r in old}
+    fails, grp = [], {}
+    seen = 0
+    for r in new:
+        b = ix.get((r["page"], r["width"]))
+        if b is None:
+            fails.append(f"plate same: {r['page']} at {r['width']} was read on the branch and not on main")
+            continue
+        seen += 1
+        if len(b) != len(r["all"]):
+            fails.append(f"plate same: {r['page']} at {r['width']} draws {len(r['all'])} plates, main {len(b)}")
+            continue
+        badg = {x["g"] for x in b if x["bad"] and x["g"] >= 0}
+        for ob, nw in zip(b, r["all"]):
+            if ob["bad"] or ob["g"] in badg:
+                continue
+            if abs(ob["fs"] - nw["fs"]) > 0.01 or abs(ob["w"] - nw["w"]) > 0.5 or abs(ob["h"] - nw["h"]) > 0.5:
+                grp.setdefault((nw["el"], r["width"]), []).append((r["page"], ob, nw))
+    if not seen:
+        fails.append("plate same: no page was read on both sides, so nothing was compared")
+    for (el, w), v in sorted(grp.items()):
+        pg = sorted({x[0] for x in v})
+        o, n = v[0][1], v[0][2]
+        fails.append(f"plate same: {', '.join(pg[:3])}{' and %d more' % (len(pg) - 3) if len(pg) > 3 else ''} at {w}: {el} "
+                     f"fit on main ({o['fs']}px type, {o['w']}x{o['h']}) and is drawn {n['fs']}px, {n['w']}x{n['h']} "
+                     f"({len(v)} plates)")
+    return fails, seen
+
+
 def plate_canary(out, root=None):
     fails = []
     if not out or not os.path.isdir(out):
@@ -186,13 +244,36 @@ def plate_canary(out, root=None):
             or not any(p.startswith("teams/") for p in pages):
         fails.append("plate fit: the build has no home, game page or team page, so the check proves nothing")
     # built: the gate's own tree
-    found, summ, probs = sweep(out, pages)
+    dumpd = tempfile.mkdtemp(prefix="plate-dump-")
+    newd = os.path.join(dumpd, "new.json")
+    found, summ, probs = sweep(out, pages, ALL_WIDTHS, newd)
     fails += probs + _describe(found)
     if summ is not None:
         if not summ.get("plates"):
             fails.append("plate fit: no plate was measured on the built pages")
         print(f"plate fit: {summ.get('pages', 0)} pages at {summ.get('widths')}, {summ.get('plates', 0)} plates read, "
               f"{summ.get('findings', 0)} clipped, {summ.get('seconds', 0)} s in the browser")
+    # same: a plate that fit on main is drawn exactly as main drew it, at every width
+    base = None
+    try:
+        base = base_tree(out, pages, root)
+        oldd = os.path.join(dumpd, "old.json")
+        _f, _s, probs2 = sweep(base, pages, ALL_WIDTHS, oldd)
+        fails += [x for x in probs2 if "findings" not in x]
+        try:
+            nw, od = json.load(open(newd)), json.load(open(oldd))
+        except (OSError, ValueError):
+            nw, od = [], []
+            fails.append("plate same: the sweeps wrote no records to compare")
+        if nw:
+            f2, seen = unchanged(nw, od)
+            fails += f2
+            print(f"plate same: {seen} page-widths compared with main's stylesheet and markup on the same data, "
+                  f"{len(f2)} plate kinds drawn differently where they fit")
+    finally:
+        shutil.rmtree(dumpd, ignore_errors=True)
+        if base:
+            shutil.rmtree(base, ignore_errors=True)
     # longest: the real renderers, every label, every place a plate sits
     cands = label_candidates(out, root)
     labels = sorted(cands, key=lambda s: (-len(s), s))

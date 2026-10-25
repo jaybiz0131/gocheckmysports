@@ -147,11 +147,11 @@ def check_tree(out):
         if e.get("status") == "roofed":
             # S-3a (Jack, 15 October): a roofed stadium reads like a dome, with its own words
             if blocks != ["roofed"] or "sbg-hgrid" in html or 'data-cx-block="forecast"' in html \
-                    or re.search(r'class="sbg-big">\d', html) or "Roof \u00b7" not in html:
+                    or re.search(r'class="sbg-big"[^>]*>\d', html) or "Roof \u00b7" not in html:
                 fails.append(f"game pages: {gid} has a roof and prints a forecast or no roof line")
         if e.get("status") == "indoor":
             if blocks != ["indoor"] or "sbg-hgrid" in html or 'data-cx-block="forecast"' in html \
-                    or re.search(r'class="sbg-big">\d', html):
+                    or re.search(r'class="sbg-big"[^>]*>\d', html):
                 fails.append(f"game pages: {gid} is indoor and prints a forecast")
         bad = runtime_hosts(html) - ALLOWED_HOSTS
         if bad:
@@ -578,13 +578,13 @@ def check_board():
         if not re.search(r'stroke="#FFD23F"[^>]*transform="rotate\(190 66 66\)"', m):
             fails.append("board: the compass arrow is not yellow at arrow_true_deg")
         c = sb.sbg_board(dict(g, id="calm"))
-        if "cxf-arrows" in c or 'class="sbg-big">Calm<' not in c:
+        if "cxf-arrows" in c or not re.search(r'class="sbg-big"[^>]*>Calm<', c):
             fails.append("board: Calm draws arrows or does not say Calm")
         if '<span class="cxh-cap">Arrows point the way the wind blows</span>' not in h:
             fails.append("board: the caption line is missing under the field")
         # the four plates
         keys = re.findall(r'<div class="sbg-p sbg-([twgr])( on)?"><span class="sbc-k">([A-Za-z]+)</span>'
-                          r'<span class="sbg-big">([^<]*)', h)
+                          r'<span class="sbg-big"[^>]*>([^<]*)', h)
         if [(k, l, v) for k, _o, l, v in keys] != [("t", "Temp", "47°"), ("w", "Wind", "12"), ("g", "Gust", "23"),
                                                      ("r", "Rain", "23%")]:
             fails.append(f"board: the plates are {keys}, not TEMP, WIND, GUST, RAIN with the kickoff numbers")
@@ -593,7 +593,7 @@ def check_board():
         if "sbc-lit" not in h[:80] or "sbc-lit" in sb.sbg_board(dict(g, id="calm"))[:80]:
             fails.append("board: the edge is not yellow exactly when a flag is on")
         gp = sb.sbg_board(dict(g, id="gap"))
-        if gp.count(">missing<") < 2 or re.search(r'class="sbg-big">0', gp):
+        if gp.count(">missing<") < 2 or re.search(r'class="sbg-big"[^>]*>0', gp):
             fails.append("board: a number the Worker did not give does not print as missing")
         # the words
         wd = re.search(r'<p class="sbg-words( on)?">([^<]+)</p>', h)

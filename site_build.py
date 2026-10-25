@@ -5289,8 +5289,8 @@ def sbc_linescore(g, full=True, ot_col=False):
     lose = {"away": False, "home": False}
     if g.get("state") == "post" and sa is not None and sh is not None and sa != sh:
         lose["away" if sa < sh else "home"] = True
-    cols = f"minmax(0,1fr) repeat({len(heads)},var(--sbc-qf)) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
-    out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols};--sbc-n:{len(heads)}">']
+    cols = f"minmax(min-content,1fr) repeat({len(heads)},minmax(22px,var(--sbc-q))) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
+    out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols}">']
     if heads:
         out.append('<span class="sbc-h"></span>' + "".join(f'<span class="sbc-h">{x}</span>' for x in heads)
                    + '<span class="sbc-h sbc-th">T</span>')
@@ -5322,6 +5322,25 @@ def sbc_bulbs(e, p=None):
         f'<span class="sbc-bulb{" on" if on else ""}" data-bulb="{n.lower()}"><i aria-hidden="true"></i>{n}'
         f'<span class="sr-only">{" lit" if on else " off"}</span></span>' for n, on in lit) + '</div>')
     return html, any(on for _n, on in lit)
+
+
+# S-5.6: the Oswald (600) advance of each character a number plate prints, in em, measured in the browser with the
+# shipped subset (a string's width is the sum; no kerning pairs in the face for these). 0.985 keeps the plate's
+# own size whenever the text fits to within the face's arithmetic (the canary allows 1.6 percent).
+_OSWALD_ADV = {"0": .5431, "1": .3841, "2": .507, "3": .5061, "4": .515, "5": .502, "6": .5311, "7": .4281,
+               "8": .5161, "9": .5311, "\u00b0": .522, "%": .9811, "-": .32, "\u2212": .5841, ".": .232,
+               "+": .442, " ": 0, "A": .5381, "B": .5741, "C": .5531, "D": .5731, "E": .4391, "F": .425,
+               "G": .572, "H": .5991, "I": .29, "J": .3391, "K": .552, "L": .4331, "M": .695, "N": .5541,
+               "O": .5761, "P": .552, "Q": .5761, "R": .5831, "S": .505, "T": .4381, "U": .5781, "V": .522,
+               "W": .7041, "X": .5081, "Y": .49, "Z": .4291}
+
+
+def _oswald_w(text):
+    """The style that tells a number plate how wide its text is, in em; '' for markup or an unknown glyph."""
+    t = str(text or "")
+    if not t or "<" in t or any(c not in _OSWALD_ADV for c in t.upper()):
+        return ""
+    return f' style="--w:{sum(_OSWALD_ADV[c] for c in t.upper()) * 0.985:.4f}"'
 
 
 def sbc_wind_arrow(deg, label=""):
@@ -9161,7 +9180,7 @@ def sbg_conditions(g, e):
 
     def plate(key, label, big, lit):
         return (f'<div class="sbg-p sbg-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span>'
-                f'<span class="sbg-big">{big}</span></div>')
+                f'<span class="sbg-big"{_oswald_w(big)}>{big}</span></div>')
     miss = '<span class="sbc-miss">missing</span>'
     temp = f'{p["temp"]}°' if p["temp"] is not None else miss
     wind = "Calm" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else miss)

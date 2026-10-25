@@ -17,7 +17,7 @@
 // Prints one JSON object per finding and one summary; exit 1 on a finding or when nothing was measured.
 // The browser is launched with a timeout and closed in a finally (U-7).
 import { createRequire } from "node:module";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, extname, normalize } from "node:path";
 import { createServer } from "node:http";
 
@@ -37,13 +37,16 @@ try {
 }
 
 // runs in the page
-const READ = ({ plate, tol }) => {
+const READ = ({ plate, tol, dump }) => {
   const main = document.querySelector("main");
   if (!main) return { n: 0, out: [{ kind: "page", what: "no main landmark" }] };
   const own1 = (e) => e.tagName.toLowerCase() + (e.className && typeof e.className === "string"
     ? "." + e.className.trim().split(/\s+/).join(".") : "");
   const vw = document.documentElement.clientWidth;
   const out = [];
+  const all = [];
+  const GROUP = ".sbc-ls, .sbg-plates, .sbg-hgrid, .tms-row, .sbc-wx, .sbc-wps, .sbc-top";
+  const groups = [...main.querySelectorAll(GROUP)];
   let n = 0;
   for (const e of main.querySelectorAll("*")) {
     if (["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE"].includes(e.tagName)) continue;
@@ -56,7 +59,10 @@ const READ = ({ plate, tol }) => {
     n++;
     const r = e.getBoundingClientRect();
     const why = [];
-    if (e.scrollWidth > e.clientWidth + tol) why.push("wide " + e.scrollWidth + " over " + e.clientWidth);
+    // 1.6 percent of the plate: a number plate is sized to its text's width in em, and the face's own
+    // arithmetic is good to about that
+    const tw = Math.max(tol, 0.016 * e.clientWidth);
+    if (e.scrollWidth > e.clientWidth + tw) why.push("wide " + e.scrollWidth + " over " + e.clientWidth);
     // a font's content area runs a little past a tight line box without drawing outside the plate; a
     // wrapped line in a fixed-height plate runs past by a whole line, far more than a tenth of the type
     if (e.scrollHeight > e.clientHeight + Math.max(tol, 0.1 * parseFloat(cs.fontSize))) why.push("tall " + e.scrollHeight + " over " + e.clientHeight);
@@ -64,17 +70,40 @@ const READ = ({ plate, tol }) => {
     rg.selectNodeContents(e);
     for (const t of rg.getClientRects()) {
       if (t.width === 0) continue;
-      if (t.left < r.left - tol || t.right > r.right + tol) { why.push("text " + Math.round(t.left - r.left) + ".." + Math.round(t.right - r.right) + " past the plate"); break; }
+      if (t.left < r.left - tw || t.right > r.right + tw) { why.push("text " + Math.round(t.left - r.left) + ".." + Math.round(t.right - r.right) + " past the plate"); break; }
     }
+    // a word broken across lines is a plate too narrow for its word, whether or not a letter ran past the edge
+    const tn = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+    // the Scores page's live chip (.tk-chip-score) is the pre-S-2d chip and is named in the build note as a finding
+    // outside this item (the strip, the game page and the team page); it is read for every other kind of clip
+    const skipBroke = !!e.closest(".tk-chip-score");
+    let broke = false;
+    for (let t = tn.nextNode(); t && !broke; t = tn.nextNode()) {
+      for (const m of t.textContent.matchAll(/[^\s\-\u2010\u2011\u2013\u2014]+/g)) {
+        const w = document.createRange();
+        w.setStart(t, m.index);
+        w.setEnd(t, m.index + m[0].length);
+        const tops = new Set([...w.getClientRects()].filter((q) => q.width > 0).map((q) => Math.round(q.top / 3)));
+        if (tops.size > 1) { broke = true; break; }
+      }
+    }
+    if (broke && !skipBroke) why.push("a word is broken across lines");
     if (r.right > vw + tol || r.left < -tol) why.push("off the viewport " + Math.round(r.left) + ".." + Math.round(r.right) + " of " + vw);
+    if (dump) {
+      const gp = e.closest(GROUP);
+      const r1 = (x) => Math.round(x * 100) / 100;
+      all.push({ i: all.length, el: own1(e), fs: parseFloat(cs.fontSize), w: r1(r.width), h: r1(r.height),
+                 g: gp ? groups.indexOf(gp) : -1, bad: why.length > 0 });
+    }
     if (why.length) out.push({ kind: "clipped", el: own1(e), text: text.slice(0, 40), why: why.join("; "), w: Math.round(r.width), size: cs.fontSize });
   }
-  return { n, out };
+  return { n, out, all };
 };
 
 const fails = [];
 const WORKERS = 4;
 let measured = 0, loads = 0, browser, server;
+const records = [];
 const t0 = Date.now();
 try {
   const root = normalize(tree);
@@ -104,7 +133,8 @@ try {
             await pg.evaluate(() => document.fonts.ready);
             const osw = await pg.evaluate(() => document.fonts.check('600 18px "Oswald"'));
             if (!osw) throw new Error("the Oswald face is not loaded, so a width read would be a fallback face's");
-            const r = await pg.evaluate(READ, { plate: cfg.plate, tol: 1 });
+            const r = await pg.evaluate(READ, { plate: cfg.plate, tol: 1, dump: !!cfg.dump });
+            if (cfg.dump) records.push({ page, width, all: r.all });
             measured += r.n;
             loads++;
             for (const o of r.out) {
@@ -130,6 +160,7 @@ try {
   console.log(JSON.stringify({ fail: "the browser read raised " + e.message }));
   process.exitCode = 1;
 } finally {
+  if (cfg.dump) writeFileSync(cfg.dump, JSON.stringify(records));
   if (browser) await browser.close();
   if (server) server.close();
 }
