@@ -5289,8 +5289,8 @@ def sbc_linescore(g, full=True, ot_col=False):
     lose = {"away": False, "home": False}
     if g.get("state") == "post" and sa is not None and sh is not None and sa != sh:
         lose["away" if sa < sh else "home"] = True
-    cols = f"minmax(0,1fr) repeat({len(heads)},var(--sbc-q)) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
-    out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols}">']
+    cols = f"minmax(0,1fr) repeat({len(heads)},var(--sbc-qf)) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
+    out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols};--sbc-n:{len(heads)}">']
     if heads:
         out.append('<span class="sbc-h"></span>' + "".join(f'<span class="sbc-h">{x}</span>' for x in heads)
                    + '<span class="sbc-h sbc-th">T</span>')

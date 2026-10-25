@@ -29,7 +29,7 @@ import subprocess
 import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-WIDTHS = [390, 768, 1440]
+WIDTHS = [320, 360, 390, 414, 600, 700, 768, 820, 900, 1024, 1100, 1280, 1440, 1920]
 PLATE = "rgb(20, 26, 23)"    # --sbc-plate (#141A17), the color every plate of the look is on
 SWEEP_TIMEOUT = 600
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

@@ -2793,12 +2793,15 @@ a.gp-svc:hover{border-color:var(--ink)}
 .sbc-chip,.sbc-chips .tk-chip{padding:3px 7px;border-radius:3px;background:var(--sbc-plate);color:var(--sbc-cream);
   white-space:nowrap;font:inherit;letter-spacing:inherit;border:0;margin:0}
 .sbc-chips .tk-chip.tk-verify{color:#D9D3B4}
-.sbc-ls{display:grid;gap:4px;align-items:center;text-align:center}
+.sbc-ls{display:grid;gap:4px;align-items:center;text-align:center;
+  --sbc-qf:max(14px,min(var(--sbc-q),calc((100cqw - var(--sbc-t) - 84px - (var(--sbc-n,4) + 1) * 4px) / var(--sbc-n,4))))}
+.sbc-ls .sbc-pl:not(.sbc-tot){font-size:min(var(--sbc-pf,19px),calc(var(--sbc-qf) * .74))}
+.tk-c.sbc,section.sbc.sbg{container-type:inline-size}
 .sbc-h{font-family:var(--mono);font-size:10px;font-weight:700;color:#D9D3B4}
 .sbc-h.sbc-th{color:var(--sbc-yellow)}
 .sbc-team{text-align:left;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);min-width:0;
   font-family:var(--sbc-display);font-size:20px;font-weight:600;line-height:1.2;letter-spacing:.03em;
-  text-transform:uppercase;color:var(--sbc-cream);overflow-wrap:anywhere}
+  text-transform:uppercase;color:var(--sbc-cream);overflow-wrap:break-word}
 .sbc-team b{font-weight:600}
 .sbc-team small{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0;color:#B8B293}
 .sbc-pl{height:32px;border-radius:3px;background:var(--sbc-plate);box-shadow:inset 0 2px 4px rgba(0,0,0,.7);
@@ -2909,10 +2912,11 @@ section.sbc.sbg.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2
 .sbg .cxh-cap{font-family:var(--mono);font-size:10px;line-height:1.35;color:#D9D3B4;text-align:center}
 .sbg p.cxh-fw{display:none}
 .sbg-ps{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.sbg-ps{container-type:inline-size}
 .sbg-plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;text-align:center}
 .sbg-p{display:flex;flex-direction:column;gap:2px;min-width:0}
 .sbg-big{display:block;padding:4px 0;border-radius:3px;background:var(--sbc-plate);
-  box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:34px;line-height:1.2;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:clamp(20px,calc((100cqw - 6px) / 5),34px);line-height:1.2;
   font-weight:600;text-transform:uppercase;color:var(--sbc-cream)}
 .sbg-p.on .sbg-big{color:var(--sbc-yellow);text-shadow:0 0 12px rgba(255,210,63,.7)}
 .sbg p.sbg-words{margin:0;font-size:13px;line-height:1.35;color:var(--sbc-cream)}
@@ -2953,13 +2957,18 @@ a.sbg-link small{font-family:var(--mono);font-size:11px;font-weight:400;color:va
   .gp-grid>*:not(.sbg-col)+*:not(.sbg-col){margin-top:18px}
   .gp-grid>.sbg-col{grid-column:1;grid-row:1 / span 6}
   .gp-grid .gp-dz{grid-template-columns:1fr;gap:14px}
-  .sbg{--sbc-q:48px;--sbc-t:64px}
+  .sbg{--sbc-q:48px;--sbc-t:64px;--sbc-pf:28px}
   .sbg .sbc-team{font-size:30px}
   .sbg .sbc-pl{height:52px;font-size:28px}
   .sbg .cxh-field{flex-basis:160px}
   .sbg .cxf-svg{width:160px}
-  .sbg-plates{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .sbg-big{font-size:48px}
+  /* S-5.6: the board's column is narrow from 900 to about 1200, so the four plates go in a row only when the
+     column is wide enough for them, and the type is sized to the plate (cqw is the width of .sbg-ps) */
+  .sbg-big{font-size:clamp(20px,calc((100cqw - 6px) / 5),48px)}
+  @container (min-width:420px){
+    .sbg-plates{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .sbg-big{font-size:clamp(20px,calc((100cqw - 18px) / 10),48px)}
+  }
   .sbg-hp{font-size:24px}
 }
 
