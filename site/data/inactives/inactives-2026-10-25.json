@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T19:20:25Z",
- "last_poll": "2026-10-25T19:50:39Z",
+ "last_change": "2026-10-25T23:00:27Z",
+ "last_poll": "2026-10-25T23:00:50Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -756,6 +756,15 @@
      "pos": "QB",
      "status": "Out"
     },
+    "4697639": {
+     "changed_at": null,
+     "detail": "Undisclosed",
+     "feed_date": "2026-10-25T22:56Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Jaylen Watson",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4833029": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -877,6 +886,15 @@
      "pos": "S",
      "status": "Questionable"
     },
+    "4682745": {
+     "changed_at": null,
+     "detail": "Quadriceps",
+     "feed_date": "2026-10-25T20:00Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Jaylen Wright",
+     "pos": "RB",
+     "status": "Questionable"
+    },
     "4875079": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -983,7 +1001,7 @@
     "3042519": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-25T19:32Z",
+     "feed_date": "2026-10-25T20:33Z",
      "first_seen": "2026-10-25T19:50:24Z",
      "name": "Aaron Jones Sr.",
      "pos": "RB",
@@ -1485,6 +1503,15 @@
      "name": "Nikko Reed",
      "pos": "CB",
      "status": "Out"
+    },
+    "4696981": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-10-25T21:16Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Cam Skattebo",
+     "pos": "RB",
+     "status": "Questionable"
     }
    },
    "id": "19",
@@ -2386,18 +2413,18 @@
      "status": "Questionable"
     },
     "3924327": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T23:00:27Z",
      "detail": "Elbow",
-     "feed_date": "2026-10-24T00:43Z",
+     "feed_date": "2026-10-25T22:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Drew Lock",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4037521": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-10-24T02:13Z",
+     "feed_date": "2026-10-25T22:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Chazz Surratt",
      "pos": "LB",
@@ -2406,7 +2433,7 @@
     "4426385": {
      "changed_at": null,
      "detail": "Knee - ACL",
-     "feed_date": "2026-10-23T20:48Z",
+     "feed_date": "2026-10-25T22:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Zach Charbonnet",
      "pos": "RB",
@@ -2415,20 +2442,29 @@
     "4428659": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-24T00:47Z",
+     "feed_date": "2026-10-25T22:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Drake Thomas",
      "pos": "LB",
      "status": "Out"
     },
-    "4605491": {
+    "4592823": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Beau Stephens",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4605491": {
+     "changed_at": "2026-10-25T23:00:27Z",
      "detail": "Hamstring",
-     "feed_date": "2026-10-21T23:07Z",
+     "feed_date": "2026-10-25T22:52Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Connor O'Toole",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4869523": {
      "changed_at": null,
@@ -2438,10 +2474,83 @@
      "name": "Nick Emmanwori",
      "pos": "S",
      "status": "Questionable"
+    },
+    "5151317": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Robert Henry Jr.",
+     "pos": "RB",
+     "status": "Out"
     }
    },
    "id": "26",
-   "players": {},
+   "players": {
+    "3924327": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Drew Lock",
+     "pos": "QB",
+     "reason": "Elbow",
+     "via": "poll"
+    },
+    "4037521": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Chazz Surratt",
+     "pos": "LB",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4426385": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Zach Charbonnet",
+     "pos": "RB",
+     "reason": "Knee - ACL",
+     "via": "poll"
+    },
+    "4428659": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Drake Thomas",
+     "pos": "LB",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4592823": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Beau Stephens",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4605491": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Connor O'Toole",
+     "pos": "LB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "5151317": {
+     "feed_date": "2026-10-25T22:52Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "jersey": "",
+     "name": "Robert Henry Jr.",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-25T19:50:26Z",
    "rows_returned": 25,
@@ -2638,13 +2747,13 @@
    "capped": true,
    "designations": {
     "2973051": {
-     "changed_at": null,
-     "detail": "Ankle",
-     "feed_date": "2026-10-25T19:33Z",
+     "changed_at": "2026-10-25T23:00:27Z",
+     "detail": "Leg",
+     "feed_date": "2026-10-25T22:30Z",
      "first_seen": "2026-10-25T19:10:27Z",
      "name": "Taylor Moton",
      "pos": "OT",
-     "status": "Questionable"
+     "status": "Doubtful"
     },
     "4034962": {
      "changed_at": null,
@@ -3153,6 +3262,15 @@
      "name": "Blake Fisher",
      "pos": "OT",
      "status": "Out"
+    },
+    "4586312": {
+     "changed_at": null,
+     "detail": "Toe",
+     "feed_date": "2026-10-25T21:01Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Jaylin Noel",
+     "pos": "WR",
+     "status": "Questionable"
     },
     "4695705": {
      "changed_at": null,
@@ -3895,6 +4013,24 @@
      "name": "Micah Parsons",
      "pos": "DE",
      "status": "Out"
+    },
+    "4426411": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-10-25T22:11Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Sean Rhyan",
+     "pos": "G",
+     "status": "Questionable"
+    },
+    "4428037": {
+     "changed_at": null,
+     "detail": "Quadriceps",
+     "feed_date": "2026-10-25T20:50Z",
+     "first_seen": "2026-10-25T23:00:27Z",
+     "name": "Jacob Monk",
+     "pos": "C",
+     "status": "Questionable"
     },
     "4428085": {
      "changed_at": null,
