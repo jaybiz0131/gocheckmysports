@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-25T16:00:38Z",
+ "fetched_at": "2026-10-25T16:49:03Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,10 +7,10 @@
     {
      "id": "401873011",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "9:32 - 4th",
-     "detail": "9:32",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-10-25T13:30Z",
      "network": "NFL Net",
@@ -22,7 +22,7 @@
       "mascot": "Saints",
       "rank": null,
       "score": "10",
-      "record": "2-4",
+      "record": "2-5",
       "periods": [
        "0",
        "10",
@@ -41,7 +41,7 @@
       "mascot": "Steelers",
       "rank": null,
       "score": "16",
-      "record": "4-2",
+      "record": "5-2",
       "periods": [
        "3",
        "10",
@@ -56,13 +56,13 @@
       {
        "cat": "PASS",
        "name": "T. Shough",
-       "line": "29/35, 264 YDS, 1 TD, 1 INT",
+       "line": "30/38, 278 YDS, 1 TD, 1 INT",
        "team": "18"
       },
       {
        "cat": "RUSH",
        "name": "J. Warren",
-       "line": "12 CAR, 88 YDS",
+       "line": "18 CAR, 101 YDS",
        "team": "23"
       },
       {
@@ -72,12 +72,12 @@
        "team": "18"
       }
      ],
-     "situation": "1st & 10 at PIT 34",
-     "possession": "23",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.8411111111111111,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "Stade de France",
      "venue_id": "1781",
@@ -160,7 +160,7 @@
       "provider": "Draft Kings",
       "detail": "SF -2.5",
       "spread": 2.5,
-      "total": 50.5,
+      "total": 49.5,
       "favorite": "away"
      }
     },
@@ -236,8 +236,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "CLE -2.5",
-      "spread": 2.5,
+      "detail": "CLE -1.5",
+      "spread": 1.5,
       "total": 36.5,
       "favorite": "away"
      }
@@ -706,7 +706,7 @@
       "provider": "Draft Kings",
       "detail": "DEN -4.5",
       "spread": 4.5,
-      "total": 42.5,
+      "total": 43.5,
       "favorite": "away"
      }
     },
@@ -1240,7 +1240,7 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "TB -118",
+      "detail": "TB -120",
       "spread": 1.5,
       "total": 7.0,
       "favorite": "home"
@@ -6075,11 +6075,11 @@
     {
      "id": "401878764",
      "league": "Soccer",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "Scheduled",
-     "detail": "0'",
-     "period": null,
+     "status_short": "19'",
+     "detail": "19'",
+     "period": 1,
      "start_utc": "2026-10-25T16:30Z",
      "network": "USA Net",
      "home": {
@@ -6125,7 +6125,7 @@
      "venue_country": "England",
      "line": {
       "provider": "DraftKings",
-      "detail": "SUN +175",
+      "detail": "SUN +165",
       "total": 2.5
      }
     }
@@ -6187,9 +6187,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "LAL -7.5",
-      "spread": 7.5,
-      "total": 237.5,
+      "detail": "LAL -6.5",
+      "spread": 6.5,
+      "total": 236.5,
       "favorite": "away"
      }
     },
@@ -6246,9 +6246,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "IND -7.5",
-      "spread": 7.5,
-      "total": 231.5,
+      "detail": "IND -6.5",
+      "spread": 6.5,
+      "total": 232.5,
       "favorite": "away"
      }
     },
@@ -6423,8 +6423,8 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "OKC -15.5",
-      "spread": -15.5,
+      "detail": "OKC -16.5",
+      "spread": -16.5,
       "total": 224.5,
       "favorite": "home"
      }
