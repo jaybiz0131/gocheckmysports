@@ -1,8 +1,8 @@
 {
  "day": "2026-10-25",
  "first_poll": "2026-10-25T00:00:29Z",
- "last_change": "2026-10-25T16:00:34Z",
- "last_poll": "2026-10-25T16:49:10Z",
+ "last_change": "2026-10-25T18:45:35Z",
+ "last_poll": "2026-10-25T18:45:35Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1057,13 +1057,13 @@
      "status": "Out"
     },
     "5081999": {
-     "changed_at": "2026-10-25T15:40:24Z",
+     "changed_at": "2026-10-25T18:45:27Z",
      "detail": "Shoulder",
-     "feed_date": "2026-10-25T15:19Z",
+     "feed_date": "2026-10-25T14:09Z",
      "first_seen": "2026-10-25T15:00:29Z",
      "name": "CJ Donaldson",
      "pos": "RB",
-     "status": "Out"
+     "status": "Questionable"
     }
    },
    "id": "18",
@@ -1176,6 +1176,15 @@
      "name": "Jake Haener",
      "pos": "QB",
      "status": "Out"
+    },
+    "4360516": {
+     "changed_at": null,
+     "detail": "Hamstring",
+     "feed_date": "2026-10-25T18:21Z",
+     "first_seen": "2026-10-25T18:45:27Z",
+     "name": "Tyrone Tracy Jr.",
+     "pos": "RB",
+     "status": "Questionable"
     },
     "4361266": {
      "changed_at": null,
@@ -1587,7 +1596,7 @@
     },
     "4569480": {
      "changed_at": null,
-     "detail": "Back",
+     "detail": "",
      "feed_date": "2026-10-22T23:26Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Darius Robinson",
@@ -1623,7 +1632,17 @@
     }
    },
    "id": "22",
-   "players": {},
+   "players": {
+    "4430841": {
+     "feed_date": "2026-10-24T00:50Z",
+     "first_seen": "2026-10-25T18:45:27Z",
+     "jersey": "",
+     "name": "Carson Beck",
+     "pos": "QB",
+     "reason": "Back",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-25T16:47:01Z",
    "rows_returned": 25,
@@ -1890,6 +1909,15 @@
      "name": "Luke Gifford",
      "pos": "LB",
      "status": "Out"
+    },
+    "3117251": {
+     "changed_at": null,
+     "detail": "Thigh",
+     "feed_date": "2026-10-25T18:05Z",
+     "first_seen": "2026-10-25T18:45:27Z",
+     "name": "Christian McCaffrey",
+     "pos": "RB",
+     "status": "Questionable"
     },
     "3126486": {
      "changed_at": null,
@@ -2659,6 +2687,15 @@
      "pos": "G",
      "status": "Out"
     },
+    "4832793": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-10-25T17:48Z",
+     "first_seen": "2026-10-25T18:45:27Z",
+     "name": "Olaivavega Ioane",
+     "pos": "G",
+     "status": "Questionable"
+    },
     "5088338": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -3155,13 +3192,13 @@
      "status": "Out"
     },
     "4372012": {
-     "changed_at": null,
+     "changed_at": "2026-10-25T18:45:35Z",
      "detail": "Ankle",
      "feed_date": "2026-10-25T11:56Z",
      "first_seen": "2026-10-25T00:00:29Z",
      "name": "Pat Surtain II",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4702555": {
      "changed_at": null,
@@ -3174,7 +3211,17 @@
     }
    },
    "id": "7",
-   "players": {},
+   "players": {
+    "4372012": {
+     "feed_date": "2026-10-25T11:56Z",
+     "first_seen": "2026-10-25T18:45:35Z",
+     "jersey": "",
+     "name": "Pat Surtain II",
+     "pos": "CB",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-10-25T16:48:29Z",
    "rows_returned": 25,
