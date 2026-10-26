@@ -37,6 +37,7 @@ ALL_WIDTHS = sorted(set(WIDTHS) | set(OFFGRID))
 # main's stylesheet as it stood when S-5.6 began (69f3b8d): what a plate that already fit must still be drawn by.
 # A later item that changes a plate on purpose updates this file on purpose.
 BASE_CSS = os.path.join("fixtures", "plate-base", "site.css")
+HINTED_CONF = os.path.join("fixtures", "plate-base", "fonts.conf")   # fontconfig: full hinting, as the CI runner draws
 PLATE = "rgb(20, 26, 23)"    # --sbc-plate (#141A17), the color every plate of the look is on
 SWEEP_TIMEOUT = 600
 # S-5.6 round 4: stream labels the carriage rows can print on the strip card's chip row; the longest one that
@@ -56,8 +57,11 @@ def sweep(tree, pages, widths=WIDTHS, dump=None):
         with open(cfgp, "w", encoding="utf-8") as f:
             json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump}, f)
         try:
+            # S-5.6 round 5: the sweep runs under the runner's text condition (whole-pixel advances from hinted
+            # fonts), not this machine's, so a fit that depends on the machine's fonts is red on every machine.
+            env = dict(os.environ, FONTCONFIG_FILE=os.path.join(HERE, HINTED_CONF), PLATE_HINTED="1")
             r = subprocess.run([node, os.path.join(HERE, "scripts", "plate-fit.mjs"), tree, cfgp],
-                               capture_output=True, text=True, timeout=SWEEP_TIMEOUT)
+                               capture_output=True, text=True, timeout=SWEEP_TIMEOUT, env=env)
         except subprocess.TimeoutExpired:
             return [], None, ["plate fit: the browser sweep timed out"]
     finally:
