@@ -18,3 +18,5 @@ Every item a shift can take is merged; every other item is jack, blocked by an i
 - The Week 12 Search Console read (November 24) is the kill test as Program 7 states it.
 
 The strategist takes Review 2 against the scorecard and writes the next board.
+
+Addendum, 7:45 AM EDT, the shift of October 26, 12:06 AM EDT: S-5.6's round 5 (`63065d9`, reviewer PASS in review 5, CI run 388 on the branch green) merged at 7:41 AM EDT as `eb49df7`, after this report's push; CI on main for it, run 391, success: CI on main is green.
