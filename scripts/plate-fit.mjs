@@ -118,7 +118,7 @@ try {
   });
   await new Promise((ok) => server.listen(0, "127.0.0.1", ok));
   const base = "http://127.0.0.1:" + server.address().port + "/";
-  browser = await chromium.launch({ timeout: 60000 });
+  browser = await chromium.launch({ timeout: 60000, channel: process.env.PLATE_HINTED ? "chromium" : undefined });
   for (const width of cfg.widths) {
     const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: "light" });
     await ctx.route(/\.(png|jpe?g|webp|gif|ico)(\?.*)?$/, (route) => route.abort());

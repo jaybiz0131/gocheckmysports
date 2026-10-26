@@ -2946,6 +2946,9 @@ section.sbc.sbg.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2
 .sbg-big{display:block;padding:4px 0;border-radius:3px;background:var(--sbc-plate);
   box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:min(34px,calc(100cqw / var(--w,1)));line-height:1.2;
   font-weight:600;text-transform:uppercase;color:var(--sbc-cream)}
+/* S-5.6 round 5: --w is measured in fractional advances; a machine whose fonts are hinted rounds each glyph to a whole
+   pixel and draws the text wider than --w says ("52%" 47px for 45.7). Only the plates that carry --w ask for exact advances. */
+.sbg-big[style*="--w"]{text-rendering:geometricPrecision}
 .sbg-big .sbc-miss{font-size:min(12px,calc(100cqw / 4.2))}
 .sbg-p.on .sbg-big{color:var(--sbc-yellow);text-shadow:0 0 12px rgba(255,210,63,.7)}
 .sbg p.sbg-words{margin:0;font-size:13px;line-height:1.35;color:var(--sbc-cream)}
