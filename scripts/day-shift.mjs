@@ -7,7 +7,7 @@
 // and at 1440 wide, waits for it to settle, and prints one JSON object per width: the cumulative
 // layout shift (the sum of the page's layout-shift entries with no recent input, the figure
 // Lighthouse reports) and the day sections that were visible at the first frame the page painted.
-// With DAY_HASH set the page is loaded at that hash; with DAY_NOJS set it is loaded without script and
+// With DAY_FONT_DELAY=ms every font response (or those matching DAY_FONT_MATCH) is held that long (a slow runner); with DAY_HASH set the page is loaded at that hash; with DAY_NOJS set it is loaded without script and
 // the days showing are printed. Playwright is found through PLAYWRIGHT_NODE_MODULES, as in scripts/page-measure.mjs.
 import { createRequire } from "node:module";
 import { readFileSync, existsSync, statSync } from "node:fs";
@@ -33,8 +33,11 @@ const server = createServer((req, res) => {
   }
   const f = p.startsWith("/assets/") ? normalize(join(assets, p.slice(8))) : "";
   if (f && f.startsWith(normalize(assets)) && existsSync(f) && statSync(f).isFile()) {
-    res.writeHead(200, { "content-type": TYPES[extname(f)] || "application/octet-stream" });
-    return res.end(readFileSync(f));
+    const send = () => { res.writeHead(200, { "content-type": TYPES[extname(f)] || "application/octet-stream" });
+      res.end(readFileSync(f)); };
+    // DAY_FONT_DELAY=ms holds every font response that long, a slow runner's font arrival
+    if (process.env.DAY_FONT_DELAY && /\.(woff2|ttf)$/.test(f) && new RegExp(process.env.DAY_FONT_MATCH || ".").test(f)) return setTimeout(send, +process.env.DAY_FONT_DELAY);
+    return send();
   }
   res.writeHead(404);
   res.end();
