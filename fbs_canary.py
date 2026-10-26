@@ -606,6 +606,59 @@ def shift_unit():
     return fails
 
 
+def _unicode_range(text):
+    """The CSS unicode-range for a set of characters: sorted code points, runs joined (U+41-5A)."""
+    cps = sorted({ord(c) for c in text})
+    runs, a = [], cps[0]
+    for x, y in zip(cps, cps[1:] + [None]):
+        if y != x + 1:
+            runs.append((a, x))
+            a = y
+    return ",".join(f"U+{lo:X}" if lo == hi else f"U+{lo:X}-{hi:X}" for lo, hi in runs)
+
+
+def fallback_unit():
+    """S-5.7 round 5 (J-16): the 'Oswald Fallback' face is Oswald's stand-in for the wait and nothing
+    more. Its unicode-range equals oswald.woff2's own character set (the set scripts/oswald_subset.py
+    writes), so a glyph the subset lacks never falls to the scaled face. In a browser, after Oswald has
+    loaded, a lower-case string on an Oswald surface (the stack with the stand-in) is as wide as the
+    same string in the stack without it, and the capitals are drawn in Oswald."""
+    import subprocess
+    import shutil
+    fails = []
+    css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
+    m = re.search(r"@font-face\{font-family:'Oswald Fallback';[^}]*\}", css)
+    if not m:
+        return ["fallback: the 'Oswald Fallback' @font-face is missing from site.css"]
+    sys.path.insert(0, os.path.join(HERE, "scripts"))
+    import oswald_subset
+    want = _unicode_range(oswald_subset.OSWALD_TEXT)
+    got = re.search(r"unicode-range:\s*([^;}]+)", m.group(0))
+    if not got or got.group(1).replace(" ", "").upper() != want:
+        fails.append(f"fallback: the 'Oswald Fallback' face has unicode-range {got.group(1) if got else 'none'}, expected oswald.woff2's set {want}")
+    node = shutil.which("node")
+    if not node or not os.environ.get("PLAYWRIGHT_NODE_MODULES"):
+        print("::warning::fallback: node or PLAYWRIGHT_NODE_MODULES is missing; the browser half of the Oswald fallback check did not run")
+        return fails
+    try:
+        r = subprocess.run([node, os.path.join(HERE, "scripts", "oswald-fallback.mjs"),
+                            os.path.join(HERE, "site", "assets")], capture_output=True, text=True, timeout=120)
+        out = json.loads(r.stdout.strip().splitlines()[-1])
+    except Exception as e:
+        return fails + [f"fallback: the browser read raised {type(e).__name__}: {e}"]
+    if "fail" in out:
+        return fails + [f"fallback: the browser read failed: {out['fail']}"]
+    if not out["oswaldLoaded"]:
+        fails.append("fallback: Oswald did not load in the probe, so the check proves nothing")
+    for t in out["texts"]:
+        if abs(t["withFallback"] - t["without"]) > 0.01:
+            fails.append(f"fallback: after Oswald loads, the lower-case text {t['text']!r} on an Oswald surface is {t['withFallback']}px wide with the stand-in and {t['without']}px without it, so it is drawn in the scaled 'Oswald Fallback' face")
+    c = out["caps"]
+    if abs(c["display"] - c["oswald"]) > 0.01 or abs(c["display"] - c["fallbackFace"]) < 1:
+        fails.append(f"fallback: capitals on an Oswald surface are {c['display']}px wide, Oswald alone {c['oswald']}px, the stand-in {c['fallbackFace']}px: Oswald is not the face that draws them")
+    return fails
+
+
 def tabs_unit():
     """The day tabs, Jack's ruling of 19 October 2026, 2:54 PM. Static: no `hidden` is written into
     a day section (without script the whole week shows), and the script reads the address first.
@@ -766,7 +819,7 @@ def tree_unit():
 
 
 def fbs_canary(tree=None):
-    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + tabs_unit() + shift_unit() + inert_unit() + tree_unit()
+    fails = feed_unit() + board_unit() + weight_unit() + surface_unit() + tabs_unit() + shift_unit() + fallback_unit() + inert_unit() + tree_unit()
     if tree:
         fails += tree_checks(tree)
     return fails

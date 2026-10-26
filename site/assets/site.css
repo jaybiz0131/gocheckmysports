@@ -42,7 +42,12 @@
    28.9/0.778 = 37.15%. Where Impact or Arial Narrow stood next, they still do when this is absent. */
 @font-face{font-family:'Oswald Fallback';font-style:normal;font-weight:500 700;
   src:local('Liberation Sans Bold'),local('LiberationSans-Bold');
-  size-adjust:77.8%;ascent-override:153.4%;descent-override:37.15%;line-gap-override:0%}
+  size-adjust:77.8%;ascent-override:153.4%;descent-override:37.15%;line-gap-override:0%;
+  unicode-range:U+20-21,U+23,U+25-29,U+2B-3B,U+3F,U+41-5A,U+B0,U+B7,U+C0-CF,U+D1-D6,U+D8-DD,U+2013,U+2019}
+/* Round 5 (J-16): the range is oswald.woff2's own cmap (84 code points, read from the font and equal
+   to OSWALD_TEXT in scripts/oswald_subset.py; fbs_canary.fallback_unit holds the two together), so a
+   glyph the subset lacks, such as the lower case of "Time TBA", never falls to this scaled face and
+   keeps the fall it had before the stand-in existed. */
 
 /* THE MASTHEAD DOES NOT MOVE WHEN THE SERIF LANDS. Measured from the two fonts' own
    tables rather than guessed: Georgia matches Newsreader to 0.3 percent on the
