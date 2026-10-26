@@ -1,8 +1,8 @@
 {
  "day": "2026-10-26",
  "first_poll": "2026-10-26T00:00:28Z",
- "last_change": "2026-10-26T23:01:11Z",
- "last_poll": "2026-10-26T23:01:17Z",
+ "last_change": "2026-10-26T23:06:07Z",
+ "last_poll": "2026-10-26T23:06:13Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1712,6 +1712,15 @@
   "21": {
    "capped": true,
    "designations": {
+    "15797": {
+     "changed_at": null,
+     "detail": "Personal",
+     "feed_date": "2026-10-26T22:53Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "name": "Lane Johnson",
+     "pos": "OT",
+     "status": "Out"
+    },
     "3916409": {
      "changed_at": null,
      "detail": "",
@@ -1733,7 +1742,7 @@
     "4240456": {
      "changed_at": null,
      "detail": "Abdomen",
-     "feed_date": "2026-10-24T22:43Z",
+     "feed_date": "2026-10-26T22:50Z",
      "first_seen": "2026-10-26T00:00:28Z",
      "name": "Michael Carter II",
      "pos": "CB",
@@ -1742,7 +1751,7 @@
     "4241478": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-24T19:54Z",
+     "feed_date": "2026-10-26T22:50Z",
      "first_seen": "2026-10-26T00:00:28Z",
      "name": "DeVonta Smith",
      "pos": "WR",
@@ -1751,7 +1760,7 @@
     "4426331": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-24T22:31Z",
+     "feed_date": "2026-10-26T22:50Z",
      "first_seen": "2026-10-26T00:00:28Z",
      "name": "Nolan Smith Jr.",
      "pos": "LB",
@@ -1760,10 +1769,19 @@
     "4428850": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-24T20:04Z",
+     "feed_date": "2026-10-26T22:50Z",
      "first_seen": "2026-10-26T00:00:28Z",
      "name": "Dontayvion Wicks",
      "pos": "WR",
+     "status": "Out"
+    },
+    "4430814": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-26T22:50Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "name": "Jake Majors",
+     "pos": "C",
      "status": "Out"
     },
     "4571162": {
@@ -1774,10 +1792,28 @@
      "name": "Jalyx Hunt",
      "pos": "LB",
      "status": "Questionable"
+    },
+    "4879250": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-26T22:50Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "name": "Cole Payton",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "21",
    "players": {
+    "4240456": {
+     "feed_date": "2026-10-26T22:50Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "jersey": "",
+     "name": "Michael Carter II",
+     "pos": "CB",
+     "reason": "Abdomen",
+     "via": "poll"
+    },
     "4241478": {
      "feed_date": "2026-10-24T19:54Z",
      "first_seen": "2026-10-26T22:56:34Z",
@@ -1803,6 +1839,24 @@
      "name": "Dontayvion Wicks",
      "pos": "WR",
      "reason": "Ankle",
+     "via": "poll"
+    },
+    "4430814": {
+     "feed_date": "2026-10-26T22:50Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "jersey": "",
+     "name": "Jake Majors",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4879250": {
+     "feed_date": "2026-10-26T22:50Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "jersey": "",
+     "name": "Cole Payton",
+     "pos": "QB",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -3601,6 +3655,24 @@
      "name": "KaVontae Turpin",
      "pos": "WR",
      "reason": "Ribs",
+     "via": "poll"
+    },
+    "4362478": {
+     "feed_date": "2026-10-18T23:06Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "jersey": "",
+     "name": "Emari Demercado",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4428914": {
+     "feed_date": "2026-10-24T23:11Z",
+     "first_seen": "2026-10-26T23:06:07Z",
+     "jersey": "",
+     "name": "Dee Winters",
+     "pos": "LB",
+     "reason": "Calf",
      "via": "poll"
     },
     "4685554": {
