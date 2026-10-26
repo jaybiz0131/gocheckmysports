@@ -2793,12 +2793,15 @@ a.gp-svc:hover{border-color:var(--ink)}
 .sbc-chip,.sbc-chips .tk-chip{padding:3px 7px;border-radius:3px;background:var(--sbc-plate);color:var(--sbc-cream);
   white-space:nowrap;font:inherit;letter-spacing:inherit;border:0;margin:0}
 .sbc-chips .tk-chip.tk-verify{color:#D9D3B4}
+/* S-5.6: when the network and stream chips are wider together than the row, the second drops to its own line
+   instead of running off the card; each chip keeps its size, and a pair that fits is one line as before. */
+.sbc-chips{flex-wrap:wrap;max-width:100%}
 .sbc-ls{display:grid;gap:4px;align-items:center;text-align:center}
 .sbc-h{font-family:var(--mono);font-size:10px;font-weight:700;color:#D9D3B4}
 .sbc-h.sbc-th{color:var(--sbc-yellow)}
 .sbc-team{text-align:left;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);min-width:0;
   font-family:var(--sbc-display);font-size:20px;font-weight:600;line-height:1.2;letter-spacing:.03em;
-  text-transform:uppercase;color:var(--sbc-cream);overflow-wrap:anywhere}
+  text-transform:uppercase;color:var(--sbc-cream);overflow-wrap:break-word}
 .sbc-team b{font-weight:600}
 .sbc-team small{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0;color:#B8B293}
 .sbc-pl{height:32px;border-radius:3px;background:var(--sbc-plate);box-shadow:inset 0 2px 4px rgba(0,0,0,.7);
@@ -2840,9 +2843,11 @@ a.gp-svc:hover{border-color:var(--ink)}
 .sbc-wx p.sbc-aw{margin:0;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;color:var(--sbc-cream)}
 .sbc-wx p.sbc-nc{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#D9D3B4}
+/* S-5.6: a label plate keeps its type and wraps when the label is wider than the plate, so it is never clipped;
+   a label that fits is drawn exactly as before. */
 .sbc-wx p.sbc-one{margin:0;text-align:center;padding:6px 8px;border-radius:3px;background:var(--sbc-plate);
   font-family:var(--sbc-display);font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:#B8B293}
+  color:#B8B293;overflow-wrap:anywhere}
 .sbc p.sbc-fact{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#D9D3B4}
 .sbc .tk-card-a:focus-visible{outline:2px solid #FFD23F}
 @media (max-width:360px){.sbc-team{font-size:17px}.sbc-big{font-size:26px}:root{--sbc-q:22px}}
@@ -2906,10 +2911,13 @@ section.sbc.sbg.sbc-lit{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 0 2
 .sbg p.cxh-fw{display:none}
 .sbg-ps{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .sbg-plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;text-align:center}
-.sbg-p{display:flex;flex-direction:column;gap:2px;min-width:0}
+/* S-5.6: the number plate sizes its type to the plate only when the text is wider than the plate. --w is the
+   text's width in em (the Oswald advances, set by the build); the size is the old one whenever the text fits. */
+.sbg-p{display:flex;flex-direction:column;gap:2px;min-width:0;container-type:inline-size}
 .sbg-big{display:block;padding:4px 0;border-radius:3px;background:var(--sbc-plate);
-  box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:34px;line-height:1.2;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.75);font-family:var(--sbc-display);font-size:min(34px,calc(100cqw / var(--w,1)));line-height:1.2;
   font-weight:600;text-transform:uppercase;color:var(--sbc-cream)}
+.sbg-big .sbc-miss{font-size:min(12px,calc(100cqw / 4.2))}
 .sbg-p.on .sbg-big{color:var(--sbc-yellow);text-shadow:0 0 12px rgba(255,210,63,.7)}
 .sbg p.sbg-words{margin:0;font-size:13px;line-height:1.35;color:var(--sbc-cream)}
 .sbg p.sbg-words.on{font-weight:600;color:#FFE680}
@@ -2955,7 +2963,7 @@ a.sbg-link small{font-family:var(--mono);font-size:11px;font-weight:400;color:va
   .sbg .cxh-field{flex-basis:160px}
   .sbg .cxf-svg{width:160px}
   .sbg-plates{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .sbg-big{font-size:48px}
+  .sbg-big{font-size:min(48px,calc(100cqw / var(--w,1)))}
   .sbg-hp{font-size:24px}
 }
 
@@ -3058,7 +3066,8 @@ a.tms-row:focus-visible{outline:2px solid var(--sbc-yellow);outline-offset:3px}
 .tms-wxs .tms-pl i{display:block;font:700 10px/1.3 var(--mono);letter-spacing:.1em;color:#D9D3B4;font-style:normal}
 .tms-wxs .tms-pl.on{color:var(--sbc-yellow)}
 .tms-wxs .tms-pl.miss{font:500 11px/2.2 var(--mono);color:#D9D3B4}
-.tms-wxs .tms-one{flex-basis:100%;font-size:16px;letter-spacing:.12em;color:#B8B293}
+.tms-wxs .tms-one{flex-basis:100%;font-size:16px;letter-spacing:.12em;color:#B8B293;white-space:normal;
+  overflow-wrap:anywhere;padding-inline:0}
 .tms-bye .tms-opp{grid-column:3 / -1}
 .tms .tms-src{margin:2px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#D9D3B4}
 .tms .tms-none{margin:0;font-size:13px;color:#D9D3B4}
