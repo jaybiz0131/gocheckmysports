@@ -39,6 +39,9 @@ ALL_WIDTHS = sorted(set(WIDTHS) | set(OFFGRID))
 BASE_CSS = os.path.join("fixtures", "plate-base", "site.css")
 PLATE = "rgb(20, 26, 23)"    # --sbc-plate (#141A17), the color every plate of the look is on
 SWEEP_TIMEOUT = 600
+# S-5.6 round 4: stream labels the carriage rows can print on the strip card's chip row; the longest one that
+# arrived with the data (the ESPN app's own name) clipped on the team pages at 320 and 340.
+STREAM_LABELS = ["ESPN app (ESPN Unlimited)", "Peacock", "Fox One (Fox Sports app)"]
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 
@@ -173,6 +176,14 @@ def fixtures(out, labels, blind):
             body += "".join(f'<div class="fx-box"{st}><article class="tk-c sbc">{s}</article></div>' for s in strips)
             body += "".join(f'<div class="fx-box"{st}><section class="sbc sbg"><div class="sbg-cx">{s}</div></section></div>'
                             for s in strips)
+        if not blind:
+            # the strip card's chip row on a team page: the real card and the real stream chip, in the page grid
+            for i, sl in enumerate(STREAM_LABELS):
+                g = {"id": f"fxs{i}", "league": "cfb", "state": "pre", "start_utc": "2026-11-01T18:00:00Z",
+                     "network": "SEC Network", "home": {"abbr": "AUB", "name": "Auburn"},
+                     "away": {"abbr": "MIZ", "name": "Missouri"}}
+                chip = sb._svc_tag(sl, "", "tk-chip tk-stream", ' data-lens-only="watch"')
+                body += f'<div class="fx-box">{sb.sbc_card(g, {}, ticket=True, stream=chip)}</div>'
         if blind:
             # the team row's own wxs column is narrow, and the label is told not to wrap
             body = body.replace('<span class="tms-wxs">', '<span class="tms-wxs" style="width:140px">')

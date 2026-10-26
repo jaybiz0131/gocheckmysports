@@ -2793,6 +2793,9 @@ a.gp-svc:hover{border-color:var(--ink)}
 .sbc-chip,.sbc-chips .tk-chip{padding:3px 7px;border-radius:3px;background:var(--sbc-plate);color:var(--sbc-cream);
   white-space:nowrap;font:inherit;letter-spacing:inherit;border:0;margin:0}
 .sbc-chips .tk-chip.tk-verify{color:#D9D3B4}
+/* S-5.6: when the network and stream chips are wider together than the row, the second drops to its own line
+   instead of running off the card; each chip keeps its size, and a pair that fits is one line as before. */
+.sbc-chips{flex-wrap:wrap;max-width:100%}
 .sbc-ls{display:grid;gap:4px;align-items:center;text-align:center}
 .sbc-h{font-family:var(--mono);font-size:10px;font-weight:700;color:#D9D3B4}
 .sbc-h.sbc-th{color:var(--sbc-yellow)}
