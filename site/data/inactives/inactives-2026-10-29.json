@@ -1,8 +1,8 @@
 {
  "day": "2026-10-29",
  "first_poll": "2026-10-29T22:56:13Z",
- "last_change": "2026-10-29T22:56:13Z",
- "last_poll": "2026-10-29T22:57:28Z",
+ "last_change": "2026-10-29T23:01:15Z",
+ "last_poll": "2026-10-29T23:02:01Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -56,7 +56,7 @@
     "4240596": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-10-29T19:48Z",
+     "feed_date": "2026-10-29T22:57Z",
      "first_seen": "2026-10-29T22:56:13Z",
      "name": "C.J. Henderson",
      "pos": "CB",
@@ -110,7 +110,7 @@
     "4595343": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-10-29T19:48Z",
+     "feed_date": "2026-10-29T22:44Z",
      "first_seen": "2026-10-29T22:56:13Z",
      "name": "Kendal Daniels",
      "pos": "LB",
@@ -1331,6 +1331,24 @@
   "26": {
    "capped": true,
    "designations": {
+    "2971622": {
+     "changed_at": null,
+     "detail": "Achilles",
+     "feed_date": "2026-10-29T22:55Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Leonard Williams",
+     "pos": "DT",
+     "status": "Questionable"
+    },
+    "3120358": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-10-29T22:54Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Uchenna Nwosu",
+     "pos": "LB",
+     "status": "Questionable"
+    },
     "3924327": {
      "changed_at": null,
      "detail": "Elbow",
@@ -1367,6 +1385,15 @@
      "pos": "LB",
      "status": "Questionable"
     },
+    "4364623": {
+     "changed_at": null,
+     "detail": "Toe",
+     "feed_date": "2026-10-29T22:54Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Patrick O'Connell",
+     "pos": "LB",
+     "status": "Questionable"
+    },
     "4426376": {
      "changed_at": null,
      "detail": "Ankle",
@@ -1400,6 +1427,15 @@
      "feed_date": "2026-10-27T13:11Z",
      "first_seen": "2026-10-29T22:56:13Z",
      "name": "Connor O'Toole",
+     "pos": "LB",
+     "status": "Questionable"
+    },
+    "4686540": {
+     "changed_at": null,
+     "detail": "Hip",
+     "feed_date": "2026-10-29T22:54Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Tyrice Knight",
      "pos": "LB",
      "status": "Questionable"
     }
@@ -1508,6 +1544,15 @@
   "29": {
    "capped": true,
    "designations": {
+    "4239934": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "AJ Dillon",
+     "pos": "RB",
+     "status": "Out"
+    },
     "4242975": {
      "changed_at": null,
      "detail": "Hamstring",
@@ -1527,13 +1572,31 @@
      "status": "Out"
     },
     "4372518": {
-     "changed_at": null,
+     "changed_at": "2026-10-29T23:01:15Z",
      "detail": "Hand",
-     "feed_date": "2026-10-28T18:00Z",
+     "feed_date": "2026-10-29T22:58Z",
      "first_seen": "2026-10-29T22:56:13Z",
      "name": "Bobby Brown III",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4428993": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Haynes King",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4431588": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "name": "Ja'Tavion Sanders",
+     "pos": "TE",
+     "status": "Out"
     },
     "4696902": {
      "changed_at": null,
@@ -1546,7 +1609,53 @@
     }
    },
    "id": "29",
-   "players": {},
+   "players": {
+    "4239934": {
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "jersey": "",
+     "name": "AJ Dillon",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4242975": {
+     "feed_date": "2026-10-28T23:41Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "jersey": "",
+     "name": "Jaelan Phillips",
+     "pos": "LB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4372518": {
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "jersey": "",
+     "name": "Bobby Brown III",
+     "pos": "DT",
+     "reason": "Hand",
+     "via": "poll"
+    },
+    "4428993": {
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "jersey": "",
+     "name": "Haynes King",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4431588": {
+     "feed_date": "2026-10-29T22:58Z",
+     "first_seen": "2026-10-29T23:01:15Z",
+     "jersey": "",
+     "name": "Ja'Tavion Sanders",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
