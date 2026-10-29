@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-29T23:01:19Z",
+ "fetched_at": "2026-10-29T23:06:14Z",
  "leagues": [
   {
    "league": "NFL",
@@ -6221,11 +6221,11 @@
     {
      "id": "401892601",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "10/29 - 7:00 PM EDT",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "20:00 - 1st",
+     "detail": "20:00",
+     "period": 1,
      "start_utc": "2026-10-29T23:00Z",
      "network": "ESPN+",
      "home": {
@@ -6237,7 +6237,9 @@
       "rank": null,
       "score": "0",
       "record": "7-3-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "20",
       "color": "#003e7e",
       "alt_color": "#ffffff"
@@ -6251,7 +6253,9 @@
       "rank": null,
       "score": "0",
       "record": "4-5-3",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "28",
       "color": "#002d62",
       "alt_color": "#c41230"
@@ -6262,20 +6266,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.02,
      "venue_indoor": true,
      "venue": "Benchmark International Arena",
      "venue_id": "1396",
      "venue_city": "Tampa",
      "venue_state": "FL",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "TB -218",
-      "spread": -1.5,
-      "total": 5.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892602",
