@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-30T00:06:19Z",
+ "fetched_at": "2026-10-31T00:01:04Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -27,11 +27,11 @@
      "id": "401873023",
      "venue_id": "3798",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "10/29 - 8:15 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "19",
+     "home_score": "27"
     },
     {
      "league": "NFL",
@@ -497,11 +497,11 @@
      "id": "401862812",
      "venue_id": "3825",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "4:37 - 1st",
-     "away_score": "7",
-     "home_score": "3"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "41",
+     "home_score": "48"
     },
     {
      "league": "CFB",
@@ -523,11 +523,11 @@
      "id": "401869963",
      "venue_id": "3651",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "4:08 - 1st",
-     "away_score": "0",
-     "home_score": "14"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "24",
+     "home_score": "21"
     },
     {
      "league": "CFB",
@@ -549,11 +549,11 @@
      "id": "401862813",
      "venue_id": "4418",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/30 - 7:00 PM EDT",
-     "away_score": "0",
-     "home_score": "0"
+     "status": "9:18 - 2nd",
+     "away_score": "7",
+     "home_score": "7"
     },
     {
      "league": "CFB",
@@ -575,10 +575,10 @@
      "id": "401856844",
      "venue_id": "3652",
      "venue_indoor": false,
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status": "10/30 - 7:30 PM EDT",
-     "away_score": "0",
+     "status": "4:06 - 1st",
+     "away_score": "7",
      "home_score": "0"
     },
     {
@@ -1095,6 +1095,11 @@
        "name": "ABC",
        "market": "National",
        "type": "TV"
+      },
+      {
+       "name": "Disney+",
+       "market": "National",
+       "type": "Streaming"
       }
      ],
      "id": "401856734",
@@ -1646,6 +1651,11 @@
        "name": "ESPN",
        "market": "National",
        "type": "TV"
+      },
+      {
+       "name": "Disney+",
+       "market": "National",
+       "type": "Streaming"
       }
      ],
      "id": "401856737",
