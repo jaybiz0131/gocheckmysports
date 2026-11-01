@@ -1,8 +1,8 @@
 {
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
- "last_change": "2026-11-01T20:06:02Z",
- "last_poll": "2026-11-01T20:06:17Z",
+ "last_change": "2026-11-01T20:10:55Z",
+ "last_poll": "2026-11-01T20:11:03Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -19,8 +19,8 @@
     },
     "3045527": {
      "changed_at": null,
-     "detail": "",
-     "feed_date": "2026-10-28T20:00Z",
+     "detail": "Hamstring",
+     "feed_date": "2026-11-01T19:57Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Samson Ebukam",
      "pos": "DE",
@@ -254,6 +254,15 @@
      "name": "Tyjae Spears",
      "pos": "RB",
      "status": "Out"
+    },
+    "4431613": {
+     "changed_at": null,
+     "detail": "Groin",
+     "feed_date": "2026-11-01T19:56Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "James Williams Sr.",
+     "pos": "LB",
+     "status": "Questionable"
     },
     "4570469": {
      "changed_at": null,
@@ -535,7 +544,17 @@
     }
    },
    "id": "12",
-   "players": {},
+   "players": {
+    "4567747": {
+     "feed_date": "2026-10-25T23:10Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Garrett Nussmeier",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-01T17:46:16Z",
    "rows_returned": 25,
@@ -777,7 +796,7 @@
     "4685522": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-01T19:41Z",
+     "feed_date": "2026-11-01T19:57Z",
      "first_seen": "2026-11-01T19:50:55Z",
      "name": "Ty Simpson",
      "pos": "QB",
@@ -868,24 +887,114 @@
      "pos": "CB",
      "status": "Questionable"
     },
+    "4372463": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "Jamree Kromah",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4430681": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "Jared Wayne",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4567225": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "Jaylin Simpson",
+     "pos": "S",
+     "status": "Out"
+    },
     "4870976": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-10-31T02:20Z",
+     "feed_date": "2026-11-01T19:59Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Kadyn Proctor",
      "pos": "OT",
+     "status": "Out"
+    },
+    "4875079": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "Marcellas Dial Jr.",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4912052": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "name": "Justin Joly",
+     "pos": "TE",
      "status": "Out"
     }
    },
    "id": "15",
    "players": {
+    "4372463": {
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Jamree Kromah",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4430681": {
      "feed_date": "2026-10-31T00:30Z",
      "first_seen": "2026-11-01T20:06:02Z",
      "jersey": "",
      "name": "Jared Wayne",
      "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4567225": {
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Jaylin Simpson",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870976": {
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Kadyn Proctor",
+     "pos": "OT",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4875079": {
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Marcellas Dial Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4912052": {
+     "feed_date": "2026-11-01T19:59Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Justin Joly",
+     "pos": "TE",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -1671,7 +1780,7 @@
     "3045523": {
      "changed_at": "2026-11-01T20:06:02Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-01T19:49Z",
+     "feed_date": "2026-11-01T19:52Z",
      "first_seen": "2026-11-01T19:50:55Z",
      "name": "Kendrick Bourne",
      "pos": "WR",
@@ -3483,7 +3592,7 @@
     },
     "4039059": {
      "changed_at": null,
-     "detail": "Hamstring",
+     "detail": "",
      "feed_date": "2026-10-31T00:48Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Brandon Jones",
@@ -3510,7 +3619,44 @@
     }
    },
    "id": "7",
-   "players": {},
+   "players": {
+    "4241820": {
+     "feed_date": "2026-10-25T18:57Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360853": {
+     "feed_date": "2026-10-31T00:53Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Talanoa Hufanga",
+     "pos": "S",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4683535": {
+     "feed_date": "2026-10-26T17:58Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4868598": {
+     "feed_date": "2026-10-26T17:58Z",
+     "first_seen": "2026-11-01T20:10:55Z",
+     "jersey": "",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-01T17:47:55Z",
    "rows_returned": 25,
