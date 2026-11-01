@@ -1,8 +1,8 @@
 {
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
- "last_change": "2026-11-01T19:45:57Z",
- "last_poll": "2026-11-01T19:46:10Z",
+ "last_change": "2026-11-01T19:50:55Z",
+ "last_poll": "2026-11-01T19:51:01Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -703,13 +703,13 @@
    "capped": true,
    "designations": {
     "2575907": {
-     "changed_at": null,
+     "changed_at": "2026-11-01T19:50:55Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-30T18:33Z",
+     "feed_date": "2026-11-01T19:41Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Joe Cardona",
      "pos": "LS",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "3052180": {
      "changed_at": null,
@@ -720,14 +720,32 @@
      "pos": "C",
      "status": "Questionable"
     },
-    "4242557": {
+    "3912189": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Bill Murray",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4242557": {
+     "changed_at": "2026-11-01T19:50:55Z",
      "detail": "Ribs",
-     "feed_date": "2026-10-30T18:39Z",
+     "feed_date": "2026-11-01T19:41Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Colby Parkinson",
      "pos": "TE",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4362294": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Desjuan Johnson",
+     "pos": "DE",
+     "status": "Out"
     },
     "4426405": {
      "changed_at": null,
@@ -746,10 +764,37 @@
      "name": "Jordan Whittington",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4575003": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Keagen Trost",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "14",
    "players": {
+    "2575907": {
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "jersey": "",
+     "name": "Joe Cardona",
+     "pos": "LS",
+     "reason": "Ankle",
+     "via": "poll"
+    },
     "3912189": {
      "feed_date": "2026-10-26T18:37Z",
      "first_seen": "2026-11-01T19:45:57Z",
@@ -768,12 +813,30 @@
      "reason": "Ribs",
      "via": "poll"
     },
+    "4362294": {
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "jersey": "",
+     "name": "Desjuan Johnson",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4575003": {
      "feed_date": "2026-10-26T18:37Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "jersey": "",
      "name": "Keagen Trost",
      "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685522": {
+     "feed_date": "2026-11-01T19:41Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "jersey": "",
+     "name": "Ty Simpson",
+     "pos": "QB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -1495,6 +1558,15 @@
   "22": {
    "capped": true,
    "designations": {
+    "3045523": {
+     "changed_at": null,
+     "detail": "Leg",
+     "feed_date": "2026-11-01T19:35Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Kendrick Bourne",
+     "pos": "WR",
+     "status": "Questionable"
+    },
     "3886633": {
      "changed_at": null,
      "detail": "Knee",
@@ -1539,6 +1611,15 @@
      "name": "Jon Gaines II",
      "pos": "G",
      "status": "Out"
+    },
+    "4427728": {
+     "changed_at": null,
+     "detail": "Undisclosed",
+     "feed_date": "2026-11-01T19:37Z",
+     "first_seen": "2026-11-01T19:50:55Z",
+     "name": "Bam Knight",
+     "pos": "RB",
+     "status": "Questionable"
     },
     "4430841": {
      "changed_at": null,
@@ -2144,7 +2225,7 @@
     "4686334": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-01T18:59Z",
+     "feed_date": "2026-11-01T19:33Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Yaya Diaby",
      "pos": "LB",
@@ -3359,7 +3440,7 @@
     "4383429": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-11-01T19:08Z",
+     "feed_date": "2026-11-01T19:29Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Jacob Saylors",
      "pos": "RB",
