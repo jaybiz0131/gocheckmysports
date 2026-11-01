@@ -1,8 +1,8 @@
 {
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
- "last_change": "2026-11-01T20:10:55Z",
- "last_poll": "2026-11-01T20:11:03Z",
+ "last_change": "2026-11-01T20:15:57Z",
+ "last_poll": "2026-11-01T20:16:13Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -524,6 +524,33 @@
   "12": {
    "capped": true,
    "designations": {
+    "4361340": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Tyreke Smith",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4372070": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Ben VanSumeren",
+     "pos": "FB",
+     "status": "Out"
+    },
+    "4567747": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Garrett Nussmeier",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4591008": {
      "changed_at": null,
      "detail": "Knee - ACL",
@@ -531,6 +558,24 @@
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Omarr Norman-Lott",
      "pos": "DT",
+     "status": "Out"
+    },
+    "4602984": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Diego Pounds",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4837252": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Jack Pyburn",
+     "pos": "LB",
      "status": "Out"
     },
     "4880124": {
@@ -545,12 +590,48 @@
    },
    "id": "12",
    "players": {
+    "4361340": {
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Tyreke Smith",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4372070": {
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Ben VanSumeren",
+     "pos": "FB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4567747": {
      "feed_date": "2026-10-25T23:10Z",
      "first_seen": "2026-11-01T20:10:55Z",
      "jersey": "",
      "name": "Garrett Nussmeier",
      "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4602984": {
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Diego Pounds",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4837252": {
+     "feed_date": "2026-11-01T20:06Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Jack Pyburn",
+     "pos": "LB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
@@ -2952,13 +3033,13 @@
      "status": "Out"
     },
     "4035671": {
-     "changed_at": null,
+     "changed_at": "2026-11-01T20:15:57Z",
      "detail": "Toe",
-     "feed_date": "2026-11-01T19:27Z",
+     "feed_date": "2026-11-01T19:17Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Tyler Huntley",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4429582": {
      "changed_at": null,
@@ -3599,10 +3680,28 @@
      "pos": "S",
      "status": "Questionable"
     },
+    "4241820": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Sam Ehlinger",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "4261090": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Jordan Jackson",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4360853": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-31T00:53Z",
+     "feed_date": "2026-11-01T20:01Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Talanoa Hufanga",
      "pos": "S",
@@ -3616,6 +3715,42 @@
      "name": "Jaylen Waddle",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4683535": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Tyler Onyedim",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4868598": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Kage Casey",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5085625": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Gavin Ortega",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "5159802": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "name": "Dallen Bentley",
+     "pos": "TE",
+     "status": "Out"
     }
    },
    "id": "7",
@@ -3626,6 +3761,15 @@
      "jersey": "",
      "name": "Sam Ehlinger",
      "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4261090": {
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Jordan Jackson",
+     "pos": "DT",
      "reason": "Coach's Decision",
      "via": "poll"
     },
@@ -3653,6 +3797,24 @@
      "jersey": "",
      "name": "Kage Casey",
      "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5085625": {
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Gavin Ortega",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5159802": {
+     "feed_date": "2026-11-01T20:01Z",
+     "first_seen": "2026-11-01T20:15:57Z",
+     "jersey": "",
+     "name": "Dallen Bentley",
+     "pos": "TE",
      "reason": "Coach's Decision",
      "via": "poll"
     }
