@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-01T20:16:00Z",
+ "fetched_at": "2026-11-01T20:21:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "10:22 - 3rd",
-     "detail": "10:22",
+     "status_short": "8:59 - 3rd",
+     "detail": "8:59",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "CBS",
@@ -21,12 +21,12 @@
       "school": "Buffalo",
       "mascot": "Bills",
       "rank": null,
-      "score": "16",
+      "score": "23",
       "record": "5-1",
       "periods": [
        "10",
        "6",
-       "0"
+       "7"
       ],
       "id": "2",
       "color": "#00338d",
@@ -54,28 +54,28 @@
       {
        "cat": "PASS",
        "name": "J. Allen",
-       "line": "10/21, 132 YDS, 1 INT",
+       "line": "11/23, 181 YDS, 1 INT",
        "team": "2"
       },
       {
        "cat": "RUSH",
        "name": "J. Cook III",
-       "line": "15 CAR, 57 YDS",
+       "line": "16 CAR, 62 YDS, 1 TD",
        "team": "2"
       },
       {
        "cat": "REC",
-       "name": "K. Shakir",
-       "line": "4 REC, 57 YDS",
+       "name": "D. Moore",
+       "line": "2 REC, 67 YDS",
        "team": "2"
       }
      ],
-     "situation": "1st & 10 at BUF 46",
+     "situation": "",
      "possession": "2",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.5772222222222222,
+     "progress": 0.6002777777777778,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -89,8 +89,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "7:21 - 3rd",
-     "detail": "7:21",
+     "status_short": "5:46 - 3rd",
+     "detail": "5:46",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "CBS",
@@ -134,7 +134,7 @@
       {
        "cat": "PASS",
        "name": "J. Burrow",
-       "line": "19/25, 214 YDS, 3 TD, 2 INT",
+       "line": "20/27, 214 YDS, 3 TD, 2 INT",
        "team": "4"
       },
       {
@@ -150,12 +150,12 @@
        "team": "4"
       }
      ],
-     "situation": "2nd & 8 at CIN 29",
-     "possession": "4",
+     "situation": "1st & 10 at TEN 34",
+     "possession": "10",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6275,
+     "progress": 0.653888888888889,
      "venue_indoor": false,
      "venue": "Paycor Stadium",
      "venue_id": "3874",
@@ -169,8 +169,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "0:57 - 3rd",
-     "detail": "0:57",
+     "status_short": "0:08 - 3rd",
+     "detail": "0:08",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "Fox",
@@ -214,7 +214,7 @@
       {
        "cat": "PASS",
        "name": "D. Prescott",
-       "line": "15/19, 148 YDS, 1 TD",
+       "line": "16/22, 185 YDS, 1 TD",
        "team": "6"
       },
       {
@@ -230,12 +230,12 @@
        "team": "6"
       }
      ],
-     "situation": "",
-     "possession": "22",
+     "situation": "1st & Goal at ARI 2",
+     "possession": "6",
      "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7341666666666666,
+     "progress": 0.7477777777777778,
      "venue_indoor": true,
      "venue": "AT&T Stadium",
      "venue_id": "3687",
@@ -249,8 +249,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "4:10 - 3rd",
-     "detail": "4:10",
+     "status_short": "0:27 - 3rd",
+     "detail": "0:27",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "Fox",
@@ -310,12 +310,12 @@
        "team": "8"
       }
      ],
-     "situation": "2nd & 14 at MIN 22",
+     "situation": "2nd & 10 at DET 30",
      "possession": "16",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6805555555555556,
+     "progress": 0.7424999999999999,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
@@ -329,9 +329,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 3rd",
-     "detail": "0:00",
-     "period": 3,
+     "status_short": "12:22 - 4th",
+     "detail": "12:22",
+     "period": 4,
      "start_utc": "2026-11-01T18:00Z",
      "network": "Fox",
      "home": {
@@ -346,7 +346,8 @@
       "periods": [
        "6",
        "17",
-       "7"
+       "7",
+       "0"
       ],
       "id": "20",
       "color": "#115740",
@@ -364,7 +365,8 @@
       "periods": [
        "7",
        "7",
-       "14"
+       "14",
+       "0"
       ],
       "id": "13",
       "color": "#000000",
@@ -373,9 +375,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "G. Smith",
-       "line": "15/21, 207 YDS, 2 TD",
-       "team": "20"
+       "name": "K. Cousins",
+       "line": "16/21, 232 YDS, 2 TD",
+       "team": "13"
       },
       {
        "cat": "RUSH",
@@ -390,12 +392,12 @@
        "team": "20"
       }
      ],
-     "situation": "2nd & 11 at LV 42",
+     "situation": "3rd & Goal at NYJ 2",
      "possession": "13",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.75,
+     "progress": 0.7938888888888889,
      "venue_indoor": false,
      "venue": "MetLife Stadium",
      "venue_id": "3839",
@@ -409,8 +411,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "5:50 - 3rd",
-     "detail": "5:50",
+     "status_short": "4:19 - 3rd",
+     "detail": "4:19",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "CBS",
@@ -454,13 +456,13 @@
       {
        "cat": "PASS",
        "name": "A. Rodgers",
-       "line": "11/20, 160 YDS",
+       "line": "12/22, 160 YDS, 1 INT",
        "team": "23"
       },
       {
        "cat": "RUSH",
        "name": "J. Warren",
-       "line": "14 CAR, 119 YDS, 1 TD",
+       "line": "15 CAR, 132 YDS, 1 TD",
        "team": "23"
       },
       {
@@ -470,12 +472,12 @@
        "team": "23"
       }
      ],
-     "situation": "1st & 10 at PIT 19",
-     "possession": "23",
+     "situation": "1st & 20 at CLE 17",
+     "possession": "5",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.6527777777777778,
+     "progress": 0.6780555555555555,
      "venue_indoor": false,
      "venue": "Acrisure Stadium",
      "venue_id": "3752",
@@ -489,8 +491,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 4th",
-     "detail": "15:00",
+     "status_short": "13:28 - 4th",
+     "detail": "13:28",
      "period": 4,
      "start_utc": "2026-11-01T18:00Z",
      "network": "Fox",
@@ -536,7 +538,7 @@
       {
        "cat": "PASS",
        "name": "M. Penix Jr.",
-       "line": "5/14, 37 YDS, 3 INT",
+       "line": "6/16, 41 YDS, 4 INT",
        "team": "1"
       },
       {
@@ -552,12 +554,12 @@
        "team": "1"
       }
      ],
-     "situation": "4th & 1 at TB 30",
-     "possession": "1",
+     "situation": "2nd & 7 at TB 17",
+     "possession": "27",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.75,
+     "progress": 0.7755555555555556,
      "venue_indoor": false,
      "venue": "Raymond James Stadium",
      "venue_id": "3886",
@@ -571,8 +573,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "3:59 - 3rd",
-     "detail": "3:59",
+     "status_short": "0:54 - 3rd",
+     "detail": "0:54",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "CBS",
@@ -616,13 +618,13 @@
       {
        "cat": "PASS",
        "name": "T. Lawrence",
-       "line": "7/11, 138 YDS, 2 TD",
+       "line": "9/13, 185 YDS, 2 TD",
        "team": "30"
       },
       {
        "cat": "RUSH",
        "name": "B. Tuten",
-       "line": "15 CAR, 101 YDS, 1 TD",
+       "line": "16 CAR, 104 YDS, 1 TD",
        "team": "30"
       },
       {
@@ -632,12 +634,12 @@
        "team": "30"
       }
      ],
-     "situation": "",
-     "possession": "11",
-     "red_zone": true,
+     "situation": "1st & 10 at IND 25",
+     "possession": "30",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.6836111111111112,
+     "progress": 0.735,
      "venue_indoor": false,
      "venue": "EverBank Stadium",
      "venue_id": "3712",
@@ -720,7 +722,7 @@
       "provider": "Draft Kings",
       "detail": "LAR -6.5",
       "spread": -6.5,
-      "total": 45.5,
+      "total": 46.5,
       "favorite": "home"
      }
     },
@@ -6189,8 +6191,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "13:07 - 3rd",
-     "detail": "13:07",
+     "status_short": "10:00 - 3rd",
+     "detail": "10:00",
      "period": 3,
      "start_utc": "2026-11-01T18:00Z",
      "network": "NHL Net",
@@ -6201,12 +6203,12 @@
       "school": "Carolina",
       "mascot": "Hurricanes",
       "rank": null,
-      "score": "6",
+      "score": "7",
       "record": "11-2-2",
       "periods": [
        "1",
        "4",
-       "1"
+       "2"
       ],
       "id": "7",
       "color": "#e30426",
@@ -6236,7 +6238,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.7813888888888889,
+     "progress": 0.8333333333333334,
      "venue_indoor": true,
      "venue": "Lenovo Center",
      "venue_id": "999",
