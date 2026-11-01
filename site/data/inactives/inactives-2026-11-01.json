@@ -1,8 +1,8 @@
 {
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
- "last_change": "2026-11-01T19:50:55Z",
- "last_poll": "2026-11-01T19:51:01Z",
+ "last_change": "2026-11-01T20:00:57Z",
+ "last_poll": "2026-11-01T20:01:05Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1031,7 +1031,7 @@
     "4047646": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-31T17:07Z",
+     "feed_date": "2026-11-01T19:57Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "A.J. Brown",
      "pos": "WR",
@@ -1046,18 +1046,109 @@
      "pos": "LB",
      "status": "Questionable"
     },
+    "4431465": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "name": "Behren Morton",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4432710": {
      "changed_at": null,
      "detail": "Illness",
-     "feed_date": "2026-10-31T17:10Z",
+     "feed_date": "2026-11-01T19:57Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "TreVeyon Henderson",
      "pos": "RB",
      "status": "Out"
+    },
+    "4606666": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "name": "Karon Prunty",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4688366": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "name": "Elliott Davison",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4688779": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "name": "Channing Canada",
+     "pos": "CB",
+     "status": "Out"
     }
    },
    "id": "17",
-   "players": {},
+   "players": {
+    "4047646": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "A.J. Brown",
+     "pos": "WR",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4431465": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "Behren Morton",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4432710": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "TreVeyon Henderson",
+     "pos": "RB",
+     "reason": "Illness",
+     "via": "poll"
+    },
+    "4606666": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "Karon Prunty",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4688366": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "Elliott Davison",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4688779": {
+     "feed_date": "2026-11-01T19:57Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "jersey": "",
+     "name": "Channing Canada",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-01T17:46:44Z",
    "rows_returned": 25,
@@ -1560,7 +1651,7 @@
    "designations": {
     "3045523": {
      "changed_at": null,
-     "detail": "Leg",
+     "detail": "Ankle",
      "feed_date": "2026-11-01T19:35Z",
      "first_seen": "2026-11-01T19:50:55Z",
      "name": "Kendrick Bourne",
@@ -3066,6 +3157,15 @@
      "pos": "CB",
      "status": "Out"
     },
+    "4379397": {
+     "changed_at": null,
+     "detail": "Neck",
+     "feed_date": "2026-11-01T19:47Z",
+     "first_seen": "2026-11-01T20:00:57Z",
+     "name": "Tyson Campbell",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4427238": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -3403,7 +3503,7 @@
    "designations": {
     "4038849": {
      "changed_at": null,
-     "detail": "Head",
+     "detail": "Concussion",
      "feed_date": "2026-11-01T19:22Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "DJ Wonnum",
@@ -3475,7 +3575,7 @@
     },
     "4692025": {
      "changed_at": null,
-     "detail": "Head",
+     "detail": "Concussion",
      "feed_date": "2026-11-01T19:22Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Brian Branch",
