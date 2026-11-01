@@ -2,7 +2,7 @@
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
  "last_change": "2026-11-01T20:20:57Z",
- "last_poll": "2026-11-01T20:21:04Z",
+ "last_poll": "2026-11-01T20:51:35Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -255,6 +255,15 @@
      "pos": "RB",
      "status": "Out"
     },
+    "4431437": {
+     "changed_at": null,
+     "detail": "Finger",
+     "feed_date": "2026-11-01T20:18Z",
+     "first_seen": "2026-11-01T20:50:57Z",
+     "name": "JC Latham",
+     "pos": "OT",
+     "status": "Questionable"
+    },
     "4431613": {
      "changed_at": null,
      "detail": "Groin",
@@ -267,7 +276,7 @@
     "4570469": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-01T19:21Z",
+     "feed_date": "2026-11-01T20:39Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Marcus Harris",
      "pos": "CB",
@@ -545,7 +554,7 @@
     "4567747": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-01T20:06Z",
+     "feed_date": "2026-11-01T20:25Z",
      "first_seen": "2026-11-01T20:15:57Z",
      "name": "Garrett Nussmeier",
      "pos": "QB",
@@ -675,7 +684,7 @@
     "4430330": {
      "changed_at": null,
      "detail": "Groin",
-     "feed_date": "2026-11-01T18:28Z",
+     "feed_date": "2026-11-01T20:32Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Darien Porter",
      "pos": "CB",
@@ -814,7 +823,7 @@
     "2575907": {
      "changed_at": "2026-11-01T19:50:55Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-01T19:41Z",
+     "feed_date": "2026-11-01T20:28Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Joe Cardona",
      "pos": "LS",
@@ -989,7 +998,7 @@
     "4430681": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-01T19:59Z",
+     "feed_date": "2026-11-01T20:22Z",
      "first_seen": "2026-11-01T20:10:55Z",
      "name": "Jared Wayne",
      "pos": "WR",
@@ -1101,7 +1110,7 @@
     "4242436": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-01T19:54Z",
+     "feed_date": "2026-11-01T20:38Z",
      "first_seen": "2026-11-01T20:06:02Z",
      "name": "Theo Jackson",
      "pos": "S",
@@ -1267,7 +1276,7 @@
     "4431465": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-01T19:57Z",
+     "feed_date": "2026-11-01T20:20Z",
      "first_seen": "2026-11-01T20:00:57Z",
      "name": "Behren Morton",
      "pos": "QB",
@@ -1525,13 +1534,13 @@
      "status": "Out"
     },
     "4242433": {
-     "changed_at": null,
+     "changed_at": "2026-11-01T20:50:57Z",
      "detail": "Hamstring",
-     "feed_date": "2026-11-01T19:04Z",
+     "feed_date": "2026-11-01T20:28Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Joshua Palmer",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4385690": {
      "changed_at": null,
@@ -1860,9 +1869,10 @@
    "id": "21",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-01T20:50:58Z",
    "rows_returned": 25,
-   "team": "Philadelphia Eagles"
+   "team": "Philadelphia Eagles",
+   "unresolved": false
   },
   "22": {
    "capped": true,
@@ -1922,13 +1932,13 @@
      "status": "Out"
     },
     "4427728": {
-     "changed_at": null,
-     "detail": "Undisclosed",
-     "feed_date": "2026-11-01T19:37Z",
+     "changed_at": "2026-11-01T20:50:57Z",
+     "detail": "Concussion",
+     "feed_date": "2026-11-01T20:22Z",
      "first_seen": "2026-11-01T19:50:55Z",
      "name": "Bam Knight",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4430841": {
      "changed_at": null,
@@ -1982,6 +1992,15 @@
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Max Melton",
      "pos": "CB",
+     "status": "Questionable"
+    },
+    "4709718": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-11-01T20:39Z",
+     "first_seen": "2026-11-01T20:50:57Z",
+     "name": "Jayden Williams",
+     "pos": "OT",
      "status": "Questionable"
     },
     "4870808": {
@@ -2665,9 +2684,10 @@
    "id": "28",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-01T20:51:06Z",
    "rows_returned": 25,
-   "team": "Washington Commanders"
+   "team": "Washington Commanders",
+   "unresolved": false
   },
   "29": {
    "capped": true,
@@ -2905,7 +2925,7 @@
     "4426349": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-01T20:10Z",
+     "feed_date": "2026-11-01T20:42Z",
      "first_seen": "2026-11-01T20:20:57Z",
      "name": "Travon Walker",
      "pos": "DE",
@@ -3053,7 +3073,7 @@
     "4035671": {
      "changed_at": "2026-11-01T20:15:57Z",
      "detail": "Toe",
-     "feed_date": "2026-11-01T19:17Z",
+     "feed_date": "2026-11-01T20:09Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Tyler Huntley",
      "pos": "QB",
@@ -3272,6 +3292,15 @@
      "pos": "OT",
      "status": "Out"
     },
+    "4430065": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-11-01T20:44Z",
+     "first_seen": "2026-11-01T20:50:57Z",
+     "name": "Cedric Johnson",
+     "pos": "DE",
+     "status": "Questionable"
+    },
     "4690070": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -3280,6 +3309,15 @@
      "name": "Mitchell Tinsley",
      "pos": "WR",
      "status": "Out"
+    },
+    "4710752": {
+     "changed_at": null,
+     "detail": "Wrist",
+     "feed_date": "2026-11-01T20:45Z",
+     "first_seen": "2026-11-01T20:50:57Z",
+     "name": "Cashius Howell",
+     "pos": "DE",
+     "status": "Questionable"
     },
     "4870866": {
      "changed_at": null,
@@ -3701,7 +3739,7 @@
     "4241820": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-01T20:01Z",
+     "feed_date": "2026-11-01T20:22Z",
      "first_seen": "2026-11-01T20:15:57Z",
      "name": "Sam Ehlinger",
      "pos": "QB",
@@ -3849,7 +3887,7 @@
     "4038849": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-01T19:22Z",
+     "feed_date": "2026-11-01T20:34Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "DJ Wonnum",
      "pos": "LB",
@@ -3921,7 +3959,7 @@
     "4692025": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-01T19:22Z",
+     "feed_date": "2026-11-01T20:35Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Brian Branch",
      "pos": "S",
