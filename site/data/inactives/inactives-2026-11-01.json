@@ -1,8 +1,8 @@
 {
  "day": "2026-11-01",
  "first_poll": "2026-11-01T00:01:01Z",
- "last_change": "2026-11-01T20:00:57Z",
- "last_poll": "2026-11-01T20:01:05Z",
+ "last_change": "2026-11-01T20:06:02Z",
+ "last_poll": "2026-11-01T20:06:17Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -732,7 +732,7 @@
     "4242557": {
      "changed_at": "2026-11-01T19:50:55Z",
      "detail": "Ribs",
-     "feed_date": "2026-11-01T19:41Z",
+     "feed_date": "2026-11-01T19:50Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Colby Parkinson",
      "pos": "TE",
@@ -852,7 +852,7 @@
    "designations": {
     "4360488": {
      "changed_at": null,
-     "detail": "Neck",
+     "detail": "",
      "feed_date": "2026-10-31T00:28Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "JuJu Brents",
@@ -879,7 +879,17 @@
     }
    },
    "id": "15",
-   "players": {},
+   "players": {
+    "4430681": {
+     "feed_date": "2026-10-31T00:30Z",
+     "first_seen": "2026-11-01T20:06:02Z",
+     "jersey": "",
+     "name": "Jared Wayne",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-01T17:46:34Z",
    "rows_returned": 25,
@@ -889,6 +899,15 @@
   "16": {
    "capped": true,
    "designations": {
+    "4242436": {
+     "changed_at": null,
+     "detail": "Quadriceps",
+     "feed_date": "2026-11-01T19:54Z",
+     "first_seen": "2026-11-01T20:06:02Z",
+     "name": "Theo Jackson",
+     "pos": "S",
+     "status": "Questionable"
+    },
     "4568007": {
      "changed_at": null,
      "detail": "Knee",
@@ -1327,7 +1346,7 @@
     "4401823": {
      "changed_at": "2026-11-01T16:50:55Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-01T16:33Z",
+     "feed_date": "2026-11-01T19:47Z",
      "first_seen": "2026-11-01T00:01:01Z",
      "name": "Dee Alford",
      "pos": "CB",
@@ -1650,13 +1669,13 @@
    "capped": true,
    "designations": {
     "3045523": {
-     "changed_at": null,
+     "changed_at": "2026-11-01T20:06:02Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-01T19:35Z",
+     "feed_date": "2026-11-01T19:49Z",
      "first_seen": "2026-11-01T19:50:55Z",
      "name": "Kendrick Bourne",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
     },
     "3886633": {
      "changed_at": null,
@@ -3315,13 +3334,13 @@
      "status": "Questionable"
     },
     "4242355": {
-     "changed_at": null,
+     "changed_at": "2026-11-01T20:06:02Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-01T18:18Z",
+     "feed_date": "2026-11-01T19:55Z",
      "first_seen": "2026-11-01T19:45:57Z",
      "name": "Jake Ferguson",
      "pos": "TE",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4372096": {
      "changed_at": "2026-11-01T16:45:57Z",
