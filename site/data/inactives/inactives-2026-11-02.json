@@ -1,8 +1,8 @@
 {
  "day": "2026-11-02",
  "first_poll": "2026-11-02T00:01:03Z",
- "last_change": "2026-11-02T23:50:47Z",
- "last_poll": "2026-11-02T23:51:06Z",
+ "last_change": "2026-11-02T23:55:51Z",
+ "last_poll": "2026-11-02T23:55:58Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -801,7 +801,7 @@
     "4240255": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-02T22:13Z",
+     "feed_date": "2026-11-02T23:46Z",
      "first_seen": "2026-11-02T23:50:47Z",
      "name": "Grant Stuard",
      "pos": "LB",
@@ -2422,27 +2422,27 @@
    "capped": true,
    "designations": {
     "3120358": {
-     "changed_at": null,
+     "changed_at": "2026-11-02T23:55:51Z",
      "detail": "Ankle",
-     "feed_date": "2026-10-31T20:57Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Uchenna Nwosu",
      "pos": "LB",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "3924327": {
-     "changed_at": null,
+     "changed_at": "2026-11-02T23:55:51Z",
      "detail": "Elbow",
-     "feed_date": "2026-11-01T01:35Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Drew Lock",
      "pos": "QB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4032473": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-31T20:53Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Rashid Shaheed",
      "pos": "WR",
@@ -2451,20 +2451,20 @@
     "4035693": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-01T01:38Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Velus Jones Jr.",
      "pos": "RB",
      "status": "Out"
     },
     "4259651": {
-     "changed_at": null,
+     "changed_at": "2026-11-02T23:55:51Z",
      "detail": "Back",
-     "feed_date": "2026-10-30T23:15Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Brandon Pili",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4364623": {
      "changed_at": null,
@@ -2478,7 +2478,7 @@
     "4426376": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-01T03:18Z",
+     "feed_date": "2026-11-02T23:51Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Charles Cross",
      "pos": "OT",
@@ -2492,10 +2492,83 @@
      "name": "Anthony Bradford",
      "pos": "G",
      "status": "Questionable"
+    },
+    "4592823": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "name": "Beau Stephens",
+     "pos": "G",
+     "status": "Out"
     }
    },
    "id": "26",
-   "players": {},
+   "players": {
+    "3120358": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Uchenna Nwosu",
+     "pos": "LB",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "3924327": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Drew Lock",
+     "pos": "QB",
+     "reason": "Elbow",
+     "via": "poll"
+    },
+    "4032473": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Rashid Shaheed",
+     "pos": "WR",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4035693": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Velus Jones Jr.",
+     "pos": "RB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4259651": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Brandon Pili",
+     "pos": "DT",
+     "reason": "Back",
+     "via": "poll"
+    },
+    "4426376": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Charles Cross",
+     "pos": "OT",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4592823": {
+     "feed_date": "2026-11-02T23:51Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "jersey": "",
+     "name": "Beau Stephens",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2930,7 +3003,7 @@
    "designations": {
     "4241007": {
      "changed_at": null,
-     "detail": "Ankle",
+     "detail": "",
      "feed_date": "2026-10-31T23:08Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "D'Marco Jackson",
@@ -3162,7 +3235,7 @@
     "4429582": {
      "changed_at": "2026-11-02T23:50:47Z",
      "detail": "Knee",
-     "feed_date": "2026-11-01T22:29Z",
+     "feed_date": "2026-11-02T23:43Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Joe Fagnano",
      "pos": "QB",
@@ -3194,6 +3267,15 @@
      "name": "Emery Jones Jr.",
      "pos": "OT",
      "status": "Out"
+    },
+    "4697745": {
+     "changed_at": null,
+     "detail": "Undisclosed",
+     "feed_date": "2026-11-02T23:43Z",
+     "first_seen": "2026-11-02T23:55:51Z",
+     "name": "Tyler Loop",
+     "pos": "PK",
+     "status": "Questionable"
     },
     "4702918": {
      "changed_at": null,
@@ -3614,7 +3696,7 @@
     "4242355": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-02T00:06Z",
+     "feed_date": "2026-11-02T23:35Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Jake Ferguson",
      "pos": "TE",
