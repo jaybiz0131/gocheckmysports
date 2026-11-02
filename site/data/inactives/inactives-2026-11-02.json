@@ -1,8 +1,8 @@
 {
  "day": "2026-11-02",
  "first_poll": "2026-11-02T00:01:03Z",
- "last_change": "2026-11-02T00:01:03Z",
- "last_poll": "2026-11-02T00:01:16Z",
+ "last_change": "2026-11-02T00:05:57Z",
+ "last_poll": "2026-11-02T00:06:09Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -542,7 +542,7 @@
     "4871063": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-11-01T22:14Z",
+     "feed_date": "2026-11-01T23:54Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Peter Woods",
      "pos": "DT",
@@ -1259,7 +1259,7 @@
     "4837244": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-01T23:42Z",
+     "feed_date": "2026-11-01T23:50Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Gabe Jacas",
      "pos": "LB",
@@ -1740,7 +1740,7 @@
     "2971027": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-30T19:55Z",
+     "feed_date": "2026-11-01T23:55Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Jonathan Jones",
      "pos": "CB",
@@ -1749,7 +1749,7 @@
     "3926231": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-31T00:11Z",
+     "feed_date": "2026-11-01T23:55Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Britain Covey",
      "pos": "WR",
@@ -1758,7 +1758,7 @@
     "4241478": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-30T20:17Z",
+     "feed_date": "2026-11-01T23:55Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "DeVonta Smith",
      "pos": "WR",
@@ -1767,16 +1767,25 @@
     "4428850": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-10-30T20:19Z",
+     "feed_date": "2026-11-01T23:55Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Dontayvion Wicks",
      "pos": "WR",
      "status": "Out"
     },
+    "4430814": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "name": "Jake Majors",
+     "pos": "C",
+     "status": "Out"
+    },
     "4685287": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-10-31T00:16Z",
+     "feed_date": "2026-11-01T23:55Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Jihaad Campbell",
      "pos": "LB",
@@ -1785,6 +1794,33 @@
    },
    "id": "21",
    "players": {
+    "2971027": {
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Jonathan Jones",
+     "pos": "CB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "3926231": {
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Britain Covey",
+     "pos": "WR",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4241478": {
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "DeVonta Smith",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
     "4428850": {
      "feed_date": "2026-10-30T20:19Z",
      "first_seen": "2026-11-02T00:01:03Z",
@@ -1792,6 +1828,24 @@
      "name": "Dontayvion Wicks",
      "pos": "WR",
      "reason": "Ankle",
+     "via": "poll"
+    },
+    "4430814": {
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Jake Majors",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685287": {
+     "feed_date": "2026-11-01T23:55Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Jihaad Campbell",
+     "pos": "LB",
+     "reason": "Hamstring",
      "via": "poll"
     }
    },
@@ -2503,10 +2557,28 @@
   "28": {
    "capped": true,
    "designations": {
+    "2971586": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "name": "Fabian Moreau",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "3122797": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "name": "Isaac Yiadom",
+     "pos": "CB",
+     "status": "Out"
+    },
     "3925354": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-10-31T21:59Z",
+     "feed_date": "2026-11-01T23:53Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Daron Payne",
      "pos": "DT",
@@ -2533,10 +2605,19 @@
     "4259491": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-10-30T21:07Z",
+     "feed_date": "2026-11-01T23:53Z",
      "first_seen": "2026-11-02T00:01:03Z",
      "name": "Javon Kinlaw",
      "pos": "DT",
+     "status": "Out"
+    },
+    "4432722": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "name": "Athan Kaliakmanis",
+     "pos": "QB",
      "status": "Out"
     },
     "4567156": {
@@ -2547,10 +2628,46 @@
      "name": "Treylon Burks",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4605488": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "name": "Tanoa Togiai",
+     "pos": "G",
+     "status": "Out"
     }
    },
    "id": "28",
    "players": {
+    "2971586": {
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Fabian Moreau",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "3122797": {
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Isaac Yiadom",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "3925354": {
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Daron Payne",
+     "pos": "DT",
+     "reason": "Foot",
+     "via": "poll"
+    },
     "4259491": {
      "feed_date": "2026-10-30T21:07Z",
      "first_seen": "2026-11-02T00:01:03Z",
@@ -2558,6 +2675,24 @@
      "name": "Javon Kinlaw",
      "pos": "DT",
      "reason": "Knee",
+     "via": "poll"
+    },
+    "4432722": {
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Athan Kaliakmanis",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4605488": {
+     "feed_date": "2026-11-01T23:53Z",
+     "first_seen": "2026-11-02T00:05:57Z",
+     "jersey": "",
+     "name": "Tanoa Togiai",
+     "pos": "G",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
