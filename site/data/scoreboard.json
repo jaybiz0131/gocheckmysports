@@ -1,98 +1,16 @@
 {
- "fetched_at": "2026-11-01T23:55:59Z",
+ "fetched_at": "2026-11-02T00:01:07Z",
  "leagues": [
   {
    "league": "NFL",
    "games": [
     {
-     "id": "401873032",
-     "league": "NFL",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 4,
-     "start_utc": "2026-11-01T21:05Z",
-     "network": "Fox",
-     "home": {
-      "abbr": "LAR",
-      "full": "Los Angeles Rams",
-      "name": "Rams",
-      "school": "Los Angeles",
-      "mascot": "Rams",
-      "rank": null,
-      "score": "24",
-      "record": "4-4",
-      "periods": [
-       "3",
-       "7",
-       "14",
-       "0"
-      ],
-      "id": "14",
-      "color": "#003594",
-      "alt_color": "#ffd100"
-     },
-     "away": {
-      "abbr": "LAC",
-      "full": "Los Angeles Chargers",
-      "name": "Chargers",
-      "school": "Los Angeles",
-      "mascot": "Chargers",
-      "rank": null,
-      "score": "9",
-      "record": "0-7",
-      "periods": [
-       "3",
-       "6",
-       "0",
-       "0"
-      ],
-      "id": "24",
-      "color": "#0080c6",
-      "alt_color": "#ffc20e"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "J. Herbert",
-       "line": "24/32, 257 YDS, 2 INT",
-       "team": "24"
-      },
-      {
-       "cat": "RUSH",
-       "name": "B. Corum",
-       "line": "11 CAR, 73 YDS, 1 TD",
-       "team": "14"
-      },
-      {
-       "cat": "REC",
-       "name": "L. McConkey",
-       "line": "4 REC, 86 YDS",
-       "team": "24"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "SoFi Stadium",
-     "venue_id": "7065",
-     "venue_city": "Inglewood",
-     "venue_state": "CA",
-     "venue_country": "USA",
-     "line": null
-    },
-    {
      "id": "401873033",
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "14:12 - 4th",
-     "detail": "14:12",
+     "status_short": "13:13 - 4th",
+     "detail": "13:13",
      "period": 4,
      "start_utc": "2026-11-01T21:25Z",
      "network": "CBS",
@@ -138,7 +56,7 @@
       {
        "cat": "PASS",
        "name": "P. Mahomes",
-       "line": "22/31, 254 YDS, 3 TD",
+       "line": "23/33, 259 YDS, 3 TD",
        "team": "12"
       },
       {
@@ -150,16 +68,16 @@
       {
        "cat": "REC",
        "name": "E. Johnson",
-       "line": "3 REC, 119 YDS, 1 TD",
+       "line": "4 REC, 124 YDS, 1 TD",
        "team": "12"
       }
      ],
-     "situation": "1st & 10 at KC 32",
-     "possession": "12",
+     "situation": "1st & 10 at DEN 20",
+     "possession": "7",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.7633333333333333,
+     "progress": 0.7797222222222222,
      "venue_indoor": false,
      "venue": "Empower Field at Mile High",
      "venue_id": "3937",
@@ -173,8 +91,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "12:39 - 4th",
-     "detail": "12:39",
+     "status_short": "9:59 - 4th",
+     "detail": "9:59",
      "period": 4,
      "start_utc": "2026-11-01T21:25Z",
      "network": "CBS",
@@ -236,12 +154,12 @@
        "team": "17"
       }
      ],
-     "situation": "",
-     "possession": "17",
-     "red_zone": true,
+     "situation": "1st & 10 at NE 36",
+     "possession": "15",
+     "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.7891666666666667,
+     "progress": 0.8336111111111111,
      "venue_indoor": false,
      "venue": "Hard Rock Stadium",
      "venue_id": "3948",
@@ -911,6 +829,88 @@
      "line": null
     },
     {
+     "id": "401873032",
+     "league": "NFL",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-01T21:05Z",
+     "network": "Fox",
+     "home": {
+      "abbr": "LAR",
+      "full": "Los Angeles Rams",
+      "name": "Rams",
+      "school": "Los Angeles",
+      "mascot": "Rams",
+      "rank": null,
+      "score": "24",
+      "record": "4-4",
+      "periods": [
+       "3",
+       "7",
+       "14",
+       "0"
+      ],
+      "id": "14",
+      "color": "#003594",
+      "alt_color": "#ffd100"
+     },
+     "away": {
+      "abbr": "LAC",
+      "full": "Los Angeles Chargers",
+      "name": "Chargers",
+      "school": "Los Angeles",
+      "mascot": "Chargers",
+      "rank": null,
+      "score": "9",
+      "record": "0-7",
+      "periods": [
+       "3",
+       "6",
+       "0",
+       "0"
+      ],
+      "id": "24",
+      "color": "#0080c6",
+      "alt_color": "#ffc20e"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Herbert",
+       "line": "24/32, 257 YDS, 2 INT",
+       "team": "24"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Corum",
+       "line": "11 CAR, 73 YDS, 1 TD",
+       "team": "14"
+      },
+      {
+       "cat": "REC",
+       "name": "L. McConkey",
+       "line": "4 REC, 86 YDS",
+       "team": "24"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "SoFi Stadium",
+     "venue_id": "7065",
+     "venue_city": "Inglewood",
+     "venue_state": "CA",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
      "id": "401873035",
      "league": "NFL",
      "state": "pre",
@@ -981,7 +981,7 @@
      "venue_state": "MD",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "WSH -6",
       "spread": -6.0,
       "total": 40.5,
@@ -1141,7 +1141,7 @@
      "venue_state": "WA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "SEA -3",
       "spread": -3.0,
       "total": 46.5,
@@ -1219,7 +1219,7 @@
      "venue_state": "MD",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "JAX -7.5",
       "spread": 7.5,
       "total": 43.5,
@@ -6047,8 +6047,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "3:07 - 3rd",
-     "detail": "3:07",
+     "status_short": "1:43 - 3rd",
+     "detail": "1:43",
      "period": 3,
      "start_utc": "2026-11-01T22:00Z",
      "network": "DAZN (YES)",
@@ -6059,12 +6059,12 @@
       "school": "Indiana",
       "mascot": "Pacers",
       "rank": null,
-      "score": "56",
+      "score": "60",
       "record": "2-4",
       "periods": [
        "19",
        "21",
-       "16"
+       "20"
       ],
       "id": "11",
       "color": "#0c2340",
@@ -6094,7 +6094,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6980555555555555,
+     "progress": 0.7213888888888889,
      "venue_indoor": true,
      "venue": "Gainbridge Fieldhouse",
      "venue_id": "2183",
@@ -6155,7 +6155,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "GS -1.5",
       "spread": -1.5,
       "total": 220.5,
@@ -6214,7 +6214,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "LAL -2.5",
       "spread": -2.5,
       "total": 224.5,
@@ -6414,9 +6414,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "20:00 - 2nd",
+     "detail": "20:00",
+     "period": 2,
      "start_utc": "2026-11-01T23:00Z",
      "network": "NHL Net",
      "home": {
@@ -6429,6 +6429,7 @@
       "score": "0",
       "record": "7-6-1",
       "periods": [
+       "0",
        "0"
       ],
       "id": "13",
@@ -6445,7 +6446,8 @@
       "score": "2",
       "record": "10-2-2",
       "periods": [
-       "2"
+       "2",
+       "0"
       ],
       "id": "6",
       "color": "#00205b",
@@ -6518,7 +6520,7 @@
      "venue_state": "CA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "OTT -118",
       "spread": 1.5,
       "total": 6.5,
