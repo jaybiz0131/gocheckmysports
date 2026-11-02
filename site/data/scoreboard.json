@@ -1,173 +1,9 @@
 {
- "fetched_at": "2026-11-02T00:06:03Z",
+ "fetched_at": "2026-11-02T01:06:07Z",
  "leagues": [
   {
    "league": "NFL",
    "games": [
-    {
-     "id": "401873033",
-     "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "10:56 - 4th",
-     "detail": "10:56",
-     "period": 4,
-     "start_utc": "2026-11-01T21:25Z",
-     "network": "CBS",
-     "home": {
-      "abbr": "DEN",
-      "full": "Denver Broncos",
-      "name": "Broncos",
-      "school": "Denver",
-      "mascot": "Broncos",
-      "rank": null,
-      "score": "13",
-      "record": "5-2",
-      "periods": [
-       "3",
-       "10",
-       "0",
-       "0"
-      ],
-      "id": "7",
-      "color": "#0a2343",
-      "alt_color": "#fc4c02"
-     },
-     "away": {
-      "abbr": "KC",
-      "full": "Kansas City Chiefs",
-      "name": "Chiefs",
-      "school": "Kansas City",
-      "mascot": "Chiefs",
-      "rank": null,
-      "score": "24",
-      "record": "5-1",
-      "periods": [
-       "7",
-       "10",
-       "7",
-       "0"
-      ],
-      "id": "12",
-      "color": "#e31837",
-      "alt_color": "#ffb612"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "P. Mahomes",
-       "line": "23/33, 259 YDS, 3 TD",
-       "team": "12"
-      },
-      {
-       "cat": "RUSH",
-       "name": "K. Walker III",
-       "line": "13 CAR, 41 YDS",
-       "team": "12"
-      },
-      {
-       "cat": "REC",
-       "name": "E. Johnson",
-       "line": "4 REC, 124 YDS, 1 TD",
-       "team": "12"
-      }
-     ],
-     "situation": "1st & Goal at KC 4",
-     "possession": "7",
-     "red_zone": true,
-     "to_home": 3,
-     "to_away": 2,
-     "progress": 0.8177777777777777,
-     "venue_indoor": false,
-     "venue": "Empower Field at Mile High",
-     "venue_id": "3937",
-     "venue_city": "Denver",
-     "venue_state": "CO",
-     "venue_country": "USA",
-     "line": null
-    },
-    {
-     "id": "401873034",
-     "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "6:51 - 4th",
-     "detail": "6:51",
-     "period": 4,
-     "start_utc": "2026-11-01T21:25Z",
-     "network": "CBS",
-     "home": {
-      "abbr": "MIA",
-      "full": "Miami Dolphins",
-      "name": "Dolphins",
-      "school": "Miami",
-      "mascot": "Dolphins",
-      "rank": null,
-      "score": "13",
-      "record": "1-5",
-      "periods": [
-       "3",
-       "10",
-       "0",
-       "0"
-      ],
-      "id": "15",
-      "color": "#008e97",
-      "alt_color": "#fc4c02"
-     },
-     "away": {
-      "abbr": "NE",
-      "full": "New England Patriots",
-      "name": "Patriots",
-      "school": "New England",
-      "mascot": "Patriots",
-      "rank": null,
-      "score": "24",
-      "record": "4-3",
-      "periods": [
-       "3",
-       "0",
-       "14",
-       "7"
-      ],
-      "id": "17",
-      "color": "#002a5c",
-      "alt_color": "#c60c30"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "D. Maye",
-       "line": "15/18, 197 YDS, 2 TD",
-       "team": "17"
-      },
-      {
-       "cat": "RUSH",
-       "name": "R. Stevenson",
-       "line": "17 CAR, 74 YDS",
-       "team": "17"
-      },
-      {
-       "cat": "REC",
-       "name": "D. Douglas",
-       "line": "3 REC, 76 YDS, 1 TD",
-       "team": "17"
-      }
-     ],
-     "situation": "4th & 10 at NE 25",
-     "possession": "15",
-     "red_zone": false,
-     "to_home": 2,
-     "to_away": 3,
-     "progress": 0.8858333333333334,
-     "venue_indoor": false,
-     "venue": "Hard Rock Stadium",
-     "venue_id": "3948",
-     "venue_city": "Miami Gardens",
-     "venue_state": "FL",
-     "venue_country": "USA",
-     "line": null
-    },
     {
      "id": "401873026",
      "league": "NFL",
@@ -907,6 +743,170 @@
      "venue_id": "7065",
      "venue_city": "Inglewood",
      "venue_state": "CA",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
+     "id": "401873033",
+     "league": "NFL",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-01T21:25Z",
+     "network": "CBS",
+     "home": {
+      "abbr": "DEN",
+      "full": "Denver Broncos",
+      "name": "Broncos",
+      "school": "Denver",
+      "mascot": "Broncos",
+      "rank": null,
+      "score": "28",
+      "record": "6-2",
+      "periods": [
+       "3",
+       "10",
+       "0",
+       "15"
+      ],
+      "id": "7",
+      "color": "#0a2343",
+      "alt_color": "#fc4c02"
+     },
+     "away": {
+      "abbr": "KC",
+      "full": "Kansas City Chiefs",
+      "name": "Chiefs",
+      "school": "Kansas City",
+      "mascot": "Chiefs",
+      "rank": null,
+      "score": "24",
+      "record": "5-2",
+      "periods": [
+       "7",
+       "10",
+       "7",
+       "0"
+      ],
+      "id": "12",
+      "color": "#e31837",
+      "alt_color": "#ffb612"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "P. Mahomes",
+       "line": "30/41, 321 YDS, 3 TD",
+       "team": "12"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Walker III",
+       "line": "21 CAR, 69 YDS",
+       "team": "12"
+      },
+      {
+       "cat": "REC",
+       "name": "E. Johnson",
+       "line": "5 REC, 128 YDS, 1 TD",
+       "team": "12"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Empower Field at Mile High",
+     "venue_id": "3937",
+     "venue_city": "Denver",
+     "venue_state": "CO",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
+     "id": "401873034",
+     "league": "NFL",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-01T21:25Z",
+     "network": "CBS",
+     "home": {
+      "abbr": "MIA",
+      "full": "Miami Dolphins",
+      "name": "Dolphins",
+      "school": "Miami",
+      "mascot": "Dolphins",
+      "rank": null,
+      "score": "19",
+      "record": "1-6",
+      "periods": [
+       "3",
+       "10",
+       "0",
+       "6"
+      ],
+      "id": "15",
+      "color": "#008e97",
+      "alt_color": "#fc4c02"
+     },
+     "away": {
+      "abbr": "NE",
+      "full": "New England Patriots",
+      "name": "Patriots",
+      "school": "New England",
+      "mascot": "Patriots",
+      "rank": null,
+      "score": "24",
+      "record": "5-3",
+      "periods": [
+       "3",
+       "0",
+       "14",
+       "7"
+      ],
+      "id": "17",
+      "color": "#002a5c",
+      "alt_color": "#c60c30"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "M. Willis",
+       "line": "21/32, 211 YDS, 2 TD, 1 INT",
+       "team": "15"
+      },
+      {
+       "cat": "RUSH",
+       "name": "R. Stevenson",
+       "line": "19 CAR, 82 YDS",
+       "team": "17"
+      },
+      {
+       "cat": "REC",
+       "name": "D. Douglas",
+       "line": "3 REC, 76 YDS, 1 TD",
+       "team": "17"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Hard Rock Stadium",
+     "venue_id": "3948",
+     "venue_city": "Miami Gardens",
+     "venue_state": "FL",
      "venue_country": "USA",
      "line": null
     },
@@ -6045,11 +6045,11 @@
     {
      "id": "401909904",
      "league": "NBA",
-     "state": "in",
-     "completed": false,
-     "status_short": "28.5 - 3rd",
-     "detail": "28.5",
-     "period": 3,
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0.0",
+     "period": 4,
      "start_utc": "2026-11-01T22:00Z",
      "network": "DAZN (YES)",
      "home": {
@@ -6059,12 +6059,13 @@
       "school": "Indiana",
       "mascot": "Pacers",
       "rank": null,
-      "score": "62",
-      "record": "2-4",
+      "score": "90",
+      "record": "2-5",
       "periods": [
        "19",
        "21",
-       "22"
+       "22",
+       "28"
       ],
       "id": "11",
       "color": "#0c2340",
@@ -6077,12 +6078,13 @@
       "school": "Brooklyn",
       "mascot": "Nets",
       "rank": null,
-      "score": "69",
-      "record": "0-5",
+      "score": "98",
+      "record": "1-5",
       "periods": [
        "20",
        "23",
-       "26"
+       "28",
+       "27"
       ],
       "id": "17",
       "color": "#000000",
@@ -6094,7 +6096,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.625,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Gainbridge Fieldhouse",
      "venue_id": "2183",
@@ -6217,7 +6219,7 @@
       "provider": "DraftKings",
       "detail": "LAL -3.5",
       "spread": -3.5,
-      "total": 224.5,
+      "total": 223.5,
       "favorite": "home"
      }
     }
@@ -6414,9 +6416,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "17:07 - 2nd",
-     "detail": "17:07",
-     "period": 2,
+     "status_short": "15:50 - 3rd",
+     "detail": "15:50",
+     "period": 3,
      "start_utc": "2026-11-01T23:00Z",
      "network": "NHL Net",
      "home": {
@@ -6426,10 +6428,11 @@
       "school": "New York",
       "mascot": "Rangers",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "7-6-1",
       "periods": [
        "0",
+       "1",
        "0"
       ],
       "id": "13",
@@ -6443,10 +6446,11 @@
       "school": "Edmonton",
       "mascot": "Oilers",
       "rank": null,
-      "score": "2",
+      "score": "3",
       "record": "10-2-2",
       "periods": [
        "2",
+       "1",
        "0"
       ],
       "id": "6",
@@ -6459,7 +6463,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.38138888888888883,
+     "progress": 0.7361111111111112,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
@@ -6521,7 +6525,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "OTT -118",
+      "detail": "OTT -122",
       "spread": 1.5,
       "total": 6.5,
       "favorite": "away"
