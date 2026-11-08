@@ -1,13 +1,22 @@
 {
  "day": "2026-11-08",
  "first_poll": "2026-11-08T00:00:26Z",
- "last_change": "2026-11-08T00:00:26Z",
- "last_poll": "2026-11-08T00:02:13Z",
+ "last_change": "2026-11-08T16:00:24Z",
+ "last_poll": "2026-11-08T16:01:13Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
    "capped": true,
    "designations": {
+    "14012": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:31Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Andy Dalton",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4037626": {
      "changed_at": null,
      "detail": "Forearm",
@@ -26,6 +35,15 @@
      "pos": "LB",
      "status": "Questionable"
     },
+    "4431194": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:33Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Billy Bowman Jr.",
+     "pos": "CB",
+     "status": "Out"
+    },
     "4431210": {
      "changed_at": null,
      "detail": "Hip",
@@ -35,10 +53,28 @@
      "pos": "WR",
      "status": "Questionable"
     },
+    "4569511": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Drake Jackson",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4575860": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "status": "Out"
+    },
     "4870612": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-02T18:55Z",
+     "feed_date": "2026-11-08T13:05Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Zachariah Branch",
      "pos": "WR",
@@ -61,10 +97,74 @@
      "name": "Anterio Thompson",
      "pos": "DT",
      "status": "Out"
+    },
+    "5344782": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "1",
-   "players": {},
+   "players": {
+    "14012": {
+     "feed_date": "2026-11-08T13:31Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Andy Dalton",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4431194": {
+     "feed_date": "2026-11-08T13:33Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Billy Bowman Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4569511": {
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Drake Jackson",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4575860": {
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870612": {
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Zachariah Branch",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "5344782": {
+     "feed_date": "2026-11-08T13:05Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -365,7 +465,7 @@
     "4682745": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-06T21:31Z",
+     "feed_date": "2026-11-08T12:39Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Jaylen Wright",
      "pos": "RB",
@@ -459,7 +559,7 @@
     "3046439": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-11-06T18:25Z",
+     "feed_date": "2026-11-08T14:22Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Hunter Henry",
      "pos": "TE",
@@ -524,7 +624,7 @@
     "4685260": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-07T03:01Z",
+     "feed_date": "2026-11-08T03:02Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Kelvin Banks Jr.",
      "pos": "OT",
@@ -571,7 +671,7 @@
     "4696981": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-06T21:18Z",
+     "feed_date": "2026-11-08T15:26Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Cam Skattebo",
      "pos": "RB",
@@ -591,7 +691,7 @@
     "3051324": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-05T22:13Z",
+     "feed_date": "2026-11-08T02:01Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Dion Dawkins",
      "pos": "OT",
@@ -627,7 +727,7 @@
     "4367203": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-05T22:12Z",
+     "feed_date": "2026-11-08T02:09Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Alec Anderson",
      "pos": "OT",
@@ -656,7 +756,7 @@
     "4362094": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-07T03:04Z",
+     "feed_date": "2026-11-08T01:45Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Joseph Ossai",
      "pos": "DE",
@@ -674,7 +774,7 @@
     "4570470": {
      "changed_at": null,
      "detail": "Back",
-     "feed_date": "2026-11-07T18:43Z",
+     "feed_date": "2026-11-08T01:51Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Nahshon Wright",
      "pos": "CB",
@@ -748,7 +848,7 @@
     "4685201": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-07T01:26Z",
+     "feed_date": "2026-11-08T12:17Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Tanner McKee",
      "pos": "QB",
@@ -822,7 +922,7 @@
     "5084939": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-07T04:26Z",
+     "feed_date": "2026-11-08T03:11Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Isaiah Adams",
      "pos": "G",
@@ -927,7 +1027,7 @@
     "16737": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-11-06T22:05Z",
+     "feed_date": "2026-11-08T13:26Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Mike Evans",
      "pos": "WR",
@@ -1010,7 +1110,7 @@
     "3912547": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-05T15:41Z",
+     "feed_date": "2026-11-08T12:19Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Sam Darnold",
      "pos": "QB",
@@ -1066,7 +1166,7 @@
     "4567750": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-11-06T20:23Z",
+     "feed_date": "2026-11-08T11:16Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Emeka Egbuka",
      "pos": "WR",
@@ -1189,7 +1289,7 @@
     "4426374": {
      "changed_at": null,
      "detail": "Thumb",
-     "feed_date": "2026-11-07T00:12Z",
+     "feed_date": "2026-11-08T12:31Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Tyrique Stevenson Sr.",
      "pos": "CB",
@@ -1198,7 +1298,7 @@
     "4608686": {
      "changed_at": null,
      "detail": "Toe",
-     "feed_date": "2026-11-06T19:58Z",
+     "feed_date": "2026-11-08T12:25Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Kyle Monangai",
      "pos": "RB",
@@ -1207,7 +1307,7 @@
     "4870953": {
      "changed_at": null,
      "detail": "Toe",
-     "feed_date": "2026-11-07T00:07Z",
+     "feed_date": "2026-11-08T12:28Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Malik Muhammad II",
      "pos": "CB",
@@ -1478,10 +1578,19 @@
     "4401811": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-07T02:55Z",
+     "feed_date": "2026-11-08T13:04Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Kyle Dugger",
      "pos": "S",
+     "status": "Out"
+    },
+    "4429000": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Myles Hinton",
+     "pos": "OT",
      "status": "Out"
     },
     "4430065": {
@@ -1492,10 +1601,65 @@
      "name": "Cedric Johnson",
      "pos": "DE",
      "status": "Questionable"
+    },
+    "4870866": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Connor Lew",
+     "pos": "C",
+     "status": "Out"
+    },
+    "5081542": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "status": "Out"
     }
    },
    "id": "4",
-   "players": {},
+   "players": {
+    "4401811": {
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Kyle Dugger",
+     "pos": "S",
+     "reason": "Quadriceps",
+     "via": "poll"
+    },
+    "4429000": {
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Myles Hinton",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870866": {
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Connor Lew",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5081542": {
+     "feed_date": "2026-11-08T13:04Z",
+     "first_seen": "2026-11-08T16:00:24Z",
+     "jersey": "",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1516,7 +1680,7 @@
     "3122840": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-07T18:12Z",
+     "feed_date": "2026-11-08T12:33Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Deshaun Watson",
      "pos": "QB",
@@ -1590,7 +1754,7 @@
     "4427816": {
      "changed_at": null,
      "detail": "Forearm",
-     "feed_date": "2026-11-07T19:46Z",
+     "feed_date": "2026-11-08T02:15Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Marist Liufau",
      "pos": "LB",
@@ -1619,7 +1783,7 @@
     "4360853": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-07T00:59Z",
+     "feed_date": "2026-11-08T14:24Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Talanoa Hufanga",
      "pos": "S",
@@ -1702,7 +1866,7 @@
     "4374302": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-06T21:07Z",
+     "feed_date": "2026-11-08T11:08Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Amon-Ra St. Brown",
      "pos": "WR",
