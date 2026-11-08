@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-08T19:50:28Z",
+ "fetched_at": "2026-11-08T20:00:27Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "13:19 - 3rd",
+     "detail": "13:19",
+     "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "Fox",
      "home": {
@@ -25,6 +25,7 @@
       "record": "2-6",
       "periods": [
        "7",
+       "0",
        "0"
       ],
       "id": "11",
@@ -42,7 +43,8 @@
       "record": "3-5",
       "periods": [
        "3",
-       "14"
+       "14",
+       "0"
       ],
       "id": "6",
       "color": "#002a5c",
@@ -57,8 +59,8 @@
       },
       {
        "cat": "RUSH",
-       "name": "T. Goodson",
-       "line": "7 CAR, 44 YDS",
+       "name": "J. Williams",
+       "line": "11 CAR, 48 YDS",
        "team": "6"
       },
       {
@@ -68,12 +70,12 @@
        "team": "6"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 14 at DAL 8",
+     "possession": "6",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5,
+     "progress": 0.5280555555555555,
      "venue_indoor": true,
      "venue": "Lucas Oil Stadium",
      "venue_id": "3812",
@@ -87,8 +89,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:50 - 3rd",
-     "detail": "11:50",
+     "status_short": "9:34 - 3rd",
+     "detail": "9:34",
      "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "CBS",
@@ -99,12 +101,12 @@
       "school": "Kansas City",
       "mascot": "Chiefs",
       "rank": null,
-      "score": "14",
+      "score": "21",
       "record": "5-2",
       "periods": [
        "0",
        "14",
-       "0"
+       "7"
       ],
       "id": "12",
       "color": "#e31837",
@@ -138,7 +140,7 @@
       {
        "cat": "RUSH",
        "name": "B. Hall",
-       "line": "13 CAR, 57 YDS",
+       "line": "14 CAR, 62 YDS",
        "team": "20"
       },
       {
@@ -148,12 +150,12 @@
        "team": "12"
       }
      ],
-     "situation": "2nd & Goal at NYJ 3",
-     "possession": "12",
-     "red_zone": true,
+     "situation": "3rd & 12 at NYJ 31",
+     "possession": "20",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5527777777777778,
+     "progress": 0.5905555555555555,
      "venue_indoor": false,
      "venue": "Arrowhead Stadium",
      "venue_id": "3622",
@@ -167,8 +169,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "8:00 - 3rd",
-     "detail": "8:00",
+     "status_short": "4:00 - 3rd",
+     "detail": "4:00",
      "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "CBS",
@@ -179,12 +181,12 @@
       "school": "Miami",
       "mascot": "Dolphins",
       "rank": null,
-      "score": "3",
+      "score": "6",
       "record": "1-6",
       "periods": [
        "3",
        "0",
-       "0"
+       "3"
       ],
       "id": "15",
       "color": "#008e97",
@@ -212,28 +214,28 @@
       {
        "cat": "PASS",
        "name": "J. Goff",
-       "line": "9/14, 77 YDS, 1 INT",
+       "line": "10/15, 108 YDS, 1 INT",
        "team": "8"
       },
       {
        "cat": "RUSH",
        "name": "O. Gordon II",
-       "line": "11 CAR, 48 YDS",
+       "line": "12 CAR, 48 YDS",
        "team": "15"
       },
       {
        "cat": "REC",
-       "name": "A. St. Brown",
-       "line": "6 REC, 52 YDS",
-       "team": "8"
+       "name": "C. Douglas",
+       "line": "5 REC, 57 YDS",
+       "team": "15"
       }
      ],
-     "situation": "2nd & 15 at MIA 46",
-     "possession": "15",
+     "situation": "1st & 10 at MIA 34",
+     "possession": "8",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.6166666666666667,
+     "progress": 0.6833333333333333,
      "venue_indoor": false,
      "venue": "Hard Rock Stadium",
      "venue_id": "3948",
@@ -247,8 +249,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "9:01 - 3rd",
-     "detail": "9:01",
+     "status_short": "4:05 - 3rd",
+     "detail": "4:05",
      "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "CBS",
@@ -292,13 +294,13 @@
       {
        "cat": "PASS",
        "name": "T. Shough",
-       "line": "7/11, 135 YDS",
+       "line": "10/16, 156 YDS",
        "team": "18"
       },
       {
        "cat": "RUSH",
        "name": "A. Estime",
-       "line": "8 CAR, 42 YDS",
+       "line": "11 CAR, 57 YDS",
        "team": "18"
       },
       {
@@ -308,12 +310,12 @@
        "team": "5"
       }
      ],
-     "situation": "",
-     "possession": "5",
+     "situation": "2nd & 6 at CLE 7",
+     "possession": "18",
      "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5997222222222223,
+     "progress": 0.6819444444444445,
      "venue_indoor": true,
      "venue": "Caesars Superdome",
      "venue_id": "3493",
@@ -327,9 +329,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "10:47 - 3rd",
+     "detail": "10:47",
+     "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "Fox",
      "home": {
@@ -343,6 +345,7 @@
       "record": "2-6",
       "periods": [
        "8",
+       "0",
        "0"
       ],
       "id": "21",
@@ -360,6 +363,7 @@
       "record": "4-2-1",
       "periods": [
        "6",
+       "0",
        "0"
       ],
       "id": "19",
@@ -376,22 +380,22 @@
       {
        "cat": "RUSH",
        "name": "J. Milton",
-       "line": "5 CAR, 24 YDS",
+       "line": "6 CAR, 36 YDS",
        "team": "21"
       },
       {
        "cat": "REC",
-       "name": "I. Likely",
-       "line": "4 REC, 48 YDS",
-       "team": "19"
+       "name": "M. Lemon",
+       "line": "5 REC, 51 YDS",
+       "team": "21"
       }
      ],
-     "situation": "1st & 10 at PHI 27",
-     "possession": "",
+     "situation": "1st & 10 at PHI 22",
+     "possession": "21",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5,
+     "progress": 0.5702777777777778,
      "venue_indoor": false,
      "venue": "Lincoln Financial Field",
      "venue_id": "3806",
@@ -405,8 +409,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:29 - 3rd",
-     "detail": "11:29",
+     "status_short": "7:01 - 3rd",
+     "detail": "7:01",
      "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "Fox",
@@ -450,7 +454,7 @@
       {
        "cat": "PASS",
        "name": "M. Stafford",
-       "line": "18/27, 152 YDS",
+       "line": "20/30, 163 YDS",
        "team": "14"
       },
       {
@@ -462,16 +466,16 @@
       {
        "cat": "REC",
        "name": "P. Nacua",
-       "line": "11 REC, 116 YDS",
+       "line": "12 REC, 124 YDS",
        "team": "14"
       }
      ],
-     "situation": "",
+     "situation": "1st & 10 at WSH 39",
      "possession": "14",
-     "red_zone": true,
+     "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.5586111111111112,
+     "progress": 0.6330555555555555,
      "venue_indoor": false,
      "venue": "Northwest Stadium",
      "venue_id": "3719",
@@ -485,8 +489,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:36 - 3rd",
-     "detail": "11:36",
+     "status_short": "8:46 - 3rd",
+     "detail": "8:46",
      "period": 3,
      "start_utc": "2026-11-08T18:00Z",
      "network": "CBS",
@@ -497,12 +501,12 @@
       "school": "Carolina",
       "mascot": "Panthers",
       "rank": null,
-      "score": "7",
+      "score": "14",
       "record": "3-4",
       "periods": [
        "0",
        "7",
-       "0"
+       "7"
       ],
       "id": "29",
       "color": "#0085ca",
@@ -530,7 +534,7 @@
       {
        "cat": "PASS",
        "name": "B. Young",
-       "line": "14/19, 129 YDS, 1 TD",
+       "line": "15/20, 144 YDS, 2 TD",
        "team": "29"
       },
       {
@@ -542,16 +546,16 @@
       {
        "cat": "REC",
        "name": "D. Waller",
-       "line": "5 REC, 60 YDS",
+       "line": "6 REC, 75 YDS, 1 TD",
        "team": "29"
       }
      ],
-     "situation": "3rd & 9 at DEN 15",
+     "situation": "1st & 10 at CAR 13",
      "possession": "29",
-     "red_zone": true,
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5566666666666666,
+     "progress": 0.6038888888888889,
      "venue_indoor": false,
      "venue": "Bank of America Stadium",
      "venue_id": "3628",
@@ -713,7 +717,7 @@
      "venue_state": "CA",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "HOU -5.5",
       "spread": 5.5,
       "total": 40.5,
@@ -791,7 +795,7 @@
      "venue_state": "MA",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NE -3",
       "spread": -3.0,
       "total": 44.5,
@@ -869,7 +873,7 @@
      "venue_state": "CA",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SF -8.5",
       "spread": -8.5,
       "total": 51.5,
@@ -947,7 +951,7 @@
      "venue_state": "WA",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "SEA -8.5",
       "spread": -8.5,
       "total": 39.5,
@@ -1025,7 +1029,7 @@
      "venue_state": "IL",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "CHI -6",
       "spread": -6.0,
       "total": 47.5,
@@ -1185,7 +1189,7 @@
      "venue_state": "MN",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "BUF -3",
       "spread": 3.0,
       "total": 43.5,
@@ -6851,7 +6855,7 @@
      "venue_state": "IL",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "PHI -9.5",
       "spread": 9.5,
       "total": 237.5,
@@ -6910,7 +6914,7 @@
      "venue_state": "MI",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "DET -6.5",
       "spread": -6.5,
       "total": 217.5,
@@ -6969,7 +6973,7 @@
      "venue_state": "MN",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MIN -11.5",
       "spread": -11.5,
       "total": 222.5,
@@ -7028,7 +7032,7 @@
      "venue_state": "TX",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "DAL -7.5",
       "spread": -7.5,
       "total": 222.5,
@@ -7087,10 +7091,10 @@
      "venue_state": "WI",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
-      "detail": "BOS -13.5",
-      "spread": 13.5,
-      "total": 222.5,
+      "provider": "DraftKings",
+      "detail": "BOS -12.5",
+      "spread": 12.5,
+      "total": 221.5,
       "favorite": "away"
      }
     },
@@ -7146,7 +7150,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NO -1.5",
       "spread": 1.5,
       "total": 226.5,
@@ -7205,7 +7209,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "MIA -10.5",
       "spread": 10.5,
       "total": 237.5,
@@ -7222,8 +7226,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "7:00 - 2nd",
-     "detail": "7:00",
+     "status_short": "3:08 - 2nd",
+     "detail": "3:08",
      "period": 2,
      "start_utc": "2026-11-08T18:00Z",
      "network": "NHL Net",
@@ -7267,7 +7271,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.5499999999999999,
+     "progress": 0.6144444444444445,
      "venue_indoor": true,
      "venue": "TD Garden",
      "venue_id": "1824",
@@ -7328,7 +7332,7 @@
      "venue_state": "NY",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "VGK -112",
       "spread": 1.5,
       "total": 6.5,
@@ -7387,7 +7391,7 @@
      "venue_state": "MB",
      "venue_country": "Canada",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "TB -148",
       "spread": 1.5,
       "total": 6.5,
@@ -7446,7 +7450,7 @@
      "venue_state": "ON",
      "venue_country": "Canada",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "NJ -155",
       "spread": 1.5,
       "total": 6.5,
@@ -7505,7 +7509,7 @@
      "venue_state": "AB",
      "venue_country": "Canada",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "PHI -118",
       "spread": 1.5,
       "total": 5.5,
@@ -7564,7 +7568,7 @@
      "venue_state": "CA",
      "venue_country": "USA",
      "line": {
-      "provider": "Draft Kings",
+      "provider": "DraftKings",
       "detail": "ANA -120",
       "spread": -1.5,
       "total": 6.5,
