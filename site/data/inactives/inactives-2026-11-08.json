@@ -1,8 +1,8 @@
 {
  "day": "2026-11-08",
  "first_poll": "2026-11-08T00:00:26Z",
- "last_change": "2026-11-08T16:45:23Z",
- "last_poll": "2026-11-08T16:45:38Z",
+ "last_change": "2026-11-08T16:50:21Z",
+ "last_poll": "2026-11-08T16:50:30Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -312,6 +312,15 @@
   "12": {
    "capped": true,
    "designations": {
+    "4372070": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "name": "Ben VanSumeren",
+     "pos": "FB",
+     "status": "Out"
+    },
     "4372716": {
      "changed_at": null,
      "detail": "Hip",
@@ -320,6 +329,15 @@
      "name": "Nikko Remigio",
      "pos": "WR",
      "status": "Questionable"
+    },
+    "4567747": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "name": "Garrett Nussmeier",
+     "pos": "QB",
+     "status": "Out"
     },
     "4591008": {
      "changed_at": null,
@@ -330,10 +348,28 @@
      "pos": "DT",
      "status": "Out"
     },
+    "4602984": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "name": "Diego Pounds",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4837252": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "name": "Jack Pyburn",
+     "pos": "LB",
+     "status": "Out"
+    },
     "4871063": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-11-07T02:59Z",
+     "feed_date": "2026-11-08T16:44Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Peter Woods",
      "pos": "DT",
@@ -342,7 +378,7 @@
     "4880124": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-11-06T20:29Z",
+     "feed_date": "2026-11-08T16:44Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Mansoor Delane",
      "pos": "CB",
@@ -350,7 +386,62 @@
     }
    },
    "id": "12",
-   "players": {},
+   "players": {
+    "4372070": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Ben VanSumeren",
+     "pos": "FB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4567747": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Garrett Nussmeier",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4602984": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Diego Pounds",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4837252": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Jack Pyburn",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4871063": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Peter Woods",
+     "pos": "DT",
+     "reason": "Neck",
+     "via": "poll"
+    },
+    "4880124": {
+     "feed_date": "2026-11-08T16:44Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Mansoor Delane",
+     "pos": "CB",
+     "reason": "Shoulder",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -600,7 +691,35 @@
     }
    },
    "id": "15",
-   "players": {},
+   "players": {
+    "4362135": {
+     "feed_date": "2026-11-02T19:10Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Christian Haynes",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4875079": {
+     "feed_date": "2026-11-02T19:10Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Marcellas Dial Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4912052": {
+     "feed_date": "2026-11-02T19:10Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Justin Joly",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -941,13 +1060,13 @@
      "status": "Out"
     },
     "4696981": {
-     "changed_at": null,
+     "changed_at": "2026-11-08T16:50:21Z",
      "detail": "Hamstring",
      "feed_date": "2026-11-08T15:26Z",
      "first_seen": "2026-11-08T00:00:26Z",
      "name": "Cam Skattebo",
      "pos": "RB",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "4921249": {
      "changed_at": null,
@@ -1004,6 +1123,15 @@
      "name": "Nikko Reed",
      "pos": "CB",
      "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4696981": {
+     "feed_date": "2026-11-08T15:26Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Cam Skattebo",
+     "pos": "RB",
+     "reason": "Hamstring",
      "via": "poll"
     },
     "4921249": {
@@ -2693,7 +2821,26 @@
     }
    },
    "id": "8",
-   "players": {},
+   "players": {
+    "3139387": {
+     "feed_date": "2026-11-07T02:12Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "D.J. Reed",
+     "pos": "CB",
+     "reason": "Hip",
+     "via": "poll"
+    },
+    "4361788": {
+     "feed_date": "2026-11-07T03:55Z",
+     "first_seen": "2026-11-08T16:50:21Z",
+     "jersey": "",
+     "name": "Cade Mays",
+     "pos": "C",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
