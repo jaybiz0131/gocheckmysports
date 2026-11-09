@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-09T00:05:29Z",
+ "fetched_at": "2026-11-09T00:15:30Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "6:02 - 4th",
-     "detail": "6:02",
+     "status_short": "3:30 - 4th",
+     "detail": "3:30",
      "period": 4,
      "start_utc": "2026-11-08T21:05Z",
      "network": "CBS",
@@ -21,13 +21,13 @@
       "school": "Los Angeles",
       "mascot": "Chargers",
       "rank": null,
-      "score": "15",
+      "score": "22",
       "record": "0-7",
       "periods": [
        "3",
        "6",
        "0",
-       "6"
+       "13"
       ],
       "id": "24",
       "color": "#0080c6",
@@ -72,12 +72,12 @@
        "team": "34"
       }
      ],
-     "situation": "3rd & 1 at 50",
-     "possession": "24",
+     "situation": "3rd & 1 at LAC 35",
+     "possession": "34",
      "red_zone": false,
-     "to_home": 3,
+     "to_home": 2,
      "to_away": 3,
-     "progress": 0.8994444444444445,
+     "progress": 0.9416666666666667,
      "venue_indoor": false,
      "venue": "SoFi Stadium",
      "venue_id": "7065",
@@ -91,8 +91,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 4th",
-     "detail": "15:00",
+     "status_short": "11:39 - 4th",
+     "detail": "11:39",
      "period": 4,
      "start_utc": "2026-11-08T21:25Z",
      "network": "Fox",
@@ -122,13 +122,13 @@
       "school": "Green Bay",
       "mascot": "Packers",
       "rank": null,
-      "score": "42",
+      "score": "45",
       "record": "5-3",
       "periods": [
        "14",
        "10",
        "18",
-       "0"
+       "3"
       ],
       "id": "9",
       "color": "#204e32",
@@ -143,9 +143,9 @@
       },
       {
        "cat": "RUSH",
-       "name": "R. Stevenson",
-       "line": "6 CAR, 32 YDS",
-       "team": "17"
+       "name": "K. Johnson",
+       "line": "8 CAR, 56 YDS, 1 TD",
+       "team": "9"
       },
       {
        "cat": "REC",
@@ -154,12 +154,12 @@
        "team": "9"
       }
      ],
-     "situation": "1st & 10 at GB 37",
-     "possession": "9",
+     "situation": "3rd & 1 at NE 39",
+     "possession": "17",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.75,
+     "progress": 0.8058333333333334,
      "venue_indoor": false,
      "venue": "Gillette Stadium",
      "venue_id": "3738",
@@ -171,10 +171,10 @@
     {
      "id": "401873047",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "3:57 - 4th",
-     "detail": "3:57",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-11-08T21:25Z",
      "network": "Fox",
@@ -186,7 +186,7 @@
       "mascot": "49ers",
       "rank": null,
       "score": "38",
-      "record": "6-1",
+      "record": "7-1",
       "periods": [
        "14",
        "7",
@@ -205,7 +205,7 @@
       "mascot": "Raiders",
       "rank": null,
       "score": "17",
-      "record": "4-4",
+      "record": "4-5",
       "periods": [
        "0",
        "10",
@@ -236,12 +236,12 @@
        "team": "13"
       }
      ],
-     "situation": "4th & 11 at LV 31",
-     "possession": "13",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.9341666666666667,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "Levi's Stadium",
      "venue_id": "4738",
@@ -255,8 +255,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "4:35 - 4th",
-     "detail": "4:35",
+     "status_short": "2:42 - 4th",
+     "detail": "2:42",
      "period": 4,
      "start_utc": "2026-11-08T21:25Z",
      "network": "Fox",
@@ -307,9 +307,9 @@
       },
       {
        "cat": "RUSH",
-       "name": "T. Allgeier",
-       "line": "17 CAR, 46 YDS",
-       "team": "22"
+       "name": "Z. Charbonnet",
+       "line": "16 CAR, 77 YDS",
+       "team": "26"
       },
       {
        "cat": "REC",
@@ -318,12 +318,12 @@
        "team": "22"
       }
      ],
-     "situation": "1st & 11 at SEA 1",
+     "situation": "3rd & 1 at SEA 38",
      "possession": "26",
      "red_zone": false,
-     "to_home": 2,
-     "to_away": 3,
-     "progress": 0.9236111111111112,
+     "to_home": 1,
+     "to_away": 0,
+     "progress": 0.9550000000000001,
      "venue_indoor": false,
      "venue": "Lumen Field",
      "venue_id": "3673",
@@ -1061,7 +1061,7 @@
      "venue_state": "IL",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "CHI -6",
       "spread": -6.0,
       "total": 47.5,
@@ -1221,7 +1221,7 @@
      "venue_state": "MN",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "BUF -3",
       "spread": 3.0,
       "total": 43.5,
@@ -1299,7 +1299,7 @@
      "venue_state": "NJ",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NYG -1.5",
       "spread": -1.5,
       "total": 42.5,
@@ -6909,8 +6909,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "1:36 - 2nd",
-     "detail": "1:36",
+     "status_short": "Halftime",
+     "detail": "0.0",
      "period": 2,
      "start_utc": "2026-11-08T23:00Z",
      "network": "NBA TV",
@@ -6921,11 +6921,11 @@
       "school": "Detroit",
       "mascot": "Pistons",
       "rank": null,
-      "score": "42",
+      "score": "48",
       "record": "6-2",
       "periods": [
        "14",
-       "28"
+       "34"
       ],
       "id": "8",
       "color": "#1d428a",
@@ -6938,11 +6938,11 @@
       "school": "Los Angeles",
       "mascot": "Lakers",
       "rank": null,
-      "score": "54",
+      "score": "61",
       "record": "8-2",
       "periods": [
        "38",
-       "16"
+       "23"
       ],
       "id": "13",
       "color": "#552583",
@@ -6954,7 +6954,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.47333333333333333,
+     "progress": 0.375,
      "venue_indoor": true,
      "venue": "Little Caesars Arena",
      "venue_id": "5404",
@@ -6966,11 +6966,11 @@
     {
      "id": "401909947",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/8 - 7:00 PM EST",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "8:54 - 1st",
+     "detail": "8:54",
+     "period": 1,
      "start_utc": "2026-11-09T00:00Z",
      "network": "DAZN MIN",
      "home": {
@@ -6980,9 +6980,11 @@
       "school": "Minnesota",
       "mascot": "Timberwolves",
       "rank": null,
-      "score": "0",
+      "score": "6",
       "record": "7-3",
-      "periods": [],
+      "periods": [
+       "6"
+      ],
       "id": "16",
       "color": "#266092",
       "alt_color": "#79bc43"
@@ -6994,9 +6996,11 @@
       "school": "Utah",
       "mascot": "Jazz",
       "rank": null,
-      "score": "0",
+      "score": "4",
       "record": "1-8",
-      "periods": [],
+      "periods": [
+       "4"
+      ],
       "id": "26",
       "color": "#4e008e",
       "alt_color": "#79a3dc"
@@ -7007,20 +7011,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.10166666666666666,
      "venue_indoor": true,
      "venue": "Target Center",
      "venue_id": "2029",
      "venue_city": "Minneapolis",
      "venue_state": "MN",
      "venue_country": "",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "MIN -12.5",
-      "spread": -12.5,
-      "total": 222.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401909948",
@@ -7074,7 +7072,7 @@
      "venue_state": "TX",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "DAL -7.5",
       "spread": -7.5,
       "total": 223.5,
@@ -7133,7 +7131,7 @@
      "venue_state": "WI",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "BOS -13.5",
       "spread": 13.5,
       "total": 221.5,
@@ -7192,7 +7190,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NO -1.5",
       "spread": 1.5,
       "total": 226.5,
@@ -7251,7 +7249,7 @@
      "venue_state": "CA",
      "venue_country": "",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "MIA -11.5",
       "spread": 11.5,
       "total": 236.5,
@@ -7390,8 +7388,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "19:24 - 2nd",
-     "detail": "19:24",
+     "status_short": "12:26 - 2nd",
+     "detail": "12:26",
      "period": 2,
      "start_utc": "2026-11-08T23:00Z",
      "network": "ESPN+",
@@ -7402,11 +7400,11 @@
       "school": "Winnipeg",
       "mascot": "Jets",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "6-8-3",
       "periods": [
        "0",
-       "0"
+       "1"
       ],
       "id": "28",
       "color": "#002d62",
@@ -7435,7 +7433,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3433333333333333,
+     "progress": 0.4594444444444445,
      "venue_indoor": true,
      "venue": "Canada Life Centre",
      "venue_id": "1397",
@@ -7496,7 +7494,7 @@
      "venue_state": "ON",
      "venue_country": "Canada",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "NJ -162",
       "spread": 1.5,
       "total": 6.5,
@@ -7506,11 +7504,11 @@
     {
      "id": "401892678",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/8 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "17:27 - 1st",
+     "detail": "17:27",
+     "period": 1,
      "start_utc": "2026-11-09T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7522,7 +7520,9 @@
       "rank": null,
       "score": "0",
       "record": "7-9-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "3",
       "color": "#dd1a32",
       "alt_color": "#000000"
@@ -7536,7 +7536,9 @@
       "rank": null,
       "score": "0",
       "record": "4-10-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "15",
       "color": "#fe5823",
       "alt_color": "#000000"
@@ -7547,20 +7549,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.04249999999999998,
      "venue_indoor": true,
      "venue": "Scotiabank Saddledome",
      "venue_id": "1843",
      "venue_city": "Calgary",
      "venue_state": "AB",
      "venue_country": "Canada",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "PHI -122",
-      "spread": 1.5,
-      "total": 5.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401892679",
@@ -7614,7 +7610,7 @@
      "venue_state": "CA",
      "venue_country": "USA",
      "line": {
-      "provider": "DraftKings",
+      "provider": "Draft Kings",
       "detail": "ANA -120",
       "spread": -1.5,
       "total": 6.5,

@@ -1,8 +1,8 @@
 {
  "day": "2026-11-09",
  "first_poll": "2026-11-09T00:00:23Z",
- "last_change": "2026-11-09T00:05:22Z",
- "last_poll": "2026-11-09T00:05:34Z",
+ "last_change": "2026-11-09T00:15:24Z",
+ "last_poll": "2026-11-09T00:15:35Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -562,7 +562,7 @@
     "4431623": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-08T23:35Z",
+     "feed_date": "2026-11-08T23:55Z",
      "first_seen": "2026-11-09T00:00:23Z",
      "name": "Trey Zuhn III",
      "pos": "C",
@@ -1100,6 +1100,15 @@
      "name": "TreVeyon Henderson",
      "pos": "RB",
      "status": "Out"
+    },
+    "4569173": {
+     "changed_at": null,
+     "detail": "Undisclosed",
+     "feed_date": "2026-11-09T00:02Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Rhamondre Stevenson",
+     "pos": "RB",
+     "status": "Questionable"
     }
    },
    "id": "17",
@@ -2329,6 +2338,24 @@
   "27": {
    "capped": true,
    "designations": {
+    "4427140": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Trevor Keegan",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4429007": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "DeMonte Capehart",
+     "pos": "DT",
+     "status": "Out"
+    },
     "4567750": {
      "changed_at": null,
      "detail": "Foot",
@@ -2338,18 +2365,82 @@
      "pos": "WR",
      "status": "Questionable"
     },
+    "4685549": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Billy Schrauth",
+     "pos": "G",
+     "status": "Out"
+    },
     "4686334": {
      "changed_at": null,
      "detail": "Knee - MCL",
-     "feed_date": "2026-11-02T20:53Z",
+     "feed_date": "2026-11-09T00:04Z",
      "first_seen": "2026-11-09T00:00:23Z",
      "name": "Yaya Diaby",
      "pos": "LB",
      "status": "Out"
+    },
+    "4890885": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Ayden Garnes",
+     "pos": "CB",
+     "status": "Out"
     }
    },
    "id": "27",
-   "players": {},
+   "players": {
+    "4427140": {
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "Trevor Keegan",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429007": {
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "DeMonte Capehart",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685549": {
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "Billy Schrauth",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4686334": {
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "Yaya Diaby",
+     "pos": "LB",
+     "reason": "Knee - MCL",
+     "via": "poll"
+    },
+    "4890885": {
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "Ayden Garnes",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2607,6 +2698,15 @@
   "3": {
    "capped": true,
    "designations": {
+    "15168": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-09T00:04Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Case Keenum",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4426374": {
      "changed_at": null,
      "detail": "Thumb",
@@ -2619,7 +2719,7 @@
     "4608686": {
      "changed_at": "2026-11-09T00:05:22Z",
      "detail": "Toe",
-     "feed_date": "2026-11-08T12:25Z",
+     "feed_date": "2026-11-09T00:00Z",
      "first_seen": "2026-11-09T00:00:23Z",
      "name": "Kyle Monangai",
      "pos": "RB",
@@ -2632,6 +2732,24 @@
      "first_seen": "2026-11-09T00:00:23Z",
      "name": "Malik Muhammad II",
      "pos": "CB",
+     "status": "Out"
+    },
+    "4877376": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T23:59Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Jayden Loving",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4911952": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-08T23:59Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "name": "Keyshaun Elliott",
+     "pos": "LB",
      "status": "Out"
     }
    },
@@ -2670,6 +2788,15 @@
      "jersey": "",
      "name": "Jayden Loving",
      "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4911952": {
+     "feed_date": "2026-11-08T23:59Z",
+     "first_seen": "2026-11-09T00:15:24Z",
+     "jersey": "",
+     "name": "Keyshaun Elliott",
+     "pos": "LB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
