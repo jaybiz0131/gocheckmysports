@@ -2,7 +2,7 @@
  "day": "2026-11-10",
  "first_poll": "2026-11-10T00:01:17Z",
  "last_change": "2026-11-10T00:01:17Z",
- "last_poll": "2026-11-10T00:01:24Z",
+ "last_poll": "2026-11-10T01:06:40Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -373,6 +373,15 @@
      "pos": "QB",
      "status": "Out"
     },
+    "4242436": {
+     "changed_at": null,
+     "detail": "",
+     "feed_date": "2026-11-09T23:54Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Theo Jackson",
+     "pos": "S",
+     "status": "Questionable"
+    },
     "4602019": {
      "changed_at": null,
      "detail": "Coach's Decision",
@@ -389,6 +398,15 @@
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Jakobe Thomas",
      "pos": "S",
+     "status": "Out"
+    },
+    "4832846": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-11-10T00:10Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Demond Claiborne",
+     "pos": "RB",
      "status": "Out"
     },
     "5091793": {
@@ -450,9 +468,10 @@
     }
    },
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-10T01:06:15Z",
    "rows_returned": 25,
-   "team": "Minnesota Vikings"
+   "team": "Minnesota Vikings",
+   "unresolved": false
   },
   "17": {
    "capped": true,
@@ -569,10 +588,37 @@
   "19": {
    "capped": true,
    "designations": {
+    "4040615": {
+     "changed_at": null,
+     "detail": "Groin",
+     "feed_date": "2026-11-10T00:09Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Malik Harrison",
+     "pos": "LB",
+     "status": "Questionable"
+    },
+    "4040655": {
+     "changed_at": null,
+     "detail": "Chest",
+     "feed_date": "2026-11-10T00:30Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Darnell Mooney",
+     "pos": "WR",
+     "status": "Questionable"
+    },
+    "4257188": {
+     "changed_at": null,
+     "detail": "Thumb",
+     "feed_date": "2026-11-10T00:09Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Charlie Jones",
+     "pos": "WR",
+     "status": "Questionable"
+    },
     "4433970": {
      "changed_at": null,
      "detail": "Hip",
-     "feed_date": "2026-11-09T16:38Z",
+     "feed_date": "2026-11-10T00:06Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "J.J. McCarthy",
      "pos": "QB",
@@ -581,11 +627,20 @@
     "4696981": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-09T18:35Z",
+     "feed_date": "2026-11-10T00:09Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Cam Skattebo",
      "pos": "RB",
      "status": "Out"
+    },
+    "4725996": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-11-10T00:09Z",
+     "first_seen": "2026-11-10T01:06:13Z",
+     "name": "Abdul Carter",
+     "pos": "LB",
+     "status": "Questionable"
     }
    },
    "id": "19",
@@ -599,22 +654,22 @@
    "capped": true,
    "designations": {
     "3051324": {
-     "changed_at": null,
+     "changed_at": "2026-11-10T01:06:13Z",
      "detail": "Ribs",
-     "feed_date": "2026-11-09T23:51Z",
+     "feed_date": "2026-11-10T00:24Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Dion Dawkins",
      "pos": "OT",
-     "status": "Out"
+     "status": "Questionable"
     },
     "3127294": {
-     "changed_at": null,
+     "changed_at": "2026-11-10T01:06:13Z",
      "detail": "Calf",
-     "feed_date": "2026-11-09T23:51Z",
+     "feed_date": "2026-11-10T00:31Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Greg Gaines",
      "pos": "DT",
-     "status": "Out"
+     "status": "Questionable"
     },
     "3915487": {
      "changed_at": null,
@@ -628,20 +683,20 @@
     "4241476": {
      "changed_at": null,
      "detail": "Knee - ACL",
-     "feed_date": "2026-11-07T21:01Z",
+     "feed_date": "2026-11-10T00:13Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Tyrell Shavers",
      "pos": "WR",
      "status": "Out"
     },
     "4367203": {
-     "changed_at": null,
+     "changed_at": "2026-11-10T01:06:13Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-09T23:51Z",
+     "feed_date": "2026-11-10T00:27Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Alec Anderson",
      "pos": "OT",
-     "status": "Out"
+     "status": "Questionable"
     },
     "4683153": {
      "changed_at": null,
@@ -720,9 +775,10 @@
     }
    },
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-10T01:06:23Z",
    "rows_returned": 25,
-   "team": "Buffalo Bills"
+   "team": "Buffalo Bills",
+   "unresolved": false
   },
   "20": {
    "capped": true,
@@ -1008,7 +1064,7 @@
     "4612826": {
      "changed_at": null,
      "detail": "Back",
-     "feed_date": "2026-11-09T14:38Z",
+     "feed_date": "2026-11-10T00:00Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Ladd McConkey",
      "pos": "WR",
@@ -1046,7 +1102,7 @@
     "16737": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-11-09T23:49Z",
+     "feed_date": "2026-11-10T00:01Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Mike Evans",
      "pos": "WR",
@@ -1055,7 +1111,7 @@
     "3126486": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-09T23:49Z",
+     "feed_date": "2026-11-10T00:01Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Deebo Samuel Sr.",
      "pos": "WR",
@@ -1138,7 +1194,7 @@
     "3912547": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-09T17:58Z",
+     "feed_date": "2026-11-10T00:15Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Sam Darnold",
      "pos": "QB",
@@ -1241,7 +1297,7 @@
     "4360635": {
      "changed_at": null,
      "detail": "Hip",
-     "feed_date": "2026-11-09T02:12Z",
+     "feed_date": "2026-11-10T00:36Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Chig Okonkwo",
      "pos": "TE",
@@ -1259,7 +1315,7 @@
     "4567156": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-11-09T20:01Z",
+     "feed_date": "2026-11-10T00:22Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Treylon Burks",
      "pos": "WR",
@@ -1412,7 +1468,7 @@
     "3858276": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-09T20:55Z",
+     "feed_date": "2026-11-10T00:18Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Jaylinn Hawkins",
      "pos": "S",
@@ -1546,20 +1602,20 @@
     "3929850": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-09T22:19Z",
+     "feed_date": "2026-11-10T01:02Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "P.J. Locke",
      "pos": "S",
      "status": "Out"
     },
     "4242355": {
-     "changed_at": null,
+     "changed_at": "2026-11-10T01:06:13Z",
      "detail": "Knee",
-     "feed_date": "2026-11-09T22:12Z",
+     "feed_date": "2026-11-09T22:03Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Jake Ferguson",
      "pos": "TE",
-     "status": "Out"
+     "status": "Questionable"
     },
     "4362088": {
      "changed_at": null,
@@ -1582,7 +1638,7 @@
     "4426354": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-09T20:59Z",
+     "feed_date": "2026-11-10T01:02Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "George Pickens",
      "pos": "WR",
@@ -1600,7 +1656,7 @@
     "4426506": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-09T20:59Z",
+     "feed_date": "2026-11-10T01:01Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Joey Porter Jr.",
      "pos": "CB",
@@ -1757,13 +1813,13 @@
      "status": "Out"
     },
     "4047365": {
-     "changed_at": null,
+     "changed_at": "2026-11-10T01:06:13Z",
      "detail": "Finger",
-     "feed_date": "2026-11-09T21:29Z",
+     "feed_date": "2026-11-09T21:21Z",
      "first_seen": "2026-11-10T00:01:17Z",
      "name": "Josh Jacobs",
      "pos": "RB",
-     "status": "Out"
+     "status": "Questionable"
     },
     "4259305": {
      "changed_at": null,
