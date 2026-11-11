@@ -1317,7 +1317,7 @@ def footer(brand="site", fantasy=False, money=False):
                     # footer keeps what the nav does not carry.
                     [("Archive", "/archive.html"), ("About", "/about.html"),
                      ("Storylines", "/news.html"), ("The Record", "/keepers.html"),
-                     ("The Edition", EDITION_HREF or "/bottom-line.html"),
+                     ("The Edition", EDITION_HREF or "/archive.html"),
                      ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
@@ -11312,7 +11312,7 @@ def archive_left_home():
     def a(label, href):
         return f'<a class="chip" href="{esc(href)}">{esc(label)}</a>'
     desk = [a("Storylines", "/news.html"), a("The Record", "/keepers.html"),
-            a("The Edition", EDITION_HREF or "/bottom-line.html"),
+            a("The Edition", EDITION_HREF or "/archive.html"),
             a("All editions", "/bottom-line.html"), a("Standings", "/standings/nfl.html")]
     football = [a(title.replace("&amp;", "&"), f"/sections/{slug}.html")
                 for slug, title, _nav, _tags, _blurb in SECTIONS if slug in ("nfl", "college-football")]
@@ -11464,7 +11464,31 @@ W2W_LIVE = False
 MANIFEST = None      # set at build by build_manifest.build(): the one truth
 W2W_DATA = None      # set at build by where_to_watch.load()
 HOME_LEAD_SLUG = None  # set at build: the homepage lead, so the Record cannot repeat it
-EDITION_HREF = None  # set at build: the newest dated edition (S-1 nav)
+EDITION_HREF = None  # set at build by edition_link(): the newest Edition, or /archive.html
+EDITION_LATEST = None  # the newest Edition item when it is inside EDITION_FRESH_HOURS, else None
+EDITION_FRESH_HOURS = 48
+
+
+def edition_link(items, now=None):
+    """(href, item) for every "The Edition" link (Sprint A, A4). The newest Edition when it was
+    published inside EDITION_FRESH_HOURS of the build clock; otherwise /archive.html and no item.
+    The Edition was retired as a news digest on 12 October, and every page's footer kept sending
+    readers to that night's issue for four weeks as if it were today's."""
+    now = now or _build_now()
+    try:
+        import edition as _ed
+        eds = [d for d in (items or []) if _ed._is_edition(d) and not d.get("example")]
+    except Exception as _e:
+        print(f"nav: Edition link unavailable ({type(_e).__name__}); the link goes to the archive")
+        return "/archive.html", None
+    best = None
+    for d in eds:
+        t = _utc_dt(str(d.get("published_utc") or ""))
+        if t and (best is None or t > best[0]):
+            best = (t, d)
+    if not best or now - best[0] > datetime.timedelta(hours=EDITION_FRESH_HOURS) or best[0] > now:
+        return "/archive.html", None
+    return f"/edition/{_ed._day_of(best[1])}.html", best[1]
 IA_BOARD = None      # set at build by inactives.board()
 IA_DESIG = None      # set at build by inactives.designations()
 SB_DATA = None       # set at build by scoreboard.load()
@@ -12842,15 +12866,10 @@ def build():
     # from a live read; see inactives.py.
     # S-1: the nav's Edition entry points at the newest dated issue. Resolved before
     # any page renders, because the masthead is on every one of them.
-    global EDITION_HREF
-    EDITION_HREF = None
-    try:
-        import edition as _ed_nav
-        _days = _ed_nav.edition_days(items)
-        if _days:
-            EDITION_HREF = _ed_nav._latest_edition_path(_days)
-    except Exception as _e:
-        print(f"nav: Edition link unavailable ({type(_e).__name__}); item withheld")
+    global EDITION_HREF, EDITION_LATEST
+    EDITION_HREF, EDITION_LATEST = edition_link(items)
+    print(f"nav: The Edition links {EDITION_HREF}"
+          + ("" if EDITION_LATEST else f" (no Edition inside {EDITION_FRESH_HOURS} hours)"))
 
     global IA_BOARD
     IA_BOARD = None

@@ -1342,6 +1342,33 @@ def json_dumps_safe(d):
     return _j.dumps(d)
 
 
+def _edition_link_canary():
+    """Sprint A, A4: "The Edition" links the newest Edition only inside 48 hours, else /archive."""
+    import datetime as _d
+    import site_build as sb
+    fails = []
+    now = _d.datetime(2026, 11, 8, 18, 0, tzinfo=_d.timezone.utc)
+    ed = lambda day, t: {"category": "daily edition", "date": day, "published_utc": t, "id": "wrap-x"}
+    for name, items, want in (
+            ("an Edition 26 hours old", [ed("2026-11-07", "2026-11-07T16:00:00Z")], "/edition/2026-11-07.html"),
+            ("the newest of two", [ed("2026-11-06", "2026-11-06T23:00:00Z"), ed("2026-11-07", "2026-11-07T23:00:00Z")],
+             "/edition/2026-11-07.html"),
+            ("an Edition 27 days old", [ed("2026-10-12", "2026-10-12T23:00:43Z")], "/archive.html"),
+            ("no Edition", [{"category": "nfl", "published_utc": "2026-11-08T12:00:00Z"}], "/archive.html")):
+        href, _it = sb.edition_link(items, now)
+        if href != want:
+            fails.append(f"edition link: {name} links {href}, expected {want}")
+    was = sb.EDITION_HREF
+    try:
+        sb.EDITION_HREF, _ = sb.edition_link([ed("2026-10-12", "2026-10-12T23:00:43Z")], now)
+        f = sb.footer()
+        if "/edition/2026-10-12" in f or '<a href="/archive.html">The Edition</a>' not in f:
+            fails.append("edition link: the footer's The Edition does not go to /archive.html with no fresh Edition")
+    finally:
+        sb.EDITION_HREF = was
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1353,6 +1380,7 @@ def layer1_canary():
     fails.extend(_cad.canary())        # Sprint A, A2: when the site rebuilds for scores
     import edition_check as _edc
     fails.extend(_edc.canary())        # Sprint A, A3: one missed slot warns, it does not error
+    fails.extend(_edition_link_canary())   # Sprint A, A4: the Edition link resolves at build
     import small_canary as _sm
     fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
