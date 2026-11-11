@@ -580,8 +580,9 @@ def check_board():
         c = sb.sbg_board(dict(g, id="calm"))
         if "cxf-arrows" in c or not re.search(r'class="sbg-big"[^>]*>Calm<', c):
             fails.append("board: Calm draws arrows or does not say Calm")
-        if '<span class="cxh-cap">Arrows point the way the wind blows</span>' not in h:
-            fails.append("board: the caption line is missing under the field")
+        # B6: the caption is gone from the page ("Arrows point the way the wind blows" says what the picture shows)
+        if "Arrows point the way the wind blows" in h:
+            fails.append("board: the removed caption line is back under the field")
         # the four plates
         keys = re.findall(r'<div class="sbg-p sbg-([twgr])( on)?"><span class="sbc-k">([A-Za-z]+)</span>'
                           r'<span class="sbg-big"[^>]*>([^<]*)', h)

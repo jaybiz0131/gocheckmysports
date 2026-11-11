@@ -4001,7 +4001,7 @@ def _scores_sort_key(g):
     ts = k.timestamp() if k else 0.0
     st = g.get("state")
     if st == "in":
-        return (0, _time_left(g), ts)
+        return (0, _time_left(g), _live_urgency(g), ts)
     if st == "post":
         return (3, ts, 0) if _is_postponed(g) else (2, -ts, 0)
     return (1, ts if k else 1e18, 0)
@@ -5519,7 +5519,7 @@ def card_label(g):
     if st in ("in", "post") and not (st == "post" and _is_postponed(g)):
         sa, sh = _tk_score(a, g), _tk_score(h, g)
         if sa is not None and sh is not None:
-            word = (_tk_state(g) or "Live") if st == "in" else (
+            word = (_tk_state(g) or "In progress") if st == "in" else (
                 "Final/OT" if "OT" in (g.get("status_short") or "").upper() else "Final")
             return f"{an} {sa}, {hn} {sh}, {word}"
     if st == "post":
@@ -5779,7 +5779,7 @@ def lens_control():
             f'<span class="lens-k">Show</span>{bs}</div>')
 
 
-def _tk_tabs(games, active="all", href="/scores.html"):
+def _tk_tabs(games, active="all", href="/scores.html", also=()):
     """SC-4: the league switcher. Each tab carries its count today or its next date.
 
     S-1 item 0: every count on a tab is the manifest's. This function no longer looks at a
@@ -5800,7 +5800,7 @@ def _tk_tabs(games, active="all", href="/scores.html"):
     # cannot disagree about which league leads today.
     for name in _day_league_order():
         gs = by_league.get(name) or []
-        if not gs and name not in BOARD_LEAGUES:
+        if not gs and name not in also:
             continue         # B7: a board league keeps its tab when it has no game, and says when it plays
         mine = d["by_league"].get(name) or {}
         if mine.get("total"):
@@ -7905,15 +7905,15 @@ def render_scores_pages(sb, board, dateline, wx=None):
         dt = datetime.date.fromisoformat(iso)
         by = mdays.get(iso)
         secs = []
-        for lg in feed_order:
-            if not any(r[0] == lg for r in runs):
-                runs.append((lg, None))      # B7: a league with no game on this day says when it plays next
+        # B7: a league with no game on this day at all says when it plays next (a league whose games are on
+        # another part of the day is not empty); sections keep the page's league order, tabs read the same list
+        in_day = {l for l, _g in days[iso]}
+        for lg in order_for(iso):
+            if lg not in in_day:
+                runs.append((lg, None))
+        _ord = order_for(iso)
+        runs.sort(key=lambda r: _ord.index(r[0]) if r[0] in _ord else 99)
         for lg, cards in runs:
-            if cards is None:
-                secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
-                            f'<div class="tk-lg"><span>{esc(lg)}</span><i></i></div>'
-                            f'<p class="bd-src">{esc(_next_play_line(lg, iso))}</p></section>')
-                continue
             if iso == today:
                 count = _mf_league_row(lg)
             elif by is not None:
@@ -7922,6 +7922,11 @@ def render_scores_pages(sb, board, dateline, wx=None):
             else:
                 count = ""
             n_span = f'<span class="tk-lg-n">{esc(count)}</span>' if count else ""
+            if cards is None:
+                secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
+                            f'<div class="tk-lg"><span>{esc(lg)}</span><i></i>{n_span}</div>'
+                            f'<p class="bd-src">{esc(_next_play_line(lg, iso))}</p></section>')
+                continue
             secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
                         f'<div class="tk-lg"><span>{esc(lg)}</span><i></i>{n_span}</div>'
                         f'<div class="tk-g3">' + "".join(cards) + '</div></section>')
@@ -7939,7 +7944,8 @@ def render_scores_pages(sb, board, dateline, wx=None):
         tot = day_total(iso)
         if iso == today:
             count_line = _mf_count_line(BOARD_LEAGUES)
-            ltabs = _tk_tabs(games_here, active="all", href=path)
+            ltabs = _tk_tabs(games_here, active="all", href=path,
+                             also=[lg for lg in feed_order if lg not in {l for l, _g in days[iso]}])
         else:
             count_line = (f"{tot} game{'' if tot == 1 else 's'} on {dt.strftime('%A')}"
                           if tot is not None else "")
@@ -7949,7 +7955,8 @@ def render_scores_pages(sb, board, dateline, wx=None):
                      f'<a class="tk-tab on" data-league="All" href="{path}#all">All{sm(tot)}</a>'
                      + "".join(f'<a class="tk-tab" data-league="{esc(lg)}" href="{path}#{esc(lg.lower())}">'
                                f'{esc(lg)}{sm(None if by is None else by.get(lg, 0))}</a>'
-                               for lg in feed_order)
+                               for lg in [x for x in order_for(iso)
+                                          if x in leagues_here or x not in {l for l, _g in days[iso]}])
                      + '</div>')
         nav = ['<nav class="tk-tabs sc-days" aria-label="Scores by day">']
         for d in sorted(days):

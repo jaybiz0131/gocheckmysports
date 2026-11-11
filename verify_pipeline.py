@@ -1249,7 +1249,10 @@ def _sunday_slate_canary():
     # S-1 item 2: the shipped home is the week board, in kickoff order (ties by id); the
     # Scores page keeps the urgency order, games in play first. Each game once on each.
     _ko = ["BLOEARLY4", "CLSEARLY1", "MIDEARLY3", "TIEEARLY2", "LATEONE", "LATETWO", "NIGHT"]
-    _live = ["TIEEARLY2", "CLSEARLY1", "MIDEARLY3", "BLOEARLY4"]
+    # B7 (Sprint B, Jack's order for /scores): live games by time remaining, then the older closeness rule only
+    # as the tie-break. The three fourth-quarter games (no clock in the fixture) tie on time and keep the tie,
+    # one-score, blowout order; the second-quarter game has the most time left and goes last.
+    _live = ["TIEEARLY2", "CLSEARLY1", "BLOEARLY4", "MIDEARLY3"]
     _hm = _r.findall(r'<article[^>]*class="tk-c[^"]*" data-gid="([^"]*)"', _home)
     _check(_hm == _ko, fails, f"H-12 canary: the home board at Sunday 1:30 PM is {_hm}, not {_ko}")
     _pg = _r.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', _page or "")
