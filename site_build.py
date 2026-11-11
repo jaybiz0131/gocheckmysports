@@ -11338,6 +11338,41 @@ def render_home(items, dateline):
         HOME_HIDE = frozenset()
 
 
+# ---- Sprint A, A6: THE HOME'S LEAD ---------------------------------------------------------------
+# On 7 November the home carried no story at all: the band, the week of game cards and an empty
+# report slot. Directly under the band and above the week board there is now one lead block: the
+# day's Edition (its headline, its Bottom Line, three read-further links) when one is inside its
+# cadence, else the Wire's three newest finals with their times, else one named empty state. It
+# reads no new source: the Edition is the build's EDITION_LATEST (A4) and the finals are the Wire's
+# rows, so the block cannot disagree with either.
+HOME_LEAD_EDITION_HOURS = 26     # one Edition a day, plus edition_check's slack (A3, A5)
+
+
+def home_lead(items, now=None):
+    now = now or _build_now()
+    ed = EDITION_LATEST
+    t = _utc_dt(str((ed or {}).get("published_utc") or ""))
+    if ed and t and now - t <= datetime.timedelta(hours=HOME_LEAD_EDITION_HOURS):
+        links = [x for x in (ed.get("sources") or []) if x.get("title") and x.get("url")][:3]
+        lis = "".join(f'<li><a href="{esc(x["url"])}">{esc(x["title"])}</a></li>' for x in links)
+        return (f'<section class="cr hl" data-lead="edition"><span class="bd-eyebrow">The Edition</span>'
+                f'<h2 class="cr-h"><a href="{esc(EDITION_HREF)}">{esc(ed.get("title") or "")}</a></h2>'
+                f'<p class="cr-when">{esc(fmt_when(ed))}</p>'
+                + (f'<p class="cr-lead">{esc(ed.get("bottom_line") or "")}</p>' if ed.get("bottom_line") else "")
+                + (f'<ul class="cr-list">{lis}</ul>' if lis else "") + '</section>')
+    finals = [r for r in _wire_rows(items, now) if r["kind"] == "Final" and r["note"] in ("NFL", "CFB")][:3]
+    if finals:
+        lis = "".join(
+            f'<li><a href="{r["href"]}">{esc(r["text"])}</a> '
+            f'<span class="cr-when">{esc(r["t"].astimezone(_ET).strftime("%a"))} {esc(_et_clock(r["t"]))} kickoff</span></li>'
+            for r in finals)
+        return (f'<section class="cr hl" data-lead="finals"><span class="bd-eyebrow">The Wire</span>'
+                f'<h2 class="cr-h">Latest finals</h2><ul class="cr-list">{lis}</ul>'
+                f'<p class="cr-src"><a href="/wire.html">All</a></p></section>')
+    return (f'<section class="cr hl" data-lead="empty"><span class="bd-eyebrow">The Wire</span>'
+            f'<h2 class="cr-h">Latest finals</h2><p class="cr-lead">{esc(WIRE_EMPTY)}</p></section>')
+
+
 def _render_home(items, dateline):
     """The front door is the week board and nothing else: the band with the day tabs, the
     week's NFL and FBS games in kickoff order, and under them one empty slot named the
@@ -11352,6 +11387,7 @@ def _render_home(items, dateline):
                  'this week.</p>')
     # S-2d item 2: at 1100px and up the wall is the first view; the band and the cards follow
     body = (f'<div class="wrap wl-wrap">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
+  <div class="hl-slot" id="lead">{home_lead(items)}</div>
   <div class="scoreband scoreband-page wb-board" data-today="{esc(_mf()["date"])}">{board}</div>
   <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
 </section></main>"""

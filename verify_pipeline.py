@@ -1423,6 +1423,57 @@ def _stale_module_canary():
     return fails
 
 
+def _home_lead_canary():
+    """Sprint A, A6: the home's lead is the day's Edition, else the Wire's three newest finals,
+    else its named empty state, and it is always a headline."""
+    import datetime as _d
+    import site_build as sb
+    fails = []
+    U = _d.timezone.utc
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.EDITION_HREF, sb.EDITION_LATEST)
+    try:
+        sb._NOW_CACHE = _d.datetime(2026, 11, 8, 23, 0, tzinfo=U)
+        ed = {"category": "daily edition", "id": "wrap-pm-2026-11-08", "date": "2026-11-08",
+              "published_utc": "2026-11-08T22:40:00Z", "title": "The Evening Brief: a test",
+              "bottom_line": "The bottom line of the day.",
+              "sources": [{"title": f"Story {i}", "url": f"/articles/s{i}.html"} for i in range(5)]}
+        g = lambda gid, lg, st, k, sa, sh: {"id": gid, "league": lg, "state": st, "start_utc": k,
+                                            "away": {"abbr": "A" + gid, "score": sa}, "home": {"abbr": "H" + gid, "score": sh}}
+        games = [g("1", "CFB", "post", "2026-11-08T17:00:00Z", "21", "14"),
+                 g("2", "NFL", "post", "2026-11-08T18:00:00Z", "24", "20"),
+                 g("3", "NFL", "post", "2026-11-08T21:05:00Z", "17", "10"),
+                 g("4", "CFB", "post", "2026-11-08T15:00:00Z", "3", "0"),
+                 g("5", "NFL", "pre", "2026-11-09T01:20:00Z", None, None)]
+        sb.SB_DATA = {"fetched_at": "2026-11-08T22:55:00Z", "leagues": [
+            {"league": "NFL", "games": [x for x in games if x["league"] == "NFL"]},
+            {"league": "CFB", "games": [x for x in games if x["league"] == "CFB"]},
+            {"league": "NBA", "games": [g("9", "NBA", "post", "2026-11-08T22:30:00Z", "101", "99")]}]}
+        sb.EDITION_HREF, sb.EDITION_LATEST = sb.edition_link([ed], sb._NOW_CACHE)
+        h = sb.home_lead([ed])
+        if 'data-lead="edition"' not in h or "The Evening Brief: a test" not in h \
+                or "The bottom line of the day." not in h or h.count("/articles/s") != 3:
+            fails.append("lead: a fresh Edition does not lead with its headline, Bottom Line and three links")
+        sb.EDITION_HREF, sb.EDITION_LATEST = sb.edition_link([], sb._NOW_CACHE)
+        h = sb.home_lead([])
+        if 'data-lead="finals"' not in h or h.count("<li>") != 3:
+            fails.append("lead: with no Edition the lead is not the Wire's three newest finals")
+        elif not (h.index("A3") < h.index("A2") < h.index("A1")) or "A4" in h or "A9" in h:
+            fails.append("lead: the finals are not the three newest board finals, newest first")
+        if "kickoff" not in h:
+            fails.append("lead: the finals print without their times")
+        sb.SB_DATA = {"fetched_at": "2026-11-08T22:55:00Z", "leagues": []}
+        h = sb.home_lead([])
+        if 'data-lead="empty"' not in h or sb.WIRE_EMPTY not in h:
+            fails.append("lead: with no Edition and no final the lead does not name its empty state")
+        if '<h2 class="cr-h">' not in h:
+            fails.append("lead: the empty lead is not headline-shaped")
+    except Exception as e:
+        fails.append(f"lead: the lead checks raised {type(e).__name__}: {e}")
+    finally:
+        sb._NOW_CACHE, sb.SB_DATA, sb.EDITION_HREF, sb.EDITION_LATEST = was
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1436,6 +1487,7 @@ def layer1_canary():
     fails.extend(_edc.canary())        # Sprint A, A3: one missed slot warns, it does not error
     fails.extend(_edition_link_canary())   # Sprint A, A4: the Edition link resolves at build
     fails.extend(_stale_module_canary())   # Sprint A, A5: the stale-module rule
+    fails.extend(_home_lead_canary())   # Sprint A, A6: the home's lead
     import small_canary as _sm
     fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once

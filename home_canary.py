@@ -216,9 +216,15 @@ def home_canary():
             fails.append("home: no main section found")
             return fails
         kids = re.findall(r'<div class="([^"]*)"', main.group(1))
-        top = [k for k in kids if k.startswith(("scoreband scoreband-page wb-board", "cr-slot"))]
-        if top != ["scoreband scoreband-page wb-board", "cr-slot"]:
-            fails.append(f"home: the page body is {top}, expected the board then the report slot")
+        top = [k for k in kids if k.startswith(("hl-slot", "scoreband scoreband-page wb-board", "cr-slot"))]
+        if top != ["hl-slot", "scoreband scoreband-page wb-board", "cr-slot"]:
+            fails.append(f"home: the page body is {top}, expected the lead, the board, then the report slot")
+        # Sprint A, A6: the lead is a headline-shaped block that is not a game card, on every build
+        lead = re.search(r'<div class="hl-slot" id="lead">(.*?)</div>\s*<div class="scoreband', main.group(1), re.S)
+        if not lead or not re.search(r'<h2 class="cr-h">(?:<a [^>]*>)?[^<\s][^<]*', lead.group(1)):
+            fails.append("home: the lead slot carries no headline")
+        elif 'class="tk-c' in lead.group(1):
+            fails.append("home: the lead slot is a game card")
         slot = re.search(r'<div class="cr-slot"[^>]*id="conditions-report"[^>]*>(.*?)</div>', main.group(1), re.S)
         if not slot:
             fails.append("home: no empty slot named conditions-report")
