@@ -212,10 +212,8 @@ SHORT_NAME = "GoCheckMySports"                # home-screen label (manifest)
 THEME_COLOR = "#1F5E3F"                       # browser chrome + manifest
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analytics site token for gocheckmysports.com; empty renders no beacon
-DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
-        "get the stories right and keep the facts honest. Scores are facts; stories get "
-        "checked against their sources before they run. Never betting advice.")
-FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with scores and the sourcing behind every story. No betting picks.")
+DESC = "Scores, where to watch, fantasy facts and the lines, checked."
+FAMILY_DESC = DESC
 # C-L5: the one guard line. It appears in the footer and nowhere above the fold.
 NFA = "No betting advice."
 YEAR = "2026"
@@ -1902,7 +1900,6 @@ def render_article(item, all_items=None, hubs=None):
     {src_html}
     {cov_html}
     {rel_html}
-    <p class="nfa">{esc(NFA)}</p>
   </article>
 </main>"""
     title = f'{item.get("title")} - {NAME}'
@@ -2523,7 +2520,6 @@ def render_bottom_line_pages(items, dateline):
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {rows if rows else '<p class="lede">The first edition lands soon.</p>'}
   {_part_nav(base, part, parts)}
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
         return shell(f"The Bottom Line{f', page {part}' if parts > 1 else ''} - {NAME}",
                      "The desk's daily reads: what happened, why it "
@@ -5584,6 +5580,8 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
                            or (LIVE_POINTS or {}).get(str(g.get("id"))))
             second = (f'<a class="tk-btn ghost" href="{gp}#box">Box score</a>'
                       if has_box else "")
+        elif g.get("network"):
+            second = ""      # B6: the network name on the card is the label
         else:
             second = ('<a class="tk-btn ghost" href="/where-to-watch.html">'
                       'Where to watch</a>')
@@ -7980,11 +7978,6 @@ def render_scores_page(sb, board, dateline, wx=None):
 # "the N inactives" and never "all", so a short list cannot read as a complete one.
 # Detroit listed five on 13 Sep and the uncapped endpoint confirmed five.
 
-FANTASY_LINE = ("Facts, not advice. Official reports only. We never tell you whom to "
-                "start.")
-# Copy item 42 removed this from the inactives page: it is a sentence about how the
-# desk works, which C-L1 puts on How we work and nowhere else. Kept as the string the
-# explainer page can use, unreferenced by any board.
 INACTIVES_NOTE = ("Teams post about 90 minutes before kickoff.")
 
 
@@ -9101,7 +9094,7 @@ def cx_field(e, g, flagged):
         north = (f'<g class="cxf-n"><path d="M{vw - 11} 3 L{vw - 7} 11 L{vw - 15} 11Z"/>'
                  f'<text x="{vw - 11}" y="22" text-anchor="middle">N</text></g>')
         label = f"Field diagram, north up, drawn at the stadium's {round(float(ori))}-degree orientation: {said}"
-        cap = "Arrows point the way the wind blows" if arrows else ("Calm at kickoff" if p["calm"] else "")
+        cap = "Calm at kickoff" if (not arrows and p["calm"]) else ""
         svg = (f'<svg class="cxf-svg" viewBox="0 0 {vw} {vh}" width="{vw}" height="{vh}" role="img" '
                f'aria-label="{esc(label)}">{glow}{field}{arrows}{north}</svg>')
         kind = "field"
@@ -9120,7 +9113,7 @@ def cx_field(e, g, flagged):
                      f'transform="rotate({round(float(deg)) % 360} {C} {C})">'
                      f'<path d="M{C} {C + 34} L{C} {C - 34} M{C - 10} {C - 22} L{C} {C - 34} L{C + 10} {C - 22}"/></g>')
         label = f"Compass, north up; no field direction is recorded for this stadium: {said}"
-        cap = "The arrow points the way the wind blows" if arrow else ("Calm at kickoff" if p["calm"] else "")
+        cap = "Calm at kickoff" if (not arrow and p["calm"]) else ""
         svg = (f'<svg class="cxf-svg" viewBox="0 0 {2 * C} {2 * C}" width="{2 * C}" height="{2 * C}" '
                f'role="img" aria-label="{esc(label)}">{glow}{rose}{arrow}</svg>')
         kind = "compass"
@@ -9684,8 +9677,7 @@ def render_game_page(g, points, board, wx, items, dateline):
     # S-5.1: a played game's description is its title; no promise of conditions or where to watch
     _desc = (_title if _title != gp_title(g) else
              f'{away.get("name")} at {home.get("name")}: the weather at kickoff from the '
-             f'National Weather Service, where to watch, inactives and the score. Facts, '
-             f'not advice.')
+             f'National Weather Service, where to watch, inactives and the score.')
     _og = f'{ORIGIN}{GAME_CARD_SQ.format(id=g.get("id"))}'
     return shell(_title, _desc,
                  "Scores", body, dateline, path=f'/games/{g.get("id")}.html',
@@ -9981,8 +9973,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
   {"".join(_out)}
 </section></main>"""
     return shell(f"Fantasy facts - {NAME}",
-                 "Official inactives, designations and points. Facts, not advice: "
-                 "we never tell you whom to start.",
+                 "Official inactives, designations and points, from the official reports only.",
                  "Fantasy", body, dateline, path="/fantasy/index.html")
 
 
@@ -11770,7 +11761,6 @@ def render_method(items, dateline):
     <li>We do not put an opinion in a voice that did not hold it. Takes, analysis, and
         corrections are human work, always.</li>
   </ul>
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"How we work - {NAME}", "How GoCheckMySports ranks, verifies, and approves every story.",
                  "How we work", body, dateline, path="/method.html")
@@ -11819,7 +11809,6 @@ def render_about(dateline):
   <div class="callout"><b>Read next:</b> <a href="/method.html">How we work</a>, and
     the standards every story has to clear. Or <a href="/standards.html">our standards and
     corrections policy</a>.</div>
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"About - {NAME}", "Why GoCheckMySports exists: an honest daily sports news desk "
                  "that checks every story against its sources.",
@@ -11885,7 +11874,6 @@ def render_standards(dateline):
      against the source. Corrections are made promptly and noted on the story itself. A correction
      is a feature of an honest desk, not a failure.</p>
 
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "GoCheckMySports standards, verification, and corrections policy.",
                  "Standards", body, dateline, path="/standards.html")
@@ -13703,6 +13691,14 @@ def sprint_b_problems(publish):
             bad.append(f"B3: teams shown as posted and as awaiting at once: {sorted(both)}")
         if "Lists we have not seen" in ia:
             bad.append("B3: the 'Lists we have not seen' box is back")
+    # B6, every page: at most one 'No betting advice.', and it is the footer's
+    for root, _d, files in os.walk(publish):
+        for f in files:
+            if f.endswith(".html"):
+                rel = os.path.relpath(os.path.join(root, f), publish)
+                n = rd(rel).count("No betting advice.")
+                if n > 1:
+                    bad.append(f"B6: {rel} says 'No betting advice.' {n} times")
     return bad
 
 
