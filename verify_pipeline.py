@@ -1369,6 +1369,60 @@ def _edition_link_canary():
     return fails
 
 
+def _stale_module_canary():
+    """Sprint A, A5: a module older than its cadence hides or names its empty state."""
+    import datetime as _d
+    import site_build as sb
+    fails = []
+    U = _d.timezone.utc
+    was = (sb._NOW_CACHE, sb.SB_DATA, sb.CR_REPORTS)
+    try:
+        sb._NOW_CACHE = _d.datetime(2026, 11, 8, 23, 0, tzinfo=U)       # Sunday 6:00 PM ET
+        row = lambda gid, head: {"id": gid, "head": head, "body": "x", "league": "NFL", "href": ""}
+        thu = {"id": "2026-11-05-thu", "title": "Conditions report, Thursday Nov 5", "lead": "Jaguars at Ravens.",
+               "written_at": "2026-11-05T18:54:00Z", "written_et": "Thu, Nov 5, 1:54 PM ET",
+               "stamp": "Conditions by GoCheckMyWeather, from the National Weather Service. Forecasts issued "
+                        "5:40 AM to 11:35 AM ET Tuesday, Nov 3.", "flagged": [row("JB", "Jaguars at Ravens.")]}
+        sun_old = dict(thu, id="2026-11-08-sun", title="Conditions report, Sunday Nov 8",
+                       written_at="2026-11-08T16:43:00Z", written_et="Sun, Nov 8, 11:43 AM ET")
+        sun_new = dict(sun_old, issued_first_utc="2026-11-08T10:40:00Z", issued_last_utc="2026-11-08T15:00:00Z",
+                       stamp="Conditions by GoCheckMyWeather, from the National Weather Service. Forecasts issued "
+                             "5:40 AM to 10:00 AM ET Sunday, Nov 8.",
+                       lead="Two games.", flagged=[row("JB", "Jaguars at Ravens."), row("DM", "Lions at Dolphins.")])
+        g = lambda gid, st: {"id": gid, "league": "NFL", "state": st, "start_utc": "2026-11-08T18:00:00Z",
+                             "away": {"abbr": "A"}, "home": {"abbr": "H"}}
+        sb.SB_DATA = {"fetched_at": "2026-11-08T22:55:00Z",
+                      "leagues": [{"league": "NFL", "games": [g("JB", "post"), g("DM", "pre")]}]}
+        sb.CR_REPORTS = [thu, sun_old]
+        html = sb.cr_slot(sb.cr_latest())
+        for bad in ("Nov 5", "Nov 3"):
+            if bad in html:
+                fails.append(f"stale: the home report slot prints {bad!r} on a Nov 8 build")
+        if html:
+            fails.append("stale: a report from Tuesday's forecasts still fills the home slot on Sunday")
+        sb.CR_REPORTS = [thu, sun_new]
+        html = sb.cr_slot(sb.cr_latest())
+        if "Lions at Dolphins" not in html:
+            fails.append("stale: a report written today from today's forecasts does not show")
+        if "Jaguars at Ravens" in html:
+            fails.append("stale: the home report slot lists a game the board shows Final as upcoming")
+        if "Two games." in html:
+            fails.append("stale: the report's lead prints after a game it names left the list")
+        wire = sb.render_wire([], "", sb._NOW_CACHE) or ""
+        if sb.WIRE_EMPTY not in wire:
+            fails.append("stale: an empty Wire window does not print its named empty state")
+        old = [{"slug": f"s{i}", "title": f"t{i}", "published_utc": "2026-10-09T12:00:00Z", "date": "2026-10-09"}
+               for i in range(4)]
+        lane = sb._record_lane("media-rights", "Media rights", old, set(), page=True)
+        if "Nothing new since Oct 9" not in lane:
+            fails.append("stale: a Record lane quiet for a month does not say when it was last added to")
+    except Exception as e:
+        fails.append(f"stale: the module checks raised {type(e).__name__}: {e}")
+    finally:
+        sb._NOW_CACHE, sb.SB_DATA, sb.CR_REPORTS = was
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1381,6 +1435,7 @@ def layer1_canary():
     import edition_check as _edc
     fails.extend(_edc.canary())        # Sprint A, A3: one missed slot warns, it does not error
     fails.extend(_edition_link_canary())   # Sprint A, A4: the Edition link resolves at build
+    fails.extend(_stale_module_canary())   # Sprint A, A5: the stale-module rule
     import small_canary as _sm
     fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once

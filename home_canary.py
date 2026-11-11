@@ -391,6 +391,7 @@ def _report_slot_canary():
         sb.CR_REPORTS = [{"id": "2026-10-15-thu", "title": "Conditions report, Thursday Oct 15",
                           "lead": "The weather touches 1 of the 6 games with a forecast.",
                           "written_at": "2026-10-15T11:17:00Z", "written_et": "Thu, Oct 15, 7:17 AM ET",
+                          "issued_first_utc": "2026-10-15T10:40:00Z",
                           "flagged": [{"head": "Den at Sea, Thu 8:15 PM ET, Field.",
                                        "href": "/games/DENSEA.html"}],
                           "stamp": "Conditions by GoCheckMyWeather, from the National Weather Service."}]

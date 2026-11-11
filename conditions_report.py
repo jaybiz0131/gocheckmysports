@@ -181,6 +181,15 @@ def _stamp(data, games):
             f"{span} {day}.")
 
 
+def _issued(data, games):
+    """(first, last) of the forecasts' own generated times as UTC stamps, or ("", ""). Sprint A,
+    A5: the home's report slot shows a report only when these fall on the build's own ET day."""
+    ts = sorted(d for d in (_dt(((data["games"].get(str(g.get("id"))) or {}).get("nws") or {}).get("generated_at"))
+                            for g in games) if d)
+    f = lambda d: d.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return (f(ts[0]), f(ts[-1])) if ts else ("", "")
+
+
 def _nfl_week(now):
     """The NFL week this report falls in, from the schedule the build reads; None when unknown."""
     try:
@@ -236,6 +245,8 @@ def write(games, data, now):
         "title": title, "lead": lead, "week": _nfl_week(now),
         "flagged": flagged, "quiet": quiet, "indoor": indoor, "outside": outside, "later": later,
         "stamp": _stamp(data, games),
+        "issued_first_utc": _issued(data, games)[0],
+        "issued_last_utc": _issued(data, games)[1],
         "card": f"/share/conditions/{rid}.png",
         "log": [x for x in (teams.log_entry(g, G.get(str(g.get("id")))) for g in games) if x],
         "board": [card_row(g, G[str(g["id"])]) for g in games

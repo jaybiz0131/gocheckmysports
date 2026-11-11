@@ -7317,6 +7317,7 @@ def render_week_page(team_data, wk, dateline, week_now=None):
 
 
 WIRE_HOURS = 48
+WIRE_EMPTY = "Back after tonight's games."
 WIRE_MAX = 120
 
 
@@ -7447,7 +7448,16 @@ def render_wire(items, dateline, now=None):
     now = now or _build_now()
     rows = _wire_rows(items, now)
     if not rows:
-        return None
+        # A5: an empty window prints its one named empty state; the page is never dropped, and
+        # nothing older than WIRE_HOURS is ever drawn to fill it.
+        return shell(
+            f"The Wire - {NAME}",
+            "Everything this desk published and every game that finished, newest first, "
+            "with the time it happened.",
+            "News",
+            '<section class="page wrap wr-page"><div class="wr-head"><h1>The Wire</h1></div>'
+            f'<p class="bd-src wr-none">{esc(WIRE_EMPTY)}</p></section>',
+            dateline, path="/wire.html")
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
@@ -10536,6 +10546,7 @@ RECORD_LANES = [
 # read-further rows the shape calls for. Below it the lane is omitted, per addendum
 # item 5, rather than shown half empty.
 RECORD_LANE_MIN = 4
+RECORD_FRESH_DAYS = 14   # A5: a Record lane quiet longer than this says so in its status line
 
 # Slugs whose pages are standing explainers rather than dated reporting. Used only for
 # the one-word type line on a read-further row.
@@ -10679,6 +10690,12 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, tables=None):
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
     # was "1 pieces in the Record"; the count carries no noun now, so it cannot disagree
     status = f"{len(lane_items)} stor{'y' if len(lane_items) == 1 else 'ies'}"
+    # A5: a lane quiet past its cadence keeps its links (the Record is the archive of these
+    # stories, and a correct story nobody can reach is the worse failure) and says, in one short
+    # line, when it was last added to, so its lead never reads as today's under today's date.
+    _nd = _utc_dt(max((i.get("published_utc") or "") for i in lane_items)) or _utc_dt(newest)
+    if _nd and _build_now() - _nd > datetime.timedelta(days=RECORD_FRESH_DAYS):
+        status = f"Nothing new since {_nd.astimezone(_ET).strftime('%b %-d')}"
     srcs = []
     for i in lane_items[:6]:
         for s in (i.get("sources") or []):
@@ -11062,12 +11079,41 @@ def cr_load(root=None):
     return out
 
 
+# ---- Sprint A, A5: THE STALE-MODULE RULE ---------------------------------------------------------
+# A module whose source is older than its own cadence hides, or prints one short named empty state.
+# It never prints old text under a new date. On 7 November at 5:25 PM ET the home's report slot was
+# Thursday's report, from forecasts issued Tuesday, listing Jaguars at Ravens as upcoming under a
+# card that read Final.
+
+def cr_issued_day(rep):
+    """The ET day the report's oldest forecast was issued: the field the writer records from
+    Sprint A on, else the day its credit line names; None when neither says."""
+    t = _iso_dt(rep.get("issued_first_utc") or "")
+    if t:
+        return t.astimezone(_ET).date()
+    m = re.search(r"Forecasts issued .*? ET \w+day, ([A-Z][a-z]{2}) (\d{1,2})\.", rep.get("stamp") or "")
+    w = _iso_dt(rep.get("written_at"))
+    if not (m and w):
+        return None
+    try:
+        mon = datetime.datetime.strptime(m.group(1), "%b").month
+        d = datetime.date(w.astimezone(_ET).year, mon, int(m.group(2)))
+    except ValueError:
+        return None
+    return d if d <= w.astimezone(_ET).date() else d.replace(year=d.year - 1)
+
+
+def cr_fresh(rep, now=None):
+    """True when the report was written on the build's ET day from forecasts issued that day."""
+    today = (now or _build_now()).astimezone(_ET).date()
+    w = _iso_dt((rep or {}).get("written_at"))
+    return bool(w and w.astimezone(_ET).date() == today and cr_issued_day(rep) == today)
+
+
 def cr_latest():
-    """The newest report written since this week rolled, or None."""
-    ws = _bm.week_start(_build_now())
+    """The newest report written today from today's forecasts, or None (the slot hides)."""
     for r in reversed(CR_REPORTS or []):
-        w = _iso_dt(r.get("written_at"))
-        if w and w >= ws:
+        if cr_fresh(r):
             return r
     return None
 
@@ -11080,15 +11126,22 @@ def _cr_link(row, text):
 
 
 def cr_slot(rep):
-    """The home's report slot: the title, the stamp, the lead, the games written up, a link."""
+    """The home's report slot: the title, the stamp, the lead, the games written up, a link.
+    A5: a game the build's read shows started or final leaves the list (it is not upcoming), and
+    the lead, which names the games, prints only when nothing left; with nothing left it hides."""
     if not rep:
         return ""
-    items = "".join(f'<li>{_cr_link(f, f["head"].rstrip("."))}</li>' for f in rep.get("flagged") or [])
+    state = {str(g.get("id")): g.get("state") for _k, g in board_games(SB_DATA)}
+    rows = [f for f in rep.get("flagged") or [] if state.get(str(f.get("id"))) not in ("in", "post")]
+    if rep.get("flagged") and not rows:
+        return ""
+    whole = len(rows) == len(rep.get("flagged") or [])
+    items = "".join(f'<li>{_cr_link(f, f["head"].rstrip("."))}</li>' for f in rows)
     return (f'<section class="cr"><div class="bd-sec"><div class="bd-sec-l"><span class="bd-eyebrow">'
             f'Conditions report</span></div><a class="bd-more" href="/conditions/{esc(rep["id"])}.html">'
             f'The full report</a></div><h2 class="cr-h">{esc(rep["title"])}</h2>'
             f'<p class="cr-when">{esc(rep.get("written_et") or "")}</p>'
-            f'<p class="cr-lead">{esc(rep["lead"])}</p>'
+            + (f'<p class="cr-lead">{esc(rep["lead"])}</p>' if whole else "")
             + (f'<ul class="cr-list">{items}</ul>' if items else "")
             + f'<p class="cr-src">{esc(rep.get("stamp") or "")}</p></section>')
 
