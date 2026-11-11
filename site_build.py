@@ -3977,6 +3977,36 @@ def _sb_sort_key_in_league(g, now=None):
             _game_rank(g), g.get("start_utc") or "")
 
 
+def _time_left(g):
+    """B7: seconds of regulation left in a live game, from the period and the clock the feed gives; a game whose
+    feed carries neither sorts last among the live (a number we cannot read is not guessed)."""
+    lg = (g.get("league") or "").upper()
+    try:
+        per = int(g.get("period"))
+    except (TypeError, ValueError):
+        return 1e9
+    total, plen = {"NFL": (4, 900), "CFB": (4, 900), "NBA": (4, 720), "WNBA": (4, 600), "NHL": (3, 1200),
+                   "MLB": (9, 1)}.get(lg, (4, 900))
+    if lg == "MLB":
+        return max(0, total - per) * 3600
+    m = re.match(r"\s*(\d+):(\d\d)", str(g.get("detail") or ""))
+    clock = int(m.group(1)) * 60 + int(m.group(2)) if m else plen
+    return max(0, total - per) * plen + min(clock, plen)
+
+
+def _scores_sort_key(g):
+    """B7: the order of a Scores page. Live first, the least time remaining first; then upcoming, earliest
+    kickoff first; then finals, the most recent first. A postponed or canceled game sits after the finals."""
+    k = _utc_dt(g.get("start_utc") or "")
+    ts = k.timestamp() if k else 0.0
+    st = g.get("state")
+    if st == "in":
+        return (0, _time_left(g), ts)
+    if st == "post":
+        return (3, ts, 0) if _is_postponed(g) else (2, -ts, 0)
+    return (1, ts if k else 1e18, 0)
+
+
 def _sb_team_row(t, lose=False, big=False, started=True, kick="", league=""):
     # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
     # matched on team id. No match, no bar: a neutral rule rather than a wrong colour.
@@ -5769,9 +5799,9 @@ def _tk_tabs(games, active="all", href="/scores.html"):
     # CFB-1: the tab strip is the band's order, so the tabs and the cards under them
     # cannot disagree about which league leads today.
     for name in _day_league_order():
-        gs = by_league.get(name)
-        if not gs:
-            continue
+        gs = by_league.get(name) or []
+        if not gs and name not in BOARD_LEAGUES:
+            continue         # B7: a board league keeps its tab when it has no game, and says when it plays
         mine = d["by_league"].get(name) or {}
         if mine.get("total"):
             # M-21: A TAB THAT HOLDS ONLY FINALS SAYS SO.
@@ -7853,9 +7883,18 @@ def render_scores_pages(sb, board, dateline, wx=None):
         """[(league, card html, game)] in the page's league order."""
         out = []
         for lg in order_for(iso):
-            gs = sorted((g for l, g in days[iso] if l == lg), key=_sb_sort_key_in_league)
+            gs = sorted((g for l, g in days[iso] if l == lg), key=_scores_sort_key)
             out.extend((lg, _tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS), g) for g in gs)
         return out
+
+    def _next_play_line(lg, iso):
+        """One line: when the league plays next, from the days this page set holds."""
+        nxt = sorted(k for d, rows in days.items() if d > iso
+                     for l, g in rows if l == lg for k in [_utc_dt(g.get("start_utc") or "")] if k)
+        if not nxt:
+            return f"No {lg} games on the board."
+        return (f"No {lg} games {'today' if iso == today else 'on ' + dlabel(iso)}. "
+                f"Next: {nxt[0].astimezone(_ET).strftime('%a %b %-d')}, {_et_clock(nxt[0])}.")
 
     def sections(iso, items):
         runs = []
@@ -7866,7 +7905,15 @@ def render_scores_pages(sb, board, dateline, wx=None):
         dt = datetime.date.fromisoformat(iso)
         by = mdays.get(iso)
         secs = []
+        for lg in feed_order:
+            if not any(r[0] == lg for r in runs):
+                runs.append((lg, None))      # B7: a league with no game on this day says when it plays next
         for lg, cards in runs:
+            if cards is None:
+                secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
+                            f'<div class="tk-lg"><span>{esc(lg)}</span><i></i></div>'
+                            f'<p class="bd-src">{esc(_next_play_line(lg, iso))}</p></section>')
+                continue
             if iso == today:
                 count = _mf_league_row(lg)
             elif by is not None:
@@ -7902,7 +7949,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
                      f'<a class="tk-tab on" data-league="All" href="{path}#all">All{sm(tot)}</a>'
                      + "".join(f'<a class="tk-tab" data-league="{esc(lg)}" href="{path}#{esc(lg.lower())}">'
                                f'{esc(lg)}{sm(None if by is None else by.get(lg, 0))}</a>'
-                               for lg in leagues_here)
+                               for lg in feed_order)
                      + '</div>')
         nav = ['<nav class="tk-tabs sc-days" aria-label="Scores by day">']
         for d in sorted(days):
@@ -7946,7 +7993,6 @@ def render_scores_pages(sb, board, dateline, wx=None):
 <div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + LENS_JS
         body = band + f"""<main class="wrap"><section class="page">
     <div class="scoreband scoreband-page">{"".join(sections(iso, items))}</div>
-    {standings_strip(ST_DATA) if ST_DATA else ""}
 </section></main>"""
         if path == "/scores.html":
             title = f"Scores - {NAME}"
