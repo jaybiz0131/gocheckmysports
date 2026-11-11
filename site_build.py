@@ -5148,6 +5148,28 @@ def _cx_num(v):
     return round(v) if isinstance(v, (int, float)) else None
 
 
+# THE RAIN PLATE IS A PROBABILITY (Sprint A, 8 November 2026). The audit read hero tiles printing
+# 130 and 101 percent, and a hero tile reading 63 over a card reading 3 for the same game. Every
+# rain plate on every surface reads ONE field, cx_parts()["pop"]: the Worker's probability of
+# precipitation for the kickoff hour (kickoff.pop_pct). A value outside 0 to 100 is not a
+# probability, so this assertion fails that one plate, which prints "missing", and never the build;
+# the build log names each game it failed (CX_PCT_FAILS).
+CX_PCT_FAILS = []
+
+
+def cx_pct(v, where=""):
+    """A percentage plate's value: the rounded number when it is 0 to 100, else None (the plate
+    fails and says "missing"). Never clamped: 130 is not "100", it is a wrong number."""
+    n = _cx_num(v)
+    if n is None:
+        return None
+    if not 0 <= n <= 100:
+        CX_PCT_FAILS.append((where, v))
+        print(f"conditions: {where or 'a game'} sent a precipitation chance of {v}; the plate prints missing")
+        return None
+    return n
+
+
 def cx_flag_on(e, name):
     f = ((e or {}).get("flags") or {}).get(name)
     return bool(f.get("on")) if isinstance(f, dict) else False
@@ -5181,8 +5203,9 @@ def cx_parts(e):
     words = wd.get("text") or w.get("wind") or ""
     if words and cx_flag_on(e, "wind") and mx is not None and mph is not None and mx > mph:
         words = f"{words}, up to {mx} mph"
-    pop = _cx_num(k.get("pop_pct"))
-    peak = _cx_num((flags.get("precip") or {}).get("max_pct"))
+    _gid = str(e.get("id") or e.get("game_id") or "")
+    pop = cx_pct(k.get("pop_pct"), _gid)
+    peak = cx_pct((flags.get("precip") or {}).get("max_pct"), _gid)
     peak_hour = None
     if peak is not None and pop is not None and peak > pop:
         for h in e.get("hours") or []:
@@ -6074,19 +6097,24 @@ SB_HERO_JS = """
 })();</script>"""
 
 
-def _sb_ornament(games):
+def _sb_ornament(games, day=None):
     """A-5: the kickoff timeline. One bar per kickoff window in the day's slate, height
     proportional to the number of games in that window, drawn from site/data and never
-    hand-made. A day with no games has no ornament; there is never a fake series."""
+    hand-made. A day with no games has no ornament; there is never a fake series.
+
+    Sprint A: computed for `day`, the day the band sits under, and named by it. It read the build
+    clock's day and called it "today", so Saturday's band said "Kickoff windows today: 11 windows"
+    on whatever day it was built."""
     import collections
     today = _build_now().astimezone(_ET).date()
+    day = day or today
     by_hour = collections.Counter()
     for g in games:
         d = _utc_dt(g.get("start_utc") or "")
         if not d:
             continue
         e = d.astimezone(_ET)
-        if e.date() == today:
+        if e.date() == day:
             by_hour[e.hour] += 1
     if not by_hour:
         return ""
@@ -6104,7 +6132,8 @@ def _sb_ornament(games):
     # UX-12: the bars read as a rendering glitch because nothing said what they were.
     # One bar per kickoff window in today's slate, its height the number of games in
     # that window. The title is what a hover shows and what a screen reader reads.
-    _legend = (f"Kickoff windows today: {len(hours)} window"
+    _when = "today" if day == today else day.strftime("%A")
+    _legend = (f"Kickoff windows {_when}: {len(hours)} window"
                f"{'' if len(hours) == 1 else 's'}, busiest carries {peak} game"
                f"{'' if peak == 1 else 's'}.")
     return (f'<svg class="sb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
@@ -7832,7 +7861,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
             nav.append('</nav>')
         h1 = "Scores" if path == "/scores.html" else (
             f"Scores, {dlabel(iso)}" + (f", part {part}" if parts > 1 else ""))
-        _orn = _sb_ornament([g for _l, g in days[iso]])
+        _orn = _sb_ornament([g for _l, g in days[iso]], datetime.date.fromisoformat(iso))
         count_span = (f'<span class="sb-count" data-mf="count">{esc(count_line)}</span>\n        '
                       if count_line else "")
         band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{built}" data-built-et="{built_et}" aria-label="Scores">

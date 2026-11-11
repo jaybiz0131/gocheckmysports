@@ -1474,6 +1474,51 @@ def _home_lead_canary():
     return fails
 
 
+def _rain_and_windows_canary():
+    """Sprint A: every rain plate reads the kickoff hour's chance, 0 to 100 or the plate fails;
+    the kickoff windows note is computed for the day it sits under."""
+    import datetime as _d
+    import re as _re
+    import site_build as sb
+    fails = []
+    U = _d.timezone.utc
+    was = (sb._NOW_CACHE, sb.cx_entry)
+    try:
+        for v, want in ((130, None), (101, None), (-1, None), (63, 63), (0, 0), (100, 100), (3.4, 3)):
+            if sb.cx_pct(v, "canary") != want:
+                fails.append(f"rain: a precipitation chance of {v} reads {sb.cx_pct(v, 'canary')}, expected {want}")
+        g = {"id": "DETMIA", "league": "NFL", "state": "pre", "start_utc": "2026-11-15T18:00:00Z",
+             "away": {"abbr": "DET", "name": "Lions"}, "home": {"abbr": "MIA", "name": "Dolphins"}}
+        ent = lambda pop, peak: {"id": "DETMIA", "status": "forecast", "words": {},
+                                 "kickoff_hour": {"temp_f": 63, "wind_mph": 9, "pop_pct": pop},
+                                 "flags": {"precip": {"on": False, "max_pct": peak}}, "hours": []}
+        for pop, peak, want in ((3, 63, "3%"), (130, 101, "missing")):
+            sb.cx_entry = lambda _g, e=ent(pop, peak): e
+            row, card = sb.wall_row(g), sb.sbc_card(g, {})
+            cells = _re.findall(r'class="wl-pl[^"]*">([^<]*)<', row)
+            if len(cells) < 5 or cells[4] != want:
+                fails.append(f"rain: the wall tile for a kickoff chance of {pop} reads {cells[4:5]}, expected {want!r}")
+            rplate = _re.search(r'Rain</[^>]+>\s*(?:<[^>]+>\s*)*([^<]+)<', card)
+            if not rplate or rplate.group(1).strip() != want:
+                fails.append(f"rain: the card's rain plate for a kickoff chance of {pop} reads "
+                             f"{rplate.group(1).strip() if rplate else None!r}, expected {want!r}")
+            if "130" in row + card or "101%" in row + card:
+                fails.append("rain: a percentage over 100 reached a plate")
+        sb._NOW_CACHE = _d.datetime(2026, 11, 11, 15, 0, tzinfo=U)     # Wednesday
+        sat = _d.date(2026, 11, 14)
+        gs = [{"start_utc": f"2026-11-14T{h}:00:00Z"} for h in ("17", "17", "20", "23")] + \
+             [{"start_utc": "2026-11-11T23:00:00Z"}]
+        orn = sb._sb_ornament(gs, sat)
+        lab = _re.search(r'aria-label="([^"]*)"', orn)
+        if not lab or lab.group(1) != "Kickoff windows Saturday: 3 windows, busiest carries 2 games.":
+            fails.append(f"windows: Saturday's band note reads {lab.group(1) if lab else None!r}")
+    except Exception as e:
+        fails.append(f"rain: the plate checks raised {type(e).__name__}: {e}")
+    finally:
+        sb._NOW_CACHE, sb.cx_entry = was
+    return fails
+
+
 def layer1_canary():
     fails = []
     fails.extend(_conflict_canary())   # U-13
@@ -1488,6 +1533,7 @@ def layer1_canary():
     fails.extend(_edition_link_canary())   # Sprint A, A4: the Edition link resolves at build
     fails.extend(_stale_module_canary())   # Sprint A, A5: the stale-module rule
     fails.extend(_home_lead_canary())   # Sprint A, A6: the home's lead
+    fails.extend(_rain_and_windows_canary())   # Sprint A: rain plates 0 to 100, windows by day
     import small_canary as _sm
     fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
