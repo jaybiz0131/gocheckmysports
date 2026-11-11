@@ -121,6 +121,37 @@ def check_agreement(pages, manifest, count_for):
     return fails
 
 
+def check_started_scored(html, sbd, now):
+    """Sprint A, A1: the raw HTML (no script runs) of a Scores page prints, for every game the
+    read shows started (live or final), both scores and the feed's word for its state, and the
+    board stamp. A started game printed as a kickoff time with no score is the 7 November page."""
+    fails = []
+    if not re.search(r'data-mf="stamp">[^<]+<', html):
+        fails.append("started: the Scores page carries no board stamp")
+    seen = 0
+    for L in sbd.get("leagues") or []:
+        for g in L.get("games") or []:
+            if g.get("state") not in ("in", "post"):
+                continue
+            gid = str(g.get("id"))
+            m = re.search(r'<article class="tk-c[^"]*" data-gid="' + re.escape(gid) + r'".*?</article>',
+                          html, re.S)
+            if not m:
+                continue
+            seen += 1
+            card = m.group(0)
+            text = re.sub(r"<[^>]+>", " ", card)
+            for side in ("away", "home"):
+                sc = str((g.get(side) or {}).get("score") or "")
+                if sc and not re.search(r"(?<!\d)" + re.escape(sc) + r"(?!\d)", text):
+                    fails.append(f"started: {gid} ({g['state']}) prints no {side} score {sc}")
+            if g["state"] == "post" and "Final" not in text:
+                fails.append(f"started: {gid} is final in the read and its card does not say Final")
+    if not seen:
+        fails.append("started: the Scores page drew no card for any started game, so nothing was checked")
+    return fails
+
+
 def check_no_final_for_scheduled(html, games):
     """No game the feed has not finished may print Final. `games` are the schedule rows.
     Read row by row (the page prints a Final heading after the pending rows, so a window
@@ -289,6 +320,7 @@ def truth_canary():
         want = {"home": bm.count_line(m, ["NFL", "CFB"]), "scores": bm.count_line(m, ["NFL", "CFB"]),
                 "fantasy": bm.count_line(m, "NFL")}
         fails += check_agreement(pages, m, want)
+        fails += check_started_scored(pages["scores"], sbd, sb._build_now())
         # THE META TEST: a page that changes its own count must fail the suite
         bad = dict(pages)
         bad["scores"] = re.sub(r'(data-mf="count">)[^<]*', r"\g<1>99 games today",
