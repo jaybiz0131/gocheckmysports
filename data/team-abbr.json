@@ -1,0 +1,1095 @@
+{
+ "about": "B5: the one table of team codes and short names. A key is LEAGUE:feed code. code is what a page prints for the team in text; short is its name where the feed's own is a clipped form. site_build.check_team_codes fails the build on any feed code not listed here. Add a row when the feed shows a new team.",
+ "providers": {
+  "Draft Kings": "DraftKings",
+  "Fan Duel": "FanDuel",
+  "Bet MGM": "BetMGM",
+  "Caesars Sportsbook": "Caesars"
+ },
+ "teams": {
+  "CFB:AFA": {
+   "code": "AFA",
+   "short": "Air Force"
+  },
+  "CFB:AKR": {
+   "code": "AKR",
+   "short": "Akron"
+  },
+  "CFB:ALA": {
+   "code": "ALA",
+   "short": "Alabama"
+  },
+  "CFB:APP": {
+   "code": "APP",
+   "short": "App State"
+  },
+  "CFB:ARIZ": {
+   "code": "ARIZ",
+   "short": "Arizona"
+  },
+  "CFB:ARK": {
+   "code": "ARK",
+   "short": "Arkansas"
+  },
+  "CFB:ARMY": {
+   "code": "ARMY",
+   "short": "Army"
+  },
+  "CFB:ARST": {
+   "code": "ARST",
+   "short": "Arkansas State"
+  },
+  "CFB:ASU": {
+   "code": "ASU",
+   "short": "Arizona State"
+  },
+  "CFB:AUB": {
+   "code": "AUB",
+   "short": "Auburn"
+  },
+  "CFB:BALL": {
+   "code": "BALL",
+   "short": "Ball State"
+  },
+  "CFB:BAY": {
+   "code": "BAY",
+   "short": "Baylor"
+  },
+  "CFB:BC": {
+   "code": "BC",
+   "short": "Boston College"
+  },
+  "CFB:BGSU": {
+   "code": "BGSU",
+   "short": "Bowling Green"
+  },
+  "CFB:BOIS": {
+   "code": "BOIS",
+   "short": "Boise State"
+  },
+  "CFB:BUFF": {
+   "code": "BUFF",
+   "short": "Buffalo"
+  },
+  "CFB:BYU": {
+   "code": "BYU",
+   "short": "BYU"
+  },
+  "CFB:CAL": {
+   "code": "CAL",
+   "short": "California"
+  },
+  "CFB:CCU": {
+   "code": "CCU",
+   "short": "Coastal Carolina"
+  },
+  "CFB:CIN": {
+   "code": "CIN",
+   "short": "Cincinnati"
+  },
+  "CFB:CLEM": {
+   "code": "CLEM",
+   "short": "Clemson"
+  },
+  "CFB:CLT": {
+   "code": "CLT",
+   "short": "Charlotte"
+  },
+  "CFB:CMU": {
+   "code": "CMU",
+   "short": "Central Michigan"
+  },
+  "CFB:COLO": {
+   "code": "COLO",
+   "short": "Colorado"
+  },
+  "CFB:CONN": {
+   "code": "CONN",
+   "short": "UConn"
+  },
+  "CFB:CSU": {
+   "code": "CSU",
+   "short": "Colorado State"
+  },
+  "CFB:DEL": {
+   "code": "DEL",
+   "short": "Delaware"
+  },
+  "CFB:DUKE": {
+   "code": "DUKE",
+   "short": "Duke"
+  },
+  "CFB:ECU": {
+   "code": "ECU",
+   "short": "East Carolina"
+  },
+  "CFB:FAU": {
+   "code": "FAU",
+   "short": "Florida Atlantic"
+  },
+  "CFB:FIU": {
+   "code": "FIU",
+   "short": "Florida International"
+  },
+  "CFB:FLA": {
+   "code": "FLA",
+   "short": "Florida"
+  },
+  "CFB:FRES": {
+   "code": "FRES",
+   "short": "Fresno State"
+  },
+  "CFB:FSU": {
+   "code": "FSU",
+   "short": "Florida State"
+  },
+  "CFB:GASO": {
+   "code": "GASO",
+   "short": "Georgia Southern"
+  },
+  "CFB:GAST": {
+   "code": "GAST",
+   "short": "Georgia State"
+  },
+  "CFB:GT": {
+   "code": "GT",
+   "short": "Georgia Tech"
+  },
+  "CFB:HAW": {
+   "code": "HAW",
+   "short": "Hawai'i"
+  },
+  "CFB:HOU": {
+   "code": "HOU",
+   "short": "Houston"
+  },
+  "CFB:ILL": {
+   "code": "ILL",
+   "short": "Illinois"
+  },
+  "CFB:IOWA": {
+   "code": "IOWA",
+   "short": "Iowa"
+  },
+  "CFB:ISU": {
+   "code": "ISU",
+   "short": "Iowa State"
+  },
+  "CFB:IU": {
+   "code": "IU",
+   "short": "Indiana"
+  },
+  "CFB:JMU": {
+   "code": "JMU",
+   "short": "James Madison"
+  },
+  "CFB:JXST": {
+   "code": "JXST",
+   "short": "Jacksonville State"
+  },
+  "CFB:KENN": {
+   "code": "KENN",
+   "short": "Kennesaw State"
+  },
+  "CFB:KENT": {
+   "code": "KENT",
+   "short": "Kent State"
+  },
+  "CFB:KSU": {
+   "code": "KSU",
+   "short": "Kansas State"
+  },
+  "CFB:KU": {
+   "code": "KU",
+   "short": "Kansas"
+  },
+  "CFB:LIB": {
+   "code": "LIB",
+   "short": "Liberty"
+  },
+  "CFB:LOU": {
+   "code": "LOU",
+   "short": "Louisville"
+  },
+  "CFB:LSU": {
+   "code": "LSU",
+   "short": "LSU"
+  },
+  "CFB:LT": {
+   "code": "LT",
+   "short": "Louisiana Tech"
+  },
+  "CFB:M-OH": {
+   "code": "MOH",
+   "short": "Miami (OH)"
+  },
+  "CFB:MASS": {
+   "code": "MASS",
+   "short": "Massachusetts"
+  },
+  "CFB:MD": {
+   "code": "MD",
+   "short": "Maryland"
+  },
+  "CFB:MEM": {
+   "code": "MEM",
+   "short": "Memphis"
+  },
+  "CFB:MIA": {
+   "code": "MIA",
+   "short": "Miami"
+  },
+  "CFB:MICH": {
+   "code": "MICH",
+   "short": "Michigan"
+  },
+  "CFB:MINN": {
+   "code": "MINN",
+   "short": "Minnesota"
+  },
+  "CFB:MISS": {
+   "code": "MISS",
+   "short": "Ole Miss"
+  },
+  "CFB:MIZ": {
+   "code": "MIZ",
+   "short": "Missouri"
+  },
+  "CFB:MOST": {
+   "code": "MOST",
+   "short": "Missouri State"
+  },
+  "CFB:MRSH": {
+   "code": "MRSH",
+   "short": "Marshall"
+  },
+  "CFB:MSST": {
+   "code": "MSST",
+   "short": "Mississippi State"
+  },
+  "CFB:MSU": {
+   "code": "MSU",
+   "short": "Michigan State"
+  },
+  "CFB:MTSU": {
+   "code": "MTSU",
+   "short": "Middle Tennessee"
+  },
+  "CFB:NCSU": {
+   "code": "NCSU",
+   "short": "NC State"
+  },
+  "CFB:ND": {
+   "code": "ND",
+   "short": "Notre Dame"
+  },
+  "CFB:NDSU": {
+   "code": "NDSU",
+   "short": "North Dakota State"
+  },
+  "CFB:NEB": {
+   "code": "NEB",
+   "short": "Nebraska"
+  },
+  "CFB:NEV": {
+   "code": "NEV",
+   "short": "Nevada"
+  },
+  "CFB:NIU": {
+   "code": "NIU",
+   "short": "Northern Illinois"
+  },
+  "CFB:NMSU": {
+   "code": "NMSU",
+   "short": "New Mexico State"
+  },
+  "CFB:NU": {
+   "code": "NU",
+   "short": "Northwestern"
+  },
+  "CFB:OHIO": {
+   "code": "OHIO",
+   "short": "Ohio"
+  },
+  "CFB:OKST": {
+   "code": "OKST",
+   "short": "Oklahoma State"
+  },
+  "CFB:ORE": {
+   "code": "ORE",
+   "short": "Oregon"
+  },
+  "CFB:ORST": {
+   "code": "ORST",
+   "short": "Oregon State"
+  },
+  "CFB:OSU": {
+   "code": "OSU",
+   "short": "Ohio State"
+  },
+  "CFB:OU": {
+   "code": "OU",
+   "short": "Oklahoma"
+  },
+  "CFB:PITT": {
+   "code": "PITT",
+   "short": "Pittsburgh"
+  },
+  "CFB:PSU": {
+   "code": "PSU",
+   "short": "Penn State"
+  },
+  "CFB:PUR": {
+   "code": "PUR",
+   "short": "Purdue"
+  },
+  "CFB:RICE": {
+   "code": "RICE",
+   "short": "Rice"
+  },
+  "CFB:RUTG": {
+   "code": "RUTG",
+   "short": "Rutgers"
+  },
+  "CFB:SAC": {
+   "code": "SAC",
+   "short": "Sacramento State"
+  },
+  "CFB:SC": {
+   "code": "SC",
+   "short": "South Carolina"
+  },
+  "CFB:SDSU": {
+   "code": "SDSU",
+   "short": "San Diego State"
+  },
+  "CFB:SHSU": {
+   "code": "SHSU",
+   "short": "Sam Houston"
+  },
+  "CFB:SJSU": {
+   "code": "SJSU",
+   "short": "San José State"
+  },
+  "CFB:SMU": {
+   "code": "SMU",
+   "short": "SMU"
+  },
+  "CFB:STAN": {
+   "code": "STAN",
+   "short": "Stanford"
+  },
+  "CFB:SYR": {
+   "code": "SYR",
+   "short": "Syracuse"
+  },
+  "CFB:TA&M": {
+   "code": "TAMU",
+   "short": "Texas A&M"
+  },
+  "CFB:TCU": {
+   "code": "TCU",
+   "short": "TCU"
+  },
+  "CFB:TEM": {
+   "code": "TEM",
+   "short": "Temple"
+  },
+  "CFB:TENN": {
+   "code": "TENN",
+   "short": "Tennessee"
+  },
+  "CFB:TEX": {
+   "code": "TEX",
+   "short": "Texas"
+  },
+  "CFB:TLSA": {
+   "code": "TLSA",
+   "short": "Tulsa"
+  },
+  "CFB:TOL": {
+   "code": "TOL",
+   "short": "Toledo"
+  },
+  "CFB:TROY": {
+   "code": "TROY",
+   "short": "Troy"
+  },
+  "CFB:TTU": {
+   "code": "TTU",
+   "short": "Texas Tech"
+  },
+  "CFB:TULN": {
+   "code": "TULN",
+   "short": "Tulane"
+  },
+  "CFB:TXST": {
+   "code": "TXST",
+   "short": "Texas State"
+  },
+  "CFB:UAB": {
+   "code": "UAB",
+   "short": "UAB"
+  },
+  "CFB:UCF": {
+   "code": "UCF",
+   "short": "UCF"
+  },
+  "CFB:UCLA": {
+   "code": "UCLA",
+   "short": "UCLA"
+  },
+  "CFB:UGA": {
+   "code": "UGA",
+   "short": "Georgia"
+  },
+  "CFB:UK": {
+   "code": "UK",
+   "short": "Kentucky"
+  },
+  "CFB:UL": {
+   "code": "UL",
+   "short": "Louisiana"
+  },
+  "CFB:ULM": {
+   "code": "ULM",
+   "short": "UL Monroe"
+  },
+  "CFB:UNC": {
+   "code": "UNC",
+   "short": "North Carolina"
+  },
+  "CFB:UNLV": {
+   "code": "UNLV",
+   "short": "UNLV"
+  },
+  "CFB:UNM": {
+   "code": "UNM",
+   "short": "New Mexico"
+  },
+  "CFB:UNT": {
+   "code": "UNT",
+   "short": "North Texas"
+  },
+  "CFB:USA": {
+   "code": "USA",
+   "short": "South Alabama"
+  },
+  "CFB:USC": {
+   "code": "USC",
+   "short": "USC"
+  },
+  "CFB:USF": {
+   "code": "USF",
+   "short": "South Florida"
+  },
+  "CFB:USM": {
+   "code": "USM",
+   "short": "Southern Miss"
+  },
+  "CFB:USU": {
+   "code": "USU",
+   "short": "Utah State"
+  },
+  "CFB:UTAH": {
+   "code": "UTAH",
+   "short": "Utah"
+  },
+  "CFB:UTEP": {
+   "code": "UTEP",
+   "short": "UTEP"
+  },
+  "CFB:UTSA": {
+   "code": "UTSA",
+   "short": "UTSA"
+  },
+  "CFB:UVA": {
+   "code": "UVA",
+   "short": "Virginia"
+  },
+  "CFB:VAN": {
+   "code": "VAN",
+   "short": "Vanderbilt"
+  },
+  "CFB:VT": {
+   "code": "VT",
+   "short": "Virginia Tech"
+  },
+  "CFB:WAKE": {
+   "code": "WAKE",
+   "short": "Wake Forest"
+  },
+  "CFB:WASH": {
+   "code": "WASH",
+   "short": "Washington"
+  },
+  "CFB:WIS": {
+   "code": "WIS",
+   "short": "Wisconsin"
+  },
+  "CFB:WKU": {
+   "code": "WKU",
+   "short": "Western Kentucky"
+  },
+  "CFB:WMU": {
+   "code": "WMU",
+   "short": "Western Michigan"
+  },
+  "CFB:WSU": {
+   "code": "WSU",
+   "short": "Washington State"
+  },
+  "CFB:WVU": {
+   "code": "WVU",
+   "short": "West Virginia"
+  },
+  "CFB:WYO": {
+   "code": "WYO",
+   "short": "Wyoming"
+  },
+  "MLB:ARI": {
+   "code": "ARI",
+   "short": "Diamondbacks"
+  },
+  "MLB:ATH": {
+   "code": "ATH",
+   "short": "Athletics"
+  },
+  "MLB:ATL": {
+   "code": "ATL",
+   "short": "Braves"
+  },
+  "MLB:BAL": {
+   "code": "BAL",
+   "short": "Orioles"
+  },
+  "MLB:BOS": {
+   "code": "BOS",
+   "short": "Red Sox"
+  },
+  "MLB:CHC": {
+   "code": "CHC",
+   "short": "Cubs"
+  },
+  "MLB:CHW": {
+   "code": "CHW",
+   "short": "White Sox"
+  },
+  "MLB:CIN": {
+   "code": "CIN",
+   "short": "Reds"
+  },
+  "MLB:CLE": {
+   "code": "CLE",
+   "short": "Guardians"
+  },
+  "MLB:COL": {
+   "code": "COL",
+   "short": "Rockies"
+  },
+  "MLB:DET": {
+   "code": "DET",
+   "short": "Tigers"
+  },
+  "MLB:HOU": {
+   "code": "HOU",
+   "short": "Astros"
+  },
+  "MLB:KC": {
+   "code": "KC",
+   "short": "Royals"
+  },
+  "MLB:LAA": {
+   "code": "LAA",
+   "short": "Angels"
+  },
+  "MLB:LAD": {
+   "code": "LAD",
+   "short": "Dodgers"
+  },
+  "MLB:MIA": {
+   "code": "MIA",
+   "short": "Marlins"
+  },
+  "MLB:MIL": {
+   "code": "MIL",
+   "short": "Brewers"
+  },
+  "MLB:MIN": {
+   "code": "MIN",
+   "short": "Twins"
+  },
+  "MLB:NYM": {
+   "code": "NYM",
+   "short": "Mets"
+  },
+  "MLB:NYY": {
+   "code": "NYY",
+   "short": "Yankees"
+  },
+  "MLB:PHI": {
+   "code": "PHI",
+   "short": "Phillies"
+  },
+  "MLB:PIT": {
+   "code": "PIT",
+   "short": "Pirates"
+  },
+  "MLB:SD": {
+   "code": "SD",
+   "short": "Padres"
+  },
+  "MLB:SEA": {
+   "code": "SEA",
+   "short": "Mariners"
+  },
+  "MLB:SF": {
+   "code": "SF",
+   "short": "Giants"
+  },
+  "MLB:STL": {
+   "code": "STL",
+   "short": "Cardinals"
+  },
+  "MLB:TB": {
+   "code": "TB",
+   "short": "Rays"
+  },
+  "MLB:TEX": {
+   "code": "TEX",
+   "short": "Rangers"
+  },
+  "MLB:TOR": {
+   "code": "TOR",
+   "short": "Blue Jays"
+  },
+  "MLB:WSH": {
+   "code": "WSH",
+   "short": "Nationals"
+  },
+  "NBA:ATL": {
+   "code": "ATL",
+   "short": "Hawks"
+  },
+  "NBA:BKN": {
+   "code": "BKN",
+   "short": "Nets"
+  },
+  "NBA:BOS": {
+   "code": "BOS",
+   "short": "Celtics"
+  },
+  "NBA:CHA": {
+   "code": "CHA",
+   "short": "Hornets"
+  },
+  "NBA:CHI": {
+   "code": "CHI",
+   "short": "Bulls"
+  },
+  "NBA:CLE": {
+   "code": "CLE",
+   "short": "Cavaliers"
+  },
+  "NBA:DAL": {
+   "code": "DAL",
+   "short": "Mavericks"
+  },
+  "NBA:DEN": {
+   "code": "DEN",
+   "short": "Nuggets"
+  },
+  "NBA:DET": {
+   "code": "DET",
+   "short": "Pistons"
+  },
+  "NBA:GS": {
+   "code": "GS",
+   "short": "Warriors"
+  },
+  "NBA:HOU": {
+   "code": "HOU",
+   "short": "Rockets"
+  },
+  "NBA:IND": {
+   "code": "IND",
+   "short": "Pacers"
+  },
+  "NBA:LAC": {
+   "code": "LAC",
+   "short": "Clippers"
+  },
+  "NBA:LAL": {
+   "code": "LAL",
+   "short": "Lakers"
+  },
+  "NBA:MEM": {
+   "code": "MEM",
+   "short": "Grizzlies"
+  },
+  "NBA:MIA": {
+   "code": "MIA",
+   "short": "Heat"
+  },
+  "NBA:MIL": {
+   "code": "MIL",
+   "short": "Bucks"
+  },
+  "NBA:MIN": {
+   "code": "MIN",
+   "short": "Timberwolves"
+  },
+  "NBA:NO": {
+   "code": "NO",
+   "short": "Pelicans"
+  },
+  "NBA:NY": {
+   "code": "NY",
+   "short": "Knicks"
+  },
+  "NBA:OKC": {
+   "code": "OKC",
+   "short": "Thunder"
+  },
+  "NBA:ORL": {
+   "code": "ORL",
+   "short": "Magic"
+  },
+  "NBA:PHI": {
+   "code": "PHI",
+   "short": "76ers"
+  },
+  "NBA:PHX": {
+   "code": "PHX",
+   "short": "Suns"
+  },
+  "NBA:POR": {
+   "code": "POR",
+   "short": "Trail Blazers"
+  },
+  "NBA:SA": {
+   "code": "SA",
+   "short": "Spurs"
+  },
+  "NBA:SAC": {
+   "code": "SAC",
+   "short": "Kings"
+  },
+  "NBA:TOR": {
+   "code": "TOR",
+   "short": "Raptors"
+  },
+  "NBA:UTAH": {
+   "code": "UTA",
+   "short": "Jazz"
+  },
+  "NBA:WSH": {
+   "code": "WSH",
+   "short": "Wizards"
+  },
+  "NFL:ARI": {
+   "code": "ARI",
+   "short": "Cardinals"
+  },
+  "NFL:ATL": {
+   "code": "ATL",
+   "short": "Falcons"
+  },
+  "NFL:BAL": {
+   "code": "BAL",
+   "short": "Ravens"
+  },
+  "NFL:BUF": {
+   "code": "BUF",
+   "short": "Bills"
+  },
+  "NFL:CAR": {
+   "code": "CAR",
+   "short": "Panthers"
+  },
+  "NFL:CHI": {
+   "code": "CHI",
+   "short": "Bears"
+  },
+  "NFL:CIN": {
+   "code": "CIN",
+   "short": "Bengals"
+  },
+  "NFL:CLE": {
+   "code": "CLE",
+   "short": "Browns"
+  },
+  "NFL:DAL": {
+   "code": "DAL",
+   "short": "Cowboys"
+  },
+  "NFL:DEN": {
+   "code": "DEN",
+   "short": "Broncos"
+  },
+  "NFL:DET": {
+   "code": "DET",
+   "short": "Lions"
+  },
+  "NFL:GB": {
+   "code": "GB",
+   "short": "Packers"
+  },
+  "NFL:HOU": {
+   "code": "HOU",
+   "short": "Texans"
+  },
+  "NFL:IND": {
+   "code": "IND",
+   "short": "Colts"
+  },
+  "NFL:JAX": {
+   "code": "JAX",
+   "short": "Jaguars"
+  },
+  "NFL:KC": {
+   "code": "KC",
+   "short": "Chiefs"
+  },
+  "NFL:LAC": {
+   "code": "LAC",
+   "short": "Chargers"
+  },
+  "NFL:LAR": {
+   "code": "LAR",
+   "short": "Rams"
+  },
+  "NFL:LV": {
+   "code": "LV",
+   "short": "Raiders"
+  },
+  "NFL:MIA": {
+   "code": "MIA",
+   "short": "Dolphins"
+  },
+  "NFL:MIN": {
+   "code": "MIN",
+   "short": "Vikings"
+  },
+  "NFL:NE": {
+   "code": "NE",
+   "short": "Patriots"
+  },
+  "NFL:NO": {
+   "code": "NO",
+   "short": "Saints"
+  },
+  "NFL:NYG": {
+   "code": "NYG",
+   "short": "Giants"
+  },
+  "NFL:NYJ": {
+   "code": "NYJ",
+   "short": "Jets"
+  },
+  "NFL:PHI": {
+   "code": "PHI",
+   "short": "Eagles"
+  },
+  "NFL:PIT": {
+   "code": "PIT",
+   "short": "Steelers"
+  },
+  "NFL:SEA": {
+   "code": "SEA",
+   "short": "Seahawks"
+  },
+  "NFL:SF": {
+   "code": "SF",
+   "short": "49ers"
+  },
+  "NFL:TB": {
+   "code": "TB",
+   "short": "Buccaneers"
+  },
+  "NFL:TEN": {
+   "code": "TEN",
+   "short": "Titans"
+  },
+  "NFL:WSH": {
+   "code": "WSH",
+   "short": "Commanders"
+  },
+  "NHL:ANA": {
+   "code": "ANA",
+   "short": "Ducks"
+  },
+  "NHL:BOS": {
+   "code": "BOS",
+   "short": "Bruins"
+  },
+  "NHL:BUF": {
+   "code": "BUF",
+   "short": "Sabres"
+  },
+  "NHL:CAR": {
+   "code": "CAR",
+   "short": "Hurricanes"
+  },
+  "NHL:CBJ": {
+   "code": "CBJ",
+   "short": "Blue Jackets"
+  },
+  "NHL:CGY": {
+   "code": "CGY",
+   "short": "Flames"
+  },
+  "NHL:CHI": {
+   "code": "CHI",
+   "short": "Blackhawks"
+  },
+  "NHL:COL": {
+   "code": "COL",
+   "short": "Avalanche"
+  },
+  "NHL:DAL": {
+   "code": "DAL",
+   "short": "Stars"
+  },
+  "NHL:DET": {
+   "code": "DET",
+   "short": "Red Wings"
+  },
+  "NHL:EDM": {
+   "code": "EDM",
+   "short": "Oilers"
+  },
+  "NHL:FLA": {
+   "code": "FLA",
+   "short": "Panthers"
+  },
+  "NHL:LA": {
+   "code": "LA",
+   "short": "Kings"
+  },
+  "NHL:MIN": {
+   "code": "MIN",
+   "short": "Wild"
+  },
+  "NHL:MTL": {
+   "code": "MTL",
+   "short": "Canadiens"
+  },
+  "NHL:NJ": {
+   "code": "NJ",
+   "short": "Devils"
+  },
+  "NHL:NSH": {
+   "code": "NSH",
+   "short": "Predators"
+  },
+  "NHL:NYI": {
+   "code": "NYI",
+   "short": "Islanders"
+  },
+  "NHL:NYR": {
+   "code": "NYR",
+   "short": "Rangers"
+  },
+  "NHL:OTT": {
+   "code": "OTT",
+   "short": "Senators"
+  },
+  "NHL:PHI": {
+   "code": "PHI",
+   "short": "Flyers"
+  },
+  "NHL:PIT": {
+   "code": "PIT",
+   "short": "Penguins"
+  },
+  "NHL:SEA": {
+   "code": "SEA",
+   "short": "Kraken"
+  },
+  "NHL:SJ": {
+   "code": "SJ",
+   "short": "Sharks"
+  },
+  "NHL:STL": {
+   "code": "STL",
+   "short": "Blues"
+  },
+  "NHL:TB": {
+   "code": "TB",
+   "short": "Lightning"
+  },
+  "NHL:TOR": {
+   "code": "TOR",
+   "short": "Maple Leafs"
+  },
+  "NHL:UTA": {
+   "code": "UTA",
+   "short": "Mammoth"
+  },
+  "NHL:VAN": {
+   "code": "VAN",
+   "short": "Canucks"
+  },
+  "NHL:VGK": {
+   "code": "VGK",
+   "short": "Golden Knights"
+  },
+  "NHL:WPG": {
+   "code": "WPG",
+   "short": "Jets"
+  },
+  "NHL:WSH": {
+   "code": "WSH",
+   "short": "Capitals"
+  },
+  "Soccer:AVL": {
+   "code": "AVL",
+   "short": "Aston Villa"
+  },
+  "Soccer:BHA": {
+   "code": "BHA",
+   "short": "Brighton"
+  },
+  "Soccer:BOU": {
+   "code": "BOU",
+   "short": "Bournemouth"
+  },
+  "Soccer:BRE": {
+   "code": "BRE",
+   "short": "Brentford"
+  },
+  "Soccer:CHE": {
+   "code": "CHE",
+   "short": "Chelsea"
+  },
+  "Soccer:CRY": {
+   "code": "CRY",
+   "short": "C Palace"
+  },
+  "Soccer:IPS": {
+   "code": "IPS",
+   "short": "Ipswich"
+  },
+  "Soccer:LIV": {
+   "code": "LIV",
+   "short": "Liverpool"
+  },
+  "Soccer:MAN": {
+   "code": "MAN",
+   "short": "Man Utd"
+  },
+  "Soccer:SUN": {
+   "code": "SUN",
+   "short": "Sunderland"
+  },
+  "WNBA:ATL": {
+   "code": "ATL",
+   "short": "Dream"
+  },
+  "WNBA:GS": {
+   "code": "GS",
+   "short": "Valkyries"
+  }
+ }
+}

@@ -3838,6 +3838,32 @@ def _team_rank(g, t):
     return _ap_rank_index().get((t.get("abbr") or "").strip().upper())
 
 
+# B5: ONE TABLE OF TEAM CODES. data/team-abbr.json maps LEAGUE:feed code to the code a page prints and the
+# short name; the card disc used to clip the feed code to three characters ("TA&M" printed "TA&"), the
+# NHL and NBA spelled Utah two ways, and the lines feed spelled one sportsbook two ways. A feed code the
+# table does not hold fails the build (check_team_codes), so the next new code is a one-line data edit.
+TEAM_ABBR = json.load(open(os.path.join(HERE, "data", "team-abbr.json"), encoding="utf-8"))
+
+
+def tcode(league, t):
+    """The code to print for a team: the table's, else the feed's (check_team_codes keeps the else out)."""
+    row = TEAM_ABBR["teams"].get(f"{league}:{(t or {}).get('abbr') or ''}")
+    return row["code"] if row else ((t or {}).get("abbr") or "")
+
+
+def provider_name(name):
+    return TEAM_ABBR.get("providers", {}).get(name, name)
+
+
+def check_team_codes(sb):
+    """B5: every team code in the scoreboard feed is in the table, or the build stops and names them."""
+    miss = sorted({f"{L.get('league')}:{g[k].get('abbr')}" for L in (sb or {}).get("leagues") or []
+                   for g in L.get("games") or [] for k in ("away", "home")
+                   if f"{L.get('league')}:{g[k].get('abbr')}" not in TEAM_ABBR["teams"]})
+    if miss:
+        raise SystemExit("::error::team codes not in data/team-abbr.json: " + ", ".join(miss))
+
+
 def _team_label(g, t):
     """N-1: ONE NAME FOR A TEAM, EVERYWHERE THE SITE NAMES ONE.
 
@@ -3955,17 +3981,17 @@ def _sb_sort_key_in_league(g, now=None):
             _game_rank(g), g.get("start_utc") or "")
 
 
-def _sb_team_row(t, lose=False, big=False, started=True, kick=""):
+def _sb_team_row(t, lose=False, big=False, started=True, kick="", league=""):
     # S-19: the board's own feed carries no colour, so it comes from the scoreboard,
     # matched on team id. No match, no bar: a neutral rule rather than a wrong colour.
     col = _nfl_color(t.get("id"))
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
     rec = f' · {esc(t.get("record"))}' if t.get("record") else ""
-    nm = (f'<span class="abbr{" big" if big else ""}">{esc(t.get("abbr") or "")}</span>'
+    nm = (f'<span class="abbr{" big" if big else ""}">{esc(tcode(league, t))}</span>'
           f'<span class="tname">{esc(t.get("name") or "")}{rec}</span>')
     if big:
-        nm = (f'<span class="sb-stack"><span class="abbr big">{esc(t.get("abbr") or "")}'
+        nm = (f'<span class="sb-stack"><span class="abbr big">{esc(tcode(league, t))}'
               f'</span><span class="tname">{esc(t.get("name") or "")}{rec}</span></span>')
     sc = _tk_score(t)
     sc = "" if sc is None or not started else str(sc)
@@ -4280,7 +4306,7 @@ def _tk_avail(g, ia_index, desig):
                                                        "questionable").index(kv[0])
                        if kv[0] in ("out", "doubtful", "questionable") else 9)]
         if bits:
-            parts.append(f"{esc(t.get('abbr') or '')} " + " \u00b7 ".join(bits))
+            parts.append(f"{esc(tcode(g.get('league'), t))} " + " \u00b7 ".join(bits))
     if parts:
         rows.append(("Designations", " \u00b7 ".join(parts)))
     if g.get("state") == "pre":
@@ -4553,7 +4579,7 @@ def _tk_linescore(g):
         sc = _tk_score(t, g)
         cells = "".join(f"<td>{esc(x)}</td>" for x in ps)
         tot = f'<td class="ls-t">{sc if sc is not None else ""}</td>'
-        return (f'<tr><th scope="row">{esc(t.get("abbr") or "")}</th>'
+        return (f'<tr><th scope="row">{esc(tcode(g.get("league"), t))}</th>'
                 f'{cells}{tot}</tr>')
 
     return ('<div class="tk-ls"><table class="ls">'
@@ -4630,7 +4656,7 @@ def _tk_line(g):
     offering, and who was offering it.
     """
     ln, opened = _tk_logged(g)
-    prov = ln.get("provider")
+    prov = provider_name(ln.get("provider"))
     if not prov:
         return ""
     bits = []
@@ -4682,7 +4708,7 @@ def _tk_disc(g, t, side):
     Carolina" twice is the disc being read as content when it is recognition.
     """
     col = _tk_colors(g)[0 if side == "away" else 1]
-    ab = (t.get("abbr") or "")[:3]
+    ab = tcode(g.get("league"), t)[:3]
     if not ab:
         return ""
     return (f'<span class="tk-disc" style="--d:{col}" aria-hidden="true">'
@@ -4713,7 +4739,7 @@ def _tk_logged(g):
     if not rec:
         return (feed, "")
     now = dict(rec.get("now") or {})
-    now["provider"] = rec.get("provider") or feed.get("provider") or ""
+    now["provider"] = provider_name(rec.get("provider") or feed.get("provider") or "")
     use = feed if feed.get("provider") else now
     op = rec.get("open") or {}
     moved = int(rec.get("moves") or 0) and op.get("detail") and \
@@ -4821,7 +4847,7 @@ def _tk_ruling(g):
     if not bits:
         return ""
     return (f'<div class="tk-ruling" data-lens-only="lines">{esc(_TK_MID.join(bits))}'
-            f'<span class="tk-ruling-src" data-ruling-provider="{esc(ln.get("provider") or "")}">'
+            f'<span class="tk-ruling-src" data-ruling-provider="{esc(provider_name(ln.get("provider") or ""))}">'
             f'vs {esc(ln.get("provider") or "")} via ESPN</span></div>')
 
 
@@ -5771,8 +5797,8 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                     f'<div class="sb-mq-top"><span class="kicker">{esc(kick)}</span>'
                     f'<span class="st-r">{net}</span></div>'
                     f'<div class="sb-mq-grid">'
-                    f'{_sb_team_row(g["away"], False, big=True, started=False)}'
-                    f'{_sb_team_row(g["home"], False, big=True, started=False)}</div>'
+                    f'{_sb_team_row(g["away"], False, big=True, started=False, league=g.get("league"))}'
+                    f'{_sb_team_row(g["home"], False, big=True, started=False, league=g.get("league"))}</div>'
                     + (f'<div class="sb-mq-kick">{esc(when)}'
                        f'{_tk_countdown(g, marquee=True)}</div>' if when else "")
                     + (f'<div class="sb-mq-facts">{lines}</div>' if lines else "")
@@ -5784,8 +5810,8 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
                 f'<div class="sb-mq-top">{_sb_status(g)}<span class="st-r">'
                 f'{net}</span></div>'
                 f'<div class="sb-mq-grid">'
-                f'{_sb_team_row(g["away"], lose_a, big=True, started=_started)}'
-                f'{_sb_team_row(g["home"], lose_h, big=True, started=_started)}</div>'
+                f'{_sb_team_row(g["away"], lose_a, big=True, started=_started, league=g.get("league"))}'
+                f'{_sb_team_row(g["home"], lose_h, big=True, started=_started, league=g.get("league"))}</div>'
                 f'<div class="sb-mq-meta">{sit}{fan}</div>'
                 f'<div class="sb-mq-foot">{foot}</div>{bar}</div>')
     # S-9: pre-game, the kickoff time sits in the score column of the first row.
@@ -5799,8 +5825,8 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
     _cb = (g.get("home") or {}).get("color") or ""
     _vars = (f' style="--a:{esc(_ca)};--b:{esc(_cb)}"' if _ca and _cb else "")
     return (f'<div class="game"{_vars}>'
-            f'{_sb_team_row(g["away"], lose_a, started=_started, kick=_kick)}'
-            f'{_sb_team_row(g["home"], lose_h, started=_started)}'
+            f'{_sb_team_row(g["away"], lose_a, started=_started, kick=_kick, league=g.get("league"))}'
+            f'{_sb_team_row(g["home"], lose_h, started=_started, league=g.get("league"))}'
             f'<div class="st">{_sb_status(g)}<span class="st-r">'
             f'{net}</span></div>'
             f'{f"<div class=sb-fanrow>{fan}</div>" if fan else ""}{bar}</div>')
@@ -6563,7 +6589,7 @@ def _st_table(key, group):
         # S-L2: a team in a standings table is a link to that team's page, where one
         # was built. Only NFL has team pages today, so only NFL rows link; a row that
         # linked to a page that does not exist is worse than a row that does not link.
-        who = (f'<span class="st-abbr">{esc(r.get("abbr") or "")}</span>'
+        who = (f'<span class="st-abbr">{esc(tcode(key.upper(), r))}</span>'
                f'<span class="st-name">{esc(r.get("team") or "")}</span>')
         if key == "nfl" and r.get("abbr") and _team_page_exists(r["abbr"]):
             who = f'<a href="/teams/{esc(r["abbr"].lower())}.html">{who}</a>'
@@ -12884,6 +12910,7 @@ def build():
     # the build clock, the scoreboard and the schedule, and every page that prints a count
     # or a stamp reads it. Nothing below counts a card for itself.
     global MANIFEST
+    check_team_codes(SB_DATA)    # B5
     MANIFEST = _bm.build(_build_now(), SB_DATA, _w2w)
     MANIFEST["started_utc"] = BUILD_STARTED.strftime("%Y-%m-%dT%H:%M:%SZ")
     os.makedirs(PUBLISH, exist_ok=True)
