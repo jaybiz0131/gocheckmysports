@@ -101,8 +101,13 @@ def check_agreement(pages, manifest, count_for):
     """Every page prints the manifest's stamp and count and nothing else as its own.
     `pages` is {name: html}; `count_for` is {name: the count line that page must print}."""
     fails = []
-    want_stamp = f"Updated {manifest['data_stamp'] or manifest['stamp']}"
+    import build_manifest as _bmx
+    # Sprint A, A2: the board's pages (home, Scores) print "Scores as of"; the pages outside that
+    # sprint keep "Updated". Either way the text is the manifest's, never the page's own.
+    board_pages = ("home", "scores")
     for name, html in pages.items():
+        want_stamp = (_bmx.asof(manifest) if name in board_pages
+                      else f"Updated {manifest['data_stamp'] or manifest['stamp']}")
         marks = read(html).marks
         stamps = [t for k, t in marks if k == "stamp"]
         counts = [t for k, t in marks if k == "count"]
@@ -126,8 +131,8 @@ def check_started_scored(html, sbd, now):
     read shows started (live or final), both scores and the feed's word for its state, and the
     board stamp. A started game printed as a kickoff time with no score is the 7 November page."""
     fails = []
-    if not re.search(r'data-mf="stamp">[^<]+<', html):
-        fails.append("started: the Scores page carries no board stamp")
+    if not re.search(r'data-mf="stamp">Scores as of [^<]+<', html):
+        fails.append("started: the Scores page carries no \"Scores as of\" stamp")
     seen = 0
     for L in sbd.get("leagues") or []:
         for g in L.get("games") or []:
@@ -328,8 +333,8 @@ def truth_canary():
         if not check_agreement(bad, m, want):
             fails.append("truth: a Scores page that prints its own count did not fail the agreement test")
         bad = dict(pages)
-        bad["home"] = pages["home"].replace('data-mf="stamp">Updated ',
-                                            'data-mf="stamp">Updated 1:11 AM ', 1)
+        bad["home"] = pages["home"].replace('data-mf="stamp">Scores as of ',
+                                            'data-mf="stamp">Scores as of 1:11 AM ', 1)
         if not check_agreement(bad, m, want):
             fails.append("truth: a home stamp that differs did not fail the agreement test")
 

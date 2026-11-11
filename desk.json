@@ -1,7 +1,7 @@
 {
   "note": "The desk register: what this newsroom is configured to run, in one place. Two checks read it. The canary asserts the workflow files match it exactly, so a stale cron or a placeholder cannot survive a push. The morning tally compares the Actions log and the ledger to it and prints one health line. Cron times are UTC; the ET column is Eastern and shifts by an hour when DST ends on 1 November.",
   "desk": "gocheckmysports",
-  "updated": "2026-10-12",
+  "updated": "2026-11-11",
   "paid_runs_per_day": 0,
   "breaking_runs_per_day": 0,
   "spend_cap_usd_per_run": 1.5,
@@ -10,7 +10,7 @@
   ],
   "netlify_builds_per_day": {
     "min": 0,
-    "max": 6
+    "max": 32
   },
   "worker_dispatches": [
     "inactives.yml in its posting windows",
@@ -216,6 +216,38 @@
       "runs_per_day": {
         "min": 0,
         "max": 3
+      },
+      "paid_runs_per_day": {
+        "min": 0,
+        "max": 0
+      }
+    },
+    "scores-cadence.yml": {
+      "purpose": "Game-day scores (Sprint A of the November 7 2026 audit, A2): cadence.py decides on each tick whether a build is due; a due tick commits only site/data/scoreboard.json and that push builds the site. Calls no model, reads no secret. J-17 holds Jack's word on the weekend builds.",
+      "crons": [
+        {
+          "utc": "7,37 10-11 * * *",
+          "et": "5:07 to 7:37 AM ET daily, for the 6:00 AM build",
+          "slot": null
+        },
+        {
+          "utc": "*/10 15-23 * * *",
+          "et": "every 10 min, 10 AM to 6:59 PM EST (11 AM to 7:59 PM EDT)",
+          "slot": null
+        },
+        {
+          "utc": "*/10 0-6 * * *",
+          "et": "every 10 min, 7 PM to 1:59 AM EST (8 PM to 2:59 AM EDT)",
+          "slot": null
+        }
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "runs_per_day": {
+        "min": 0,
+        "max": 120
       },
       "paid_runs_per_day": {
         "min": 0,

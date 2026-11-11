@@ -1,0 +1,74 @@
+# Game-day scores (Sprint A of the November 7 2026 audit, A2). Site lane only: no model, no
+# pipeline stage, no secret beyond the repository's own token.
+#
+# WHY. The site has no live score layer: the Worker's /live route (J-4) was never deployed, so
+# every score on every page is the one the last Netlify build fetched, and nothing rebuilt the
+# site on a clock. On Saturday 7 November every page read "Updated Nov 7, 6:00 AM ET" at 5:25 PM.
+#
+# WHAT A TICK DOES. cadence.py decides whether a build is due (the rules are in its docstring:
+# Saturdays and Sundays every 30 minutes from the first kickoff to the last final, Monday and
+# Thursday nights at each kickoff, halftime and final, every other day the morning build and one
+# after the last game). When it is due, the tick commits the refreshed site/data/scoreboard.json
+# and pushes; netlify_ignore.py builds any push that touches that file, and the build fetches the
+# board again, so the page's "Scores as of" stamp is the build's own read. A tick that is not due
+# commits nothing, and with no game near its kickoff it fetches nothing.
+#
+# The crons tick every 10 minutes through the hours a game can be on, in either UTC offset, and
+# twice around 6:00 AM ET for the morning build. cadence.py, not the cron, is the cadence: a late
+# tick only makes a build late, never doubles one (no two builds inside 8 minutes).
+#
+# DEPLOYS. This raises the desk's production builds above the allowance of 12 a day (16 on
+# Sundays) on Saturdays and Sundays, and builds inside the Sunday 12:30 to 8:30 PM ET window, by
+# the Sprint A instruction of 8 November 2026; it is docs/JACK.md J-17 for Jack to confirm. To
+# stop it, delete this file: a workflow that does not exist cannot be scheduled (X-1).
+
+name: Game-day scores
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7,37 10-11 * * *"      # the morning build, 6:00 AM ET in EST or EDT
+    - cron: "*/10 15-23 * * *"      # 10 or 11 AM ET to 6 or 7 PM ET
+    - cron: "*/10 0-6 * * *"        # the night games, past midnight ET
+
+# Its own group: a pending tick must never evict an inactives tick from sports-publish (GitHub
+# keeps one pending run per group). Two pushes at once are handled by the rebase below.
+concurrency:
+  group: sports-scores
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  tick:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: main, fetch-depth: 20 }
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+
+      - name: Decide whether a build is due
+        id: tick
+        run: |
+          built=$(curl -s --max-time 15 https://gocheckmysports.com/stamp.txt | sed -n 's/^built //p' || true)
+          python3 cadence.py --tick --last-build "$built"
+
+      - name: Push the snapshot (the push builds the site)
+        if: steps.tick.outputs.due == 'true'
+        run: |
+          python3 odds_gate.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data/scoreboard.json
+          git commit -m "scores: snapshot $(date -u +%H:%MZ)" || { echo "snapshot unchanged; nothing to build"; exit 0; }
+          ok=false
+          for i in 1 2 3; do
+            if git push; then ok=true; break; fi
+            echo "::warning::push rejected (attempt $i); rebasing"
+            git pull --rebase --autostash origin main || {
+              echo "rebase conflicted"; git rebase --abort || true; exit 1; }
+          done
+          [ "$ok" = true ] || { echo "push failed after 3 attempts"; exit 1; }

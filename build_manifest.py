@@ -161,6 +161,21 @@ def build(now, sb_data=None, w2w=None):
     }
 
 
+def asof(m):
+    """The board's stamp (Sprint A, A2): "Scores as of 4:52 PM ET", the time of the scoreboard
+    read the build printed, or of the build when it had none. The date is added only when that
+    read is from another ET day than the build ("Scores as of Nov 7, 4:52 PM ET"), so a stale
+    read can never pass for today's under today's date."""
+    t = _utc(m.get("data_utc")) or _utc(m.get("built_utc"))
+    if not t:
+        return ""
+    et = t.astimezone(ET)
+    clock = et.strftime("%-I:%M %p") + " ET"
+    if et.date().isoformat() != m.get("date"):
+        clock = et.strftime("%b %-d, ") + clock
+    return "Scores as of " + clock
+
+
 def _leagues(league):
     if league is None:
         return None

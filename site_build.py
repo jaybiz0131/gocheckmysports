@@ -7834,7 +7834,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
         <h1 class="sb-claim">{esc(h1)}</h1>
       </div>
       <span class="sb-countwrap">
-        {count_span}<span class="sb-stamp" data-mf="stamp">Updated {esc(stamp)}</span>
+        {count_span}<span class="sb-stamp" data-mf="stamp">{esc(_bm.asof(_mf()))}</span>
       </span>
     </div>
     <div class="sb-tabrow">{ltabs}{_week_link()}</div>
@@ -11026,7 +11026,7 @@ def week_board(sb):
       </div>
       <span class="sb-countwrap">
         <span class="sb-count" data-mf="count">{esc(count_line)}</span>
-        <span class="sb-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>
+        <span class="sb-stamp" data-mf="stamp">{esc(_bm.asof(_mf()))}</span>
       </span>
     </div>
     <div class="sb-tabrow"><div class="tk-tabs wb-tabs">{"".join(tab_html)}</div></div>

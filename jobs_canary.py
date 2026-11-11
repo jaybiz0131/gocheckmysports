@@ -10,7 +10,9 @@ Saturday and Sunday, calls no model and publishes only through its gate.
   report        the conditions report job runs Thursday morning, Saturday evening and Sunday
                 morning before the freeze, runs conditions_report.py --publish and then the build,
                 reads no secret, and the script imports no model client
-  set           the set of workflows with a schedule is exactly the expected five
+  set           the set of workflows with a schedule is exactly the expected six
+  scores        the game-day scores job (Sprint A, A2) ticks cadence.py, reads no secret and stages
+                only site/data/scoreboard.json
 
 Called from verify_pipeline.layer1_canary(); returns failure strings.
 """
@@ -23,7 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 WF = os.path.join(HERE, ".github", "workflows")
 # the live cron lines each workflow keeps, exactly: nothing gained, nothing lost
 EXPECTED = {"conditions-report.yml": 9, "inactives.yml": 5, "janitor.yml": 1,
-            "sports-aging.yml": 1, "verify-sports-pipeline.yml": 1}
+            "scores-cadence.yml": 3, "sports-aging.yml": 1, "verify-sports-pipeline.yml": 1}
 
 
 def _crons(text):
@@ -95,6 +97,16 @@ def jobs_canary():
         fails.append("jobs: the conditions report job reads a secret")
     if "git add site/reports/conditions" not in cr or "git add -A" in cr:
         fails.append("jobs: the conditions report job stages more than its report")
+    sc = files.get("scores-cadence.yml", "")
+    if "python3 cadence.py --tick" not in sc:
+        fails.append("jobs: the game-day scores job does not decide through cadence.py --tick")
+    if re.search(r"secrets\.", sc):
+        fails.append("jobs: the game-day scores job reads a secret")
+    if "git add site/data/scoreboard.json" not in sc or re.search(r"git add (-A|\.)", sc):
+        fails.append("jobs: the game-day scores job stages more than the scoreboard snapshot")
+    if "group: sports-publish" in sc:
+        fails.append("jobs: the game-day scores job shares sports-publish, where a pending tick evicts "
+                     "a pending inactives tick")
     src = open(os.path.join(HERE, "conditions_report.py"), encoding="utf-8").read()
     for bad in ("llm", "anthropic", "publicist", "openai"):
         if re.search(r"^\s*(import|from)\s+" + bad + r"\b", src, re.M):
