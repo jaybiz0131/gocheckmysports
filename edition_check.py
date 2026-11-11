@@ -25,9 +25,9 @@ WHAT IT DOES
   is an editorial judgment, and a check that could block publishing over one would be worse
   than the problem it reports.
 
-THE THRESHOLD is 26 hours, not 24. Three slots a day means a healthy desk is never more than
-about 8 hours from an edition, so 26 is generous by design: it clears a slot that legitimately
-failed plus the next one, and only fires once a gap is no longer explainable as a bad run.
+THE THRESHOLDS are counted from the slots the desk serves (thresholds(), Sprint A of November
+2026): one missed slot is a warning, three in a row an error. On a one-slot desk that is 26 and
+74 hours; the old flat 26 was the three-slot desk's figure and errored on one missed evening.
 
 USAGE  python3 edition_check.py [--max-age-hours N]
 """
@@ -43,7 +43,37 @@ import common
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
 
-MAX_AGE_HOURS = 26
+MAX_AGE_HOURS = 26     # the three-slot desk's figure; thresholds() is what main() reads now
+SLACK_HOURS = 2
+OUTAGE_SLOTS = 3       # three missed slots in a row is an outage (owner directive 2026-08-25)
+
+
+# ONE SLOT, NOT THREE (Sprint A, A3, 8 November 2026). The 26-hour line above was written for a
+# desk with three slots a day, where a healthy gap is about 8 hours and 26 clears a failed slot
+# plus the next. This desk has served ONE slot since Program 4 (watcher.SLOT_DEADLINES holds
+# evening-brief only), where a healthy gap is 24 hours, so 26 fired as an ::error:: and an issue
+# on the first missed evening. The thresholds are now counted from the served slots: one missed
+# slot WARNS, and only OUTAGE_SLOTS missed in a row is an error with an issue and exit 3.
+
+def served_slots():
+    """How many Edition slots a day the desk serves, from watcher.SLOT_DEADLINES; 1 when unreadable."""
+    try:
+        import watcher
+        return max(1, len({s for s, _d, _w in watcher.SLOT_DEADLINES}))
+    except Exception:
+        return 1
+
+
+def thresholds(slots=None):
+    """(warn_after_hours, error_after_hours) for a desk serving `slots` Editions a day."""
+    gap = 24.0 / (slots or served_slots())
+    return gap + SLACK_HOURS, OUTAGE_SLOTS * gap + SLACK_HOURS
+
+
+def verdict(hours, slots=None):
+    """'ok', 'warning' or 'error' for a gap of `hours` on a desk serving `slots` a day."""
+    warn, err = thresholds(slots)
+    return "error" if hours > err else ("warning" if hours > warn else "ok")
 
 
 def _when(item):
@@ -174,8 +204,9 @@ def report_punctuality():
 
 def main():
     argv = sys.argv[1:]
-    limit = (int(argv[argv.index("--max-age-hours") + 1])
-             if "--max-age-hours" in argv else MAX_AGE_HOURS)
+    warn, limit = thresholds()
+    if "--max-age-hours" in argv:
+        limit = int(argv[argv.index("--max-age-hours") + 1])
     hours, ed = gap_hours()
     if hours is None:
         common.gh("error", "edition_check: the desk has published NO daily edition at all.")
@@ -203,6 +234,12 @@ def main():
     msg = (f"newest edition is {hours:.0f}h old ({ed.get('date')}, "
            f"{(ed.get('title') or '')[:60]}), {since} story/stories published since "
            f"[tree HEAD: {head}]")
+    if warn < hours <= limit:
+        common.gh("warning",
+                  f"edition_check: {msg}. One slot was missed ({served_slots()} served a day); "
+                  f"an error and an issue follow only after {OUTAGE_SLOTS} in a row.")
+        report_punctuality()
+        return 0
     if hours > limit:
         common.gh("error",
                   f"edition_check: {msg}. The edition is supposed to run once a day "
@@ -219,6 +256,20 @@ def main():
     print(f"edition_check: OK, {msg}.")
     report_punctuality()
     return 0
+
+
+def canary():
+    """Fixture cases for the thresholds; returns failure strings."""
+    fails = []
+    for hours, slots, want in ((25, 1, "ok"), (30, 1, "warning"), (73, 1, "warning"), (75, 1, "error"),
+                               (9, 3, "ok"), (12, 3, "warning"), (27, 3, "error")):
+        got = verdict(hours, slots)
+        if got != want:
+            fails.append(f"edition_check: a {hours}h gap on a {slots}-slot desk is {got}, expected {want}")
+    if served_slots() != 1:
+        fails.append(f"edition_check: the desk serves {served_slots()} slot(s) by watcher.SLOT_DEADLINES, "
+                     "expected the one evening slot")
+    return fails
 
 
 def _flag_issue(msg):

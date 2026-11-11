@@ -1351,6 +1351,8 @@ def layer1_canary():
     fails.extend(_jc.jobs_canary())    # S-1 item 3: the desk's jobs (12 October 2026)
     import cadence as _cad
     fails.extend(_cad.canary())        # Sprint A, A2: when the site rebuilds for scores
+    import edition_check as _edc
+    fails.extend(_edc.canary())        # Sprint A, A3: one missed slot warns, it does not error
     import small_canary as _sm
     fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
     fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
