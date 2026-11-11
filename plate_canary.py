@@ -237,7 +237,9 @@ def unchanged(new, old):
         for ob, nw in zip(b, r["all"]):
             if ob["bad"] or ob["g"] in badg:
                 continue
-            if abs(ob["fs"] - nw["fs"]) > 0.01 or abs(ob["w"] - nw["w"]) > 0.5 or abs(ob["h"] - nw["h"]) > 0.5:
+            # B0a (J-19): the runner's hinting draws a --w plate 0.03px under main's 34px (0.21px under 48px at
+            # 1100). A quarter pixel is half a percent of type; a real change in size is a pixel or more.
+            if abs(ob["fs"] - nw["fs"]) > 0.25 or abs(ob["w"] - nw["w"]) > 0.5 or abs(ob["h"] - nw["h"]) > 0.5:
                 grp.setdefault((nw["el"], r["width"]), []).append((r["page"], ob, nw))
     if not seen:
         fails.append("plate same: no page was read on both sides, so nothing was compared")
