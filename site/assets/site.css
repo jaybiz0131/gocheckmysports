@@ -2862,6 +2862,7 @@ a.gp-svc:hover{border-color:var(--ink)}
   font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A7A285}
 .sbc-bulb{display:flex;align-items:center;gap:4px}
 .sbc-bulb i{width:10px;height:10px;border-radius:50%;background:#3B3A22}
+.sbc-bulb:not(.on)::after{content:attr(data-l)}
 .sbc-bulb.on{color:var(--sbc-yellow)}
 .sbc-bulb.on i{background:var(--sbc-yellow);box-shadow:0 0 8px #FFD23F,0 0 18px rgba(255,210,63,.6)}
 .sbc p.sbc-words,.sbc-wx p.sbc-words{margin:0;font-size:13px;line-height:1.4;color:var(--sbc-cream)}

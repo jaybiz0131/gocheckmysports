@@ -1259,7 +1259,7 @@ def masthead(active, dateline, brand="site"):
     _wordmark = (f'<span class="mh-word-base">{esc(_base)}</span>'
                  f'<span class="mh-word-site">{esc(_site)}</span>') if _site else esc(NAME)
     brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
-    <img class="mh-mark" src="/assets/logo.svg" alt="">
+    <img class="mh-mark" src="/assets/logo.svg" alt="GoCheckMySports logo">
     <span class="mh-word">{_wordmark}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
   </a>"""
@@ -5337,7 +5337,7 @@ def sbc_linescore(g, full=True, ot_col=False):
     cols = f"minmax(min-content,1fr) repeat({len(heads)},minmax(22px,var(--sbc-q))) var(--sbc-t)" if heads else "minmax(0,1fr) var(--sbc-t)"
     out = [f'<div class="sbc-ls{" sbc-full" if heads else " sbc-compact"}" style="grid-template-columns:{cols}">']
     if heads:
-        out.append('<span class="sbc-h"></span>' + "".join(f'<span class="sbc-h">{x}</span>' for x in heads)
+        out.append('<span class="sbc-h"></span> ' + " ".join(f'<span class="sbc-h">{x}</span>' for x in heads)
                    + '<span class="sbc-h sbc-th">T</span>')
     for side, t, ps, sc in (("away", a, pa, sa), ("home", h, ph, sh)):
         rk = t.get("rank")
@@ -5345,12 +5345,12 @@ def sbc_linescore(g, full=True, ot_col=False):
         rec = f' <small class="sbc-rec">{esc(t.get("record") or "")}</small>' if t.get("record") else ""
         out.append(f'<span class="sbc-team" title="{esc(_team_label(g, t))}">{rank}'
                    f'<b data-side="{side}" data-abbr="{esc(t.get("abbr") or "")}">{esc(sbc_team_name(g, t))}</b>{rec}</span>')
-        out.append("".join(_sbc_plate_num(x) for x in ps))
+        out.append(" ".join(_sbc_plate_num(x) for x in ps))
         tot = "" if sc is None else str(sc)
         out.append(f'<span class="sbc-pl sbc-tot{" sbc-empty" if tot == "" else ""}{" sbc-lose" if lose[side] else ""}" '
                    f'data-side="{side}"><span class="tk-sc">{esc(tot)}</span></span>')
     out.append('</div>')
-    return "".join(out)
+    return " ".join(out)       # B4: a space between the plates, so the numbers do not run together in text
 
 
 def sbc_bulbs(e, p=None):
@@ -5363,9 +5363,20 @@ def sbc_bulbs(e, p=None):
         third = "Cold" if cx_flag_on(e, "feels") and ((e.get("flags") or {}).get("feels") or {}).get("min_f", 99) < 60 else "Heat"
     lit = [("Wind", cx_flag_on(e, "wind")), ("Rain", cx_flag_on(e, "precip")),
            (third, cx_flag_on(e, "feels")), ("Alert", bool(e.get("alerts")))]
-    html = ('<div class="sbc-bulbs">' + "".join(
-        f'<span class="sbc-bulb{" on" if on else ""}" data-bulb="{n.lower()}"><i aria-hidden="true"></i>{n}'
-        f'<span class="sr-only">{" lit" if on else " off"}</span></span>' for n, on in lit) + '</div>')
+    # B4: a lit bulb is a labeled chip that says its number ("Wind 18 mph"); an unlit one is a dim lamp with
+    # no text in the DOM (its name is drawn by the stylesheet from data-l) and is hidden from a reader, so
+    # nothing prints "Wind off".
+    fv = round(feel) if isinstance(feel, (int, float)) else None
+    val = {"Wind": f' {p["mph"]} mph' if p.get("mph") is not None else "",
+           "Rain": f' {p["pop"]}%' if p.get("pop") is not None else "",
+           third: f' {fv}\u00b0' if fv is not None else "", "Alert": ""}
+
+    def bulb(n, on):
+        if on:
+            return (f'<span class="sbc-bulb on" data-bulb="{n.lower()}"><i aria-hidden="true"></i>'
+                    f'{n}{val.get(n, "")}</span>')
+        return f'<span class="sbc-bulb" data-bulb="{n.lower()}" data-l="{n}" aria-hidden="true"><i></i></span>'
+    html = '<div class="sbc-bulbs">' + " ".join(bulb(n, on) for n, on in lit) + '</div>'
     return html, any(on for _n, on in lit)
 
 
@@ -5427,8 +5438,9 @@ def sbc_weather(g, e):
     on = p["on"]
 
     def plate(key, label, big, sub, lit):
-        return (f'<div class="sbc-wp sbc-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span>'
-                f'<span class="sbc-big">{big}</span>'
+        # B4: a space between the three spans, so the text reads "Rain 26% up to 33%" with no stylesheet
+        return (f'<div class="sbc-wp sbc-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span> '
+                f'<span class="sbc-big">{big}</span> '
                 + (f'<span class="sbc-s">{esc(sub)}</span>' if sub else '<span class="sbc-s"></span>') + '</div>')
     temp = f'{p["temp"]}°' if p["temp"] is not None else '<span class="sbc-miss">missing</span>'
     tsub = ", ".join(x for x in ((f"feels {p['feels']}°" if p["feels"] is not None else ""), p["feel_peak"]) if x)
@@ -5442,8 +5454,8 @@ def sbc_weather(g, e):
         wbig, wsub = '<span class="sbc-miss">missing</span>', ""
     rbig = f'{p["pop"]}%' if p["pop"] is not None else '<span class="sbc-miss">missing</span>'
     rsub = f"up to {p['peak']}%" if p["peak"] is not None else (p["ptype"] or "")
-    plates = ('<div class="sbc-wps">' + plate("t", "Temp", temp, tsub, on["feels"])
-              + plate("w", "Wind", wbig, wsub, on["wind"]) + plate("r", "Rain", rbig, rsub, on["precip"]) + '</div>')
+    plates = ('<div class="sbc-wps">' + plate("t", "Temp", temp, tsub, on["feels"]) + " "
+              + plate("w", "Wind", wbig, wsub, on["wind"]) + " " + plate("r", "Rain", rbig, rsub, on["precip"]) + '</div>')
     bulbs, lit = sbc_bulbs(e, p)
     alerts = e.get("alerts")
     note = ""
@@ -5467,6 +5479,29 @@ def sbc_weather(g, e):
     return (f'<div class="sbc-wx" data-cx="forecast" data-lens-only="watch">{plates}{bulbs}{note}{words}</div>'), lit
 
 
+def card_label(g):
+    """B4: the name of a game card's link. A played or live game reads "Texas 24, Missouri 17, Final"; one
+    not yet played reads "Texas at Missouri, 12:00 PM ET, ESPN" (the network only when the feed names one)."""
+    a, h = g.get("away") or {}, g.get("home") or {}
+    an, hn = sbc_team_name(g, a), sbc_team_name(g, h)
+    st = g.get("state")
+    k = _utc_dt(g.get("start_utc") or "")
+    if st in ("in", "post") and not (st == "post" and _is_postponed(g)):
+        sa, sh = _tk_score(a, g), _tk_score(h, g)
+        if sa is not None and sh is not None:
+            word = (_tk_state(g) or "Live") if st == "in" else (
+                "Final/OT" if "OT" in (g.get("status_short") or "").upper() else "Final")
+            return f"{an} {sa}, {hn} {sh}, {word}"
+    if st == "post":
+        return f"{an} at {hn}, Postponed"
+    bits = [f"{an} at {hn}"]
+    if k:
+        bits.append(_et_clock(k))
+    if g.get("network"):
+        bits.append(network_name(g.get("network")))
+    return ", ".join(bits)
+
+
 def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     """S-2d item 0: one card of the week board as a small scoreboard. The article keeps the
     Ticket's class and data attributes (the team pins, the lens and the recount read them)."""
@@ -5482,7 +5517,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     fact = (f'<p class="sbc-fact" data-lens-only="fantasy">' + " · ".join(
         f'{esc(k)} {esc(v)}' for k, v in facts) + '</p>') if facts else ""
     gp = _game_href(g) if _has_game_page(g) else ""
-    link = (f'<a class="tk-card-a" href="{esc(gp)}" aria-label="{esc(gp_title(g))}"></a>' if gp else "")
+    link = (f'<a class="tk-card-a" href="{esc(gp)}" aria-label="{esc(card_label(g))}"></a>' if gp else "")
     _kd = _utc_dt(g.get("start_utc") or "")
     a_col, b_col = _tk_colors(g)
     return (f'<article class="tk-c sbc{" sbc-lit" if lit else ""}" data-gid="{esc(str(g.get("id")))}" '
@@ -5590,7 +5625,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
         # where a network is already shown on the card.
         btns = (f'<div class="tk-btns"><a class="tk-btn" href="{gp}">Game page</a>'
                 f'{second}</div>'
-                f'<a class="tk-card-a" href="{gp}" tabindex="-1" aria-hidden="true"></a>')
+                f'<a class="tk-card-a" href="{gp}" tabindex="-1" aria-hidden="true" aria-label="{esc(card_label(g))}"></a>')
     wide = " wide" if state in ("in", "post") else ""
     # A-2: the card carries what the recount needs, so the counts and the "Next" line
     # are read off the board rather than baked into the header.
@@ -13691,14 +13726,23 @@ def sprint_b_problems(publish):
             bad.append(f"B3: teams shown as posted and as awaiting at once: {sorted(both)}")
         if "Lists we have not seen" in ia:
             bad.append("B3: the 'Lists we have not seen' box is back")
-    # B6, every page: at most one 'No betting advice.', and it is the footer's
+    # B4 and B6, every page: no link without a name; at most one 'No betting advice.', and it is the footer's
     for root, _d, files in os.walk(publish):
         for f in files:
-            if f.endswith(".html"):
-                rel = os.path.relpath(os.path.join(root, f), publish)
-                n = rd(rel).count("No betting advice.")
-                if n > 1:
-                    bad.append(f"B6: {rel} says 'No betting advice.' {n} times")
+            if not f.endswith(".html"):
+                continue
+            rel = os.path.relpath(os.path.join(root, f), publish)
+            h = rd(rel)
+            for m in re.finditer(r"<a\b([^>]*)>(.*?)</a>", h, re.S):
+                at, inner = m.group(1), m.group(2)
+                if 'aria-hidden="true"' in at or "aria-label=" in at:
+                    continue
+                if not re.sub(r"<[^>]+>", "", inner).strip() and not re.search(r'<img[^>]*alt="[^"]+"', inner):
+                    bad.append(f"B4: {rel} has a link with no name: <a{at[:80]}>")
+                    break
+            n = h.count("No betting advice.")
+            if n > 1:
+                bad.append(f"B6: {rel} says 'No betting advice.' {n} times")
     return bad
 
 
