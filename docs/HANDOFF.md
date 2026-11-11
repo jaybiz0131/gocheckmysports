@@ -8,13 +8,75 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
+Last updated: 11 November 2026, after Sprint A of the November 7 audit (section below). Before
+that: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
 October branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
 `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`) are merged; the proxy refuses branch
 deletes, so Jack deletes them, and the S-1, S-2b, S-2c and S-2d item branches with them.
 `search-s1-canonical-urls` stays open at `64fe43f`, untouched; its stash was a Mac artifact. The shared laws U-1 to U-16 are in `../HANDOFF.md`, not
 this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
-`HANDOFF-2026-09-23-to-10-01.md`, `HANDOFF-2026-10-06.md` and `HANDOFF-2026-10-12.md`.
+`HANDOFF-2026-09-23-to-10-01.md`, `HANDOFF-2026-10-06.md` and `HANDOFF-2026-10-12.md` (which also
+holds, at its end, the S-2b to S-2d section and the A-17 budgets moved out on 11 November).
+
+## Sprint A of the November 7 2026 audit (session of 11 November 2026)
+
+Opener: `docs/RULES.md` body hash `4179b2ac...568d`, verified. Pushed to `main` by the sprint's
+instruction, one commit per item, no attribution trailer (`commit_trailers.py`: 0 hits). Jack's two
+decisions are J-17, J-18 and J-19 in `docs/JACK.md`.
+
+**The live layer (A1).** There is no live score layer, and nothing about the Worker or its token is
+broken. No page ships a client-side score poll: S-1 removed it with the word "live" on 12 October.
+The Worker's `/live` route (Program 4 L-1, board S-4.0, J-4) was never deployed, so between builds
+nothing writes a score to the published site. The Scoreboard, the home and every `/scores` page
+print what `scoreboard.py` fetched at the last Netlify build. Nothing rebuilt the site on a clock.
+The `NETLIFY_BUILD_HOOK` secret is empty (the 12 Oct 23:40Z brief run logs `HOOK:` blank), so
+builds came only from site-changing pushes: merges, conditions reports, and inactives ticks that
+touch `site/data`. Saturday 7 November had none between 6:00 AM and the 7:37 PM ET conditions
+push. Because the scores are static, the raw HTML is the score and there is nothing client-side to
+back-fill. A1 adds the check that the raw HTML of `/scores` prints both scores, and Final, for
+every started game. A2 makes the builds happen. Nothing for Jack's Mac.
+
+**Why the Edition stopped on 12 October (A3).** Not a failed step, a slot guard, a lost trigger or
+an expired token. Jack's ruling of 12 October (Program 7, S-1 item 3) retired the Edition as a news
+digest. `sports-news-brief.yml` has no `schedule:` key and its job is gated on `NEWSROOM_JOBS`,
+which is unset. The Worker's dispatch works: 23:40, 00:10 and 01:10 UTC every night. Every run
+from 13 Oct 23:40Z (`38485643595`) to today concludes `skipped`. The last run that served was
+12 Oct 23:40Z (`38323352077`, Evening Edition No. 77, $0.6381). Restarting it is J-18.
+
+| Item | Commit | What shipped | Seen red by |
+|---|---|---|---|
+| A1 | `f35f45c` | truth canary `check_started_scored`: no-script `/scores` prints both scores, Final, the stamp; fails if it checked no card | `_tk_score` returning None (KCBUF 10 and 7) |
+| A2 | `2c35679` | `scores-cadence.yml` + `cadence.py`; "Scores as of 4:52 PM ET" on the home and `/scores` (`build_manifest.asof`) | 60-min cadence, no halftime (3 cases); `git add -A site/data` |
+| A3 | `7b2a8c5` | `edition_check.py` reads served slots from `watcher.SLOT_DEADLINES`: one missed slot warns (26h), three error (74h) | `OUTAGE_SLOTS = 1` (3 cases) |
+| A4 | `d1e8cd9` | `edition_link()`: "The Edition" is the newest Edition inside 48h, else `/archive.html` | window widened to 30 days |
+| A5 | `f349bb4` | report slot only same-day written from same-day forecasts, started games leave it; Record lanes "Nothing new since Oct 9"; Wire empty state | `cr_fresh` always true, started filter removed (4 lines) |
+| A6 | `b09cc12` | home lead under the band: today's Edition (headline, Bottom Line, 3 links), else 3 newest finals with times, else "Back after tonight's games." | empty `home_lead` (6 lines) |
+| extras | `3c7e4a2` | every rain plate reads `cx_parts()["pop"]`, `cx_pct()` fails the plate outside 0 to 100; windows note named by its day | range check removed, old note (7 lines) |
+
+Gate (U-12, U-15): `verify_pipeline.py canary` on `3c7e4a2`, exit 1, load 11. Its reds: `plate same`
+on three game-page hero plates (33.97px against 34), which origin/main fails identically here and in
+its own CI run of 9 Nov (`42656647167`), and one look page timed out under load (`look_canary` alone
+on the same tree: PASS, 1035 of 1035). Pushed on that red by the sprint owner's word, recorded as J-19.
+Push: `48ba399..3c7e4a2`, HEAD `3c7e4a2` = origin/main `3c7e4a2`, 0 ahead, 21:01 UTC 11 Nov.
+
+**How the cadence works:** rules in `cadence.py`'s docstring, ticks in the workflow header. A due tick commits only `site/data/scoreboard.json` ("scores: snapshot HH:MMZ") and that push
+builds. Stop it by deleting `.github/workflows/scores-cadence.yml`.
+
+**Acceptance, not yet readable (U-3: read at the next check, not waited on).**
+- A2: Thursday 12 Nov TNF, a `scores:` commit at kickoff, at the half and at the final. Saturday 14
+  Nov, one every 30 minutes from the first kickoff. Sunday 15 Nov, the stamp on `/` and
+  `/scores.html` is inside 30 minutes at any check.
+- A1: during that slate, `curl -s https://gocheckmysports.com/scores.html` shows a score or Final
+  for every started game and "Scores as of".
+- A4 to A6: on the first build after the push, no page links `/edition/2026-10-12.html` but the
+  Edition pages, `/bottom-line.html` and the sitemaps (the archive of issues); the home carries
+  `id="lead"` with a headline.
+
+**Open, the desk's.** The audit's rain values (130, 101, 63 against 3) are not in today's Worker data,
+so not reproduced; the guard holds and the build log names any game it fails.
+
+**Live URLs.** https://gocheckmysports.com/ , `/scores.html`, `/scores/2026-11-14.html`, `/wire.html`,
+`/keepers.html`, `/stamp.txt`; the count at gcm-slot-trigger.gocheckmybrands.workers.dev/counts/today; runs at https://github.com/jaybiz0131/gocheckmysports/actions/workflows/scores-cadence.yml
 
 ## 1. Where things live
 
@@ -122,37 +184,7 @@ dispatch other than the agreed Edition backstop; every call must appear in
   `LEAGUE:TEAM`. The canary fails the day the feed changes its record; the monthly
   aging job lists every entry with its owner and date.
 
-**Open:** Jack deploys the Worker (`cd ../gcm-newsroom/slot-trigger && npx wrangler
-deploy`). Until then the evening slot has no automatic backstop; if it has not
-published by 8:05 PM ET, dispatch `sports-news-brief.yml` with `slot=evening-brief`
-and note it in the report.
-
-## Sprints S-2b to S-2d, the conditions and the scoreboard look (Program 7, 13 to 14 October 2026)
-
-S-2b's section moved verbatim to `HANDOFF-2026-10-12.md` (end) on 14 October; the reports are
-`S-2b-REPORT.md`, `S-2c-REPORT.md` and `S-2d-REPORT.md`. Every push read by hash (U-8), gated (U-14).
-
-- **S-2d, merged `374e5dd` (pushed 10:08 PM ET 14 Oct):** item 0 `s2d-board` `976ca24` merge
-  `bb85c54`; item 1 `s2d-game` `cdd7bf0` merge `e4e4d6f`; item 2 `s2d-wall` `6a7dbce` merge `374e5dd`.
-  W-45 (`aa62909`): the build publishes `/data/where-to-watch.json` and `/data/scoreboard.json`;
-  the gate retries a stale feed once, then is red. PR 105 and 106 closed unmerged.
-- **The look:** board cards are scoreboards (`sbc_card`), the game page is one board (`sbg_board`),
-  the wall is the home's first view at 1100px and up (`wall`), the report's share card is drawn in
-  the wall's look. Oswald is `site/assets/fonts/oswald.woff2`, made by `scripts/oswald_subset.py`
-  (sha pinned there); a new character on a plate means re-running it and re-pinning.
-- **Canaries:** `strip_canary` (cards, wall, font, tree), `gamepage_canary` (board, data age),
-  `report_canary` (card), `home_canary` (record in its plate), with `conditions_canary`, `jobs_canary`.
-- **Thursday 15 Oct, 7:17 AM EDT:** the first live report and the first live wall-look card. Read
-  `/conditions/2026-10-15-thu.html`, its card and the home slot on production by stamp.
-- **Open for S-3:** on the wall, a row lit only by an alert shows why (ALERT or the alert's short
-  name in its plates); Seahawks at Broncos was lit by a Freeze Watch alone on 14 Oct.
-- **Open, Jack's:** the six `verify` carriage rows and the regional maps link; the Worker line for
-  the brief's dispatch and `NEWSROOM_JOBS`; the affiliate links; DKR-Texas Memorial and TDECU have
-  no coordinates in the Weather table (their wall plates read "No forecast"); Weather reads the two
-  `/data/` files instead of the repository's copies.
-- **Open, the desk's:** the college slate is the feed's default group, not every FBS game; the
-  masthead and intake fixes are not on Crypto or News; `_wx_chip`, `_w2w_wx` and the weather half
-  of `_tk_venue` are inert. **Trap:** `.lx p` and the page's `h2` outrank a one-class rule.
+**Open:** none here; the Worker dispatches on its tick (Sprint A read its runs, 11 November).
 
 ## Search
 
@@ -206,30 +238,7 @@ S-2b's section moved verbatim to `HANDOFF-2026-10-12.md` (end) on 14 October; th
 | S-D day-14 report | **owed since Sep 28, still owed.** Not the Search read; this one is the source trial (`source_trial.py --report`) | |
 | S-6 register reader, `scripts/register-read.mjs` | tool done; **the read is Jack's, Monday 20 October** | `e25f03e`, merge `4cd1b85` |
 
-Sprint H closes Saturday noon ET, Sprint I Wednesday, Sprint J Friday. No deploys
-Sunday 12:30 to 8:30 PM ET.
-
-## 5. A-17 budgets, as measured
-
-Measured 2026-09-17, local build, canonical harness at 390, median of three:
-**Sports LCP 1,956 ms, Crypto 1,676 ms, CLS 0.0000 on both** (was 5,076 and 4,540
-live on 09-16). Budget is under 3,000 ms; re-measure against the live pages after
-the next deploy. Fonts: five files, 59.9 KB, same origin. Poster: phone variant at
-10.2 KB (Sports) and 9.2 KB (Crypto).
-
-- CSS 25.6 KB gz (Sports) / 23.8 (Crypto), JS 3.0 / 4.1. Budget 60 and 40. Pass.
-- Fonts: 6 files, 4 families. Target is **five files, under 60 KB, same origin**:
-  Plex Mono 400 and 700 only (600 goes), Newsreader roman and italic, Inter variable.
-  Self-host as woff2 with `font-display: swap`, preload Newsreader 600 and Inter 400,
-  and give the wordmark fallback a `size-adjust`. That closes the latent masthead
-  shift (local CLS 0.1118 against live 0.0006) and takes Google off the LCP path.
-- Poster: add a 390-wide variant, about 10 KB, chosen with `<picture>` or
-  `imagesrcset` on the preload so the phone never fetches the 1600.
-- Dead CSS to delete in Sprint I: the retired `.hero-*`, `.desk-coin` and pause
-  blocks, about 25 per desk. Report CSS size before and after. The Edition's
-  `.stamp{filter:saturate(.92)}` stays under S-22.
-- Definition of done addition: **on phone, no request for an image that is not
-  displayed**, checked from the network log.
+No deploys Sunday 12:30 to 8:30 PM ET, except the score builds of J-17.
 
 ## 6. Commands
 
