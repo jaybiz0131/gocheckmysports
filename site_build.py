@@ -7973,6 +7973,13 @@ def _et(iso):
     return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
 
 
+def _et_dated(iso):
+    """B3: '6:45 PM ET' with its day in front ('Sun, Nov 8, 11:31 AM ET'): a list shows as posted only with
+    the date and the time it was first seen."""
+    dt = _utc_dt(iso)
+    return dt.astimezone(_ET).strftime("%a, %b %-d, %-I:%M %p ET") if dt else ""
+
+
 def _league_teams(w2w=None):
     """Every team the schedule mentions across all weeks. Derived, not hand-kept: a
     hand-kept list of 32 goes stale the season a team moves or renames."""
@@ -8094,41 +8101,6 @@ def _fantasy_tonight_card(sb, board, desig):
             f'<div class="bd-rec-rows">{"".join(rows)}</div>{tail}'
             f'<a class="bd-more" href="/fantasy/inactives.html">Week {prev}, final</a>'
             f'</div>')
-
-
-def _inactives_pending(games, posted_ids):
-    """Teams playing today whose list we have not seen yet, with the time the league is
-    expected to post: kickoff minus ninety minutes. Never a guess about who.
-
-    MATCHED ON TEAM ID, not name. The first cut compared the board's display names
-    ("Atlanta Falcons") against the schedule's abbreviations ("ATL"), matched nothing,
-    and listed all thirty-two teams as pending directly underneath the nineteen whose
-    lists were already on the page.
-
-    Only games that have not kicked off. A live or finished game's list is either
-    already seen or never coming, and either way "expected 11:30 AM ET" is wrong on a
-    page rendered at 2pm."""
-    import datetime as _dt
-    out = []
-    for g in games or []:
-        if (g.get("state") or "") != "pre":
-            continue
-        for side in ("home", "away"):
-            nm = g.get(side) or ""
-            tid = g.get(f"{side}_id") or ""
-            if not nm or tid in posted_ids or nm in posted_ids:
-                continue
-            k = g.get("kickoff_utc") or ""
-            exp = ""
-            try:
-                t = _dt.datetime.strptime(k, "%Y-%m-%dT%H:%MZ").replace(
-                    tzinfo=_dt.timezone.utc)
-                exp = _et((t - _dt.timedelta(minutes=90)).strftime("%Y-%m-%dT%H:%M:%SZ"))
-            except Exception:
-                pass
-            out.append({"team": nm, "expected": exp, "kick": g.get("kickoff_et") or ""})
-    out.sort(key=lambda x: (x["expected"] or "z", x["team"]))
-    return out
 
 
 def _nfl_color(team_id):
@@ -8292,12 +8264,12 @@ def _inactives_team_card(t):
     col = _nfl_color(t.get("id"))
     bar = (f'<span class="tc" style="background:{esc(col)}"></span>' if col
            else '<span class="tc tc-none"></span>')
-    return (f'<div class="bd-card ia-team" data-team="{esc(t["team"])}">'
+    return (f'<div class="bd-card ia-team" data-team="{esc(t["team"])}" data-tid="{esc(str(t.get("id") or ""))}">'
             f'<div class="bd-cardtop">{bar}<span class="bd-eyebrow">{esc(t["team"])}</span>'
             + (f'<span class="bd-stamp">{len(by_day)} lists, {t["count"]} '
                f'listings</span>' if len(by_day) > 1 else
                f'<span class="bd-stamp">{t["count"]} inactive</span>')
-            + f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span>'
+            + f'<span class="bd-stamp">posted {esc(_et_dated(t["first_seen"]))}</span>'
             f'{flag}</div>'
             f'<div class="ia-rows">{rows}</div></div>')
 
@@ -8573,9 +8545,10 @@ def _ia_by_game(board, games):
                 _bar = (f'<span class="tc" style="background:{esc(_col)}"></span>'
                         if _col else '<span class="tc tc-none"></span>')
                 cards.append(
-                    f'<div class="bd-card ia-team ia-await">'
+                    f'<div class="bd-card ia-team ia-await" data-tid="{esc(str(g.get(_k) or ""))}">'
                     f'<div class="bd-cardtop">{_bar}'
                     f'<span class="bd-eyebrow">{esc(_abbr or "")}</span>'
+                    f'<span class="bd-stamp">Designations</span>'
                     + (f'<span class="bd-stamp">{esc(_cn)}</span>' if _cn else "")
                     + f'<span class="bd-stamp">{esc(_ia_expected(g))}</span>'
                     f'</div>'
@@ -8688,6 +8661,14 @@ IA_POLL_JS = """<script>(function(){
     } catch (e) { return ''; }
   }
 
+  function etd(iso){
+    try {
+      return new Date(iso).toLocaleString('en-US',
+        {timeZone:'America/New_York', weekday:'short', month:'short', day:'numeric',
+         hour:'numeric', minute:'2-digit'}) + ' ET';
+    } catch (e) { return ''; }
+  }
+
   function rows(players){
     return Object.keys(players || {}).map(function(k){
       var p = players[k] || {};
@@ -8707,7 +8688,7 @@ IA_POLL_JS = """<script>(function(){
       var ps = t.players || {};
       var n = Object.keys(ps).length;
       if (!name || !n) return;
-      lists++; players += n;
+      var aw = board.querySelector('.ia-await[data-tid="' + id + '"]');
       var card = board.querySelector('.ia-team[data-team="' + name + '"]');
       if (card) {
         var box = card.querySelector('.ia-rows');
@@ -8717,6 +8698,7 @@ IA_POLL_JS = """<script>(function(){
         if (st[0]) st[0].textContent = n + ' inactive';
         return;
       }
+      if (aw) aw.parentNode.removeChild(aw);
       /* A LIST THAT POSTED AFTER THIS PAGE WAS BUILT. Its game group is decided by the
          build, which has not run, so it goes in a block of its own at the top rather
          than being guessed into a group. A reader sees it; nothing is invented. */
@@ -8746,11 +8728,15 @@ IA_POLL_JS = """<script>(function(){
         '<div class="bd-card ia-team" data-team="' + name + '">' +
         '<div class="bd-cardtop"><span class="bd-eyebrow">' + name +
         '</span><span class="bd-stamp">' + n + ' inactive</span>' + where +
-        '<span class="bd-stamp">posted ' + et(t.reconciled_at || doc.last_poll) +
+        '<span class="bd-stamp">posted ' + etd(t.reconciled_at || doc.last_poll) +
         '</span></div><div class="ia-rows">' + rows(ps) + '</div></div>');
       added++;
     });
     if (late) late.hidden = !late.querySelector('.ia-team');
+    /* B3: the header counts what is drawn below it, never the snapshot's own totals. */
+    var posted = board.querySelectorAll('.ia-team:not(.ia-await)');
+    lists = posted.length;
+    players = board.querySelectorAll('.ia-team:not(.ia-await) .ia-row').length;
     var sum = document.querySelector('[data-ia-count]');
     if (sum && lists) {
       sum.textContent = lists + ' list' + (lists === 1 ? '' : 's') + ' posted, ' +
@@ -8850,19 +8836,9 @@ def render_inactives(board, w2w, dateline):
     # Match on the team names the schedule uses, which are abbreviations; the board
     # holds full display names. Only teams we can match are shown as pending, so a
     # name we cannot resolve is left out rather than asserted as unposted.
-    pending = _inactives_pending(
-        games, {a for t in board["teams"] for a in (t["team"], str(t.get("id") or ""))})
     cards = _ia_by_game(board, games)
-    pend = ""
-    if pending:
-        pend = ('<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                '<span class="bd-eyebrow">Not seen yet</span>'
-                '<h2 class="bd-h2" style="font-size:20px">Lists we have not seen</h2>'
-                '</div></div><div class="ia-pending">'
-                + "".join(f'<div class="ia-pend"><span class="ia-name">{esc(p["team"])}</span>'
-                          f'<span class="bd-src">expected {esc(p["expected"])}</span></div>'
-                          for p in pending)
-                + '</div></section>')
+    # B3: no "Lists we have not seen" box. A team without a list is the awaiting card in its own game,
+    # under Designations; the header counts only the posted cards rendered below it.
     # The hooks the client poll needs. The day names the snapshot to fetch; the board
     # is the element it paints into; the late block is where a list that posted after
     # this build lands, because its game group is the build's decision and the build
@@ -8879,11 +8855,10 @@ def render_inactives(board, w2w, dateline):
   {_ia_tonight_block()}
   {_sb12_who_plays_when(_ahead_games)}
   {cards}
-  {pend}
 </section></main>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + IA_FOLD_JS + IA_POLL_JS
     return shell(f"Today's NFL inactives - {NAME}",
                  "Every team's inactive list for today's games, with the time our check "
-                 "first saw each one. Facts, not advice.",
+                 "first saw each one.",
                  "Fantasy", body, dateline, path="/fantasy/inactives.html",
                  og_image=f"{ORIGIN}/share/inactives.png")
 
@@ -13680,6 +13655,27 @@ def sprint_b_problems(publish):
                "day tab": [int(d.group(1))] if d else []}
         if len({x for v in got.values() for x in v}) > 1:
             bad.append(f"B2: today's game count is not one number: {got}")
+    # B3
+    try:
+        ia = rd("fantasy/inactives.html")
+    except OSError:
+        ia = ""
+    if ia:
+        cards = re.findall(r'<div class="bd-card ia-team( ia-await)?" data-(?:team="[^"]*" data-)?tid="([^"]*)"'
+                           r'(.*?)(?=<div class="bd-card ia-team|</details>)', ia, re.S)
+        posted = [c for c in cards if not c[0]]
+        rows = sum(c[2].count('class="ia-row"') for c in posted)
+        m = re.search(r'data-ia-count>(\d+) lists? posted, (\d+) players?', ia)
+        if m and (int(m.group(1)), int(m.group(2))) != (len(posted), rows):
+            bad.append(f"B3: inactives header says {m.group(1)} lists, {m.group(2)} players; "
+                       f"the page draws {len(posted)} lists, {rows} rows")
+        if not m and posted:
+            bad.append(f"B3: inactives page draws {len(posted)} posted lists under a header that counts none")
+        both = {c[1] for c in posted if c[1]} & {c[1] for c in cards if c[0] and c[1]}
+        if both:
+            bad.append(f"B3: teams shown as posted and as awaiting at once: {sorted(both)}")
+        if "Lists we have not seen" in ia:
+            bad.append("B3: the 'Lists we have not seen' box is back")
     return bad
 
 
