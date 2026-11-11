@@ -8,8 +8,8 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 November 2026, after Sprint A of the November 7 audit (section below). Before
-that: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
+Last updated: 11 November 2026, after Sprint B of the November 7 audit (first section below), and Sprint A
+before it. Before that: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
 October branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
 `cause-c-h6-hour-sweep`, `indexnow`, `ignore-claude-dir`) are merged; the proxy refuses branch
 deletes, so Jack deletes them, and the S-1, S-2b, S-2c and S-2d item branches with them.
@@ -17,6 +17,131 @@ deletes, so Jack deletes them, and the S-1, S-2b, S-2c and S-2d item branches wi
 this file. The day history is in `HANDOFF-2026-09-17-to-22.md`,
 `HANDOFF-2026-09-23-to-10-01.md`, `HANDOFF-2026-10-06.md` and `HANDOFF-2026-10-12.md` (which also
 holds, at its end, the S-2b to S-2d section and the A-17 budgets moved out on 11 November).
+
+## Sprint B of the November 7 2026 audit (session of 11 November 2026)
+
+Opener: `docs/RULES.md` body hash `4179b2ac...568d`, verified. No attribution trailer in any commit
+(0 hits in `f6691f1..HEAD`), no em or en dash in any added line. Rulings applied: J-17, the scores
+cadence runs as shipped for two weekends as a trial, and scoreboard data pushes are exempt from the
+Sunday freeze; J-18, Jack turns NEWSROOM_JOBS back on himself, nothing here touches it. Not touched:
+the fantasy hub modules, `/players`, Where to Watch, team pages, game page post-kickoff content, the
+Wire's scope (Sprint C).
+
+**Where it is.** Nine commits on `claude/great-heisenberg-gqoz7b`, pushed there and not to `main`
+(the session's instruction names the branch). So "canary green on main" is not yet true: it is true
+of this branch, `LAYER 1 CANARY: PASS`, exit 0, on `931359f`, the first full pass on a tree with the
+plate fix. Merging the branch is the step that turns main green.
+
+| Item | Commit | What shipped | Seen red by |
+|---|---|---|---|
+| B0a | `eef20f9` | `plate same` allows 0.25px of type size (was 0.01) | baseline gate on `f6691f1`: 47.7867px against 48px at 1100 |
+| B0b | `bfe5935` | `scripts/cadence_report.py`: scores builds by day, Netlify build minutes, longest final-to-build gap | no weekend yet; ran on 8 Nov: 0 builds, "not read" lines |
+| B0c | none (checked) | see below | fixture clock |
+| B1 | none (checked) | see below | the gate's own 130, 101, -1 plates |
+| B2 | `48ea4c6` | Scores All tab counts the board's leagues (NFL, CFB) like the home and the day tabs; `check_sprint_b` stops the build if home, Scores, All tab and today's day tab disagree | planted All tab +4 |
+| B3 | `ce99953` | inactives header counts the posted cards drawn under it; "Lists we have not seen" removed; posted cards carry date and time; awaiting cards say Designations and drop out when the list posts; the build checks header against rows and that no team is in both states | planted header "2 lists, 10 players" over 1 list, 2 rows; planted posted and awaiting for one team id |
+| B4 | `14ec83b` | game card link names ("Texas at Missouri, 12:00 PM ET, ESPN" before, "Texas 24, Missouri 17, Final" after); logo alt; lit bulbs are chips ("Wind 12 mph"), unlit ones leave the DOM text; spaces between plate spans and linescore cells; the build stops on a link with no name | not planted red; the check ran clean over all 1,288 built pages |
+| B5 | `f98a7d8` | `data/team-abbr.json` (271 team codes, sportsbook spellings); the card disc no longer clips `TA&M` to `TA&`; Utah is `UTA` in the NHL and NBA; "Draft Kings" prints "DraftKings"; the build stops on a code not in the table | `ZZZ` code |
+| B6 | `6921520` | one "No betting advice." per page, in the footer (1,288 of 1,288 pages, once each); "Facts, not advice" and the wind caption removed; per-card "Where to watch" control dropped where the card names a network; meta description "Scores, where to watch, fantasy facts and the lines, checked." | not planted red; the built tree grep reads 1,288 pages, one each |
+| B7 | `df17d69` | /scores order: live by time left, then upcoming by kickoff, then finals newest first; the Standings door removed from /scores; a league with no game that day gets one line ("No NFL games today. Next: Thu Nov 12, 8:15 PM ET.") | sort fixture below |
+| follow-through | `931359f` | canaries that encoded the old behavior, found by the first gate run, rewritten as ruled | gate run 1: 29 problems |
+
+**B0a, and why 0.25 and not 0.1.** J-19 offered an integer type size or a 0.1px tolerance. Neither
+works. The audit's 33.97 against 34 is the 34px (phone) plate; at 1100 the same plate is drawn
+47.7867 against 48, a 0.21px gap, so 0.1 would have stayed red. Integer sizes would move the plate
+by up to a pixel, which `plate same` exists to catch. The runner's hinting makes `100cqw / --w`
+land a hair under the cap. A quarter pixel is half a percent of type.
+
+**B0b, not readable yet.** The Nov 14 and 15 numbers do not exist at the time of writing, and there
+is no Netlify token in the cloud session. Run from a full clone after Sunday night:
+`git fetch --unshallow; NETLIFY_AUTH_TOKEN=... NETLIFY_SITE_ID=... python3 scripts/cadence_report.py 2026-11-14 2026-11-15`
+and paste the output under the next heading. The gap is measured from the first snapshot that shows
+a game final to the deploy that carried it; the end of the game itself is in no file, so the true
+gap can exceed the figure by up to one tick (10 minutes). Weekend 1 (Nov 14 and 15): **to be filled.**
+Weekend 2 (Nov 21 and 22): to be filled. J-17 stays a trial until both are in.
+
+**B0c, confirmed on a fixture.** `home_lead` with the build clock pinned six hours after the newest
+final in the feed: no Edition gives the Wire block ("Latest finals", three rows); an Edition 30
+hours old gives the Wire block; an Edition published two hours earlier gives the Edition block
+(headline, Bottom Line, links). The window is 26 hours from the Edition's `published_utc`, not the
+calendar day, so an Edition at 7:48 PM still holds the block at 9 PM the next night and gives way
+to the finals after.
+
+**B1, partly verified, and what could not be.** The Nov 7 06:00 build's weather inputs are not in git
+history: `site/data/conditions.json` is gitignored and rewritten by every build, and the 7 Nov
+report in `site/reports/conditions/` keeps only the rendered words. Those words already read sane
+(LAR at WSH "0% precip", DET at MIA "2% precip" at 7:33 PM) but are not the build's inputs, so the
+130 and the DET at MIA mismatch were not reproduced from the day they happened. What was run
+instead: the tile code (`sbg_conditions`) and the card code (`sbc_weather`) over every forecast
+game in today's Worker data, both the published file (built 21:01Z) and the build's own: 73 games,
+0 outside 0 to 100, 0 where tile differs from card, highest 93%. The gate's planted 130, 101 and -1
+for DET at MIA print "missing" on every plate and name the game in the build log. Both surfaces read
+`cx_parts()["pop"]`, so they agree by construction. To make the next audit checkable, nothing keeps
+the day's raw inputs; if that matters, commit a dated copy of `conditions.json` into the report
+JSON (a Sprint C question).
+
+**B2.** The 4-game gap on Nov 7 (home 51, All tab 55) was the All tab reading the manifest's
+all-league total (MLB, NBA, NHL, soccer, WNBA included) while the home and the day tabs read NFL and
+CFB. All four now read `_mf_today_total(BOARD_LEAGUES)`.
+
+**B3.** The old header was recounted by the page's own script from the whole day's snapshot (every
+team the file held, including teams whose list belongs to another game), while the cards below were
+placed by game window; and the "not seen" box was built from the board's teams without that window,
+so it could name a team that also had a card. The script now counts the posted cards in the DOM, and
+removes a team's awaiting card when its list lands. Not exercised against a live Sunday: the page
+today has no posted lists. First look: Sunday 15 Nov, a fixture or two before 1:00 PM and after.
+
+**B4 notes.** Bulb labels for unlit lamps are drawn by `.sbc-bulb:not(.on)::after{content:attr(data-l)}`
+in `site.css`, so the look is unchanged and the text is not in the DOM. No 390 and 1440 screenshots
+were taken (no designer in this session); the look sweep read 1,035 pages in both themes with 0
+findings and the plate fit read 73,185 plates with 0 clipped. A text dump of a card now reads
+"Temp 66° Wind 12 [Wind from the west] gust 23 mph Rain 41% rain showers".
+
+**B5 risk to know about.** A team code the table does not hold stops the build. That is what was
+asked, and it means a new ESPN code (an expansion team, a CFB program new to FBS) blocks the next
+production build until one line is added to `data/team-abbr.json`. Netlify keeps serving the last
+good deploy meanwhile. The log line is `::error::team codes not in data/team-abbr.json: CFB:XXX`.
+
+**B6 left for Sprint C.** "Facts, not advice" is still in `/players` meta (66 pages,
+`site_build.py` player page description) and in the image drawn by `share_cards.py`. Both are
+outside this sprint's scope.
+
+**B7.** Fixture: live Q4 2:10, live Q2, Saturday noon, Saturday 7:30, a final at 10 AM, Friday's
+final, a postponed game sorts `live-q4, live-q2, sat-noon, sat-730, sat-early-final, fri-final,
+postponed`. The H-12 canary expected the old closeness order (tie, one-score, 4-point game in the
+second, blowout); under "by time remaining" the second-quarter game goes last, so its expectation
+was changed in `verify_pipeline.py` and the closeness rule is the tie-break. Friday's finals live on
+Friday's page, which is the day the games were on; the Saturday page lists noon above 7:30.
+
+**Gate (U-12, U-15).** `LAYER 1 CANARY: PASS`, exit 0, on `931359f`. Two lessons for the next cloud
+session. First: the gate restores every tracked file that changes while it runs and deletes files
+it did not see at start, so an edit made during a run is silently wiped; commit first, then run, and
+touch nothing for the roughly fifteen minutes. This session lost its uncommitted edits to it once.
+Second: this sandbox has no Lighthouse, so the performance lines fail with "lighthouse not found".
+`npm install --prefix <dir> playwright@1.56.1 lighthouse@12.8.2` into a scratch directory, symlink
+`/opt/node-tools/node_modules/*` and `lighthouse` into `<tools>/node_modules`, and export
+`PLAYWRIGHT_NODE_MODULES=<tools>/node_modules`; the gate then measures the home and a game page. The
+pre-existing browser halves of the day-tab check still warn "playwright is not installed" here;
+that is a warning, as on the baseline. A local `site/publish` also trips the US-date check on the
+archive page ("page 1 of 5" followed by "October 12"); it is absent on CI and in the gate's own
+tree, so delete a local `site/publish` before a gate run. That archive heading is a small pre-existing
+defect for the board.
+
+**Left for Jack.**
+- Merge `claude/great-heisenberg-gqoz7b` to `main` (Netlify builds on the merge). Sunday 15 Nov: the
+  scores builds are exempt from the freeze by J-17; this merge is not, so merge before 12:30 PM ET
+  Sunday or after 8:30 PM.
+- J-19 is answered by B0a (the tolerance, not a re-pin); J-17 and J-18 are your rulings of today.
+  Moved under Answered in `docs/JACK.md`.
+- Fill in the two weekends' numbers (B0b) and decide J-17 for good after the second.
+- `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` in your shell for the cadence report, never in a file.
+
+**Live URLs to check after the merge.** https://gocheckmysports.com/ (one count; the Edition or the
+three finals under the band), https://gocheckmysports.com/scores.html (noon games above 7:30,
+All tab equals the home), `/scores/2026-11-14.html` (a league with no game shows its next date),
+`/fantasy/inactives.html` (header equals rows on Sunday; Designations until a list posts),
+`/games/<any>.html` (card labels, hero tiles equal card plates), `/stamp.txt`; a text-only look:
+`curl -s https://gocheckmysports.com/scores.html | sed 's/<[^>]*>/ /g' | tr -s ' ' | head -c 2000`.
 
 ## Sprint A of the November 7 2026 audit (session of 11 November 2026)
 
