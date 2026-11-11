@@ -5704,7 +5704,8 @@ def _tk_tabs(games, active="all", href="/scores.html"):
     for g in games:
         by_league.setdefault(g.get("league"), []).append(g)
     out = []
-    sub_all = f"{d['total']} today" if d["total"] else "next up"
+    _n_all = _mf_today_total(BOARD_LEAGUES)   # B2: the same count the home and the day tabs print
+    sub_all = f"{_n_all} today" if _n_all else "next up"
     out.append((["", " on"][active == "all"], "All", sub_all, "all"))
     # CFB-1: the tab strip is the band's order, so the tabs and the cards under them
     # cannot disagree about which league leads today.
@@ -13653,10 +13654,42 @@ def build():
           f"{_reg['sitemap_listed']} listed in the sitemaps; "
           f"{sum(1 for e in _reg['entries'] if not e['linked_from'])} linked from no page")
 
+    check_sprint_b(PUBLISH)
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
     return 0
+
+
+def sprint_b_problems(publish):
+    """Sprint B's build assertions, read from the built pages and nothing else. Returns the problems, [] when
+    the tree holds. B2: the home, the Scores page, its All tab and its day tab for today print one count."""
+    bad = []
+    rd = lambda rel: open(os.path.join(publish, rel), encoding="utf-8").read()
+    # B2
+    try:
+        home, sc = rd("index.html"), rd("scores.html")
+    except OSError:
+        home = sc = ""
+    if home and sc:
+        today = _mf()["date"]
+        n = lambda h: [int(x) for x in re.findall(r'data-mf="count">(\d+) games? today<', h)]
+        a = re.search(r'data-league="All"[^>]*>All<small>(\d+) today</small>', sc)
+        d = re.search(rf'href="/scores/{today}\.html"[^>]*>[^<]*<small>(\d+)</small>', sc)
+        got = {"home": n(home), "scores": n(sc), "All tab": [int(a.group(1))] if a else [],
+               "day tab": [int(d.group(1))] if d else []}
+        if len({x for v in got.values() for x in v}) > 1:
+            bad.append(f"B2: today's game count is not one number: {got}")
+    return bad
+
+
+def check_sprint_b(publish):
+    bad = sprint_b_problems(publish)
+    if bad:
+        for b in bad[:40]:
+            print(f"::error::{b}")
+        raise SystemExit(f"sprint B assertions failed: {len(bad)} problem(s)")
+    print("sprint B assertions: hold")
 
 
 def main():
