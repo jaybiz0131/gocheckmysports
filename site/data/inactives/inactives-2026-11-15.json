@@ -1,8 +1,8 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T19:46:10Z",
- "last_poll": "2026-11-15T19:46:10Z",
+ "last_change": "2026-11-15T19:50:46Z",
+ "last_poll": "2026-11-15T19:50:54Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -638,7 +638,17 @@
     }
    },
    "id": "13",
-   "players": {},
+   "players": {
+    "4432775": {
+     "feed_date": "2026-11-14T00:14Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "jersey": "",
+     "name": "Dont'e Thornton Jr.",
+     "pos": "WR",
+     "reason": "Back",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-15T17:46:22Z",
    "rows_returned": 25,
@@ -704,7 +714,17 @@
     }
    },
    "id": "14",
-   "players": {},
+   "players": {
+    "2575907": {
+     "feed_date": "2026-11-10T15:44Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "jersey": "",
+     "name": "Joe Cardona",
+     "pos": "LS",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-15T17:46:30Z",
    "rows_returned": 25,
@@ -1691,6 +1711,15 @@
   "20": {
    "capped": true,
    "designations": {
+    "15864": {
+     "changed_at": null,
+     "detail": "Undisclosed",
+     "feed_date": "2026-11-15T19:36Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "name": "Geno Smith",
+     "pos": "QB",
+     "status": "Questionable"
+    },
     "3117255": {
      "changed_at": null,
      "detail": "",
@@ -2278,7 +2307,7 @@
     "2971622": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-11-14T00:38Z",
+     "feed_date": "2026-11-15T19:39Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Leonard Williams",
      "pos": "DT",
@@ -2287,7 +2316,7 @@
     "3129308": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-14T02:39Z",
+     "feed_date": "2026-11-15T19:39Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Quenton Nelson",
      "pos": "G",
@@ -2296,7 +2325,7 @@
     "3912547": {
      "changed_at": null,
      "detail": "Quadriceps",
-     "feed_date": "2026-11-10T00:15Z",
+     "feed_date": "2026-11-15T19:39Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Sam Darnold",
      "pos": "QB",
@@ -2305,10 +2334,37 @@
     "4426376": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-14T02:36Z",
+     "feed_date": "2026-11-15T19:39Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Charles Cross",
      "pos": "OT",
+     "status": "Out"
+    },
+    "4609203": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:39Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "name": "Deven Eastern",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4887558": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:39Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "name": "Emanuel Wilson",
+     "pos": "RB",
+     "status": "Out"
+    },
+    "5082331": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:39Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "name": "Avery Smith",
+     "pos": "CB",
      "status": "Out"
     }
    },
@@ -2350,12 +2406,30 @@
      "reason": "Ankle",
      "via": "poll"
     },
+    "4609203": {
+     "feed_date": "2026-11-15T19:39Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "jersey": "",
+     "name": "Deven Eastern",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4887558": {
      "feed_date": "2026-11-11T02:28Z",
      "first_seen": "2026-11-15T19:40:54Z",
      "jersey": "",
      "name": "Emanuel Wilson",
      "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5082331": {
+     "feed_date": "2026-11-15T19:39Z",
+     "first_seen": "2026-11-15T19:50:46Z",
+     "jersey": "",
+     "name": "Avery Smith",
+     "pos": "CB",
      "reason": "Coach's Decision",
      "via": "poll"
     }
