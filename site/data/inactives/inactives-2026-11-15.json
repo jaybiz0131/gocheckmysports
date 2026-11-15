@@ -1,8 +1,8 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T19:55:49Z",
- "last_poll": "2026-11-15T19:55:57Z",
+ "last_change": "2026-11-15T20:00:48Z",
+ "last_poll": "2026-11-15T20:00:56Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -618,27 +618,81 @@
   "13": {
    "capped": true,
    "designations": {
-    "4360749": {
+    "4250393": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Tristin McCollum",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4360749": {
+     "changed_at": "2026-11-15T20:00:48Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-14T02:19Z",
+     "feed_date": "2026-11-15T19:50Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Thomas Booker IV",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4432775": {
-     "changed_at": null,
+     "changed_at": "2026-11-15T20:00:48Z",
      "detail": "Back",
-     "feed_date": "2026-11-14T00:14Z",
+     "feed_date": "2026-11-15T19:48Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Dont'e Thornton Jr.",
      "pos": "WR",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4612077": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Bryce Cabeldue",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4682488": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Dalton Johnson",
+     "pos": "S",
+     "status": "Out"
+    },
+    "5150247": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Malik Benson",
+     "pos": "WR",
+     "status": "Out"
     }
    },
    "id": "13",
    "players": {
+    "4250393": {
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "jersey": "",
+     "name": "Tristin McCollum",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360749": {
+     "feed_date": "2026-11-15T19:50Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "jersey": "",
+     "name": "Thomas Booker IV",
+     "pos": "DT",
+     "reason": "Ankle",
+     "via": "poll"
+    },
     "4432775": {
      "feed_date": "2026-11-14T00:14Z",
      "first_seen": "2026-11-15T19:50:46Z",
@@ -646,6 +700,33 @@
      "name": "Dont'e Thornton Jr.",
      "pos": "WR",
      "reason": "Back",
+     "via": "poll"
+    },
+    "4612077": {
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "jersey": "",
+     "name": "Bryce Cabeldue",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4682488": {
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "jersey": "",
+     "name": "Dalton Johnson",
+     "pos": "S",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5150247": {
+     "feed_date": "2026-11-15T19:45Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "jersey": "",
+     "name": "Malik Benson",
+     "pos": "WR",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1707,6 +1788,15 @@
      "pos": "CB",
      "status": "Questionable"
     },
+    "4401823": {
+     "changed_at": null,
+     "detail": "Head",
+     "feed_date": "2026-11-15T19:57Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Dee Alford",
+     "pos": "CB",
+     "status": "Questionable"
+    },
     "4596480": {
      "changed_at": null,
      "detail": "",
@@ -2152,7 +2242,7 @@
     "5151948": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T19:37Z",
+     "feed_date": "2026-11-15T19:51Z",
      "first_seen": "2026-11-15T19:45:59Z",
      "name": "Joey Aguilar",
      "pos": "QB",
@@ -2451,7 +2541,7 @@
     "4887558": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T19:39Z",
+     "feed_date": "2026-11-15T19:55Z",
      "first_seen": "2026-11-15T19:50:46Z",
      "name": "Emanuel Wilson",
      "pos": "RB",
@@ -3098,6 +3188,15 @@
      "name": "Brevin Jordan",
      "pos": "TE",
      "status": "Out"
+    },
+    "4429059": {
+     "changed_at": null,
+     "detail": "Concussion",
+     "feed_date": "2026-11-15T19:57Z",
+     "first_seen": "2026-11-15T20:00:48Z",
+     "name": "Woody Marks",
+     "pos": "RB",
+     "status": "Questionable"
     },
     "4432708": {
      "changed_at": null,
