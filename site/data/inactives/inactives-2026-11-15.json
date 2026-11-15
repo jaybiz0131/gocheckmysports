@@ -1,13 +1,22 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T16:00:54Z",
- "last_poll": "2026-11-15T16:01:20Z",
+ "last_change": "2026-11-15T16:36:04Z",
+ "last_poll": "2026-11-15T16:36:04Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
    "capped": true,
    "designations": {
+    "14012": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Andy Dalton",
+     "pos": "QB",
+     "status": "Out"
+    },
     "3128303": {
      "changed_at": null,
      "detail": "Ankle",
@@ -20,7 +29,7 @@
     "4037626": {
      "changed_at": null,
      "detail": "Forearm",
-     "feed_date": "2026-11-14T22:57Z",
+     "feed_date": "2026-11-15T16:34Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Divine Deablo",
      "pos": "LB",
@@ -35,13 +44,40 @@
      "pos": "DT",
      "status": "Questionable"
     },
+    "4575860": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4685590": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Cameron Williams",
+     "pos": "OL",
+     "status": "Out"
+    },
     "4870612": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-13T19:42Z",
+     "feed_date": "2026-11-15T16:34Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Zachariah Branch",
      "pos": "WR",
+     "status": "Out"
+    },
+    "4870988": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Avieon Terrell",
+     "pos": "CB",
      "status": "Out"
     },
     "5081394": {
@@ -52,10 +88,83 @@
      "name": "James Pearce Jr.",
      "pos": "LB",
      "status": "Questionable"
+    },
+    "5344782": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "1",
-   "players": {},
+   "players": {
+    "14012": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Andy Dalton",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4037626": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Divine Deablo",
+     "pos": "LB",
+     "reason": "Forearm",
+     "via": "poll"
+    },
+    "4575860": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Robert Longerbeam",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685590": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Cameron Williams",
+     "pos": "OL",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870612": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Zachariah Branch",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4870988": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Avieon Terrell",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5344782": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Jack Strand",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -67,10 +176,19 @@
     "3926229": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-13T22:28Z",
+     "feed_date": "2026-11-15T16:34Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Cody Barton",
      "pos": "LB",
+     "status": "Out"
+    },
+    "4426987": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
      "status": "Out"
     },
     "4428557": {
@@ -82,10 +200,28 @@
      "pos": "RB",
      "status": "Questionable"
     },
+    "4685145": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Jaylon Jones",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4685555": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "status": "Out"
+    },
     "4870805": {
      "changed_at": null,
      "detail": "Neck",
-     "feed_date": "2026-11-13T22:26Z",
+     "feed_date": "2026-11-15T16:34Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Anthony Hill Jr.",
      "pos": "LB",
@@ -94,15 +230,88 @@
     "4871023": {
      "changed_at": null,
      "detail": "Shoulder",
-     "feed_date": "2026-11-13T16:41Z",
+     "feed_date": "2026-11-15T16:34Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Carnell Tate",
      "pos": "WR",
      "status": "Out"
+    },
+    "5081785": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Jackie Marshall",
+     "pos": "DT",
+     "status": "Out"
     }
    },
    "id": "10",
-   "players": {},
+   "players": {
+    "3926229": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Cody Barton",
+     "pos": "LB",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4426987": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Brandon Crenshaw-Dickson",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685145": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Jaylon Jones",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685555": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Nicholas Singleton",
+     "pos": "RB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4870805": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Anthony Hill Jr.",
+     "pos": "LB",
+     "reason": "Neck",
+     "via": "poll"
+    },
+    "4871023": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Carnell Tate",
+     "pos": "WR",
+     "reason": "Shoulder",
+     "via": "poll"
+    },
+    "5081785": {
+     "feed_date": "2026-11-15T16:34Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Jackie Marshall",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -376,7 +585,7 @@
     "3728281": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-14T00:30Z",
+     "feed_date": "2026-11-15T16:32Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Blake Cashman",
      "pos": "LB",
@@ -385,7 +594,7 @@
     "3886598": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-11-13T21:30Z",
+     "feed_date": "2026-11-15T16:32Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jauan Jennings",
      "pos": "WR",
@@ -403,7 +612,7 @@
     "4036133": {
      "changed_at": null,
      "detail": "Wrist",
-     "feed_date": "2026-11-13T21:14Z",
+     "feed_date": "2026-11-15T16:32Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "T.J. Hockenson",
      "pos": "TE",
@@ -427,10 +636,19 @@
      "pos": "WR",
      "status": "Questionable"
     },
+    "4573398": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T16:32Z",
+     "first_seen": "2026-11-15T16:36:04Z",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "status": "Out"
+    },
     "4629149": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-14T02:28Z",
+     "feed_date": "2026-11-15T16:32Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Tyrion Ingram-Dawkins",
      "pos": "DE",
@@ -438,7 +656,53 @@
     }
    },
    "id": "16",
-   "players": {},
+   "players": {
+    "3728281": {
+     "feed_date": "2026-11-14T00:30Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Blake Cashman",
+     "pos": "LB",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "3886598": {
+     "feed_date": "2026-11-15T16:32Z",
+     "first_seen": "2026-11-15T16:36:04Z",
+     "jersey": "",
+     "name": "Jauan Jennings",
+     "pos": "WR",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4036133": {
+     "feed_date": "2026-11-15T16:32Z",
+     "first_seen": "2026-11-15T16:36:04Z",
+     "jersey": "",
+     "name": "T.J. Hockenson",
+     "pos": "TE",
+     "reason": "Wrist",
+     "via": "poll"
+    },
+    "4573398": {
+     "feed_date": "2026-11-15T16:32Z",
+     "first_seen": "2026-11-15T16:36:04Z",
+     "jersey": "",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4629149": {
+     "feed_date": "2026-11-14T02:28Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "Tyrion Ingram-Dawkins",
+     "pos": "DE",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -659,7 +923,7 @@
     },
     "4429568": {
      "changed_at": null,
-     "detail": "Shin",
+     "detail": "",
      "feed_date": "2026-11-13T23:17Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Martin Emerson Jr.",
@@ -686,7 +950,17 @@
     }
    },
    "id": "18",
-   "players": {},
+   "players": {
+    "5081999": {
+     "feed_date": "2026-11-13T19:46Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "jersey": "",
+     "name": "CJ Donaldson",
+     "pos": "RB",
+     "reason": "Shoulder",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -1362,6 +1636,15 @@
   "27": {
    "capped": true,
    "designations": {
+    "3052587": {
+     "changed_at": null,
+     "detail": "Lower Leg",
+     "feed_date": "2026-11-15T16:10Z",
+     "first_seen": "2026-11-15T16:35:53Z",
+     "name": "Baker Mayfield",
+     "pos": "QB",
+     "status": "Questionable"
+    },
     "4034790": {
      "changed_at": null,
      "detail": "Ankle",
