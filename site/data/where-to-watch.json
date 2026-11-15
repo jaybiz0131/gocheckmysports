@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-15T16:45:59Z",
+ "fetched_at": "2026-11-15T16:50:51Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -55,7 +55,7 @@
      "venue_indoor": false,
      "state": "in",
      "completed": false,
-     "status": "7:24 - 3rd",
+     "status": "4:10 - 3rd",
      "away_score": "3",
      "home_score": "28"
     },
@@ -2796,26 +2796,6 @@
     },
     {
      "league": "CFB",
-     "away": "UTAH",
-     "home": "TCU",
-     "away_id": "254",
-     "home_id": "2628",
-     "kickoff_utc": "2026-11-21T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 21",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856872",
-     "venue_id": "3616",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
      "away": "VT",
      "home": "MIA",
      "away_id": "259",
@@ -2844,7 +2824,13 @@
      "kickoff_et": "12:00 AM ET",
      "day_et": "Sat, Nov 21",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "ABC",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401856866",
      "venue_id": "3833",
      "venue_indoor": false,
@@ -2964,29 +2950,15 @@
      "kickoff_et": "12:00 AM ET",
      "day_et": "Sat, Nov 21",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "FS1",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401856865",
      "venue_id": "3636",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "UTSA",
-     "home": "UAB",
-     "away_id": "2636",
-     "home_id": "5",
-     "kickoff_utc": "2026-11-21T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 21",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401862836",
-     "venue_id": "7221",
      "venue_indoor": false,
      "state": "pre",
      "completed": false,
@@ -4117,6 +4089,46 @@
      "state": "pre",
      "completed": false,
      "status": "11/21 - 7:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "UTSA",
+     "home": "UAB",
+     "away_id": "2636",
+     "home_id": "5",
+     "kickoff_utc": "2026-11-22T01:00Z",
+     "kickoff_et": "8:00 PM ET",
+     "day_et": "Sat, Nov 21",
+     "window": "Saturday",
+     "carriers": [],
+     "id": "401862836",
+     "venue_id": "7221",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "TBD",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "UTAH",
+     "home": "TCU",
+     "away_id": "254",
+     "home_id": "2628",
+     "kickoff_utc": "2026-11-22T02:00Z",
+     "kickoff_et": "9:00 PM ET",
+     "day_et": "Sat, Nov 21",
+     "window": "Saturday",
+     "carriers": [],
+     "id": "401856872",
+     "venue_id": "3616",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "TBD",
      "away_score": "0",
      "home_score": "0"
     },
