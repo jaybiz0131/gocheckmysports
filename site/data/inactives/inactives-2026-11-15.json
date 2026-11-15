@@ -1,8 +1,8 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T19:50:46Z",
- "last_poll": "2026-11-15T19:50:54Z",
+ "last_change": "2026-11-15T19:55:49Z",
+ "last_poll": "2026-11-15T19:55:57Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -659,13 +659,13 @@
    "capped": true,
    "designations": {
     "2575907": {
-     "changed_at": null,
+     "changed_at": "2026-11-15T19:55:49Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-10T15:44Z",
+     "feed_date": "2026-11-15T19:44Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Joe Cardona",
      "pos": "LS",
-     "status": "Questionable"
+     "status": "Out"
     },
     "3122132": {
      "changed_at": null,
@@ -685,10 +685,19 @@
      "pos": "S",
      "status": "Questionable"
     },
+    "4362294": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "name": "Desjuan Johnson",
+     "pos": "DE",
+     "status": "Out"
+    },
     "4362474": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-14T02:16Z",
+     "feed_date": "2026-11-15T19:44Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Steve Avila",
      "pos": "G",
@@ -711,6 +720,42 @@
      "name": "Davis Allen",
      "pos": "TE",
      "status": "Questionable"
+    },
+    "4575003": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "name": "Keagen Trost",
+     "pos": "OT",
+     "status": "Out"
+    },
+    "4598574": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "name": "Darryl Peterson III",
+     "pos": "LB",
+     "status": "Out"
+    },
+    "4685522": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "status": "Out"
+    },
+    "5082391": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "name": "Maximus Pulley",
+     "pos": "S",
+     "status": "Out"
     }
    },
    "id": "14",
@@ -722,6 +767,60 @@
      "name": "Joe Cardona",
      "pos": "LS",
      "reason": "Ankle",
+     "via": "poll"
+    },
+    "4362294": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Desjuan Johnson",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4362474": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Steve Avila",
+     "pos": "G",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4575003": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Keagen Trost",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4598574": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Darryl Peterson III",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4685522": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Ty Simpson",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5082391": {
+     "feed_date": "2026-11-15T19:44Z",
+     "first_seen": "2026-11-15T19:55:49Z",
+     "jersey": "",
+     "name": "Maximus Pulley",
+     "pos": "S",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -1271,7 +1370,7 @@
     "4241993": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-15T19:05Z",
+     "feed_date": "2026-11-15T19:46Z",
      "first_seen": "2026-11-15T19:40:54Z",
      "name": "Pete Werner",
      "pos": "LB",
@@ -1713,7 +1812,7 @@
    "designations": {
     "15864": {
      "changed_at": null,
-     "detail": "Undisclosed",
+     "detail": "Concussion",
      "feed_date": "2026-11-15T19:36Z",
      "first_seen": "2026-11-15T19:50:46Z",
      "name": "Geno Smith",
