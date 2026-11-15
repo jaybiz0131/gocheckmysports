@@ -1,8 +1,8 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T19:40:54Z",
- "last_poll": "2026-11-15T19:41:04Z",
+ "last_change": "2026-11-15T19:46:10Z",
+ "last_poll": "2026-11-15T19:46:10Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -659,7 +659,7 @@
     },
     "3122132": {
      "changed_at": null,
-     "detail": "Knee",
+     "detail": "",
      "feed_date": "2026-11-13T19:22Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Myles Garrett",
@@ -686,7 +686,7 @@
     },
     "4426405": {
      "changed_at": null,
-     "detail": "Back",
+     "detail": "",
      "feed_date": "2026-11-14T00:23Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Trent McDuffie",
@@ -937,7 +937,7 @@
     "4875564": {
      "changed_at": null,
      "detail": "Foot",
-     "feed_date": "2026-11-15T18:20Z",
+     "feed_date": "2026-11-15T19:23Z",
      "first_seen": "2026-11-15T19:40:54Z",
      "name": "Bo Richter",
      "pos": "LB",
@@ -1943,7 +1943,7 @@
     "3886633": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-14T01:31Z",
+     "feed_date": "2026-11-15T19:37Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Hjalte Froholdt",
      "pos": "C",
@@ -1967,10 +1967,28 @@
      "pos": "TE",
      "status": "Questionable"
     },
+    "4361272": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "name": "Eku Leota",
+     "pos": "LB",
+     "status": "Out"
+    },
+    "4363408": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "name": "Starling Thomas V",
+     "pos": "CB",
+     "status": "Out"
+    },
     "4367199": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-14T01:35Z",
+     "feed_date": "2026-11-15T19:37Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jon Gaines II",
      "pos": "G",
@@ -1995,17 +2013,71 @@
      "status": "Questionable"
     },
     "4709718": {
-     "changed_at": null,
+     "changed_at": "2026-11-15T19:45:59Z",
      "detail": "Knee",
-     "feed_date": "2026-11-14T02:25Z",
+     "feed_date": "2026-11-15T19:37Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jayden Williams",
      "pos": "OT",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "5151948": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "name": "Joey Aguilar",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "22",
    "players": {
+    "3886633": {
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Hjalte Froholdt",
+     "pos": "C",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4361272": {
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Eku Leota",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4363408": {
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Starling Thomas V",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4367199": {
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Jon Gaines II",
+     "pos": "G",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4709718": {
+     "feed_date": "2026-11-15T19:37Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Jayden Williams",
+     "pos": "OT",
+     "reason": "Knee",
+     "via": "poll"
+    },
     "5151948": {
      "feed_date": "2026-11-10T16:14Z",
      "first_seen": "2026-11-15T19:40:54Z",
@@ -2242,6 +2314,42 @@
    },
    "id": "26",
    "players": {
+    "2971622": {
+     "feed_date": "2026-11-14T00:38Z",
+     "first_seen": "2026-11-15T19:46:10Z",
+     "jersey": "",
+     "name": "Leonard Williams",
+     "pos": "DT",
+     "reason": "Shoulder",
+     "via": "poll"
+    },
+    "3129308": {
+     "feed_date": "2026-11-14T02:39Z",
+     "first_seen": "2026-11-15T19:46:10Z",
+     "jersey": "",
+     "name": "Quenton Nelson",
+     "pos": "G",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "3912547": {
+     "feed_date": "2026-11-10T00:15Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Sam Darnold",
+     "pos": "QB",
+     "reason": "Quadriceps",
+     "via": "poll"
+    },
+    "4426376": {
+     "feed_date": "2026-11-14T02:36Z",
+     "first_seen": "2026-11-15T19:45:59Z",
+     "jersey": "",
+     "name": "Charles Cross",
+     "pos": "OT",
+     "reason": "Ankle",
+     "via": "poll"
+    },
     "4887558": {
      "feed_date": "2026-11-11T02:28Z",
      "first_seen": "2026-11-15T19:40:54Z",
