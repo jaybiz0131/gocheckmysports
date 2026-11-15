@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-15T16:55:51Z",
+ "fetched_at": "2026-11-15T17:49:03Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,11 +7,11 @@
     {
      "id": "401873053",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "1:54 - 3rd",
-     "detail": "1:54",
-     "period": 3,
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
      "start_utc": "2026-11-15T14:30Z",
      "network": "Fox",
      "home": {
@@ -21,11 +21,12 @@
       "school": "Detroit",
       "mascot": "Lions",
       "rank": null,
-      "score": "28",
-      "record": "6-2",
+      "score": "35",
+      "record": "7-2",
       "periods": [
        "7",
        "14",
+       "7",
        "7"
       ],
       "id": "8",
@@ -39,12 +40,13 @@
       "school": "New England",
       "mascot": "Patriots",
       "rank": null,
-      "score": "3",
-      "record": "5-4",
+      "score": "10",
+      "record": "5-5",
       "periods": [
        "3",
        "0",
-       "0"
+       "0",
+       "7"
       ],
       "id": "17",
       "color": "#002a5c",
@@ -54,28 +56,28 @@
       {
        "cat": "PASS",
        "name": "J. Goff",
-       "line": "17/28, 272 YDS, 3 TD, 2 INT",
+       "line": "20/31, 303 YDS, 3 TD, 2 INT",
        "team": "8"
       },
       {
        "cat": "RUSH",
        "name": "J. Gibbs",
-       "line": "19 CAR, 124 YDS, 1 TD",
+       "line": "22 CAR, 153 YDS, 2 TD",
        "team": "8"
       },
       {
        "cat": "REC",
-       "name": "A. St. Brown",
-       "line": "4 REC, 98 YDS, 2 TD",
+       "name": "J. Gibbs",
+       "line": "7 REC, 99 YDS",
        "team": "8"
       }
      ],
-     "situation": "1st & 10 at DET 46",
-     "possession": "17",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.7183333333333333,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "FC Bayern Munich Stadium",
      "venue_id": "11930",
@@ -236,7 +238,7 @@
       "provider": "DraftKings",
       "detail": "HOU -4.5",
       "spread": 4.5,
-      "total": 41.5,
+      "total": 40.5,
       "favorite": "away"
      }
     },
@@ -546,10 +548,10 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "NO -1.5",
-      "spread": -1.5,
+      "detail": "CAR -1.5",
+      "spread": 1.5,
       "total": 48.5,
-      "favorite": "home"
+      "favorite": "away"
      }
     },
     {
@@ -7226,7 +7228,7 @@
       "provider": "DraftKings",
       "detail": "PHI -7.5",
       "spread": -7.5,
-      "total": 224.5,
+      "total": 226.5,
       "favorite": "home"
      }
     },
@@ -7283,8 +7285,8 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "LAL -2.5",
-      "spread": 2.5,
+      "detail": "LAL -3.5",
+      "spread": 3.5,
       "total": 226.5,
       "favorite": "away"
      }
@@ -7344,7 +7346,7 @@
       "provider": "DraftKings",
       "detail": "CHA -1.5",
       "spread": 1.5,
-      "total": 214.5,
+      "total": 213.5,
       "favorite": "away"
      }
     },
@@ -7519,8 +7521,8 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "NY -4.5",
-      "spread": 4.5,
+      "detail": "NY -5.5",
+      "spread": 5.5,
       "total": 217.5,
       "favorite": "away"
      }
@@ -7580,7 +7582,7 @@
       "provider": "DraftKings",
       "detail": "HOU -8.5",
       "spread": 8.5,
-      "total": 223.5,
+      "total": 224.5,
       "favorite": "away"
      }
     },
@@ -7639,7 +7641,7 @@
       "provider": "DraftKings",
       "detail": "ATL -8.5",
       "spread": 8.5,
-      "total": 234.5,
+      "total": 233.5,
       "favorite": "away"
      }
     },
@@ -7698,7 +7700,7 @@
       "provider": "DraftKings",
       "detail": "OKC -10.5",
       "spread": 10.5,
-      "total": 223.5,
+      "total": 222.5,
       "favorite": "away"
      }
     }
@@ -7819,7 +7821,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "DAL -135",
+      "detail": "DAL -130",
       "spread": -1.5,
       "total": 5.5,
       "favorite": "home"

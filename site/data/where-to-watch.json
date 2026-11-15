@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-15T16:55:51Z",
+ "fetched_at": "2026-11-15T17:49:01Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -53,11 +53,11 @@
      "id": "401873053",
      "venue_id": "11930",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "1:54 - 3rd",
-     "away_score": "3",
-     "home_score": "28"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "10",
+     "home_score": "35"
     },
     {
      "league": "NFL",
@@ -3178,7 +3178,13 @@
      "kickoff_et": "1:00 PM ET",
      "day_et": "Sat, Nov 21",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "TNT",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401856868",
      "venue_id": "3842",
      "venue_indoor": false,
@@ -3502,26 +3508,6 @@
     },
     {
      "league": "CFB",
-     "away": "TTU",
-     "home": "BAY",
-     "away_id": "2641",
-     "home_id": "239",
-     "kickoff_utc": "2026-11-21T20:30Z",
-     "kickoff_et": "3:30 PM ET",
-     "day_et": "Sat, Nov 21",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856871",
-     "venue_id": "4727",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 3:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
      "away": "UCLA",
      "home": "MICH",
      "away_id": "26",
@@ -3617,6 +3603,32 @@
      ],
      "id": "401858535",
      "venue_id": "3765",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/21 - 3:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "TTU",
+     "home": "BAY",
+     "away_id": "2641",
+     "home_id": "239",
+     "kickoff_utc": "2026-11-21T20:30Z",
+     "kickoff_et": "3:30 PM ET",
+     "day_et": "Sat, Nov 21",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "Fox",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856871",
+     "venue_id": "4727",
      "venue_indoor": false,
      "state": "pre",
      "completed": false,
@@ -4102,7 +4114,13 @@
      "kickoff_et": "8:00 PM ET",
      "day_et": "Sat, Nov 21",
      "window": "Saturday",
-     "carriers": [],
+     "carriers": [
+      {
+       "name": "ESPNU",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
      "id": "401862836",
      "venue_id": "7221",
      "venue_indoor": false,
