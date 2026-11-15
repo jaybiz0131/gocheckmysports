@@ -2,7 +2,7 @@
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
  "last_change": "2026-11-15T20:07:54Z",
- "last_poll": "2026-11-15T20:08:01Z",
+ "last_poll": "2026-11-15T20:51:10Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -342,8 +342,8 @@
     },
     "4037361": {
      "changed_at": null,
-     "detail": "Leg",
-     "feed_date": "2026-11-15T20:03Z",
+     "detail": "Shin",
+     "feed_date": "2026-11-15T20:07Z",
      "first_seen": "2026-11-15T20:07:54Z",
      "name": "Charvarius Ward",
      "pos": "CB",
@@ -365,6 +365,15 @@
      "first_seen": "2026-11-15T19:40:54Z",
      "name": "Bernhard Raimann",
      "pos": "OT",
+     "status": "Questionable"
+    },
+    "4427250": {
+     "changed_at": null,
+     "detail": "Calf",
+     "feed_date": "2026-11-15T20:35Z",
+     "first_seen": "2026-11-15T20:50:55Z",
+     "name": "Sauce Gardner",
+     "pos": "CB",
      "status": "Questionable"
     },
     "4601021": {
@@ -675,7 +684,7 @@
     "5150247": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T19:45Z",
+     "feed_date": "2026-11-15T19:59Z",
      "first_seen": "2026-11-15T20:00:48Z",
      "name": "Malik Benson",
      "pos": "WR",
@@ -751,7 +760,7 @@
     "2575907": {
      "changed_at": "2026-11-15T19:55:49Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-15T19:44Z",
+     "feed_date": "2026-11-15T20:29Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Joe Cardona",
      "pos": "LS",
@@ -832,7 +841,7 @@
     "4685522": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T19:44Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T19:55:49Z",
      "name": "Ty Simpson",
      "pos": "QB",
@@ -962,7 +971,7 @@
     "4683276": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-15T18:49Z",
+     "feed_date": "2026-11-15T20:12Z",
      "first_seen": "2026-11-15T19:40:54Z",
      "name": "Zeek Biggers",
      "pos": "DT",
@@ -1114,6 +1123,15 @@
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Joshua Metellus",
      "pos": "S",
+     "status": "Questionable"
+    },
+    "4360637": {
+     "changed_at": null,
+     "detail": "Shoulder",
+     "feed_date": "2026-11-15T20:10Z",
+     "first_seen": "2026-11-15T20:50:55Z",
+     "name": "Jeshaun Jones",
+     "pos": "WR",
      "status": "Questionable"
     },
     "4429205": {
@@ -1790,8 +1808,8 @@
     },
     "4379778": {
      "changed_at": null,
-     "detail": "Wrist",
-     "feed_date": "2026-11-14T01:04Z",
+     "detail": "Groin",
+     "feed_date": "2026-11-15T16:58Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Christian Benford",
      "pos": "CB",
@@ -1799,8 +1817,8 @@
     },
     "4401823": {
      "changed_at": null,
-     "detail": "Head",
-     "feed_date": "2026-11-15T19:57Z",
+     "detail": "Concussion",
+     "feed_date": "2026-11-15T19:58Z",
      "first_seen": "2026-11-15T20:00:48Z",
      "name": "Dee Alford",
      "pos": "CB",
@@ -1911,8 +1929,8 @@
    "designations": {
     "15864": {
      "changed_at": null,
-     "detail": "Concussion",
-     "feed_date": "2026-11-15T19:36Z",
+     "detail": "Ankle",
+     "feed_date": "2026-11-15T20:30Z",
      "first_seen": "2026-11-15T19:50:46Z",
      "name": "Geno Smith",
      "pos": "QB",
@@ -2242,7 +2260,7 @@
     "4709718": {
      "changed_at": "2026-11-15T19:45:59Z",
      "detail": "Knee",
-     "feed_date": "2026-11-15T19:37Z",
+     "feed_date": "2026-11-15T20:26Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jayden Williams",
      "pos": "OT",
@@ -2346,9 +2364,10 @@
    "id": "23",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-15T20:50:57Z",
    "rows_returned": 25,
-   "team": "Pittsburgh Steelers"
+   "team": "Pittsburgh Steelers",
+   "unresolved": false
   },
   "24": {
    "capped": true,
@@ -2439,7 +2458,7 @@
     "16731": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T20:00Z",
+     "feed_date": "2026-11-15T20:14Z",
      "first_seen": "2026-11-15T20:05:54Z",
      "name": "Brandin Cooks",
      "pos": "WR",
@@ -3094,6 +3113,15 @@
      "pos": "S",
      "status": "Out"
     },
+    "4242391": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-11-15T20:19Z",
+     "first_seen": "2026-11-15T20:50:55Z",
+     "name": "Robert Hainsey",
+     "pos": "C",
+     "status": "Questionable"
+    },
     "4573319": {
      "changed_at": null,
      "detail": "Concussion",
@@ -3281,13 +3309,13 @@
      "status": "Out"
     },
     "4429059": {
-     "changed_at": null,
+     "changed_at": "2026-11-15T20:50:55Z",
      "detail": "Concussion",
-     "feed_date": "2026-11-15T19:57Z",
+     "feed_date": "2026-11-15T20:25Z",
      "first_seen": "2026-11-15T20:00:48Z",
      "name": "Woody Marks",
      "pos": "RB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4432708": {
      "changed_at": null,
@@ -3423,9 +3451,10 @@
    "id": "4",
    "players": {},
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-15T20:50:58Z",
    "rows_returned": 25,
-   "team": "Cincinnati Bengals"
+   "team": "Cincinnati Bengals",
+   "unresolved": false
   },
   "5": {
    "capped": true,
