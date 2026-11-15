@@ -1,8 +1,8 @@
 {
  "day": "2026-11-15",
  "first_poll": "2026-11-15T00:00:49Z",
- "last_change": "2026-11-15T20:05:54Z",
- "last_poll": "2026-11-15T20:06:07Z",
+ "last_change": "2026-11-15T20:07:54Z",
+ "last_poll": "2026-11-15T20:08:01Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -339,6 +339,15 @@
      "name": "Jerry Tillery",
      "pos": "DT",
      "status": "Out"
+    },
+    "4037361": {
+     "changed_at": null,
+     "detail": "Leg",
+     "feed_date": "2026-11-15T20:03Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "name": "Charvarius Ward",
+     "pos": "CB",
+     "status": "Questionable"
     },
     "4362523": {
      "changed_at": null,
@@ -2011,7 +2020,7 @@
     "4723820": {
      "changed_at": "2026-11-15T20:05:54Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-15T19:51Z",
+     "feed_date": "2026-11-15T19:57Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Omar Cooper Jr.",
      "pos": "WR",
@@ -2439,7 +2448,7 @@
     "16737": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-11-15T20:00Z",
+     "feed_date": "2026-11-15T18:01Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Mike Evans",
      "pos": "WR",
@@ -2483,7 +2492,7 @@
     },
     "4427325": {
      "changed_at": null,
-     "detail": "Back",
+     "detail": "",
      "feed_date": "2026-11-14T01:12Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Renardo Green",
@@ -2623,7 +2632,7 @@
     "4887558": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-15T19:39Z",
+     "feed_date": "2026-11-15T19:55Z",
      "first_seen": "2026-11-15T19:50:46Z",
      "name": "Emanuel Wilson",
      "pos": "RB",
@@ -3563,7 +3572,7 @@
     "3929850": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-10T00:49Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "P.J. Locke",
      "pos": "S",
@@ -3572,7 +3581,7 @@
     "4242355": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-09T22:03Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jake Ferguson",
      "pos": "TE",
@@ -3587,19 +3596,28 @@
      "pos": "CB",
      "status": "Questionable"
     },
-    "4360590": {
+    "4360307": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "name": "Derion Kendrick",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4360590": {
+     "changed_at": "2026-11-15T20:07:54Z",
      "detail": "Ribs",
-     "feed_date": "2026-11-13T22:51Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Juanyeh Thomas",
      "pos": "S",
-     "status": "Doubtful"
+     "status": "Out"
     },
     "4426485": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-14T00:51Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Jonathan Mingo",
      "pos": "WR",
@@ -3626,15 +3644,88 @@
     "4683848": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-14T01:00Z",
+     "feed_date": "2026-11-15T20:04Z",
      "first_seen": "2026-11-15T00:00:49Z",
      "name": "Donovan Ezeiruaku",
      "pos": "LB",
      "status": "Out"
+    },
+    "4696203": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "name": "Ajani Cornelius",
+     "pos": "OT",
+     "status": "Out"
     }
    },
    "id": "6",
-   "players": {},
+   "players": {
+    "3929850": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "P.J. Locke",
+     "pos": "S",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4242355": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Jake Ferguson",
+     "pos": "TE",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4360307": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Derion Kendrick",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360590": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Juanyeh Thomas",
+     "pos": "S",
+     "reason": "Ribs",
+     "via": "poll"
+    },
+    "4426485": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Jonathan Mingo",
+     "pos": "WR",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4683848": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Donovan Ezeiruaku",
+     "pos": "LB",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4696203": {
+     "feed_date": "2026-11-15T20:04Z",
+     "first_seen": "2026-11-15T20:07:54Z",
+     "jersey": "",
+     "name": "Ajani Cornelius",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-15T17:48:31Z",
    "rows_returned": 25,
