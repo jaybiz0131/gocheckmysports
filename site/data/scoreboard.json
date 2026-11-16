@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-16T00:11:26Z",
+ "fetched_at": "2026-11-16T00:16:16Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "6:42 - 4th",
-     "detail": "6:42",
+     "status_short": "3:51 - 4th",
+     "detail": "3:51",
      "period": 4,
      "start_utc": "2026-11-15T21:25Z",
      "network": "Fox",
@@ -68,16 +68,16 @@
       {
        "cat": "REC",
        "name": "G. Pickens",
-       "line": "8 REC, 109 YDS, 3 TD",
+       "line": "9 REC, 125 YDS, 3 TD",
        "team": "6"
       }
      ],
-     "situation": "1st & 10 at DAL 34",
+     "situation": "4th & 6 at SF 11",
      "possession": "6",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.8883333333333333,
+     "progress": 0.9358333333333333,
      "venue_indoor": true,
      "venue": "AT&T Stadium",
      "venue_id": "3687",
@@ -7411,8 +7411,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "3:26 - 4th",
-     "detail": "3:26",
+     "status_short": "2:01 - 4th",
+     "detail": "2:01",
      "period": 4,
      "start_utc": "2026-11-15T22:00Z",
      "network": "KJZZ-TV",
@@ -7429,7 +7429,7 @@
        "33",
        "22",
        "26",
-       "19"
+       "21"
       ],
       "id": "26",
       "color": "#4e008e",
@@ -7442,13 +7442,13 @@
       "school": "San Antonio",
       "mascot": "Spurs",
       "rank": null,
-      "score": "97",
+      "score": "102",
       "record": "11-2",
       "periods": [
        "31",
        "27",
        "23",
-       "16"
+       "21"
       ],
       "id": "24",
       "color": "#000000",
@@ -7460,7 +7460,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.9427777777777777,
+     "progress": 0.9663888888888889,
      "venue_indoor": true,
      "venue": "Delta Center",
      "venue_id": "3093",
@@ -7474,9 +7474,9 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0.0",
-     "period": 2,
+     "status_short": "11:26 - 3rd",
+     "detail": "11:26",
+     "period": 3,
      "start_utc": "2026-11-15T23:00Z",
      "network": "KFAA-TV",
      "home": {
@@ -7490,7 +7490,8 @@
       "record": "10-2",
       "periods": [
        "42",
-       "25"
+       "25",
+       "0"
       ],
       "id": "2",
       "color": "#008348",
@@ -7507,7 +7508,8 @@
       "record": "7-6",
       "periods": [
        "9",
-       "28"
+       "28",
+       "0"
       ],
       "id": "6",
       "color": "#0064b1",
@@ -7519,7 +7521,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.375,
+     "progress": 0.5594444444444444,
      "venue_indoor": true,
      "venue": "TD Garden",
      "venue_id": "1824",
@@ -7533,8 +7535,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "47.8 - 2nd",
-     "detail": "47.8",
+     "status_short": "Halftime",
+     "detail": "0.0",
      "period": 2,
      "start_utc": "2026-11-15T23:00Z",
      "network": "",
@@ -7545,11 +7547,11 @@
       "school": "Toronto",
       "mascot": "Raptors",
       "rank": null,
-      "score": "42",
+      "score": "43",
       "record": "5-7",
       "periods": [
        "17",
-       "25"
+       "26"
       ],
       "id": "28",
       "color": "#d91244",
@@ -7562,11 +7564,11 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "42",
+      "score": "47",
       "record": "6-6",
       "periods": [
        "23",
-       "19"
+       "24"
       ],
       "id": "18",
       "color": "#1d428a",
@@ -7590,11 +7592,11 @@
     {
      "id": "401909991",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/15 - 7:00 PM EST",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "8:12 - 1st",
+     "detail": "8:12",
+     "period": 1,
      "start_utc": "2026-11-16T00:00Z",
      "network": "MNMT",
      "home": {
@@ -7604,9 +7606,11 @@
       "school": "Washington",
       "mascot": "Wizards",
       "rank": null,
-      "score": "0",
+      "score": "9",
       "record": "4-9",
-      "periods": [],
+      "periods": [
+       "9"
+      ],
       "id": "27",
       "color": "#e31837",
       "alt_color": "#002b5c"
@@ -7618,9 +7622,11 @@
       "school": "Houston",
       "mascot": "Rockets",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "10-3",
-      "periods": [],
+      "periods": [
+       "7"
+      ],
       "id": "10",
       "color": "#ce0e2d",
       "alt_color": "#000000"
@@ -7631,20 +7637,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.11333333333333334,
      "venue_indoor": true,
      "venue": "Capital One Arena",
      "venue_id": "1823",
      "venue_city": "Washington",
      "venue_state": "DC",
      "venue_country": "",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "HOU -8.5",
-      "spread": 8.5,
-      "total": 224.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401909992",
@@ -7822,7 +7822,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "EDM -148",
+      "detail": "EDM -142",
       "spread": 1.5,
       "total": 5.5,
       "favorite": "away"
