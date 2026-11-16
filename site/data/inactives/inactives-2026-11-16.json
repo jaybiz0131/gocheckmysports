@@ -1,8 +1,8 @@
 {
  "day": "2026-11-16",
  "first_poll": "2026-11-16T00:01:16Z",
- "last_change": "2026-11-16T00:01:16Z",
- "last_poll": "2026-11-16T00:01:40Z",
+ "last_change": "2026-11-16T00:06:22Z",
+ "last_poll": "2026-11-16T00:06:22Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -2152,7 +2152,7 @@
     "3929846": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-15T23:42Z",
+     "feed_date": "2026-11-15T23:46Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "DeShon Elliott",
      "pos": "S",
@@ -2178,7 +2178,17 @@
     }
    },
    "id": "23",
-   "players": {},
+   "players": {
+    "3929846": {
+     "feed_date": "2026-11-15T23:46Z",
+     "first_seen": "2026-11-16T00:06:16Z",
+     "jersey": "",
+     "name": "DeShon Elliott",
+     "pos": "S",
+     "reason": "Knee",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -3168,17 +3178,54 @@
      "status": "Out"
     },
     "4429000": {
-     "changed_at": null,
+     "changed_at": "2026-11-16T00:06:22Z",
      "detail": "Illness",
      "feed_date": "2026-11-15T16:28Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "Myles Hinton",
      "pos": "OT",
-     "status": "Questionable"
+     "status": "Out"
     }
    },
    "id": "4",
-   "players": {},
+   "players": {
+    "4401811": {
+     "feed_date": "2026-11-14T01:56Z",
+     "first_seen": "2026-11-16T00:06:16Z",
+     "jersey": "",
+     "name": "Kyle Dugger",
+     "pos": "S",
+     "reason": "Quadriceps",
+     "via": "poll"
+    },
+    "4429000": {
+     "feed_date": "2026-11-15T16:28Z",
+     "first_seen": "2026-11-16T00:06:22Z",
+     "jersey": "",
+     "name": "Myles Hinton",
+     "pos": "OT",
+     "reason": "Illness",
+     "via": "poll"
+    },
+    "4870866": {
+     "feed_date": "2026-11-09T20:58Z",
+     "first_seen": "2026-11-16T00:06:16Z",
+     "jersey": "",
+     "name": "Connor Lew",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "5081542": {
+     "feed_date": "2026-11-09T20:58Z",
+     "first_seen": "2026-11-16T00:06:16Z",
+     "jersey": "",
+     "name": "Landon Robinson",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
