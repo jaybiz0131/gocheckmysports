@@ -1,8 +1,8 @@
 {
  "day": "2026-11-16",
  "first_poll": "2026-11-16T00:01:16Z",
- "last_change": "2026-11-16T23:51:12Z",
- "last_poll": "2026-11-16T23:51:34Z",
+ "last_change": "2026-11-16T23:56:14Z",
+ "last_poll": "2026-11-16T23:56:22Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -2297,6 +2297,15 @@
   "24": {
    "capped": true,
    "designations": {
+    "2576702": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "name": "Bud Dupree",
+     "pos": "LB",
+     "status": "Out"
+    },
     "2579621": {
      "changed_at": null,
      "detail": "Pectoral",
@@ -2318,7 +2327,7 @@
     "4360745": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-11-15T01:14Z",
+     "feed_date": "2026-11-16T23:52Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "Kendall Williamson",
      "pos": "S",
@@ -2334,18 +2343,18 @@
      "status": "Out"
     },
     "4567138": {
-     "changed_at": null,
+     "changed_at": "2026-11-16T23:56:14Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-14T23:58Z",
+     "feed_date": "2026-11-16T23:52Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "Justin Eboigbe",
      "pos": "DT",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4574105": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-15T01:11Z",
+     "feed_date": "2026-11-16T23:52Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "Isas Waxter",
      "pos": "CB",
@@ -2354,7 +2363,7 @@
     "4612826": {
      "changed_at": null,
      "detail": "Back",
-     "feed_date": "2026-11-15T19:52Z",
+     "feed_date": "2026-11-16T23:52Z",
      "first_seen": "2026-11-16T00:01:16Z",
      "name": "Ladd McConkey",
      "pos": "WR",
@@ -2371,7 +2380,53 @@
     }
    },
    "id": "24",
-   "players": {},
+   "players": {
+    "2576702": {
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "jersey": "",
+     "name": "Bud Dupree",
+     "pos": "LB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4360745": {
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "jersey": "",
+     "name": "Kendall Williamson",
+     "pos": "S",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4567138": {
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "jersey": "",
+     "name": "Justin Eboigbe",
+     "pos": "DT",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4574105": {
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "jersey": "",
+     "name": "Isas Waxter",
+     "pos": "CB",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4612826": {
+     "feed_date": "2026-11-16T23:52Z",
+     "first_seen": "2026-11-16T23:56:14Z",
+     "jersey": "",
+     "name": "Ladd McConkey",
+     "pos": "WR",
+     "reason": "Back",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
