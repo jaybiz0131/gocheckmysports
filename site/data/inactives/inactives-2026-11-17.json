@@ -1,8 +1,8 @@
 {
  "day": "2026-11-17",
  "first_poll": "2026-11-17T00:01:25Z",
- "last_change": "2026-11-17T00:01:25Z",
- "last_poll": "2026-11-17T00:01:33Z",
+ "last_change": "2026-11-17T00:11:15Z",
+ "last_poll": "2026-11-17T00:11:21Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -943,7 +943,7 @@
     "4567138": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-16T23:52Z",
+     "feed_date": "2026-11-17T00:02Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Justin Eboigbe",
      "pos": "DT",
@@ -968,13 +968,13 @@
      "status": "Out"
     },
     "4685553": {
-     "changed_at": null,
+     "changed_at": "2026-11-17T00:11:15Z",
      "detail": "Hamstring",
      "feed_date": "2026-11-16T18:02Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Brenen Thompson",
      "pos": "WR",
-     "status": "Doubtful"
+     "status": "Out"
     }
    },
    "id": "24",
@@ -1022,6 +1022,15 @@
      "name": "Ladd McConkey",
      "pos": "WR",
      "reason": "Back",
+     "via": "poll"
+    },
+    "4685553": {
+     "feed_date": "2026-11-16T18:02Z",
+     "first_seen": "2026-11-17T00:11:15Z",
+     "jersey": "",
+     "name": "Brenen Thompson",
+     "pos": "WR",
+     "reason": "Hamstring",
      "via": "poll"
     }
    },
