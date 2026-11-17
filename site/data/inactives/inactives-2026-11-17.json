@@ -2,7 +2,7 @@
  "day": "2026-11-17",
  "first_poll": "2026-11-17T00:01:25Z",
  "last_change": "2026-11-17T00:11:15Z",
- "last_poll": "2026-11-17T00:11:21Z",
+ "last_poll": "2026-11-17T01:06:31Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -113,7 +113,7 @@
     },
     "4037361": {
      "changed_at": null,
-     "detail": "Shin",
+     "detail": "Knee",
      "feed_date": "2026-11-16T22:38Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Charvarius Ward",
@@ -123,7 +123,7 @@
     "4362523": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-16T19:20Z",
+     "feed_date": "2026-11-17T00:24Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Will Mallory",
      "pos": "TE",
@@ -141,10 +141,19 @@
     "4427250": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-11-16T22:31Z",
+     "feed_date": "2026-11-17T00:28Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Sauce Gardner",
      "pos": "CB",
+     "status": "Questionable"
+    },
+    "4429684": {
+     "changed_at": null,
+     "detail": "Toe",
+     "feed_date": "2026-11-17T00:20Z",
+     "first_seen": "2026-11-17T01:06:12Z",
+     "name": "Anthony Gould",
+     "pos": "WR",
      "status": "Questionable"
     },
     "4601021": {
@@ -298,13 +307,13 @@
      "status": "Out"
     },
     "3052180": {
-     "changed_at": null,
+     "changed_at": "2026-11-17T01:06:12Z",
      "detail": "Hamstring",
-     "feed_date": "2026-11-15T22:54Z",
+     "feed_date": "2026-11-17T00:50Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Coleman Shelton",
      "pos": "C",
-     "status": "Questionable"
+     "status": "Doubtful"
     },
     "4362474": {
      "changed_at": null,
@@ -596,7 +605,7 @@
     "4430379": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-15T20:50Z",
+     "feed_date": "2026-11-17T00:38Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Asim Richards",
      "pos": "OT",
@@ -710,7 +719,7 @@
     "15864": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-16T14:48Z",
+     "feed_date": "2026-11-17T00:15Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Geno Smith",
      "pos": "QB",
@@ -719,7 +728,7 @@
     "4243375": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-15T19:02Z",
+     "feed_date": "2026-11-17T00:35Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Dylan Parham",
      "pos": "G",
@@ -849,7 +858,7 @@
     "3918331": {
      "changed_at": null,
      "detail": "Wrist",
-     "feed_date": "2026-11-16T21:32Z",
+     "feed_date": "2026-11-17T00:06Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Andrew Wingard",
      "pos": "S",
@@ -867,7 +876,7 @@
     "4428996": {
      "changed_at": null,
      "detail": "Knee - MCL",
-     "feed_date": "2026-11-15T22:55Z",
+     "feed_date": "2026-11-17T00:45Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Jordan Burch",
      "pos": "LB",
@@ -905,7 +914,7 @@
     "4368304": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-16T03:00Z",
+     "feed_date": "2026-11-17T00:45Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Mason McCormick",
      "pos": "G",
@@ -970,7 +979,7 @@
     "4685553": {
      "changed_at": "2026-11-17T00:11:15Z",
      "detail": "Hamstring",
-     "feed_date": "2026-11-16T18:02Z",
+     "feed_date": "2026-11-17T00:13Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Brenen Thompson",
      "pos": "WR",
@@ -1035,9 +1044,10 @@
     }
    },
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-17T01:06:13Z",
    "rows_returned": 25,
-   "team": "Los Angeles Chargers"
+   "team": "Los Angeles Chargers",
+   "unresolved": false
   },
   "25": {
    "capped": true,
@@ -1054,7 +1064,7 @@
     "4427325": {
      "changed_at": null,
      "detail": "Back",
-     "feed_date": "2026-11-16T22:10Z",
+     "feed_date": "2026-11-17T00:16Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Renardo Green",
      "pos": "CB",
@@ -1253,7 +1263,7 @@
     "4608686": {
      "changed_at": null,
      "detail": "Toe",
-     "feed_date": "2026-11-16T19:57Z",
+     "feed_date": "2026-11-16T23:58Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Kyle Monangai",
      "pos": "RB",
@@ -1329,7 +1339,7 @@
     "4428512": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-16T23:47Z",
+     "feed_date": "2026-11-17T00:09Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Kedon Slovis",
      "pos": "QB",
@@ -1430,9 +1440,10 @@
     }
    },
    "reconciled_added": 0,
-   "reconciled_at": null,
+   "reconciled_at": "2026-11-17T01:06:19Z",
    "rows_returned": 25,
-   "team": "Baltimore Ravens"
+   "team": "Baltimore Ravens",
+   "unresolved": false
   },
   "34": {
    "capped": true,
@@ -1448,7 +1459,7 @@
     },
     "3045474": {
      "changed_at": null,
-     "detail": "Illness",
+     "detail": "",
      "feed_date": "2026-11-16T19:19Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Wyatt Teller",
@@ -1473,6 +1484,15 @@
      "pos": "RB",
      "status": "Out"
     },
+    "4241250": {
+     "changed_at": null,
+     "detail": "Groin",
+     "feed_date": "2026-11-17T00:53Z",
+     "first_seen": "2026-11-17T01:06:31Z",
+     "name": "Jake Hummel",
+     "pos": "LB",
+     "status": "Questionable"
+    },
     "4362504": {
      "changed_at": null,
      "detail": "Finger",
@@ -1485,7 +1505,7 @@
     "4429059": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-15T23:18Z",
+     "feed_date": "2026-11-17T00:49Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Woody Marks",
      "pos": "RB",
@@ -1494,7 +1514,7 @@
     "4432708": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-16T19:16Z",
+     "feed_date": "2026-11-17T00:44Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Marvin Harrison Jr.",
      "pos": "WR",
@@ -1502,7 +1522,7 @@
     },
     "4839498": {
      "changed_at": null,
-     "detail": "Neck",
+     "detail": "",
      "feed_date": "2026-11-16T19:19Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Keylan Rutledge",
@@ -1608,7 +1628,7 @@
     "4248911": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-16T19:32Z",
+     "feed_date": "2026-11-17T00:09Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "DaRon Bland",
      "pos": "CB",
@@ -1767,7 +1787,7 @@
     "14931": {
      "changed_at": null,
      "detail": "Triceps",
-     "feed_date": "2026-11-16T19:15Z",
+     "feed_date": "2026-11-17T00:39Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Kevin Zeitler",
      "pos": "G",
@@ -1830,7 +1850,7 @@
     "5076652": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-15T18:44Z",
+     "feed_date": "2026-11-17T00:27Z",
      "first_seen": "2026-11-17T00:01:25Z",
      "name": "Brandon Cisse",
      "pos": "CB",
