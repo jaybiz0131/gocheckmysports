@@ -1,8 +1,8 @@
 {
  "day": "2026-11-19",
  "first_poll": "2026-11-19T23:51:22Z",
- "last_change": "2026-11-19T23:51:22Z",
- "last_poll": "2026-11-19T23:52:26Z",
+ "last_change": "2026-11-19T23:56:22Z",
+ "last_poll": "2026-11-19T23:56:49Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -104,7 +104,7 @@
    "designations": {
     "2566045": {
      "changed_at": null,
-     "detail": "Hamstring",
+     "detail": "",
      "feed_date": "2026-11-17T12:19Z",
      "first_seen": "2026-11-19T23:51:22Z",
      "name": "Luke Rhodes",
@@ -1563,13 +1563,13 @@
      "status": "Out"
     },
     "3045474": {
-     "changed_at": null,
+     "changed_at": "2026-11-19T23:56:22Z",
      "detail": "Back",
-     "feed_date": "2026-11-18T21:19Z",
+     "feed_date": "2026-11-19T23:50Z",
      "first_seen": "2026-11-19T23:51:22Z",
      "name": "Wyatt Teller",
      "pos": "G",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4241250": {
      "changed_at": null,
@@ -1589,10 +1589,28 @@
      "pos": "TE",
      "status": "Out"
     },
+    "4362732": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "name": "Jake Andrews",
+     "pos": "C",
+     "status": "Out"
+    },
+    "4428656": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "name": "Nate Thomas",
+     "pos": "OT",
+     "status": "Out"
+    },
     "4429059": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-18T20:51Z",
+     "feed_date": "2026-11-19T23:50Z",
      "first_seen": "2026-11-19T23:51:22Z",
      "name": "Woody Marks",
      "pos": "RB",
@@ -1601,7 +1619,7 @@
     "4432708": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-18T21:03Z",
+     "feed_date": "2026-11-19T23:50Z",
      "first_seen": "2026-11-19T23:51:22Z",
      "name": "Marvin Harrison Jr.",
      "pos": "WR",
@@ -1626,6 +1644,51 @@
      "name": "Wyatt Teller",
      "pos": "G",
      "reason": "Back",
+     "via": "poll"
+    },
+    "4362504": {
+     "feed_date": "2026-11-19T00:19Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "jersey": "",
+     "name": "Brevin Jordan",
+     "pos": "TE",
+     "reason": "Foot",
+     "via": "poll"
+    },
+    "4362732": {
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "jersey": "",
+     "name": "Jake Andrews",
+     "pos": "C",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4428656": {
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "jersey": "",
+     "name": "Nate Thomas",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4429059": {
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "jersey": "",
+     "name": "Woody Marks",
+     "pos": "RB",
+     "reason": "Concussion",
+     "via": "poll"
+    },
+    "4432708": {
+     "feed_date": "2026-11-19T23:50Z",
+     "first_seen": "2026-11-19T23:56:22Z",
+     "jersey": "",
+     "name": "Marvin Harrison Jr.",
+     "pos": "WR",
+     "reason": "Hamstring",
      "via": "poll"
     }
    },
