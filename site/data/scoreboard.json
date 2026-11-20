@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-20T00:01:18Z",
+ "fetched_at": "2026-11-20T01:06:21Z",
  "leagues": [
   {
    "league": "NFL",
@@ -778,8 +778,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "DEN -10",
-      "spread": -10.0,
+      "detail": "DEN -10.5",
+      "spread": -10.5,
       "total": 40.5,
       "favorite": "home"
      }
@@ -1726,8 +1726,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "HOU -7.5",
-      "spread": 7.5,
+      "detail": "HOU -8.5",
+      "spread": 8.5,
       "total": 70.5,
       "favorite": "away"
      }
@@ -3471,11 +3471,11 @@
     {
      "id": "401862830",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:30 PM EST",
+     "status_short": "End of 1st",
      "detail": "0:00",
-     "period": 0,
+     "period": 1,
      "start_utc": "2026-11-20T00:30Z",
      "network": "ESPN",
      "home": {
@@ -3485,9 +3485,11 @@
       "school": "Temple",
       "mascot": "Owls",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "2-8",
-      "periods": [],
+      "periods": [
+       "7"
+      ],
       "id": "218",
       "color": "#a41e35",
       "alt_color": "#ffffff"
@@ -3501,7 +3503,9 @@
       "rank": null,
       "score": "0",
       "record": "1-9",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "242",
       "color": "#00205b",
       "alt_color": "#c1c6c8"
@@ -3509,42 +3513,36 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "A. Sheppard",
-       "line": "1330 YDS, 9 TD, 3 INT",
+       "name": "J. Smolik",
+       "line": "2/3, 27 YDS, 1 TD",
        "team": "218"
       },
       {
        "cat": "RUSH",
-       "name": "J. Brown",
-       "line": "126 CAR, 691 YDS, 6 TD",
-       "team": "242"
+       "name": "C. Chase",
+       "line": "2 CAR, 48 YDS",
+       "team": "218"
       },
       {
        "cat": "REC",
        "name": "C. Chase",
-       "line": "26 REC, 395 YDS, 2 TD",
+       "line": "2 REC, 27 YDS, 1 TD",
        "team": "218"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 6 at RICE 31",
+     "possession": "242",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.25,
      "venue_indoor": false,
      "venue": "Lincoln Financial Field",
      "venue_id": "3806",
      "venue_city": "Philadelphia",
      "venue_state": "PA",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "TEM -2.5",
-      "spread": -2.5,
-      "total": 52.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401856869",
@@ -7187,9 +7185,9 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "POR -11.5",
-      "spread": 11.5,
-      "total": 230.5,
+      "detail": "POR -10.5",
+      "spread": 10.5,
+      "total": 228.5,
       "favorite": "away"
      }
     },
@@ -7319,11 +7317,11 @@
     {
      "id": "401892742",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "20:00 - 2nd",
+     "detail": "20:00",
+     "period": 2,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7333,9 +7331,12 @@
       "school": "Toronto",
       "mascot": "Maple Leafs",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "8-13-2",
-      "periods": [],
+      "periods": [
+       "2",
+       "0"
+      ],
       "id": "21",
       "color": "#003e7e",
       "alt_color": "#ffffff"
@@ -7349,7 +7350,10 @@
       "rank": null,
       "score": "0",
       "record": "6-11-2",
-      "periods": [],
+      "periods": [
+       "0",
+       "0"
+      ],
       "id": "8",
       "color": "#121212",
       "alt_color": "#a2aaad"
@@ -7360,29 +7364,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "venue_id": "1838",
      "venue_city": "Toronto",
      "venue_state": "ON",
      "venue_country": "Canada",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "TOR -130",
-      "spread": -1.5,
-      "total": 5.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892743",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "17:46 - 2nd",
+     "detail": "17:46",
+     "period": 2,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7392,9 +7390,12 @@
       "school": "Ottawa",
       "mascot": "Senators",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "14-6-2",
-      "periods": [],
+      "periods": [
+       "1",
+       "0"
+      ],
       "id": "14",
       "color": "#dd1a32",
       "alt_color": "#b79257"
@@ -7406,9 +7407,12 @@
       "school": "Philadelphia",
       "mascot": "Flyers",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "7-11-6",
-      "periods": [],
+      "periods": [
+       "1",
+       "0"
+      ],
       "id": "15",
       "color": "#fe5823",
       "alt_color": "#000000"
@@ -7419,29 +7423,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3705555555555556,
      "venue_indoor": true,
      "venue": "Canadian Tire Centre",
      "venue_id": "1832",
      "venue_city": "Ottawa",
      "venue_state": "ON",
      "venue_country": "Canada",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "OTT -148",
-      "spread": -1.5,
-      "total": 5.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892745",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "17:54 - 2nd",
+     "detail": "17:54",
+     "period": 2,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7451,9 +7449,12 @@
       "school": "Pittsburgh",
       "mascot": "Penguins",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "7-11-2",
-      "periods": [],
+      "periods": [
+       "1",
+       "0"
+      ],
       "id": "16",
       "color": "#000000",
       "alt_color": "#fdb71a"
@@ -7467,7 +7468,10 @@
       "rank": null,
       "score": "0",
       "record": "10-9-2",
-      "periods": [],
+      "periods": [
+       "0",
+       "0"
+      ],
       "id": "19",
       "color": "#0070b9",
       "alt_color": "#fdb71a"
@@ -7478,29 +7482,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.36833333333333335,
      "venue_indoor": true,
      "venue": "PPG Paints Arena",
      "venue_id": "1837",
      "venue_city": "Pittsburgh",
      "venue_state": "PA",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "STL -112",
-      "spread": 1.5,
-      "total": 6.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401892746",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
+     "status_short": "End of 1st",
      "detail": "0:00",
-     "period": 0,
+     "period": 1,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7510,9 +7508,11 @@
       "school": "Washington",
       "mascot": "Capitals",
       "rank": null,
-      "score": "0",
+      "score": "1",
       "record": "10-9-0",
-      "periods": [],
+      "periods": [
+       "1"
+      ],
       "id": "23",
       "color": "#d71830",
       "alt_color": "#0b1f41"
@@ -7524,9 +7524,11 @@
       "school": "Buffalo",
       "mascot": "Sabres",
       "rank": null,
-      "score": "0",
+      "score": "4",
       "record": "8-9-4",
-      "periods": [],
+      "periods": [
+       "4"
+      ],
       "id": "2",
       "color": "#00468b",
       "alt_color": "#fdb71a"
@@ -7537,29 +7539,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Capital One Arena",
      "venue_id": "1823",
      "venue_city": "Washington",
      "venue_state": "DC",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "WSH -142",
-      "spread": -1.5,
-      "total": 6.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892747",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "16:55 - 2nd",
+     "detail": "16:55",
+     "period": 2,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7571,7 +7567,10 @@
       "rank": null,
       "score": "0",
       "record": "16-3-2",
-      "periods": [],
+      "periods": [
+       "0",
+       "0"
+      ],
       "id": "7",
       "color": "#e30426",
       "alt_color": "#000000"
@@ -7585,7 +7584,10 @@
       "rank": null,
       "score": "0",
       "record": "13-5-4",
-      "periods": [],
+      "periods": [
+       "0",
+       "0"
+      ],
       "id": "10",
       "color": "#c41230",
       "alt_color": "#013a81"
@@ -7596,29 +7598,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.38472222222222224,
      "venue_indoor": true,
      "venue": "Lenovo Center",
      "venue_id": "999",
      "venue_city": "Raleigh",
      "venue_state": "NC",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "CAR -345",
-      "spread": -1.5,
-      "total": 6.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892749",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "20:00 - 2nd",
+     "detail": "20:00",
+     "period": 2,
      "start_utc": "2026-11-20T00:00Z",
      "network": "ESPN+",
      "home": {
@@ -7628,9 +7624,12 @@
       "school": "Winnipeg",
       "mascot": "Jets",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "10-9-3",
-      "periods": [],
+      "periods": [
+       "2",
+       "0"
+      ],
       "id": "28",
       "color": "#002d62",
       "alt_color": "#c41230"
@@ -7642,9 +7641,12 @@
       "school": "New York",
       "mascot": "Islanders",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "10-6-4",
-      "periods": [],
+      "periods": [
+       "2",
+       "0"
+      ],
       "id": "12",
       "color": "#00529b",
       "alt_color": "#f47d31"
@@ -7655,29 +7657,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Canada Life Centre",
      "venue_id": "1397",
      "venue_city": "Winnipeg",
      "venue_state": "MB",
      "venue_country": "Canada",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "WPG -118",
-      "spread": -1.5,
-      "total": 6.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892744",
      "league": "NHL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/19 - 7:30 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "5:16 - 1st",
+     "detail": "5:16",
+     "period": 1,
      "start_utc": "2026-11-20T00:30Z",
      "network": "Disney+",
      "home": {
@@ -7689,7 +7685,9 @@
       "rank": null,
       "score": "0",
       "record": "14-5-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "20",
       "color": "#003e7e",
       "alt_color": "#ffffff"
@@ -7703,7 +7701,9 @@
       "rank": null,
       "score": "0",
       "record": "17-3-3",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "6",
       "color": "#00205b",
       "alt_color": "#ff4c00"
@@ -7714,20 +7714,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.24555555555555555,
      "venue_indoor": true,
      "venue": "Benchmark International Arena",
      "venue_id": "1396",
      "venue_city": "Tampa",
      "venue_state": "FL",
      "venue_country": "USA",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "TB -142",
-      "spread": -1.5,
-      "total": 6.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401892748",
@@ -7784,7 +7778,7 @@
       "provider": "DraftKings",
       "detail": "CBJ -162",
       "spread": 1.5,
-      "total": 5.5,
+      "total": 6.5,
       "favorite": "away"
      }
     },
@@ -7841,7 +7835,7 @@
      "venue_country": "Canada",
      "line": {
       "provider": "DraftKings",
-      "detail": "MIN -238",
+      "detail": "MIN -245",
       "spread": 1.5,
       "total": 6.5,
       "favorite": "away"
