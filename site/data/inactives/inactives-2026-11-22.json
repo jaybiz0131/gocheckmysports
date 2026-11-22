@@ -1,8 +1,8 @@
 {
  "day": "2026-11-22",
  "first_poll": "2026-11-22T00:01:10Z",
- "last_change": "2026-11-22T20:10:46Z",
- "last_poll": "2026-11-22T20:10:46Z",
+ "last_change": "2026-11-22T20:15:40Z",
+ "last_poll": "2026-11-22T20:15:50Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -1136,7 +1136,71 @@
   },
   "19": {
    "capped": true,
-   "designations": {},
+   "designations": {
+    "4039243": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Josh Sills",
+     "pos": "G",
+     "status": "Out"
+    },
+    "4240706": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Jason Pinnock",
+     "pos": "S",
+     "status": "Out"
+    },
+    "4426542": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Darius Alexander",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4427636": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Nic Jones",
+     "pos": "CB",
+     "status": "Out"
+    },
+    "4590292": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Thomas Fidone II",
+     "pos": "TE",
+     "status": "Out"
+    },
+    "4691889": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Greg Desrosiers Jr.",
+     "pos": "RB",
+     "status": "Out"
+    },
+    "5082353": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "J.C. Davis",
+     "pos": "OT",
+     "status": "Out"
+    }
+   },
    "id": "19",
    "players": {
     "4039243": {
@@ -1157,6 +1221,15 @@
      "reason": "Coach's Decision",
      "via": "poll"
     },
+    "4426542": {
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "jersey": "",
+     "name": "Darius Alexander",
+     "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4427636": {
      "feed_date": "2026-11-20T22:01Z",
      "first_seen": "2026-11-22T20:10:40Z",
@@ -1172,6 +1245,15 @@
      "jersey": "",
      "name": "Thomas Fidone II",
      "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4691889": {
+     "feed_date": "2026-11-22T20:05Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "jersey": "",
+     "name": "Greg Desrosiers Jr.",
+     "pos": "RB",
      "reason": "Coach's Decision",
      "via": "poll"
     },
@@ -2713,18 +2795,18 @@
    "capped": true,
    "designations": {
     "3134316": {
-     "changed_at": null,
+     "changed_at": "2026-11-22T20:15:40Z",
      "detail": "Neck",
-     "feed_date": "2026-11-18T21:25Z",
+     "feed_date": "2026-11-22T20:03Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Matt Dickerson",
      "pos": "DE",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4242391": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-18T16:05Z",
+     "feed_date": "2026-11-22T19:58Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Robert Hainsey",
      "pos": "C",
@@ -2733,10 +2815,37 @@
     "4573319": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-22T00:45Z",
+     "feed_date": "2026-11-22T19:58Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Danny Striggow",
      "pos": "DE",
+     "status": "Out"
+    },
+    "4612298": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:58Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Albert Regis",
+     "pos": "DT",
+     "status": "Out"
+    },
+    "4912185": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:58Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "Jalen Huskey",
+     "pos": "S",
+     "status": "Out"
+    },
+    "5085024": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:58Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "name": "CJ Williams",
+     "pos": "WR",
      "status": "Out"
     }
    },
@@ -2775,6 +2884,15 @@
      "jersey": "",
      "name": "Albert Regis",
      "pos": "DT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4912185": {
+     "feed_date": "2026-11-22T19:58Z",
+     "first_seen": "2026-11-22T20:15:40Z",
+     "jersey": "",
+     "name": "Jalen Huskey",
+     "pos": "S",
      "reason": "Coach's Decision",
      "via": "poll"
     },
