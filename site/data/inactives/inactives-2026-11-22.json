@@ -1,8 +1,8 @@
 {
  "day": "2026-11-22",
  "first_poll": "2026-11-22T00:01:10Z",
- "last_change": "2026-11-22T16:56:01Z",
- "last_poll": "2026-11-22T17:47:09Z",
+ "last_change": "2026-11-22T19:45:38Z",
+ "last_poll": "2026-11-22T19:45:47Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -40,7 +40,7 @@
     "4240532": {
      "changed_at": null,
      "detail": "Illness",
-     "feed_date": "2026-11-22T17:00Z",
+     "feed_date": "2026-11-22T18:52Z",
      "first_seen": "2026-11-22T17:45:39Z",
      "name": "Tony Adams",
      "pos": "S",
@@ -629,6 +629,15 @@
      "pos": "S",
      "status": "Out"
     },
+    "4819257": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-11-22T19:30Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Jonah Savaiinaea",
+     "pos": "G",
+     "status": "Questionable"
+    },
     "4875079": {
      "changed_at": null,
      "detail": "Toe",
@@ -1187,6 +1196,15 @@
      "pos": "DT",
      "status": "Questionable"
     },
+    "4241410": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Jelani Woods",
+     "pos": "TE",
+     "status": "Out"
+    },
     "4243375": {
      "changed_at": null,
      "detail": "Knee",
@@ -1205,28 +1223,46 @@
      "pos": "DE",
      "status": "Questionable"
     },
+    "4426817": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Jarvis Brownlee Jr.",
+     "pos": "CB",
+     "status": "Out"
+    },
     "4569371": {
      "changed_at": null,
      "detail": "Ribs",
-     "feed_date": "2026-11-20T16:11Z",
+     "feed_date": "2026-11-22T19:37Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Isaiah Williams",
      "pos": "WR",
      "status": "Out"
     },
-    "4683815": {
+    "4574142": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Nate Lynn",
+     "pos": "DE",
+     "status": "Out"
+    },
+    "4683815": {
+     "changed_at": "2026-11-22T19:45:38Z",
      "detail": "Groin",
-     "feed_date": "2026-11-20T22:59Z",
+     "feed_date": "2026-11-22T19:37Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Trevin Wallace",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4723820": {
      "changed_at": null,
      "detail": "Ankle",
-     "feed_date": "2026-11-20T15:18Z",
+     "feed_date": "2026-11-22T19:37Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Omar Cooper Jr.",
      "pos": "WR",
@@ -1234,7 +1270,62 @@
     }
    },
    "id": "20",
-   "players": {},
+   "players": {
+    "4241410": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Jelani Woods",
+     "pos": "TE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4426817": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Jarvis Brownlee Jr.",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4569371": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Isaiah Williams",
+     "pos": "WR",
+     "reason": "Ribs",
+     "via": "poll"
+    },
+    "4574142": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Nate Lynn",
+     "pos": "DE",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4683815": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Trevin Wallace",
+     "pos": "LB",
+     "reason": "Groin",
+     "via": "poll"
+    },
+    "4723820": {
+     "feed_date": "2026-11-22T19:37Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Omar Cooper Jr.",
+     "pos": "WR",
+     "reason": "Ankle",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-22T17:45:44Z",
    "rows_returned": 25,
@@ -1486,6 +1577,15 @@
      "pos": "CB",
      "status": "Out"
     },
+    "4037333": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-11-22T18:32Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Alex Highsmith",
+     "pos": "LB",
+     "status": "Questionable"
+    },
     "4242207": {
      "changed_at": null,
      "detail": "",
@@ -1646,7 +1746,7 @@
     "4241597": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-21T00:06Z",
+     "feed_date": "2026-11-22T19:43Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Daiyan Henley",
      "pos": "LB",
@@ -1655,7 +1755,7 @@
     "4360745": {
      "changed_at": null,
      "detail": "Calf",
-     "feed_date": "2026-11-21T01:31Z",
+     "feed_date": "2026-11-22T19:43Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Kendall Williamson",
      "pos": "S",
@@ -1670,14 +1770,23 @@
      "pos": "OT",
      "status": "Questionable"
     },
-    "4432571": {
+    "4430870": {
      "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "KeAndre Lambert-Smith",
+     "pos": "WR",
+     "status": "Out"
+    },
+    "4432571": {
+     "changed_at": "2026-11-22T19:45:38Z",
      "detail": "Ankle",
-     "feed_date": "2026-11-21T00:26Z",
+     "feed_date": "2026-11-22T19:43Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Tarheeb Still",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4574105": {
      "changed_at": null,
@@ -1698,17 +1807,81 @@
      "status": "Questionable"
     },
     "4685553": {
-     "changed_at": null,
+     "changed_at": "2026-11-22T19:45:38Z",
      "detail": "Hamstring",
-     "feed_date": "2026-11-21T00:04Z",
+     "feed_date": "2026-11-22T19:43Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Brenen Thompson",
      "pos": "WR",
-     "status": "Doubtful"
+     "status": "Out"
+    },
+    "5082660": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Alex Harkey",
+     "pos": "G",
+     "status": "Out"
     }
    },
    "id": "24",
-   "players": {},
+   "players": {
+    "4241597": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Daiyan Henley",
+     "pos": "LB",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4360745": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Kendall Williamson",
+     "pos": "S",
+     "reason": "Calf",
+     "via": "poll"
+    },
+    "4430870": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "KeAndre Lambert-Smith",
+     "pos": "WR",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4432571": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Tarheeb Still",
+     "pos": "CB",
+     "reason": "Ankle",
+     "via": "poll"
+    },
+    "4685553": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Brenen Thompson",
+     "pos": "WR",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "5082660": {
+     "feed_date": "2026-11-22T19:43Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "jersey": "",
+     "name": "Alex Harkey",
+     "pos": "G",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": "2026-11-22T17:45:47Z",
    "rows_returned": 25,
@@ -1721,7 +1894,7 @@
     "16737": {
      "changed_at": null,
      "detail": "Achilles",
-     "feed_date": "2026-11-22T12:13Z",
+     "feed_date": "2026-11-22T18:00Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Mike Evans",
      "pos": "WR",
@@ -1955,6 +2128,15 @@
      "name": "Ayden Garnes",
      "pos": "CB",
      "status": "Out"
+    },
+    "4912847": {
+     "changed_at": null,
+     "detail": "Back",
+     "feed_date": "2026-11-22T18:47Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Jacob Parrish",
+     "pos": "CB",
+     "status": "Questionable"
     }
    },
    "id": "27",
@@ -2253,6 +2435,15 @@
      "name": "Kyler Gordon",
      "pos": "CB",
      "status": "Out"
+    },
+    "4426386": {
+     "changed_at": null,
+     "detail": "Ankle",
+     "feed_date": "2026-11-22T18:34Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Roschon Johnson",
+     "pos": "RB",
+     "status": "Questionable"
     },
     "4869748": {
      "changed_at": null,
@@ -2767,6 +2958,15 @@
      "pos": "WR",
      "status": "Out"
     },
+    "4428914": {
+     "changed_at": null,
+     "detail": "Knee",
+     "feed_date": "2026-11-22T19:05Z",
+     "first_seen": "2026-11-22T19:45:38Z",
+     "name": "Dee Winters",
+     "pos": "LB",
+     "status": "Questionable"
+    },
     "4685263": {
      "changed_at": null,
      "detail": "Ankle",
@@ -3051,7 +3251,7 @@
     "4047365": {
      "changed_at": null,
      "detail": "Finger",
-     "feed_date": "2026-11-22T16:58Z",
+     "feed_date": "2026-11-22T18:11Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Josh Jacobs",
      "pos": "RB",
