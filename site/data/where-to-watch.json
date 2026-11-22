@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-22T00:01:15Z",
+ "fetched_at": "2026-11-22T16:36:11Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -1186,32 +1186,6 @@
     },
     {
      "league": "CFB",
-     "away": "USF",
-     "home": "FAU",
-     "away_id": "58",
-     "home_id": "2226",
-     "kickoff_utc": "2026-11-21T19:30Z",
-     "kickoff_et": "2:30 PM ET",
-     "day_et": "Sat, Nov 21",
-     "window": "Saturday",
-     "carriers": [
-      {
-       "name": "ESPN+",
-       "market": "National",
-       "type": "Streaming"
-      }
-     ],
-     "id": "401862833",
-     "venue_id": "3715",
-     "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "Delayed",
-     "away_score": "7",
-     "home_score": "35"
-    },
-    {
-     "league": "CFB",
      "away": "IOWA",
      "home": "ILL",
      "away_id": "2294",
@@ -1235,6 +1209,32 @@
      "status": "Final",
      "away_score": "34",
      "home_score": "17"
+    },
+    {
+     "league": "CFB",
+     "away": "USF",
+     "home": "FAU",
+     "away_id": "58",
+     "home_id": "2226",
+     "kickoff_utc": "2026-11-21T19:30Z",
+     "kickoff_et": "2:30 PM ET",
+     "day_et": "Sat, Nov 21",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN+",
+       "market": "National",
+       "type": "Streaming"
+      }
+     ],
+     "id": "401862833",
+     "venue_id": "3715",
+     "venue_indoor": false,
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "14",
+     "home_score": "35"
     },
     {
      "league": "CFB",
@@ -1365,11 +1365,42 @@
      "id": "401858528",
      "venue_id": "3558",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "OT",
-     "away_score": "10",
-     "home_score": "10"
+     "state": "post",
+     "completed": true,
+     "status": "Final/3OT",
+     "away_score": "16",
+     "home_score": "18"
+    },
+    {
+     "league": "CFB",
+     "away": "ARK",
+     "home": "TEX",
+     "away_id": "8",
+     "home_id": "251",
+     "kickoff_utc": "2026-11-21T20:30Z",
+     "kickoff_et": "3:30 PM ET",
+     "day_et": "Sat, Nov 21",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN",
+       "market": "National",
+       "type": "TV"
+      },
+      {
+       "name": "Disney+",
+       "market": "National",
+       "type": "Streaming"
+      }
+     ],
+     "id": "401856755",
+     "venue_id": "3910",
+     "venue_indoor": false,
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "3",
+     "home_score": "45"
     },
     {
      "league": "CFB",
@@ -1391,11 +1422,11 @@
      "id": "401858535",
      "venue_id": "3765",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "1:00 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
      "away_score": "24",
-     "home_score": "24"
+     "home_score": "27"
     },
     {
      "league": "CFB",
@@ -1417,11 +1448,11 @@
      "id": "401856754",
      "venue_id": "3853",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "8:22 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "13",
-     "home_score": "20"
+     "home_score": "27"
     },
     {
      "league": "CFB",
@@ -1469,9 +1500,9 @@
      "id": "401856747",
      "venue_id": "3785",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "1:33 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "17",
      "home_score": "59"
     },
@@ -1521,10 +1552,10 @@
      "id": "401858532",
      "venue_id": "3632",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "3:28 - 4th",
-     "away_score": "17",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "25",
      "home_score": "24"
     },
     {
@@ -1555,37 +1586,6 @@
     },
     {
      "league": "CFB",
-     "away": "ARK",
-     "home": "TEX",
-     "away_id": "8",
-     "home_id": "251",
-     "kickoff_utc": "2026-11-21T20:30Z",
-     "kickoff_et": "3:30 PM ET",
-     "day_et": "Sat, Nov 21",
-     "window": "Saturday",
-     "carriers": [
-      {
-       "name": "ESPN",
-       "market": "National",
-       "type": "TV"
-      },
-      {
-       "name": "Disney+",
-       "market": "National",
-       "type": "Streaming"
-      }
-     ],
-     "id": "401856755",
-     "venue_id": "3910",
-     "venue_indoor": false,
-     "state": "post",
-     "completed": true,
-     "status": "Final",
-     "away_score": "3",
-     "home_score": "45"
-    },
-    {
-     "league": "CFB",
      "away": "TA&M",
      "home": "OU",
      "away_id": "245",
@@ -1604,11 +1604,11 @@
      "id": "401856752",
      "venue_id": "3835",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "2:36 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "7",
-     "home_score": "21"
+     "home_score": "28"
     },
     {
      "league": "CFB",
@@ -1630,10 +1630,10 @@
      "id": "401864543",
      "venue_id": "3714",
      "venue_indoor": true,
-     "state": "in",
-     "completed": false,
-     "status": "7:34 - 4th",
-     "away_score": "18",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "25",
      "home_score": "31"
     },
     {
@@ -1656,9 +1656,9 @@
      "id": "401869953",
      "venue_id": "3975",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "2:12 - 4th",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
      "away_score": "45",
      "home_score": "7"
     },
@@ -1682,10 +1682,10 @@
      "id": "401869958",
      "venue_id": "3775",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "2:00 - 4th",
-     "away_score": "21",
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "27",
      "home_score": "28"
     },
     {
@@ -1708,11 +1708,11 @@
      "id": "401871101",
      "venue_id": "3815",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "6:08 - 4th",
-     "away_score": "33",
-     "home_score": "29"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "40",
+     "home_score": "35"
     },
     {
      "league": "CFB",
@@ -1734,11 +1734,11 @@
      "id": "401860920",
      "venue_id": "3644",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "11:34 - 2nd",
-     "away_score": "7",
-     "home_score": "21"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "14",
+     "home_score": "42"
     },
     {
      "league": "CFB",
@@ -1760,11 +1760,11 @@
      "id": "401858534",
      "venue_id": "477",
      "venue_indoor": false,
-     "state": "in",
-     "completed": false,
-     "status": "15:00 - 1st",
-     "away_score": "0",
-     "home_score": "10"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "21",
+     "home_score": "35"
     },
     {
      "league": "CFB",
@@ -1791,11 +1791,11 @@
      "id": "401858302",
      "venue_id": "3948",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "20",
+     "home_score": "28"
     },
     {
      "league": "CFB",
@@ -1817,11 +1817,11 @@
      "id": "401856865",
      "venue_id": "3636",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "35",
+     "home_score": "28"
     },
     {
      "league": "CFB",
@@ -1843,11 +1843,11 @@
      "id": "401864544",
      "venue_id": "3935",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "24",
+     "home_score": "22"
     },
     {
      "league": "CFB",
@@ -1869,11 +1869,11 @@
      "id": "401869938",
      "venue_id": "3776",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "3",
+     "home_score": "48"
     },
     {
      "league": "CFB",
@@ -1895,11 +1895,11 @@
      "id": "401856753",
      "venue_id": "3994",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "34",
+     "home_score": "6"
     },
     {
      "league": "CFB",
@@ -1921,11 +1921,11 @@
      "id": "401858307",
      "venue_id": "3855",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "3",
+     "home_score": "24"
     },
     {
      "league": "CFB",
@@ -1947,11 +1947,11 @@
      "id": "401856751",
      "venue_id": "3838",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "14",
+     "home_score": "28"
     },
     {
      "league": "CFB",
@@ -1973,11 +1973,11 @@
      "id": "401858306",
      "venue_id": "3873",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "10",
+     "home_score": "42"
     },
     {
      "league": "CFB",
@@ -1999,11 +1999,11 @@
      "id": "401858308",
      "venue_id": "3831",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "44",
+     "home_score": "28"
     },
     {
      "league": "CFB",
@@ -2025,11 +2025,11 @@
      "id": "401860918",
      "venue_id": "3660",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 7:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "42",
+     "home_score": "49"
     },
     {
      "league": "CFB",
@@ -2051,11 +2051,11 @@
      "id": "401862836",
      "venue_id": "7221",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 8:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "19",
+     "home_score": "17"
     },
     {
      "league": "CFB",
@@ -2077,11 +2077,11 @@
      "id": "401856872",
      "venue_id": "3616",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 9:00 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "38",
+     "home_score": "17"
     },
     {
      "league": "CFB",
@@ -2103,11 +2103,11 @@
      "id": "401860925",
      "venue_id": "3653",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 9:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "22",
+     "home_score": "20"
     },
     {
      "league": "CFB",
@@ -2115,8 +2115,8 @@
      "home": "ASU",
      "away_id": "197",
      "home_id": "9",
-     "kickoff_utc": "2026-11-22T03:15Z",
-     "kickoff_et": "10:15 PM ET",
+     "kickoff_utc": "2026-11-22T03:30Z",
+     "kickoff_et": "10:30 PM ET",
      "day_et": "Sat, Nov 21",
      "window": "Saturday",
      "carriers": [
@@ -2129,11 +2129,11 @@
      "id": "401856870",
      "venue_id": "3947",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 10:15 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final/OT",
+     "away_score": "30",
+     "home_score": "27"
     },
     {
      "league": "CFB",
@@ -2155,11 +2155,11 @@
      "id": "401860919",
      "venue_id": "3893",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 10:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "24",
+     "home_score": "31"
     },
     {
      "league": "CFB",
@@ -2181,11 +2181,11 @@
      "id": "401864541",
      "venue_id": "3816",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/21 - 10:30 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "8",
+     "home_score": "16"
     }
    ]
   },
@@ -3030,292 +3030,6 @@
     },
     {
      "league": "CFB",
-     "away": "GT",
-     "home": "UGA",
-     "away_id": "59",
-     "home_id": "61",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856760",
-     "venue_id": "3917",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "AUB",
-     "home": "ALA",
-     "away_id": "2",
-     "home_id": "333",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [
-      {
-       "name": "ABC",
-       "market": "National",
-       "type": "TV"
-      }
-     ],
-     "id": "401856757",
-     "venue_id": "3657",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "PUR",
-     "home": "IU",
-     "away_id": "2509",
-     "home_id": "84",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401858538",
-     "venue_id": "3830",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "TENN",
-     "home": "VAN",
-     "away_id": "2633",
-     "home_id": "238",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856765",
-     "venue_id": "3973",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "DUKE",
-     "home": "WAKE",
-     "away_id": "150",
-     "home_id": "154",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401858312",
-     "venue_id": "3630",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "WASH",
-     "home": "ORE",
-     "away_id": "264",
-     "home_id": "2483",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401858541",
-     "venue_id": "3626",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "LOU",
-     "home": "UK",
-     "away_id": "97",
-     "home_id": "96",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856761",
-     "venue_id": "3683",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "SC",
-     "home": "CLEM",
-     "away_id": "2579",
-     "home_id": "228",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856764",
-     "venue_id": "3836",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "LSU",
-     "home": "ARK",
-     "away_id": "99",
-     "home_id": "8",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401856758",
-     "venue_id": "3887",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "SMU",
-     "home": "STAN",
-     "away_id": "2567",
-     "home_id": "24",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401858316",
-     "venue_id": "3940",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "TBD",
-     "home": "CSU",
-     "away_id": "-2",
-     "home_id": "36",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401860926",
-     "venue_id": "5388",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "TBD",
-     "home": "FRES",
-     "away_id": "-2",
-     "home_id": "278",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401860927",
-     "venue_id": "3660",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "TBD",
-     "home": "USU",
-     "away_id": "-2",
-     "home_id": "328",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401860928",
-     "venue_id": "3905",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
-     "away": "TBD",
-     "home": "WSU",
-     "away_id": "-2",
-     "home_id": "265",
-     "kickoff_utc": "2026-11-28T05:00Z",
-     "kickoff_et": "12:00 AM ET",
-     "day_et": "Sat, Nov 28",
-     "window": "Saturday",
-     "carriers": [],
-     "id": "401860929",
-     "venue_id": "3820",
-     "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "TBD",
-     "away_score": "0",
-     "home_score": "0"
-    },
-    {
-     "league": "CFB",
      "away": "ND",
      "home": "SYR",
      "away_id": "87",
@@ -3385,6 +3099,32 @@
      ],
      "id": "401858540",
      "venue_id": "3861",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 12:00 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "LOU",
+     "home": "UK",
+     "away_id": "97",
+     "home_id": "96",
+     "kickoff_utc": "2026-11-28T17:00Z",
+     "kickoff_et": "12:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN2",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856761",
+     "venue_id": "3683",
      "venue_indoor": false,
      "state": "pre",
      "completed": false,
@@ -3545,6 +3285,32 @@
      "state": "pre",
      "completed": false,
      "status": "11/28 - 12:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "LSU",
+     "home": "ARK",
+     "away_id": "99",
+     "home_id": "8",
+     "kickoff_utc": "2026-11-28T17:45Z",
+     "kickoff_et": "12:45 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "SEC Network",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856758",
+     "venue_id": "3887",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 12:45 PM EST",
      "away_score": "0",
      "home_score": "0"
     },
@@ -3862,6 +3628,32 @@
     },
     {
      "league": "CFB",
+     "away": "SC",
+     "home": "CLEM",
+     "away_id": "2579",
+     "home_id": "228",
+     "kickoff_utc": "2026-11-28T20:00Z",
+     "kickoff_et": "3:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN2",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856764",
+     "venue_id": "3836",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 3:00 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
      "away": "UVA",
      "home": "VT",
      "away_id": "258",
@@ -3914,6 +3706,32 @@
     },
     {
      "league": "CFB",
+     "away": "GT",
+     "home": "UGA",
+     "away_id": "59",
+     "home_id": "61",
+     "kickoff_utc": "2026-11-28T20:30Z",
+     "kickoff_et": "3:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ABC",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856760",
+     "venue_id": "3917",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 3:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
      "away": "USC",
      "home": "UCLA",
      "away_id": "30",
@@ -3957,6 +3775,58 @@
      ],
      "id": "401856876",
      "venue_id": "3801",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 3:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "DUKE",
+     "home": "WAKE",
+     "away_id": "150",
+     "home_id": "154",
+     "kickoff_utc": "2026-11-28T20:30Z",
+     "kickoff_et": "3:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401858312",
+     "venue_id": "3630",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 3:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "SMU",
+     "home": "STAN",
+     "away_id": "2567",
+     "home_id": "24",
+     "kickoff_utc": "2026-11-28T20:30Z",
+     "kickoff_et": "3:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ACC Network",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401858316",
+     "venue_id": "3940",
      "venue_indoor": false,
      "state": "pre",
      "completed": false,
@@ -4174,6 +4044,32 @@
     },
     {
      "league": "CFB",
+     "away": "BOIS",
+     "home": "CSU",
+     "away_id": "68",
+     "home_id": "36",
+     "kickoff_utc": "2026-11-28T23:00Z",
+     "kickoff_et": "6:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "USA Net",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401860926",
+     "venue_id": "5388",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 6:00 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
      "away": "KU",
      "home": "OKST",
      "away_id": "2305",
@@ -4195,6 +4091,136 @@
      "state": "pre",
      "completed": false,
      "status": "11/28 - 6:15 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "SDSU",
+     "home": "WSU",
+     "away_id": "21",
+     "home_id": "265",
+     "kickoff_utc": "2026-11-28T23:30Z",
+     "kickoff_et": "6:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "CW",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401860929",
+     "venue_id": "3820",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 6:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "PUR",
+     "home": "IU",
+     "away_id": "2509",
+     "home_id": "84",
+     "kickoff_utc": "2026-11-29T00:00Z",
+     "kickoff_et": "7:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "FS1",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401858538",
+     "venue_id": "3830",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 7:00 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "TENN",
+     "home": "VAN",
+     "away_id": "2633",
+     "home_id": "238",
+     "kickoff_utc": "2026-11-29T00:00Z",
+     "kickoff_et": "7:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ESPN",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856765",
+     "venue_id": "3973",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 7:00 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "AUB",
+     "home": "ALA",
+     "away_id": "2",
+     "home_id": "333",
+     "kickoff_utc": "2026-11-29T00:30Z",
+     "kickoff_et": "7:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "ABC",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401856757",
+     "venue_id": "3657",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 7:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "WASH",
+     "home": "ORE",
+     "away_id": "264",
+     "home_id": "2483",
+     "kickoff_utc": "2026-11-29T00:30Z",
+     "kickoff_et": "7:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "NBC",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401858541",
+     "venue_id": "3626",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 7:30 PM EST",
      "away_score": "0",
      "home_score": "0"
     },
@@ -4299,6 +4325,58 @@
      "state": "pre",
      "completed": false,
      "status": "11/28 - 9:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "TXST",
+     "home": "USU",
+     "away_id": "326",
+     "home_id": "328",
+     "kickoff_utc": "2026-11-29T02:30Z",
+     "kickoff_et": "9:30 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "USA Net",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401860928",
+     "venue_id": "3905",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 9:30 PM EST",
+     "away_score": "0",
+     "home_score": "0"
+    },
+    {
+     "league": "CFB",
+     "away": "ORST",
+     "home": "FRES",
+     "away_id": "204",
+     "home_id": "278",
+     "kickoff_utc": "2026-11-29T03:00Z",
+     "kickoff_et": "10:00 PM ET",
+     "day_et": "Sat, Nov 28",
+     "window": "Saturday",
+     "carriers": [
+      {
+       "name": "CW",
+       "market": "National",
+       "type": "TV"
+      }
+     ],
+     "id": "401860927",
+     "venue_id": "3660",
+     "venue_indoor": false,
+     "state": "pre",
+     "completed": false,
+     "status": "11/28 - 10:00 PM EST",
      "away_score": "0",
      "home_score": "0"
     },
