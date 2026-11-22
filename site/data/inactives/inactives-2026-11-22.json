@@ -1,8 +1,8 @@
 {
  "day": "2026-11-22",
  "first_poll": "2026-11-22T00:01:10Z",
- "last_change": "2026-11-22T16:46:18Z",
- "last_poll": "2026-11-22T16:46:18Z",
+ "last_change": "2026-11-22T16:51:02Z",
+ "last_poll": "2026-11-22T16:51:13Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -843,25 +843,34 @@
     "3917331": {
      "changed_at": null,
      "detail": "Biceps",
-     "feed_date": "2026-11-21T01:05Z",
+     "feed_date": "2026-11-22T16:39Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Erik McCoy",
      "pos": "C",
      "status": "Out"
     },
     "4241993": {
-     "changed_at": null,
+     "changed_at": "2026-11-22T16:51:02Z",
      "detail": "Hamstring",
-     "feed_date": "2026-11-20T22:03Z",
+     "feed_date": "2026-11-22T16:45Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Pete Werner",
      "pos": "LB",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4361259": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T16:39Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "status": "Out"
     },
     "4429568": {
      "changed_at": null,
      "detail": "Concussion",
-     "feed_date": "2026-11-20T22:05Z",
+     "feed_date": "2026-11-22T16:39Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Martin Emerson Jr.",
      "pos": "CB",
@@ -870,10 +879,19 @@
     "4430379": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-21T01:07Z",
+     "feed_date": "2026-11-22T16:39Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Asim Richards",
      "pos": "OT",
+     "status": "Out"
+    },
+    "4569682": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-22T16:43Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "name": "Audric Estime",
+     "pos": "RB",
      "status": "Out"
     },
     "4605498": {
@@ -888,7 +906,7 @@
     "4606711": {
      "changed_at": null,
      "detail": "Knee",
-     "feed_date": "2026-11-21T01:03Z",
+     "feed_date": "2026-11-22T16:39Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Taliese Fuaga",
      "pos": "OT",
@@ -897,6 +915,33 @@
    },
    "id": "18",
    "players": {
+    "3917331": {
+     "feed_date": "2026-11-22T16:39Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Erik McCoy",
+     "pos": "C",
+     "reason": "Biceps",
+     "via": "poll"
+    },
+    "4241993": {
+     "feed_date": "2026-11-22T16:45Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Pete Werner",
+     "pos": "LB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
+    "4361259": {
+     "feed_date": "2026-11-22T16:39Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Zach Wilson",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4429568": {
      "feed_date": "2026-11-20T22:05Z",
      "first_seen": "2026-11-22T16:46:07Z",
@@ -913,6 +958,15 @@
      "name": "Asim Richards",
      "pos": "OT",
      "reason": "Knee",
+     "via": "poll"
+    },
+    "4569682": {
+     "feed_date": "2026-11-22T16:43Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Audric Estime",
+     "pos": "RB",
+     "reason": "Coach's Decision",
      "via": "poll"
     },
     "4606711": {
@@ -963,7 +1017,7 @@
     },
     "4039303": {
      "changed_at": null,
-     "detail": "Oblique",
+     "detail": "",
      "feed_date": "2026-11-21T18:54Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Ed Oliver",
@@ -999,7 +1053,7 @@
     },
     "4573699": {
      "changed_at": null,
-     "detail": "Shoulder",
+     "detail": "",
      "feed_date": "2026-11-20T22:16Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Jackson Hawes",
@@ -1397,7 +1451,7 @@
    "designations": {
     "3929846": {
      "changed_at": null,
-     "detail": "Knee",
+     "detail": "",
      "feed_date": "2026-11-20T22:13Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "DeShon Elliott",
@@ -1758,6 +1812,15 @@
    },
    "id": "27",
    "players": {
+    "3120590": {
+     "feed_date": "2026-11-16T21:22Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Easton Stick",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
     "4034790": {
      "feed_date": "2026-11-20T23:52Z",
      "first_seen": "2026-11-22T16:46:07Z",
@@ -1879,7 +1942,7 @@
     },
     "4372780": {
      "changed_at": null,
-     "detail": "Knee",
+     "detail": "",
      "feed_date": "2026-11-20T23:29Z",
      "first_seen": "2026-11-22T00:01:10Z",
      "name": "Tommy Tremble",
@@ -1888,7 +1951,17 @@
     }
    },
    "id": "29",
-   "players": {},
+   "players": {
+    "4240595": {
+     "feed_date": "2026-11-17T00:31Z",
+     "first_seen": "2026-11-22T16:51:02Z",
+     "jersey": "",
+     "name": "Marco Wilson",
+     "pos": "CB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
@@ -2076,7 +2149,7 @@
     "4428512": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-22T16:32Z",
+     "feed_date": "2026-11-22T16:35Z",
      "first_seen": "2026-11-22T16:36:07Z",
      "name": "Kedon Slovis",
      "pos": "QB",
@@ -2085,7 +2158,7 @@
     "4685526": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-22T16:32Z",
+     "feed_date": "2026-11-22T16:39Z",
      "first_seen": "2026-11-22T16:36:07Z",
      "name": "Adam Randall",
      "pos": "RB",
@@ -2103,7 +2176,7 @@
     "5088338": {
      "changed_at": null,
      "detail": "Coach's Decision",
-     "feed_date": "2026-11-22T16:32Z",
+     "feed_date": "2026-11-22T16:43Z",
      "first_seen": "2026-11-22T16:36:07Z",
      "name": "Elijah Sarratt",
      "pos": "WR",
