@@ -13,8 +13,9 @@
     "max": 32
   },
   "worker_dispatches": [
-    "inactives.yml in its posting windows",
-    "sports-news-brief.yml at the evening slot until Jack removes the window from the Worker; the run it starts skips"
+    "inactives.yml in its posting windows (its only trigger since N-1)",
+    "sports-news-brief.yml at the evening slot until Jack removes the window from the Worker; the run it starts skips",
+    "scores-cadence.yml every ten minutes, 6 AM hour and 10 AM to 2:59 AM ET, from the Worker's N-1 deploy"
   ],
   "workflows": {
     "sports-news-brief.yml": {
@@ -36,35 +37,8 @@
     },
     "inactives.yml": {
       "purpose": "The Sunday inactives poller. Its dated snapshots are the record.",
-      "crons": [
-        {
-          "utc": "*/15 15-23 * * 0",
-          "et": "Sun 11:00 AM-7:59 PM",
-          "slot": null
-        },
-        {
-          "utc": "*/20 0-4 * * 1,2,5,6",
-          "et": "night games after UTC midnight",
-          "slot": null
-        },
-        {
-          "utc": "*/20 22-23 * * 1,4,5",
-          "et": "Mon/Thu/Fri 6:00-7:59 PM",
-          "slot": null
-        },
-        {
-          "utc": "*/20 0-4 * * 5",
-          "et": "Thu night after UTC midnight",
-          "slot": null
-        },
-        {
-          "utc": "*/15 16-23 * * 6",
-          "et": "Sat 12:00-7:59 PM",
-          "slot": null
-        }
-      ],
+      "crons": [],
       "triggers": [
-        "schedule",
         "workflow_dispatch"
       ],
       "runs_per_day": {
@@ -75,7 +49,8 @@
         "min": 0,
         "max": 0
       },
-      "note": "No model calls. A tick that captures nothing costs seconds and no commit."
+      "note": "No model calls. A tick that captures nothing costs seconds and no commit.",
+      "trigger_note": "N-1 (2026-11-21): the Worker dispatches it every five minutes in its Eastern windows; the GitHub crons are removed."
     },
     "verify-sports-pipeline.yml": {
       "purpose": "The pipeline verification ladder.",
@@ -248,6 +223,34 @@
       "runs_per_day": {
         "min": 0,
         "max": 120
+      },
+      "paid_runs_per_day": {
+        "min": 0,
+        "max": 0
+      },
+      "trigger_note": "N-1 (2026-11-21): the Worker's next deploy dispatches it every ten minutes through the day's games; its crons stay until that deploy is live, then go."
+    },
+    "health.yml": {
+      "purpose": "N-1 health gate: once a day at 7 AM ET reads the last 24 hours of run conclusions, the scores snapshots and the public site's stamps, and fails, one mail, only when the site has not built for a full day or the scores went more than two hours without a reading while a game was on. docs/HEALTH.md in gcm-newsroom.",
+      "crons": [
+        {
+          "utc": "3 11 * * *",
+          "et": "7:03 AM EDT",
+          "slot": null
+        },
+        {
+          "utc": "3 12 * * *",
+          "et": "7:03 AM EST",
+          "slot": null
+        }
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "runs_per_day": {
+        "min": 1,
+        "max": 2
       },
       "paid_runs_per_day": {
         "min": 0,

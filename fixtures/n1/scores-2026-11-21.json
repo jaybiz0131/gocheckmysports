@@ -1,0 +1,4997 @@
+{
+ "what": "N-1 fixture: the four scores snapshots committed on gocheckmysports main on Saturday November 21, 2026 (commits 924922b, d88cc93, d852ed8, ee7cf59), trimmed to the fields the health gate reads. Every value is the commit's own, nothing invented.",
+ "snapshots": [
+  {
+   "commit": "924922b",
+   "fetched_at": "2026-11-21T05:48:50Z",
+   "leagues": [
+    {
+     "league": "NFL",
+     "games": [
+      {
+       "id": "401873066",
+       "league": "NFL",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T01:15Z",
+       "away": {
+        "abbr": "IND"
+       },
+       "home": {
+        "abbr": "HOU"
+       }
+      },
+      {
+       "id": "401873070",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "MIA"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873071",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "NO"
+       },
+       "home": {
+        "abbr": "CHI"
+       }
+      },
+      {
+       "id": "401873073",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TEN"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873072",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TB"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873067",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "ARI"
+       },
+       "home": {
+        "abbr": "KC"
+       }
+      },
+      {
+       "id": "401873076",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "PIT"
+       },
+       "home": {
+        "abbr": "PHI"
+       }
+      },
+      {
+       "id": "401873068",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "BAL"
+       },
+       "home": {
+        "abbr": "CAR"
+       }
+      },
+      {
+       "id": "401873074",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:05 PM EST",
+       "start_utc": "2026-11-22T21:05Z",
+       "away": {
+        "abbr": "NYJ"
+       },
+       "home": {
+        "abbr": "LAC"
+       }
+      },
+      {
+       "id": "401873075",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "LV"
+       },
+       "home": {
+        "abbr": "DEN"
+       }
+      },
+      {
+       "id": "401873069",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "JAX"
+       },
+       "home": {
+        "abbr": "NYG"
+       }
+      },
+      {
+       "id": "401873077",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 8:20 PM EST",
+       "start_utc": "2026-11-23T01:20Z",
+       "away": {
+        "abbr": "MIN"
+       },
+       "home": {
+        "abbr": "SF"
+       }
+      },
+      {
+       "id": "401873078",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/23 - 8:15 PM EST",
+       "start_utc": "2026-11-24T01:15Z",
+       "away": {
+        "abbr": "CIN"
+       },
+       "home": {
+        "abbr": "WSH"
+       }
+      },
+      {
+       "id": "401873079",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/25 - 8:00 PM EST",
+       "start_utc": "2026-11-26T01:00Z",
+       "away": {
+        "abbr": "GB"
+       },
+       "home": {
+        "abbr": "LAR"
+       }
+      },
+      {
+       "id": "401873081",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 1:00 PM EST",
+       "start_utc": "2026-11-26T18:00Z",
+       "away": {
+        "abbr": "CHI"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873080",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 4:30 PM EST",
+       "start_utc": "2026-11-26T21:30Z",
+       "away": {
+        "abbr": "PHI"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873082",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 8:20 PM EST",
+       "start_utc": "2026-11-27T01:20Z",
+       "away": {
+        "abbr": "KC"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873083",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/27 - 3:00 PM EST",
+       "start_utc": "2026-11-27T20:00Z",
+       "away": {
+        "abbr": "DEN"
+       },
+       "home": {
+        "abbr": "PIT"
+       }
+      }
+     ]
+    },
+    {
+     "league": "CFB",
+     "games": [
+      {
+       "id": "401856866",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "BYU"
+       },
+       "home": {
+        "abbr": "KU"
+       }
+      },
+      {
+       "id": "401858310",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WAKE"
+       },
+       "home": {
+        "abbr": "GT"
+       }
+      },
+      {
+       "id": "401858531",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "OSU"
+       },
+       "home": {
+        "abbr": "NEB"
+       }
+      },
+      {
+       "id": "401856748",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "VAN"
+       },
+       "home": {
+        "abbr": "FLA"
+       }
+      },
+      {
+       "id": "401856749",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WOF"
+       },
+       "home": {
+        "abbr": "MISS"
+       }
+      },
+      {
+       "id": "401856868",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "HOU"
+       },
+       "home": {
+        "abbr": "WVU"
+       }
+      },
+      {
+       "id": "401856746",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "UTC"
+       },
+       "home": {
+        "abbr": "ALA"
+       }
+      },
+      {
+       "id": "401858527",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "IOWA"
+       },
+       "home": {
+        "abbr": "ILL"
+       }
+      },
+      {
+       "id": "401858528",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "UCLA"
+       },
+       "home": {
+        "abbr": "MICH"
+       }
+      },
+      {
+       "id": "401856755",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ARK"
+       },
+       "home": {
+        "abbr": "TEX"
+       }
+      },
+      {
+       "id": "401858535",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "IU"
+       },
+       "home": {
+        "abbr": "WASH"
+       }
+      },
+      {
+       "id": "401856754",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "LSU"
+       },
+       "home": {
+        "abbr": "TENN"
+       }
+      },
+      {
+       "id": "401856871",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "TTU"
+       },
+       "home": {
+        "abbr": "BAY"
+       }
+      },
+      {
+       "id": "401856752",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:45 PM EST",
+       "start_utc": "2026-11-21T20:45Z",
+       "away": {
+        "abbr": "TA&M"
+       },
+       "home": {
+        "abbr": "OU"
+       }
+      },
+      {
+       "id": "401858534",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:15 PM EST",
+       "start_utc": "2026-11-21T23:15Z",
+       "away": {
+        "abbr": "MD"
+       },
+       "home": {
+        "abbr": "USC"
+       }
+      },
+      {
+       "id": "401858302",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "VT"
+       },
+       "home": {
+        "abbr": "MIA"
+       }
+      },
+      {
+       "id": "401856865",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARIZ"
+       },
+       "home": {
+        "abbr": "KSU"
+       }
+      },
+      {
+       "id": "401856753",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UGA"
+       },
+       "home": {
+        "abbr": "SC"
+       }
+      },
+      {
+       "id": "401858307",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "SMU"
+       },
+       "home": {
+        "abbr": "ND"
+       }
+      },
+      {
+       "id": "401856751",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UK"
+       },
+       "home": {
+        "abbr": "MIZ"
+       }
+      },
+      {
+       "id": "401858306",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "PITT"
+       },
+       "home": {
+        "abbr": "LOU"
+       }
+      },
+      {
+       "id": "401856872",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:00 PM EST",
+       "start_utc": "2026-11-22T02:00Z",
+       "away": {
+        "abbr": "UTAH"
+       },
+       "home": {
+        "abbr": "TCU"
+       }
+      },
+      {
+       "id": "401860925",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:30 PM EST",
+       "start_utc": "2026-11-22T02:30Z",
+       "away": {
+        "abbr": "SDSU"
+       },
+       "home": {
+        "abbr": "BOIS"
+       }
+      },
+      {
+       "id": "401858529",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "ORE"
+       },
+       "home": {
+        "abbr": "MSU"
+       }
+      },
+      {
+       "id": "401866465",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-17T23:00Z",
+       "away": {
+        "abbr": "EMU"
+       },
+       "home": {
+        "abbr": "WMU"
+       }
+      },
+      {
+       "id": "401866464",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "BALL"
+       },
+       "home": {
+        "abbr": "OHIO"
+       }
+      },
+      {
+       "id": "401866466",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "M-OH"
+       },
+       "home": {
+        "abbr": "KENT"
+       }
+      },
+      {
+       "id": "401866467",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:00Z",
+       "away": {
+        "abbr": "AKR"
+       },
+       "home": {
+        "abbr": "MASS"
+       }
+      },
+      {
+       "id": "401866469",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:30Z",
+       "away": {
+        "abbr": "CMU"
+       },
+       "home": {
+        "abbr": "BUFF"
+       }
+      },
+      {
+       "id": "401862830",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T00:30Z",
+       "away": {
+        "abbr": "RICE"
+       },
+       "home": {
+        "abbr": "TEM"
+       }
+      },
+      {
+       "id": "401856869",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T23:00Z",
+       "away": {
+        "abbr": "ISU"
+       },
+       "home": {
+        "abbr": "UCF"
+       }
+      },
+      {
+       "id": "401858303",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "CLEM"
+       },
+       "home": {
+        "abbr": "DUKE"
+       }
+      },
+      {
+       "id": "401866468",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "BGSU"
+       },
+       "home": {
+        "abbr": "TOL"
+       }
+      },
+      {
+       "id": "401864545",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "UTEP"
+       },
+       "home": {
+        "abbr": "AFA"
+       }
+      },
+      {
+       "id": "401864542",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T02:00Z",
+       "away": {
+        "abbr": "UNM"
+       },
+       "home": {
+        "abbr": "WYO"
+       }
+      },
+      {
+       "id": "401856867",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "COLO"
+       },
+       "home": {
+        "abbr": "CIN"
+       }
+      },
+      {
+       "id": "401858309",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "SYR"
+       },
+       "home": {
+        "abbr": "BC"
+       }
+      },
+      {
+       "id": "401858530",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "NU"
+       },
+       "home": {
+        "abbr": "MINN"
+       }
+      },
+      {
+       "id": "401858533",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WIS"
+       },
+       "home": {
+        "abbr": "PUR"
+       }
+      },
+      {
+       "id": "401862831",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "ECU"
+       },
+       "home": {
+        "abbr": "ARMY"
+       }
+      },
+      {
+       "id": "401862834",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "MEM"
+       },
+       "home": {
+        "abbr": "NAVY"
+       }
+      },
+      {
+       "id": "401862835",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:00 PM EST",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "UNT"
+       },
+       "home": {
+        "abbr": "TULN"
+       }
+      },
+      {
+       "id": "401858305",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:30 PM EST",
+       "start_utc": "2026-11-21T17:30Z",
+       "away": {
+        "abbr": "UNC"
+       },
+       "home": {
+        "abbr": "UVA"
+       }
+      },
+      {
+       "id": "401856750",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "TNTC"
+       },
+       "home": {
+        "abbr": "MSST"
+       }
+      },
+      {
+       "id": "401871080",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "WKU"
+       },
+       "home": {
+        "abbr": "LIB"
+       }
+      },
+      {
+       "id": "401862832",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "CLT"
+       },
+       "home": {
+        "abbr": "TLSA"
+       }
+      },
+      {
+       "id": "401871079",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MOST"
+       },
+       "home": {
+        "abbr": "JXST"
+       }
+      },
+      {
+       "id": "401871081",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MTSU"
+       },
+       "home": {
+        "abbr": "SHSU"
+       }
+      },
+      {
+       "id": "401862833",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "USF"
+       },
+       "home": {
+        "abbr": "FAU"
+       }
+      },
+      {
+       "id": "401869929",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "ULM"
+       },
+       "home": {
+        "abbr": "APP"
+       }
+      },
+      {
+       "id": "401869946",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "CCU"
+       },
+       "home": {
+        "abbr": "UL"
+       }
+      },
+      {
+       "id": "401871077",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "DEL"
+       },
+       "home": {
+        "abbr": "NMSU"
+       }
+      },
+      {
+       "id": "401871078",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "FIU"
+       },
+       "home": {
+        "abbr": "KENN"
+       }
+      },
+      {
+       "id": "401856747",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "SAM"
+       },
+       "home": {
+        "abbr": "AUB"
+       }
+      },
+      {
+       "id": "401858304",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "NCSU"
+       },
+       "home": {
+        "abbr": "FSU"
+       }
+      },
+      {
+       "id": "401858532",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "RUTG"
+       },
+       "home": {
+        "abbr": "PSU"
+       }
+      },
+      {
+       "id": "401861968",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ODU"
+       },
+       "home": {
+        "abbr": "CONN"
+       }
+      },
+      {
+       "id": "401864543",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "NIU"
+       },
+       "home": {
+        "abbr": "NDSU"
+       }
+      },
+      {
+       "id": "401869953",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GASO"
+       },
+       "home": {
+        "abbr": "TROY"
+       }
+      },
+      {
+       "id": "401869958",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GAST"
+       },
+       "home": {
+        "abbr": "MRSH"
+       }
+      },
+      {
+       "id": "401871101",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "USA"
+       },
+       "home": {
+        "abbr": "USM"
+       }
+      },
+      {
+       "id": "401860920",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:00 PM EST",
+       "start_utc": "2026-11-21T23:00Z",
+       "away": {
+        "abbr": "WSU"
+       },
+       "home": {
+        "abbr": "TXST"
+       }
+      },
+      {
+       "id": "401864544",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "UNLV"
+       },
+       "home": {
+        "abbr": "SJSU"
+       }
+      },
+      {
+       "id": "401869938",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARST"
+       },
+       "home": {
+        "abbr": "LT"
+       }
+      },
+      {
+       "id": "401858308",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "STAN"
+       },
+       "home": {
+        "abbr": "CAL"
+       }
+      },
+      {
+       "id": "401860918",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "CSU"
+       },
+       "home": {
+        "abbr": "FRES"
+       }
+      },
+      {
+       "id": "401862836",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 8:00 PM EST",
+       "start_utc": "2026-11-22T01:00Z",
+       "away": {
+        "abbr": "UTSA"
+       },
+       "home": {
+        "abbr": "UAB"
+       }
+      },
+      {
+       "id": "401856870",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:15 PM EST",
+       "start_utc": "2026-11-22T03:15Z",
+       "away": {
+        "abbr": "OKST"
+       },
+       "home": {
+        "abbr": "ASU"
+       }
+      },
+      {
+       "id": "401860919",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "USU"
+       },
+       "home": {
+        "abbr": "ORST"
+       }
+      },
+      {
+       "id": "401864541",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "HAW"
+       },
+       "home": {
+        "abbr": "NEV"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "commit": "d88cc93",
+   "fetched_at": "2026-11-21T17:23:01Z",
+   "leagues": [
+    {
+     "league": "NFL",
+     "games": [
+      {
+       "id": "401873066",
+       "league": "NFL",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T01:15Z",
+       "away": {
+        "abbr": "IND"
+       },
+       "home": {
+        "abbr": "HOU"
+       }
+      },
+      {
+       "id": "401873070",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "MIA"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873071",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "NO"
+       },
+       "home": {
+        "abbr": "CHI"
+       }
+      },
+      {
+       "id": "401873073",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TEN"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873072",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TB"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873067",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "ARI"
+       },
+       "home": {
+        "abbr": "KC"
+       }
+      },
+      {
+       "id": "401873076",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "PIT"
+       },
+       "home": {
+        "abbr": "PHI"
+       }
+      },
+      {
+       "id": "401873068",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "BAL"
+       },
+       "home": {
+        "abbr": "CAR"
+       }
+      },
+      {
+       "id": "401873074",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:05 PM EST",
+       "start_utc": "2026-11-22T21:05Z",
+       "away": {
+        "abbr": "NYJ"
+       },
+       "home": {
+        "abbr": "LAC"
+       }
+      },
+      {
+       "id": "401873075",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "LV"
+       },
+       "home": {
+        "abbr": "DEN"
+       }
+      },
+      {
+       "id": "401873069",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "JAX"
+       },
+       "home": {
+        "abbr": "NYG"
+       }
+      },
+      {
+       "id": "401873077",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 8:20 PM EST",
+       "start_utc": "2026-11-23T01:20Z",
+       "away": {
+        "abbr": "MIN"
+       },
+       "home": {
+        "abbr": "SF"
+       }
+      },
+      {
+       "id": "401873078",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/23 - 8:15 PM EST",
+       "start_utc": "2026-11-24T01:15Z",
+       "away": {
+        "abbr": "CIN"
+       },
+       "home": {
+        "abbr": "WSH"
+       }
+      },
+      {
+       "id": "401873079",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/25 - 8:00 PM EST",
+       "start_utc": "2026-11-26T01:00Z",
+       "away": {
+        "abbr": "GB"
+       },
+       "home": {
+        "abbr": "LAR"
+       }
+      },
+      {
+       "id": "401873081",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 1:00 PM EST",
+       "start_utc": "2026-11-26T18:00Z",
+       "away": {
+        "abbr": "CHI"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873080",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 4:30 PM EST",
+       "start_utc": "2026-11-26T21:30Z",
+       "away": {
+        "abbr": "PHI"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873082",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 8:20 PM EST",
+       "start_utc": "2026-11-27T01:20Z",
+       "away": {
+        "abbr": "KC"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873083",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/27 - 3:00 PM EST",
+       "start_utc": "2026-11-27T20:00Z",
+       "away": {
+        "abbr": "DEN"
+       },
+       "home": {
+        "abbr": "PIT"
+       }
+      }
+     ]
+    },
+    {
+     "league": "CFB",
+     "games": [
+      {
+       "id": "401856866",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "6:36 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "BYU"
+       },
+       "home": {
+        "abbr": "KU"
+       }
+      },
+      {
+       "id": "401858310",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "8:19 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WAKE"
+       },
+       "home": {
+        "abbr": "GT"
+       }
+      },
+      {
+       "id": "401858531",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "11:43 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "OSU"
+       },
+       "home": {
+        "abbr": "NEB"
+       }
+      },
+      {
+       "id": "401856748",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "4:22 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "VAN"
+       },
+       "home": {
+        "abbr": "FLA"
+       }
+      },
+      {
+       "id": "401856749",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "8:37 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WOF"
+       },
+       "home": {
+        "abbr": "MISS"
+       }
+      },
+      {
+       "id": "401856868",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "HOU"
+       },
+       "home": {
+        "abbr": "WVU"
+       }
+      },
+      {
+       "id": "401856746",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "UTC"
+       },
+       "home": {
+        "abbr": "ALA"
+       }
+      },
+      {
+       "id": "401858527",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "IOWA"
+       },
+       "home": {
+        "abbr": "ILL"
+       }
+      },
+      {
+       "id": "401858528",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "UCLA"
+       },
+       "home": {
+        "abbr": "MICH"
+       }
+      },
+      {
+       "id": "401856755",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ARK"
+       },
+       "home": {
+        "abbr": "TEX"
+       }
+      },
+      {
+       "id": "401858535",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "IU"
+       },
+       "home": {
+        "abbr": "WASH"
+       }
+      },
+      {
+       "id": "401856754",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "LSU"
+       },
+       "home": {
+        "abbr": "TENN"
+       }
+      },
+      {
+       "id": "401856871",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "TTU"
+       },
+       "home": {
+        "abbr": "BAY"
+       }
+      },
+      {
+       "id": "401856752",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:45 PM EST",
+       "start_utc": "2026-11-21T20:45Z",
+       "away": {
+        "abbr": "TA&M"
+       },
+       "home": {
+        "abbr": "OU"
+       }
+      },
+      {
+       "id": "401858534",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:15 PM EST",
+       "start_utc": "2026-11-21T23:15Z",
+       "away": {
+        "abbr": "MD"
+       },
+       "home": {
+        "abbr": "USC"
+       }
+      },
+      {
+       "id": "401858302",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "VT"
+       },
+       "home": {
+        "abbr": "MIA"
+       }
+      },
+      {
+       "id": "401856865",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARIZ"
+       },
+       "home": {
+        "abbr": "KSU"
+       }
+      },
+      {
+       "id": "401856753",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UGA"
+       },
+       "home": {
+        "abbr": "SC"
+       }
+      },
+      {
+       "id": "401858307",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "SMU"
+       },
+       "home": {
+        "abbr": "ND"
+       }
+      },
+      {
+       "id": "401856751",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UK"
+       },
+       "home": {
+        "abbr": "MIZ"
+       }
+      },
+      {
+       "id": "401858306",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "PITT"
+       },
+       "home": {
+        "abbr": "LOU"
+       }
+      },
+      {
+       "id": "401856872",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:00 PM EST",
+       "start_utc": "2026-11-22T02:00Z",
+       "away": {
+        "abbr": "UTAH"
+       },
+       "home": {
+        "abbr": "TCU"
+       }
+      },
+      {
+       "id": "401860925",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:30 PM EST",
+       "start_utc": "2026-11-22T02:30Z",
+       "away": {
+        "abbr": "SDSU"
+       },
+       "home": {
+        "abbr": "BOIS"
+       }
+      },
+      {
+       "id": "401858529",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "ORE"
+       },
+       "home": {
+        "abbr": "MSU"
+       }
+      },
+      {
+       "id": "401866465",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-17T23:00Z",
+       "away": {
+        "abbr": "EMU"
+       },
+       "home": {
+        "abbr": "WMU"
+       }
+      },
+      {
+       "id": "401866464",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "BALL"
+       },
+       "home": {
+        "abbr": "OHIO"
+       }
+      },
+      {
+       "id": "401866466",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "M-OH"
+       },
+       "home": {
+        "abbr": "KENT"
+       }
+      },
+      {
+       "id": "401866467",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:00Z",
+       "away": {
+        "abbr": "AKR"
+       },
+       "home": {
+        "abbr": "MASS"
+       }
+      },
+      {
+       "id": "401866469",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:30Z",
+       "away": {
+        "abbr": "CMU"
+       },
+       "home": {
+        "abbr": "BUFF"
+       }
+      },
+      {
+       "id": "401862830",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T00:30Z",
+       "away": {
+        "abbr": "RICE"
+       },
+       "home": {
+        "abbr": "TEM"
+       }
+      },
+      {
+       "id": "401856869",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T23:00Z",
+       "away": {
+        "abbr": "ISU"
+       },
+       "home": {
+        "abbr": "UCF"
+       }
+      },
+      {
+       "id": "401858303",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "CLEM"
+       },
+       "home": {
+        "abbr": "DUKE"
+       }
+      },
+      {
+       "id": "401866468",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "BGSU"
+       },
+       "home": {
+        "abbr": "TOL"
+       }
+      },
+      {
+       "id": "401864545",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "UTEP"
+       },
+       "home": {
+        "abbr": "AFA"
+       }
+      },
+      {
+       "id": "401864542",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T02:00Z",
+       "away": {
+        "abbr": "UNM"
+       },
+       "home": {
+        "abbr": "WYO"
+       }
+      },
+      {
+       "id": "401856867",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "4:09 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "COLO"
+       },
+       "home": {
+        "abbr": "CIN"
+       }
+      },
+      {
+       "id": "401858309",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "9:15 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "SYR"
+       },
+       "home": {
+        "abbr": "BC"
+       }
+      },
+      {
+       "id": "401858530",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "7:34 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "NU"
+       },
+       "home": {
+        "abbr": "MINN"
+       }
+      },
+      {
+       "id": "401858533",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "7:12 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WIS"
+       },
+       "home": {
+        "abbr": "PUR"
+       }
+      },
+      {
+       "id": "401862831",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "8:48 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "ECU"
+       },
+       "home": {
+        "abbr": "ARMY"
+       }
+      },
+      {
+       "id": "401862834",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "10:08 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "MEM"
+       },
+       "home": {
+        "abbr": "NAVY"
+       }
+      },
+      {
+       "id": "401862835",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "6:20 - 1st",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "UNT"
+       },
+       "home": {
+        "abbr": "TULN"
+       }
+      },
+      {
+       "id": "401858305",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 12:30 PM EST",
+       "start_utc": "2026-11-21T17:30Z",
+       "away": {
+        "abbr": "UNC"
+       },
+       "home": {
+        "abbr": "UVA"
+       }
+      },
+      {
+       "id": "401856750",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "TNTC"
+       },
+       "home": {
+        "abbr": "MSST"
+       }
+      },
+      {
+       "id": "401871080",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 1:00 PM EST",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "WKU"
+       },
+       "home": {
+        "abbr": "LIB"
+       }
+      },
+      {
+       "id": "401862832",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "CLT"
+       },
+       "home": {
+        "abbr": "TLSA"
+       }
+      },
+      {
+       "id": "401871079",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MOST"
+       },
+       "home": {
+        "abbr": "JXST"
+       }
+      },
+      {
+       "id": "401871081",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:00 PM EST",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MTSU"
+       },
+       "home": {
+        "abbr": "SHSU"
+       }
+      },
+      {
+       "id": "401862833",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "USF"
+       },
+       "home": {
+        "abbr": "FAU"
+       }
+      },
+      {
+       "id": "401869929",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 2:30 PM EST",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "ULM"
+       },
+       "home": {
+        "abbr": "APP"
+       }
+      },
+      {
+       "id": "401869946",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "CCU"
+       },
+       "home": {
+        "abbr": "UL"
+       }
+      },
+      {
+       "id": "401871077",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "DEL"
+       },
+       "home": {
+        "abbr": "NMSU"
+       }
+      },
+      {
+       "id": "401871078",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:00 PM EST",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "FIU"
+       },
+       "home": {
+        "abbr": "KENN"
+       }
+      },
+      {
+       "id": "401856747",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "SAM"
+       },
+       "home": {
+        "abbr": "AUB"
+       }
+      },
+      {
+       "id": "401858304",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "NCSU"
+       },
+       "home": {
+        "abbr": "FSU"
+       }
+      },
+      {
+       "id": "401858532",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "RUTG"
+       },
+       "home": {
+        "abbr": "PSU"
+       }
+      },
+      {
+       "id": "401861968",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ODU"
+       },
+       "home": {
+        "abbr": "CONN"
+       }
+      },
+      {
+       "id": "401864543",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "NIU"
+       },
+       "home": {
+        "abbr": "NDSU"
+       }
+      },
+      {
+       "id": "401869953",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GASO"
+       },
+       "home": {
+        "abbr": "TROY"
+       }
+      },
+      {
+       "id": "401869958",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GAST"
+       },
+       "home": {
+        "abbr": "MRSH"
+       }
+      },
+      {
+       "id": "401871101",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "USA"
+       },
+       "home": {
+        "abbr": "USM"
+       }
+      },
+      {
+       "id": "401860920",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:00 PM EST",
+       "start_utc": "2026-11-21T23:00Z",
+       "away": {
+        "abbr": "WSU"
+       },
+       "home": {
+        "abbr": "TXST"
+       }
+      },
+      {
+       "id": "401864544",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "UNLV"
+       },
+       "home": {
+        "abbr": "SJSU"
+       }
+      },
+      {
+       "id": "401869938",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARST"
+       },
+       "home": {
+        "abbr": "LT"
+       }
+      },
+      {
+       "id": "401858308",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "STAN"
+       },
+       "home": {
+        "abbr": "CAL"
+       }
+      },
+      {
+       "id": "401860918",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "CSU"
+       },
+       "home": {
+        "abbr": "FRES"
+       }
+      },
+      {
+       "id": "401862836",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 8:00 PM EST",
+       "start_utc": "2026-11-22T01:00Z",
+       "away": {
+        "abbr": "UTSA"
+       },
+       "home": {
+        "abbr": "UAB"
+       }
+      },
+      {
+       "id": "401856870",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:15 PM EST",
+       "start_utc": "2026-11-22T03:15Z",
+       "away": {
+        "abbr": "OKST"
+       },
+       "home": {
+        "abbr": "ASU"
+       }
+      },
+      {
+       "id": "401860919",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "USU"
+       },
+       "home": {
+        "abbr": "ORST"
+       }
+      },
+      {
+       "id": "401864541",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "HAW"
+       },
+       "home": {
+        "abbr": "NEV"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "commit": "d852ed8",
+   "fetched_at": "2026-11-21T20:43:10Z",
+   "leagues": [
+    {
+     "league": "NFL",
+     "games": [
+      {
+       "id": "401873066",
+       "league": "NFL",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T01:15Z",
+       "away": {
+        "abbr": "IND"
+       },
+       "home": {
+        "abbr": "HOU"
+       }
+      },
+      {
+       "id": "401873070",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "MIA"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873071",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "NO"
+       },
+       "home": {
+        "abbr": "CHI"
+       }
+      },
+      {
+       "id": "401873073",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TEN"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873072",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TB"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873067",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "ARI"
+       },
+       "home": {
+        "abbr": "KC"
+       }
+      },
+      {
+       "id": "401873076",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "PIT"
+       },
+       "home": {
+        "abbr": "PHI"
+       }
+      },
+      {
+       "id": "401873068",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "BAL"
+       },
+       "home": {
+        "abbr": "CAR"
+       }
+      },
+      {
+       "id": "401873074",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:05 PM EST",
+       "start_utc": "2026-11-22T21:05Z",
+       "away": {
+        "abbr": "NYJ"
+       },
+       "home": {
+        "abbr": "LAC"
+       }
+      },
+      {
+       "id": "401873075",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "LV"
+       },
+       "home": {
+        "abbr": "DEN"
+       }
+      },
+      {
+       "id": "401873069",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "JAX"
+       },
+       "home": {
+        "abbr": "NYG"
+       }
+      },
+      {
+       "id": "401873077",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 8:20 PM EST",
+       "start_utc": "2026-11-23T01:20Z",
+       "away": {
+        "abbr": "MIN"
+       },
+       "home": {
+        "abbr": "SF"
+       }
+      },
+      {
+       "id": "401873078",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/23 - 8:15 PM EST",
+       "start_utc": "2026-11-24T01:15Z",
+       "away": {
+        "abbr": "CIN"
+       },
+       "home": {
+        "abbr": "WSH"
+       }
+      },
+      {
+       "id": "401873079",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/25 - 8:00 PM EST",
+       "start_utc": "2026-11-26T01:00Z",
+       "away": {
+        "abbr": "GB"
+       },
+       "home": {
+        "abbr": "LAR"
+       }
+      },
+      {
+       "id": "401873081",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 1:00 PM EST",
+       "start_utc": "2026-11-26T18:00Z",
+       "away": {
+        "abbr": "CHI"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873080",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 4:30 PM EST",
+       "start_utc": "2026-11-26T21:30Z",
+       "away": {
+        "abbr": "PHI"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873082",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 8:20 PM EST",
+       "start_utc": "2026-11-27T01:20Z",
+       "away": {
+        "abbr": "KC"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873083",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/27 - 3:00 PM EST",
+       "start_utc": "2026-11-27T20:00Z",
+       "away": {
+        "abbr": "DEN"
+       },
+       "home": {
+        "abbr": "PIT"
+       }
+      }
+     ]
+    },
+    {
+     "league": "CFB",
+     "games": [
+      {
+       "id": "401856866",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "2OT",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "BYU"
+       },
+       "home": {
+        "abbr": "KU"
+       }
+      },
+      {
+       "id": "401858531",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "OSU"
+       },
+       "home": {
+        "abbr": "NEB"
+       }
+      },
+      {
+       "id": "401856868",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "12:33 - 4th",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "HOU"
+       },
+       "home": {
+        "abbr": "WVU"
+       }
+      },
+      {
+       "id": "401856746",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Halftime",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "UTC"
+       },
+       "home": {
+        "abbr": "ALA"
+       }
+      },
+      {
+       "id": "401858527",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "5:53 - 2nd",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "IOWA"
+       },
+       "home": {
+        "abbr": "ILL"
+       }
+      },
+      {
+       "id": "401856755",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "12:45 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ARK"
+       },
+       "home": {
+        "abbr": "TEX"
+       }
+      },
+      {
+       "id": "401858535",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "13:26 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "IU"
+       },
+       "home": {
+        "abbr": "WASH"
+       }
+      },
+      {
+       "id": "401858310",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WAKE"
+       },
+       "home": {
+        "abbr": "GT"
+       }
+      },
+      {
+       "id": "401856748",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "VAN"
+       },
+       "home": {
+        "abbr": "FLA"
+       }
+      },
+      {
+       "id": "401856749",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WOF"
+       },
+       "home": {
+        "abbr": "MISS"
+       }
+      },
+      {
+       "id": "401858528",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:03 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "UCLA"
+       },
+       "home": {
+        "abbr": "MICH"
+       }
+      },
+      {
+       "id": "401856754",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:30 PM EST",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "LSU"
+       },
+       "home": {
+        "abbr": "TENN"
+       }
+      },
+      {
+       "id": "401856871",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "13:53 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "TTU"
+       },
+       "home": {
+        "abbr": "BAY"
+       }
+      },
+      {
+       "id": "401856752",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 3:45 PM EST",
+       "start_utc": "2026-11-21T20:45Z",
+       "away": {
+        "abbr": "TA&M"
+       },
+       "home": {
+        "abbr": "OU"
+       }
+      },
+      {
+       "id": "401858534",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:15 PM EST",
+       "start_utc": "2026-11-21T23:15Z",
+       "away": {
+        "abbr": "MD"
+       },
+       "home": {
+        "abbr": "USC"
+       }
+      },
+      {
+       "id": "401858302",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "VT"
+       },
+       "home": {
+        "abbr": "MIA"
+       }
+      },
+      {
+       "id": "401856865",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARIZ"
+       },
+       "home": {
+        "abbr": "KSU"
+       }
+      },
+      {
+       "id": "401856753",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UGA"
+       },
+       "home": {
+        "abbr": "SC"
+       }
+      },
+      {
+       "id": "401858307",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "SMU"
+       },
+       "home": {
+        "abbr": "ND"
+       }
+      },
+      {
+       "id": "401856751",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UK"
+       },
+       "home": {
+        "abbr": "MIZ"
+       }
+      },
+      {
+       "id": "401858306",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "PITT"
+       },
+       "home": {
+        "abbr": "LOU"
+       }
+      },
+      {
+       "id": "401856872",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:00 PM EST",
+       "start_utc": "2026-11-22T02:00Z",
+       "away": {
+        "abbr": "UTAH"
+       },
+       "home": {
+        "abbr": "TCU"
+       }
+      },
+      {
+       "id": "401860925",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:30 PM EST",
+       "start_utc": "2026-11-22T02:30Z",
+       "away": {
+        "abbr": "SDSU"
+       },
+       "home": {
+        "abbr": "BOIS"
+       }
+      },
+      {
+       "id": "401858529",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "ORE"
+       },
+       "home": {
+        "abbr": "MSU"
+       }
+      },
+      {
+       "id": "401866465",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-17T23:00Z",
+       "away": {
+        "abbr": "EMU"
+       },
+       "home": {
+        "abbr": "WMU"
+       }
+      },
+      {
+       "id": "401866464",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "BALL"
+       },
+       "home": {
+        "abbr": "OHIO"
+       }
+      },
+      {
+       "id": "401866466",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "M-OH"
+       },
+       "home": {
+        "abbr": "KENT"
+       }
+      },
+      {
+       "id": "401866467",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:00Z",
+       "away": {
+        "abbr": "AKR"
+       },
+       "home": {
+        "abbr": "MASS"
+       }
+      },
+      {
+       "id": "401866469",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:30Z",
+       "away": {
+        "abbr": "CMU"
+       },
+       "home": {
+        "abbr": "BUFF"
+       }
+      },
+      {
+       "id": "401862830",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T00:30Z",
+       "away": {
+        "abbr": "RICE"
+       },
+       "home": {
+        "abbr": "TEM"
+       }
+      },
+      {
+       "id": "401856869",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T23:00Z",
+       "away": {
+        "abbr": "ISU"
+       },
+       "home": {
+        "abbr": "UCF"
+       }
+      },
+      {
+       "id": "401858303",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "CLEM"
+       },
+       "home": {
+        "abbr": "DUKE"
+       }
+      },
+      {
+       "id": "401866468",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "BGSU"
+       },
+       "home": {
+        "abbr": "TOL"
+       }
+      },
+      {
+       "id": "401864545",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "UTEP"
+       },
+       "home": {
+        "abbr": "AFA"
+       }
+      },
+      {
+       "id": "401864542",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T02:00Z",
+       "away": {
+        "abbr": "UNM"
+       },
+       "home": {
+        "abbr": "WYO"
+       }
+      },
+      {
+       "id": "401858309",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "SYR"
+       },
+       "home": {
+        "abbr": "BC"
+       }
+      },
+      {
+       "id": "401858305",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "2:00 - 4th",
+       "start_utc": "2026-11-21T17:30Z",
+       "away": {
+        "abbr": "UNC"
+       },
+       "home": {
+        "abbr": "UVA"
+       }
+      },
+      {
+       "id": "401856750",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "13:34 - 4th",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "TNTC"
+       },
+       "home": {
+        "abbr": "MSST"
+       }
+      },
+      {
+       "id": "401871080",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "10:26 - 4th",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "WKU"
+       },
+       "home": {
+        "abbr": "LIB"
+       }
+      },
+      {
+       "id": "401862832",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Halftime",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "CLT"
+       },
+       "home": {
+        "abbr": "TLSA"
+       }
+      },
+      {
+       "id": "401871079",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Halftime",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MOST"
+       },
+       "home": {
+        "abbr": "JXST"
+       }
+      },
+      {
+       "id": "401871081",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Halftime",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MTSU"
+       },
+       "home": {
+        "abbr": "SHSU"
+       }
+      },
+      {
+       "id": "401862833",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "5:09 - 2nd",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "USF"
+       },
+       "home": {
+        "abbr": "FAU"
+       }
+      },
+      {
+       "id": "401869929",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "1:37 - 2nd",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "ULM"
+       },
+       "home": {
+        "abbr": "APP"
+       }
+      },
+      {
+       "id": "401869946",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "15:00 - 2nd",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "CCU"
+       },
+       "home": {
+        "abbr": "UL"
+       }
+      },
+      {
+       "id": "401871077",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:11 - 2nd",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "DEL"
+       },
+       "home": {
+        "abbr": "NMSU"
+       }
+      },
+      {
+       "id": "401871078",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:52 - 2nd",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "FIU"
+       },
+       "home": {
+        "abbr": "KENN"
+       }
+      },
+      {
+       "id": "401856747",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "12:41 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "SAM"
+       },
+       "home": {
+        "abbr": "AUB"
+       }
+      },
+      {
+       "id": "401858304",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "12:17 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "NCSU"
+       },
+       "home": {
+        "abbr": "FSU"
+       }
+      },
+      {
+       "id": "401858532",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "11:29 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "RUTG"
+       },
+       "home": {
+        "abbr": "PSU"
+       }
+      },
+      {
+       "id": "401861968",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "10:42 - 1st",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ODU"
+       },
+       "home": {
+        "abbr": "CONN"
+       }
+      },
+      {
+       "id": "401856867",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "COLO"
+       },
+       "home": {
+        "abbr": "CIN"
+       }
+      },
+      {
+       "id": "401858530",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "NU"
+       },
+       "home": {
+        "abbr": "MINN"
+       }
+      },
+      {
+       "id": "401858533",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WIS"
+       },
+       "home": {
+        "abbr": "PUR"
+       }
+      },
+      {
+       "id": "401862831",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "ECU"
+       },
+       "home": {
+        "abbr": "ARMY"
+       }
+      },
+      {
+       "id": "401862834",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "MEM"
+       },
+       "home": {
+        "abbr": "NAVY"
+       }
+      },
+      {
+       "id": "401862835",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "UNT"
+       },
+       "home": {
+        "abbr": "TULN"
+       }
+      },
+      {
+       "id": "401864543",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "NIU"
+       },
+       "home": {
+        "abbr": "NDSU"
+       }
+      },
+      {
+       "id": "401869953",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GASO"
+       },
+       "home": {
+        "abbr": "TROY"
+       }
+      },
+      {
+       "id": "401869958",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GAST"
+       },
+       "home": {
+        "abbr": "MRSH"
+       }
+      },
+      {
+       "id": "401871101",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 4:00 PM EST",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "USA"
+       },
+       "home": {
+        "abbr": "USM"
+       }
+      },
+      {
+       "id": "401860920",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 6:00 PM EST",
+       "start_utc": "2026-11-21T23:00Z",
+       "away": {
+        "abbr": "WSU"
+       },
+       "home": {
+        "abbr": "TXST"
+       }
+      },
+      {
+       "id": "401864544",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "UNLV"
+       },
+       "home": {
+        "abbr": "SJSU"
+       }
+      },
+      {
+       "id": "401869938",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:00 PM EST",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARST"
+       },
+       "home": {
+        "abbr": "LT"
+       }
+      },
+      {
+       "id": "401858308",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "STAN"
+       },
+       "home": {
+        "abbr": "CAL"
+       }
+      },
+      {
+       "id": "401860918",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "CSU"
+       },
+       "home": {
+        "abbr": "FRES"
+       }
+      },
+      {
+       "id": "401862836",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 8:00 PM EST",
+       "start_utc": "2026-11-22T01:00Z",
+       "away": {
+        "abbr": "UTSA"
+       },
+       "home": {
+        "abbr": "UAB"
+       }
+      },
+      {
+       "id": "401856870",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:15 PM EST",
+       "start_utc": "2026-11-22T03:15Z",
+       "away": {
+        "abbr": "OKST"
+       },
+       "home": {
+        "abbr": "ASU"
+       }
+      },
+      {
+       "id": "401860919",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "USU"
+       },
+       "home": {
+        "abbr": "ORST"
+       }
+      },
+      {
+       "id": "401864541",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "HAW"
+       },
+       "home": {
+        "abbr": "NEV"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "commit": "ee7cf59",
+   "fetched_at": "2026-11-22T00:42:17Z",
+   "leagues": [
+    {
+     "league": "NFL",
+     "games": [
+      {
+       "id": "401873066",
+       "league": "NFL",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T01:15Z",
+       "away": {
+        "abbr": "IND"
+       },
+       "home": {
+        "abbr": "HOU"
+       }
+      },
+      {
+       "id": "401873070",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "MIA"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873071",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "NO"
+       },
+       "home": {
+        "abbr": "CHI"
+       }
+      },
+      {
+       "id": "401873073",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TEN"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873072",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "TB"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873067",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "ARI"
+       },
+       "home": {
+        "abbr": "KC"
+       }
+      },
+      {
+       "id": "401873076",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "PIT"
+       },
+       "home": {
+        "abbr": "PHI"
+       }
+      },
+      {
+       "id": "401873068",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 1:00 PM EST",
+       "start_utc": "2026-11-22T18:00Z",
+       "away": {
+        "abbr": "BAL"
+       },
+       "home": {
+        "abbr": "CAR"
+       }
+      },
+      {
+       "id": "401873074",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:05 PM EST",
+       "start_utc": "2026-11-22T21:05Z",
+       "away": {
+        "abbr": "NYJ"
+       },
+       "home": {
+        "abbr": "LAC"
+       }
+      },
+      {
+       "id": "401873075",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "LV"
+       },
+       "home": {
+        "abbr": "DEN"
+       }
+      },
+      {
+       "id": "401873069",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 4:25 PM EST",
+       "start_utc": "2026-11-22T21:25Z",
+       "away": {
+        "abbr": "JAX"
+       },
+       "home": {
+        "abbr": "NYG"
+       }
+      },
+      {
+       "id": "401873077",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/22 - 8:20 PM EST",
+       "start_utc": "2026-11-23T01:20Z",
+       "away": {
+        "abbr": "MIN"
+       },
+       "home": {
+        "abbr": "SF"
+       }
+      },
+      {
+       "id": "401873078",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/23 - 8:15 PM EST",
+       "start_utc": "2026-11-24T01:15Z",
+       "away": {
+        "abbr": "CIN"
+       },
+       "home": {
+        "abbr": "WSH"
+       }
+      },
+      {
+       "id": "401873079",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/25 - 8:00 PM EST",
+       "start_utc": "2026-11-26T01:00Z",
+       "away": {
+        "abbr": "GB"
+       },
+       "home": {
+        "abbr": "LAR"
+       }
+      },
+      {
+       "id": "401873081",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 1:00 PM EST",
+       "start_utc": "2026-11-26T18:00Z",
+       "away": {
+        "abbr": "CHI"
+       },
+       "home": {
+        "abbr": "DET"
+       }
+      },
+      {
+       "id": "401873080",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 4:30 PM EST",
+       "start_utc": "2026-11-26T21:30Z",
+       "away": {
+        "abbr": "PHI"
+       },
+       "home": {
+        "abbr": "DAL"
+       }
+      },
+      {
+       "id": "401873082",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/26 - 8:20 PM EST",
+       "start_utc": "2026-11-27T01:20Z",
+       "away": {
+        "abbr": "KC"
+       },
+       "home": {
+        "abbr": "BUF"
+       }
+      },
+      {
+       "id": "401873083",
+       "league": "NFL",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/27 - 3:00 PM EST",
+       "start_utc": "2026-11-27T20:00Z",
+       "away": {
+        "abbr": "DEN"
+       },
+       "home": {
+        "abbr": "PIT"
+       }
+      }
+     ]
+    },
+    {
+     "league": "CFB",
+     "games": [
+      {
+       "id": "401856754",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "LSU"
+       },
+       "home": {
+        "abbr": "TENN"
+       }
+      },
+      {
+       "id": "401858534",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "0:26 - 2nd",
+       "start_utc": "2026-11-21T23:15Z",
+       "away": {
+        "abbr": "MD"
+       },
+       "home": {
+        "abbr": "USC"
+       }
+      },
+      {
+       "id": "401858302",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "1:04 - 1st",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "VT"
+       },
+       "home": {
+        "abbr": "MIA"
+       }
+      },
+      {
+       "id": "401856865",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "0:09 - 1st",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARIZ"
+       },
+       "home": {
+        "abbr": "KSU"
+       }
+      },
+      {
+       "id": "401858307",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "13:10 - 1st",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "SMU"
+       },
+       "home": {
+        "abbr": "ND"
+       }
+      },
+      {
+       "id": "401858306",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "11:44 - 1st",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "PITT"
+       },
+       "home": {
+        "abbr": "LOU"
+       }
+      },
+      {
+       "id": "401856746",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "UTC"
+       },
+       "home": {
+        "abbr": "ALA"
+       }
+      },
+      {
+       "id": "401858528",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final/3OT",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "UCLA"
+       },
+       "home": {
+        "abbr": "MICH"
+       }
+      },
+      {
+       "id": "401856755",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ARK"
+       },
+       "home": {
+        "abbr": "TEX"
+       }
+      },
+      {
+       "id": "401858535",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final/OT",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "IU"
+       },
+       "home": {
+        "abbr": "WASH"
+       }
+      },
+      {
+       "id": "401856866",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final/3OT",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "BYU"
+       },
+       "home": {
+        "abbr": "KU"
+       }
+      },
+      {
+       "id": "401858310",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WAKE"
+       },
+       "home": {
+        "abbr": "GT"
+       }
+      },
+      {
+       "id": "401856871",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "TTU"
+       },
+       "home": {
+        "abbr": "BAY"
+       }
+      },
+      {
+       "id": "401858531",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "OSU"
+       },
+       "home": {
+        "abbr": "NEB"
+       }
+      },
+      {
+       "id": "401858527",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "IOWA"
+       },
+       "home": {
+        "abbr": "ILL"
+       }
+      },
+      {
+       "id": "401856868",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "HOU"
+       },
+       "home": {
+        "abbr": "WVU"
+       }
+      },
+      {
+       "id": "401856752",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:45Z",
+       "away": {
+        "abbr": "TA&M"
+       },
+       "home": {
+        "abbr": "OU"
+       }
+      },
+      {
+       "id": "401856748",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "VAN"
+       },
+       "home": {
+        "abbr": "FLA"
+       }
+      },
+      {
+       "id": "401856749",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WOF"
+       },
+       "home": {
+        "abbr": "MISS"
+       }
+      },
+      {
+       "id": "401856753",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 7:30 PM EST",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UGA"
+       },
+       "home": {
+        "abbr": "SC"
+       }
+      },
+      {
+       "id": "401856751",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:14 - 1st",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "UK"
+       },
+       "home": {
+        "abbr": "MIZ"
+       }
+      },
+      {
+       "id": "401856872",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:00 PM EST",
+       "start_utc": "2026-11-22T02:00Z",
+       "away": {
+        "abbr": "UTAH"
+       },
+       "home": {
+        "abbr": "TCU"
+       }
+      },
+      {
+       "id": "401860925",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 9:30 PM EST",
+       "start_utc": "2026-11-22T02:30Z",
+       "away": {
+        "abbr": "SDSU"
+       },
+       "home": {
+        "abbr": "BOIS"
+       }
+      },
+      {
+       "id": "401858529",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "ORE"
+       },
+       "home": {
+        "abbr": "MSU"
+       }
+      },
+      {
+       "id": "401866465",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-17T23:00Z",
+       "away": {
+        "abbr": "EMU"
+       },
+       "home": {
+        "abbr": "WMU"
+       }
+      },
+      {
+       "id": "401866464",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "BALL"
+       },
+       "home": {
+        "abbr": "OHIO"
+       }
+      },
+      {
+       "id": "401866466",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-18T00:00Z",
+       "away": {
+        "abbr": "M-OH"
+       },
+       "home": {
+        "abbr": "KENT"
+       }
+      },
+      {
+       "id": "401866467",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:00Z",
+       "away": {
+        "abbr": "AKR"
+       },
+       "home": {
+        "abbr": "MASS"
+       }
+      },
+      {
+       "id": "401866469",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-19T00:30Z",
+       "away": {
+        "abbr": "CMU"
+       },
+       "home": {
+        "abbr": "BUFF"
+       }
+      },
+      {
+       "id": "401862830",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T00:30Z",
+       "away": {
+        "abbr": "RICE"
+       },
+       "home": {
+        "abbr": "TEM"
+       }
+      },
+      {
+       "id": "401856869",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-20T23:00Z",
+       "away": {
+        "abbr": "ISU"
+       },
+       "home": {
+        "abbr": "UCF"
+       }
+      },
+      {
+       "id": "401858303",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "CLEM"
+       },
+       "home": {
+        "abbr": "DUKE"
+       }
+      },
+      {
+       "id": "401866468",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T00:30Z",
+       "away": {
+        "abbr": "BGSU"
+       },
+       "home": {
+        "abbr": "TOL"
+       }
+      },
+      {
+       "id": "401864545",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T01:00Z",
+       "away": {
+        "abbr": "UTEP"
+       },
+       "home": {
+        "abbr": "AFA"
+       }
+      },
+      {
+       "id": "401864542",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T02:00Z",
+       "away": {
+        "abbr": "UNM"
+       },
+       "home": {
+        "abbr": "WYO"
+       }
+      },
+      {
+       "id": "401862833",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Delayed",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "USF"
+       },
+       "home": {
+        "abbr": "FAU"
+       }
+      },
+      {
+       "id": "401860920",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "Halftime",
+       "start_utc": "2026-11-21T23:00Z",
+       "away": {
+        "abbr": "WSU"
+       },
+       "home": {
+        "abbr": "TXST"
+       }
+      },
+      {
+       "id": "401864544",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "1:06 - 1st",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "UNLV"
+       },
+       "home": {
+        "abbr": "SJSU"
+       }
+      },
+      {
+       "id": "401869938",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:08 - 2nd",
+       "start_utc": "2026-11-22T00:00Z",
+       "away": {
+        "abbr": "ARST"
+       },
+       "home": {
+        "abbr": "LT"
+       }
+      },
+      {
+       "id": "401858308",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "10:21 - 1st",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "STAN"
+       },
+       "home": {
+        "abbr": "CAL"
+       }
+      },
+      {
+       "id": "401856867",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "COLO"
+       },
+       "home": {
+        "abbr": "CIN"
+       }
+      },
+      {
+       "id": "401858309",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "SYR"
+       },
+       "home": {
+        "abbr": "BC"
+       }
+      },
+      {
+       "id": "401858530",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "NU"
+       },
+       "home": {
+        "abbr": "MINN"
+       }
+      },
+      {
+       "id": "401858533",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "WIS"
+       },
+       "home": {
+        "abbr": "PUR"
+       }
+      },
+      {
+       "id": "401862831",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "ECU"
+       },
+       "home": {
+        "abbr": "ARMY"
+       }
+      },
+      {
+       "id": "401862834",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "MEM"
+       },
+       "home": {
+        "abbr": "NAVY"
+       }
+      },
+      {
+       "id": "401862835",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:00Z",
+       "away": {
+        "abbr": "UNT"
+       },
+       "home": {
+        "abbr": "TULN"
+       }
+      },
+      {
+       "id": "401858305",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T17:30Z",
+       "away": {
+        "abbr": "UNC"
+       },
+       "home": {
+        "abbr": "UVA"
+       }
+      },
+      {
+       "id": "401856750",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "TNTC"
+       },
+       "home": {
+        "abbr": "MSST"
+       }
+      },
+      {
+       "id": "401871080",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T18:00Z",
+       "away": {
+        "abbr": "WKU"
+       },
+       "home": {
+        "abbr": "LIB"
+       }
+      },
+      {
+       "id": "401862832",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "CLT"
+       },
+       "home": {
+        "abbr": "TLSA"
+       }
+      },
+      {
+       "id": "401871079",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MOST"
+       },
+       "home": {
+        "abbr": "JXST"
+       }
+      },
+      {
+       "id": "401871081",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T19:00Z",
+       "away": {
+        "abbr": "MTSU"
+       },
+       "home": {
+        "abbr": "SHSU"
+       }
+      },
+      {
+       "id": "401869929",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final/OT",
+       "start_utc": "2026-11-21T19:30Z",
+       "away": {
+        "abbr": "ULM"
+       },
+       "home": {
+        "abbr": "APP"
+       }
+      },
+      {
+       "id": "401869946",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "CCU"
+       },
+       "home": {
+        "abbr": "UL"
+       }
+      },
+      {
+       "id": "401871077",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "DEL"
+       },
+       "home": {
+        "abbr": "NMSU"
+       }
+      },
+      {
+       "id": "401871078",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:00Z",
+       "away": {
+        "abbr": "FIU"
+       },
+       "home": {
+        "abbr": "KENN"
+       }
+      },
+      {
+       "id": "401856747",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "SAM"
+       },
+       "home": {
+        "abbr": "AUB"
+       }
+      },
+      {
+       "id": "401858304",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "NCSU"
+       },
+       "home": {
+        "abbr": "FSU"
+       }
+      },
+      {
+       "id": "401858532",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "RUTG"
+       },
+       "home": {
+        "abbr": "PSU"
+       }
+      },
+      {
+       "id": "401861968",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T20:30Z",
+       "away": {
+        "abbr": "ODU"
+       },
+       "home": {
+        "abbr": "CONN"
+       }
+      },
+      {
+       "id": "401864543",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "NIU"
+       },
+       "home": {
+        "abbr": "NDSU"
+       }
+      },
+      {
+       "id": "401869953",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GASO"
+       },
+       "home": {
+        "abbr": "TROY"
+       }
+      },
+      {
+       "id": "401869958",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "GAST"
+       },
+       "home": {
+        "abbr": "MRSH"
+       }
+      },
+      {
+       "id": "401871101",
+       "league": "CFB",
+       "state": "post",
+       "completed": true,
+       "status_short": "Final",
+       "start_utc": "2026-11-21T21:00Z",
+       "away": {
+        "abbr": "USA"
+       },
+       "home": {
+        "abbr": "USM"
+       }
+      },
+      {
+       "id": "401860918",
+       "league": "CFB",
+       "state": "in",
+       "completed": false,
+       "status_short": "14:51 - 1st",
+       "start_utc": "2026-11-22T00:30Z",
+       "away": {
+        "abbr": "CSU"
+       },
+       "home": {
+        "abbr": "FRES"
+       }
+      },
+      {
+       "id": "401862836",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 8:00 PM EST",
+       "start_utc": "2026-11-22T01:00Z",
+       "away": {
+        "abbr": "UTSA"
+       },
+       "home": {
+        "abbr": "UAB"
+       }
+      },
+      {
+       "id": "401856870",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:15 PM EST",
+       "start_utc": "2026-11-22T03:15Z",
+       "away": {
+        "abbr": "OKST"
+       },
+       "home": {
+        "abbr": "ASU"
+       }
+      },
+      {
+       "id": "401860919",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "USU"
+       },
+       "home": {
+        "abbr": "ORST"
+       }
+      },
+      {
+       "id": "401864541",
+       "league": "CFB",
+       "state": "pre",
+       "completed": false,
+       "status_short": "11/21 - 10:30 PM EST",
+       "start_utc": "2026-11-22T03:30Z",
+       "away": {
+        "abbr": "HAW"
+       },
+       "home": {
+        "abbr": "NEV"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

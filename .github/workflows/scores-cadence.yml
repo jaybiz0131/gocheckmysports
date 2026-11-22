@@ -69,6 +69,8 @@ jobs:
             if git push; then ok=true; break; fi
             echo "::warning::push rejected (attempt $i); rebasing"
             git pull --rebase --autostash origin main || {
-              echo "rebase conflicted"; git rebase --abort || true; exit 1; }
+              git rebase --abort || true
+              # N-1: a conflicted rebase is a collision, not a failed desk: the next tick starts from a fresh main.
+              echo "::warning::scores: the rebase conflicted with another push; left for the next tick"; exit 0; }
           done
-          [ "$ok" = true ] || { echo "push failed after 3 attempts"; exit 1; }
+          [ "$ok" = true ] || { echo "::warning::scores: push failed after 3 attempts; left for the next tick"; exit 0; }

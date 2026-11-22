@@ -868,6 +868,32 @@ def _report_link_canary():
     return fails
 
 
+def _n1_canary():
+    """N-1 (21 November 2026): the runs stop failing and the stamps stop lying. scripts/n1_scores_test.py (an old reading is
+    never drawn as current: the kickoff-passed card, the overtime card, the raw network code), scripts/n1_workflows_test.py
+    (one trigger, one writer per file, a push that cannot land warns, the health gate's shape) and
+    scripts/health_gate_test.py (the gate's rules on the November 21 snapshots). Helpers leave sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    fails = []
+    try:
+        import n1_scores_test as _a
+        import n1_workflows_test as _b
+        import health_gate_test as _c
+        for tag, mod in (("n1 scores", _a), ("n1 workflows", _b), ("n1 health", _c)):
+            try:
+                fails += [f"{tag}: " + f for f in mod.unit()]
+            except Exception as e:                       # noqa: BLE001
+                fails.append(f"{tag}: could not run [{type(e).__name__}: {str(e)[:120]}]")
+    finally:
+        for m in ("n1_scores_test", "n1_workflows_test", "health_gate_test", "health_gate"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
 def _register_canary(out=None, log=None):
     """Item 2: EVERY GENERATED PAGE IS IN EXACTLY ONE PLACE, A SITEMAP OR THE REGISTER.
 
@@ -3207,6 +3233,7 @@ def layer1_canary():
 
     # contract ladder + slot recovery (the 2026-07-15 self-healing layer)
     fails.extend(_contract_ladder_canary(cfg))
+    fails.extend(_n1_canary())
 
     if fails:
         for f in fails:
