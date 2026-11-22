@@ -11,7 +11,7 @@ The rules, in the standing house wording (a reading past its window is shown wit
     score and no kickoff time, never as upcoming;
   - a game in overtime with no running clock prints the time of its reading: "2OT as of 3:43 PM ET"; a running clock
     or a final prints as the feed sends it.
-  - a raw network code the desk cannot name (ERADM) is omitted, never printed.
+  - a raw network code the desk cannot name (ERADM) is never printed; since S-60 the card says "Check local listings".
 
   python3 scripts/n1_scores_test.py      # exit 1 on any failure; no network, no model call
 """
@@ -101,8 +101,8 @@ def unit():
             and 'class="dot"' in sb._sb_status(game(d, "401858528")))
     card2 = text(sb._tk_card(byu, {}))
     guarded(fails, "the BYU card prints '2OT as of 3:43 PM ET'", lambda: "2OT as of 3:43 PM ET" in card2)
-    guarded(fails, "ERADM is omitted, a known network is named",
-            lambda: sb.network_name("ERADM") == "" and sb.network_name("ESPN Unlmtd") == "ESPN Unlimited"
+    guarded(fails, "ERADM is not printed raw (S-60: 'Check local listings'), a known network is named",
+            lambda: sb.network_name("ERADM") == "Check local listings" and sb.network_name("ESPN Unlmtd") == "ESPN Unlimited"
             and sb.network_name("ABC") == "ABC")
     guarded(fails, "no card prints the raw code ERADM", lambda: "ERADM" not in text(sb._tk_card(game(d, "401858528"), {})))
     return fails

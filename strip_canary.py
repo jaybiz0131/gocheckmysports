@@ -337,8 +337,9 @@ def check_render():
             fails.append("strip: Calm draws an arrow, or does not say Calm")
         # missing
         gp = card("gap")
-        if gp.count(">missing<") != 3 or re.search(r'class="sbc-big">\d', gp):
-            fails.append("strip: a number the Worker did not give does not print as missing")
+        # S-60 item 5: a card whose kickoff hour carries no number says why, once, and never "missing"
+        if ">missing<" in gp or "Conditions unavailable" not in gp or re.search(r'class="sbc-big">\d', gp):
+            fails.append("strip: a card with no kickoff numbers does not say 'Conditions unavailable'")
         # unchecked, and the alert's own word
         if "Alerts not checked" not in q:
             fails.append("strip: alerts null does not print 'Alerts not checked'")

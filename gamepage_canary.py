@@ -419,8 +419,8 @@ def check_verify():
         sb._NOW_CACHE = _d.datetime(2026, 10, 15, 13, 0, tzinfo=_d.timezone.utc)
         html = sb.gp_watch_block({"id": "v1", "league": "NFL", "start_utc": "2026-10-16T00:15Z",
                                   "network": "Prime Video"})
-        if "Fubo" in html or '<span class="tk-chip tk-verify">verify</span>' not in html:
-            fails.append("game pages: a verify row printed its service, or no verify chip")
+        if "Fubo" in html or "verify" in html.lower().replace("tk-verify", ""):
+            fails.append("game pages: a verify row printed its service, or the internal verify flag")
         if 'href="https://www.aboutamazon.com/x"' not in html:
             fails.append("game pages: an ok row is not a button to its service's page")
     finally:
@@ -593,8 +593,8 @@ def check_board():
         if "sbc-lit" not in h[:80] or "sbc-lit" in sb.sbg_board(dict(g, id="calm"))[:80]:
             fails.append("board: the edge is not yellow exactly when a flag is on")
         gp = sb.sbg_board(dict(g, id="gap"))
-        if gp.count(">missing<") < 2 or re.search(r'class="sbg-big"[^>]*>0', gp):
-            fails.append("board: a number the Worker did not give does not print as missing")
+        if gp.count(">n/a<") < 2 or re.search(r'class="sbg-big"[^>]*>0', gp):
+            fails.append("board: a number the Worker did not give does not print as n/a")
         # the words
         wd = re.search(r'<p class="sbg-words( on)?">([^<]+)</p>', h)
         if not wd or wd.group(1) != " on" or wd.group(2) != ("12 mph down the field, gusting 23, up to 15 mph. "

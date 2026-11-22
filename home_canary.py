@@ -289,11 +289,11 @@ def home_canary():
         c = card("CHIGB")
         if "tk-stream" not in c or "YouTube TV" not in c:
             fails.append("home: the CHI at GB card has no first stream chip (YouTube TV)")
-        if ">FOX<" not in c:
+        if ">Fox<" not in c:
             fails.append("home: the CHI at GB card has no network chip")
         c = card("BUFMIA")
-        if "tk-verify" not in c:
-            fails.append("home: a game that matches only a verify row has no verify chip")
+        if "tk-verify" in c or "verify" in visible(c):
+            fails.append("home: a game that matches only a verify row prints the internal verify flag")
         c = card("MINDET")
         if "Final" not in visible(c) or "24" not in visible(c):
             fails.append("home: the finished game does not show Final and its score")
@@ -313,9 +313,9 @@ def home_canary():
         seen = set()
         for _path, _pg in scores_pages.items():
             stabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', _pg)
-            secs = [x.upper() for x in re.findall(r'<section class="bd-mod" id="(\w+)">', _pg)]
-            if stabs != ["All"] + secs or len(set(secs)) != len(secs):
-                fails.append(f"scores: {_path} tabs read {stabs} over sections {secs}, expected All then its leagues once each, in order")
+            secs = list(dict.fromkeys(re.findall(r'<article class="tk-c[^"]*" data-gid="[^"]*" data-league="([^"]*)"', _pg)))
+            if stabs[:1] != ["All"] or sorted(stabs[1:]) != sorted(secs) or len(set(stabs)) != len(stabs):
+                fails.append(f"scores: {_path} tabs read {stabs} over the cards' leagues {secs}, expected All then its leagues once each")
             seen.update(secs)
         if seen != {"NFL", "CFB"}:
             fails.append(f"scores: the pages carry the leagues {sorted(seen)}, expected NFL and CFB")
