@@ -415,8 +415,12 @@ def sweep_pages(pgs):
     return [p for p in pgs if not BUILT_IN_LOOK.match(p)]
 
 
-def rendered_sweep(out, pgs, allowed, osw):
-    """The browser half: scripts/look-sweep.mjs over the pages, its findings as failure strings."""
+def rendered_sweep(out, pgs, allowed, osw, live=None):
+    """The browser half: scripts/look-sweep.mjs over the pages, its findings as failure strings.
+
+    S-61: what a page RENDERS (a color or an Oswald glyph on the day's pages) is a finding about the day's
+    data, so with `live` given those go there and the runner prints them as warnings; a sweep that did not
+    run, read too few pages or wrote no summary is about the code and stays a failure."""
     import shutil
     import subprocess
     import tempfile
@@ -451,20 +455,21 @@ def rendered_sweep(out, pgs, allowed, osw):
             group.setdefault(("color", o["el"], o["prop"], o["color"]), []).append(o)
         else:
             fails.append("look rendered: " + json.dumps(o))
+    data = fails if live is None else live
     for k, v in sorted(group.items()):
         pg = sorted({x["page"] for x in v})
         where = ", ".join(pg[:3]) + (f" and {len(pg) - 3} more" if len(pg) > 3 else "")
         if k[0] == "oswald":
             odd = sorted({c for x in v for c in x["odd"]})
             texts = sorted({x["text"] for x in v})
-            fails.append(f"look oswald: {where}: {k[1]} renders in Oswald (text-transform {v[0]['transform']}) "
+            data.append(f"look oswald: {where}: {k[1]} renders in Oswald (text-transform {v[0]['transform']}) "
                          f"{len(texts)} text(s) the subset cannot draw, e.g. \"{texts[0]}\" ({''.join(odd[:8])})")
         else:
-            fails.append(f"look rendered: {where}: {k[1]} renders {k[2]} {k[3]} (\"{v[0]['text']}\"), "
+            data.append(f"look rendered: {where}: {k[1]} renders {k[2]} {k[3]} (\"{v[0]['text']}\"), "
                          f"outside the token set")
-    if summary is None and not fails:
+    if summary is None and not fails and not group:
         fails.append("look rendered: the browser sweep wrote no summary" + (": " + r.stderr[-200:] if r.stderr else ""))
-    elif summary is not None and not summary.get("measured") and not fails:
+    elif summary is not None and not summary.get("measured") and not fails and not group:
         fails.append("look rendered: the browser sweep measured nothing")
     if summary is not None:
         for sch in ("light", "dark"):
@@ -479,7 +484,7 @@ def rendered_sweep(out, pgs, allowed, osw):
     return fails
 
 
-def look_canary(out, root=None):
+def look_canary(out, root=None, live=None):
     fails = []
     if not out or not os.path.isdir(out):
         return ["look: the gate's build wrote no tree, so no page was checked"]
@@ -552,7 +557,7 @@ def look_canary(out, root=None):
     if not oswald_selectors(css):
         fails.append("look oswald: site.css has no body.sbp rule that sets Oswald, so the look has no display face to check")
     sw_allowed = {h for h in (_hex_of(c) for c in allowed | set(BULBS)) if h}
-    fails += rendered_sweep(out, sw, sw_allowed, osw)
+    fails += rendered_sweep(out, sw, sw_allowed, osw, live)
     return fails
 
 

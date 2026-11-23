@@ -2,7 +2,7 @@
 
 Placed October 7, 2026, 9:17 AM EDT by the strategy desk under Jack's ruling of October 7, 2026. The one text of U-1 to U-13 and the three October 1 rules stays where Jack's option-two ruling of October 1, 2026 put it, the Sports root handoff (gocheckmysports/HANDOFF.md, its Standing rules section); U-14 to U-16 were issued in the Weather handoff (gocheckmyweather/docs/HANDOFF.md). A Claude Code cloud session clones one repository and cannot read either file, so every repository that runs in the cloud carries this file, the same text copied byte for byte, kept honest by its hash rather than by trust: the sha256 of everything below this header is
 
-    4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d
+    2b3ddc0f60f3f5433f9ef67409833dcc53186b1e486d4d4c6942eb0b9d365211
 
 Every cloud opener prints that hash; a desk whose copy hashes differently says so in its report and does not build until the copy is restored from the one text. When Jack issues a new rule, the one text changes first and this file is re-copied into every repository the same day, with the new hash in the next opener. Nothing below this line is edited here, ever.
 
@@ -177,6 +177,8 @@ before anything is committed.
 U-14, U-15 of 2026-10-05, 12:03 PM ET; U-16 of 2026-10-05, 9:28 PM ET.
 
 **U-14. A push is gated on the preflight's exit status.** `preflight && push`, never chained with a semicolon or a newline; a red preflight means no push, under load or not, and a green rerun is a reason to push then, not a reason the first push was fine (the process error of 2026-10-05).
+
+Jack's rulings of November 22, 2026, which settle J-19: a desk may push its branch over a red gate when every red is one main already shows, so finished work is never left in a container; a desk never merges over a red gate. The layout floor is 375px; 320px checks are warnings, never failures. Lighthouse is a report, not a gate.
 
 **U-15. The preflight runner prints the name of every failing case, never a count alone.** A red that cannot be named cannot be fixed. The load average is printed at each preflight (`scripts/preflight.py`, start and end) and reported: 48 to 88 is one desk, 300 to 970 is two desks at once, and Jack keeps that rule, not the desk.
 

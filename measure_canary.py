@@ -251,8 +251,32 @@ _SLOW_JS = "<script>(function(){var t=Date.now();while(Date.now()-t<1500){}})();
 _ERR_JS = "<script>console.error('S-5.2 fixture: a console error');</script>"
 
 
-def measure_canary(tree):
+def lighthouse_where():
+    """S-61: where Lighthouse resolves beside Playwright, or None. page-measure.mjs looks in the same place
+    (PLAYWRIGHT_NODE_MODULES, else /opt/node-tools/node_modules)."""
+    node = shutil.which("node")
+    if not node:
+        return None
+    nm = os.environ.get("PLAYWRIGHT_NODE_MODULES") or "/opt/node-tools/node_modules"
+    js = ("const {createRequire}=require('module');try{process.stdout.write(createRequire(process.argv[1]+'/')"
+          ".resolve('lighthouse/package.json'))}catch(e){process.exit(3)}")
+    try:
+        r = subprocess.run([node, "-e", js, nm], capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return r.stdout.strip() if r.returncode == 0 and r.stdout.strip() else None
+
+
+LAST_SCORES = {}     # S-61: the Lighthouse scores this run read, by path, for the report
+
+
+def measure_canary(tree, live=None):
+    """S-61, Jack's ruling of November 22, 2026: LIGHTHOUSE IS A REPORT, NOT A GATE. With `live` given, every
+    performance finding goes there (the runner prints it as a warning): Lighthouse absent is one warning naming
+    it and the read is skipped; present, its scores are printed and a score under LH_MIN warns. Structured data
+    and console errors stay failures."""
     fails = []
+    perf = fails if live is None else live
     if not tree or not os.path.isdir(tree):
         return ["measure: the gate built no tree, so lines 4, 7 and 10 were not measured"]
     home, game, team, nfl, cfb = _pages(tree)
@@ -302,27 +326,34 @@ def measure_canary(tree):
                      "cannot see a missing broadcast")
 
     # LINES 4 AND 10: the browser reads, the two fixtures in the same run.
+    lhw = lighthouse_where()
     spec = {"root": tree,
             "inline": {FX_CONSOLE: _inject(rd(home), _ERR_JS), FX_SLOW: _inject(rd(game), _SLOW_JS)},
             "console": [home, game, team, FX_CONSOLE],
-            "lighthouse": [[home, LH_RUNS], [game, LH_RUNS], [FX_SLOW, 1]]}
+            "lighthouse": [[home, LH_RUNS], [game, LH_RUNS], [FX_SLOW, 1]] if lhw else []}
+    if not lhw:
+        perf.append("performance: Lighthouse is not installed beside Playwright on this machine "
+                    "(lighthouse/package.json does not resolve), so the performance read was skipped")
+        print("measure: Lighthouse absent; the performance read is skipped (a report, not a gate)")
     recs, mfails = run_measure(spec)
-    fails += mfails
+    fails += [x for x in mfails if "lighthouse" not in x.lower()]
+    perf += [x for x in mfails if "lighthouse" in x.lower()]
     lh = {r["path"]: r for r in recs if r.get("kind") == "lighthouse"}
     cs = {r["path"]: r for r in recs if r.get("kind") == "console"}
-    for p in (home, game):
+    for p in ((home, game) if lhw else ()):
         r = lh.get(p)
         if not r:
-            fails.append(f"performance: {p} was not measured")
+            perf.append(f"performance: {p} was not measured")
             continue
+        LAST_SCORES[p] = r.get("score")
         md = r.get("median") or {}
         print(f"measure: Lighthouse mobile performance {p}: {r['score']} (runs {r.get('runs')}; "
               f"FCP {md.get('fcp')} ms, LCP {md.get('lcp')} ms, TBT {md.get('tbt')} ms, "
               f"CLS {md.get('cls')}, SI {md.get('si')} ms; Lighthouse {md.get('version')}, "
               f"{md.get('formFactor')}, {md.get('throttling')} throttling)")
         if md.get("formFactor") != "mobile":
-            fails.append(f"performance: {p} was not read as mobile ({md.get('formFactor')})")
-        fails += judge_lighthouse(r)
+            perf.append(f"performance: {p} was not read as mobile ({md.get('formFactor')})")
+        perf += judge_lighthouse(r)
     for p in (home, game, team):
         r = cs.get(p)
         if not r:
@@ -345,9 +376,9 @@ def measure_canary(tree):
     r = lh.get(FX_SLOW)
     if r:
         print(f"measure: the slow fixture scores {r.get('score')} (it must be under {LH_MIN})")
-    if not r or not judge_lighthouse(r):
-        fails.append(f"performance: the fixture page under {LH_MIN} passed, so the read cannot "
-                     f"see a slow page")
+    if lhw and (not r or not judge_lighthouse(r)):
+        perf.append(f"performance: the fixture page under {LH_MIN} passed, so the read cannot "
+                    f"see a slow page")
     return fails
 
 
