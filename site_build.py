@@ -4000,6 +4000,9 @@ def _sb_today_status(g):
 
 def _sb_status(g):
     st = g.get("state")
+    if st == "in" and g.get("feed_lag"):
+        # S-61: no live dot on a game the feed has not reported since its kickoff
+        return f'<span class="tk-stale">{esc(g.get("status_short") or "")}</span>'
     if st == "in":
         per = _sb_today_status(g)
         return f'<span class="live"><span class="dot"></span>{esc(per)}</span>'
@@ -4607,6 +4610,9 @@ def _tk_kicker(g):
     """The stub's top line: league, week, state and the date. Every card dates itself."""
     league = esc(g.get("league") or "")
     day = _tk_day(g)
+    if g.get("state") == "in" and g.get("feed_lag"):
+        # S-61: the "No update since" time is in the chip row, in the stale style; the kicker dates the card
+        return f'<span class="tk-k">{_TK_MID.join(x for x in (league, esc(day)) if x)}</span>'
     if g.get("state") == "in":
         det = esc(_tk_state(g) or "In progress")
         return f'<span class="tk-k">{_TK_MID.join(x for x in (league, det, esc(day)) if x)}</span>'
@@ -4742,7 +4748,7 @@ def _tk_marks(g, t, side):
     two-minute drill, and treating it as an absence prints nothing at the moment the
     reader most wants it.
     """
-    if g.get("state") != "in":
+    if g.get("state") != "in" or g.get("feed_lag"):
         return ""
     out = ""
     tid = str(t.get("id") or "")
@@ -4760,7 +4766,7 @@ def _tk_marks(g, t, side):
 def _tk_redzone(g, t):
     """The tint goes on the chip of the team INSIDE the twenty, which is the team with
     the ball. The feed's isRedZone says a game is in one; it does not say whose."""
-    if g.get("state") != "in" or not g.get("red_zone"):
+    if g.get("state") != "in" or not g.get("red_zone") or g.get("feed_lag"):
         return ""
     tid = str(t.get("id") or "")
     return " rz" if tid and str(g.get("possession") or "") == tid else ""
@@ -4875,7 +4881,7 @@ def _tk_matchup(g, big=40):
     ca, ch = _tk_sc9(g)
     a, h = g.get("away") or {}, g.get("home") or {}
     sa, sh = _tk_score(a, g), _tk_score(h, g)
-    started = g.get("state") in ("in", "post")
+    started = g.get("state") in ("in", "post") and not g.get("feed_lag")
     # UX-1: THE SCORE COLOURS NEEDED A SURFACE OF THEIR OWN. SC-9's green and red sat
     # straight on the team wash, so a green score on a red wash and a red score on a
     # blue one were the two worst pairings on the card. Each team now sits in a smoke
@@ -4902,9 +4908,14 @@ def _tk_matchup(g, big=40):
                     f'{_tk_long(g, t)}'
                     f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>'
                     f'{_tk_trec(t)}</span>')
+        # S-61: A PAST-KICKOFF GAME WITH NO LIVE STATE (scoreboard.honest marks it feed_lag) is drawn
+        # stale in the chip row too: the plain matchup, no score chip, no live dot, and the reading's
+        # own "No update since" time in the stale style. The kicker said it; the chips drew it live.
+        stale = (f'<span class="tk-stale">{esc(g.get("status_short") or "")}</span>'
+                 if g.get("feed_lag") else "")
         return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
                 f'{plain(a, "away")} <span class="tk-at">at</span> '
-                f'{plain(h, "home")}</span>')
+                f'{plain(h, "home")}</span>{stale}')
 
     tie = ca == ch
     def chip(t, sc, col, which):

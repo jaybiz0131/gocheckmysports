@@ -80,6 +80,25 @@ def unit():
     card = text(sb._tk_card(lsu, {}))
     guarded(fails, "the /scores card says 'No update since 3:43 PM ET, waiting for the feed' and not the kickoff '3:30'",
             lambda: "No update since 3:43 PM ET, waiting for the feed" in card and "3:30" not in card)
+    # S-61: THE CHIP ROW TOO. The card's kicker said "No update since" while its chip row drew the game as live: the
+    # score chips (tk-chip-score) with an empty score slot and, where the reading carried one, the possession dot.
+    # A past-kickoff game with no live state is drawn stale in the chip row: no score chip, no live dot, the stale style
+    # and the "No update since" time.
+    lsu_dot = copy.deepcopy(lsu)
+    lsu_dot["possession"] = str((lsu_dot.get("home") or {}).get("id") or "")
+    raw_card = sb._tk_card(lsu_dot, {})
+    mu = re.search(r'<div class="tk-mu" data-role="mu">(.*?)</div>', raw_card, re.S)
+    mu = mu.group(1) if mu else ""
+    guarded(fails, "the chip row of a past-kickoff game draws no score chip", lambda: mu and "tk-chip-score" not in mu)
+    guarded(fails, "the chip row of a past-kickoff game draws no live dot (no possession mark, no live dot)",
+            lambda: "tk-poss" not in raw_card and "&#9679;" not in raw_card and 'class="dot"' not in raw_card)
+    guarded(fails, "the chip row is drawn in the stale style with the 'No update since' time",
+            lambda: "tk-stale" in mu and "No update since 3:43 PM ET" in text(mu))
+    guarded(fails, "the band's status for that game is not live (no live dot)",
+            lambda: 'class="dot"' not in sb._sb_status(lsu) and "No update since 3:43 PM ET" in text(sb._sb_status(lsu)))
+    guarded(fails, "a game really in play keeps its score chips and its live dot",
+            lambda: "tk-chip-score" in sb._tk_card(game(d, "401858528"), {})
+            and 'class="dot"' in sb._sb_status(game(d, "401858528")))
     card2 = text(sb._tk_card(byu, {}))
     guarded(fails, "the BYU card prints '2OT as of 3:43 PM ET'", lambda: "2OT as of 3:43 PM ET" in card2)
     guarded(fails, "ERADM is omitted, a known network is named",
