@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-23T01:05:40Z",
+ "fetched_at": "2026-11-23T23:50:38Z",
  "source": "ESPN NFL scoreboard",
  "weeks": [
   {
@@ -313,11 +313,11 @@
      "id": "401873077",
      "venue_id": "8219",
      "venue_indoor": false,
-     "state": "pre",
-     "completed": false,
-     "status": "11/22 - 8:20 PM EST",
-     "away_score": "0",
-     "home_score": "0"
+     "state": "post",
+     "completed": true,
+     "status": "Final",
+     "away_score": "10",
+     "home_score": "35"
     },
     {
      "league": "NFL",
@@ -2965,6 +2965,11 @@
        "name": "ABC",
        "market": "National",
        "type": "TV"
+      },
+      {
+       "name": "ERADM",
+       "market": "National",
+       "type": "Radio"
       }
      ],
      "id": "401856756",
@@ -4131,6 +4136,11 @@
      "day_et": "Sat, Nov 28",
      "window": "Saturday",
      "carriers": [
+      {
+       "name": "ERADM",
+       "market": "National",
+       "type": "Radio"
+      },
       {
        "name": "FS1",
        "market": "National",
