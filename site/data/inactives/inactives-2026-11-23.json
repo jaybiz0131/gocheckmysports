@@ -1,8 +1,8 @@
 {
  "day": "2026-11-23",
  "first_poll": "2026-11-23T00:00:34Z",
- "last_change": "2026-11-23T00:05:37Z",
- "last_poll": "2026-11-23T00:05:45Z",
+ "last_change": "2026-11-23T00:10:35Z",
+ "last_poll": "2026-11-23T00:10:41Z",
  "source": "ESPN NFL injuries feed",
  "teams": {
   "1": {
@@ -840,42 +840,60 @@
     "3917315": {
      "changed_at": null,
      "detail": "Hamstring",
-     "feed_date": "2026-11-20T19:49Z",
+     "feed_date": "2026-11-23T00:00Z",
      "first_seen": "2026-11-23T00:00:34Z",
      "name": "Kyler Murray",
      "pos": "QB",
      "status": "Out"
     },
     "4044540": {
-     "changed_at": null,
+     "changed_at": "2026-11-23T00:10:35Z",
      "detail": "Quadriceps",
-     "feed_date": "2026-11-20T22:27Z",
+     "feed_date": "2026-11-23T00:00Z",
      "first_seen": "2026-11-23T00:00:34Z",
      "name": "Isaiah Rodgers",
      "pos": "CB",
-     "status": "Questionable"
+     "status": "Out"
     },
     "4429205": {
      "changed_at": null,
      "detail": "Thumb",
-     "feed_date": "2026-11-18T19:25Z",
+     "feed_date": "2026-11-23T00:00Z",
      "first_seen": "2026-11-23T00:00:34Z",
      "name": "Jordan Addison",
      "pos": "WR",
      "status": "Out"
     },
     "4568007": {
-     "changed_at": null,
+     "changed_at": "2026-11-23T00:10:35Z",
      "detail": "Knee",
-     "feed_date": "2026-11-18T22:23Z",
+     "feed_date": "2026-11-23T00:00Z",
      "first_seen": "2026-11-23T00:00:34Z",
      "name": "Jay Ward",
      "pos": "S",
-     "status": "Questionable"
+     "status": "Out"
+    },
+    "4573398": {
+     "changed_at": null,
+     "detail": "Coach's Decision",
+     "feed_date": "2026-11-23T00:00Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "status": "Out"
     }
    },
    "id": "16",
    "players": {
+    "3917315": {
+     "feed_date": "2026-11-23T00:00Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "jersey": "",
+     "name": "Kyler Murray",
+     "pos": "QB",
+     "reason": "Hamstring",
+     "via": "poll"
+    },
     "4044540": {
      "feed_date": "2026-11-20T22:27Z",
      "first_seen": "2026-11-23T00:05:37Z",
@@ -892,6 +910,24 @@
      "name": "Jordan Addison",
      "pos": "WR",
      "reason": "Thumb",
+     "via": "poll"
+    },
+    "4568007": {
+     "feed_date": "2026-11-23T00:00Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "jersey": "",
+     "name": "Jay Ward",
+     "pos": "S",
+     "reason": "Knee",
+     "via": "poll"
+    },
+    "4573398": {
+     "feed_date": "2026-11-23T00:00Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "jersey": "",
+     "name": "Max Brosmer",
+     "pos": "QB",
+     "reason": "Coach's Decision",
      "via": "poll"
     }
    },
@@ -2146,7 +2182,26 @@
     }
    },
    "id": "25",
-   "players": {},
+   "players": {
+    "4430431": {
+     "feed_date": "2026-11-16T19:37Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "jersey": "",
+     "name": "Kurtis Rourke",
+     "pos": "QB",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    },
+    "4691556": {
+     "feed_date": "2026-11-16T19:37Z",
+     "first_seen": "2026-11-23T00:10:35Z",
+     "jersey": "",
+     "name": "Enrique Cruz Jr.",
+     "pos": "OT",
+     "reason": "Coach's Decision",
+     "via": "poll"
+    }
+   },
    "reconciled_added": 0,
    "reconciled_at": null,
    "rows_returned": 25,
