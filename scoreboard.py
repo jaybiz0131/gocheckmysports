@@ -377,6 +377,16 @@ def refresh(check=False):
     payload = {"fetched_at": datetime.datetime.now(datetime.timezone.utc)
                                      .strftime("%Y-%m-%dT%H:%M:%SZ"),
                "leagues": out, "failed": failed}
+    # S-60: the time this desk first read each game as final, carried from the last snapshot, so a
+    # final card says "Final as of 3:08 PM ET" and the Final tab runs newest first. It is the
+    # desk's read, never the league's end time, and the card says "as of".
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            _prev = json.load(f)
+    except Exception:
+        _prev = {}
+    import s60
+    s60.stamp_finals(payload, _prev, payload["fetched_at"])
     if check:
         return payload
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

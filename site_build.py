@@ -33,6 +33,7 @@ import sys
 from urllib.parse import quote
 
 import boundary
+import s60 as _s60
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, "site")
@@ -3039,7 +3040,7 @@ def _w2w_stream_chips(chips, doc=None):
         if c["state"] == "ok":
             out.append(_svc_tag(c["label"], src.get(c.get("id")) or "", "w2w-str-c"))
         else:
-            out.append('<span class="w2w-str-c w2w-verify">verify</span>')
+            continue    # S-60: "verify" is an internal flag, never reader copy
     return "".join(out)
 
 
@@ -3109,7 +3110,7 @@ def render_where_to_watch(week, weeks, dateline, current=False):
   <div class="w2w">{"".join(body_rows)}</div>
   <div class="lx-actions">{others}</div>
   <p class="bd-src" style="margin-top:14px">Schedule and networks: ESPN. Streams from each
-     service's own page; a service marked verify has not been confirmed.</p>
+     service's own page.</p>
 </section></main>"""
     return shell(f"NFL and college football Week {week.get('week')}: where to watch every game - {NAME}",
                  f"Every NFL and FBS game of Week {week.get('week')} by day and kickoff window, "
@@ -4144,18 +4145,10 @@ NETWORK_NAMES = {
 }
 
 
-# N-1 (21 November 2026): codes the feed sends that are not a channel anyone can tune to. Printed
-# raw on two Saturday cards ("ERADM"). Omitted, the way a module with no data is omitted.
-NETWORK_OMIT = {"ERADM"}
-
-
 def network_name(raw):
-    """The network's own name where the desk knows it, the feed's string otherwise, nothing for a
-    code that names no channel."""
-    n = (raw or "").strip()
-    if n in NETWORK_OMIT:
-        return ""
-    return NETWORK_NAMES.get(n, n)
+    """The network's own name where the desk knows it, the feed's string otherwise."""
+    import networks as _nw
+    return _nw.label(raw)[0]
 
 
 def _is_postponed(g):
@@ -4606,6 +4599,13 @@ def _tk_day(g):
     return dt.astimezone(_ET).strftime("%a %b %-d") if dt else ""
 
 
+def _tk_stale(g):
+    """S-60 item 2: a game past kickoff the feed still calls scheduled is drawn stale and says so."""
+    if not _s60.is_stale(g, _build_now()):
+        return ""
+    return f'<p class="tk-stale st-stale">{esc(_s60.stale_line(_mf().get("data_utc") or ""))}</p>'
+
+
 def _tk_kicker(g):
     """The stub's top line: league, week, state and the date. Every card dates itself."""
     league = esc(g.get("league") or "")
@@ -4614,13 +4614,13 @@ def _tk_kicker(g):
         # S-61: the "No update since" time is in the chip row, in the stale style; the kicker dates the card
         return f'<span class="tk-k">{_TK_MID.join(x for x in (league, esc(day)) if x)}</span>'
     if g.get("state") == "in":
-        det = esc(_tk_state(g) or "In progress")
+        det = esc(_s60.live_label(g))
         return f'<span class="tk-k">{_TK_MID.join(x for x in (league, det, esc(day)) if x)}</span>'
     if g.get("state") == "post":
         # A POSTPONED GAME IS NOT A FINAL. The feed marks it post and the card said
         # "MLB · Final" over two empty score slots, which reads as a nil-nil result
         # rather than a game that was never played. It says what happened, alone.
-        word = "Postponed" if _is_postponed(g) else "Final"
+        word = "Postponed" if _is_postponed(g) else _s60.final_label(g)
         return f'<span class="tk-k">{_TK_MID.join(x for x in (league, word, esc(day)) if x)}</span>'
     bits = [league]
     if league == "NFL":
@@ -5184,7 +5184,7 @@ def cx_pct(v, where=""):
         return None
     if not 0 <= n <= 100:
         CX_PCT_FAILS.append((where, v))
-        print(f"conditions: {where or 'a game'} sent a precipitation chance of {v}; the plate prints missing")
+        print(f"conditions: {where or 'a game'} sent a precipitation chance of {v}; the plate prints n/a")
         return None
     return n
 
@@ -5289,9 +5289,8 @@ def sbc_kicker(g, e=None):
     k = _utc_dt(g.get("start_utc") or "")
     day = k.astimezone(_ET).strftime("%a %b %-d") if k else ""
     if g.get("state") in ("in", "post"):
-        word = ("Postponed" if _is_postponed(g) else "Final") if g.get("state") == "post" else (_tk_state(g) or "")
-        if g.get("state") == "post" and "OT" in (g.get("status_short") or "").upper() and word == "Final":
-            word = "Final/OT"
+        word = ("Postponed" if _is_postponed(g) else _s60.final_label(g)) if g.get("state") == "post" \
+            else _s60.live_label(g)
         return " · ".join(x for x in (word, day, venue) if x)
     return " · ".join(x for x in (day, _et_clock(k) if k else "", venue) if x)
 
@@ -5394,14 +5393,30 @@ def sbc_wind_arrow(deg, label=""):
             f'<use href="#cxs-arrow" transform="rotate({round(float(deg)) % 360} 15 15)"/></svg>')
 
 
+def sbc_wx_absent(g, e):
+    """S-60 item 5: the one line for a card with no kickoff conditions. A finished game prints
+    nothing (its strip is the record); "missing" never prints."""
+    if g.get("state") == "post":
+        return ""
+    text, cls = _s60.weather_absent(g, e, _build_now())
+    return (f'<div class="sbc-wx" data-cx="absent" data-lens-only="watch">'
+            f'<p class="sbc-one{(" " + cls) if cls else ""}">{esc(text)}</p></div>')
+
+
 def sbc_weather(g, e):
     """The card's weather: the three plates, the four bulbs and the words line with the credit,
     or one plate for a dome, outside NWS coverage, or a forecast not yet in range. Returns
     (html, lit) where lit says the board's edge is yellow. '' when the build holds nothing."""
-    if not e:
-        return "", False
+    if not e or e.get("status") in ("missing", "error"):
+        return sbc_wx_absent(g, e), False
     st = e.get("status")
     w = e.get("words") or {}
+    if st == "forecast":
+        _p = cx_parts(e)
+        if _p["temp"] is None and _p["mph"] is None and not _p["calm"] and _p["pop"] is None:
+            # S-60 item 5: the Worker's kickoff hour came back empty (the NWS hourly product starts
+            # at the current hour, so a game under way has none). Say why, never "missing".
+            return sbc_wx_absent(g, e), False
     if st == "indoor":
         return ('<div class="sbc-wx" data-cx="indoor" data-lens-only="watch">'
                 '<p class="sbc-one">Dome · No weather</p></div>'), False
@@ -5427,7 +5442,7 @@ def sbc_weather(g, e):
         return (f'<div class="sbc-wp sbc-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span>'
                 f'<span class="sbc-big">{big}</span>'
                 + (f'<span class="sbc-s">{esc(sub)}</span>' if sub else '<span class="sbc-s"></span>') + '</div>')
-    temp = f'{p["temp"]}°' if p["temp"] is not None else '<span class="sbc-miss">missing</span>'
+    temp = f'{p["temp"]}°' if p["temp"] is not None else '<span class="sbc-miss">n/a</span>'
     tsub = ", ".join(x for x in ((f"feels {p['feels']}°" if p["feels"] is not None else ""), p["feel_peak"]) if x)
     if p["calm"]:
         wbig, wsub = "Calm", ""
@@ -5436,8 +5451,8 @@ def sbc_weather(g, e):
         wbig = f'{p["mph"]}{sbc_wind_arrow(p["true_deg"], lab)}'
         wsub = f"gust {p['gust']} mph" if p["gust"] is not None else "mph"
     else:
-        wbig, wsub = '<span class="sbc-miss">missing</span>', ""
-    rbig = f'{p["pop"]}%' if p["pop"] is not None else '<span class="sbc-miss">missing</span>'
+        wbig, wsub = '<span class="sbc-miss">n/a</span>', ""
+    rbig = f'{p["pop"]}%' if p["pop"] is not None else '<span class="sbc-miss">n/a</span>'
     rsub = f"up to {p['peak']}%" if p["peak"] is not None else (p["ptype"] or "")
     plates = ('<div class="sbc-wps">' + plate("t", "Temp", temp, tsub, on["feels"])
               + plate("w", "Wind", wbig, wsub, on["wind"]) + plate("r", "Rain", rbig, rsub, on["precip"]) + '</div>')
@@ -5490,7 +5505,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
             f'data-home="{esc((g.get("home") or {}).get("abbr") or "")}" style="--a:{a_col};--b:{b_col}">'
             f'<div class="sbc-top"><span class="sbc-kick" data-role="kicker">{esc(sbc_kicker(g, e))}</span>'
             f'<span class="sbc-chips" data-lens-only="watch">{roof}{net}{stream}</span></div>'
-            f'{sbc_linescore(g, full=ticket)}{_tk_line(g)}{wx}{fact}{link}</article>')
+            f'{_tk_stale(g)}{sbc_linescore(g, full=ticket)}{_tk_line(g)}{wx}{fact}{link}</article>')
 
 
 def _tk_facts(g, ia_index, wx=None, desig=None, place=False):
@@ -5603,6 +5618,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
             f'<div class="tk-stub" style="--a:{a_col};--b:{b_col}">'
             f'<div class="tk-stub-top"><span data-role="kicker">{_tk_kicker(g)}</span>'
             f'{net}{stream}</div>'
+            f'{_tk_stale(g)}'
             f'<div class="tk-mu" data-role="mu">{_tk_matchup(g)}</div>'
             f'{_tk_rec_html(g)}'
             f'{_tk_countdown(g)}'
@@ -6890,7 +6906,7 @@ def _tms_wx(game_id):
         wind = "Calm" if p["calm"] else (f'{p["mph"]} mph' if p["mph"] is not None else "")
         rain = f'{p["pop"]}%' if p["pop"] is not None else ""
         cell = lambda lab, v, on=False: (f'<span class="tms-pl{" on" if on else ""}{"" if v else " miss"}">'
-                                         f'<i>{lab}</i>{esc(v) if v else "missing"}</span>')
+                                         f'<i>{lab}</i>{esc(v) if v else "n/a"}</span>')
         return (cell("Temp", temp) + cell("Wind", wind, p["on"]["wind"])
                 + cell("Rain", rain, p["on"]["precip"])), lit
     import conditions as _cx
@@ -7424,6 +7440,7 @@ def _wire_rows(items, now=None):
                 "text": (f'{_team_label(g, a)} {sa}, {_team_label(g, h)} {sh}'),
                 "href": esc(_game_href(g)),
                 "note": g.get("league") or "",
+                "final_t": _utc_dt(g.get("final_seen_utc") or ""),
             })
 
     seen, out = set(), []
@@ -7639,7 +7656,51 @@ def standings_strip(st):
 # with games, else the last), the other days are /scores/<date>.html, and a day too heavy for one
 # page continues at /scores/<date>-2.html. The cut is by bytes of the rendered page, never by a
 # card count, because a card's weight changes with what the Worker and the feed give it.
-SCORES_BUDGET = 150000      # the scorecard's byte line for a page
+def _asof_line():
+    """S-60 item 6: "Scores as of 3:43 PM ET, refreshed every 30 minutes". The number is
+    cadence.EVERY_MIN, the same constant that decides each tick of scores-cadence.yml, and it is
+    printed only on the days that schedule runs every N minutes (Saturday and Sunday)."""
+    import cadence as _cad
+    m = _mf()
+    wd = datetime.date.fromisoformat(m["date"]).weekday()
+    return _bm.asof(m) + _s60.cadence_line(wd, _cad.EVERY_MIN, _cad.WEEKEND)
+
+
+# S-60: the state tabs and the league filter. The page is built with the default tab open and every
+# game in exactly one panel; this only switches panels, filters by league and remembers the choice for
+# the session. Without script the panels the build hid are shown (the noscript rule), so no game is
+# ever out of reach. The tab counts are recomputed from the cards for the league chosen.
+SC_STATE_JS = """<noscript><style>.sc-panel[hidden]{display:block}</style></noscript>
+<script>(function(){
+var KEY='gcm-sc-state', root=document.querySelector('[data-default]'); if(!root) return;
+var lg='All', tab=root.getAttribute('data-default');
+try{ var v=sessionStorage.getItem(KEY); if(v&&document.querySelector('[data-panel="'+v+'"]')) tab=v; }catch(e){}
+var h=(location.hash||'').replace('#','').toLowerCase();
+document.querySelectorAll('.sc-leagues [data-league]').forEach(function(a){
+  if(h && a.getAttribute('data-league').toLowerCase()===h) lg=a.getAttribute('data-league'); });
+function apply(){
+  var cards=document.querySelectorAll('.sc-panel .tk-c[data-gid]'), n={live:0,upcoming:0,final:0};
+  cards.forEach(function(c){
+    var on=(lg==='All'||c.getAttribute('data-league')===lg); c.hidden=!on;
+    var p=c.closest('.sc-panel'); if(on&&p) n[p.getAttribute('data-panel')]++; });
+  document.querySelectorAll('.sc-panel').forEach(function(p){ p.hidden=p.getAttribute('data-panel')!==tab; });
+  document.querySelectorAll('.sc-states [data-tab]').forEach(function(a){
+    var t=a.getAttribute('data-tab'); a.classList.toggle('on',t===tab);
+    var s=a.querySelector('small'); if(s) s.textContent=n[t]; });
+  document.querySelectorAll('.sc-leagues [data-league]').forEach(function(a){
+    a.classList.toggle('on',a.getAttribute('data-league')===lg); });
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('.sc-states [data-tab], .sc-leagues [data-league]'); if(!a) return;
+  e.preventDefault();
+  if(a.hasAttribute('data-tab')){ tab=a.getAttribute('data-tab'); try{ sessionStorage.setItem(KEY,tab); }catch(x){} }
+  else lg=a.getAttribute('data-league');
+  apply();
+});
+apply();
+})();</script>"""
+
+SCORES_BUDGET = 240000      # the scorecard's byte line for a page (S-60: was 150000; the day is one page now)
 SCORES_SLACK = 3000         # the pager aims this far under it
 
 
@@ -7816,53 +7877,45 @@ def render_scores_pages(sb, board, dateline, wx=None):
             out.extend((lg, _tk_card(g, ia, wx=wx, desig=IA_DESIG, items=ALL_ITEMS), g) for g in gs)
         return out
 
-    def sections(iso, items):
-        runs = []
-        for lg, card, _g in items:
-            if not runs or runs[-1][0] != lg:
-                runs.append((lg, []))
-            runs[-1][1].append(card)
-        dt = datetime.date.fromisoformat(iso)
-        by = mdays.get(iso)
-        secs = []
-        for lg, cards in runs:
-            if iso == today:
-                count = _mf_league_row(lg)
-            elif by is not None:
-                count = (f"{by.get(lg, 0)} on {dt.strftime('%A')} · "
-                         f"{(week['by_league'].get(lg) or {}).get('total', 0)} this week")
-            else:
-                count = ""
-            n_span = f'<span class="tk-lg-n">{esc(count)}</span>' if count else ""
-            secs.append(f'<section class="bd-mod" id="{esc(lg.lower())}">'
-                        f'<div class="tk-lg"><span>{esc(lg)}</span><i></i>{n_span}</div>'
-                        f'<div class="tk-g3">' + "".join(cards) + '</div></section>')
-        return secs
+    def panels(iso, items):
+        """S-60: the day's whole slate on one page, three state panels. Each game is in exactly one,
+        ordered the way that state is read (s60.ORDER). A stale kickoff is listed with Live."""
+        now = _build_now()
+        card = {str(g.get("id")): c for _lg, c, g in items}
+        games = [g for _lg, _c, g in items]
+        dflt = _s60.default_tab(games, now)
+        n = _s60.counts(games, now)
+        out = []
+        for tab in _s60.TABS:
+            gs = _s60.ORDER[tab]([g for g in games if _s60.tab_of(g, now) == tab], now, rank=_game_rank)
+            body = "".join(card[str(g.get("id"))] for g in gs) or (
+                f'<p class="sc-none">Nothing in this state on this day.</p>')
+            out.append(f'<div class="sc-panel" data-panel="{tab}" id="s-{tab}"'
+                       + ("" if tab == dflt else " hidden") + f'><div class="tk-g3">{body}</div></div>')
+        return dflt, n, "".join(out)
 
-    def page(iso, part, parts, items, path=None):
-        path = path or _scores_url(iso, part)
+    def page(iso, items, path=None):
+        path = path or _scores_url(iso, 1)
         dt = datetime.date.fromisoformat(iso)
+        # S-60 item 4: every count on this page is read off the list the page renders
         games_here = [g for _l, _c, g in items]
         leagues_here = []
         for lg, _c, _g in items:
             if lg not in leagues_here:
                 leagues_here.append(lg)
-        by = mdays.get(iso)
-        tot = day_total(iso)
-        if iso == today:
-            count_line = _mf_count_line(BOARD_LEAGUES)
-            ltabs = _tk_tabs(games_here, active="all", href=path)
-        else:
-            count_line = (f"{tot} game{'' if tot == 1 else 's'} on {dt.strftime('%A')}"
-                          if tot is not None else "")
-            def sm(n):
-                return f"<small>{n}</small>" if n is not None else ""
-            ltabs = ('<div class="tk-tabs">'
-                     f'<a class="tk-tab on" data-league="All" href="{path}#all">All{sm(tot)}</a>'
-                     + "".join(f'<a class="tk-tab" data-league="{esc(lg)}" href="{path}#{esc(lg.lower())}">'
-                               f'{esc(lg)}{sm(None if by is None else by.get(lg, 0))}</a>'
-                               for lg in leagues_here)
-                     + '</div>')
+        tot = len(items)
+        count_line = (f"{tot} game{'' if tot == 1 else 's'} " + ("today" if iso == today else f"on {dt.strftime('%A')}")
+                      if tot and (iso == today or mdays.get(iso) is not None) else "")
+        ltabs = ('<div class="tk-tabs sc-leagues">'
+                 f'<a class="tk-tab on" data-league="All" href="{path}#all">All<small>{tot}</small></a>'
+                 + "".join(f'<a class="tk-tab" data-league="{esc(lg)}" href="{path}#{esc(lg.lower())}">'
+                           f'{esc(lg)}<small>{sum(1 for l, _c, _g in items if l == lg)}</small></a>'
+                           for lg in leagues_here)
+                 + '</div>')
+        dflt, n, panel_html = panels(iso, items)
+        stabs = ('<nav class="tk-tabs sc-states" aria-label="Games by state">'
+                 + "".join(f'<a class="tk-tab{" on" if t == dflt else ""}" data-tab="{t}" href="#s-{t}">'
+                           f'{t.title()}<small>{n[t]}</small></a>' for t in _s60.TABS) + '</nav>')
         nav = ['<nav class="tk-tabs sc-days" aria-label="Scores by day">']
         for d in sorted(days):
             here = d == iso
@@ -7871,15 +7924,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
                        + (' aria-current="page"' if here else "") + f'>{esc(dlabel(d))}'
                        + (f'<small>{t}</small>' if t is not None else '') + '</a>')
         nav.append('</nav>')
-        if parts > 1:
-            nav.append('<nav class="tk-tabs sc-parts" aria-label="Parts of this day">')
-            for k in range(1, parts + 1):
-                here = k == part
-                nav.append(f'<a class="tk-tab{" on" if here else ""}" href="{_scores_url(iso, k)}"'
-                           + (' aria-current="page"' if here else "") + f'>Part {k}</a>')
-            nav.append('</nav>')
-        h1 = "Scores" if path == "/scores.html" else (
-            f"Scores, {dlabel(iso)}" + (f", part {part}" if parts > 1 else ""))
+        h1 = "Scores" if path == "/scores.html" else f"Scores, {dlabel(iso)}"
         _orn = _sb_ornament([g for _l, g in days[iso]], datetime.date.fromisoformat(iso))
         count_span = (f'<span class="sb-count" data-mf="count">{esc(count_line)}</span>\n        '
                       if count_line else "")
@@ -7892,11 +7937,12 @@ def render_scores_pages(sb, board, dateline, wx=None):
         <h1 class="sb-claim">{esc(h1)}</h1>
       </div>
       <span class="sb-countwrap">
-        {count_span}<span class="sb-stamp" data-mf="stamp">{esc(_bm.asof(_mf()))}</span>
+        {count_span}<span class="sb-stamp" data-mf="stamp">{esc(_asof_line())}</span>
       </span>
     </div>
     <div class="sb-tabrow">{ltabs}{_week_link()}</div>
     {"".join(nav)}
+    <div class="sb-tabrow">{stabs}</div>
     {lens_control()}
     {pins_panel()}
   </div>
@@ -7904,52 +7950,30 @@ def render_scores_pages(sb, board, dateline, wx=None):
 </section>
 <div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + LENS_JS
         body = band + f"""<main class="wrap"><section class="page">
-    <div class="scoreband scoreband-page">{"".join(sections(iso, items))}</div>
+    <div class="scoreband scoreband-page" id="all" data-default="{dflt}">{panel_html}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
-</section></main>"""
+</section></main>{SC_STATE_JS}"""
         if path == "/scores.html":
             title = f"Scores - {NAME}"
             desc = ("Every score across the leagues this desk covers, with the "
                     "network carrying each game and the line as the book reported it.")
         else:
-            title = f"Scores, {dt.strftime('%A, %B %-d')}" + (f", part {part}" if parts > 1 else "") + f" - {NAME}"
+            title = f"Scores, {dt.strftime('%A, %B %-d')} - {NAME}"
             desc = (f"Every game on {dt.strftime('%A, %B %-d')}, with the network carrying each game "
                     "and the line as the book reported it.")
         return shell(title, desc, "Scores", body, dateline, path=path, noindex=path != "/scores.html")
-
-    def size(h):
-        return len(h.encode("utf-8"))
 
     pages = {}
     alias = None
     for iso in sorted(days):
         items = items_for(iso)
-        adj, k_used = 0, 1
-        for _attempt in range(10):
-            base = size(page(iso, 1, k_used, [(lg, "", g) for lg, _c, g in items[:1]]))
-            cap = max(1, SCORES_BUDGET - SCORES_SLACK - base - adj)
-            chunks, cur, cur_n = [], [], 0
-            for it in items:
-                w_ = size(it[1])
-                if cur and cur_n + w_ > cap:
-                    chunks.append(cur)
-                    cur, cur_n = [], 0
-                cur.append(it)
-                cur_n += w_
-            chunks.append(cur)
-            k_used = len(chunks)
-            htmls = [page(iso, i + 1, k_used, c) for i, c in enumerate(chunks)]
-            worst = max(size(h) for h in htmls)
-            if iso == opening:
-                alias = page(iso, 1, k_used, chunks[0], path="/scores.html")
-                worst = max(worst, size(alias))
-            if worst < SCORES_BUDGET:
-                break
-            adj += worst - SCORES_BUDGET + SCORES_SLACK
-        else:
-            print(f"::warning::scores: the page for {iso} is {worst} bytes, over {SCORES_BUDGET}")
-        for i, h in enumerate(htmls):
-            pages[_scores_url(iso, i + 1)] = h
+        h = page(iso, items)
+        pages[_scores_url(iso, 1)] = h
+        if iso == opening:
+            alias = page(iso, items, path="/scores.html")
+        for hh in (h, alias if iso == opening else None):
+            if hh and len(hh.encode("utf-8")) >= SCORES_BUDGET:
+                print(f"::warning::scores: the page for {iso} is {len(hh.encode('utf-8'))} bytes, over {SCORES_BUDGET}")
     return dict(([("/scores.html", alias)] if alias else []) + sorted(pages.items()))
 
 
@@ -9202,7 +9226,7 @@ def sbg_hours(e):
         for i, h in enumerate(hours):
             v = h.get(key)
             hot = key == "wind_mph" and isinstance(v, (int, float)) and isinstance(thr, (int, float)) and v >= thr
-            txt = num(v) if num(v) else '<span class="sbc-miss">missing</span>'
+            txt = num(v) if num(v) else '<span class="sbc-miss">n/a</span>'
             cells.append(f'<span class="sbg-hp{" sbg-g" if i in gi else ""}{" on" if hot else ""}">{txt}</span>')
         rows += f'<span class="sbg-hl">{lab}</span>' + "".join(cells)
     aria = "; ".join(
@@ -9239,7 +9263,7 @@ def sbg_conditions(g, e):
     def plate(key, label, big, lit):
         return (f'<div class="sbg-p sbg-{key}{" on" if lit else ""}"><span class="sbc-k">{label}</span>'
                 f'<span class="sbg-big"{_oswald_w(big)}>{big}</span></div>')
-    miss = '<span class="sbc-miss">missing</span>'
+    miss = '<span class="sbc-miss">n/a</span>'
     temp = f'{p["temp"]}°' if p["temp"] is not None else miss
     wind = "Calm" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else miss)
     gust = "" if p["calm"] else (str(p["gust"]) if p["gust"] is not None else miss)
@@ -9404,8 +9428,7 @@ def gp_watch_block(g):
     btn = []
     for c in chips:
         if c["state"] != "ok":
-            btn.append('<span class="tk-chip tk-verify">verify</span>')
-            continue
+            continue    # S-60: an unconfirmed service prints nothing
         u = _aff.url_for(c["label"]) or src.get(c.get("id")) or ""
         btn.append(f'<a class="gp-svc" href="{esc(u)}" rel="{_aff.REL if _aff.is_affiliate(u) else "noopener"}">{esc(c["label"])}</a>' if u
                    else f'<span class="gp-svc">{esc(c["label"])}</span>')
@@ -9414,7 +9437,7 @@ def gp_watch_block(g):
     if g.get("league") == "NFL" and k and _carriage.window_key(k, "NFL") in ("1:00", "4:05-4:25"):
         reg = (f'<p class="bd-src">{esc(rm.get("label") or "Regional maps")}: '
                + (f'<a href="{esc(rm["url"])}" rel="noopener">the maps</a>' if rm.get("status") == "ok"
-                  and rm.get("url") else "verify") + '</p>')
+                  and rm.get("url") else "see the league's maps") + '</p>')
     return (f'<section class="bd-mod gp-watch"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">Where to watch</span></div>'
             f'<a class="bd-more" href="/where-to-watch.html">All games</a></div>'
@@ -10966,7 +10989,7 @@ def _first_stream_chip(g, carriers, doc, today):
     c = chips[0]
     cls = "tk-chip tk-stream" + (" tk-verify" if c["state"] != "ok" else "")
     if c["state"] != "ok":
-        return f'<span class="{cls}" data-lens-only="watch">{esc(c["label"])}</span>'
+        return ""     # S-60: the verify chip is an internal flag, never reader copy
     return _svc_tag(c["label"], _row_sources(doc).get(c.get("id")) or "", cls,
                     ' data-lens-only="watch"')
 
@@ -11091,7 +11114,7 @@ def week_board(sb):
       </div>
       <span class="sb-countwrap">
         <span class="sb-count" data-mf="count">{esc(count_line)}</span>
-        <span class="sb-stamp" data-mf="stamp">{esc(_bm.asof(_mf()))}</span>
+        <span class="sb-stamp" data-mf="stamp">{esc(_asof_line())}</span>
       </span>
     </div>
     <div class="sb-tabrow"><div class="tk-tabs wb-tabs">{"".join(tab_html)}</div></div>
@@ -11247,7 +11270,7 @@ def wall_row(g):
         wind = "Calm" if p["calm"] else (str(p["mph"]) if p["mph"] is not None else "")
         rain = f'{p["pop"]}%' if p["pop"] is not None else ""
         cell = lambda v, cls="": (f'<span class="wl-pl{cls}{" wl-miss" if not v else ""}">'
-                                  f'{esc(v) if v else "missing"}</span>')
+                                  f'{esc(v) if v else "n/a"}</span>')
         wx = cell(temp) + cell(wind, " wl-w on" if p["on"]["wind"] else " wl-w") + cell(rain)
     else:
         note = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
@@ -11412,7 +11435,7 @@ def home_lead(items, now=None):
     if finals:
         lis = "".join(
             f'<li><a href="{r["href"]}">{esc(r["text"])}</a> '
-            f'<span class="cr-when">{esc(r["t"].astimezone(_ET).strftime("%a"))} {esc(_et_clock(r["t"]))} kickoff</span></li>'
+            f'<span class="cr-when">{esc("Final as of " + _et_clock(r["final_t"]) if r.get("final_t") else "Final, " + r["t"].astimezone(_ET).strftime("%a"))}</span></li>'
             for r in finals)
         return (f'<section class="cr hl" data-lead="finals"><span class="bd-eyebrow">The Wire</span>'
                 f'<h2 class="cr-h">Latest finals</h2><ul class="cr-list">{lis}</ul>'

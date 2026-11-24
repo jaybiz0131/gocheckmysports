@@ -115,9 +115,9 @@ def watch_canary():
             seg = rows[gid].split('class="w2w-streams">', 1)[1].split('<span class="w2w-res"')[0]
             # a service is a span or, when the page links it, an anchor: the label is the same
             return re.findall(r'<(?:span|a) class="w2w-str-c[^"]*"[^>]*>([^<]*)</(?:span|a)>', seg)
-        exp = {"CHIGB": ["YouTube TV", "Sling TV (select markets)", "verify"],
+        exp = {"CHIGB": ["YouTube TV", "Sling TV (select markets)"],
                "LVNE": ["Paramount+", "YouTube TV"],
-               "ARILAR": ["YouTube TV", "Sling TV (select markets)", "verify"],
+               "ARILAR": ["YouTube TV", "Sling TV (select markets)"],
                "DALPHI": ["YouTube TV"],      # Peacock is already a network chip: the feed lists it
                "LONPAR": [],
                "DENSEA": [],
@@ -145,8 +145,8 @@ def watch_canary():
             fails.append("watch: a row exactly 30 days old already prints verify")
         if "Paramount+" in d31 or "YouTube TV" in d31:
             fails.append("watch: a row 31 days old still prints its service")
-        if "verify" not in visible(d31):
-            fails.append("watch: a row 31 days old does not print verify")
+        if "verify" in visible(d31):
+            fails.append("watch: a row 31 days old prints the internal verify flag")
 
         # grouping by day, then by window, in kickoff order
         html = page("2026-10-13T09:00")

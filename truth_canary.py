@@ -114,7 +114,9 @@ def check_agreement(pages, manifest, count_for):
         if not stamps:
             fails.append(f"truth: {name} prints no manifest stamp")
         for s in stamps:
-            if s != want_stamp:
+            # S-60 item 6: the board's stamp gains ", refreshed every N minutes" on a game-day weekend
+            if s != want_stamp and not (name in board_pages and re.fullmatch(
+                    re.escape(want_stamp) + r", refreshed every \d+ minutes when the run fires", s)):
                 fails.append(f"truth: {name} stamp reads {s!r}, the manifest says {want_stamp!r}")
         if name in count_for:
             if not counts:
@@ -185,11 +187,19 @@ def check_unique_ids(name, html):
 _LIVE = re.compile(r"(?i)\blive\b")
 
 
+# S-60 (21 November 2026, Jack's order): the Scores page names its first state tab "Live", and a card's
+# state word is the feed's own clock. The exception is exactly the tab (a "Live" followed by its count)
+# on the scores pages and nowhere else.
+_LIVE_TAB = re.compile(r"\bLive\s+\d+")
+
+
 def check_no_live(name, html):
-    m = _LIVE.search(visible(html))
+    t = visible(html)
+    if name.startswith("scores"):
+        t = _LIVE_TAB.sub(" ", t)
+    m = _LIVE.search(t)
     if not m:
         return []
-    t = visible(html)
     return [f"truth: the word \"live\" is on {name}: ...{t[max(0, m.start() - 40):m.end() + 40]!r}"]
 
 

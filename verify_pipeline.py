@@ -1437,9 +1437,10 @@ def _sunday_slate_canary():
     _wins = _r.findall(r'class="tk-tab" href="#win-([^"]*)">[^<]*<small>(\d+)</small>', _home)
     _check(_wins == [("1pm", "4"), ("late", "2"), ("night", "1")], fails,
            f"H-12 canary: the Sunday windows read {_wins}")
-    _lg = _r.findall(r'class="tk-lg-n">([^<]*)', _page or "")
-    _check(_lg == ["7 today \u00b7 7 this week"], fails,
-           f"H-12 canary: the league row on /scores reads {_lg}, not the manifest's 7 today, 7 this week")
+    # S-60: the league counts are the page's own list; the NFL tab reads the seven cards the page renders
+    _lg = _r.findall(r'data-league="NFL" href="[^"]*">NFL<small>(\d+)</small>', _page or "")
+    _check(_lg == ["7"], fails,
+           f"H-12 canary: the NFL tab on /scores reads {_lg}, not the seven games the page renders")
     return fails
 
 
@@ -1630,8 +1631,8 @@ def _home_lead_canary():
             fails.append("lead: with no Edition the lead is not the Wire's three newest finals")
         elif not (h.index("A3") < h.index("A2") < h.index("A1")) or "A4" in h or "A9" in h:
             fails.append("lead: the finals are not the three newest board finals, newest first")
-        if "kickoff" not in h:
-            fails.append("lead: the finals print without their times")
+        if "kickoff" in h or ("Final, " not in h and "Final as of" not in h):
+            fails.append("lead: the finals print without their state, or still call a final a kickoff")
         sb.SB_DATA = {"fetched_at": "2026-11-08T22:55:00Z", "leagues": []}
         h = sb.home_lead([])
         if 'data-lead="empty"' not in h or sb.WIRE_EMPTY not in h:
@@ -1663,7 +1664,7 @@ def _rain_and_windows_canary():
         ent = lambda pop, peak: {"id": "DETMIA", "status": "forecast", "words": {},
                                  "kickoff_hour": {"temp_f": 63, "wind_mph": 9, "pop_pct": pop},
                                  "flags": {"precip": {"on": False, "max_pct": peak}}, "hours": []}
-        for pop, peak, want in ((3, 63, "3%"), (130, 101, "missing")):
+        for pop, peak, want in ((3, 63, "3%"), (130, 101, "n/a")):
             sb.cx_entry = lambda _g, e=ent(pop, peak): e
             row, card = sb.wall_row(g), sb.sbc_card(g, {})
             cells = _re.findall(r'class="wl-pl[^"]*">([^<]*)<', row)
@@ -1981,6 +1982,8 @@ def layer1_canary():
     fails.extend(_run(FIXTURE_TEST, "sunday slate", lambda: _sunday_slate_canary()))   # H-12 under a fixture
     import truth_canary as _tc
     fails.extend(_run(FIXTURE_TEST, "truth", lambda: _tc.truth_canary()))   # S-1 item 0: one truth for counts and stamps
+    import s60_canary as _s60c0
+    fails.extend(_run(FIXTURE_TEST, "s60", lambda: _s60c0.s60_canary()))   # S-60: Live, Upcoming and Final, honest cards, one count
     import watch_canary as _wc
     fails.extend(_run(FIXTURE_TEST, "watch", lambda: _wc.watch_canary()))   # S-1 item 1: Where to Watch by day and window
     import home_canary as _hc
@@ -2295,6 +2298,8 @@ def layer1_canary():
     # are authored text and "live" is an ordinary word in a sentence.
     import truth_canary as _tc2
     fails.extend(_run(FIXTURE_TEST, "live word scan", lambda: _tc2.live_word_scan(_walk_root)))
+    import s60_canary as _s60c
+    fails.extend(_run(FIXTURE_TEST, "s60 tree scan", lambda: _s60c.tree_scan(_walk_root)))   # S-60: no verify, no bare code, no "missing" in reader text
     import home_canary as _hc2
     fails.extend(_run(FIXTURE_TEST, "nav consistency scan", lambda: _hc2.nav_consistency_scan(_walk_root)))   # S-1: one header on every page
 

@@ -39,6 +39,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 BUDGET = 150000
+SCORES_PIN = 240000   # S-60: the Scores day pages only; was 150000 when a day was paged, now one page per day
 
 
 def worker_unit():
@@ -208,7 +209,7 @@ def pages_unit():
                 n = len(html.encode("utf-8"))
                 if n >= limit:
                     fails.append(f"pages ({label}): {path} is {n} bytes, over the {limit}-byte budget")
-            # /scores.html repeats the opening day's first page, so it is left out of the tally
+            # /scores.html repeats the opening day's page, so it is left out of the tally
             got = sorted(i for p, h in pages.items() if p != "/scores.html"
                          for i in re.findall(r'<article class="tk-c[^"]*" data-gid="([^"]*)"', h))
             if got != want_ids:
@@ -227,15 +228,20 @@ def pages_unit():
                     if f'href="{dpath}"' not in html:
                         fails.append(f"pages ({label}): {path} does not link {dpath}")
                         break
-            # the tabs of every page are exactly All, then the leagues whose sections the page holds
+            # S-60: the league tabs of every page are exactly All, then the leagues whose cards the page holds,
+            # and each count is the number of cards the page renders for it (All is their sum)
             for path, html in pages.items():
                 tabs = re.findall(r'class="tk-tab[^"]*" data-league="([^"]*)"', html)
-                secs = [x.upper() for x in re.findall(r'<section class="bd-mod" id="(\w+)">', html)]
-                if tabs != ["All"] + secs:
-                    fails.append(f"pages ({label}): {path} has tabs {tabs} over sections {secs}")
+                cards = re.findall(r'<article class="tk-c[^"]*" data-gid="[^"]*" data-league="([^"]*)"', html)
+                if sorted(tabs[1:]) != sorted(set(cards)) or tabs[:1] != ["All"]:
+                    fails.append(f"pages ({label}): {path} has tabs {tabs} over cards of {sorted(set(cards))}")
+                nums = [int(n) for n in re.findall(r'data-league="[^"]*" href="[^"]*">[^<]*<small>(\d+)</small>',
+                                                   html)]
+                if nums and nums[0] != sum(nums[1:]):
+                    fails.append(f"pages ({label}): {path} reads All {nums[0]} over leagues {nums[1:]}")
 
         pages = sb.render_scores_pages(sbd, {}, "")
-        check("shipped budget", pages, BUDGET)
+        check("shipped budget", pages, SCORES_PIN)
         if len(pages) < 3:
             fails.append(f"pages: the week is {len(pages)} page(s); a Saturday of 44 games and a Sunday of 16 "
                          f"are separate days")
@@ -244,12 +250,6 @@ def pages_unit():
             fails.append("pages: render_scores_page is not /scores.html of the paged set")
         if budget is None:
             fails.append("pages: site_build has no SCORES_BUDGET, so the pager's limit is not a constant a test can move")
-        sb.SCORES_BUDGET = 60000
-        small = sb.render_scores_pages(sbd, {}, "")
-        check("60000", small, 60000)
-        if len(small) <= len(pages):
-            fails.append(f"pages: a 60,000-byte budget gave {len(small)} pages, no more than the {len(pages)} "
-                         "of the shipped budget, so a day was not split")
     except Exception as e:
         fails.append(f"pages: the fixture raised {type(e).__name__}: {e}")
     finally:
@@ -273,8 +273,10 @@ def tree_unit(tree):
                 fp = os.path.join(root, f)
                 n = os.path.getsize(fp)
                 seen += 1
-                if n >= BUDGET:
-                    fails.append(f"tree: {os.path.relpath(fp, tree)} is {n} bytes, at or over {BUDGET}")
+                rel = os.path.relpath(fp, tree).replace(os.sep, "/")
+                limit = SCORES_PIN if (rel == "scores.html" or rel.startswith("scores/")) else BUDGET
+                if n >= limit:
+                    fails.append(f"tree: {rel} is {n} bytes, at or over {limit}")
     if seen < 100:
         fails.append(f"tree: only {seen} pages were read; the size check would mean nothing")
     if not os.path.exists(os.path.join(tree, "scores.html")):

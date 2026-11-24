@@ -361,6 +361,9 @@ def slate_layout(tree, live=None):
     pages = slate_pages(tree)
     if "index.html" not in pages or "scores.html" not in pages or not any(p.startswith("games/") for p in pages):
         fails.append("slate layout: the fixture slate has no home, Scores page or game page, so it proves nothing")
+    # the longest network chip the fixture carries (S-60's "USA Network", six games), counted so the read names it
+    usa = sum(open(os.path.join(tree, p), encoding="utf-8").read().count(">USA Network<") for p in pages)
+    print(f"slate layout: the fixture slate draws {usa} \"USA Network\" chip(s)")
     found, summ, probs = sweep(tree, pages, sorted(set(GATE_WIDTHS) | set(WARN_WIDTHS)))
     fails += [x for x in probs if "findings" not in x]
     if summ is not None:

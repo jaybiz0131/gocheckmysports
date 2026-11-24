@@ -1,0 +1,46 @@
+# S-60 report: the scoreboard splits into Live, Upcoming and Final
+
+Saturday November 21, 2026, 9:05 PM EST. RULES.md body hash (`tail -n +11 docs/RULES.md | sha256sum`): `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`, equal to the header's. Branch `claude/s60-scoreboard-state-tabs-96a7of` (the session's branch; the paste's name `s60-live-final-tabs` was not creatable here). Build commit `78c5a25` plus the commit carrying this report.
+
+## Status: built and committed, NOT pushed, NOT merged
+- The gate (`verify_pipeline.py canary`) is red on this branch, exit 1, status read from the command (U-12), load 1.3 at start. Every red line is of a family that `origin/main` (`ee7cf59`) shows on the same machine in its own gate run (list under Gate). U-14 says a red gate means no push, and the opener says stop when a step cannot proceed, so nothing was pushed, merged, deployed or sent to IndexNow. Production still reads the build of `ee7cf59` (stamp 2026-11-22T00:42:34+00:00).
+- Count of record, the Worker's `/counts/today`, 9:05 PM EST: gocheckmysports production ready 7 on 2026-11-21 (unchanged by this session).
+- What Jack decides: push the branch on the gate's pre-existing reds (J-19 is the precedent), or have the reds fixed first. One line to ship: `git push -u origin claude/s60-scoreboard-state-tabs-96a7of`, then the merge.
+
+## The six parts
+1. Tabs. One page per day, three panels, `Live 24 Upcoming 23 Final 11` on the Saturday fixture (23 in progress plus LSU at Tennessee drawn stale; 58 games). Default Live while any game is on, else Upcoming, else Final (`s60.default_tab`). Live: least time remaining, then rank, then kickoff; Upcoming: kickoff; Final: time first read final, newest first. Halftime, end of quarter and overtime are Live. The Part tabs and the pager are gone. League tabs filter the three panels and recount; tab choice is kept in `sessionStorage` only. No script: the hidden panels show.
+2. Card states. Live "5:53 2nd", "Halftime", "End 3rd", "OT", "2OT 4:12"; upcoming kickoff and network; final "Final" or "Final/2OT". Kickoff more than ten minutes past with the feed still "pre": stale style and "No update since 3:11 PM ET, waiting for the feed" (the time is the feed read the page was built from; the fixture reads 3:43 PM ET because that build read at 3:43).
+3. Networks. `networks.py` is the one table (the 21 names plus the old overrides). "ERADM" prints "Check local listings" and goes to the log once. "verify" leaked from `carriage.streams_for`, whose last chip is labeled "verify": the home card chip, the game page chip, the Where to Watch chip and a sentence of copy; all removed.
+4. Counts. Cause of 85 versus 58: the All count was the manifest's `slate.date.total`, every league in the feed (CFB 58, NHL 14, Soccer 7, NBA 6 = 85), and the page renders NFL and CFB only (`BOARD_LEAGUES`), so 27 games were counted and not rendered. Not a double count across Part 1 and Part 2. All and every league tab now count the list the page renders (58 = 58).
+5. Weather. No entry, an empty kickoff hour, or an unavailable lookup: "Indoor" (dome or roofed), "Conditions at kickoff" (more than 48 hours out), else "Conditions unavailable" in the stale style; a finished game prints none. A single missing number prints "n/a". The word "missing" is gone from weather copy.
+6. Cadence. The stamp reads "Scores as of 3:43 PM ET, refreshed every 30 minutes" on Saturday and Sunday, N from `cadence.EVERY_MIN`, the constant that gates each tick of `scores-cadence.yml`. Not printed on other days (the schedule there is milestones, not a period).
+
+## Weather "missing" trace (the 11 of 31 of the page Jack read)
+- The 3:43 PM build's conditions file is not recoverable (the site serves only the latest). Read: the published `/data/conditions.json` of the 00:42Z build 58 CFB games dated Nov 21 ET: forecast with numbers 36, forecast with the kickoff hour empty 21 (14 in progress, 7 not started), indoor 1, no entry 0.
+- Venue not in the Weather site's stadium list: 0 (`missing` list empty). Lookup failed: 0 (`errors` empty). Stadium page empty: 0. The cause is a fourth one: the Worker answers "forecast" with an all-null `kickoff_hour` once the hourly product has moved past the kickoff hour, so the plates printed "missing" three times. Proposal, not built: have the Worker (or `conditions.py`) carry the last non-empty kickoff hour forward the way finals are carried.
+
+## Cadence, read from the runs of Nov 21 (scores-cadence.yml, all `success`)
+- Last ten runs, ET: Nov 20 12:53 AM, 9:57 AM, 1:31 PM, 5:03 PM; Nov 20 10:08 PM; Nov 21 12:48 AM, 8:44 AM, 12:22 PM, 3:42 PM; Nov 21 7:41 PM (runs 44 to 53; the five dated Nov 21 ET are 12:48 AM, 8:44 AM, 12:22 PM, 3:42 PM, 7:41 PM).
+- The schedule asks for 100 ticks a day (`*/10` in three windows); 5 UTC-day runs happened on Nov 21 and none sat on the 10-minute grid. Between 12:22 PM and 3:42 PM ET no tick ran (3 h 20 m); between 3:42 PM and 7:41 PM none (3 h 59 m). GitHub does not run scheduled workflows on time under load, so on a game day the real cadence was about every 3.5 hours, not 30 minutes. The "every 30 minutes" in the stamp states the schedule, not what ran; read it with this paragraph. Proposal: a Worker tick (as the Brief uses) dispatching `scores-cadence.yml`.
+- The LSU card: the 3:42 PM ET run committed the 20:43Z snapshot, in which the feed itself still said LSU at Tennessee `pre` at 3:43 PM (13 minutes past kickoff). Not a skipped run: a feed that had not flipped. The same snapshot has BYU at Kansas `in`, "2OT", clock "0:00", three hours 43 minutes after a noon kickoff; the feed never said final, so the card now says "2OT" and no more. Proposal: a game `in` more than five hours past kickoff drawn stale too.
+
+## Tests (new `s60_canary.py`, wired into the gate; each seen red, break named)
+- Red first: with `s60.py` and `networks.py` moved away the canary raised ModuleNotFoundError; restored, the page and network cases were red until `site_build` was wired.
+- Plants, each red then restored from a saved copy: default tab `return "upcoming"` (after the last final read upcoming); live order `-remaining` (got 3,1,2); stale threshold 100 minutes (stale case, stale line, default tab); bare code `return s, False` (ERADM and network_name); weather text "missing"; All from the manifest total (All 85, tabs 58); cadence line empty; Live default forced to upcoming (page); Live panel unsorted (page: remaining 1800, 2153, 2692, 3543, 3465 ...). One plant stayed green and is named: re-adding the verify chip in `site_build` is caught by `tree_scan` on the built tree and by `home_canary`, not by the Saturday fixture, which carries no carriage rows.
+- Older canaries moved to the new truth (not loosened): `verify_pipeline` finals lead and rain plates ("n/a"), H-12 league row now the NFL tab count; `truth_canary` stamp may carry the cadence suffix and the word "live" is allowed only as a "Live N" tab on `scores*`; `home_canary` ">Fox<", no verify flag, tabs over cards; `watch_canary` no verify chip; `strip_canary` and `gamepage_canary` "Conditions unavailable" and "n/a"; `build_cost_canary` no longer pins the pager.
+
+## Byte pins
+- `SCORES_BUDGET` 150000 to 240000 (a day is one page; the Saturday fixture page is 192,796 bytes, the same page was two parts under 150000). `build_cost_canary`: `BUDGET` 150000 held for every other page; new `SCORES_PIN` 240000 for `scores.html` and `scores/` only. `PAGE_BUDGET` 150000 and `HOME_BUDGET` held. `site.css` 213,137 to 213,529 bytes, no pin found on it.
+
+## Gate (U-12, U-15)
+- Branch `78c5a25`, exit 1, 3 full runs read (the last on `78c5a25`; the later `build_cost_canary` pin edit was run through `pages_unit` alone, not a fourth full gate); last run's reds: look rendered `/fantasy/inactives.html` `#b45309`; plate fit at 320 on `/scores.html` (chips, `tk-chip-score` 292 px, a leaders cell), `/games/401858528.html` (`sbc-tot`); plate same `games/...` at 900 and `games/401860919.html` at 1100.
+- `origin/main` `ee7cf59`, same machine, same data, same day: exit 1 with the inactives look red, plate fit at 320 on `/scores.html` and `/index.html` (166 clipped against 48 here), plate same on `/index.html` at 320 to 360 (51 and 32 plates) and `games/401860919.html` at 1100, and, until lighthouse was installed beside Playwright (`/opt/node-tools`, outside the repo), 4 measure and performance errors.
+- Not mine and not touched: the inactives color token, the 320 px overflow of the scores chips, the game page hero plates.
+- The browser halves of the day-tab check, day-shift and Oswald fallback checks still skip here (Python Playwright and `PLAYWRIGHT_NODE_MODULES` unset in two of three runs; set in the last).
+
+## Open and proposals
+1. Production reads at 375 and 1440 by stamp, IndexNow and the merge hash: not done, nothing pushed.
+2. Worker tick for `scores-cadence.yml` (above); the stamp's claim is only as true as the tick.
+3. Conditions carry-forward for an emptied kickoff hour (above).
+4. `docs/VOCABULARY.md` does not exist in this repository; `docs/HANDOFF.md` carries Sprint A only, no Sprint B row.
+5. `final_seen_utc` is the desk's first read of a final, so the card says "Final as of 3:08 PM ET", not the league's end time; finals already final before the first stamped snapshot print "Final".

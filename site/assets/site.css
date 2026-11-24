@@ -3342,3 +3342,12 @@ body.sbp main .ed-topbar button[aria-pressed="true"]{color:var(--ink)}
 
 @media print{body.sbp main{background:none;color:var(--sbc-frame)}
   body.sbp main :is(h1,h2,h3,p,li,td,th,a){color:var(--sbc-frame)}}
+
+/* S-60: the scoreboard's state tabs and the stale card */
+.sc-states{margin-top:8px}
+.sc-panel[hidden],.sc-panel .tk-c[hidden]{display:none}
+.sc-none{padding:24px 0;opacity:.7}
+.st-stale{font-style:italic;opacity:.72}
+.tk-stale{margin:6px 0 0;font-size:12px;letter-spacing:.02em;text-align:center}
+.sbc-one.st-stale{opacity:.72}
+article.tk-c:has(.tk-stale){opacity:.88;border-style:dashed}
