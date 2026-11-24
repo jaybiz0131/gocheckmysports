@@ -54,6 +54,7 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 21 | byline date | fixture | inline | H-5b |
 | 22 | sunday slate | fixture | inline fixture | H-12 |
 | 23 | truth | fixture | fixtures and the day's build | counts and stamps from one truth |
+| 23a | s60 | fixture | `fixtures/s60-nov21-*.json` | the Live, Upcoming and Final tabs, card states, network names, one count, the cadence line |
 | 24 | watch | fixture | fixtures and the day's build | Where to Watch by day and window |
 | 25 | home | fixture | fixtures and the day's build | the home is the week board |
 | 26 | conditions | fixture | fixtures | the conditions intake |
@@ -80,6 +81,7 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 47 | h6 hour sweep | fixture | inline clocks | the H-6 line at every hour |
 | 48 | indexnow | fixture | the day's build | the key file and the submitter |
 | 49 | live word scan | fixture | the day's build | the word "live" where the page cannot back it |
+| 49a | s60 tree scan | fixture | the day's build | "verify", a bare feed code or "missing" in reader text |
 | 50 | nav consistency scan | fixture | the day's build | one header on every page |
 | 51 | replay e2e | fixture | `fixtures/sample_feed.xml` | the offline replay end to end |
 | 52 | dedupe guard | fixture | inline | the near-duplicate guard |
@@ -93,7 +95,7 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 60 | slate layout 320 | **canary** | the fixture slate in a browser | the same at 320 |
 | 61 | runner | fixture | inline plants | a canary that hands the gate a finding; a fixture whose finding is lost; a check of no kind |
 
-56 fixture tests run under the runner and gate the run, with the inline group beside them; 4 live canaries warn. The gate prints the count it ran on its `checks:` line. Moved from
+58 fixture tests run under the runner and gate the run (56 from S-61, 2 from S-60), with the inline group beside them; 4 live canaries warn. The gate prints the count it ran on its `checks:` line. Moved from
 gate to canary by S-61: 4 (`look rendered`, `plate fit and plate same` on the day's pages, `performance`,
 and the 320 widths of every layout check, now `slate layout 320` and the under-375 half of `plate`).
 

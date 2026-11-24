@@ -1,0 +1,91 @@
+conditions: canary sent a precipitation chance of 130; the plate prints missing
+conditions: canary sent a precipitation chance of 101; the plate prints missing
+conditions: canary sent a precipitation chance of -1; the plate prints missing
+conditions: DETMIA sent a precipitation chance of 130; the plate prints missing
+conditions: DETMIA sent a precipitation chance of 101; the plate prints missing
+conditions: DETMIA sent a precipitation chance of 130; the plate prints missing
+conditions: DETMIA sent a precipitation chance of 101; the plate prints missing
+gate build: built a throwaway tree (50 entries); the build's own log is captured, not this job's
+where_to_watch: college football 2026-10-16 unavailable (OSError)
+scoreboard: NFL 20261013 unavailable (OSError)
+scoreboard: NFL 20261014 unavailable (OSError)
+scoreboard: NFL 20261015 unavailable (OSError)
+scoreboard: NFL 20261016 unavailable (OSError)
+scoreboard: NFL 20261017 unavailable (OSError)
+scoreboard: NFL 20261018 unavailable (OSError)
+scoreboard: NFL 20261019 unavailable (OSError)
+scoreboard: CFB 20261024 unavailable (OSError)
+scoreboard: CFB default slate unavailable (OSError)
+scoreboard: CFB default slate unavailable (OSError)
+scoreboard: CFB 20261020 unavailable (OSError)
+scoreboard: CFB 20261021 unavailable (OSError)
+scoreboard: CFB 20261022 unavailable (OSError)
+scoreboard: CFB 20261023 unavailable (OSError)
+scoreboard: CFB 20261024 unavailable (OSError)
+scoreboard: CFB 20261025 unavailable (OSError)
+scoreboard: CFB 20261026 unavailable (OSError)
+home: 51 of 56 college games drawn within the 140000-byte budget (139353 bytes)
+home: 0 of 56 college games drawn within the 1-byte budget (62150 bytes)
+home: 27 of 56 college games drawn within the 104334-byte budget (103931 bytes)
+home: 27 of 59 college games drawn within the 104334-byte budget (103931 bytes)
+::warning::tabs: playwright is not installed; the browser half of the day-tab check did not run
+home: 0 of 1 college games drawn within the 1-byte budget (38104 bytes)
+::warning::shift: node or PLAYWRIGHT_NODE_MODULES is missing; the browser half of the day-shift check did not run
+::warning::fallback: node or PLAYWRIGHT_NODE_MODULES is missing; the browser half of the Oswald fallback check did not run
+look sweep: 1054 of 1054 converted pages read in light and 1054 in dark at 390 wide, 233288 elements, 352 tag+class signatures, 0 findings, 102 s in the browser
+plate fit: 210 pages at [320, 340, 360, 390, 414, 500, 600, 650, 700, 768, 820, 860, 900, 980, 1024, 1100, 1200, 1280, 1440, 1600, 1920], 74340 plates read, 2 clipped, 264.5 s in the browser
+plate same: 4410 page-widths compared with main's stylesheet and markup on the same data, 1 plate kinds drawn differently where they fit
+plate fit: 14 labels, longest "Mexico City · Outside NWS coverage" (34 characters, built index.html), 1736 fixture plates at [320, 360, 390, 414, 600, 700, 768, 820, 900, 1024, 1100, 1280, 1440, 1920], 0 clipped
+scoreboard: CFB 20261024 unavailable (OSError)
+where_to_watch: college football 2026-10-24 unavailable (OSError)
+::warning::load_content: vikings-re-sign-harrison-smith-on-1-year-12-25-million-deal- is marked superseded by 'vikings-re-sign-harrison-smith-to-one-year-12-25m-deal-for-1', which is not published; keeping it live
+house style: 186 headline(s) cast to sentence case
+where_to_watch: college football 2026-10-16 unavailable (OSError)
+push canary: relay JavaScript run through node v22.23.5, 40 check(s) ok; python twin sent 7 push(es) on the same fixture
+measure: JSON-LD /games/401873066.html: valid (SportsEvent, 1 BroadcastEvent)
+measure: JSON-LD /teams/ari.html: valid (SportsTeam)
+measure: JSON-LD on 98 game pages and 110 team pages: 0 failure(s)
+measure: console errors /index.html: 0 (third hosts answered empty: static.cloudflareinsights.com)
+measure: console errors /games/401873066.html: 0 (third hosts answered empty: static.cloudflareinsights.com)
+measure: console errors /teams/ari.html: 0 (third hosts answered empty: static.cloudflareinsights.com)
+game link canary: 98 game page(s) built, 760 /games/ link(s) read, 0 dead
+lines: 1 logged, 1 new, 0 moved, 1 on file
+lines: 1 logged, 0 new, 1 moved, 1 on file
+lines: 1 logged, 1 new, 0 moved, 1 on file, 1 expired
+Aggregating (lookback 44h)...
+
+wrote out/items.json  (5 clusters from 186 fresh items; 1 shill-flagged, 0 shill-rejected)
+editor: ranked 3 / rejected 2 -> /home/user/gocheckmysports/out/editor.json [mode=replay]
+verifier: {'VERIFIED': 1, 'NEEDS-HUMAN-REVIEW': 1, 'REJECT': 1} across 3 stories -> /home/user/gocheckmysports/out/verifier.json [mode=replay]
+researcher: briefed 2 stories (2 thin) -> /home/user/gocheckmysports/out/briefs.json [mode=replay]
+writer: drafted 2/2 -> /home/user/gocheckmysports/out/drafts.json [mode=replay]
+approver: {'APPROVE': 1, 'REJECT': 1} across 2 drafts -> /home/user/gocheckmysports/out/approver.json [mode=replay]
+canary: wrap dry-run had no published stories to synthesize (fresh desk); preview assertions run once content exists
+digest: review queue for canary [mode=replay] -> out/review_queue/canary.md (+ .html, + approval_template.json)
+::warning::researcher: c011 is boundary-class with no boundary block; the who-is-affected claim cannot be published
+::notice::publish: approval file is mode=replay (a non-production run). Refusing to publish a test run. Publishing NOTHING.
+publish: approved+publishable 0, skipped 1 (all target sends are dry-run in v1 until an operator wires a real endpoint).
+  skip c000: not approved (decision=hold)
+::warning::editor: output contract violated (attempt 1: editor output missing 'ranked'); retrying on claude-haiku-4-5
+::warning::editor: output contract violated (attempt 1: editor: model output was not parseable JSON (first 200 chars: 'nonsense')); retrying on claude-haiku-4-5
+::warning::editor: output contract violated (attempt 2: editor output missing 'ranked'); retrying on claude-sonnet-5
+::warning::editor: output contract violated (attempt 1: editor: model output was not parseable JSON (first 200 chars: 'x')); retrying on claude-haiku-4-5
+::warning::editor: output contract violated (attempt 2: editor: model output was not parseable JSON (first 200 chars: 'y')); retrying on claude-sonnet-5
+::error::canary: plate fit: /games/401858528.html at 320: span.sbc-pl.sbc-tot "18" is clipped (off the viewport 291..331 of 320, plate 40px, type 20px)
+::error::canary: plate fit: /games/401858528.html at 320: span.sbc-pl.sbc-tot.sbc-lose "16" is clipped (off the viewport 291..331 of 320, plate 40px, type 20px)
+::error::canary: plate same: index.html at 320: span.sbc-big fit on main (26px type, 77.33x39.19) and is drawn 26px, 82.7x39.19 (3 plates)
+::error::canary: measure: page-measure could not run: lighthouse not found beside playwright (Cannot find module 'lighthouse/package.json'
+Require stack:
+- /opt/node-tools/node_modules/noop.js)
+::error::canary: performance: /index.html was not measured
+::error::canary: performance: /games/401873066.html was not measured
+::error::canary: performance: the fixture page under 90 passed, so the read cannot see a slow page
+
+LAYER 1 CANARY: FAIL (7 problem(s)) -> promotion BLOCKED (exit 1)
+gate build: restored data/scores-pages-built.json, which the throwaway build rewrote
+gate build: restored site/data/inactives/inactives-2026-11-23.json, which the throwaway build rewrote
+gate build: restored site/data/lines.json, which the throwaway build rewrote
+gate build: restored site/data/schedules.json, which the throwaway build rewrote
+gate build: restored site/data/scoreboard.json, which the throwaway build rewrote
+gate build: restored site/data/standings.json, which the throwaway build rewrote
+gate build: restored site/data/where-to-watch.json, which the throwaway build rewrote

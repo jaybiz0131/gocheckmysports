@@ -1,0 +1,20 @@
+N-1 scores: an old reading is never drawn as current
+  ok   the premise: LSU at TENN is 'pre' 13 minutes after kickoff, BYU at KU is 2OT with a 0:00 clock
+  ok   LSU at TENN reads 'No update since 3:43 PM ET, waiting for the feed'
+  ok   and is not upcoming: no 'pre' state, no score printed for either side
+  ok   BYU at KU prints its reading's time: '2OT as of 3:43 PM ET'
+  ok   a final is untouched
+  ok   a running clock is untouched (UCLA at MICH '14:03 - 1st')
+  ok   a game whose kickoff is still ahead stays upcoming
+  ok   before its kickoff LSU at TENN is still upcoming
+  ok   the /scores card says 'No update since 3:43 PM ET, waiting for the feed' and not the kickoff '3:30'
+  ok   the chip row of a past-kickoff game draws no score chip
+  ok   the chip row of a past-kickoff game draws no live dot (no possession mark, no live dot)
+  ok   the chip row is drawn in the stale style with the 'No update since' time
+  ok   the band's status for that game is not live (no live dot)
+  ok   a game really in play keeps its score chips and its live dot
+  ok   the BYU card prints '2OT as of 3:43 PM ET'
+  ok   ERADM is omitted, a known network is named
+  ok   no card prints the raw code ERADM
+
+N-1 scores: PASS (0 failure(s))

@@ -8,8 +8,7 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-**Health (N-1, November 21, 2026).** What a newsroom email means and what to do about it: `docs/HEALTH.md` in gcm-newsroom; the report, and why this branch waited for a green gate, is `docs/REPORTS/N-1-REPORT.md` there.
-
+**Health (N-1) and the gate (S-61), merged November 24, 2026 (`0aca29f`, S-60 `61a8436`).** What a newsroom email means: `docs/HEALTH.md` in gcm-newsroom. The gate's two kinds of check, fixture (fails) and live canary (warns), are in `docs/TESTS.md`; the session is `docs/REPORTS/S-61-REPORT.md`.
 Last updated: 11 November 2026, after Sprint A of the November 7 audit (section below). Before
 that: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
 October branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,

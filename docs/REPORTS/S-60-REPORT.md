@@ -44,3 +44,5 @@ Saturday November 21, 2026, 9:05 PM EST. RULES.md body hash (`tail -n +11 docs/R
 3. Conditions carry-forward for an emptied kickoff hour (above).
 4. `docs/VOCABULARY.md` does not exist in this repository; `docs/HANDOFF.md` carries Sprint A only, no Sprint B row.
 5. `final_seen_utc` is the desk's first read of a final, so the card says "Final as of 3:08 PM ET", not the league's end time; finals already final before the first stamped snapshot print "Final".
+
+Merged November 24, 2026 by S-61 (rebased onto 0aca29f as 85607b9, 100c940, 7b1647b, d651cce): merge commit `61a8436`.
