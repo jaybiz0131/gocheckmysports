@@ -115,7 +115,7 @@ def _cases():
 
     # part 6: cadence
     import cadence
-    eq("cadence on a Saturday", s60.cadence_line(5, cadence.EVERY_MIN), ", refreshed every 30 minutes")
+    eq("cadence on a Saturday", s60.cadence_line(5, cadence.EVERY_MIN), ", refreshed every 30 minutes when the run fires")
     eq("cadence on a Tuesday", s60.cadence_line(1, cadence.EVERY_MIN), "")
 
     # the snapshot carries the time a game was first seen final
@@ -206,8 +206,11 @@ def _page_cases():
             f.append(f"s60: the rendered text of the Saturday page contains {bad!r}")
     if "Check local listings" not in txt:
         f.append("s60: ERADM is not rendered as Check local listings")
-    if "Scores as of 3:43 PM ET, refreshed every 30 minutes" not in txt:
-        f.append("s60: the stamp does not read 'Scores as of 3:43 PM ET, refreshed every 30 minutes'")
+    # S-61: GitHub's cron is the only trigger of scores-cadence.yml until the Worker tick is deployed (read
+    # November 24, 00:45 UTC: the Worker's due_this_tick names no scores dispatch), and GitHub runs it late
+    # under load, so the line states the schedule and that it holds when the run fires
+    if "Scores as of 3:43 PM ET, refreshed every 30 minutes when the run fires" not in txt:
+        f.append("s60: the stamp does not read 'Scores as of 3:43 PM ET, refreshed every 30 minutes when the run fires'")
     if re.search(r"kickoff</", day) and re.search(r"Sat \d+:\d\d [AP]M ET kickoff", txt):
         f.append("s60: a final or live card still reads 'Sat 12:00 PM ET kickoff'")
     return f

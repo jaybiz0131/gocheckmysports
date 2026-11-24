@@ -96,6 +96,10 @@ def _ot_word(g):
 
 def live_label(g):
     s = (g.get("status_short") or "").strip()
+    # S-61: scoreboard.honest stamps an overtime card with no running clock "2OT as of 3:43 PM ET". That
+    # time is the reading's age, not a clock: read as one it printed "2OT 3:43", a game clock nobody sent.
+    if " as of " in s:
+        return s
     low = s.lower()
     if "half" in low:
         return "Halftime"
@@ -234,5 +238,9 @@ def stamp_finals(payload, prev, fetched_iso):
 
 
 def cadence_line(day_weekday, every_min, weekend=(5, 6)):
-    """", refreshed every N minutes" on a day the schedule runs every N, else nothing."""
-    return f", refreshed every {every_min} minutes" if day_weekday in weekend and every_min else ""
+    """", refreshed every N minutes when the run fires" on a day the schedule runs every N, else nothing.
+    S-61: GitHub's cron is the only trigger of scores-cadence.yml until the Worker tick is deployed, and GitHub
+    runs a scheduled workflow late under load (5 runs on November 21 against 100 asked for), so the line states
+    the schedule and says it holds when the run fires."""
+    return (f", refreshed every {every_min} minutes when the run fires"
+            if day_weekday in weekend and every_min else "")
