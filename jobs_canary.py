@@ -24,7 +24,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 WF = os.path.join(HERE, ".github", "workflows")
 # the live cron lines each workflow keeps, exactly: nothing gained, nothing lost
-EXPECTED = {"conditions-report.yml": 9, "inactives.yml": 5, "janitor.yml": 1,
+EXPECTED = {"conditions-report.yml": 9, "health.yml": 2, "janitor.yml": 1,   # N-1: inactives is Worker-only
             "scores-cadence.yml": 3, "sports-aging.yml": 1, "verify-sports-pipeline.yml": 1}
 
 

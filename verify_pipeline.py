@@ -63,6 +63,74 @@ def _check(cond, fails, msg):
         fails.append(msg)
 
 
+# ---- S-61: two kinds of check, and the runner enforces the difference ------------------------
+#
+# A FIXTURE TEST reads a fixed input and fails the gate. A LIVE CANARY reads the day's data (the
+# gate's own build of today's feed, the browser's read of today's pages, a tool the machine may not
+# have) and WARNS: one ::warning:: per finding, naming the page and the measurement, and the gate's
+# status is untouched. The gate was red on main on ordinary game days because both kinds ran in one
+# pass with one status (four stops of the desk in 30 days, N-1 report section 8). The kind is the
+# runner's, not the check's: whatever a canary returns, raises or prints, _run hands back nothing
+# for the gate to count, so a canary cannot return a failing status. docs/TESTS.md is the table.
+FIXTURE_TEST, CANARY = "fixture", "canary"   # FIXTURE above is the sample feed's path
+CANARY_WARNINGS = []     # (name, finding), in the order printed; the report lists them
+CHECKS_RUN = []          # (kind, name, number of findings)
+
+
+def _run(kind, name, fn, sink=None):
+    """Run one check under its kind. A fixture's findings are returned for the gate to fail on; a
+    canary's are printed as warnings and recorded, and the return is always empty. An exception in
+    either is a finding of that check, never a crash of the gate."""
+    if kind not in (FIXTURE_TEST, CANARY):
+        raise ValueError(f"check {name}: kind {kind!r} is neither fixture nor canary")
+    try:
+        got = [str(x) for x in (fn() or [])]
+    except Exception as e:                                   # noqa: BLE001
+        got = [f"{name}: raised {type(e).__name__}: {str(e)[:200]}"]
+    CHECKS_RUN.append((kind, name, len(got)))
+    if kind == FIXTURE_TEST:
+        return got
+    out = CANARY_WARNINGS if sink is None else sink
+    for x in got:
+        out.append((name, x))
+        if sink is None:
+            gh("warning", f"live canary ({name}): {x}")
+    return []
+
+
+def _runner_canary():
+    """S-61: the runner refuses a failing status from a canary. Planted: a canary that returns two
+    findings and one that raises must come back empty with three warnings recorded; the same two as
+    fixtures must come back as three findings. Its warnings go to a private sink, so the plant never
+    prints a warning of its own (the advisory-check doctrine)."""
+    fails, sink = [], []
+    planted = lambda: ["planted finding one", "planted finding two"]      # noqa: E731
+
+    def boom():
+        raise RuntimeError("planted")
+    got = _run(CANARY, "plant", planted, sink) + _run(CANARY, "plant raise", boom, sink)
+    _check(got == [], fails, f"runner: a canary returned findings to the gate ({got[:2]})")
+    _check(len(sink) == 3, fails, f"runner: a planted canary's findings were not recorded as warnings ({len(sink)})")
+    fx = _run(FIXTURE_TEST, "plant", planted) + _run(FIXTURE_TEST, "plant raise", boom)
+    _check(len(fx) == 3, fails, f"runner: a planted fixture failure was not returned to the gate ({len(fx)})")
+    del CHECKS_RUN[-4:]
+    try:
+        _run("advisory", "plant", planted)
+        fails.append("runner: a check of no kind ran")
+    except ValueError:
+        pass
+    return fails
+
+
+def plant_demo():
+    """python3 verify_pipeline.py plant: a failing canary run through the runner, in the open. It prints
+    the warning the gate would print and exits with the runner's status for it, which is 0."""
+    fails = _run(CANARY, "planted canary", lambda: ["a planted failure: /index.html at 320 is 331px wide"])
+    print(f"runner: the planted canary returned {len(fails)} failure(s) to the gate; "
+          f"{len(CANARY_WARNINGS)} warning(s) printed")
+    return 1 if fails else 0
+
+
 def _undefined_name_canary():
     """Every pipeline module must not reference a name it never binds.
 
@@ -618,6 +686,83 @@ def _built_tree():
     return _BUILT["path"]
 
 
+# S-61: THE FIXTURE SLATE. The gate's own build (_built_tree) reads the day's feed, so a layout check on it
+# reads whatever the day sent, and an ordinary game day turned the gate red. The layout floor is judged on
+# this second build instead: the same build() with the scoreboard fixed to the 3:43 PM ET reading of
+# Saturday November 21, 2026 (N-1's fixture, byte for byte from commit d852ed8: 70 college games, a
+# kickoff the feed had not flipped, a 2OT card), moved onto the run's clock by one offset so its games
+# are today's (a canary input must never be refreshed only by the thing the canary gates, and a fixture
+# with a calendar date ages out: the 2026-10-11 red canary). Every other input is the build's own.
+SLATE_FIXTURE = os.path.join(HERE, "fixtures", "n1", "scoreboard-2026-11-21T2043Z.json")
+_SLATE = {"path": None, "done": False}
+
+
+def slate_snapshot(now=None, path=SLATE_FIXTURE):
+    """The fixture scoreboard moved onto `now`: fetched_at four minutes ago, every kickoff shifted by the
+    same whole-minute offset, so the reading's age and every game's place against its kickoff are the
+    fixture's own."""
+    from datetime import datetime as _d, timedelta as _td, timezone as _tz
+    d = json.load(open(path, encoding="utf-8"))
+    now = now or _d.now(_tz.utc)
+    was = _d.strptime(d["fetched_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_tz.utc)
+    shift = _td(minutes=int(((now - _td(minutes=4)) - was).total_seconds() // 60))
+    d["fetched_at"] = (was + shift).strftime("%Y-%m-%dT%H:%M:%SZ")
+    for L in d.get("leagues") or []:
+        for g in L.get("games") or []:
+            k = str(g.get("start_utc") or "")
+            try:
+                t = _d.fromisoformat(k.replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            g["start_utc"] = (t + shift).strftime("%Y-%m-%dT%H:%MZ")
+    return d
+
+
+def _fixture_tree():
+    """Build the fixture slate ONCE per process, after the day's build, and return its path. The scoreboard
+    module reads a temporary copy of the moved fixture and does not fetch; its committed file and the real
+    publish directory are never touched (the day's build registered the restore of anything else)."""
+    if _SLATE["done"]:
+        return _SLATE["path"]
+    _SLATE["done"] = True
+    _built_tree()      # first: it records what was dirty before any gate build, and registers the restore
+    import io as _io
+    import tempfile as _tf
+    import contextlib as _cl
+    import site_build as _sb
+    import scoreboard as _sbm
+    import player_index as _pix
+    import atexit as _at
+    import shutil as _sh
+    tmp = _tf.mkdtemp(prefix="gate-slate-")
+    _at.register(_sh.rmtree, tmp, True)
+    fx = os.path.join(tmp, "scoreboard.json")
+    with open(fx, "w", encoding="utf-8") as fh:
+        json.dump(slate_snapshot(), fh)
+    real, saved = _sb.PUBLISH, (_sbm.OUT, _sbm.refresh, _pix.build, _pix.load)
+    pfix = _pix.load()
+    log = _io.StringIO()
+    try:
+        _sb.PUBLISH = os.path.join(tmp, "publish")
+        _sbm.OUT = fx
+        _sbm.refresh = lambda check=False: None
+        _pix.build = _pix.load = (lambda: pfix)
+        with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
+            _sb.build()
+        _SLATE["path"] = _sb.PUBLISH
+        print(f"gate build: built the fixture slate ({len(os.listdir(_SLATE['path']))} entries, scoreboard "
+              f"{os.path.relpath(SLATE_FIXTURE, HERE)} moved onto the run's clock)")
+    except Exception as e:                                   # noqa: BLE001
+        print(f"gate build: the fixture slate build raised {type(e).__name__}: {e}")
+        for l in log.getvalue().strip().split("\n")[-6:]:
+            print("    build log: " + l[:160])
+        _SLATE["path"] = None
+    finally:
+        _sb.PUBLISH = real
+        _sbm.OUT, _sbm.refresh, _pix.build, _pix.load = saved
+    return _SLATE["path"]
+
+
 def _stamp_canary():
     """U-11's other half: every page names the deploy that built it, and so does /stamp.txt.
 
@@ -865,6 +1010,32 @@ def _report_link_canary():
                "or dropped the row")
     finally:
         _sb.GAME_PAGE_IDS = _was
+    return fails
+
+
+def _n1_canary():
+    """N-1 (21 November 2026): the runs stop failing and the stamps stop lying. scripts/n1_scores_test.py (an old reading is
+    never drawn as current: the kickoff-passed card, the overtime card, the raw network code), scripts/n1_workflows_test.py
+    (one trigger, one writer per file, a push that cannot land warns, the health gate's shape) and
+    scripts/health_gate_test.py (the gate's rules on the November 21 snapshots). Helpers leave sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    fails = []
+    try:
+        import n1_scores_test as _a
+        import n1_workflows_test as _b
+        import health_gate_test as _c
+        for tag, mod in (("n1 scores", _a), ("n1 workflows", _b), ("n1 health", _c)):
+            try:
+                fails += [f"{tag}: " + f for f in mod.unit()]
+            except Exception as e:                       # noqa: BLE001
+                fails.append(f"{tag}: could not run [{type(e).__name__}: {str(e)[:120]}]")
+    finally:
+        for m in ("n1_scores_test", "n1_workflows_test", "health_gate_test", "health_gate"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
     return fails
 
 
@@ -1521,32 +1692,32 @@ def _rain_and_windows_canary():
 
 def layer1_canary():
     fails = []
-    fails.extend(_conflict_canary())   # U-13
-    fails.extend(_trailer_canary())    # 6 October 2026: no attribution trailers
-    fails.extend(_workflow_canary())   # Cause A of the 29 September audit
+    fails.extend(_run(FIXTURE_TEST, "conflict", lambda: _conflict_canary()))   # U-13
+    fails.extend(_run(FIXTURE_TEST, "trailer", lambda: _trailer_canary()))    # 6 October 2026: no attribution trailers
+    fails.extend(_run(FIXTURE_TEST, "workflow", lambda: _workflow_canary()))   # Cause A of the 29 September audit
     import jobs_canary as _jc
-    fails.extend(_jc.jobs_canary())    # S-1 item 3: the desk's jobs (12 October 2026)
+    fails.extend(_run(FIXTURE_TEST, "jobs", lambda: _jc.jobs_canary()))    # S-1 item 3: the desk's jobs (12 October 2026)
     import cadence as _cad
-    fails.extend(_cad.canary())        # Sprint A, A2: when the site rebuilds for scores
+    fails.extend(_run(FIXTURE_TEST, "cadence", lambda: _cad.canary()))        # Sprint A, A2: when the site rebuilds for scores
     import edition_check as _edc
-    fails.extend(_edc.canary())        # Sprint A, A3: one missed slot warns, it does not error
-    fails.extend(_edition_link_canary())   # Sprint A, A4: the Edition link resolves at build
-    fails.extend(_stale_module_canary())   # Sprint A, A5: the stale-module rule
-    fails.extend(_home_lead_canary())   # Sprint A, A6: the home's lead
-    fails.extend(_rain_and_windows_canary())   # Sprint A: rain plates 0 to 100, windows by day
+    fails.extend(_run(FIXTURE_TEST, "edition check", lambda: _edc.canary()))        # Sprint A, A3: one missed slot warns, it does not error
+    fails.extend(_run(FIXTURE_TEST, "edition link", lambda: _edition_link_canary()))   # Sprint A, A4: the Edition link resolves at build
+    fails.extend(_run(FIXTURE_TEST, "stale module", lambda: _stale_module_canary()))   # Sprint A, A5: the stale-module rule
+    fails.extend(_run(FIXTURE_TEST, "home lead", lambda: _home_lead_canary()))   # Sprint A, A6: the home's lead
+    fails.extend(_run(FIXTURE_TEST, "rain and windows", lambda: _rain_and_windows_canary()))   # Sprint A: rain plates 0 to 100, windows by day
     import small_canary as _sm
-    fails.extend(_sm.small_canary())   # S-1 item 4: the small truths
-    fails.extend(_poller_alarm_canary())   # 11 October: a red poller gate fails once
-    fails.extend(_us_date_canary())
+    fails.extend(_run(FIXTURE_TEST, "small", lambda: _sm.small_canary()))   # S-1 item 4: the small truths
+    fails.extend(_run(FIXTURE_TEST, "poller alarm", lambda: _poller_alarm_canary()))   # 11 October: a red poller gate fails once
+    fails.extend(_run(FIXTURE_TEST, "us date", lambda: _us_date_canary()))
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
-    fails.extend(_undefined_name_canary())
-    fails.extend(_one_definition_canary())
+    fails.extend(_run(FIXTURE_TEST, "undefined name", lambda: _undefined_name_canary()))
+    fails.extend(_run(FIXTURE_TEST, "one definition", lambda: _one_definition_canary()))
     # PORTED FROM THE NEWS DESK 2026-08-29: catches two classes that shipped
     # on every desk and were invisible to every other check here, duplicate
     # slugs (two files silently sharing one URL) and circular or
     # self-referential update_of left behind by a retirement.
-    fails.extend(_corpus_integrity_canary())
+    fails.extend(_run(FIXTURE_TEST, "corpus integrity", lambda: _corpus_integrity_canary()))
     cfg = common.load_config()
 
     # config + models
@@ -1803,52 +1974,58 @@ def layer1_canary():
            "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
            "treated as a document; it can be served")
 
-    fails.extend(_stamp_canary())   # Cause B: it builds its own tree now
-    fails.extend(_sitemap_canary())   # S-2: games stay built and linked, out of the sitemaps
-    fails.extend(_register_canary())   # Item 2: every page is in a sitemap or the register
-    fails.extend(_byline_date_canary())   # H-5b
-    fails.extend(_sunday_slate_canary())   # H-12 under a fixture
+    fails.extend(_run(FIXTURE_TEST, "stamp", lambda: _stamp_canary()))   # Cause B: it builds its own tree now
+    fails.extend(_run(FIXTURE_TEST, "sitemap", lambda: _sitemap_canary()))   # S-2: games stay built and linked, out of the sitemaps
+    fails.extend(_run(FIXTURE_TEST, "register", lambda: _register_canary()))   # Item 2: every page is in a sitemap or the register
+    fails.extend(_run(FIXTURE_TEST, "byline date", lambda: _byline_date_canary()))   # H-5b
+    fails.extend(_run(FIXTURE_TEST, "sunday slate", lambda: _sunday_slate_canary()))   # H-12 under a fixture
     import truth_canary as _tc
-    fails.extend(_tc.truth_canary())   # S-1 item 0: one truth for counts and stamps
+    fails.extend(_run(FIXTURE_TEST, "truth", lambda: _tc.truth_canary()))   # S-1 item 0: one truth for counts and stamps
     import watch_canary as _wc
-    fails.extend(_wc.watch_canary())   # S-1 item 1: Where to Watch by day and window
+    fails.extend(_run(FIXTURE_TEST, "watch", lambda: _wc.watch_canary()))   # S-1 item 1: Where to Watch by day and window
     import home_canary as _hc
-    fails.extend(_hc.home_canary())   # S-1 item 2: the home is the week board
+    fails.extend(_run(FIXTURE_TEST, "home", lambda: _hc.home_canary()))   # S-1 item 2: the home is the week board
     import conditions_canary as _cxc
-    fails.extend(_cxc.conditions_canary())   # S-2b item 0: the conditions intake
+    fails.extend(_run(FIXTURE_TEST, "conditions", lambda: _cxc.conditions_canary()))   # S-2b item 0: the conditions intake
     import strip_canary as _stc
-    fails.extend(_stc.strip_canary(_built_tree()))   # S-2b/S-2d item 0: the conditions on every card
+    fails.extend(_run(FIXTURE_TEST, "strip", lambda: _stc.strip_canary(_built_tree())))   # S-2b/S-2d item 0: the conditions on every card
     import gamepage_canary as _gpc
-    fails.extend(_gpc.gamepage_canary(_built_tree()))   # S-2b item 2: the game pages
+    fails.extend(_run(FIXTURE_TEST, "gamepage", lambda: _gpc.gamepage_canary(_built_tree())))   # S-2b item 2: the game pages
     import report_canary as _rpc
-    fails.extend(_rpc.report_canary())   # S-2b item 3: the conditions report and its card
+    fails.extend(_run(FIXTURE_TEST, "report", lambda: _rpc.report_canary()))   # S-2b item 3: the conditions report and its card
     import roof_canary as _rfc
-    fails.extend(_rfc.roof_canary())   # S-3a: a roofed stadium reads like a dome, on every surface
+    fails.extend(_run(FIXTURE_TEST, "roof", lambda: _rfc.roof_canary()))   # S-3a: a roofed stadium reads like a dome, on every surface
     import teams_canary as _tmc
-    fails.extend(_tmc.teams_canary(_built_tree()))   # S-3a: the team pages, structured data and IndexNow
+    fails.extend(_run(FIXTURE_TEST, "teams", lambda: _tmc.teams_canary(_built_tree())))   # S-3a: the team pages, structured data and IndexNow
     import fbs_canary as _fbc
-    fails.extend(_fbc.fbs_canary(_built_tree()))   # S-3b.3: the college slate is every FBS game of the week
+    fails.extend(_run(FIXTURE_TEST, "fbs", lambda: _fbc.fbs_canary(_built_tree())))   # S-3b.3: the college slate is every FBS game of the week
     import look_canary as _lkc
-    fails.extend(_lkc.look_canary(_built_tree()))   # S-5.5: one look on every page a reader can reach
+    _live_look = []
+    fails.extend(_run(FIXTURE_TEST, "look", lambda: _lkc.look_canary(_built_tree(), live=_live_look)))   # S-5.5: one look on every page a reader can reach
+    fails.extend(_run(CANARY, "look rendered (the day's pages)", lambda: _live_look))   # S-61: what the day's pages render
     import plate_canary as _plc
-    fails.extend(_plc.plate_canary(_built_tree()))   # S-5.6: no plate label clipped at 390, 768 or 1440
+    _live_plate = []
+    fails.extend(_run(FIXTURE_TEST, "plate", lambda: _plc.plate_canary(_built_tree(), live=_live_plate)))   # S-5.6: the label fixtures, blind and longest
+    fails.extend(_run(CANARY, "plate fit and plate same (the day's pages)", lambda: _live_plate))   # S-61: the day's build, every width
     import build_cost_canary as _bcc
-    fails.extend(_bcc.build_cost_canary(_built_tree()))   # S-5.4: the build's cost, scores paged by day, the heading clear
+    fails.extend(_run(FIXTURE_TEST, "build cost", lambda: _bcc.build_cost_canary(_built_tree())))   # S-5.4: the build's cost, scores paged by day, the heading clear
     import registry_canary as _rgc
-    fails.extend(_rgc.registry_canary(_built_tree()))   # S-5.0: college team pages are permanent (J-9)
+    fails.extend(_run(FIXTURE_TEST, "registry", lambda: _rgc.registry_canary(_built_tree())))   # S-5.0: college team pages are permanent (J-9)
     import sharecard_canary as _shc
-    fails.extend(_shc.sharecard_canary(_built_tree()))   # S-3b.1: the 1080 square card and the tags that name it
+    fails.extend(_run(FIXTURE_TEST, "sharecard", lambda: _shc.sharecard_canary(_built_tree())))   # S-3b.1: the 1080 square card and the tags that name it
     import affiliate_canary as _afc
-    fails.extend(_afc.affiliate_canary(_built_tree()))   # S-3b.2: affiliate links, the plain link, the money line
+    fails.extend(_run(FIXTURE_TEST, "affiliate", lambda: _afc.affiliate_canary(_built_tree())))   # S-3b.2: affiliate links, the plain link, the money line
     import push_canary as _pcn
-    fails.extend(_pcn.push_canary(_built_tree()))   # S-3b.4: web push, the one-push rule, the absent key
+    fails.extend(_run(FIXTURE_TEST, "push", lambda: _pcn.push_canary(_built_tree())))   # S-3b.4: web push, the one-push rule, the absent key
     import measure_canary as _msc
-    fails.extend(_msc.measure_canary(_built_tree()))   # S-5.2: scorecard lines 4, 7 and 10 measured
-    fails.extend(_register_read_canary())   # S-6: the Search Console read
-    fails.extend(_game_link_canary())   # Item 1: every /games/ link resolves to a built page
-    fails.extend(_report_link_canary())   # RL-1: a report row links only a page the build writes
-    fails.extend(_h6_hour_sweep())   # Cause C: the H-6 line at every hour of the day
-    fails.extend(_indexnow_canary())   # IndexNow: the key file and the submitter
+    _live_perf = []
+    fails.extend(_run(FIXTURE_TEST, "measure", lambda: _msc.measure_canary(_built_tree(), live=_live_perf)))   # S-5.2: lines 7 and 10 (structured data, console)
+    fails.extend(_run(CANARY, "performance (Lighthouse, a report)", lambda: _live_perf))   # S-61: line 4 is a report, not a gate
+    fails.extend(_run(FIXTURE_TEST, "register read", lambda: _register_read_canary()))   # S-6: the Search Console read
+    fails.extend(_run(FIXTURE_TEST, "game link", lambda: _game_link_canary()))   # Item 1: every /games/ link resolves to a built page
+    fails.extend(_run(FIXTURE_TEST, "report link", lambda: _report_link_canary()))   # RL-1: a report row links only a page the build writes
+    fails.extend(_run(FIXTURE_TEST, "h6 hour sweep", lambda: _h6_hour_sweep()))   # Cause C: the H-6 line at every hour of the day
+    fails.extend(_run(FIXTURE_TEST, "indexnow", lambda: _indexnow_canary()))   # IndexNow: the key file and the submitter
     # AN INACTIVES SNAPSHOT NEVER BUILDS, in a window or out of one. This asserted the
     # opposite until 21 September, when Netlify paused every site on the team over
     # 1,188 deploys in a period and that rule was found to be the largest single source
@@ -2117,9 +2294,9 @@ def layer1_canary():
     # aria-labels, meta). The desk's own articles, editions and story lists are exempt: they
     # are authored text and "live" is an ordinary word in a sentence.
     import truth_canary as _tc2
-    fails.extend(_tc2.live_word_scan(_walk_root))
+    fails.extend(_run(FIXTURE_TEST, "live word scan", lambda: _tc2.live_word_scan(_walk_root)))
     import home_canary as _hc2
-    fails.extend(_hc2.nav_consistency_scan(_walk_root))   # S-1: one header on every page
+    fails.extend(_run(FIXTURE_TEST, "nav consistency scan", lambda: _hc2.nav_consistency_scan(_walk_root)))   # S-1: one header on every page
 
     # N-2: TODAY IS A DATE, NOT EVERY CARD ON THE PAGE.
     #
@@ -3195,19 +3372,35 @@ def layer1_canary():
            "tag integrity: a genuine severe-weather story no longer matches its chip")
 
     # full offline replay end-to-end over the fixture
-    e2e_fails = _replay_e2e()
+    e2e_fails = _run(FIXTURE_TEST, "replay e2e", _replay_e2e)
     fails.extend(e2e_fails)
-    fails.extend(_dedupe_guard_canary())
-    fails.extend(_boundary_canary())
-    fails.extend(_merge_state_canary())
-    fails.extend(_edition_repair_canary())
+    fails.extend(_run(FIXTURE_TEST, "dedupe guard", lambda: _dedupe_guard_canary()))
+    fails.extend(_run(FIXTURE_TEST, "boundary", lambda: _boundary_canary()))
+    fails.extend(_run(FIXTURE_TEST, "merge state", lambda: _merge_state_canary()))
+    fails.extend(_run(FIXTURE_TEST, "edition repair", lambda: _edition_repair_canary()))
 
     # fail-closed canaries
-    fails.extend(_failclosed_canaries(cfg))
+    fails.extend(_run(FIXTURE_TEST, "fail closed", lambda: _failclosed_canaries(cfg)))
 
     # contract ladder + slot recovery (the 2026-07-15 self-healing layer)
-    fails.extend(_contract_ladder_canary(cfg))
+    fails.extend(_run(FIXTURE_TEST, "contract ladder", lambda: _contract_ladder_canary(cfg)))
+    fails.extend(_run(FIXTURE_TEST, "n1", lambda: _n1_canary()))
 
+    # S-61: last, because its build() resets site_build's globals to the fixture slate's
+    import plate_canary as _plc
+    _live_slate = []
+    fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
+    fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    fails.extend(_run(FIXTURE_TEST, "runner", _runner_canary))   # S-61: a canary cannot return a failing status
+
+    # S-61: the two kinds, counted by the runner, and every warning a live canary printed, by name
+    nfx = sum(1 for k, _n, _c in CHECKS_RUN if k == FIXTURE_TEST)
+    ncn = sum(1 for k, _n, _c in CHECKS_RUN if k == CANARY)
+    print(f"\nchecks: {nfx} fixture test(s) gate this run, {ncn} live canar(y/ies) warn only "
+          f"({', '.join(n for k, n, _c in CHECKS_RUN if k == CANARY)})")
+    print(f"live canaries: {len(CANARY_WARNINGS)} warning(s)")
+    for n, x in CANARY_WARNINGS:
+        print(f"  warning ({n}): {x}")
     if fails:
         for f in fails:
             gh("error", "canary: " + f)
@@ -4139,6 +4332,8 @@ def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "all"
     if cmd == "canary":
         sys.exit(layer1_canary())
+    if cmd == "plant":
+        sys.exit(plant_demo())
     if cmd == "sources":
         sys.exit(layer2_sources())
     c = layer1_canary()

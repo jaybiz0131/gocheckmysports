@@ -14,6 +14,7 @@
 //            runs past its box on either side
 //   tall     its content is taller than its box (a fixed-height plate that wrapped)
 //   off      its box runs past the viewport
+//   page     the document itself is wider than the viewport (S-61: a sideways scroll on a phone)
 // Prints one JSON object per finding and one summary; exit 1 on a finding or when nothing was measured.
 // The browser is launched with a timeout and closed in a finally (U-7).
 import { createRequire } from "node:module";
@@ -97,6 +98,10 @@ const READ = ({ plate, tol, dump }) => {
     }
     if (why.length) out.push({ kind: "clipped", el: own1(e), text: text.slice(0, 40), why: why.join("; "), w: Math.round(r.width), size: cs.fontSize });
   }
+  // S-61: the page itself. A document wider than the viewport scrolls sideways on a phone whatever plate
+  // pushed it, so the page's own width is read too, as one finding on the root element.
+  const pw = document.documentElement.scrollWidth;
+  if (pw > vw + tol) out.push({ kind: "clipped", el: "html", text: "the page", why: "off the viewport: the page is " + pw + " wide in " + vw, w: pw, size: getComputedStyle(document.documentElement).fontSize });
   return { n, out, all };
 };
 

@@ -1,0 +1,123 @@
+N-1 scores: an old reading is never drawn as current
+  ok   the premise: LSU at TENN is 'pre' 13 minutes after kickoff, BYU at KU is 2OT with a 0:00 clock
+Traceback (most recent call last):
+  File "/home/user/sports-n1/scripts/n1_scores_test.py", line 99, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/sports-n1/scripts/n1_scores_test.py", line 93, in main
+    fails = unit()
+  File "/home/user/sports-n1/scripts/n1_scores_test.py", line 62, in unit
+    d = scoreboard.honest(copy.deepcopy(raw), now)
+        ^^^^^^^^^^^^^^^^^
+AttributeError: module 'scoreboard' has no attribute 'honest'
+N-1 workflows (Sports)
+  FAIL inactives.yml: the Worker dispatches it, so no GitHub cron
+  ok   inactives.yml: still takes workflow_dispatch with its reconcile input
+  FAIL inactives.yml: the poller never commits site/data/scoreboard.json (the score cadence's file)
+  FAIL inactives.yml: a push that cannot land after its retries warns and exits 0, never 1
+  FAIL scores-cadence.yml: a push that cannot land after its retries warns and exits 0, never 1
+  FAIL conditions-report.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   scores-cadence.yml: keeps its crons until the Worker deploy that dispatches it is live
+  FAIL health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)
+  FAIL health.yml reads 30 hours of history and pushes nothing
+
+N-1 workflows: FAIL (7 failure(s))
+PLANT: the kickoff-passed rewrite removed
+N-1 scores: an old reading is never drawn as current
+  ok   the premise: LSU at TENN is 'pre' 13 minutes after kickoff, BYU at KU is 2OT with a 0:00 clock
+  FAIL LSU at TENN reads 'No update since 3:43 PM ET, waiting for the feed'
+  FAIL and is not upcoming: no 'pre' state, no score printed for either side
+  ok   BYU at KU prints its reading's time: '2OT as of 3:43 PM ET'
+  ok   a final is untouched
+  ok   a running clock is untouched (UCLA at MICH '14:03 - 1st')
+  ok   a game whose kickoff is still ahead stays upcoming
+  ok   before its kickoff LSU at TENN is still upcoming
+  FAIL the /scores card says 'No update since 3:43 PM ET, waiting for the feed' and not the kickoff '3:30'
+  ok   the BYU card prints '2OT as of 3:43 PM ET'
+  ok   ERADM is omitted, a known network is named
+  ok   no card prints the raw code ERADM
+
+N-1 scores: FAIL (3 failure(s))
+rc=1
+PLANT: ERADM no longer omitted
+N-1 scores: an old reading is never drawn as current
+  ok   the premise: LSU at TENN is 'pre' 13 minutes after kickoff, BYU at KU is 2OT with a 0:00 clock
+  ok   LSU at TENN reads 'No update since 3:43 PM ET, waiting for the feed'
+  ok   and is not upcoming: no 'pre' state, no score printed for either side
+  ok   BYU at KU prints its reading's time: '2OT as of 3:43 PM ET'
+  ok   a final is untouched
+  ok   a running clock is untouched (UCLA at MICH '14:03 - 1st')
+  ok   a game whose kickoff is still ahead stays upcoming
+  ok   before its kickoff LSU at TENN is still upcoming
+  ok   the /scores card says 'No update since 3:43 PM ET, waiting for the feed' and not the kickoff '3:30'
+  ok   the BYU card prints '2OT as of 3:43 PM ET'
+  FAIL ERADM is omitted, a known network is named
+  FAIL no card prints the raw code ERADM
+
+N-1 scores: FAIL (2 failure(s))
+rc=1
+PLANT: the scores gap line moved to five hours
+N-1 health gate (Sports)
+  FAIL Nov 21: three findings, 12:23 PM to 3:43 PM ET, 3:43 PM to 7:42 PM ET, and 7:42 PM ET to the check
+  ok   the overnight gap from 05:48 to 17:23 is no finding: no game had kicked off by 07:48
+  ok   the same day read every 30 minutes through 12:00 UTC is no finding
+  ok   a site built at 6:01 AM ET is no finding; one not built for 25 hours is
+  ok   a final is never 'on'; a game 5 hours past kickoff with no final is no longer 'on'
+  ok   one gate a day: 6:03 AM ET stands down, 7:03 runs, a second 7 AM run stands down, a dispatch runs
+
+N-1 health gate: FAIL (1 failure(s))
+rc=1
+PLANT: the inactives rebase conflict fails the run again
+N-1 workflows (Sports)
+  ok   inactives.yml: the Worker dispatches it, so no GitHub cron
+  ok   inactives.yml: still takes workflow_dispatch with its reconcile input
+  ok   inactives.yml: the poller never commits site/data/scoreboard.json (the score cadence's file)
+  FAIL inactives.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   scores-cadence.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   conditions-report.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   scores-cadence.yml: keeps its crons until the Worker deploy that dispatches it is live
+  ok   health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)
+  ok   health.yml reads 30 hours of history and pushes nothing
+
+N-1 workflows: FAIL (1 failure(s))
+rc=1
+RESTORED
+N-1 scores: an old reading is never drawn as current
+  ok   the premise: LSU at TENN is 'pre' 13 minutes after kickoff, BYU at KU is 2OT with a 0:00 clock
+  ok   LSU at TENN reads 'No update since 3:43 PM ET, waiting for the feed'
+  ok   and is not upcoming: no 'pre' state, no score printed for either side
+  ok   BYU at KU prints its reading's time: '2OT as of 3:43 PM ET'
+  ok   a final is untouched
+  ok   a running clock is untouched (UCLA at MICH '14:03 - 1st')
+  ok   a game whose kickoff is still ahead stays upcoming
+  ok   before its kickoff LSU at TENN is still upcoming
+  ok   the /scores card says 'No update since 3:43 PM ET, waiting for the feed' and not the kickoff '3:30'
+  ok   the BYU card prints '2OT as of 3:43 PM ET'
+  ok   ERADM is omitted, a known network is named
+  ok   no card prints the raw code ERADM
+
+N-1 scores: PASS (0 failure(s))
+n1_scores_test rc=0
+N-1 workflows (Sports)
+  ok   inactives.yml: the Worker dispatches it, so no GitHub cron
+  ok   inactives.yml: still takes workflow_dispatch with its reconcile input
+  ok   inactives.yml: the poller never commits site/data/scoreboard.json (the score cadence's file)
+  ok   inactives.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   scores-cadence.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   conditions-report.yml: a push that cannot land after its retries warns and exits 0, never 1
+  ok   scores-cadence.yml: keeps its crons until the Worker deploy that dispatches it is live
+  ok   health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)
+  ok   health.yml reads 30 hours of history and pushes nothing
+
+N-1 workflows: PASS (0 failure(s))
+n1_workflows_test rc=0
+N-1 health gate (Sports)
+  ok   Nov 21: three findings, 12:23 PM to 3:43 PM ET, 3:43 PM to 7:42 PM ET, and 7:42 PM ET to the check
+  ok   the overnight gap from 05:48 to 17:23 is no finding: no game had kicked off by 07:48
+  ok   the same day read every 30 minutes through 12:00 UTC is no finding
+  ok   a site built at 6:01 AM ET is no finding; one not built for 25 hours is
+  ok   a final is never 'on'; a game 5 hours past kickoff with no final is no longer 'on'
+  ok   one gate a day: 6:03 AM ET stands down, 7:03 runs, a second 7 AM run stands down, a dispatch runs
+
+N-1 health gate: PASS (0 failure(s))
+health_gate_test rc=0

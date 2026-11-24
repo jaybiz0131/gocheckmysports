@@ -26,14 +26,10 @@ on:
         description: "Also reconcile capped teams ('true' to enable)"
         type: string
         default: "false"
-  schedule:
-    # A floor under the Worker, not a substitute for it. Sundays through the American
-    # slate, and the three other kickoff days, at a cadence GitHub can plausibly meet.
-    - cron: "*/15 15-23 * * 0"             # Sun, through the night game
-    - cron: "*/20 0-4 * * 1,2,5,6"         # night games after UTC midnight
-    - cron: "*/20 22-23 * * 1,4,5"         # Mon/Thu/Fri night lists
-    - cron: "*/20 0-4 * * 5"               # Thursday night after UTC midnight
-    - cron: "*/15 16-23 * * 6"             # Saturday slate
+  # N-1 (2026-11-21): ONE TRIGGER. The Worker dispatches this every five minutes in the Eastern windows
+  # (slot-trigger INACTIVE_WINDOWS) and fires the reconcile ticks. The GitHub crons that sat under it
+  # are removed: 73 extra runs in 30 days, and their pending runs evicted the Worker's from
+  # sports-publish (16 cancelled on Nov 1). The daily health gate is the backstop.
 
 # Shares the desk's publish lock: this pushes to main, so it queues behind a running
 # brief rather than moving main underneath it.
@@ -170,6 +166,9 @@ jobs:
           # S-5.0: the college registry the build grew (a page once built is built every week after;
           # a Netlify build cannot commit, so this job keeps the committed file grown)
           git add -A site/data data/cfb-teams-built.json data/scores-pages-built.json
+          # N-1: ONE WRITER PER FILE. The scoreboard is the score cadence's file; the build refreshed it here and
+          # the Nov 15 push conflicted on a rebase over a "scores:" commit. The poller leaves it alone.
+          git reset -q -- site/data/scoreboard.json && git checkout -- site/data/scoreboard.json
           git commit -m "inactives: snapshot $(date -u +%H:%MZ)" || exit 0
           # The desk's race-safe push. A brief can land while this runs.
           ok=false
@@ -177,9 +176,11 @@ jobs:
             if git push; then ok=true; break; fi
             echo "::warning::push rejected (attempt $i); rebasing"
             git pull --rebase --autostash origin main || {
-              echo "rebase conflicted outside the snapshot"; git rebase --abort || true; exit 1; }
+              git rebase --abort || true
+              # N-1: a conflicted rebase is a collision, not a failed desk: the next tick starts from a fresh main.
+              echo "::warning::inactives: the rebase conflicted with another push; left for the next tick"; exit 0; }
           done
-          [ "$ok" = true ] || { echo "push failed after 3 attempts"; exit 1; }
+          [ "$ok" = true ] || { echo "::warning::inactives: push failed after 3 attempts; left for the next tick"; exit 0; }
 
       # A red gate fails ONE run (the first of the episode) and names its cause in an issue;
       # every later red tick stays green and points at that issue. See poller_alarm.py.

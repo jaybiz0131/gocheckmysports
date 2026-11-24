@@ -407,6 +407,57 @@ def load():
     if d["stale"]:
         print(f"scoreboard: file is {age:.0f}h old, past {STALE_HOURS}h; "
               f"band renders marked stale")
+    return honest(d)
+
+
+# N-1 (21 November 2026): A CARD NEVER DRAWS AN OLD READING AS CURRENT. At 3:43 PM ET the reading
+# of 20:43 UTC carried LSU at Tennessee as "pre" thirteen minutes after kickoff, so the Scoreboard
+# drew a kickoff card for a game in play, and BYU at Kansas as "2OT" with a "0:00" clock, so its
+# card printed neither a clock nor a final. The house rule for a reading past its window: shown
+# with its age, never lit as current. Applied once here, so every card reads the same game.
+def _kick(g):
+    try:
+        return datetime.datetime.fromisoformat(str(g.get("start_utc") or "").replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _et_time(t):
+    from zoneinfo import ZoneInfo
+    return t.astimezone(ZoneInfo("America/New_York")).strftime("%-I:%M %p")
+
+
+def honest(d, now=None):
+    """Rewrite, in place, the games a reader would otherwise misread, and return `d`:
+      a game past its kickoff that the reading still calls "pre" reads "No update since <reading
+      time> ET, waiting for the feed", with no score and no kickoff time, never as upcoming;
+      a game in overtime with no running clock reads "<2OT> as of <reading time> ET".
+    The reading time is the snapshot's own fetched_at (the "Scores as of" stamp), not the build's."""
+    try:
+        t = datetime.datetime.strptime(d["fetched_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=datetime.timezone.utc)
+    except (KeyError, TypeError, ValueError):
+        return d
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    stamp = _et_time(t)
+    for L in d.get("leagues") or []:
+        for g in L.get("games") or []:
+            short = str(g.get("status_short") or "")
+            low = short.lower()
+            if any(w in low for w in ("postpon", "delay", "suspend", "canc", "tbd")):
+                continue
+            k = _kick(g)
+            if g.get("state") == "pre" and k and k <= now:
+                g["state"] = "in"
+                g["feed_lag"] = True
+                g["status_short"] = f"No update since {stamp} ET, waiting for the feed"
+                g["detail"] = ""
+                g["progress"] = None
+                for side in ("away", "home"):
+                    if isinstance(g.get(side), dict):
+                        g[side]["score"] = ""
+            elif (g.get("state") == "in" and "OT" in short.upper()
+                  and str(g.get("detail") or "").strip() in ("", "0:00") and " as of " not in short):
+                g["status_short"] = f"{short} as of {stamp} ET"
     return d
 
 

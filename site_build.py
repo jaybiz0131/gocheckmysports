@@ -3756,7 +3756,7 @@ def push_games_doc():
             continue
         away, home = g.get("away") or {}, g.get("home") or {}
         nm = lambda t: t.get("full") or t.get("school") or t.get("abbr") or ""
-        net = network_name(g.get("network")) if g.get("network") else ""
+        net = network_name(g.get("network")) if network_name(g.get("network")) else ""
         e = cx_entry(g) if CX_DATA else None
         cond = _push_cond(e)
         games.append({
@@ -4000,6 +4000,9 @@ def _sb_today_status(g):
 
 def _sb_status(g):
     st = g.get("state")
+    if st == "in" and g.get("feed_lag"):
+        # S-61: no live dot on a game the feed has not reported since its kickoff
+        return f'<span class="tk-stale">{esc(g.get("status_short") or "")}</span>'
     if st == "in":
         per = _sb_today_status(g)
         return f'<span class="live"><span class="dot"></span>{esc(per)}</span>'
@@ -4141,9 +4144,17 @@ NETWORK_NAMES = {
 }
 
 
+# N-1 (21 November 2026): codes the feed sends that are not a channel anyone can tune to. Printed
+# raw on two Saturday cards ("ERADM"). Omitted, the way a module with no data is omitted.
+NETWORK_OMIT = {"ERADM"}
+
+
 def network_name(raw):
-    """The network's own name where the desk knows it, the feed's string otherwise."""
+    """The network's own name where the desk knows it, the feed's string otherwise, nothing for a
+    code that names no channel."""
     n = (raw or "").strip()
+    if n in NETWORK_OMIT:
+        return ""
     return NETWORK_NAMES.get(n, n)
 
 
@@ -4599,6 +4610,9 @@ def _tk_kicker(g):
     """The stub's top line: league, week, state and the date. Every card dates itself."""
     league = esc(g.get("league") or "")
     day = _tk_day(g)
+    if g.get("state") == "in" and g.get("feed_lag"):
+        # S-61: the "No update since" time is in the chip row, in the stale style; the kicker dates the card
+        return f'<span class="tk-k">{_TK_MID.join(x for x in (league, esc(day)) if x)}</span>'
     if g.get("state") == "in":
         det = esc(_tk_state(g) or "In progress")
         return f'<span class="tk-k">{_TK_MID.join(x for x in (league, det, esc(day)) if x)}</span>'
@@ -4734,7 +4748,7 @@ def _tk_marks(g, t, side):
     two-minute drill, and treating it as an absence prints nothing at the moment the
     reader most wants it.
     """
-    if g.get("state") != "in":
+    if g.get("state") != "in" or g.get("feed_lag"):
         return ""
     out = ""
     tid = str(t.get("id") or "")
@@ -4752,7 +4766,7 @@ def _tk_marks(g, t, side):
 def _tk_redzone(g, t):
     """The tint goes on the chip of the team INSIDE the twenty, which is the team with
     the ball. The feed's isRedZone says a game is in one; it does not say whose."""
-    if g.get("state") != "in" or not g.get("red_zone"):
+    if g.get("state") != "in" or not g.get("red_zone") or g.get("feed_lag"):
         return ""
     tid = str(t.get("id") or "")
     return " rz" if tid and str(g.get("possession") or "") == tid else ""
@@ -4867,7 +4881,7 @@ def _tk_matchup(g, big=40):
     ca, ch = _tk_sc9(g)
     a, h = g.get("away") or {}, g.get("home") or {}
     sa, sh = _tk_score(a, g), _tk_score(h, g)
-    started = g.get("state") in ("in", "post")
+    started = g.get("state") in ("in", "post") and not g.get("feed_lag")
     # UX-1: THE SCORE COLOURS NEEDED A SURFACE OF THEIR OWN. SC-9's green and red sat
     # straight on the team wash, so a green score on a red wash and a red score on a
     # blue one were the two worst pairings on the card. Each team now sits in a smoke
@@ -4894,9 +4908,14 @@ def _tk_matchup(g, big=40):
                     f'{_tk_long(g, t)}'
                     f'style="color:#FFFFFF">{esc(_team_label(g, t))}</span>'
                     f'{_tk_trec(t)}</span>')
+        # S-61: A PAST-KICKOFF GAME WITH NO LIVE STATE (scoreboard.honest marks it feed_lag) is drawn
+        # stale in the chip row too: the plain matchup, no score chip, no live dot, and the reading's
+        # own "No update since" time in the stale style. The kicker said it; the chips drew it live.
+        stale = (f'<span class="tk-stale">{esc(g.get("status_short") or "")}</span>'
+                 if g.get("feed_lag") else "")
         return (f'<span class="tk-num{_fcls}" style="font-size:{big}px">'
                 f'{plain(a, "away")} <span class="tk-at">at</span> '
-                f'{plain(h, "home")}</span>')
+                f'{plain(h, "home")}</span>{stale}')
 
     tie = ca == ch
     def chip(t, sc, col, which):
@@ -5454,7 +5473,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     if e and e.get("status") in ("forecast", "roofed") and ((e.get("roof") or "") in ("retractable", "fixed")
                                                 or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
         roof = '<span class="sbc-chip sbc-roof">Roof</span>'
-    net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
+    net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if network_name(g.get("network")) else ""
     # S-1: the network plate, then the first stream that carries the game (or the verify chip)
     facts = _tk_avail(g, ia_index, desig)
     fact = (f'<p class="sbc-fact" data-lens-only="fantasy">' + " · ".join(
@@ -5531,7 +5550,7 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
     net = (f'<span class="tk-chip" data-lens-only="watch">{esc(network_name(g.get("network")))}'
-           f'</span>' if g.get("network") else "")
+           f'</span>' if network_name(g.get("network")) else "")
     spec = _tk_facts(g, ia_index, wx, desig) if facts else ""
     leaders = _tk_leaders(g)
     lead_html = ""
@@ -5645,7 +5664,7 @@ def _tk_fold(g, ia_index, desig=None):
             when = f'{dt.astimezone(_ET).strftime("%a")} {_et_clock(dt)}'
     status = esc(_tk_state(g)) if started else esc(when)
     net = (f'<span class="tk-chip sm">{esc(network_name(g.get("network")))}</span>'
-           if g.get("network") else "")
+           if network_name(g.get("network")) else "")
     facts = _tk_avail(g, ia_index, desig)
     fact = f'<div class="x">{esc(facts[0][0])} {esc(facts[0][1])}</div>' if facts else ""
     wide = " wide" if started else ""
@@ -5738,7 +5757,7 @@ def _sb_card(g, ia_index, marquee=False, wx=None):
     prog = g.get("progress")
     bar = (f'<div class="prog" style="width:{prog*100:.0f}%"></div>'
            if isinstance(prog, (int, float)) else "")
-    net = f'<span class="net">{esc(network_name(g.get("network")))}</span>' if g.get("network") else ""
+    net = f'<span class="net">{esc(network_name(g.get("network")))}</span>' if network_name(g.get("network")) else ""
     fan = _sb_fantasy_strip(g, ia_index)
     if marquee:
         # S-7. Three states, and every line in them is a reading or it is absent.
@@ -7145,7 +7164,7 @@ def _cfb_rows(prog):
             out.append({"week": None, "date": g.get("start_utc"), "home": home, "opp": theirs.get("abbr"),
                         "opp_full": theirs.get("school") or theirs.get("full"), "opp_link": oslug,
                         "state": g.get("state"), "result": res, "score": sc, "opp_score": osc,
-                        "time_set": True, "net": network_name(g.get("network")) if g.get("network") else "",
+                        "time_set": True, "net": network_name(g.get("network")) if network_name(g.get("network")) else "",
                         "id": g.get("id"), "page": _game_page_built(g.get("id")), "_g": g})
     out.sort(key=lambda r: r.get("date") or "")
     return out
@@ -9258,7 +9277,7 @@ def game_share_row(g, e=None):
     row = {"id": str(g.get("id")), "away": a.get("abbr") or "", "home": h.get("abbr") or "",
            "away_name": a.get("full") or a.get("school") or a.get("name") or "",
            "home_name": h.get("full") or h.get("school") or h.get("name") or "",
-           "when": when, "network": network_name(g.get("network")) if g.get("network") else "",
+           "when": when, "network": network_name(g.get("network")) if network_name(g.get("network")) else "",
            "score_away": None, "score_home": None, "state_word": "", "status": st, "lit": False,
            "venue": g.get("venue") or "", "stamp": ""}
     if g.get("state") in ("in", "post"):
@@ -9314,7 +9333,7 @@ def sbg_board(g):
     if g.get("league") != "NFL":
         ga["away"]["school"], ga["home"]["school"] = a.get("abbr") or "", h.get("abbr") or ""
     ls = sbc_linescore(ga, full=True, ot_col=True)
-    net = (f'<span class="sbg-net">{esc(network_name(g.get("network")))}</span>' if g.get("network") else "")
+    net = (f'<span class="sbg-net">{esc(network_name(g.get("network")))}</span>' if network_name(g.get("network")) else "")
     line = _tk_line(g)
     meta = (f'<div class="sbg-meta">{line or "<span></span>"}{net}</div>' if (line or net) else "")
     return (f'<section class="bd-mod sbc sbg{" sbc-lit" if lit else ""}" aria-label="Scoreboard" '
@@ -9325,7 +9344,7 @@ def gp_streams(g):
     """The streams that carry the game, from the carriage table: [(label, url)] for the rows that
     are in date, in the table's order. A row past its date is not a button."""
     k = _utc_dt(g.get("start_utc") or "")
-    car = _w2w_carriers_by_id().get(str(g.get("id"))) or ([{"name": g["network"]}] if g.get("network") else [])
+    car = _w2w_carriers_by_id().get(str(g.get("id"))) or ([{"name": g["network"]}] if network_name(g.get("network")) else [])
     if not (k and car):
         return []
     doc = _carriage.load()
@@ -9374,7 +9393,7 @@ def gp_watch_block(g):
     each stream as a button to the service's own page; a row past its date prints verify."""
     k = _utc_dt(g.get("start_utc") or "")
     car = _w2w_carriers_by_id().get(str(g.get("id"))) or (
-        [{"name": g["network"]}] if g.get("network") else [])
+        [{"name": g["network"]}] if network_name(g.get("network")) else [])
     if not car:
         return ""
     doc = _carriage.load()
@@ -9933,7 +9952,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             f'<span class="bd-src">{esc(_day_time(g))}</span>'
             f'<span class="w2w-cars">'
             + (f'<span class="w2w-car">{esc(g.get("network"))}</span>'
-               if g.get("network") else '<span class="bd-src">not announced</span>')
+               if network_name(g.get("network")) else '<span class="bd-src">not announced</span>')
             + '</span></div>' for g in games[:6])
         if rows:
             watch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
@@ -10938,7 +10957,7 @@ def _first_stream_chip(g, carriers, doc, today):
     if not k:
         return ""
     car = carriers.get(str(g.get("id"))) or (
-        [{"name": g["network"]}] if g.get("network") else [])
+        [{"name": g["network"]}] if network_name(g.get("network")) else [])
     chips = _carriage.streams_for({"league": g.get("league"), "carriers": car}, k, doc, today)
     nn = {_carriage.norm(c.get("name")) for c in car}
     chips = [c for c in chips if _carriage.norm(c["label"]) not in nn]

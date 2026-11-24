@@ -44,6 +44,12 @@ SWEEP_TIMEOUT = 600
 # arrived with the data (the ESPN app's own name) clipped on the team pages at 320 and 340.
 STREAM_LABELS = ["ESPN app (ESPN Unlimited)", "Peacock", "Fox One (Fox Sports app)"]
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+# S-61, Jack's ruling of November 22, 2026: the layout floor is 375. A layout check fails the gate at 375 and
+# 1440 on the fixture slate; at 320 it is a warning, never a failure. What the day's own build draws is a live
+# canary at every width: it reads the day's feed, and an ordinary game day must not stop the desk.
+FLOOR = 375
+GATE_WIDTHS = [375, 1440]
+WARN_WIDTHS = [320]
 
 
 def sweep(tree, pages, widths=WIDTHS, dump=None):
@@ -250,8 +256,9 @@ def unchanged(new, old):
     return fails, seen
 
 
-def plate_canary(out, root=None):
+def plate_canary(out, root=None, live=None):
     fails = []
+    data = fails if live is None else live     # S-61: findings about the day's build
     if not out or not os.path.isdir(out):
         return ["plate fit: the gate's build wrote no tree, so no plate was checked"]
     pages = built_pages(out)
@@ -262,7 +269,8 @@ def plate_canary(out, root=None):
     dumpd = tempfile.mkdtemp(prefix="plate-dump-")
     newd = os.path.join(dumpd, "new.json")
     found, summ, probs = sweep(out, pages, ALL_WIDTHS, newd)
-    fails += probs + _describe(found)
+    fails += [x for x in probs if "findings" not in x]
+    data += _describe(found)
     if summ is not None:
         if not summ.get("plates"):
             fails.append("plate fit: no plate was measured on the built pages")
@@ -282,7 +290,7 @@ def plate_canary(out, root=None):
             fails.append("plate same: the sweeps wrote no records to compare")
         if nw:
             f2, seen = unchanged(nw, od)
-            fails += f2
+            data += f2
             print(f"plate same: {seen} page-widths compared with main's stylesheet and markup on the same data, "
                   f"{len(f2)} plate kinds drawn differently where they fit")
     finally:
@@ -320,7 +328,9 @@ def plate_canary(out, root=None):
             else:
                 fails += [x for x in probs if "findings" not in x]
                 fails += [f"{x} (fixture: longest label \"{longest}\" and {len(labels) - 1} others)"
-                          for x in _describe(found)]
+                          for x in _describe([o for o in found if o["width"] >= FLOOR])]
+                data += [f"{x} (fixture: longest label \"{longest}\", under the {FLOOR} floor)"
+                         for x in _describe([o for o in found if o["width"] < FLOOR])]
                 if summ is not None:
                     if summ.get("plates", 0) < len(labels) * 3:
                         fails.append("plate fit: the label fixture drew fewer plates than labels, so it proves nothing")
@@ -329,6 +339,39 @@ def plate_canary(out, root=None):
                           f"{summ.get('findings', 0)} clipped")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    return fails
+
+
+def slate_pages(tree):
+    """The pages the fixture slate draws: the home, every Scores page, every game page."""
+    pg = ["index.html", "scores.html"]
+    pg += sorted(os.path.relpath(p, tree) for p in glob.glob(os.path.join(tree, "scores", "*.html")))
+    pg += sorted(os.path.relpath(p, tree) for p in glob.glob(os.path.join(tree, "games", "*.html")))
+    return [p for p in pg if os.path.exists(os.path.join(tree, p))]
+
+
+def slate_layout(tree, live=None):
+    """S-61: THE FLOOR IS 375. The fixture slate (the gate's build of a fixed scoreboard, verify_pipeline
+    ._fixture_tree) read in a browser: no plate clipped and no page wider than the viewport at 375 and 1440
+    (fixture test, fails the gate); the same at 320 goes to `live` (a warning, never a failure)."""
+    fails = []
+    warn = fails if live is None else live
+    if not tree or not os.path.isdir(tree):
+        return ["slate layout: the fixture slate build wrote no tree, so no page was read"]
+    pages = slate_pages(tree)
+    if "index.html" not in pages or "scores.html" not in pages or not any(p.startswith("games/") for p in pages):
+        fails.append("slate layout: the fixture slate has no home, Scores page or game page, so it proves nothing")
+    found, summ, probs = sweep(tree, pages, sorted(set(GATE_WIDTHS) | set(WARN_WIDTHS)))
+    fails += [x for x in probs if "findings" not in x]
+    if summ is not None:
+        if not summ.get("plates") or summ.get("loads", 0) < len(pages) * 3:
+            fails.append(f"slate layout: {summ.get('loads', 0)} page loads for {len(pages)} pages at three widths, "
+                         f"{summ.get('plates', 0)} plates; a page was not read")
+        print(f"slate layout: {len(pages)} fixture-slate pages at {sorted(set(GATE_WIDTHS) | set(WARN_WIDTHS))}, "
+              f"{summ.get('plates', 0)} plates, {summ.get('findings', 0)} findings "
+              f"({sum(1 for o in found if o['width'] >= FLOOR)} at the 375 floor or wider)")
+    fails += ["slate " + x for x in _describe([o for o in found if o["width"] >= FLOOR])]
+    warn += ["slate " + x for x in _describe([o for o in found if o["width"] < FLOOR])]
     return fails
 
 
