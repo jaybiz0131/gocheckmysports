@@ -1954,7 +1954,10 @@ def layer1_canary():
                "shots/x.png", "docs/notes/a.md",
                # Item 0 (6 October 2026) added .claude/settings.json and its documents-only
                # merge BUILT the site: this list did not know the directory.
-               ".claude/settings.json"]:
+               ".claude/settings.json",
+               # S-DONE: a reviewer's screenshot and a report's screenshot (S-61 left four uncommitted
+               # because review/ built the site)
+               "review/s-done/home-375.png", "docs/REPORTS/S-DONE-shots/home-375-before.png"]:
         _check(_ni.decide([_d], _q)[0] is True, fails,
                f"netlify ignore canary (U-11): {_d} built the site, and it cannot change "
                f"a pixel of it")
@@ -1967,6 +1970,10 @@ def layer1_canary():
            "because a handoff file was in the same commit")
     _check(_ni.decide(["site_build.py"], _q)[0] is False, fails,
            "netlify ignore canary (U-11): a generator change was skipped")
+    _check(_ni.decide(["review/s-done/home-375.png", "site_build.py"], _q)[0] is False, fails,
+           "netlify ignore canary (S-DONE): a generator change was skipped because a screenshot rode with it")
+    _check(_ni.decide(["site/reports/conditions/2026-11-26.json"], _q)[0] is False, fails,
+           "netlify ignore canary (S-DONE): a conditions report (site/reports/, a published page) did not build")
     _check(_ni.decide(["site/publish/index.html"], _q)[0] is False, fails,
            "netlify ignore canary (U-11): a published page changed and did not build")
     _check(_ni.decide(["site/data/scoreboard.json"], _q)[0] is False, fails,

@@ -59,7 +59,7 @@ def _key_off():
     os.environ.pop(ENV, None)
     os.environ.pop(ENV_SINCE, None)
 MARKERS = ("data-tpush", "tpush-note", "/api/push", "gcms-push-", "PushManager", "data-vapid")
-NODE_MIN_CHECKS = 40
+NODE_MIN_CHECKS = 41
 
 
 def check_rule():

@@ -1,0 +1,24 @@
+diff --git a/slot-trigger/src/worker.js b/slot-trigger/src/worker.js
+index 524b872..ed1522f 100644
+--- a/slot-trigger/src/worker.js
++++ b/slot-trigger/src/worker.js
+@@ -117,6 +117,10 @@ function morningDue(now) {
+ // whether a build is due; a tick that is not due fetches nothing and pushes nothing, about twenty
+ // seconds of runner. The workflow's own crons are removed in the same change (one trigger).
+ const SCORES = { repo: "gocheckmysports", wf: "scores-cadence.yml", slot: null, offset: 0 };
++// S-DONE (25 November 2026): the status page names the code it is running. On November 23 a deploy
++// was made and the page could not say which source it carried: the only tell was due_this_tick at a
++// minute ending in 5. Change this line with every change to the schedule.
++const BUILD = "2026-11-25 scores-cadence every 10 minutes";
+ const SCORES_ET_HOURS = new Set([6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0, 1, 2]);
+ 
+ function scoresDue(now) {
+@@ -847,6 +851,8 @@ export default {
+       token_status: health.status,
+       token_detail: health.why,
+       token_configured: Boolean(env.ACTIONS_API),
++      build: BUILD,
++      scores: `${SCORES.repo} ${SCORES.wf} at :05, :15 ... :55 in ET hours ${[...SCORES_ET_HOURS].join(", ")}`,
+       due_this_tick: [...due, ...morningDue(now), ...watchersDue(now), ...inactivesDue(now), ...scoresDue(now)].map(d =>
+         d.slot === null ? `${d.repo}/${d.wf.replace(".yml", "")}` : `${d.repo}/${d.slot}+${d.offset}m`),
+       morning: `${String(MORNING_ET.hour).padStart(2, "0")}:${String(MORNING_ET.minute).padStart(2, "0")} America/New_York ${MORNING.repo} ${MORNING.wf}`,
