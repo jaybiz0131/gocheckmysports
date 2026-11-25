@@ -1,0 +1,30 @@
+=== PLANT (built page): a weather plate says missing
+::error::clean: missing is printed 1 time(s) on the tree, first on /scores.html: ...ows today: 1 window, busiest carries 1 game. Wind missing Nothing in this state on this day. NFL...
+    exit=1
+=== PLANT (built page): a stamp in UTC
+::error::clean: a UTC stamp is printed 1 time(s) on the tree, first on /where-to-watch.html: .... Week Scores Watch Fantasy Archive About Updated 20:43 UTC Week 12 Updated Nov 25, 4:19 AM ET Whic...
+    exit=1
+=== PLANT (built page): an em dash in a story
+::error::clean: an em dash is printed 1 time(s) on the tree, first on /articles/111-games-zero-errors-wilson-sets-mlb-record-at-shortstop.html: ...Week Scores Watch Fantasy Archive About One thing — and another. Verified news mlb August 9...
+    exit=1
+=== PLANT (built page): an entity printed as its letters
+::error::clean: a raw entity is printed 1 time(s) on the tree, first on /index.html: ...dows today: 1 window, busiest carries 1 game. Fox &middot; 1:00 PM ET The Wire Latest finals Kent...
+    exit=1
+=== PLANT (built page): a count of null games
+::error::clean: null is printed 1 time(s) on the tree, first on /fantasy/index.html: ...checked. Week Scores Watch Fantasy Archive About null games today Fantasy Updated Nov 25, 4:1...
+    exit=1
+=== PLANT (built page): a board item id in chrome
+::error::clean: an internal note is printed 1 time(s) on the tree, first on /about.html: ...cked. Week Scores Watch Fantasy Archive About See S-60 for the tabs. About Why GoCheckMySports...
+    exit=1
+=== PLANT (built page): a heading cut by an ellipsis
+FAIL clean read: truncated at 375: p 'College football and NFL scores, where to watch' on /about.html: truncated: an ellipsis cuts it (392 in 120) (1 in all)
+FAIL clean read: truncated at 1440: p 'College football and NFL scores, where to watch' on /about.html: truncated: an ellipsis cuts it (392 in 120) (1 in all)
+    exit=1
+=== PLANT (built page): an empty section drawn on the page
+FAIL clean read: empty at 375: section '' on /terms.html: empty: drawn 375 by 120 with nothing in it (1 in all)
+FAIL clean read: empty at 1440: section '' on /terms.html: empty: drawn 1440 by 120 with nothing in it (1 in all)
+    exit=1
+=== RESTORED
+CLEAN CANARY: PASS
+clean read: PASS
+== the read of re-quoted story links (unit), red before the fix: href=' and unquoted counted as the desk's word; green after, 2026-11-25T12:07:40Z

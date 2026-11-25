@@ -11484,7 +11484,7 @@ def wall(sb_data):
         cfb.setdefault(d0, [])
     wk, _ = nfl_week()
     head = ('<div class="wl-legend"><span><i class="wl-bulb on" aria-hidden="true"></i>Weather matters</span>'
-            '<span>Temp °F · Wind mph · Rain %</span></div>')
+            '<span>Kickoffs ET · Temp °F · Wind mph · Rain %</span></div>')    # S-DONE: the wall's times had no zone
     out = []
     if nfl:
         out.append(f'<section class="wl-board" aria-label="This week\'s NFL games and kickoff weather">'

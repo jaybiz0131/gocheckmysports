@@ -3418,6 +3418,12 @@ def layer1_canary():
     # and no page of any type wider than 375 or 1440, with the phone tab bar drawn on each
     fails.extend(_run(FIXTURE_TEST, "whole", lambda: _whc.whole_canary(_built_tree())))
     fails.extend(_run(FIXTURE_TEST, "page width, every page type", lambda: _plc.type_widths(_fixture_tree())))
+    import clean_canary as _clc
+    # S-DONE point 4: the words a page prints (zero of each on the day's build and the slate), and in a browser
+    # on every page type nothing cut by an ellipsis, a clamp or a hidden overflow and nothing drawn empty
+    fails.extend(_run(FIXTURE_TEST, "clean", lambda: _clc.unit() + _clc.clean_canary(_built_tree(), "the day's build")
+                      + _clc.clean_canary(_fixture_tree(), "the slate")))
+    fails.extend(_run(FIXTURE_TEST, "clean read, every page type", lambda: _plc.clean_read(_fixture_tree())))
     import honest_canary as _hnc
     # S-DONE point 2: every count on the board against the cards under it, on the day's build and on the slate
     fails.extend(_run(FIXTURE_TEST, "honest counts", lambda: _hnc.honest_canary(_built_tree()) + _hnc.honest_canary(_fixture_tree())))

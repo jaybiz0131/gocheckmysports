@@ -3370,3 +3370,11 @@ article.tk-c:has(.tk-stale){opacity:.88;border-style:dashed}
   body.sbp .sb-hero:has(.sc-leagues) ~ main{margin-top:8px;padding-top:6px}
   body.sbp .sb-hero:has(.sc-leagues) ~ main #all{padding-top:0}
 }
+/* S-DONE point 4: NO NAME IS CUT MID-WORD. On a team page's schedule the opponent's name was one line with
+   an ellipsis ("SAN FRANCISCO 49E..." at 375, "LOS ANGELES CHARG..." in the 1440 grid); it wraps. On the
+   home's wall at 1100 and up a one-line plate ("ROOF · USUALLY CLOSED") was clipped at its edge by a hidden
+   overflow; it wraps too. Authored text is never truncated (the standing law). */
+.tms-nm{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15;overflow-wrap:normal}
+@media (min-width:1100px){
+  .wl-pl.wl-one{white-space:normal;overflow:visible;line-height:1.15;padding:6px 4px;letter-spacing:.08em}
+}
