@@ -118,13 +118,27 @@ def live_label(g):
     return s or "In progress"
 
 
+SEEN_FINAL_HOURS = 5.5     # a final first read later than this after kickoff was not seen ending
+
+
+def final_seen(g):
+    """The time the desk first read this game as final, when that read was the game ending: inside
+    SEEN_FINAL_HOURS of its kickoff. A final first read the next morning (no reading in between)
+    has no such time; printing that read's clock put "Final as of 6:00 AM ET" on a Monday night game."""
+    seen = utc(g.get("final_seen_utc"))
+    k = utc(g.get("start_utc"))
+    if seen and k and (seen - k) > datetime.timedelta(hours=SEEN_FINAL_HOURS):
+        return None
+    return seen
+
+
 def final_label(g):
     s = (g.get("status_short") or "").strip()
     ot = _ot_word(g)
     word = f"Final/{ot}" if ot else "Final"
     if s.lower().startswith("final/") and not ot:
         word = s
-    seen = utc(g.get("final_seen_utc"))
+    seen = final_seen(g)
     return f"{word} as of {et_clock(seen)}" if seen else word
 
 

@@ -121,6 +121,18 @@ def _cases():
        ", refreshed every 5 minutes from Thu 12:30 PM ET")
     eq("cadence with no game to come", s60.cadence_line("off", cadence.LIVE_EVERY_MIN, ""), "")
 
+    # S-DONE point 2: a final's time is the desk's first read of it, and only when that read was the game
+    # ending. Monday November 23: CIN at WSH kicked off at 8:15 PM ET, no reading followed the 8:57 PM one,
+    # and the 6:00 AM build saw it final for the first time: the home read "Final as of 6:00 AM ET".
+    mnf = {"league": "NFL", "state": "post", "status_short": "Final", "period": 4,
+           "start_utc": "2026-11-24T01:15Z", "final_seen_utc": "2026-11-24T11:00:53Z"}
+    eq("a final first read ten hours after kickoff carries no time", s60.final_label(mnf), "Final")
+    eq("and has no seen time for the Wire", s60.final_seen(mnf), None)
+    seen = dict(mnf, final_seen_utc="2026-11-24T04:22:10Z")
+    eq("a final read as it ended carries its time", s60.final_label(seen), "Final as of 11:22 PM ET")
+    eq("a final with no kickoff on file keeps the time it was read", s60.final_label(dict(seen, start_utc="")),
+       "Final as of 11:22 PM ET")
+
     # the snapshot carries the time a game was first seen final
     prev = {"leagues": [{"league": "CFB", "games": [{"id": "1", "state": "post",
                                                     "final_seen_utc": "2026-11-21T19:00:00Z"}]}]}

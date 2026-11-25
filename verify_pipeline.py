@@ -3413,6 +3413,9 @@ def layer1_canary():
     _live_slate = []
     fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
     fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    import honest_canary as _hnc
+    # S-DONE point 2: every count on the board against the cards under it, on the day's build and on the slate
+    fails.extend(_run(FIXTURE_TEST, "honest counts", lambda: _hnc.honest_canary(_built_tree()) + _hnc.honest_canary(_fixture_tree())))
     import live_canary as _lvc
     fails.extend(_run(FIXTURE_TEST, "live", lambda: _lvc.live_canary(_fixture_tree())))   # S-DONE: the board re-read in place, no deploy
     fails.extend(_run(FIXTURE_TEST, "runner", _runner_canary))   # S-61: a canary cannot return a failing status

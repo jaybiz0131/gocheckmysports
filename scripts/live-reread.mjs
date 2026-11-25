@@ -4,7 +4,9 @@
 //   node scripts/live-reread.mjs TREE CASES.json
 //
 // TREE is a built site (the gate's fixture slate). CASES.json is a list of
-//   { name, path, doc, gone: GID|null, click: SELECTOR|null, doc2: DOC|null }
+//   { name, path, doc, gone: GID|null, click: SELECTOR|null, doc2: DOC|null, now: ISO|null }
+// With `now` the page's clock reads that time (Date is fixed; timers run), which is how a page read
+// a day after its build is proved without waiting a day.
 // For each case the page at `path` is loaded from TREE with every request to its data-live-src
 // answered by `doc` (null answers 404; no network is touched). With `click`, that element is then
 // clicked, the answer becomes `doc2`, and the page is told it is visible again, which makes it
@@ -61,6 +63,11 @@ function read(gone) {
     tabs,
     days: days.length, days_shown: days.filter(d => !d.hidden).map(d => d.getAttribute("data-day")),
     day_tab_on: [...document.querySelectorAll(".wb-tabs [data-day].on")].map(a => a.getAttribute("data-day")),
+    pre: document.querySelectorAll('.tk-c[data-state="pre"][data-kick]').length,
+    pre_past: [...document.querySelectorAll('.tk-c[data-state="pre"][data-kick]')].filter(
+      c => Date.now() - new Date(c.getAttribute("data-kick")).getTime() >= 600000).length,
+    aged: [...document.querySelectorAll(".tk-c .tk-aged")].map(n => n.textContent),
+    aged_outside_live: document.querySelectorAll('.sc-panel:not([data-panel="live"]) .tk-aged').length,
     events: window.__gcmLive || 0,
   };
 }
@@ -89,6 +96,7 @@ try {
       pg.on("console", m => { if (m.type() === "error" && c.doc !== null) errors.push(m.text().slice(0, 200)); });
       pg.on("pageerror", e => errors.push("uncaught: " + String(e.message || e).slice(0, 200)));
       await pg.addInitScript(() => { document.addEventListener("gcm:live", () => { window.__gcmLive = (window.__gcmLive || 0) + 1; }); });
+      if (c.now) await pg.clock.setFixedTime(new Date(c.now));
       await pg.goto(origin + c.path, { waitUntil: "load", timeout: 30000 });
       await pg.waitForTimeout(1200);
       if (c.click) {
