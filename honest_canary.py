@@ -66,6 +66,21 @@ def scores_page(rel, html):
     return f
 
 
+def hero_word(rel, html):
+    """The copy law's one fixed word: the Scores hero says "Scoreboard", and nothing else to the eye
+    (a day's page adds its day for a screen reader; the lit day tab under the word shows it)."""
+    m = re.search(r'<h1 class="sb-claim">(.*?)</h1>', html, re.S)
+    if not m:
+        return [f"copy: {rel} draws no hero heading"]
+    seen = re.sub(r'<span class="sr-only">.*?</span>', "", m.group(1), flags=re.S)
+    if seen != "Scoreboard":
+        return [f"copy: the Scores hero on {rel} says {re.sub('<[^>]+>', '', seen)!r}; the copy law's word is 'Scoreboard'"]
+    whole = re.sub(r"<[^>]+>", "", m.group(1))
+    if rel != "scores.html" and not re.fullmatch(r"Scoreboard, [A-Z][a-z]{2} [A-Z][a-z]{2} \d{1,2}", whole):
+        return [f"copy: the Scores hero on {rel} does not name its day to a screen reader ({whole!r})"]
+    return []
+
+
 def home_page(html):
     """The day tabs against the day sections, paired in page order (the gate's slate can hold two
     days of one name, a Tuesday at each end of its week, so a name is not a key)."""
@@ -147,6 +162,7 @@ def honest_canary(tree):
             continue        # a placeholder for a day the feed no longer holds draws no board
         n += 1
         f += scores_page(os.path.relpath(p, tree), html)
+        f += hero_word(os.path.relpath(p, tree), html)
     if not n:
         f.append("honest counts: no Scores page with a board was read")
     hp = os.path.join(tree, "index.html")
