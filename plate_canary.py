@@ -52,8 +52,9 @@ GATE_WIDTHS = [375, 1440]
 WARN_WIDTHS = [320]
 
 
-def sweep(tree, pages, widths=WIDTHS, dump=None):
-    """scripts/plate-fit.mjs over the pages. Returns (findings, summary, problems)."""
+def sweep(tree, pages, widths=WIDTHS, dump=None, width_only=False):
+    """scripts/plate-fit.mjs over the pages. Returns (findings, summary, problems). width_only reads the
+    page's own width and the phone tab bar and no plate (S-DONE: any page type, with or without Oswald)."""
     node = shutil.which("node")
     if not node:
         return [], None, ["plate fit: node is not installed, so no plate was read in a browser"]
@@ -61,7 +62,7 @@ def sweep(tree, pages, widths=WIDTHS, dump=None):
     try:
         cfgp = os.path.join(tmp, "config.json")
         with open(cfgp, "w", encoding="utf-8") as f:
-            json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump}, f)
+            json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump, "widthOnly": bool(width_only)}, f)
         try:
             # S-5.6 round 5: the sweep runs under the runner's text condition (whole-pixel advances from hinted
             # fonts), not this machine's, so a fit that depends on the machine's fonts is red on every machine.
@@ -378,9 +379,61 @@ def slate_layout(tree, live=None):
     return fails
 
 
+def every_type(tree):
+    """One page of every kind the build writes: each page at the root, and from each directory its first,
+    its middle and its largest (the page most likely to hold the longest row)."""
+    by = {}
+    for root, _d, fs in os.walk(tree):
+        for f in fs:
+            if f.endswith(".html"):
+                rel = os.path.relpath(os.path.join(root, f), tree)
+                by.setdefault(os.path.dirname(rel), []).append(rel)
+    out = []
+    for d, rels in sorted(by.items()):
+        rels.sort()
+        if d == "":
+            out += rels
+            continue
+        big = max(rels, key=lambda r: os.path.getsize(os.path.join(tree, r)))
+        out += sorted({rels[0], rels[len(rels) // 2], big})
+    return out
+
+
+TYPE_WIDTHS = [375, 1440]
+
+
+def type_widths(tree):
+    """S-DONE point 5: no page of any type is wider than the viewport at 375 or 1440, and at 375 every one
+    draws the tab bar with its five links inside the viewport. The slate layout above reads plates on the
+    home, Scores and game pages; this reads the page itself everywhere else too."""
+    if not tree or not os.path.isdir(tree):
+        return ["page width: no built tree, so no page was read"]
+    pages = every_type(tree)
+    kinds = {os.path.dirname(p) for p in pages}
+    fails = []
+    if len(kinds) < 15 or "index.html" not in pages:
+        fails.append(f"page width: the tree holds {len(kinds)} kind(s) of page; the read proves little")
+    found, summ, probs = sweep(tree, pages, TYPE_WIDTHS, width_only=True)
+    fails += [x.replace("plate fit:", "page width:") for x in probs if "findings" not in x]
+    if summ is not None:
+        if summ.get("loads", 0) < len(pages) * len(TYPE_WIDTHS):
+            fails.append(f"page width: {summ.get('loads', 0)} page loads for {len(pages)} pages at {TYPE_WIDTHS}; a page was not read")
+        print(f"page width: {len(pages)} pages of {len(kinds)} kinds at {TYPE_WIDTHS}, {summ.get('loads', 0)} loads, "
+              f"{len(found)} finding(s)")
+    for o in found:
+        fails.append(f"page width: {o['page']} at {o['width']}: {o['text']}: {o['why']}")
+    return fails
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, HERE)
+    if len(sys.argv) > 2 and sys.argv[2] == "--types":
+        f = type_widths(sys.argv[1])
+        for x in f:
+            print("FAIL", x)
+        print("page width:", "PASS" if not f else f"{len(f)} FAIL")
+        sys.exit(1 if f else 0)
     f = plate_canary(sys.argv[1] if len(sys.argv) > 1 else None)
     for x in f:
         print("FAIL", x)
