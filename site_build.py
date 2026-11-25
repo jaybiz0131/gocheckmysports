@@ -1323,10 +1323,13 @@ def footer(brand="site", fantasy=False, money=False):
                     # About and Archive live in the masthead nav; repeating them here gave
                     # every page two links to each and helped invert the link graph. The
                     # footer keeps what the nav does not carry.
-                    [("Archive", "/archive.html"), ("About", "/about.html"),
-                     ("Storylines", "/news.html"), ("The Record", "/keepers.html"),
-                     ("The Edition", EDITION_HREF or "/archive.html"),
-                     ("How we work", "/method.html"),
+                    [("Archive", "/archive.html"), ("About", "/about.html")]
+                    # S-DONE, the stale-lane rule: a lane quiet past LANE_FRESH_DAYS is not in the footer
+                    + [x for lane, x in (("storylines", ("Storylines", "/news.html")),
+                                         ("record", ("The Record", "/keepers.html")),
+                                         ("edition", ("The Edition", EDITION_HREF or "/archive.html")))
+                       if lane not in LANE_QUIET]
+                    + [("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmysports.com"),
@@ -3436,6 +3439,7 @@ def render_news_hub(items, dateline, pulse=None):
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">The news desk</h1>
+  {lane_quiet_p("storylines")}
   {rec}
   <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
     <h2 class="bd-h2">Storylines</h2></div></div>
@@ -7549,6 +7553,16 @@ WIRE_JS = """<script>(function(){
 def render_wire(items, dateline, now=None):
     now = now or _build_now()
     rows = _wire_rows(items, now)
+    if "wire" in LANE_QUIET:
+        # S-DONE, the stale-lane rule: nothing in 14 days, so the page says since when and draws no list
+        return shell(
+            f"The Wire - {NAME}",
+            "Everything this desk published and every game that finished, newest first, "
+            "with the time it happened.",
+            "News",
+            '<section class="page wrap wr-page"><div class="wr-head"><h1>The Wire</h1></div>'
+            f'{lane_quiet_p("wire")}</section>',
+            dateline, path="/wire.html")
     if not rows:
         # A5: an empty window prints its one named empty state; the page is never dropped, and
         # nothing older than WIRE_HOURS is ever drawn to fill it.
@@ -8441,17 +8455,13 @@ def _ia_week():
     the page groups Week 1's lists under Week 2's fixtures, which is what the first cut
     of N-7 did: a Week 1, final heading over Thursday-of-Week-2 kickoffs.
     """
+    # S-DONE point 7: THE WEEK IS THE CALENDAR'S. Until the week's first kickoff this returned the
+    # week before, "final", so from Tuesday to Thursday the board was headed "Week 11, final" in
+    # Week 12, and once the schedule file had dropped Week 11 it said "no lists yet" under that
+    # heading. The board names the week the date says (the manifest's rule, 6:00 AM ET Tuesday);
+    # with no list posted it says so and when the first is due; last week's lists are one tap
+    # away under Earlier, where N-7c put them.
     wk, _last = nfl_week()
-    first = None
-    for w in ((W2W_DATA or {}).get("weeks") or []):
-        if w.get("week") != wk:
-            continue
-        ks = [_utc_dt(g.get("kickoff_utc") or "") for g in (w.get("games") or [])]
-        ks = [k for k in ks if k]
-        first = min(ks) if ks else None
-    if first and _build_now() < first:
-        prev = (wk - 1) if isinstance(wk, int) and wk > 1 else None
-        return prev, True
     return wk, False
 
 
@@ -9902,20 +9912,53 @@ def render_game_page(g, points, board, wx, items, dateline):
                  schema_extra=_game_ld(g, description=_desc, image=_og))
 
 
-def render_fantasy_live(all_points, dateline):
-    """S-B3's all-games board."""
+def week_points(all_points):
+    """S-DONE point 7: the box scores of THIS week's games, merged by player. `all_points` holds
+    every NFL game the reading shows started or final, and on a Tuesday or Wednesday that is last
+    week's: production printed Week 11's leaders under "Points this week" on November 24. A game
+    belongs to the week when it kicked off at or after the week's start (Tuesday 6:00 AM ET)."""
+    ws = _bm.week_start(_build_now())
+    kick = {}
+    for L in (SB_DATA or {}).get("leagues") or []:
+        for g in L.get("games") or []:
+            kick[str(g.get("id"))] = _utc_dt(g.get("start_utc") or "")
     merged = {}
-    for pts in all_points.values():
-        merged.update(pts)
-    if not merged:
-        return None
+    for gid, pts in (all_points or {}).items():
+        k = kick.get(str(gid))
+        if k and k >= ws:
+            merged.update(pts)
+    return merged
+
+
+def render_fantasy_live(all_points, dateline):
+    """S-B3's all-games board. S-DONE: this week's games only, stamped with the reading's own
+    time, and always written: before the week's first game it says when that is, so the URL
+    answers every day of the week."""
+    merged = week_points(all_points)
+    wk = nfl_week()[0]
+    if merged:
+        inner = (fantasy_asof("Points", _mf()["data_utc"], "the official box score")
+                 + _leaders_module(merged, f"Week {wk} leaders" if wk else "Leaders", n=25, expand=False))
+    else:
+        nxt = None
+        for L in (SB_DATA or {}).get("leagues") or []:
+            if L.get("league") != "NFL":
+                continue
+            for g in L.get("games") or []:
+                k = _utc_dt(g.get("start_utc") or "")
+                if k and g.get("state") == "pre" and k >= _build_now() and (nxt is None or k < nxt[0]):
+                    nxt = (k, g)
+        first = ""
+        if nxt:
+            a, h = nxt[1].get("away") or {}, nxt[1].get("home") or {}
+            first = (f' The first game is {esc(a.get("abbr") or "")} at {esc(h.get("abbr") or "")}, '
+                     f'{esc(nxt[0].astimezone(_ET).strftime("%a"))} {esc(_et_clock(nxt[0]))}.')
+        inner = (f'<p class="bd-read">No {"Week " + str(wk) + " " if wk else ""}game has been played yet.{first}</p>')
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/index.html">Home</a> / Fantasy / Points</p>
   <h1 class="lx-h1" style="margin-bottom:6px">Fantasy points</h1>
   <p class="lx-dek">Every player with a stat line this week, across every game.</p>
-  {fantasy_asof("Points", _build_now().strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "the official box score")}
-  {_leaders_module(merged, f"Week {nfl_week()[0]} leaders", n=25, expand=False)}
+  {inner}
 </section></main>"""
     return shell(f"Fantasy points - {NAME}",
                  "Fantasy points in PPR, half-PPR and standard, computed from the "
@@ -10071,19 +10114,32 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
     """S-B7. The hub: the official answer, then the surfaces that give it."""
     blocks = []
     if board:
-        top = board["teams"][:6]
+        # S-DONE point 7: the cards are THIS week's lists (a team's list for its game of the week,
+        # the same rule the board itself files by). They were the first six teams of the eight-day
+        # board, which on a Wednesday is last week's lists under this week's heading.
+        _wk_games = next((w.get("games") or [] for w in ((W2W_DATA or {}).get("weeks") or [])
+                          if w.get("week") == _ia_week()[0]), [])
+        _by_id = {str(t["id"]): t for t in (board.get("teams") or []) if t.get("id")}
+        top = []
+        for g in _wk_games:
+            for k in ("away_id", "home_id"):
+                t = _by_id.get(str(g.get(k)))
+                got = _ia_team_for_game(t, g) if t else None
+                if got:
+                    top.append(got)
+        top.sort(key=lambda t: t.get("first_seen") or "", reverse=True)
         cards = "".join(
             f'<a class="bd-card" href="/fantasy/inactives.html" '
             f'style="text-decoration:none"><span class="bd-label">{esc(t["team"])}</span>'
             f'<span class="bd-read">{t["count"]} inactive</span>'
             f'<span class="bd-stamp">posted {esc(_et(t["first_seen"]))}</span></a>'
-            for t in top)
+            for t in top[:6])
         blocks.append(("inactives",
             f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow">{esc(_ia_heading(board))}</span>'
-            f'<span class="bd-stamp">{_ia_hub_count(board)}</span></div>'
+            f'<span class="bd-stamp">{esc(_ia_week_summary(board, _wk_games))}</span></div>'
             f'<a class="bd-more" href="/fantasy/inactives.html">All teams</a>'
-            f'</div><div class="bd-cards4">{cards}</div></section>'))
+            f'</div>' + (f'<div class="bd-cards4">{cards}</div>' if cards else "") + '</section>'))
     if desig:
         counts = " · ".join(f'{k} {len(v)}' for k, v in desig["groups"].items() if v)
         blocks.append(("designations",
@@ -10091,14 +10147,12 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             f'<span class="bd-eyebrow">Designations{_wk_suffix()}</span>'
             f'<span class="bd-stamp">{counts}</span></div>'
             f'<a class="bd-more" href="/fantasy/injuries.html">All</a>'
-            f'</div></section>'))
-    merged = {}
-    for pts in (all_points or {}).values():
-        merged.update(pts)
+            f'</div>{fantasy_asof("Designations", desig.get("last_poll") or "")}</section>'))
+    merged = week_points(all_points)
     if merged:
         blocks.append(("live", _leaders_module(merged, "Points this week", n=8, expand=False)
                       .replace('</section>',
-                               fantasy_asof("Points", _mf()["data_utc"] or _mf()["built_utc"])
+                               fantasy_asof("Points", _mf()["data_utc"])
                                + '<a class="bd-more" href="/fantasy/live.html">'
                                'The full board</a></section>')))
     if not blocks:
@@ -10143,7 +10197,7 @@ def render_fantasy_hub(board, desig, all_points, wx, sb, dateline):
             # one surface that disagreed with every other. Day then time, always ET.
             f'<span class="bd-src">{esc(_day_time(g))}</span>'
             f'<span class="w2w-cars">'
-            + (f'<span class="w2w-car">{esc(g.get("network"))}</span>'
+            + (f'<span class="w2w-car">{esc(network_name(g.get("network")))}</span>'
                if network_name(g.get("network")) else '<span class="bd-src">not announced</span>')
             + '</span></div>' for g in games[:6])
         if rows:
@@ -10322,7 +10376,7 @@ def render_player_page(p, board, dateline):
         nxt = (f'<p class="bd-read">Next game: '
                f'{"vs " if n.get("home") else "at "}{esc(n["opponent"])}'
                + (f' · {esc(when)}' if when else "")
-               + (f' · {esc(n["network"])}' if n.get("network") else "") + '</p>')
+               + (f' · {esc(network_name(n["network"]))}' if network_name(n.get("network")) else "") + '</p>')
     hist = ""
     rows = [d for d in (p.get("designations") or []) if d.get("status")]
     # UX-18 (S-17): "This season" with one row that repeats the answer line is the
@@ -10350,7 +10404,7 @@ def render_player_page(p, board, dateline):
   {nxt}{hist}
   <p class="bd-src"><a href="/fantasy/inactives.html">Inactives</a> ·
      <a href="/fantasy/injuries.html">Designations</a></p>
-  {fantasy_asof("Status", p.get("inactive_seen") or "", "the league injury report")}
+  {fantasy_asof("Status", p.get("inactive_seen") or (IA_DESIG or {}).get("last_poll") or "", "the league injury report")}
 </section></main>"""
     return shell(f'Is {p.get("name")} playing this week? Official status - {NAME}',
                  f'The official status for {p.get("name")}, {p.get("team")} '
@@ -11027,6 +11081,7 @@ def render_keepers(items, dateline):
     """/keepers.html: every lane, same shape as the homepage sections."""
     body = f"""<main class="wrap"><section class="page">
   <h1 class="sr-only">The Record</h1>
+  {lane_quiet_p("record")}
   {record_sections(items, home=False)}
   {record_full_index(items, shown=0)}
 </section></main>"""
@@ -11605,6 +11660,8 @@ def home_lead(items, now=None):
                 f'<p class="cr-when">{esc(fmt_when(ed))}</p>'
                 + (f'<p class="cr-lead">{esc(ed.get("bottom_line") or "")}</p>' if ed.get("bottom_line") else "")
                 + (f'<ul class="cr-list">{lis}</ul>' if lis else "") + '</section>')
+    if "wire" in LANE_QUIET:
+        return ""        # S-DONE, the stale-lane rule: a quiet Wire is off the home
     finals = [r for r in _wire_rows(items, now) if r["kind"] == "Final" and r["note"] in ("NFL", "CFB")][:3]
     if finals:
         lis = "".join(
@@ -11806,6 +11863,57 @@ HOME_LEAD_SLUG = None  # set at build: the homepage lead, so the Record cannot r
 EDITION_HREF = None  # set at build by edition_link(): the newest Edition, or /archive.html
 EDITION_LATEST = None  # the newest Edition item when it is inside EDITION_FRESH_HOURS, else None
 EDITION_FRESH_HOURS = 48
+
+
+# ---- S-DONE: THE STALE-LANE RULE (Jack's ruling of November 24, 2026) ------------------------------
+# A story lane with no new item in the last 14 days comes off the navigation and the home, and its
+# hub prints one honest line with the date of its last item, rather than sitting as if it were
+# current. The lanes: the Record, the Storylines, the Edition, the Wire. The desk stopped its
+# stories and its Edition on October 12; six weeks later every page's footer still linked all
+# three as today's.
+# What stays: the hub's own URL, and under its line every link it held. A correct story nobody
+# can reach is the worse failure (A5, and the desk's standing doctrine), and the Archive, which is
+# where a quiet lane lives, links each hub.
+LANE_FRESH_DAYS = 14
+LANE_QUIET = {}      # set at build by lanes_quiet(): {lane: the time of its last item, or None}
+
+
+def lanes_quiet(items, now=None):
+    """{lane: last item's time} for each lane with nothing new in LANE_FRESH_DAYS at `now`. A lane
+    that never held an item is quiet with None. An item dated after `now` is not counted."""
+    now = now or _build_now()
+
+    def newest(rows, key="published_utc"):
+        ts = [_utc_dt(str(i.get(key) or "")) for i in rows]
+        ts = [t for t in ts if t and t <= now]
+        return max(ts) if ts else None
+    try:
+        import edition as _ed
+        is_ed = _ed._is_edition
+    except Exception:
+        is_ed = lambda d: False
+    real = [i for i in (items or []) if not i.get("example")]
+    by_lane, _picks = _record_inventory(real)
+    last = {"record": newest([i for v in by_lane.values() for i in v]),
+            "storylines": newest([i for i in real if not is_ed(i)]),
+            "edition": newest([i for i in real if is_ed(i)])}
+    finals = [_utc_dt(str(g.get("final_seen_utc") or g.get("start_utc") or ""))
+              for L in (SB_DATA or {}).get("leagues") or [] for g in L.get("games") or []
+              if g.get("state") == "post"]
+    finals = [t for t in finals if t and t <= now]
+    last["wire"] = max([t for t in (last["storylines"], max(finals) if finals else None) if t], default=None)
+    lim = datetime.timedelta(days=LANE_FRESH_DAYS)
+    return {k: t for k, t in last.items() if t is None or now - t > lim}
+
+
+def lane_line(t):
+    """The one line a quiet lane's hub prints: the date of its last item, in ET."""
+    return f"Nothing new since {t.astimezone(_ET).strftime('%B %-d, %Y')}." if t else "Nothing new."
+
+
+def lane_quiet_p(lane):
+    return (f'<p class="bd-read lane-quiet">{esc(lane_line(LANE_QUIET[lane]))}</p>'
+            if lane in LANE_QUIET else "")
 
 
 def edition_link(items, now=None):
@@ -13210,6 +13318,11 @@ def build():
     # any page renders, because the masthead is on every one of them.
     global EDITION_HREF, EDITION_LATEST
     EDITION_HREF, EDITION_LATEST = edition_link(items)
+    global LANE_QUIET
+    LANE_QUIET = lanes_quiet(items)
+    if LANE_QUIET:
+        print("lanes: quiet past " + str(LANE_FRESH_DAYS) + " days and off the navigation: " + ", ".join(
+            f"{k} (last {t.astimezone(_ET).strftime('%b %-d') if t else 'never'})" for k, t in sorted(LANE_QUIET.items())))
     print(f"nav: The Edition links {EDITION_HREF}"
           + ("" if EDITION_LATEST else f" (no Edition inside {EDITION_FRESH_HOURS} hours)"))
 

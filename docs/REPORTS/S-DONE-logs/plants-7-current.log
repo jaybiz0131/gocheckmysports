@@ -1,0 +1,40 @@
+=== PLANT: the board is headed by last week until the first kickoff
+::error::current: the inactives board's week is (11, True), not Week 12 by date
+::error::current: the board is headed 'Week 11, final' on the Wednesday of Week 12
+::error::current: a fantasy surface is headed by last week ('final') on the Wednesday of Week 12
+    exit=1
+=== PLANT: the hub draws the first six teams the board holds
+::error::current: the hub draws Washington's Week 11 list under this week's heading
+    exit=1
+=== PLANT: every box score the reading holds is this week
+::error::current: the hub prints last Monday's box score as 'Points this week'
+::error::current: with no Week 12 game played the points page reads ' Home / Fantasy / Points Fantasy points Every player with a stat line this week, across every game. Updated Nov 25, 8:55 AM ET Week 12 leaders PPR Half Standard'
+::error::current: with a Week 12 box score the hub's points are not that game's alone
+    exit=1
+=== PLANT: the hub's designations carry no stamp
+::error::current: the hub's designations carry no stamp of their own (the report read at 4:20 AM ET)
+    exit=1
+=== PLANT: a player page is stamped only when listed inactive
+::error::current: a player page with a designation and no inactive listing carries no stamp
+    exit=1
+=== PLANT: the hub prints the feed's code for the carrier
+::error::current: the hub's Tonight block prints the feed's code for the carrier
+    exit=1
+=== PLANT: the lanes stay live for 60 days
+::error::lanes: record is read as live on November 25; its last item is of 2026-10-08
+::error::lanes: storylines is read as live on November 25; its last item is of 2026-10-12
+::error::lanes: edition is read as live on November 25; its last item is of 2026-10-12
+    exit=1
+=== PLANT: the footer links every lane whatever its age
+::error::lanes: the footer still links Storylines, quiet since October 12
+::error::lanes: the footer still links The Record, quiet since October 12
+::error::lanes: the footer still links The Edition, quiet since October 12
+    exit=1
+=== PLANT: the Record's page prints no line
+::error::lanes: the Record's page does not say 'Nothing new since October 8, 2026.'
+    exit=1
+=== PLANT: a quiet Wire stays on the home
+::error::lanes: the home still carries the Wire's lead with the Wire quiet since February 8
+    exit=1
+=== RESTORED
+CURRENT CANARY: PASS

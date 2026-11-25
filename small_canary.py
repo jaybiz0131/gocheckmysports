@@ -46,8 +46,10 @@ def small_canary():
             fails.append(f"small: the phone bar Fantasy link points at {bar}, not /fantasy/index")
 
         # points-stamp
-        pts = {"g1": {"p1": {"name": "A Player", "team": "KC", "pos": "QB", "ppr": 30.0,
-                             "half": 30.0, "standard": 30.0, "line": ["x"]}}}
+        # S-DONE point 7: the hub's points are this week's games only, so the box score is a game of the
+        # fixture's week (KC at BUF, Sunday October 11), not an id the reading does not hold
+        pts = {"KCBUF": {"p1": {"name": "A Player", "team": "KC", "pos": "QB", "ppr": 30.0,
+                                "half": 30.0, "standard": 30.0, "line": ["x"]}}}
         hub = sb.render_fantasy_hub(None, {"groups": {"Out": ["a"]}, "last_poll": "2026-10-11T12:00:00Z"},
                                     pts, None, sbd, "")
         m = sb.MANIFEST
