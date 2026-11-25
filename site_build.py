@@ -11741,9 +11741,12 @@ def _render_home(items, dateline):
         board = ('<p class="bd-src wb-none">No NFL or college football games are scheduled '
                  'this week.</p>')
     # S-2d item 2: at 1100px and up the wall is the first view; the band and the cards follow
+    # S-DONE 13: the board comes before the lead (Sprint A's A6 drew the lead first). On a phone the lead
+    # was a screen of the latest finals between the band and the open day's first game. The order is the
+    # markup's, not a stylesheet's: a block reordered by CSS moves on the screen while the page arrives.
     body = (f'<div class="wrap wl-wrap" data-live="wall">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
-  <div class="hl-slot" id="lead" data-live="lead">{home_lead(items)}</div>
   <div class="scoreband scoreband-page wb-board" data-live="board" data-today="{esc(_mf()["date"])}">{board}</div>
+  <div class="hl-slot" id="lead" data-live="lead">{home_lead(items)}</div>
   <div class="cr-slot" id="conditions-report" data-slot="conditions-report">{cr_slot(cr_latest())}</div>
 </section></main>"""
     # S-DONE point 9: the day's games the home draws, as events (inside the byte budget: the page is measured with them)

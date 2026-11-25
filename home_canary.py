@@ -217,10 +217,12 @@ def home_canary():
             return fails
         kids = re.findall(r'<div class="([^"]*)"', main.group(1))
         top = [k for k in kids if k.startswith(("hl-slot", "scoreband scoreband-page wb-board", "cr-slot"))]
-        if top != ["hl-slot", "scoreband scoreband-page wb-board", "cr-slot"]:
-            fails.append(f"home: the page body is {top}, expected the lead, the board, then the report slot")
+        # S-DONE 13: the board first, then the lead (A6 drew the lead first; on a phone it stood between
+        # the band and the day's first game)
+        if top != ["scoreband scoreband-page wb-board", "hl-slot", "cr-slot"]:
+            fails.append(f"home: the page body is {top}, expected the board, the lead, then the report slot")
         # Sprint A, A6: the lead is a headline-shaped block that is not a game card, on every build
-        lead = re.search(r'<div class="hl-slot" id="lead"[^>]*>(.*?)</div>\s*<div class="scoreband', main.group(1), re.S)
+        lead = re.search(r'<div class="hl-slot" id="lead"[^>]*>(.*?)</div>\s*<div class="cr-slot', main.group(1), re.S)
         if not lead or not re.search(r'<h2 class="cr-h">(?:<a [^>]*>)?[^<\s][^<]*', lead.group(1)):
             fails.append("home: the lead slot carries no headline")
         elif 'class="tk-c' in lead.group(1):

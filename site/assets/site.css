@@ -3413,3 +3413,15 @@ body.sbp .sb-hero :is(.sb-count,.sb-stamp){text-shadow:none}
 .wb-board .wb-day .tk-g3 + h3.wb-wl{margin-top:26px}
 .wb-wins-k{align-self:center;margin-right:2px;font:700 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
   color:#EBE9E3;opacity:.8}
+
+/* S-DONE 13 (November 25, 2026): THE HOME'S FIRST GLANCE ON A PHONE. Under the band came the lead, a
+   screen of the latest finals, and only then the open day's games, 480px under the band at 375: a
+   reader met yesterday before today. The board now comes first in the markup (site_build._render_home)
+   and the lead follows it. Under 720px the space over the first card comes in as well: 24 of the
+   page's 34px, the board's and the day's 16px, the day heading's 26px and 12px. Nothing here depends
+   on what the parser has not reached yet, so nothing moves while the page arrives. */
+@media (max-width:720px){
+  main > .page > .wb-board:first-child{margin-top:-24px;padding-top:6px}
+  main > .page > .wb-board:first-child .wb-day{padding-top:8px}
+  main > .page > .wb-board:first-child .wb-day .tk-lg{margin:8px 0 10px}
+}
