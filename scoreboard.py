@@ -33,6 +33,7 @@ sys.path.insert(0, HERE)
 import common  # noqa: E402
 
 OUT = os.path.join(HERE, "site", "data", "scoreboard.json")
+LIVE = os.path.join(HERE, "site", "data", "live", "scoreboard.json")     # live_board.py's copy of each re-read
 COLORS = os.path.join(HERE, "site", "data", "team-colors.json")
 TIMEOUT = 15
 STALE_HOURS = 6
@@ -359,6 +360,21 @@ def _league(name, path, colorkey, cmap):
     return games
 
 
+def last_reading(paths=None):
+    """The newest reading on disk by its own fetched_at: the committed snapshot or the re-read's
+    copy beside the live parts. {} when neither can be read."""
+    best = {}
+    for p in (paths or (OUT, LIVE)):
+        try:
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+        except Exception:
+            continue
+        if str(d.get("fetched_at") or "") > str(best.get("fetched_at") or ""):
+            best = d
+    return best
+
+
 def refresh(check=False):
     """Fetch every league. `check` fetches without writing the committed file (the gate's retry,
     W-45). Returns the payload, or None when every league failed."""
@@ -380,11 +396,11 @@ def refresh(check=False):
     # S-60: the time this desk first read each game as final, carried from the last snapshot, so a
     # final card says "Final as of 3:08 PM ET" and the Final tab runs newest first. It is the
     # desk's read, never the league's end time, and the card says "as of".
-    try:
-        with open(OUT, encoding="utf-8") as f:
-            _prev = json.load(f)
-    except Exception:
-        _prev = {}
+    # S-DONE: the last reading is the newer of the committed file and the re-read's copy
+    # (site/data/live/scoreboard.json, written every few minutes through a game window). Read
+    # against the committed file alone, which changes only when a build is due, a final was seen
+    # for the first time again on every tick and its "as of" moved with the clock.
+    _prev = last_reading()
     import s60
     s60.stamp_finals(payload, _prev, payload["fetched_at"])
     if check:

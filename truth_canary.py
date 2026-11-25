@@ -116,7 +116,7 @@ def check_agreement(pages, manifest, count_for):
         for s in stamps:
             # S-60 item 6: the board's stamp gains ", refreshed every N minutes" on a game-day weekend
             if s != want_stamp and not (name in board_pages and re.fullmatch(
-                    re.escape(want_stamp) + r", refreshed every \d+ minutes when the run fires", s)):
+                    re.escape(want_stamp) + r", refreshed every \d+ minutes(?: from (?:[A-Z][a-z]{2} )?\d{1,2}:\d\d [AP]M ET)?", s)):
                 fails.append(f"truth: {name} stamp reads {s!r}, the manifest says {want_stamp!r}")
         if name in count_for:
             if not counts:

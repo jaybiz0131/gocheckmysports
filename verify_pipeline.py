@@ -1971,6 +1971,16 @@ def layer1_canary():
            "netlify ignore canary (U-11): a published page changed and did not build")
     _check(_ni.decide(["site/data/scoreboard.json"], _q)[0] is False, fails,
            "netlify ignore canary (U-11): board data changed and did not build")
+    # S-DONE: the re-read. A push that carries only the board's live parts is a number changing, not a
+    # deploy (about 150 of them on a Saturday); the same push with the build's snapshot is a due build.
+    _live = ["site/data/live/home.json", "site/data/live/scores.json", "site/data/live/scoreboard.json"]
+    _check(_ni.decide(_live, _q)[0] is True, fails,
+           "netlify ignore canary (S-DONE): a re-read of the board (site/data/live/ only) built the site; "
+           "every five minutes through a game window that is the team's deploy allowance")
+    _check(_ni.decide(_live + ["site/data/scoreboard.json"], _q)[0] is False, fails,
+           "netlify ignore canary (S-DONE): a due score build (the snapshot with the re-read) was SKIPPED")
+    _check(_ni.decide(_live + ["site_build.py"], _q)[0] is False, fails,
+           "netlify ignore canary (S-DONE): a generator change was skipped because a re-read rode with it")
     _check(_ni.is_doc("site/data/x.md") is False, fails,
            "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
            "treated as a document; it can be served")
@@ -3396,6 +3406,8 @@ def layer1_canary():
     _live_slate = []
     fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
     fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    import live_canary as _lvc
+    fails.extend(_run(FIXTURE_TEST, "live", lambda: _lvc.live_canary(_fixture_tree())))   # S-DONE: the board re-read in place, no deploy
     fails.extend(_run(FIXTURE_TEST, "runner", _runner_canary))   # S-61: a canary cannot return a failing status
 
     # S-61: the two kinds, counted by the runner, and every warning a live canary printed, by name

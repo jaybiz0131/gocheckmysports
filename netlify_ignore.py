@@ -29,7 +29,13 @@ WINDOWS = [
     ({5}, 16, 23),          # Saturday slate
 ]
 
-SKIPPABLE_PREFIXES = ("site/data/inactives/",)
+# "site/data/live/" (S-DONE, 25 November 2026): the board as live_board.py re-reads it through a
+# game window, every five minutes. The home and the Scores page fetch those files from the
+# repository themselves, as the inactives board does, so a push that touches nothing else changes
+# no page a deploy would. The build does not read them for any page (scoreboard.refresh reads the
+# copy there only for the time a final was first seen). A due score build still builds: its push
+# also carries site/data/scoreboard.json, which is not on this list.
+SKIPPABLE_PREFIXES = ("site/data/inactives/", "site/data/live/")
 SKIPPABLE_FILES = ("ledger.json",)
 
 # U-11 (24 September 2026). A COMMIT THAT CHANGES NOTHING IN THE PUBLISHED TREE DOES NOT

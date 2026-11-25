@@ -6384,6 +6384,7 @@ TEAM_PIN_JS = """<script>(function(){
       });
     }
   }
+  document.addEventListener('gcm:live', function(){ apply(); });
   document.addEventListener('click', function(e){
     var b=e.target.closest('[data-tpick]'); if(!b) return;
     e.preventDefault();
@@ -7657,13 +7658,69 @@ def standings_strip(st):
 # page continues at /scores/<date>-2.html. The cut is by bytes of the rendered page, never by a
 # card count, because a card's weight changes with what the Worker and the feed give it.
 def _asof_line():
-    """S-60 item 6: "Scores as of 3:43 PM ET, refreshed every 30 minutes". The number is
-    cadence.EVERY_MIN, the same constant that decides each tick of scores-cadence.yml, and it is
-    printed only on the days that schedule runs every N minutes (Saturday and Sunday)."""
+    """The board's stamp and its schedule: "Scores as of 3:43 PM ET, refreshed every 5 minutes"
+    while a game window is on, "Scores as of 6:00 AM ET, refreshed every 5 minutes from Thu 12:30
+    PM ET" before the next kickoff, the stamp alone when the feed holds no game to come. N is
+    cadence.LIVE_EVERY_MIN, the constant the tick of scores-cadence.yml sleeps by, and the window
+    is cadence.window, the rule that tick holds by (S-DONE; S-60 item 6 printed the build cadence)."""
     import cadence as _cad
     m = _mf()
-    wd = datetime.date.fromisoformat(m["date"]).weekday()
-    return _bm.asof(m) + _s60.cadence_line(wd, _cad.EVERY_MIN, _cad.WEEKEND)
+    now = _build_now()
+    state, nxt = _cad.window(now, SB_DATA or {})
+    when = ""
+    if state != "on" and nxt:
+        et = nxt.astimezone(_ET)
+        when = (et.strftime("%-I:%M %p ET") if et.date() == now.astimezone(_ET).date()
+                else et.strftime("%a %-I:%M %p ET"))
+    return _bm.asof(m) + _s60.cadence_line(state, _cad.LIVE_EVERY_MIN, when)
+
+
+def _asof_attr():
+    """The reading's own time on the stamp, for the re-read: a page takes a newer board only."""
+    t = (_mf().get("data_utc") or "")
+    return f' data-asof="{esc(t)}"' if t else ""
+
+
+def live_root(kind, day):
+    """The attributes LIVE_JS reads off the band: which file, for which day, drawn by which look."""
+    import live_board as _lb
+    import hashlib
+    try:
+        look = hashlib.md5(open(os.path.join(HERE, "site", "assets", "site.css"), "rb").read()).hexdigest()[:10]
+    except OSError:
+        look = "0"
+    return (f' data-live-root="{kind}" data-live-day="{esc(day)}" data-live-look="{look}"'
+            f' data-live-src="{_lb.RAW}{kind}.json"')
+
+
+# S-DONE: THE RE-READ. While a game window is on, scores-cadence.yml commits the board as this
+# build's own renderer draws it (live_board.py) every cadence.LIVE_EVERY_MIN minutes, and this
+# reads it from the repository and replaces the parts a score changes: the count and the stamp,
+# the state tabs and the three panels on Scores; the wall, the lead and the week board on the
+# home. No deploy is spent on a number. A file drawn by another stylesheet, for another day, or
+# no newer than the page changes nothing; without script the page is the build's, complete.
+LIVE_JS = """<script>(function(){
+  var root = document.querySelector('[data-live-root]');
+  if (!root || !window.fetch) return;
+  var src = root.getAttribute('data-live-src'), day = root.getAttribute('data-live-day'),
+      look = root.getAttribute('data-live-look');
+  function asof(){ var s = document.querySelector('[data-asof]'); return s ? s.getAttribute('data-asof') : ''; }
+  function paint(doc){
+    if (!doc || doc.look !== look || doc.day !== day || !doc.parts || !(doc.asof_utc > asof())) return;
+    Object.keys(doc.parts).forEach(function(k){
+      var el = document.querySelector('[data-live="' + k + '"]');
+      if (el) el.innerHTML = doc.parts[k];
+    });
+    document.dispatchEvent(new Event('gcm:live'));
+  }
+  function tick(){
+    fetch(src + '?t=' + Date.now(), {cache: 'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; }).then(paint).catch(function(){});
+  }
+  tick();
+  setInterval(function(){ if (!document.hidden) tick(); }, 120000);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) tick(); });
+})();</script>"""
 
 
 # S-60: the state tabs and the league filter. The page is built with the default tab open and every
@@ -7697,6 +7754,7 @@ document.addEventListener('click',function(e){
   else lg=a.getAttribute('data-league');
   apply();
 });
+document.addEventListener('gcm:live',apply);
 apply();
 })();</script>"""
 
@@ -7913,7 +7971,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
                            for lg in leagues_here)
                  + '</div>')
         dflt, n, panel_html = panels(iso, items)
-        stabs = ('<nav class="tk-tabs sc-states" aria-label="Games by state">'
+        stabs = ('<nav class="tk-tabs sc-states" data-live="states" aria-label="Games by state">'
                  + "".join(f'<a class="tk-tab{" on" if t == dflt else ""}" data-tab="{t}" href="#s-{t}">'
                            f'{t.title()}<small>{n[t]}</small></a>' for t in _s60.TABS) + '</nav>')
         nav = ['<nav class="tk-tabs sc-days" aria-label="Scores by day">']
@@ -7928,7 +7986,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
         _orn = _sb_ornament([g for _l, g in days[iso]], datetime.date.fromisoformat(iso))
         count_span = (f'<span class="sb-count" data-mf="count">{esc(count_line)}</span>\n        '
                       if count_line else "")
-        band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{built}" data-built-et="{built_et}" aria-label="Scores">
+        band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" data-built="{built}" data-built-et="{built_et}"{live_root("scores", iso)} aria-label="Scores">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
@@ -7936,8 +7994,8 @@ def render_scores_pages(sb, board, dateline, wx=None):
       <div class="sb-promise-l">
         <h1 class="sb-claim">{esc(h1)}</h1>
       </div>
-      <span class="sb-countwrap">
-        {count_span}<span class="sb-stamp" data-mf="stamp">{esc(_asof_line())}</span>
+      <span class="sb-countwrap" data-live="count">
+        {count_span}<span class="sb-stamp" data-mf="stamp"{_asof_attr()}>{esc(_asof_line())}</span>
       </span>
     </div>
     <div class="sb-tabrow">{ltabs}{_week_link()}</div>
@@ -7950,9 +8008,9 @@ def render_scores_pages(sb, board, dateline, wx=None):
 </section>
 <div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + TEAM_PIN_JS + LENS_JS
         body = band + f"""<main class="wrap"><section class="page">
-    <div class="scoreband scoreband-page" id="all" data-default="{dflt}">{panel_html}</div>
+    <div class="scoreband scoreband-page" id="all" data-live="panels" data-default="{dflt}">{panel_html}</div>
     {standings_strip(ST_DATA) if ST_DATA else ""}
-</section></main>{SC_STATE_JS}"""
+</section></main>{SC_STATE_JS}{LIVE_JS}"""
         if path == "/scores.html":
             title = f"Scores - {NAME}"
             desc = ("Every score across the leagues this desk covers, with the "
@@ -10905,17 +10963,21 @@ WB_TABS_JS = """
   var tabs = document.querySelectorAll('.wb-tabs [data-day]');
   var days = document.querySelectorAll('.wb-day');
   if (!tabs.length || !days.length) return;
+  var cur = null;
   function show(day){
     /* The build's first state (data-wb, data-wb-want) hands over to the hidden attribute here. */
     var h = document.documentElement, found = false;
+    days = document.querySelectorAll('.wb-day');      /* S-DONE: a re-read replaces the sections */
     days.forEach(function(s){ var on = day === 'all' || s.getAttribute('data-day') === day;
       s.hidden = !on; if (on) found = true; });
     if (!found) return false;
     h.removeAttribute('data-wb-want');
     days.forEach(function(s){ s.removeAttribute('data-wb'); });
     tabs.forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-day') === day); });
+    cur = day;
     return true;
   }
+  document.addEventListener('gcm:live', function(){ if (!cur || !show(cur)) show(opening()); });
   tabs.forEach(function(t){
     t.addEventListener('click', function(ev){
       if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
@@ -10935,6 +10997,7 @@ WB_TABS_JS = """
      paint, and this repeats the same answer through `hidden`, so it moves nothing. */
   function played(sec){ return !sec.hasAttribute('data-cut-unplayed') && !sec.querySelector('article[data-state="pre"],article[data-state="in"]'); }
   function opening(){
+    days = document.querySelectorAll('.wb-day');
     var bd = document.querySelector('.wb-board');
     var today = (bd && bd.getAttribute('data-today')) || '';
     var list = Array.prototype.slice.call(days).sort(function(a, b){
@@ -11104,7 +11167,7 @@ def week_board(sb):
             for w in _carriage.WINDOW_ORDER if w in sw) + '</div>'
     count_line = _mf_count_line(BOARD_LEAGUES)
     _orn = _sb_ornament([g for _k, g in all_games])
-    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}" aria-label="This week">
+    band = f"""<section class="scoreband sb-hero sb-hero-inner{'' if _orn else ' no-orn'}"{live_root("home", m["date"])} aria-label="This week">
   <div class="sb-bg" aria-hidden="true"></div>
   <div class="sb-scrim" aria-hidden="true"></div>
   <div class="wrap sb-inner">
@@ -11112,9 +11175,9 @@ def week_board(sb):
       <div class="sb-promise-l">
         <h1 class="sb-claim">This week</h1>
       </div>
-      <span class="sb-countwrap">
+      <span class="sb-countwrap" data-live="count">
         <span class="sb-count" data-mf="count">{esc(count_line)}</span>
-        <span class="sb-stamp" data-mf="stamp">{esc(_asof_line())}</span>
+        <span class="sb-stamp" data-mf="stamp"{_asof_attr()}>{esc(_asof_line())}</span>
       </span>
     </div>
     <div class="sb-tabrow"><div class="tk-tabs wb-tabs">{"".join(tab_html)}</div></div>
@@ -11124,7 +11187,7 @@ def week_board(sb):
   </div>
   {_orn}
 </section>
-<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + WB_PAINT_JS + WB_TABS_JS + TEAM_PIN_JS + LENS_JS
+<div class="sb-fade" aria-hidden="true"></div>""" + _team_pin_index(TEAM_DATA) + SB_HERO_JS + WB_PAINT_JS + WB_TABS_JS + TEAM_PIN_JS + LENS_JS + LIVE_JS
     return band, ("".join(sections))
 
 
@@ -11457,9 +11520,9 @@ def _render_home(items, dateline):
         board = ('<p class="bd-src wb-none">No NFL or college football games are scheduled '
                  'this week.</p>')
     # S-2d item 2: at 1100px and up the wall is the first view; the band and the cards follow
-    body = (f'<div class="wrap wl-wrap">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
-  <div class="hl-slot" id="lead">{home_lead(items)}</div>
-  <div class="scoreband scoreband-page wb-board" data-today="{esc(_mf()["date"])}">{board}</div>
+    body = (f'<div class="wrap wl-wrap" data-live="wall">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
+  <div class="hl-slot" id="lead" data-live="lead">{home_lead(items)}</div>
+  <div class="scoreband scoreband-page wb-board" data-live="board" data-today="{esc(_mf()["date"])}">{board}</div>
   <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
 </section></main>"""
     return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/",
@@ -11621,6 +11684,11 @@ NAV_CROSSCUT = frozenset({"Scores section", "Injuries", "Transactions"})
 # but filtered out of the rail; they render in the masthead and the footer instead.
 # Set at build once where_to_watch has reported. False keeps its nav entry off.
 W2W_LIVE = False
+# S-DONE: the re-read (live_board.py). True while a tick of scores-cadence.yml renders the home and
+# the Scores page to cut their live parts out: the same build, without the stages those two pages
+# do not read (team schedules, the inactives poll, share cards, game and player pages, the source
+# trial), stopped once the Scores pages are written. The scoreboard is the file the tick just read.
+LIVE_TICK = False
 MANIFEST = None      # set at build by build_manifest.build(): the one truth
 W2W_DATA = None      # set at build by where_to_watch.load()
 HOME_LEAD_SLUG = None  # set at build: the homepage lead, so the Record cannot repeat it
@@ -12939,7 +13007,8 @@ def build():
     SB_DATA = None
     try:
         import scoreboard as _sbmod
-        _sbmod.refresh()
+        if not LIVE_TICK:
+            _sbmod.refresh()
         SB_DATA = _sbmod.load()
     except Exception as _e:
         print(f"scoreboard: unavailable ({type(_e).__name__}); band withheld")
@@ -13004,7 +13073,8 @@ def build():
     ST_DATA = None
     try:
         import standings as _stmod
-        _stmod.refresh()
+        if not LIVE_TICK:
+            _stmod.refresh()
         ST_DATA = _stmod.load()
     except Exception as _e:
         print(f"standings: unavailable ({type(_e).__name__}); tables withheld")
@@ -13016,7 +13086,8 @@ def build():
     TEAM_DATA = None
     try:
         import schedules as _schmod
-        _schmod.refresh()
+        if not LIVE_TICK:
+            _schmod.refresh()
         TEAM_DATA = _schmod.load()
     except Exception as _e:
         print(f"schedules: unavailable ({type(_e).__name__}); team pages withheld")
@@ -13035,7 +13106,8 @@ def build():
     IA_BOARD = None
     try:
         import inactives as _ia
-        _ia.poll()
+        if not LIVE_TICK:
+            _ia.poll()
         IA_BOARD = _ia.board()
     except Exception as _e:
         print(f"inactives: unavailable ({type(_e).__name__}); board withheld")
@@ -13139,12 +13211,18 @@ def build():
         w(f'conditions/{_rep["id"]}.html', render_report_page(_rep, dateline))
         try:
             import conditions_report as _crm
-            _crm.share_card(_rep, os.path.join(PUBLISH, _rep["card"].lstrip("/")))
+            if not LIVE_TICK:
+                _crm.share_card(_rep, os.path.join(PUBLISH, _rep["card"].lstrip("/")))
         except Exception as _e:
             print(f"::warning::conditions report: card for {_rep['id']} not drawn ({type(_e).__name__})")
     print(f"conditions report: {len(CR_REPORTS)} report(s), latest this week "
           f"{(cr_latest() or {}).get('id')}")
     w("index.html", render_home(items, dateline))
+    if LIVE_TICK:
+        # the re-read needs the home and the Scores pages and nothing else
+        for _sp, _sh in (render_scores_pages(SB_DATA, IA_BOARD, dateline, WX_DATA) if SB_DATA else {}).items():
+            w(_sp.lstrip("/"), _sh)
+        return
     if SB_DATA:
         _cards = 0
         _sq = 0

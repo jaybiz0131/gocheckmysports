@@ -237,10 +237,15 @@ def stamp_finals(payload, prev, fetched_iso):
     return payload
 
 
-def cadence_line(day_weekday, every_min, weekend=(5, 6)):
-    """", refreshed every N minutes when the run fires" on a day the schedule runs every N, else nothing.
-    S-61: GitHub's cron is the only trigger of scores-cadence.yml until the Worker tick is deployed, and GitHub
-    runs a scheduled workflow late under load (5 runs on November 21 against 100 asked for), so the line states
-    the schedule and says it holds when the run fires."""
-    return (f", refreshed every {every_min} minutes when the run fires"
-            if day_weekday in weekend and every_min else "")
+def cadence_line(state, every_min, next_kick=""):
+    """The schedule beside the stamp (S-DONE). `state` is cadence.window's: while a window is 'on'
+    the board is re-read every N minutes; before the next kickoff the line says when that starts;
+    with no game to come it says nothing. The stamp itself is the reading's own time, so a re-read
+    that did not happen shows as an old time, never as a claim."""
+    if not every_min:
+        return ""
+    if state == "on":
+        return f", refreshed every {every_min} minutes"
+    if next_kick:
+        return f", refreshed every {every_min} minutes from {next_kick}"
+    return ""

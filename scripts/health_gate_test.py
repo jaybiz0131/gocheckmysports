@@ -46,6 +46,14 @@ def unit():
     grid = [u("2026-11-21T17:00:00Z") + dt.timedelta(minutes=30 * i) for i in range(39)]
     filled = [(t, max((x for x in snaps if x[0] <= t), key=lambda x: x[0])[1]) for t in grid] + snaps
     guarded(fails, "the same day read every 30 minutes through 12:00 UTC is no finding", lambda: not hg.scores_findings(now, filled))
+    # S-DONE: a re-read (site/data/live/scoreboard.json) is a reading. The build snapshots of Nov 21 alone are
+    # three findings; with a re-read every five minutes from the first kickoff they are none.
+    guarded(fails, "the gate reads the build snapshots and the re-reads",
+            lambda: hg.SCORES_PATHS == ("site/data/scoreboard.json", "site/data/live/scoreboard.json"))
+    fives = [u("2026-11-21T17:00:00Z") + dt.timedelta(minutes=5 * i) for i in range(229)]
+    reread = [(t, max((x for x in snaps if x[0] <= t), key=lambda x: x[0])[1]) for t in fives] + snaps
+    guarded(fails, "the same day with a re-read every five minutes through 12:00 UTC is no finding",
+            lambda: not hg.scores_findings(now, reread))
     built = u("2026-11-22T11:01:00Z")
     guarded(fails, "a site built at 6:01 AM ET is no finding; one not built for 25 hours is",
             lambda: not hg.site_finding(now, built) and hg.site_finding(now, now - dt.timedelta(hours=25)))

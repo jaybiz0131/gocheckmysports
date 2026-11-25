@@ -198,7 +198,7 @@
       }
     },
     "scores-cadence.yml": {
-      "purpose": "Game-day scores (Sprint A of the November 7 2026 audit, A2): cadence.py decides on each tick whether a build is due; a due tick commits only site/data/scoreboard.json and that push builds the site. Calls no model, reads no secret. J-17 holds Jack's word on the weekend builds.",
+      "purpose": "Game-day scores (Sprint A of the November 7 2026 audit, A2; the re-read, S-DONE, November 25 2026): cadence.py decides on each tick whether a build is due; a due tick commits site/data/scoreboard.json and that push builds the site. While a game window is on, each tick also commits the board as the site's renderer draws it under site/data/live/ (live_board.py), a push that never builds; the home and the Scores page read it from the repository. A run that finds a window on, or a kickoff inside six hours, holds it at five-minute ticks and hands over to a new run before six hours. Calls no model, reads no secret. J-17 holds Jack's word on the weekend builds.",
       "crons": [
         {
           "utc": "7,37 10-11 * * *",
