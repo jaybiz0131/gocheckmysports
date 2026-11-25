@@ -3415,6 +3415,10 @@ def layer1_canary():
     _live_slate = []
     fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
     fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    import found_canary as _fnc
+    # S-DONE point 9: the words a searcher types on the home's title, description and masthead; an About page
+    # that says who runs the site; a SportsEvent for each of the day's games on the home and Scores
+    fails.extend(_run(FIXTURE_TEST, "found", lambda: _fnc.found_canary(_fixture_tree()) + _fnc.events(_built_tree())))
     import whole_canary as _whc
     # S-DONE point 5: every internal link, every page's head and the sitemaps, counted on the day's build;
     # and no page of any type wider than 375 or 1440, with the phone tab bar drawn on each
