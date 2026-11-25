@@ -9,6 +9,7 @@ for the item. Where a board and a rule disagree, ask in one line before inventin
 Public repo. No tokens, keys or secret values in this file, ever.
 
 **Health (N-1) and the gate (S-61), merged November 24, 2026 (`0aca29f`, S-60 `61a8436`).** What a newsroom email means: `docs/HEALTH.md` in gcm-newsroom. The gate's two kinds of check, fixture (fails) and live canary (warns), are in `docs/TESTS.md`; the session is `docs/REPORTS/S-61-REPORT.md`.
+**S-DONE, November 25, 2026 (thirteen merges, `69aeaf1` to `a02c209`).** The scorecard, every merge, every gate and Jack's one action (deploy the Worker so it ticks `scores-cadence.yml`): `docs/REPORTS/S-DONE-REPORT.md`. Scores are re-read every five minutes in a game window without a deploy (`cadence.py`, `live_board.py`); 69 fixture tests gate (`docs/TESTS.md`); the home is the board then the lead; a story lane quiet for 14 days is off the navigation; the Scores hero says "Scoreboard".
 Last updated: 11 November 2026, after Sprint A of the November 7 audit (section below). Before
 that: 14 October 2026, 10:20 PM ET, after the S-2d merge (`374e5dd`, Program 7). The six 6
 October branches (`docs-cloud-rules-u14-u16`, `search-s2-sitemap-no-games`, `deep-url-register`,
@@ -60,8 +61,7 @@ its own CI run of 9 Nov (`42656647167`), and one look page timed out under load 
 on the same tree: PASS, 1035 of 1035). Pushed on that red by the sprint owner's word, recorded as J-19.
 Push: `48ba399..3c7e4a2`, HEAD `3c7e4a2` = origin/main `3c7e4a2`, 0 ahead, 21:01 UTC 11 Nov.
 
-**How the cadence works:** rules in `cadence.py`'s docstring, ticks in the workflow header. A due tick commits `site/data/scoreboard.json` ("scores: snapshot HH:MMZ") and that push builds. S-DONE (November 25): while a game window is on, every tick also commits the board as the site's renderer draws it under `site/data/live/` ("scores: re-read HH:MMZ", never a build), the home and Scores read it from the repository (`live_board.py`, `site_build.LIVE_JS`), and a run holds its window at five-minute ticks. Who starts a run: the crons, the Worker's tick once deployed, and the `scores-start` job in `inactives.yml` and `sports-news-brief.yml` (`cadence.py --start`); a second run steps aside (`--aside`, no concurrency group). Scorecard: `docs/REPORTS/S-DONE-REPORT.md`.
-Stop it by deleting `.github/workflows/scores-cadence.yml`.
+**How the cadence works:** rules in `cadence.py`'s docstring, ticks in the workflow header. A due tick commits `site/data/scoreboard.json` ("scores: snapshot HH:MMZ") and that push builds. S-DONE (November 25): while a game window is on, every tick also commits the board as the site's renderer draws it under `site/data/live/` ("scores: re-read HH:MMZ", never a build), the home and Scores read it from the repository (`live_board.py`, `site_build.LIVE_JS`), and a run holds its window at five-minute ticks. Who starts a run: the crons, the Worker's tick once deployed, and the `scores-start` job in `inactives.yml` and `sports-news-brief.yml` (`cadence.py --start`); a second run steps aside (`--aside`, no concurrency group). Scorecard: `docs/REPORTS/S-DONE-REPORT.md`. Stop it by deleting `.github/workflows/scores-cadence.yml`.
 
 **Acceptance, not yet readable (U-3: read at the next check, not waited on).**
 - A2: Thursday 12 Nov TNF, a `scores:` commit at kickoff, at the half and at the final. Saturday 14
