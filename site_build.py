@@ -92,6 +92,13 @@ INDEXNOW_KEY = "75487c1df3b38a38ef2793600c7e7bf7"      # public by design; see t
 # its slug maps here. Populated 2026-08-25 from the family duplicate audit, every
 # cluster adversarially verified before this map was written.
 RETIRED_ARTICLES = {
+    # S-DONE point 5 (25 November 2026): two slugs the September 6 and 7 afternoon briefs link, for a
+    # story that survives under a third. Both answered 404; the catch-all 404 rule made every link
+    # check read them as resolving. whole_canary.py no longer counts that rule and found them.
+    "vikings-re-sign-harrison-smith-to-one-year-12-25m-deal-for-15th-season":
+        "vikings-re-sign-harrison-smith-on-1-year-12-25-million-deal-for-15th-season",
+    "vikings-re-sign-safety-harrison-smith-to-one-year-12-25-million-deal-for-15th-season":
+        "vikings-re-sign-harrison-smith-on-1-year-12-25-million-deal-for-15th-season",
     # owner report 2026-08-28: one event told repeatedly across consecutive days
     "mlb-proposes-compressing-free-agency-window-to-2-3-weeks-union-calls-it-a-player-rights-elimination":
         "mlb-proposes-restricted-free-agency-window-and-month-long-transaction-freeze",
@@ -1571,7 +1578,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
             '<link rel="preload" as="image" media="(min-width:721px)" '
             'href="/assets/hero/hero-poster.webp" fetchpriority="high">\n')
            if path == "/" else "")
-    robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
+    # S-DONE point 5: every page names its own address. A noindexed page (a dated Scores page, the thanks
+    # page) used to carry the robots tag INSTEAD of a canonical; it carries both, and the canonical is its
+    # own URL, never another page's. The 404 page alone has none: any missing URL answers with it.
+    canon = "" if str(path or "") == "/404.html" else f'<link rel="canonical" href="{esc(url)}">\n'
+    robots = ('<meta name="robots" content="noindex">\n' if noindex else "") + canon
     robots = lcp + robots
     beacon = ""
     if CF_ANALYTICS_TOKEN:

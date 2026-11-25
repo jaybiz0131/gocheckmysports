@@ -1,0 +1,37 @@
+=== PLANT (built page): a legal page with a 600px row
+FAIL page width: /terms.html at 375: the page: off the viewport: the page is 600 wide in 375
+    exit=1
+=== PLANT (built page): an article page whose tab bar is not drawn
+FAIL page width: /articles/111-games-zero-errors-wilson-sets-mlb-record-at-shortstop.html at 375: the tab bar: bar the tab bar is not drawn
+    exit=1
+=== PLANT (built page): the About page's tab bar lost an item
+FAIL page width: /about.html at 375: the tab bar: bar the tab bar draws 4 items, not 5
+    exit=1
+=== RESTORED
+page width: PASS
+=== PLANT (built tree): a page with two canonicals
+::error::whole: /scores.html carries 2 canonical link(s)
+    exit=1
+=== PLANT (built tree): a page with an empty description
+::error::whole: /where-to-watch.html carries 1 description(s) with text
+    exit=1
+=== PLANT (built tree): a page with no title
+::error::whole: /fantasy/index.html carries 0 title(s) with text
+    exit=1
+=== PLANT (built tree): a sitemap entry the build did not write
+::error::whole: sitemap-priority.xml lists https://gocheckmysports.com/scorez, which the build did not write
+    exit=1
+=== PLANT (built tree): a noindexed page in a sitemap
+::error::whole: sitemap-archive.xml lists https://gocheckmysports.com/thanks, which is noindexed
+    exit=1
+=== PLANT (built tree): the 404 page given a canonical
+::error::whole: /404.html carries a canonical; the 404 page has no address of its own
+    exit=1
+=== PLANT (built tree): a link to a page the build did not write (after the 404 catch-all stopped counting as a rule)
+::error::whole: /articles/vikings-re-sign-harrison-smith-to-one-year-12-25m-deal-for-15th-season.html does not resolve; linked from /articles/afternoon-brief-2026-09-06.html
+::error::whole: /articles/vikings-re-sign-safety-harrison-smith-to-one-year-12-25-million-deal-for-15th-season.html does not resolve; linked from /articles/afternoon-brief-2026-09-07.html
+    exit=1
+=== RESTORED
+WHOLE CANARY: FAIL
+    (the restored tree was red on two real links, both slugs of one Vikings story the September briefs link; with their two redirects simulated in the tree:)
+WHOLE CANARY: PASS

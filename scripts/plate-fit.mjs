@@ -105,6 +105,34 @@ const READ = ({ plate, tol, dump }) => {
   return { n, out, all };
 };
 
+// S-DONE point 5: THE PAGE'S OWN WIDTH, ON EVERY PAGE TYPE (config "widthOnly"). The plate read above needs a
+// main landmark and the Oswald face, which an article or a legal page does not load; this reads only what a
+// phone reader meets on any page: a document wider than the viewport, and under 720px the tab bar (five
+// items, each inside the viewport, each a link). No plate is read in this mode.
+const WIDTH = ({ tol }) => {
+  const vw = document.documentElement.clientWidth, out = [];
+  const pw = document.documentElement.scrollWidth;
+  if (pw > vw + tol) out.push({ kind: "clipped", el: "html", text: "the page", why: "off the viewport: the page is " + pw + " wide in " + vw, w: pw, size: "" });
+  if (vw <= 720) {
+    const bar = document.querySelector("nav.tabbar");
+    const items = bar ? [...bar.querySelectorAll("a.tb-item")] : [];
+    const shown = bar && bar.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true });
+    let why = "";
+    if (!bar || !shown) why = "bar the tab bar is not drawn";
+    else if (items.length !== 5) why = "bar the tab bar draws " + items.length + " items, not 5";
+    else {
+      for (const a of items) {
+        const r = a.getBoundingClientRect();
+        if (!a.getAttribute("href") || r.width < 1 || r.left < -tol || r.right > vw + tol || r.bottom > window.innerHeight + tol) {
+          why = "bar the item " + (a.textContent || "").trim() + " is not a link inside the viewport (" + Math.round(r.left) + ".." + Math.round(r.right) + ")"; break;
+        }
+      }
+    }
+    if (why) out.push({ kind: "clipped", el: "nav.tabbar", text: "the tab bar", why, w: vw, size: "" });
+  }
+  return { n: 1, out, all: [] };
+};
+
 const fails = [];
 const WORKERS = 4;
 let measured = 0, loads = 0, browser, server;
@@ -136,9 +164,14 @@ try {
           try {
             await pg.goto(base + page, { waitUntil: "load", timeout: 30000 });
             await pg.evaluate(() => document.fonts.ready);
-            const osw = await pg.evaluate(() => document.fonts.check('600 18px "Oswald"'));
-            if (!osw) throw new Error("the Oswald face is not loaded, so a width read would be a fallback face's");
-            const r = await pg.evaluate(READ, { plate: cfg.plate, tol: 1, dump: !!cfg.dump });
+            let r;
+            if (cfg.widthOnly) {
+              r = await pg.evaluate(WIDTH, { tol: 1 });
+            } else {
+              const osw = await pg.evaluate(() => document.fonts.check('600 18px "Oswald"'));
+              if (!osw) throw new Error("the Oswald face is not loaded, so a width read would be a fallback face's");
+              r = await pg.evaluate(READ, { plate: cfg.plate, tol: 1, dump: !!cfg.dump });
+            }
             if (cfg.dump) records.push({ page, width, all: r.all });
             measured += r.n;
             loads++;

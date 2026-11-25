@@ -3413,6 +3413,11 @@ def layer1_canary():
     _live_slate = []
     fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
     fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    import whole_canary as _whc
+    # S-DONE point 5: every internal link, every page's head and the sitemaps, counted on the day's build;
+    # and no page of any type wider than 375 or 1440, with the phone tab bar drawn on each
+    fails.extend(_run(FIXTURE_TEST, "whole", lambda: _whc.whole_canary(_built_tree())))
+    fails.extend(_run(FIXTURE_TEST, "page width, every page type", lambda: _plc.type_widths(_fixture_tree())))
     import honest_canary as _hnc
     # S-DONE point 2: every count on the board against the cards under it, on the day's build and on the slate
     fails.extend(_run(FIXTURE_TEST, "honest counts", lambda: _hnc.honest_canary(_built_tree()) + _hnc.honest_canary(_fixture_tree())))
