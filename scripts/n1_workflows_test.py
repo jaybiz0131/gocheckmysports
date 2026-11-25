@@ -76,6 +76,16 @@ def unit():
             and "GH_TOKEN: ${{ github.token }}" in sc and "secrets." not in sc)
     guarded(fails, "scores-cadence.yml: a tick that raises warns and commits nothing; it never fails the run",
             lambda: re.search(r"python3 cadence\.py --tick[^\n]*\\\n\s*\|\| echo \"::warning::", sc))
+    # S-DONE point 8: a run fails only when the desk did not do its job. Two paths failed it for less.
+    vf = read("verify-sports-pipeline.yml")
+    guarded(fails, "verify: a dead source feed (exit 3) opens its issue and warns; only another status fails the job",
+            lambda: 'rc=$?' in vf and '[ "$rc" -eq 3 ]' in vf and "::warning::" in vf.split("Check RSS feeds resolve")[1]
+            and "steps.feeds.outputs.broken == 'true'" in vf and "if: failure()" not in vf.split("Check RSS feeds resolve")[1]
+            and 'exit "$rc"' in vf)
+    br = read("sports-news-brief.yml")
+    gap = br.split("Edition gap")[-2] + br.split("Edition gap")[-1] if "Edition gap" in br else ""
+    guarded(fails, "the brief: an Edition gap is a warning beside its issue, never a failed run (N-1 class A, as on Crypto)",
+            lambda: "core.warning(\"Edition gap over threshold" in br and "core.setFailed(\"Edition gap" not in br)
     h = read("health.yml")
     guarded(fails, "health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)",
             lambda: h and "scripts/health_gate.py" in h and set(active_crons(h)) == {"3 11 * * *", "3 12 * * *"})

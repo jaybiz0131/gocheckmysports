@@ -51,7 +51,12 @@ SKIPPABLE_FILES = ("ledger.json",)
 # ".claude/" (6 October 2026): the Claude Code settings directory. Nothing in the build reads
 # it, checked against site_build.py and the netlify.toml command, and the documents-only merge
 # that added .claude/settings.json built the site for want of this entry.
-DOC_PREFIXES = ("docs/", "shots/", "claims-reports/", "audit-report/", ".claude/")
+# "review/" (S-DONE, 25 November 2026; S-61's proposal 7): the screenshots a session takes for a
+# reviewer. The build reads nothing under it (checked against site_build.py, scores_pulse.py and
+# the netlify.toml command), and S-61 left four production screenshots uncommitted because
+# committing them would have built the site. Reports and their screenshots are under docs/, which
+# is already here. site/reports/ is NOT a document: it is the conditions reports the site publishes.
+DOC_PREFIXES = ("docs/", "shots/", "review/", "claims-reports/", "audit-report/", ".claude/")
 DOC_SUFFIXES = (".md",)
 # NOT the .md files: DOC_SUFFIXES already covers every one of them, and naming HANDOFF.md
 # here too was config that could not fail. The first U-9 break on this file removed it from

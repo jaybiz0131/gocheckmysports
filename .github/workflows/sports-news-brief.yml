@@ -766,9 +766,12 @@ jobs:
       # correctly abstained on zero stories every slot and only the gap counter noticed.
       # Runs dead last so stories, the deploy probe, artifacts, the ping and the ledger
       # all complete first; the gap issue itself is filed by edition_check.
-      - name: Fail the run if the edition gap breached
+      # S-DONE point 8 (N-1 class A, as merged on Crypto in e8825cf): the gap is said by its issue
+      # and by this warning. A run whose stories published is not a failed run; a desk dark long
+      # enough to need Jack is the health gate's one mail.
+      - name: Warn if the edition gap breached
         if: always() && steps.edgap.outputs.breach != '' && steps.edgap.outputs.breach != '0'
         uses: actions/github-script@v9
         with:
           script: |
-            core.setFailed("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");
+            core.warning("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");

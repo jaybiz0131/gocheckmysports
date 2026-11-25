@@ -42,8 +42,13 @@ function world(subs) {
   return { store, marks };
 }
 
+// S-DONE: Node's getPrivateKey() drops a leading zero byte, so about one generated key in 256 comes
+// back 31 bytes long. readVapid wants 32, refused this file's own key, and the gate failed on a run
+// whose code was sound (CI run 45298380007, November 24, 2026: "only 36 check(s) ran"). A key is
+// written at its full width, as a real VAPID key is.
+const key32 = (ecdh) => { const k = ecdh.getPrivateKey(); return k.length >= 32 ? k : Buffer.concat([Buffer.alloc(32 - k.length), k]); };
 const ua = createECDH('prime256v1'); ua.generateKeys();
-const uaPub = ua.getPublicKey(); const uaPriv = ua.getPrivateKey(); const auth = randomBytes(16);
+const uaPub = ua.getPublicKey(); const uaPriv = key32(ua); const auth = randomBytes(16);
 const DEV = 'a1b2c3d4e5f60718293a4b5c6d7e8f90';
 const devIdOf = (d) => SUB.devId(d);
 const ORIGIN = 'https://gocheckmysports.com';
@@ -263,7 +268,7 @@ function receive(body, uaPriv, uaPub, auth) {            // the reader's side of
   return { text: plain.subarray(0, plain.length - 1).toString(), rs: body.readUInt32BE(16), idlen };
 }
 const vk = createECDH('prime256v1'); vk.generateKeys();
-const VAPID = { publicKey: b64u.enc(vk.getPublicKey()), privateKey: b64u.enc(vk.getPrivateKey()), subject: 'https://gocheckmysports.com' };
+const VAPID = { publicKey: b64u.enc(vk.getPublicKey()), privateKey: b64u.enc(key32(vk)), subject: 'https://gocheckmysports.com' };
 
 await check('crypto: a message encrypted for a device decrypts to the same text (RFC 8291)', () => {
   const msg = JSON.stringify({ title: 'Tomorrow: A at B', body: 'Kickoff 1:00 PM ET on CBS.', url: '/games/1.html' });
@@ -352,6 +357,13 @@ await check('absent key: both keys without WEB_PUSH_SINCE, or with a malformed o
     });
   }
   await withEnv({ ...keys, WEB_PUSH_SINCE: '2026-10-22' }, async () => assert.ok(readVapid()));
+});
+
+await check('test key: a private key whose first byte is zero is written at 32 bytes and reads as a key', async () => {
+  const k = createECDH('prime256v1'); k.setPrivateKey(Buffer.from('00' + '11'.repeat(31), 'hex'));
+  assert.equal(k.getPrivateKey().length, 31);      // the trap itself: Node hands back the short form
+  const keys = { WEB_PUSH_VAPID_PUBLIC_KEY: b64u.enc(k.getPublicKey()), WEB_PUSH_VAPID_PRIVATE_KEY: b64u.enc(key32(k)), WEB_PUSH_SINCE: '2026-10-22' };
+  await withEnv(keys, async () => assert.ok(readVapid()));
 });
 
 await check('key present: readVapid reads the environment and defaults the subject to the site', async () => {

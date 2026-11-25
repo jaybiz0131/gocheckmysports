@@ -5,8 +5,8 @@
 #             (blocks promotion) if the pipeline is mis-wired, the hype/dedupe belts drift,
 #             the offline replay end-to-end breaks, or any fail-closed gate stops holding.
 #   sources - Layer 2, LIVE fetch, NOTIFY-ONLY. Fetches each configured RSS feed and checks
-#             HTTP 200 + feed shape. A broken feed (exit 3) fails THIS job (red check + opens
-#             an issue) but never blocks anything. A network error is a soft warning.
+#             HTTP 200 + feed shape. A broken feed (exit 3) warns and opens an issue naming it;
+#             it never fails the run (S-DONE). A network error is a soft warning.
 name: Verify sports pipeline
 
 on:
@@ -58,10 +58,22 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
+      # S-DONE point 8: a dead feed is an upstream's bad day, not a failed desk. Exit 3 (a feed
+      # failing its content check) warns and opens the issue below, which is the notice; the job
+      # stays green. Any other status is this check itself breaking, and that still fails the job.
       - name: Check RSS feeds resolve (live)
-        run: python3 verify_pipeline.py sources
+        id: feeds
+        run: |
+          rc=0
+          python3 verify_pipeline.py sources || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::warning::source feeds: one or more configured feeds failed the live check; the issue names them"
+            echo "broken=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          exit "$rc"
       - name: Open or update the broken-feed issue (names the feeds)
-        if: failure()
+        if: steps.feeds.outputs.broken == 'true'
         uses: actions/github-script@v9
         with:
           script: |
