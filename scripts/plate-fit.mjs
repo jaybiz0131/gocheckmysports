@@ -141,6 +141,19 @@ const WIDTH = ({ tol }) => {
     if (m.top < b.bottom - tol) out.push({ kind: "clipped", el: "section.sb-hero", text: "the band", why: "band the page under it begins " + Math.round(b.bottom - m.top) + "px inside the band", w: vw, size: "" });
     if (vw <= 720 && inner && b.bottom - inner.getBoundingClientRect().bottom > 60) out.push({ kind: "clipped", el: "section.sb-hero", text: "the band", why: "band " + Math.round(b.bottom - inner.getBoundingClientRect().bottom) + "px of empty band under its controls", w: vw, size: "" });
   }
+  // S-DONE point 3 on the home, under 720px: the open day's first game is the next thing under the band. The
+  // lead (the latest finals) stood between them, a screen of yesterday before today's first card, and the
+  // board began 115px under its own top. The lead follows the board there; the first card begins inside
+  // 90px of the band's foot.
+  const board = document.querySelector("main .wb-board"), lead = document.querySelector("main #lead");
+  if (vw <= 720 && band && board) {
+    const card = [...board.querySelectorAll("article.tk-c")].find(e => e.offsetParent);
+    const bt = board.getBoundingClientRect().top, bb = band.getBoundingClientRect().bottom;
+    if (lead && lead.offsetHeight > 0 && lead.getBoundingClientRect().top < bt)
+      out.push({ kind: "clipped", el: "#lead", text: "the lead", why: "glance the lead is drawn over the board: " + Math.round(lead.offsetHeight) + "px of the latest finals before the day's first game", w: vw, size: "" });
+    if (card && card.getBoundingClientRect().top - bb > 90)
+      out.push({ kind: "clipped", el: "article.tk-c", text: "the day's first game", why: "glance the day's first game begins " + Math.round(card.getBoundingClientRect().top - bb) + "px under the band", w: vw, size: "" });
+  }
   return { n: 1, out, all: [] };
 };
 
