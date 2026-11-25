@@ -84,6 +84,34 @@ def game_graph(g, origin, carriers=(), venue_city="", page_path=None, venue_regi
     return {"@context": "https://schema.org", "@graph": graph}
 
 
+def event_brief(g, origin, page_path, venue_city="", venue_region="", description=""):
+    """S-DONE point 9: one game as a SportsEvent for a page that lists the day's games (the home,
+    the Scores page). It is the game page's own event by @id and url, with what Google's Event
+    documentation requires (name, startDate, location with its address) and the two sides; the
+    carriers, the image and the organizer stay on the game page, where the full graph is. None
+    when the feed gives no city for the venue: an event with no address does not validate."""
+    league = g.get("league") or "NFL"
+    away, home = g.get("away") or {}, g.get("home") or {}
+    an = _clean(away.get("full") or away.get("name"))
+    hn = _clean(home.get("full") or home.get("name"))
+    start = iso_et(g.get("start_utc"))
+    if not (an and hn and start and venue_city):
+        return None
+    url = origin + page_path
+    venue = _clean(re.sub(r"\s*\(.*\)\s*$", "", g.get("venue") or ""))
+    address = {"@type": "PostalAddress", "addressLocality": _clean(venue_city)}
+    if venue_region:
+        address["addressRegion"] = _clean(venue_region)
+    ev = {"@type": "SportsEvent", "@id": url + "#event", "name": f"{an} at {hn}", "url": url,
+          "sport": SPORT.get(league, "American football"), "startDate": start,
+          "eventStatus": "https://schema.org/EventScheduled",
+          "location": {"@type": "Place", "name": venue or "Venue to be announced", "address": address},
+          "awayTeam": {"@type": "SportsTeam", "name": an}, "homeTeam": {"@type": "SportsTeam", "name": hn}}
+    if description:
+        ev["description"] = _clean(description)
+    return ev
+
+
 def team_graph(team, league, origin, path, next_game=None, carriers=()):
     """A SportsTeam for a team page, pointing at its next game's event when one is known.
 

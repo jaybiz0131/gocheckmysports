@@ -1,0 +1,32 @@
+=== PLANT: the home's title is the old tagline
+::error::found: the home's title reads 'GoCheckMySports - Sports, checked.'; it does not say 'college football and NFL scores, where to watch, spreads and kickoff weather'
+::error::found: the home's title still reads 'GoCheckMySports - Sports, checked.'
+    exit=1
+=== PLANT: the masthead line is the old tagline
+::error::found: the home's masthead line reads 'Sports, checked.'; it does not say 'college football and NFL scores, where to watch, spreads and kickoff weather'
+::error::found: the home's masthead line still reads 'Sports, checked.'
+    exit=1
+=== PLANT: the About page explains how a story is published
+::error::found: the About page says how the desk works ('verif'); it says who runs the site and nothing else
+::error::found: the About page says how the desk works ('published'); it says who runs the site and nothing else
+    exit=1
+=== PLANT: the About page does not name the company
+::error::found: the About page does not name Go Check My Brands LLC
+    exit=1
+=== PLANT (built page): Scores carries no event markup
+::error::found: scores.html draws 58 of its day's games with a game page and carries a SportsEvent for 0; none for game 401856746 and 57 more
+    exit=1
+=== PLANT (built page): an event with no venue city
+::error::found: index.html: the SportsEvent for game 401856866 is missing location.address.addressLocality
+    exit=1
+=== PLANT (built page): an event's start time in UTC
+::error::found: index.html: game 401856866 starts at '2026-11-25T01:39:00Z', not a time with its ET offset
+    exit=1
+=== PLANT (built page): an event that is not the game page's own
+::error::found: scores.html: game 401862832's event is 'https://gocheckmysports.com/games/401862832.html#listing', not the game page's own
+    exit=1
+=== PLANT (built page): markup that does not parse
+::error::found: index.html carries JSON-LD that does not parse (Expecting property name enclosed in double quotes: line 1 column 67 (char 66))
+    exit=1
+=== RESTORED
+FOUND CANARY: PASS

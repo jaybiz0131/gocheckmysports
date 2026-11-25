@@ -76,7 +76,10 @@ PUBLISHED = os.path.join(HERE, "out", "published")
 # (gocheckmysports.com), tied to the family hub through the "A GoCheckMy site" footer link.
 # One identity everywhere: the desk and the site share the name.
 NAME = "GoCheckMySports"
-SLOGAN = "Sports, checked."   # the brand tagline
+SLOGAN = "Sports, checked."   # the brand tagline (an article's signoff)
+# S-DONE point 9: what the site is, in the words a searcher types. The home's title, its
+# description and the masthead line all say it; "Sports, checked." told a stranger nothing.
+WHAT = "College football and NFL scores, where to watch, spreads and kickoff weather"
 DESK_LINE = "The daily sports desk that checks the story before it runs."   # secondary descriptor
 FAMILY = "GoCheckMySports"                     # family/domain tie: gocheckmysports.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
@@ -223,7 +226,8 @@ CF_ANALYTICS_TOKEN = "3939eb7cf8fc454e82fe1bd1829472cb"  # Cloudflare Web Analyt
 DESC = ("GoCheckMySports is an independent daily sports news desk built with one intention: "
         "get the stories right and keep the facts honest. Scores are facts; stories get "
         "checked against their sources before they run. Never betting advice.")
-FAMILY_DESC = ("Independent sports news checked against the record before it publishes, with scores and the sourcing behind every story. No betting picks.")
+FAMILY_DESC = (WHAT + ": every game's network, the line as the book reported it and the "
+               "forecast at the stadium, on one page.")
 # C-L5: the one guard line. It appears in the footer and nowhere above the fold.
 NFA = "No betting advice."
 YEAR = "2026"
@@ -1271,7 +1275,7 @@ def masthead(active, dateline, brand="site"):
     brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
     <span class="mh-word">{_wordmark}</span>
-    <span class="mh-slogan">{esc(SLOGAN)}</span>
+    <span class="mh-slogan">{esc(WHAT)}</span>
   </a>"""
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
@@ -2618,6 +2622,31 @@ def render_news(items, dateline):
             + trust_block() + '</main>')
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html")
 
+
+
+def events_ld(games):
+    """S-DONE point 9: a schema.org SportsEvent for each of a page's games that has a game page,
+    in one JSON-LD block ('' when there is none). The event is the game page's own (the same @id
+    and url), so a crawler meets one game, not two."""
+    import structured as _sd
+    nodes = []
+    for g in games or []:
+        href = _written_game_href(g.get("id"))
+        if not href:
+            continue
+        city, region = _venue_place(g)
+        net = network_name(g.get("network"))
+        a, h = g.get("away") or {}, g.get("home") or {}
+        desc = (f'{a.get("name") or a.get("abbr") or ""} at {h.get("name") or h.get("abbr") or ""}, {_day_time(g)}'
+                + (f" on {net}" if net and net != "Check local listings" else ""))
+        node = _sd.event_brief(g, ORIGIN, href, city, region, desc)
+        if node:
+            nodes.append(node)
+    if not nodes:
+        return ""
+    return ('\n<script type="application/ld+json">'
+            + json.dumps({"@context": "https://schema.org", "@graph": nodes}, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
 
 
 def home_schema():
@@ -8142,7 +8171,9 @@ def render_scores_pages(sb, board, dateline, wx=None):
             title = f"Scores, {dt.strftime('%A, %B %-d')} - {NAME}"
             desc = (f"Every game on {dt.strftime('%A, %B %-d')}, with the network carrying each game "
                     "and the line as the book reported it.")
-        return shell(title, desc, "Scores", body, dateline, path=path, noindex=path != "/scores.html")
+        # S-DONE point 9: /scores.html (the indexed page) names its day's games as events
+        return shell(title, desc, "Scores", body, dateline, path=path, noindex=path != "/scores.html",
+                     schema_extra=events_ld(games_here) if path == "/scores.html" else "")
 
     pages = {}
     alias = None
@@ -11693,8 +11724,12 @@ def _render_home(items, dateline):
   <div class="scoreband scoreband-page wb-board" data-live="board" data-today="{esc(_mf()["date"])}">{board}</div>
   <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
 </section></main>"""
-    return shell(f"{FAMILY} - Sports, checked.", FAMILY_DESC, "Home", body, dateline, path="/",
-                 schema_extra=home_schema())
+    # S-DONE point 9: the day's games the home draws, as events (inside the byte budget: the page is measured with them)
+    _day = _mf()["date"]
+    _today = [g for k, g in board_games(SB_DATA)
+              if k.astimezone(_ET).date().isoformat() == _day and str(g.get("id")) not in HOME_HIDE]
+    return shell(f"{WHAT} - {FAMILY}", FAMILY_DESC, "Home", body, dateline, path="/",
+                 schema_extra=home_schema() + events_ld(_today))
 
 
 def archive_left_home():
@@ -12104,52 +12139,17 @@ def render_method(items, dateline):
 
 
 def render_about(dateline):
+    """S-DONE point 9 (Jack's ruling of November 24, 2026): who runs the site, and nothing about
+    how. What the site is, the company, how to reach it. The desk's method has its own page."""
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">About</span>
-  <h1>Why GoCheckMySports exists</h1>
-  <p class="lede">Sports media is drowning in hot takes, rumor mills, and betting-pick content.
-     The scarce thing is a desk that checks the story. That is the entire product.</p>
-
-  <p>Too much sports "news" is noise wearing a press badge: trade rumors sourced to nobody,
-     aggregation of aggregation until the original quote is unrecognizable, injury speculation
-     with nothing behind it, and picks columns that are gambling ads in disguise. It is
-     exhausting, and it is how readers get misled.</p>
-
-  <p>GoCheckMySports is built on one idea: the score is a fact, and the story gets checked. We
-     report what actually happened, verify every claim against official league data and
-     on-record sources before it runs, and never tell you what to bet on. Injuries are reported
-     only from official reports and on-record statements, never from speculation.</p>
-
-  <h2>How a story gets published</h2>
-  <p>A story runs only when an independent verification pass confirms it against its sources, and
-     every source is linked so you can check the work yourself. A human editor-in-chief oversees the
-     desk, can hold or remove anything, and owns every take: no opinion ever goes out in a human
-     voice unless a human wrote it. If that standard ever slips, we drop the cadence before we drop
-     the standard.</p>
-
-  <h2>Our bias</h2>
-  <p>We are biased toward the reader and against the rumor mill. We weight official league data
-     and on-record sources most, we link every source, and we would rather publish nothing on a
-     given day than publish something we cannot stand behind.</p>
-
-  <h2>What we are not</h2>
-  <p>We are not a sportsbook, a tout service, or a picks column, and nothing here is betting or
-     gambling advice. We report what happened and, carefully, what it may mean. What you do with
-     that is yours.</p>
-
-  <h2>Contact the desk</h2>
-  <p class="operator">This website is operated by Go Check My Brands LLC, a South Carolina limited liability company. Contact: hello@gocheckmysports.com.</p>
-  <p>Tips, corrections, and questions: <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>.</p>
-  <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>.
-     Sponsorship never buys coverage; see <a href="/method.html">how we work</a>.</p>
-
-  <div class="callout"><b>Read next:</b> <a href="/method.html">How we work</a>, and
-    the standards every story has to clear. Or <a href="/standards.html">our standards and
-    corrections policy</a>.</div>
-  <p class="nfa">{esc(NFA)}</p>
+  <h1>About GoCheckMySports</h1>
+  <p class="lede">{esc(WHAT)}.</p>
+  <p class="operator">GoCheckMySports is run by Go Check My Brands LLC, a South Carolina limited liability company.</p>
+  <p>Contact: <a href="mailto:hello@gocheckmysports.com">hello@gocheckmysports.com</a>.
+     Corrections and tips: <a href="mailto:desk@gocheckmysports.com">desk@gocheckmysports.com</a>.</p>
 </section></main>"""
-    return shell(f"About - {NAME}", "Why GoCheckMySports exists: an honest daily sports news desk "
-                 "that checks every story against its sources.",
+    return shell(f"About - {NAME}", f"GoCheckMySports is run by Go Check My Brands LLC. {WHAT}.",
                  "About", body, dateline, path="/about.html")
 
 
