@@ -51,6 +51,9 @@ SCORES_GAP_HOURS = 2
 BOARD_HOURS = 6
 GAME_HOURS = 4.5          # a game this long after kickoff with no final is no longer counted as on
 SCORES_PATH = "site/data/scoreboard.json"
+# S-DONE: a reading is a build's snapshot or a re-read (live_board.py's copy, the board the pages
+# replace theirs with between builds). Both carry fetched_at, the time the stamp prints.
+SCORES_PATHS = (SCORES_PATH, "site/data/live/scoreboard.json")
 SCORES_LEAGUES = ("NFL", "CFB")
 
 
@@ -188,32 +191,36 @@ def feed(base, name):
         return None
 
 
-def git_snapshots(since):
-    """Every committed scores snapshot since `since`, as (fetched_at, dict), from this checkout."""
-    try:
-        shas = subprocess.run(["git", "log", f"--since={since.isoformat()}", "--format=%H", "HEAD", "--",
-                               SCORES_PATH], capture_output=True, text=True, timeout=60).stdout.split()
-    except (OSError, subprocess.SubprocessError):
-        return None
+def git_snapshots(since, paths=SCORES_PATHS):
+    """Every committed scores reading since `since`, as (fetched_at, dict), from this checkout: the
+    build snapshots and the re-reads."""
     out = []
-    for h in shas:
+    ran = False
+    for path in paths:
         try:
-            sb = json.loads(subprocess.run(["git", "show", f"{h}:{SCORES_PATH}"], capture_output=True,
-                                           text=True, timeout=60).stdout)
-        except (ValueError, OSError, subprocess.SubprocessError):
+            shas = subprocess.run(["git", "log", f"--since={since.isoformat()}", "--format=%H", "HEAD", "--",
+                                   path], capture_output=True, text=True, timeout=60).stdout.split()
+            ran = True
+        except (OSError, subprocess.SubprocessError):
             continue
-        out.append((utc(sb.get("fetched_at")), sb))
-    # the snapshot in force when the window opened, so a gap that began before it is measured
-    try:
-        h = subprocess.run(["git", "log", "-1", f"--before={since.isoformat()}", "--format=%H", "HEAD", "--",
-                            SCORES_PATH], capture_output=True, text=True, timeout=60).stdout.strip()
-        if h:
-            sb = json.loads(subprocess.run(["git", "show", f"{h}:{SCORES_PATH}"], capture_output=True,
-                                           text=True, timeout=60).stdout)
+        for h in shas:
+            try:
+                sb = json.loads(subprocess.run(["git", "show", f"{h}:{path}"], capture_output=True,
+                                               text=True, timeout=60).stdout)
+            except (ValueError, OSError, subprocess.SubprocessError):
+                continue
             out.append((utc(sb.get("fetched_at")), sb))
-    except (ValueError, OSError, subprocess.SubprocessError):
-        pass
-    return out
+        # the reading in force when the window opened, so a gap that began before it is measured
+        try:
+            h = subprocess.run(["git", "log", "-1", f"--before={since.isoformat()}", "--format=%H", "HEAD", "--",
+                                path], capture_output=True, text=True, timeout=60).stdout.strip()
+            if h:
+                sb = json.loads(subprocess.run(["git", "show", f"{h}:{path}"], capture_output=True,
+                                               text=True, timeout=60).stdout)
+                out.append((utc(sb.get("fetched_at")), sb))
+        except (ValueError, OSError, subprocess.SubprocessError):
+            pass
+    return out if ran else None
 
 
 def gh_api(path):

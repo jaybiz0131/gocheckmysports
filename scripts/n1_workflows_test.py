@@ -19,6 +19,7 @@ import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WF = os.path.join(HERE, ".github", "workflows")
+sys.path.insert(0, HERE)
 PUSHERS = ("inactives.yml", "scores-cadence.yml", "conditions-report.yml")
 
 
@@ -58,10 +59,23 @@ def unit():
     for name in PUSHERS:
         b = push_block(read(name))
         guarded(fails, f"{name}: a push that cannot land after its retries warns and exits 0, never 1",
-                lambda b=b: b and "exit 1" not in b and "::warning::" in b and "exit 0" in b)
+                lambda b=b: b and "exit 1" not in b and "return 1" not in b and "::warning::" in b
+                and ("exit 0" in b or "return 0" in b))
     sc = read("scores-cadence.yml")
     guarded(fails, "scores-cadence.yml: keeps its crons until the Worker deploy that dispatches it is live",
             lambda: active_crons(sc))
+    # S-DONE: a run holds its window, so the cadence does not rest on a scheduler delivering every tick
+    guarded(fails, "scores-cadence.yml: the tick loops on cadence.py's sleep and stages the snapshot and the re-read by name",
+            lambda: "while :; do" in sc and "sed -n 's/^sleep=//p'" in sc and "git add site/data/live" in sc
+            and "git add site/data/scoreboard.json" in sc and not re.search(r"git add (-A|\.)", sc))
+    guarded(fails, "scores-cadence.yml: the job's timeout is past cadence.HOLD_MAX_MIN, so a holding run hands over before GitHub ends it",
+            lambda: int(re.search(r"timeout-minutes:\s*(\d+)", sc).group(1)) >= __import__("cadence").HOLD_MAX_MIN + 20
+            and int(re.search(r"timeout-minutes:\s*(\d+)", sc).group(1)) <= 360)
+    guarded(fails, "scores-cadence.yml: the hand-over dispatches this workflow with the job's own token (actions: write, no secret)",
+            lambda: "gh workflow run scores-cadence.yml" in sc and re.search(r"actions:\s*write", sc)
+            and "GH_TOKEN: ${{ github.token }}" in sc and "secrets." not in sc)
+    guarded(fails, "scores-cadence.yml: a tick that raises warns and commits nothing; it never fails the run",
+            lambda: re.search(r"python3 cadence\.py --tick[^\n]*\\\n\s*\|\| echo \"::warning::", sc))
     h = read("health.yml")
     guarded(fails, "health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)",
             lambda: h and "scripts/health_gate.py" in h and set(active_crons(h)) == {"3 11 * * *", "3 12 * * *"})

@@ -19,12 +19,25 @@ kicked off, so the cut is 4:00 AM ET):
   Mon and Thu      at each kickoff, at each halftime and at each final
   other days       one after the last game of the night
 
-A tick that is not due fetches nothing when the committed snapshot shows no game near its
-kickoff, so a quiet Tuesday costs a few seconds of runner and no request.
+THE RE-READ (S-DONE, November 25 2026). A build is a deploy and a deploy costs credits, so the
+builds above stay as they are. Between them, while a game window is on, every tick re-reads the
+feed, renders the board with the site's own renderer and commits it under site/data/live/ (a
+push netlify_ignore.py never builds); the home and the Scores page read that file themselves and
+replace their board and stamp in place, as the inactives board has since September 21. A run
+that finds a window on, or a kickoff inside HOLD_AHEAD_HOURS, holds it: it ticks every
+LIVE_EVERY_MIN minutes itself rather than wait for a scheduler, and hands over to a new run
+before GitHub's six-hour limit.
+
+Every tick reads the feed. Until S-DONE a tick fetched only when the COMMITTED snapshot showed a
+game near kickoff, and that file is rewritten only when a build is due: on Tuesday November 24
+it was Monday night's, held no Tuesday game, and both college games were played with every tick
+answering "no game near kickoff in the committed snapshot". Production read them as upcoming at
+4:00 AM Wednesday.
 
 Pure apart from tick(), so the canary feeds it fixtures and a fixture clock.
 
-USAGE  python3 cadence.py --tick [--last-build ISO]   decide, refresh when due, print due=...
+USAGE  python3 cadence.py --tick [--last-build ISO] [--started ISO]
+           decide; writes due=, live=, sleep= and handover= for the workflow's loop
 """
 
 import datetime
@@ -48,6 +61,10 @@ MORNING_HOUR = 6
 DAY_CUT_HOURS = 4             # 1:30 AM Sunday is still Saturday's slate
 NEAR_BEFORE_MIN = 15          # a game this close to kickoff makes a tick fetch
 NEAR_AFTER_HOURS = 6          # a game this long after kickoff may still be on
+LIVE_EVERY_MIN = 5            # while a window is on the board is re-read this often (no deploy)
+HOLD_AHEAD_HOURS = 6          # a run that finds a kickoff this near waits for it
+HOLD_WAKE_MIN = 30            # and re-reads the slate at least this often while it waits
+HOLD_MAX_MIN = 320            # a run hands over to the next before GitHub's six-hour limit
 
 
 def _utc(iso):
@@ -128,6 +145,52 @@ def decide(now, cur, prev, last_build):
     return False, "a weekday: the morning build and one after the last game"
 
 
+def _postponed(g):
+    return "postpon" in str(g.get("status_short") or "").lower() or "cancel" in str(g.get("status_short") or "").lower()
+
+
+def window(now, sb):
+    """(state, kickoff). 'on' while a board game is in play, is past its kickoff and not read as
+    started or final, or is inside NEAR_BEFORE_MIN of its kickoff (each for NEAR_AFTER_HOURS at
+    most: a card the feed never closed does not hold a run for ever); 'soon' with the next
+    kickoff when it is inside HOLD_AHEAD_HOURS; else 'off' with the next kickoff, or None."""
+    now = now.astimezone(UTC)
+    nxt = None
+    on = False
+    for g in games(sb).values():
+        k = _utc(g.get("start_utc"))
+        if not k or g.get("state") == "post" or g.get("completed") or _postponed(g):
+            continue
+        if k - datetime.timedelta(minutes=NEAR_BEFORE_MIN) <= now <= k + datetime.timedelta(hours=NEAR_AFTER_HOURS):
+            on = True
+        elif k > now and (nxt is None or k < nxt):
+            nxt = k
+    if on:
+        return "on", None
+    if nxt is not None and nxt - now <= datetime.timedelta(hours=HOLD_AHEAD_HOURS):
+        return "soon", nxt
+    return "off", nxt
+
+
+def hold(now, sb, started=None):
+    """What the workflow's loop does after this tick: {'live', 'sleep', 'handover'}. live: re-read
+    the board now. sleep: seconds until the next tick, 0 to end the run. handover: the run has
+    reached HOLD_MAX_MIN with the window still on or near, so it dispatches the next run."""
+    now = now.astimezone(UTC)
+    state, nxt = window(now, sb)
+    if state == "on":
+        nap = LIVE_EVERY_MIN * 60
+    elif state == "soon":
+        until = (nxt - datetime.timedelta(minutes=NEAR_BEFORE_MIN) - now).total_seconds()
+        nap = int(max(60, min(until, HOLD_WAKE_MIN * 60)))
+    else:
+        return {"live": False, "sleep": 0, "handover": False}
+    spent = (now - started.astimezone(UTC)).total_seconds() if started else 0
+    if spent + nap > HOLD_MAX_MIN * 60:
+        return {"live": state == "on", "sleep": 0, "handover": True}
+    return {"live": state == "on", "sleep": nap, "handover": False}
+
+
 def worth_fetching(now, prev, last_build):
     """True when a tick should fetch the feed before deciding: the morning build is due, or the
     committed snapshot has a game near or past its kickoff that it does not show final."""
@@ -157,28 +220,46 @@ def _last_snapshot_commit():
 
 def tick(argv):
     import scoreboard
-    stamp = argv[argv.index("--last-build") + 1] if "--last-build" in argv else ""
-    known = [t for t in (_utc(stamp), _last_snapshot_commit()) if t]
+    arg = lambda k: argv[argv.index(k) + 1] if k in argv and argv.index(k) + 1 < len(argv) else ""
+    known = [t for t in (_utc(arg("--last-build")), _last_snapshot_commit()) if t]
     last = max(known) if known else None
+    started = _utc(arg("--started"))
     now = datetime.datetime.now(UTC)
     try:
         prev = json.load(open(scoreboard.OUT, encoding="utf-8"))
     except Exception:
         prev = {}
-    if not worth_fetching(now, prev, last):
-        due, why = False, "no game near kickoff in the committed snapshot"
+    # S-DONE: every tick reads the feed. The committed snapshot is the last BUILD's, and a slate
+    # it never held (a Tuesday's college games under Monday night's file) was never fetched.
+    cur = scoreboard.refresh()
+    if cur is None:
+        due, why = False, "every league failed to read; nothing to build from"
+        plan = hold(now, prev, started)
+        plan["live"] = False
     else:
-        cur = scoreboard.refresh()
-        if cur is None:
-            due, why = False, "every league failed to read; nothing to build from"
-        else:
-            due, why = decide(now, cur, prev, last)
+        due, why = decide(now, cur, prev, last)
+        plan = hold(now, cur, started)
+    if plan["live"]:
+        # the re-read: the board as the site's own renderer draws it, committed under
+        # site/data/live/ for the pages to read. A render that fails costs this tick's re-read
+        # and nothing else; the built page stands and its stamp says how old it is.
+        try:
+            import live_board
+            print("cadence: " + live_board.write())
+        except Exception as e:                               # noqa: BLE001
+            plan["live"] = False
+            print(f"::warning::scores: the board was not re-read ({type(e).__name__}: {str(e)[:160]})")
     print(f"cadence: {'DUE' if due else 'not due'}, {why} "
-          f"(last build {last.strftime('%Y-%m-%dT%H:%MZ') if last else 'unknown'})")
+          f"(last build {last.strftime('%Y-%m-%dT%H:%MZ') if last else 'unknown'}); "
+          f"window {window(now, cur or prev)[0]}, next tick in {plan['sleep']} s"
+          + (", handing over" if plan["handover"] else ""))
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
         with open(out, "a", encoding="utf-8") as f:
             f.write(f"due={'true' if due else 'false'}\n")
+            f.write(f"live={'true' if plan['live'] else 'false'}\n")
+            f.write(f"sleep={plan['sleep']}\n")
+            f.write(f"handover={'true' if plan['handover'] else 'false'}\n")
     return 0
 
 
@@ -229,6 +310,50 @@ def canary():
             fails.append(f"cadence: {name}: due={got} ({why}), expected due={want}")
     if worth_fetching(t("2026-11-11T16:00Z"), _sb(_g(5, "pre", "2026-11-14T17:00Z")), t("2026-11-11T11:05Z")):
         fails.append("cadence: a quiet Wednesday tick fetches the feed with no game near kickoff")
+    # S-DONE: the window and the hold. Tuesday November 24, 2026: two college games at 7:00 PM ET.
+    tue = _sb(_g(7, "pre", "2026-11-25T00:00Z"), _g(8, "pre", "2026-11-25T00:00Z"), _g(9, "pre", "2026-11-27T01:00Z"))
+    wcases = [
+        ("a game in play", t("2026-11-25T01:30Z"), _sb(_g(7, "in", "2026-11-25T00:00Z")), "on"),
+        ("ten minutes before kickoff", t("2026-11-24T23:50Z"), tue, "on"),
+        ("past kickoff, the feed still says scheduled", t("2026-11-25T00:20Z"), tue, "on"),
+        ("three hours before kickoff", t("2026-11-24T21:00Z"), tue, "soon"),
+        ("seven hours before kickoff", t("2026-11-24T16:59Z"), tue, "off"),
+        ("every game final", t("2026-11-25T04:00Z"), _sb(_g(7, "post", "2026-11-25T00:00Z")), "off"),
+        ("a card the feed never closed, seven hours on", t("2026-11-25T07:01Z"),
+         _sb(_g(7, "in", "2026-11-25T00:00Z")), "off"),
+        ("a postponed game past its kickoff", t("2026-11-25T00:20Z"),
+         _sb(_g(7, "pre", "2026-11-25T00:00Z", "Postponed")), "off"),
+    ]
+    for name, now, sb, want in wcases:
+        got = window(now, sb)[0]
+        if got != want:
+            fails.append(f"cadence window: {name}: {got}, expected {want}")
+    h = hold(t("2026-11-25T01:30Z"), _sb(_g(7, "in", "2026-11-25T00:00Z")), t("2026-11-25T00:00Z"))
+    if h != {"live": True, "sleep": LIVE_EVERY_MIN * 60, "handover": False}:
+        fails.append(f"cadence hold: a game in play re-reads the board and ticks again in {LIVE_EVERY_MIN} minutes, got {h}")
+    h = hold(t("2026-11-24T21:00Z"), tue, t("2026-11-24T21:00Z"))
+    if h != {"live": False, "sleep": HOLD_WAKE_MIN * 60, "handover": False}:
+        fails.append(f"cadence hold: three hours before kickoff waits {HOLD_WAKE_MIN} minutes without a re-read, got {h}")
+    h = hold(t("2026-11-24T23:40Z"), tue, t("2026-11-24T21:00Z"))
+    if h != {"live": False, "sleep": 300, "handover": False}:
+        fails.append(f"cadence hold: 20 minutes before kickoff sleeps to the window's opening (300 s), got {h}")
+    h = hold(t("2026-11-24T16:59Z"), tue, t("2026-11-24T16:59Z"))
+    if h != {"live": False, "sleep": 0, "handover": False}:
+        fails.append(f"cadence hold: no kickoff inside {HOLD_AHEAD_HOURS} hours ends the run, got {h}")
+    h = hold(t("2026-11-25T01:30Z"), _sb(_g(7, "in", "2026-11-25T00:00Z")), t("2026-11-24T20:11Z"))
+    if h != {"live": True, "sleep": 0, "handover": True}:
+        fails.append(f"cadence hold: at the run's limit with a game on it re-reads once more and hands over, got {h}")
+    if LIVE_EVERY_MIN > 10:
+        fails.append(f"cadence: the re-read is every {LIVE_EVERY_MIN} minutes; the stamp must stay inside 15")
+    # the Tuesday defect itself: the committed snapshot is Monday night's and holds no Tuesday game
+    mon = _sb(_g(6, "in", "2026-11-24T01:15Z"))
+    if window(t("2026-11-25T01:30Z"), mon)[0] != "off" or window(t("2026-11-25T01:30Z"), tue)[0] != "on":
+        fails.append("cadence window: the Tuesday games are read from the feed's slate, not the committed one")
+    import inspect
+    src = inspect.getsource(tick)
+    if "worth_fetching(" in src or "scoreboard.refresh()" not in src:
+        fails.append("cadence tick: a tick must read the feed every time; the committed snapshot is the last build's "
+                     "and held no Tuesday game on November 24")
     return fails
 
 

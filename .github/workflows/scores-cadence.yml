@@ -13,6 +13,21 @@
 # board again, so the page's "Scores as of" stamp is the build's own read. A tick that is not due
 # commits nothing, and with no game near its kickoff it fetches nothing.
 #
+# THE RE-READ (S-DONE, 25 November 2026). A build is a deploy, and a deploy every ten minutes through
+# the week's windows is the team's whole Netlify allowance, so builds stay on cadence.py's schedule.
+# Between them, while a game window is on, each tick renders the board with the site's own renderer
+# and commits it under site/data/live/ (live_board.py); the home and the Scores page read that file
+# from the repository and replace their board and stamp in place. netlify_ignore.py never builds a
+# push that touches only site/data/live/.
+#
+# A RUN HOLDS ITS WINDOW. GitHub delivers 4 to 6 of the 100 ticks a day this file asks for, and the
+# Worker tick was not live on November 24 (no workflow_dispatch run on record). So a run that finds
+# a game on, or a kickoff inside six hours, does not end: it ticks every five minutes itself
+# (cadence.hold), and before GitHub's six-hour limit it dispatches the next run and stops. One run
+# started any time in the six hours before the first kickoff carries the whole day. The crons and
+# the Worker's dispatch only have to start it; a tick that arrives while a run holds waits in the
+# sports-scores group and ends in seconds when its turn comes.
+#
 # The crons tick every 10 minutes through the hours a game can be on, in either UTC offset, and
 # twice around 6:00 AM ET for the morning build. cadence.py, not the cron, is the cadence: a late
 # tick only makes a build late, never doubles one (no two builds inside 8 minutes).
@@ -39,38 +54,74 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write        # the hand-over only: a run at its limit inside a window dispatches the next
 
 jobs:
   tick:
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v7
         with: { ref: main, fetch-depth: 20 }
       - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
 
-      - name: Decide whether a build is due
-        id: tick
+      - name: Hold the window (decide, re-read the board, push; a due tick's push builds the site)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          built=$(curl -s --max-time 15 https://gocheckmysports.com/stamp.txt | sed -n 's/^built //p' || true)
-          python3 cadence.py --tick --last-build "$built"
-
-      - name: Push the snapshot (the push builds the site)
-        if: steps.tick.outputs.due == 'true'
-        run: |
-          python3 odds_gate.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/data/scoreboard.json
-          git commit -m "scores: snapshot $(date -u +%H:%MZ)" || { echo "snapshot unchanged; nothing to build"; exit 0; }
-          ok=false
-          for i in 1 2 3; do
-            if git push; then ok=true; break; fi
-            echo "::warning::push rejected (attempt $i); rebasing"
-            git pull --rebase --autostash origin main || {
-              git rebase --abort || true
-              # N-1: a conflicted rebase is a collision, not a failed desk: the next tick starts from a fresh main.
-              echo "::warning::scores: the rebase conflicted with another push; left for the next tick"; exit 0; }
+          started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          out="$RUNNER_TEMP/tick.out"
+
+          push_tick() {
+            ok=false
+            for i in 1 2 3; do
+              if git push; then ok=true; break; fi
+              echo "::warning::push rejected (attempt $i); rebasing"
+              git pull --rebase --autostash origin main || {
+                git rebase --abort || true
+                # N-1: a conflicted rebase is a collision, not a failed desk: the next tick starts from a fresh main.
+                echo "::warning::scores: the rebase conflicted with another push; left for the next tick"
+                git reset -q --hard origin/main; return 0; }
+            done
+            [ "$ok" = true ] || { echo "::warning::scores: push failed after 3 attempts; left for the next tick"; git reset -q --hard origin/main; return 0; }
+          }
+
+          while :; do
+            t0=$(date +%s)
+            # the tree a tick decides from is main as it stands: the last build's snapshot, the last re-read
+            git pull -q --rebase origin main || { git rebase --abort || true; git fetch -q origin main && git reset -q --hard origin/main; }
+            built=$(curl -s --max-time 15 https://gocheckmysports.com/stamp.txt | sed -n 's/^built //p' || true)
+            : > "$out"
+            GITHUB_OUTPUT="$out" python3 cadence.py --tick --last-build "$built" --started "$started" \
+              || echo "::warning::scores: the tick raised; nothing is committed from it"
+            due=$(sed -n 's/^due=//p' "$out" | tail -1)
+            live=$(sed -n 's/^live=//p' "$out" | tail -1)
+            nap=$(sed -n 's/^sleep=//p' "$out" | tail -1)
+            hand=$(sed -n 's/^handover=//p' "$out" | tail -1)
+            if [ "$due" = true ] || [ "$live" = true ]; then
+              python3 odds_gate.py
+              if [ "$due" = true ]; then git add site/data/scoreboard.json; fi
+              if [ "$live" = true ]; then git add site/data/live; fi
+            fi
+            # everything else a tick's render rewrote is the build's to write, not this job's
+            git checkout -q -- . && git clean -fdq -- site/data data
+            if [ "$due" = true ]; then msg="scores: snapshot $(date -u +%H:%MZ)"; else msg="scores: re-read $(date -u +%H:%MZ)"; fi
+            if git diff --cached --quiet; then
+              echo "nothing new to push"
+            else
+              git commit -q -m "$msg"
+              push_tick
+            fi
+            case "$nap" in ''|*[!0-9]*) nap=0 ;; esac
+            [ "$nap" -gt 0 ] || break
+            spent=$(( $(date +%s) - t0 ))
+            if [ "$spent" -lt "$nap" ]; then sleep $(( nap - spent )); fi
           done
-          [ "$ok" = true ] || { echo "::warning::scores: push failed after 3 attempts; left for the next tick"; exit 0; }
+
+          if [ "$hand" = true ]; then
+            gh workflow run scores-cadence.yml --ref main \
+              || echo "::warning::scores: the hand-over dispatch failed; the next cron or Worker tick starts the next run"
+          fi
