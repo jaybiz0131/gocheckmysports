@@ -79,16 +79,52 @@ def hours(td):
 
 # ---- when the gate runs ---------------------------------------------------------------------
 
-def should_run(now, event, earlier_today):
+def should_run(now, event, earlier_today, by=""):
     """(run?, why). One gate a day: the first tick at or after 7 AM ET that finds no earlier gate
-    run today. Two crons cover the two offsets (11:03 and 12:03 UTC); a dispatch always runs."""
-    if event == "workflow_dispatch":
+    run today. Two crons cover the two offsets (11:03 and 12:03 UTC); a dispatch by hand always
+    runs. A dispatch the desk's own runs made (by == "start", S-DONE) keeps the day's rule."""
+    if event == "workflow_dispatch" and by != "start":
         return True, "dispatched by hand"
     if now.astimezone(ET).hour < GATE_HOUR_ET:
         return False, f"before {GATE_HOUR_ET} AM ET ({et(now)}); the other cron line is today's gate"
     if earlier_today:
         return False, f"today's gate already ran ({earlier_today} earlier run(s) today, ET)"
     return True, ""
+
+
+def _is_gate(r, now, any_status=False):
+    """A run that is, or stood for, the gate of `now`'s ET day: created at or after 7 AM ET that day
+    (a cron delivered before 7 stands down and is nobody's gate), by GitHub's cron or by the desk's
+    own start; a dispatch by hand is neither."""
+    made = utc(r.get("created_at"))
+    if not made:
+        return False
+    day = now.astimezone(ET).replace(hour=GATE_HOUR_ET, minute=0, second=0, microsecond=0)
+    if not (day <= made.astimezone(ET) and made.astimezone(ET).date() == day.date()):
+        return False
+    if r.get("event") == "workflow_dispatch" and "(start)" not in (r.get("display_title") or ""):
+        return False
+    return any_status or r.get("status") == "completed"
+
+
+def gates_today(now, runs, this_run=None):
+    """How many gates have already run today (ET), this run aside."""
+    return sum(1 for r in runs or [] if str(r.get("id")) != str(this_run) and _is_gate(r, now))
+
+
+def start_due(now, runs):
+    """(bool, why): whether one of the desk's Worker-dispatched runs should start today's gate.
+    GitHub delivered the 7:03 AM cron at 4:05 PM ET on November 24 and not at all by 2:30 PM on the
+    25th. From 7 AM ET, when no gate of today's is queued, running or done, one is started. Runs
+    that could not be read start nothing: this run can end in a mail."""
+    if runs is None:
+        return False, "the gate's runs could not be read"
+    if now.astimezone(ET).hour < GATE_HOUR_ET:
+        return False, f"before {GATE_HOUR_ET} AM ET"
+    for r in runs:
+        if _is_gate(r, now, any_status=True):
+            return False, f"today's gate is run {r.get('id')} ({r.get('status')})"
+    return True, "no gate has run since 7 AM ET"
 
 
 # ---- the checks, pure -------------------------------------------------------------------------
@@ -242,15 +278,29 @@ def runs_since(since):
     return None if d is None else d.get("workflow_runs") or []
 
 
+def gate_runs():
+    d = gh_api("actions/workflows/health.yml/runs?per_page=20")
+    return None if d is None else d.get("workflow_runs") or []
+
+
 def earlier_gates_today(now, this_run):
-    d = gh_api("actions/workflows/health.yml/runs?per_page=10")
-    if d is None:
+    return gates_today(now, gate_runs(), this_run)
+
+
+def start(argv=()):
+    """--start: run by the scores-start job of the poller and the brief. Never fails that job."""
+    now = datetime.datetime.now(UTC)
+    due, why = start_due(now, gate_runs())
+    if not due:
+        print(f"health_gate: not started, {why}")
         return 0
-    today = now.astimezone(ET).date()
-    return sum(1 for r in d.get("workflow_runs") or []
-               if str(r.get("id")) != str(this_run) and r.get("status") == "completed"
-               and r.get("event") != "workflow_dispatch"
-               and utc(r.get("created_at")) and utc(r.get("created_at")).astimezone(ET).date() == today)
+    r = subprocess.run(["gh", "workflow", "run", "health.yml", "--ref", "main", "-f", "by=start"],
+                       capture_output=True, text=True, timeout=45)
+    if r.returncode != 0:
+        print(f"::warning::health: the start dispatch failed ({r.stderr.strip()[:160]}); the next run asks again")
+    else:
+        print(f"health_gate: today's gate is started ({why})")
+    return 0
 
 
 def summary(lines):
@@ -273,7 +323,7 @@ def main(argv):
         return 2
     now = datetime.datetime.now(UTC)
     run, why = should_run(now, os.environ.get("GITHUB_EVENT_NAME", "workflow_dispatch"),
-                          earlier_gates_today(now, os.environ.get("GITHUB_RUN_ID")))
+                          earlier_gates_today(now, os.environ.get("GITHUB_RUN_ID")), (os.environ.get("BY") or "").strip())
     if not run:
         print(f"health_gate: standing down, {why}")
         return 0
@@ -326,4 +376,6 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    if "--start" in sys.argv:
+        sys.exit(start(sys.argv[1:]))
     sys.exit(main(sys.argv[1:]))

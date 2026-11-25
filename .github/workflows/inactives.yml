@@ -215,3 +215,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 cadence.py --start || echo "::warning::scores: the start check raised; the next run asks again"
+      - name: Start the day's health gate when GitHub's own cron has not delivered it
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/health_gate.py --start || echo "::warning::health: the start check raised; the next run asks again"
