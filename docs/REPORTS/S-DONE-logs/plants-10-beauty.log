@@ -1,0 +1,18 @@
+=== PLANT: the budget draws by rank alone
+::error::beauty: with the budget cutting college games, the home leaves out today's (['t1', 't2']) and draws 14 of Saturday's
+    exit=1
+=== PLANT: the windows row names no day
+::error::beauty: the Sunday windows row does not say it is Sunday's: 1:00 1 4:05 and 4:25 1
+    exit=1
+=== PLANT: a game under way draws three n/a plates
+::error::beauty: the wall draws a game under way with no kickoff forecast as 'KC at BUF: weather, where to watch, inactives. Tuesday 9:00 AM ET."> KC at BUF Tue 9:00A n/a n/a n/a'
+    exit=1
+=== RESTORED
+BEAUTY CANARY: PASS
+=== the band, in a browser (plate_canary.type_widths): main's tree, before the stylesheet change
+FAIL page width: /index.html at 375: the band: band the page under it begins 90px inside the band
+FAIL page width: /index.html at 375: the band: band 150px of empty band under its controls
+FAIL page width: /index.html at 1440: the band: band the page under it begins 90px inside the band
+page width: 3 FAIL
+=== the same tree with this change's stylesheet
+page width: PASS

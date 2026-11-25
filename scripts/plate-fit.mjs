@@ -130,6 +130,17 @@ const WIDTH = ({ tol }) => {
     }
     if (why) out.push({ kind: "clipped", el: "nav.tabbar", text: "the tab bar", why, w: vw, size: "" });
   }
+  // S-DONE point 10: the photo band (the home). The page under the band begins where the band ends, never
+  // inside it (the lead's first lines stood on the band's dark foot from November 11), and under 720px the
+  // band ends under its controls (150px of empty photo sat there for an ornament a phone does not draw).
+  const band = document.querySelector("section.sb-hero"), main = document.querySelector("main");
+  const photo = band && band.querySelector(".sb-bg");
+  if (band && main && photo && photo.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true })) {
+    const b = band.getBoundingClientRect(), m = main.getBoundingClientRect();
+    const inner = band.querySelector(".sb-inner");
+    if (m.top < b.bottom - tol) out.push({ kind: "clipped", el: "section.sb-hero", text: "the band", why: "band the page under it begins " + Math.round(b.bottom - m.top) + "px inside the band", w: vw, size: "" });
+    if (vw <= 720 && inner && b.bottom - inner.getBoundingClientRect().bottom > 60) out.push({ kind: "clipped", el: "section.sb-hero", text: "the band", why: "band " + Math.round(b.bottom - inner.getBoundingClientRect().bottom) + "px of empty band under its controls", w: vw, size: "" });
+  }
   return { n: 1, out, all: [] };
 };
 
