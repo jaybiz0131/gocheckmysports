@@ -775,3 +775,23 @@ jobs:
         with:
           script: |
             core.warning("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");
+
+  # S-DONE (25 November 2026): THIS RUN ALSO STARTS THE SCORES RUN. GitHub delivers a handful of the
+  # score cadence's cron ticks a day, hours late; the Worker dispatches THIS workflow on time. So
+  # each run asks whether a scores run is queued or in progress and starts one when none is
+  # (cadence.py --start). The scores run reads the feed and decides for itself whether a game is
+  # near; with none it ends in seconds. Reads nothing but the run list, pushes nothing, never fails.
+  scores-start:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: main }
+      - name: Start the scores run when none is queued or running
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 cadence.py --start || echo "::warning::scores: the start check raised; the next run asks again"

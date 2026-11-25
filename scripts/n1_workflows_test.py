@@ -74,6 +74,18 @@ def unit():
     guarded(fails, "scores-cadence.yml: the hand-over dispatches this workflow with the job's own token (actions: write, no secret)",
             lambda: "gh workflow run scores-cadence.yml" in sc and re.search(r"actions:\s*write", sc)
             and "GH_TOKEN: ${{ github.token }}" in sc and "secrets." not in sc)
+    guarded(fails, "scores-cadence.yml: the hand-over names itself (by=handover), so the run it starts does not step aside for the one ending",
+            lambda: re.search(r"gh workflow run scores-cadence\.yml --ref main -f by=handover", sc))
+    guarded(fails, "scores-cadence.yml: a run started while another holds the window steps aside in its first step; no concurrency group queues it",
+            lambda: "python3 cadence.py --aside" in sc and sc.count("steps.aside.outputs.aside != 'true'") >= 2
+            and not re.search(r"(?m)^concurrency:", sc) and re.search(r"(?m)^      by:\s*$", sc))
+    for name in ("inactives.yml", "sports-news-brief.yml"):
+        w = read(name)
+        job = w.split("\n  scores-start:\n", 1)[1] if "\n  scores-start:\n" in w else ""
+        guarded(fails, f"{name}: the Worker-dispatched run starts the scores run when none is running (its own job, actions: write, warns, never fails)",
+                lambda job=job: job and re.search(r"actions:\s*write", job) and "GH_TOKEN: ${{ github.token }}" in job
+                and re.search(r"python3 cadence\.py --start \|\| echo \"::warning::", job) and "NEWSROOM_JOBS" not in job
+                and "secrets." not in job and "git push" not in job)
     guarded(fails, "scores-cadence.yml: a tick that raises warns and commits nothing; it never fails the run",
             lambda: re.search(r"python3 cadence\.py --tick[^\n]*\\\n\s*\|\| echo \"::warning::", sc))
     # S-DONE point 8: a run fails only when the desk did not do its job. Two paths failed it for less.
@@ -86,6 +98,17 @@ def unit():
     gap = br.split("Edition gap")[-2] + br.split("Edition gap")[-1] if "Edition gap" in br else ""
     guarded(fails, "the brief: an Edition gap is a warning beside its issue, never a failed run (N-1 class A, as on Crypto)",
             lambda: "core.warning(\"Edition gap over threshold" in br and "core.setFailed(\"Edition gap" not in br)
+    # S-DONE: a one-line `run:` that holds ": " or " #" is not the command it looks like: YAML reads a
+    # mapping or a comment, the file does not parse, and GitHub fails the run before it starts.
+    import glob as _glob
+    bad = []
+    for path in sorted(_glob.glob(os.path.join(WF, "*.yml"))):
+        for i, ln in enumerate(open(path, encoding="utf-8").read().split("\n"), 1):
+            m = re.match(r"\s+(?:- )?run: (?![|>])(.*)$", ln)
+            if m and not m.group(1).startswith(("'", '"')) and (": " in m.group(1) or " #" in m.group(1)):
+                bad.append(f"{os.path.basename(path)}:{i}")
+    guarded(fails, "every workflow: a one-line run: holds no ': ' or ' #' outside a block (YAML would not parse it)"
+            + (f" [{', '.join(bad[:4])}]" if bad else ""), lambda: not bad)
     h = read("health.yml")
     guarded(fails, "health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)",
             lambda: h and "scripts/health_gate.py" in h and set(active_crons(h)) == {"3 11 * * *", "3 12 * * *"})

@@ -20,13 +20,20 @@
 # from the repository and replace their board and stamp in place. netlify_ignore.py never builds a
 # push that touches only site/data/live/.
 #
-# A RUN HOLDS ITS WINDOW. GitHub delivers 4 to 6 of the 100 ticks a day this file asks for, and the
-# Worker tick was not live on November 24 (no workflow_dispatch run on record). So a run that finds
-# a game on, or a kickoff inside six hours, does not end: it ticks every five minutes itself
-# (cadence.hold), and before GitHub's six-hour limit it dispatches the next run and stops. One run
-# started any time in the six hours before the first kickoff carries the whole day. The crons and
-# the Worker's dispatch only have to start it; a tick that arrives while a run holds waits in the
-# sports-scores group and ends in seconds when its turn comes.
+# A RUN HOLDS ITS WINDOW. GitHub delivers 4 to 6 of the 100 ticks a day this file asks for, hours
+# late, and the Worker tick was not live on November 25 (no Worker dispatch on record). So a run
+# that finds a game on, or a kickoff near, does not end: it ticks every five minutes itself
+# (cadence.hold), and before GitHub's six-hour limit it dispatches the next run and stops.
+#
+# WHO STARTS IT, AND WHO STEPS ASIDE. Three things start a run: the crons below, the Worker's tick
+# once it is deployed, and the desk's own Worker-dispatched runs (the scores-start job in
+# inactives.yml and sports-news-brief.yml), which start one whenever none is queued or running. A
+# run started while an older one holds the window ends in its first step (cadence.py --aside):
+# there is no concurrency group, because a group would leave each extra tick pending for hours and
+# cancel the one before it. Only the run a holder hands over to never steps aside (by=handover).
+# With no Worker tick on record in four hours a run waits for a kickoff up to 16 hours off, so a
+# night game's run carries through to the next day's first kickoff (cadence.ahead_hours); the
+# Worker's first tick brings that back to six.
 #
 # The crons tick every 10 minutes through the hours a game can be on, in either UTC offset, and
 # twice around 6:00 AM ET for the morning build. cadence.py, not the cron, is the cadence: a late
@@ -39,22 +46,23 @@
 
 name: Game-day scores
 
+run-name: Game-day scores${{ inputs.by && format(' ({0})', inputs.by) || '' }}
+
 on:
   workflow_dispatch:
+    inputs:
+      by:
+        description: "Set by the desk's own runs (start, handover). Leave empty."
+        type: string
+        default: ""
   schedule:
     - cron: "7,37 10-11 * * *"      # the morning build, 6:00 AM ET in EST or EDT
     - cron: "*/10 15-23 * * *"      # 10 or 11 AM ET to 6 or 7 PM ET
     - cron: "*/10 0-6 * * *"        # the night games, past midnight ET
 
-# Its own group: a pending tick must never evict an inactives tick from sports-publish (GitHub
-# keeps one pending run per group). Two pushes at once are handled by the rebase below.
-concurrency:
-  group: sports-scores
-  cancel-in-progress: false
-
 permissions:
   contents: write
-  actions: write        # the hand-over only: a run at its limit inside a window dispatches the next
+  actions: write        # the hand-over (a run at its limit dispatches the next) and reading the runs to step aside
 
 jobs:
   tick:
@@ -63,10 +71,20 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with: { ref: main, fetch-depth: 20 }
+      - name: Step aside when an older run already holds the window
+        id: aside
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BY: ${{ inputs.by }}
+        run: |
+          python3 cadence.py --aside || echo "::warning::scores: the runs could not be read; this run holds"
+
       - uses: actions/setup-python@v7
+        if: steps.aside.outputs.aside != 'true'
         with: { python-version: "3.12" }
 
       - name: Hold the window (decide, re-read the board, push; a due tick's push builds the site)
+        if: steps.aside.outputs.aside != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -122,6 +140,6 @@ jobs:
           done
 
           if [ "$hand" = true ]; then
-            gh workflow run scores-cadence.yml --ref main \
-              || echo "::warning::scores: the hand-over dispatch failed; the next cron or Worker tick starts the next run"
+            gh workflow run scores-cadence.yml --ref main -f by=handover \
+              || echo "::warning::scores: the hand-over dispatch failed; the next cron, Worker tick or scores-start job starts the next run"
           fi

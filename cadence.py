@@ -36,8 +36,19 @@ answering "no game near kickoff in the committed snapshot". Production read them
 
 Pure apart from tick(), so the canary feeds it fixtures and a fixture clock.
 
+WHO STARTS A RUN (S-DONE). GitHub delivers 4 to 6 of the 100 cron ticks a day this workflow asks
+for, hours late, and the Worker's tick was not deployed on November 25. So: (1) the runs the
+Worker does dispatch on this desk (the inactives poller through its windows, the evening brief's
+three fires from 6:40 PM ET) each start the scores run when none is queued or running (--start);
+(2) a run started while an older one holds the window ends in its first step (--aside), so the
+Worker's ten-minute tick costs seconds and queues nothing; (3) with no Worker tick on record in
+WORKER_SEEN_HOURS, a run waits for a kickoff up to BRIDGE_AHEAD_HOURS off, which carries a night
+game's run to the next day's first kickoff. The Worker's first tick retires (3).
+
 USAGE  python3 cadence.py --tick [--last-build ISO] [--started ISO]
            decide; writes due=, live=, sleep= and handover= for the workflow's loop
+       python3 cadence.py --aside     the scores run's first step: aside=true when an older run holds
+       python3 cadence.py --start     another workflow's job: start the scores run when none is running
 """
 
 import datetime
@@ -65,6 +76,10 @@ LIVE_EVERY_MIN = 5            # while a window is on the board is re-read this o
 HOLD_AHEAD_HOURS = 6          # a run that finds a kickoff this near waits for it
 HOLD_WAKE_MIN = 30            # and re-reads the slate at least this often while it waits
 HOLD_MAX_MIN = 320            # a run hands over to the next before GitHub's six-hour limit
+BRIDGE_AHEAD_HOURS = 16       # with no Worker tick on record a run waits this far ahead: a night game to the next day's first kickoff
+WORKER_SEEN_HOURS = 4         # the Worker ticks every 10 minutes with gaps of 3 hours at most; older than this, it is not ticking
+START_QUIET_MIN = 20          # a run that ended clean this recently found no window; nobody starts another
+WORKFLOW = "scores-cadence.yml"
 
 
 def _utc(iso):
@@ -149,11 +164,11 @@ def _postponed(g):
     return "postpon" in str(g.get("status_short") or "").lower() or "cancel" in str(g.get("status_short") or "").lower()
 
 
-def window(now, sb):
+def window(now, sb, ahead=HOLD_AHEAD_HOURS):
     """(state, kickoff). 'on' while a board game is in play, is past its kickoff and not read as
     started or final, or is inside NEAR_BEFORE_MIN of its kickoff (each for NEAR_AFTER_HOURS at
     most: a card the feed never closed does not hold a run for ever); 'soon' with the next
-    kickoff when it is inside HOLD_AHEAD_HOURS; else 'off' with the next kickoff, or None."""
+    kickoff when it is inside `ahead` hours; else 'off' with the next kickoff, or None."""
     now = now.astimezone(UTC)
     nxt = None
     on = False
@@ -167,17 +182,18 @@ def window(now, sb):
             nxt = k
     if on:
         return "on", None
-    if nxt is not None and nxt - now <= datetime.timedelta(hours=HOLD_AHEAD_HOURS):
+    if nxt is not None and nxt - now <= datetime.timedelta(hours=ahead):
         return "soon", nxt
     return "off", nxt
 
 
-def hold(now, sb, started=None):
+def hold(now, sb, started=None, ahead=HOLD_AHEAD_HOURS):
     """What the workflow's loop does after this tick: {'live', 'sleep', 'handover'}. live: re-read
     the board now. sleep: seconds until the next tick, 0 to end the run. handover: the run has
-    reached HOLD_MAX_MIN with the window still on or near, so it dispatches the next run."""
+    reached HOLD_MAX_MIN with the window still on or near, so it dispatches the next run.
+    `ahead`: how many hours off a kickoff may be and still be waited for (ahead_hours)."""
     now = now.astimezone(UTC)
-    state, nxt = window(now, sb)
+    state, nxt = window(now, sb, ahead)
     if state == "on":
         nap = LIVE_EVERY_MIN * 60
     elif state == "soon":
@@ -189,6 +205,108 @@ def hold(now, sb, started=None):
     if spent + nap > HOLD_MAX_MIN * 60:
         return {"live": state == "on", "sleep": 0, "handover": True}
     return {"live": state == "on", "sleep": nap, "handover": False}
+
+
+# ---- who starts a run, and who steps aside (S-DONE) ----------------------------------------
+# A run is {"id", "status", "conclusion", "event", "title", "created", "updated"}: one row of
+# `gh run list` for this workflow. A run the desk's own jobs dispatch names itself in its title
+# ("Game-day scores (start)", "(handover)"); the Worker's tick, like a person's, carries no name.
+
+def steps_aside(me, runs, by=""):
+    """True when this run (id `me`) ends at once: an OLDER run of the workflow is queued or in
+    progress, so the window is held. The younger of two always yields, so two ticks in one second
+    leave one holder. The run a holder dispatched at its limit (by == 'handover') never yields: the
+    holder is still closing when it starts. A list that could not be read (None) yields nothing."""
+    if by == "handover" or not runs:
+        return False
+    return any(r.get("status") != "completed" and int(r.get("id") or 0) < int(me) for r in runs)
+
+
+def start_due(now, runs):
+    """(bool, why): whether another workflow's run should start the scores run now. Not while one
+    is queued or in progress, and not within START_QUIET_MIN of one that ended clean (it read the
+    feed and found no window on or near). The scores run decides for itself what the slate holds;
+    this only makes sure one is asked. A list that could not be read starts one: a run too many
+    ends in seconds, a window with no run goes stale."""
+    if runs is None:
+        return True, "the runs could not be listed"
+    now = now.astimezone(UTC)
+    for r in runs:
+        if r.get("status") != "completed":
+            return False, f"run {r.get('id')} is {r.get('status')}"
+    for r in runs:
+        ended = _utc(r.get("updated") or r.get("created"))
+        if r.get("conclusion") == "success" and ended and now - ended < datetime.timedelta(minutes=START_QUIET_MIN):
+            return False, f"run {r.get('id')} ended {int((now - ended).total_seconds() // 60)} minutes ago and found no window"
+    return True, "no run is queued or in progress, and none ended clean in the last %d minutes" % START_QUIET_MIN
+
+
+def worker_live(now, runs):
+    """True when the Worker's own tick is on record inside WORKER_SEEN_HOURS: a workflow_dispatch
+    run whose title carries no name of the desk's own (a hand dispatch reads the same, and for
+    those hours it is treated the same)."""
+    now = now.astimezone(UTC)
+    for r in runs or []:
+        made = _utc(r.get("created"))
+        if (r.get("event") == "workflow_dispatch" and "(" not in (r.get("title") or "") and made
+                and now - made <= datetime.timedelta(hours=WORKER_SEEN_HOURS)):
+            return True
+    return False
+
+
+def ahead_hours(now, runs):
+    """How far ahead a kickoff may be and still hold a run. With the Worker ticking every ten
+    minutes a run only has to be there shortly before the kickoff: HOLD_AHEAD_HOURS. Without it
+    nothing reliable starts a run before a weekday afternoon game, so the night's run waits for
+    the next day's first kickoff: BRIDGE_AHEAD_HOURS. Retires itself on the Worker's first tick."""
+    return HOLD_AHEAD_HOURS if worker_live(now, runs) else BRIDGE_AHEAD_HOURS
+
+
+def _runs():
+    """This workflow's latest runs from the GitHub CLI, or None when they cannot be read."""
+    try:
+        r = subprocess.run(["gh", "run", "list", "--workflow", WORKFLOW, "--limit", "40", "--json",
+                            "databaseId,status,conclusion,event,displayTitle,createdAt,updatedAt"],
+                           cwd=HERE, capture_output=True, text=True, timeout=45)
+        if r.returncode != 0:
+            print(f"::warning::scores: the runs could not be listed ({r.stderr.strip()[:160]})")
+            return None
+        return [{"id": x.get("databaseId"), "status": x.get("status"), "conclusion": x.get("conclusion") or "",
+                 "event": x.get("event"), "title": x.get("displayTitle") or "", "created": x.get("createdAt"),
+                 "updated": x.get("updatedAt")} for x in json.loads(r.stdout or "[]")]
+    except Exception as e:                                    # noqa: BLE001
+        print(f"::warning::scores: the runs could not be listed ({type(e).__name__}: {str(e)[:120]})")
+        return None
+
+
+def aside(argv=()):
+    """--aside: the scores run's first step. Writes aside=true when an older run holds the window."""
+    me = os.environ.get("GITHUB_RUN_ID") or "0"
+    by = (os.environ.get("BY") or "").strip()
+    yes = steps_aside(me, _runs(), by)
+    print("cadence: " + ("an older run holds the window; this one ends here" if yes
+                         else "no older run holds the window" + (f" (started by: {by})" if by else "")))
+    out = os.environ.get("GITHUB_OUTPUT")
+    if out:
+        with open(out, "a", encoding="utf-8") as f:
+            f.write(f"aside={'true' if yes else 'false'}\n")
+    return 0
+
+
+def start(argv=()):
+    """--start: run by the desk's Worker-dispatched jobs (the inactives poller, the evening brief).
+    Starts the scores run when start_due says so. Never fails the job it runs in."""
+    due, why = start_due(datetime.datetime.now(UTC), _runs())
+    if not due:
+        print(f"cadence: the scores run is not started: {why}")
+        return 0
+    r = subprocess.run(["gh", "workflow", "run", WORKFLOW, "--ref", "main", "-f", "by=start"],
+                       cwd=HERE, capture_output=True, text=True, timeout=45)
+    if r.returncode != 0:
+        print(f"::warning::scores: the start dispatch failed ({r.stderr.strip()[:160]}); the next tick asks again")
+    else:
+        print(f"cadence: the scores run is started ({why})")
+    return 0
 
 
 def worth_fetching(now, prev, last_build):
@@ -232,13 +350,14 @@ def tick(argv):
     # S-DONE: every tick reads the feed. The committed snapshot is the last BUILD's, and a slate
     # it never held (a Tuesday's college games under Monday night's file) was never fetched.
     cur = scoreboard.refresh()
+    ahead = ahead_hours(now, _runs())
     if cur is None:
         due, why = False, "every league failed to read; nothing to build from"
-        plan = hold(now, prev, started)
+        plan = hold(now, prev, started, ahead)
         plan["live"] = False
     else:
         due, why = decide(now, cur, prev, last)
-        plan = hold(now, cur, started)
+        plan = hold(now, cur, started, ahead)
     if plan["live"]:
         # the re-read: the board as the site's own renderer draws it, committed under
         # site/data/live/ for the pages to read. A render that fails costs this tick's re-read
@@ -251,7 +370,7 @@ def tick(argv):
             print(f"::warning::scores: the board was not re-read ({type(e).__name__}: {str(e)[:160]})")
     print(f"cadence: {'DUE' if due else 'not due'}, {why} "
           f"(last build {last.strftime('%Y-%m-%dT%H:%MZ') if last else 'unknown'}); "
-          f"window {window(now, cur or prev)[0]}, next tick in {plan['sleep']} s"
+          f"window {window(now, cur or prev, ahead)[0]} looking {ahead} hours ahead, next tick in {plan['sleep']} s"
           + (", handing over" if plan["handover"] else ""))
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
@@ -349,6 +468,80 @@ def canary():
     mon = _sb(_g(6, "in", "2026-11-24T01:15Z"))
     if window(t("2026-11-25T01:30Z"), mon)[0] != "off" or window(t("2026-11-25T01:30Z"), tue)[0] != "on":
         fails.append("cadence window: the Tuesday games are read from the feed's slate, not the committed one")
+    # S-DONE: who starts the run, and who steps aside. GitHub delivers 4 to 6 of this workflow's 100
+    # cron ticks a day, so the desk's own Worker-dispatched runs start it, a run started while another
+    # holds the window ends at once, and with no Worker tick on record a run bridges the night to the
+    # next day's first kickoff.
+    R = lambda i, status="completed", concl="success", event="schedule", title="Game-day scores", created="2026-11-25T23:00Z", updated=None: {
+        "id": i, "status": status, "conclusion": concl if status == "completed" else "", "event": event, "title": title,
+        "created": created, "updated": updated or created}
+    acases = [
+        ("an older run in progress holds the window", 101, [R(100, "in_progress")], "", True),
+        ("an older run still queued will hold it", 101, [R(100, "queued")], "", True),
+        ("a younger run is the one that steps aside", 101, [R(102, "in_progress")], "", False),
+        ("every other run is finished", 101, [R(100), R(99, concl="failure")], "", False),
+        ("the run a holder handed over to never steps aside", 101, [R(100, "in_progress")], "handover", False),
+        ("the list of runs could not be read", 101, None, "", False),
+        ("the run itself in the list", 101, [R(101, "in_progress")], "", False),
+    ]
+    for name, me, runs, by, want in acases:
+        try:
+            got = steps_aside(me, runs, by)
+        except Exception as e:                                # noqa: BLE001
+            got = f"{type(e).__name__}: {e}"
+        if got != want:
+            fails.append(f"cadence aside: {name}: {got}, expected {want}")
+    n = t("2026-11-25T23:40Z")
+    scases = [
+        ("no run on record", [], True),
+        ("a run holds the window", [R(100, "in_progress", created="2026-11-25T20:00Z")], False),
+        ("a run is queued", [R(100, "queued")], False),
+        ("a run ended ten minutes ago and found no window", [R(100, created="2026-11-25T23:30Z")], False),
+        ("the last run ended fifty minutes ago", [R(100, created="2026-11-25T22:50Z")], True),
+        ("the last run failed ten minutes ago", [R(100, concl="failure", created="2026-11-25T23:30Z")], True),
+        ("the last run was cancelled five minutes ago", [R(100, concl="cancelled", created="2026-11-25T23:35Z")], True),
+        ("the list of runs could not be read", None, True),
+    ]
+    for name, runs, want in scases:
+        try:
+            got = start_due(n, runs)[0]
+        except Exception as e:                                # noqa: BLE001
+            got = f"{type(e).__name__}: {e}"
+        if got != want:
+            fails.append(f"cadence start: {name}: {got}, expected {want}")
+    lcases = [
+        ("a Worker tick an hour ago", [R(100, event="workflow_dispatch", created="2026-11-25T22:35Z")], HOLD_AHEAD_HOURS),
+        ("only GitHub's own cron on record", [R(100, created="2026-11-25T22:35Z")], BRIDGE_AHEAD_HOURS),
+        ("only the desk's own start and hand-over on record",
+         [R(100, event="workflow_dispatch", title="Game-day scores (start)", created="2026-11-25T22:35Z"),
+          R(99, event="workflow_dispatch", title="Game-day scores (handover)", created="2026-11-25T21:35Z")], BRIDGE_AHEAD_HOURS),
+        ("the last Worker tick was five hours ago", [R(100, event="workflow_dispatch", created="2026-11-25T18:35Z")], BRIDGE_AHEAD_HOURS),
+        ("the list of runs could not be read", None, BRIDGE_AHEAD_HOURS),
+    ]
+    for name, runs, want in lcases:
+        try:
+            got = ahead_hours(n, runs)
+        except Exception as e:                                # noqa: BLE001
+            got = f"{type(e).__name__}: {e}"
+        if got != want:
+            fails.append(f"cadence ahead: {name}: {got}, expected {want}")
+    # Thanksgiving 2026: the Wednesday night game is final at 04:20Z, the first Thursday kickoff is 17:30Z
+    thu = _sb(_g(7, "post", "2026-11-26T01:00Z"), _g(8, "pre", "2026-11-26T17:30Z"))
+    try:
+        h6 = hold(t("2026-11-26T04:20Z"), thu, t("2026-11-25T23:40Z"))
+        h16 = hold(t("2026-11-26T04:20Z"), thu, t("2026-11-25T23:40Z"), BRIDGE_AHEAD_HOURS)
+        hov = hold(t("2026-11-26T04:50Z"), thu, t("2026-11-25T23:40Z"), BRIDGE_AHEAD_HOURS)
+        far = hold(t("2026-11-26T04:20Z"), _sb(_g(8, "pre", "2026-11-26T21:30Z")), t("2026-11-25T23:40Z"), BRIDGE_AHEAD_HOURS)
+    except Exception as e:                                    # noqa: BLE001
+        h6 = h16 = hov = far = f"{type(e).__name__}: {e}"
+    if h6 != {"live": False, "sleep": 0, "handover": False}:
+        fails.append(f"cadence bridge: with the Worker's tick on record the night's run ends at the last final, got {h6}")
+    if h16 != {"live": False, "sleep": HOLD_WAKE_MIN * 60, "handover": False}:
+        fails.append(f"cadence bridge: with no Worker tick the night's run waits for a kickoff 13 hours off, got {h16}")
+    if hov != {"live": False, "sleep": 0, "handover": True}:
+        fails.append(f"cadence bridge: a waiting run at its limit hands over, got {hov}")
+    if far != {"live": False, "sleep": 0, "handover": False}:
+        fails.append(f"cadence bridge: a kickoff more than {BRIDGE_AHEAD_HOURS} hours off ends the run, got {far}")
     import inspect
     src = inspect.getsource(tick)
     if "worth_fetching(" in src or "scoreboard.refresh()" not in src:
@@ -360,6 +553,10 @@ def canary():
 if __name__ == "__main__":
     if "--tick" in sys.argv:
         sys.exit(tick(sys.argv[1:]))
+    if "--aside" in sys.argv:
+        sys.exit(aside(sys.argv[1:]))
+    if "--start" in sys.argv:
+        sys.exit(start(sys.argv[1:]))
     fs = canary()
     for f in fs:
         print("::error::" + f)

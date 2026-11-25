@@ -15,7 +15,7 @@
   "worker_dispatches": [
     "inactives.yml in its posting windows (its only trigger since N-1)",
     "sports-news-brief.yml at the evening slot until Jack removes the window from the Worker; the run it starts skips",
-    "scores-cadence.yml every ten minutes, 6 AM hour and 10 AM to 2:59 AM ET, from the Worker's N-1 deploy"
+    "scores-cadence.yml every ten minutes, 6 AM hour and 10 AM to 2:59 AM ET, from the Worker's N-1 deploy (not live on November 25 2026; until it is, the scores-start job in inactives.yml and sports-news-brief.yml starts the run)"
   ],
   "workflows": {
     "sports-news-brief.yml": {
