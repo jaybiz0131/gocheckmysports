@@ -11368,7 +11368,7 @@ def week_board(sb):
     win_html = ""
     sw = slate.get("sunday_windows") or {}
     if sw:
-        win_html = '<div class="tk-tabs wb-wins">' + "".join(
+        win_html = '<div class="tk-tabs wb-wins"><span class="wb-wins-k">Sunday</span>' + "".join(
             f'<a class="tk-tab" href="#win-{_WIN_ID[w]}">{esc(_carriage.WINDOW_LABEL[w])}'
             f'<small>{sw[w]}</small></a>'
             for w in _carriage.WINDOW_ORDER if w in sw) + '</div>'
@@ -11542,6 +11542,11 @@ def wall_row(g):
         cell = lambda v, cls="": (f'<span class="wl-pl{cls}{" wl-miss" if not v else ""}">'
                                   f'{esc(v) if v else "n/a"}</span>')
         wx = cell(temp) + cell(wind, " wl-w on" if p["on"]["wind"] else " wl-w") + cell(rain)
+        if not (temp or wind or rain) and g.get("state") == "in":
+            # S-DONE point 10: the forecast's kickoff hour is gone once the game is on; one plate
+            # that says so, not three reading n/a
+            wx = '<span class="wl-pl wl-one">Under way</span>'
+            lit = False
     else:
         note = {"indoor": "Dome", "outside_nws": g.get("venue_city") or "Outside NWS",
                 "out_of_range": "Later", "roofed": (e.get("words") or {}).get("line")}.get(st, "No forecast")
@@ -11655,8 +11660,13 @@ def render_home(items, dateline):
         html = _render_home(items, dateline)
         if len(html.encode("utf-8")) <= HOME_BUDGET:
             return html
+        # S-DONE point 10: today's games first, then by rank. By rank alone, a Tuesday's two unranked
+        # games were the first cut, and the day the home opens on drew no card: "2 more college
+        # games. All scores" and nothing else (production, November 24).
+        _today = _mf()["date"]
         fbs = sorted(((k, g) for k, g in board_games(SB_DATA) if g.get("league") == "CFB"),
-                     key=lambda kg: (_home_rank(kg[1]), kg[0], str(kg[1].get("id"))))
+                     key=lambda kg: (0 if kg[0].astimezone(_ET).date().isoformat() == _today else 1,
+                                     _home_rank(kg[1]), kg[0], str(kg[1].get("id"))))
         ids = [str(g.get("id")) for _k, g in fbs]
         lo, hi, best = 0, len(ids), None
         while lo <= hi:

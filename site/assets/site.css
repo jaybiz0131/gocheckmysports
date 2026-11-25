@@ -3385,3 +3385,31 @@ article.tk-c:has(.tk-stale){opacity:.88;border-style:dashed}
   .mh-brand{flex-wrap:wrap;row-gap:6px}
   .mh-slogan{display:block;flex:0 0 100%;max-width:none;text-align:left;font-size:12.5px;line-height:1.3}
 }
+/* S-DONE point 10: WHAT A STRANGER SEES IN THE FIRST TEN SECONDS ON THE HOME. Existing tokens only.
+   (1) The band ended 90px below where the page under it began. UX-12 cut the fade to 40px tall and left
+       its pull at -130px, so the fade sat 90px above the band's foot and the first block of the page was
+       drawn over the band's dark last 90px: since November 11 that block is the lead, and "THE WIRE" and
+       the top of its heading stood on the photo. The fade is the band's own last 40px and the band ends
+       where the page begins (the page has not moved).
+   (2) Under 720px the ornament is not drawn (A-15), and the 150px kept for it was 150px of empty photo
+       between the controls and the first thing to read. The band ends 28px under its controls there.
+   (3) The count and the stamp sit on the bright part of the photo at 72 and 78 percent cream; they are
+       full cream with the shadow the title has.
+   (4) A Sunday's kickoff windows were bare h3 elements in the browser's own serif with its margins, 60px
+       under the day and 30px over the first game. They take the day heading's face, sit 4px under the day
+       and 8px over their games, and 26px under the window before them. */
+.sb-hero{padding-bottom:60px}
+.sb-hero + .sb-fade{height:40px;margin-top:-40px}
+.sb-hero.no-orn + .sb-fade{height:40px;margin-top:-40px}
+.sb-hero .sb-count,.sb-hero .sb-stamp{color:#EBE9E3;text-shadow:0 1px 2px rgba(0,0,0,.55)}
+.sb-hero .sb-countwrap .sb-stamp{text-align:right}
+body.sbp .sb-hero :is(.sb-count,.sb-stamp){text-shadow:none}
+@media (max-width:720px){body.sbp .sb-hero .sb-countwrap .sb-stamp{text-align:left}}
+@media (max-width:720px){
+  .sb-hero,.sb-hero.no-orn{padding-bottom:28px}
+  .sb-hero + .sb-fade,.sb-hero.no-orn + .sb-fade{height:28px;margin-top:-28px}
+}
+.wb-board .wb-day h3.wb-wl{margin:4px 0 8px;font:700 11.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#8A6420}
+.wb-board .wb-day .tk-g3 + h3.wb-wl{margin-top:26px}
+.wb-wins-k{align-self:center;margin-right:2px;font:700 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:#EBE9E3;opacity:.8}
