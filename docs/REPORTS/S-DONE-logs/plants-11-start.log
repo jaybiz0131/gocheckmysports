@@ -1,0 +1,57 @@
+== S-DONE 11 (the start): the new cases before the code, 2026-11-25T12:04:35Z
+::error::cadence aside: an older run in progress holds the window: NameError: name 'steps_aside' is not defined, expected True
+::error::cadence aside: an older run still queued will hold it: NameError: name 'steps_aside' is not defined, expected True
+::error::cadence aside: a younger run is the one that steps aside: NameError: name 'steps_aside' is not defined, expected False
+::error::cadence aside: every other run is finished: NameError: name 'steps_aside' is not defined, expected False
+::error::cadence aside: the run a holder handed over to never steps aside: NameError: name 'steps_aside' is not defined, expected False
+::error::cadence aside: the list of runs could not be read: NameError: name 'steps_aside' is not defined, expected False
+::error::cadence aside: the run itself in the list: NameError: name 'steps_aside' is not defined, expected False
+::error::cadence start: no run on record: NameError: name 'start_due' is not defined, expected True
+::error::cadence start: a run holds the window: NameError: name 'start_due' is not defined, expected False
+::error::cadence start: a run is queued: NameError: name 'start_due' is not defined, expected False
+::error::cadence start: a run ended ten minutes ago and found no window: NameError: name 'start_due' is not defined, expected False
+::error::cadence start: the last run ended fifty minutes ago: NameError: name 'start_due' is not defined, expected True
+::error::cadence start: the last run failed ten minutes ago: NameError: name 'start_due' is not defined, expected True
+::error::cadence start: the last run was cancelled five minutes ago: NameError: name 'start_due' is not defined, expected True
+::error::cadence start: the list of runs could not be read: NameError: name 'start_due' is not defined, expected True
+::error::cadence ahead: a Worker tick an hour ago: NameError: name 'ahead_hours' is not defined, expected 6
+::error::cadence ahead: only GitHub's own cron on record: NameError: name 'ahead_hours' is not defined, expected 16
+::error::cadence ahead: only the desk's own start and hand-over on record: NameError: name 'ahead_hours' is not defined, expected 16
+::error::cadence ahead: the last Worker tick was five hours ago: NameError: name 'ahead_hours' is not defined, expected 16
+::error::cadence ahead: the list of runs could not be read: NameError: name 'ahead_hours' is not defined, expected 16
+::error::cadence bridge: with the Worker's tick on record the night's run ends at the last final, got TypeError: hold() takes from 2 to 3 positional arguments but 4 were given
+::error::cadence bridge: with no Worker tick the night's run waits for a kickoff 13 hours off, got TypeError: hold() takes from 2 to 3 positional arguments but 4 were given
+::error::cadence bridge: a waiting run at its limit hands over, got TypeError: hold() takes from 2 to 3 positional arguments but 4 were given
+::error::cadence bridge: a kickoff more than 16 hours off ends the run, got TypeError: hold() takes from 2 to 3 positional arguments but 4 were given
+CADENCE CANARY: FAIL
+  FAIL scores-cadence.yml: the hand-over names itself (by=handover), so the run it starts does not step aside for the one ending
+  FAIL scores-cadence.yml: a run started while another holds the window steps aside in its first step; no concurrency group queues it
+  FAIL inactives.yml: the Worker-dispatched run starts the scores run when none is running (its own job, actions: write, warns, never fails)
+  FAIL sports-news-brief.yml: the Worker-dispatched run starts the scores run when none is running (its own job, actions: write, warns, never fails)
+N-1 workflows: FAIL (4 failure(s))
+  FAIL every workflow: a one-line run: holds no ': ' or ' #' outside a block (YAML would not parse it) [inactives.yml:216, scores-cadence.yml:79, sports-news-brief.yml:796]
+N-1 workflows: FAIL (1 failure(s))
+== plant: the handed-over run steps aside like any other
+::error::cadence aside: the run a holder handed over to never steps aside: True, expected False
+CADENCE CANARY: FAIL
+== plant: a start is due while a run is queued
+::error::cadence start: a run is queued: True, expected False
+CADENCE CANARY: FAIL
+== plant: the desk's own dispatches count as the Worker's tick
+::error::cadence ahead: only the desk's own start and hand-over on record: 6, expected 16
+CADENCE CANARY: FAIL
+== plant: the look-ahead never bridges
+::error::cadence ahead: only GitHub's own cron on record: 6, expected 16
+::error::cadence ahead: only the desk's own start and hand-over on record: 6, expected 16
+::error::cadence ahead: the last Worker tick was five hours ago: 6, expected 16
+::error::cadence ahead: the list of runs could not be read: 6, expected 16
+CADENCE CANARY: FAIL
+== plant: the concurrency group is back
+  FAIL scores-cadence.yml: a run started while another holds the window steps aside in its first step; no concurrency group queues it
+N-1 workflows: FAIL (1 failure(s))
+== plant: the hand-over does not name itself
+  FAIL scores-cadence.yml: the hand-over names itself (by=handover), so the run it starts does not step aside for the one ending
+N-1 workflows: FAIL (1 failure(s))
+== restored, 2026-11-25T12:07:02Z
+CADENCE CANARY: PASS
+N-1 workflows: PASS (0 failure(s))
