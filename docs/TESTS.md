@@ -35,7 +35,7 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 2 | trailer | fixture | git log | an attribution trailer in a commit message |
 | 3 | workflow | fixture | `.github/workflows` | a workflow that does not parse or lost its guards |
 | 4 | jobs | fixture | `desk.json`, workflows | a cron line gained or lost against the register (health.yml 2, inactives Worker-only) |
-| 5 | cadence | fixture | inline clocks | the score cadence's ticks |
+| 5 | cadence | fixture | inline clocks | the score cadence's ticks; S-DONE: the game window (on, soon, off), the hold and its hand-over, and a tick that does not read the feed every time |
 | 6 | edition check | fixture | inline slots | one missed slot errors instead of warning |
 | 7 | edition link | fixture | inline | the Edition link does not resolve |
 | 8 | stale module | fixture | inline | the stale-module rule |
@@ -47,7 +47,7 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 14 | undefined name | fixture | the code | an undefined name |
 | 15 | one definition | fixture | the code | a function defined twice |
 | 16 | corpus integrity | fixture | `site/content` | a duplicate slug, a circular update |
-| 17 | inline layer 1 | fixture | inline | config and models, prompt guardrails, shill and dedupe belts, standings zeros, the netlify ignore rule, H-12 and the other `_check` cases written in `layer1_canary` |
+| 17 | inline layer 1 | fixture | inline | config and models, prompt guardrails, shill and dedupe belts, standings zeros, the netlify ignore rule (S-DONE: a re-read under `site/data/live/` and a screenshot under `review/` do not build; a due snapshot and `site/reports/` do), H-12 and the other `_check` cases written in `layer1_canary` |
 | 18 | stamp | fixture | the day's build | the build stamp in the meta tag and `/stamp.txt` |
 | 19 | sitemap | fixture | the day's build | games out of the sitemaps, still built and linked |
 | 20 | register | fixture | the day's build | a page in neither a sitemap nor the register |
@@ -90,12 +90,13 @@ days N-1 read (its 13 C2 reds were all `plate` and `look rendered`, now canaries
 | 55 | edition repair | fixture | inline | the edition repair ladder |
 | 56 | fail closed | fixture | inline | a missing key fails closed; REJECT never publishes |
 | 57 | contract ladder | fixture | inline | the contract ladder and slot recovery |
-| 58 | n1 | fixture | `fixtures/n1/` | `scripts/n1_scores_test.py` (the stale card and its chip row, 2OT, ERADM), `scripts/n1_workflows_test.py`, `scripts/health_gate_test.py` |
+| 58 | n1 | fixture | `fixtures/n1/` | `scripts/n1_scores_test.py` (the stale card and its chip row, 2OT, ERADM), `scripts/n1_workflows_test.py` (S-DONE: the scores job's loop, timeout and hand-over; a dead source feed and an Edition gap warn, never fail), `scripts/health_gate_test.py` (S-DONE: a re-read is a reading) |
 | 59 | slate layout 375 and 1440 | fixture | the fixture slate in a browser | a plate clipped or a page wider than the viewport at 375 or 1440 on the home, every Scores page, every game page |
 | 60 | slate layout 320 | **canary** | the fixture slate in a browser | the same at 320 |
+| 60a | live | fixture | the fixture slate, and in a browser | S-DONE, `live_canary.py`: a live part cut other than byte for byte; the home or Scores without its live root, parts, reading time or script; the tick's render (`site_build.build()` in LIVE_TICK mode) differing from the full build of the same reading; a built page that does not take a newer board for its look and day, loses the reader's tab or day, or takes one from another look, another day or an older reading |
 | 61 | runner | fixture | inline plants | a canary that hands the gate a finding; a fixture whose finding is lost; a check of no kind |
 
-58 fixture tests run under the runner and gate the run (56 from S-61, 2 from S-60), with the inline group beside them; 4 live canaries warn. The gate prints the count it ran on its `checks:` line. Moved from
+59 fixture tests run under the runner and gate the run (56 from S-61, 2 from S-60, `live` from S-DONE), with the inline group beside them; 4 live canaries warn. The gate prints the count it ran on its `checks:` line. Moved from
 gate to canary by S-61: 4 (`look rendered`, `plate fit and plate same` on the day's pages, `performance`,
 and the 320 widths of every layout check, now `slate layout 320` and the under-375 half of `plate`).
 

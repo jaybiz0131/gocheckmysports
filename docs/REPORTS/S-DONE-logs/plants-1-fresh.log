@@ -1,0 +1,60 @@
+=== PLANT: window opens only at kickoff
+::error::cadence window: ten minutes before kickoff: soon, expected on
+CADENCE CANARY: FAIL
+    exit=1
+=== PLANT: the tick fetches only when the committed snapshot says so
+::error::cadence tick: a tick must read the feed every time; the committed snapshot is the last build's and held no Tuesday game on November 24
+CADENCE CANARY: FAIL
+    exit=1
+=== PLANT: no hand-over at the limit
+::error::cadence hold: at the run's limit with a game on it re-reads once more and hands over, got {'live': True, 'sleep': 300, 'handover': False}
+CADENCE CANARY: FAIL
+    exit=1
+=== PLANT: a re-read builds the site
+FAIL: a re-read of the board built the site
+    exit=1
+=== PLANT: the job times out at 8 minutes
+  FAIL scores-cadence.yml: the job's timeout is past cadence.HOLD_MAX_MIN, so a holding run hands over before GitHub ends it
+N-1 workflows: FAIL (1 failure(s))
+    exit=1
+=== PLANT: the re-read is not staged
+  FAIL scores-cadence.yml: the tick loops on cadence.py's sleep and stages the snapshot and the re-read by name
+N-1 workflows: FAIL (1 failure(s))
+    exit=1
+=== PLANT: the health gate reads build snapshots only
+  FAIL the gate reads the build snapshots and the re-reads
+N-1 health gate: FAIL (1 failure(s))
+    exit=1
+=== PLANT: parts are re-serialized (stripped)
+    exit=0
+=== PLANT (built page): the page takes a board drawn by any look
+::error::live in the browser: another look: the page changed (stamp 'Scores as of 9:59 PM ET, the re-read'); it must keep the build's board
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built page): the page takes a board for any day
+::error::live in the browser: another day: the page changed (stamp 'Scores as of 9:59 PM ET, the re-read'); it must keep the build's board
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built page): the page takes a board no newer than itself
+::error::live in the browser: no newer than the page: the page changed (stamp 'Scores as of 9:59 PM ET, the re-read'); it must keep the build's board
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built page): the tabs are not counted again after a re-read
+::error::live in the browser: after the re-read the Live tab says 25 over 0 card(s)
+::error::live in the browser: a reader on the Final tab was moved by the next re-read (stamp 'Scores as of 9:59 PM ET, the re-read again', tabs {'live': {'says': 25, 'cards': 0, 'on': True, 'shown': True}, 'upcoming': {'says': 22, 'cards': 22, 'on': False, 'shown': False}, 'final': {'says': 11, 'car
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built page): the panels are not a live part
+::error::live pages: scores.html carries no live part 'panels'
+::error::live in the browser: the cases could not be cut from the tree (KeyError: 'panels')
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built page): the home's days are not shown again after a re-read
+::error::live in the browser: the home's open day moved on a re-read (was ['wed'], is ['tue', 'wed', 'thu', 'fri', 'sun', 'mon']; tab ['wed'])
+LIVE CANARY: FAIL
+    exit=1
+=== RESTORED: green
+CADENCE CANARY: PASS
+N-1 workflows: PASS (0 failure(s))
+N-1 health gate: PASS (0 failure(s))
+LIVE CANARY: PASS

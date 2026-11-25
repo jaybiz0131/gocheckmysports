@@ -60,8 +60,8 @@ its own CI run of 9 Nov (`42656647167`), and one look page timed out under load 
 on the same tree: PASS, 1035 of 1035). Pushed on that red by the sprint owner's word, recorded as J-19.
 Push: `48ba399..3c7e4a2`, HEAD `3c7e4a2` = origin/main `3c7e4a2`, 0 ahead, 21:01 UTC 11 Nov.
 
-**How the cadence works:** rules in `cadence.py`'s docstring, ticks in the workflow header. A due tick commits only `site/data/scoreboard.json` ("scores: snapshot HH:MMZ") and that push
-builds. Stop it by deleting `.github/workflows/scores-cadence.yml`.
+**How the cadence works:** rules in `cadence.py`'s docstring, ticks in the workflow header. A due tick commits `site/data/scoreboard.json` ("scores: snapshot HH:MMZ") and that push builds. S-DONE (November 25): while a game window is on, every tick also commits the board as the site's renderer draws it under `site/data/live/` ("scores: re-read HH:MMZ", never a build), the home and Scores read it from the repository (`live_board.py`, `site_build.LIVE_JS`), and a run holds its window at five-minute ticks. Scorecard: `docs/REPORTS/S-DONE-REPORT.md`.
+Stop it by deleting `.github/workflows/scores-cadence.yml`.
 
 **Acceptance, not yet readable (U-3: read at the next check, not waited on).**
 - A2: Thursday 12 Nov TNF, a `scores:` commit at kickoff, at the half and at the final. Saturday 14
