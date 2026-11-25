@@ -1,0 +1,17 @@
+=== PLANT: the carrier is the first entry, whatever its type
+::error::s60: radio listed before television: got 'ERADM', expected 'FS1'
+::error::s60: radio alone is no carrier: got 'ERADM', expected ''
+    exit=1
+=== PLANT: CBSSN prints as the feed's code
+::error::s60: the name for CBSSN: got ('CBSSN', False), expected ('CBS Sports Network', False)
+::error::s60: a carrier is its name: got 'CBSSN', expected 'CBS Sports Network'
+    exit=1
+=== PLANT: a game with no carrier prints no chip
+::error::s60: no carrier before kickoff: got '', expected 'Check local listings'
+    exit=1
+=== PLANT: a game in play with no conditions says Conditions unavailable
+::error::s60: weather, a game in play with none: got ('Conditions unavailable', 'st-stale'), expected ('', '')
+::error::s60: weather, a final with none: got ('Conditions unavailable', 'st-stale'), expected ('', '')
+    exit=1
+=== RESTORED
+PASS

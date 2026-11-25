@@ -4163,6 +4163,17 @@ def network_name(raw):
     return _nw.label(raw)[0]
 
 
+def card_network(g):
+    """The chip a card prints for its carrier: the network's name; "Check local listings" (S-60's
+    wording for a carrier the desk cannot name) on a game to come or in play that the feed gives
+    no carrier for; nothing on a final, where the channel is no longer a question."""
+    import networks as _nw
+    name = network_name((g or {}).get("network"))
+    if name:
+        return name
+    return _nw.BARE if str((g or {}).get("state") or "") in ("pre", "in") else ""
+
+
 def _is_postponed(g):
     """A postponed game has no score. The feed sends 0 and 0 and marks it Postponed,
     and a card that prints those two zeros is reporting a nil-nil draw that was never
@@ -5411,6 +5422,8 @@ def sbc_wx_absent(g, e):
     if g.get("state") == "post":
         return ""
     text, cls = _s60.weather_absent(g, e, _build_now())
+    if not text:
+        return ""
     return (f'<div class="sbc-wx" data-cx="absent" data-lens-only="watch">'
             f'<p class="sbc-one{(" " + cls) if cls else ""}">{esc(text)}</p></div>')
 
@@ -5500,7 +5513,7 @@ def sbc_card(g, ia_index, ticket=False, desig=None, stream=""):
     if e and e.get("status") in ("forecast", "roofed") and ((e.get("roof") or "") in ("retractable", "fixed")
                                                 or "retractable" in ((e.get("words") or {}).get("roof") or "").lower()):
         roof = '<span class="sbc-chip sbc-roof">Roof</span>'
-    net = f'<span class="sbc-chip">{esc(network_name(g.get("network")))}</span>' if network_name(g.get("network")) else ""
+    net = f'<span class="sbc-chip">{esc(card_network(g))}</span>' if card_network(g) else ""
     # S-1: the network plate, then the first stream that carries the game (or the verify chip)
     facts = _tk_avail(g, ia_index, desig)
     fact = (f'<p class="sbc-fact" data-lens-only="fantasy">' + " · ".join(
@@ -5576,8 +5589,8 @@ def _tk_card(g, ia_index, wx=None, desig=None, items=None, buttons=True, stream=
     False leaves the venue and availability rows out (the game page carries them below)."""
     a_col, b_col = _tk_colors(g)
     state = g.get("state")
-    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(network_name(g.get("network")))}'
-           f'</span>' if network_name(g.get("network")) else "")
+    net = (f'<span class="tk-chip" data-lens-only="watch">{esc(card_network(g))}'
+           f'</span>' if card_network(g) else "")
     spec = _tk_facts(g, ia_index, wx, desig) if facts else ""
     leaders = _tk_leaders(g)
     lead_html = ""
@@ -7838,6 +7851,10 @@ document.addEventListener('click',function(e){
 });
 document.addEventListener('gcm:live',apply);
 apply();
+/* S-DONE: on a phone the days are one row that scrolls; the open day is brought into view (the row is
+   moved, never the page) */
+var on=document.querySelector('.sc-days .on');
+if(on&&on.parentNode.scrollWidth>on.parentNode.clientWidth) on.parentNode.scrollLeft=Math.max(0,on.offsetLeft-on.parentNode.offsetLeft-8);
 })();</script>"""
 
 SCORES_BUDGET = 240000      # the scorecard's byte line for a page (S-60: was 150000; the day is one page now)

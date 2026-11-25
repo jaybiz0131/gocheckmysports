@@ -138,11 +138,20 @@ def _colors():
 
 
 def _net(comp):
-    """The carrier, from whichever field the league populates."""
-    for g in comp.get("geoBroadcasts") or []:
-        n = ((g.get("media") or {}).get("shortName") or "").strip()
-        if n:
-            return n
+    """The carrier, from whichever field the league populates: the television network, else the
+    stream. S-DONE: never the radio call. The typed list was read first to last whatever its type,
+    and for Purdue at Indiana (November 28, 2026) the feed listed ESPN Radio ("ERADM") ahead of
+    FS1, so the card said "Check local listings" for a game on FS1."""
+    typed = [(str((g.get("type") or {}).get("shortName") or "").strip().lower(),
+              ((g.get("media") or {}).get("shortName") or "").strip())
+             for g in comp.get("geoBroadcasts") or []]
+    for want in ("tv", "streaming"):
+        for kind, n in typed:
+            if kind == want and n:
+                return n
+    for kind, n in typed:
+        if n and kind not in ("tv", "streaming", "radio"):
+            return n            # a list the feed did not type (older leagues): its first entry
     for b in comp.get("broadcasts") or []:
         for n in b.get("names") or []:
             if n:

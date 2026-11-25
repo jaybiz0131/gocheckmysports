@@ -3351,3 +3351,22 @@ body.sbp main .ed-topbar button[aria-pressed="true"]{color:var(--ink)}
 .tk-stale{margin:6px 0 0;font-size:12px;letter-spacing:.02em;text-align:center}
 .sbc-one.st-stale{opacity:.72}
 article.tk-c:has(.tk-stale){opacity:.88;border-style:dashed}
+/* S-DONE point 3: THE FIRST SCREEN OF SCORES ON A PHONE ANSWERS WHAT IS ON. At 375 by 812 the first
+   card started 811px down: ten day chips took four rows (181px), the count sat on its own line under
+   the title, and three paddings stacked 46px between the controls and the board. The days are one
+   row that scrolls (SC_STATE_JS brings the open day into view), the count shares the title's line,
+   and the board sits 14px under the controls. Tokens and plates are unchanged. */
+@media (max-width:720px){
+  body.sbp .sb-hero .sc-days{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-14px;padding-right:14px;
+    scroll-snap-type:x proximity}
+  body.sbp .sb-hero .sc-days::-webkit-scrollbar{display:none}
+  body.sbp .sb-hero .sc-days .tk-tab{flex:0 0 auto;scroll-snap-align:start;white-space:nowrap}
+  body.sbp .sb-hero-inner .sb-promise:has(+ .sb-tabrow .sc-leagues){display:grid;grid-template-columns:minmax(0,1fr) auto;
+    align-items:baseline;gap:0 12px;padding-bottom:0}
+  body.sbp .sb-hero-inner .sb-promise:has(+ .sb-tabrow .sc-leagues) .sb-countwrap{display:contents}
+  body.sbp .sb-hero-inner .sb-promise:has(+ .sb-tabrow .sc-leagues) .sb-count{justify-self:end}
+  body.sbp .sb-hero-inner .sb-promise:has(+ .sb-tabrow .sc-leagues) .sb-stamp{grid-column:1 / -1;margin-top:4px}
+  body.sbp .sb-hero:has(.sc-leagues) .sb-inner{padding-bottom:10px;gap:8px}
+  body.sbp .sb-hero:has(.sc-leagues) ~ main{margin-top:8px;padding-top:6px}
+  body.sbp .sb-hero:has(.sc-leagues) ~ main #all{padding-top:0}
+}

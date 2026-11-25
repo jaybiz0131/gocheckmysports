@@ -88,11 +88,40 @@ def _cases():
        ("Big Ten Plus", False))
     import site_build as sb
     eq("network_name is the table", sb.network_name("ERADM"), "Check local listings")
+    # S-DONE point 3: a name on every card. Three codes a stranger does not know are spelled out, and the
+    # feed's streaming code for the Mountain West is named.
+    for code, name in (("CBSSN", "CBS Sports Network"), ("BTN", "Big Ten Network"), ("SECN+", "SEC Network+"),
+                       ("MW+", "Mountain West Network"), ("ESPNU", "ESPNU"), ("FS1", "FS1")):
+        eq(f"the name for {code}", networks.label(code), (name, False))
+    # the carrier is the television network. Purdue at Indiana, November 28, 2026: the feed listed ESPN Radio
+    # (ERADM) before FS1, the reader took the first, and the card said "Check local listings" for a game on FS1.
+    import scoreboard as sbm
+    radio_first = {"geoBroadcasts": [{"type": {"shortName": "Radio"}, "media": {"shortName": "ERADM"}},
+                                     {"type": {"shortName": "TV"}, "media": {"shortName": "FS1"}}],
+                   "broadcasts": [{"market": "national", "names": ["FS1"]}]}
+    eq("radio listed before television", sbm._net(radio_first), "FS1")
+    eq("television before its stream", sbm._net({"geoBroadcasts": [
+        {"type": {"shortName": "Streaming"}, "media": {"shortName": "Disney+"}},
+        {"type": {"shortName": "TV"}, "media": {"shortName": "ABC"}}]}), "ABC")
+    eq("a stream when there is no television", sbm._net({"geoBroadcasts": [
+        {"type": {"shortName": "Streaming"}, "media": {"shortName": "MW+"}}]}), "MW+")
+    eq("radio alone is no carrier", sbm._net({"geoBroadcasts": [
+        {"type": {"shortName": "Radio"}, "media": {"shortName": "ERADM"}}]}), "")
+    eq("the feed's own names when it sends no typed list", sbm._net({"broadcasts": [{"names": ["NBC", "Peacock"]}]}), "NBC")
+    # and a game to come or in play that the feed gives no carrier for says so; a final says nothing
+    eq("no carrier before kickoff", sb.card_network({"state": "pre", "network": ""}), "Check local listings")
+    eq("no carrier on a final", sb.card_network({"state": "post", "network": ""}), "")
+    eq("a carrier is its name", sb.card_network({"state": "pre", "network": "CBSSN"}), "CBS Sports Network")
     eq("network_name strips verify", sb.network_name("ABCverify"), "ABC")
 
     # part 5: weather absent
     far = _g(1, "pre", kick="2026-11-26T20:00Z")
     eq("weather, a dome", s60.weather_absent(_g(1, "pre", venue_indoor=True), None, NOW)[0], "Indoor")
+    # S-DONE point 3: kickoff conditions are for a game to come. Once it is under way the forecast's kickoff
+    # hour is gone by design (S-60's trace), and the card drew a plate reading "Conditions unavailable" on
+    # every game in play: 24 of them on the Saturday slate. A game in play with none prints none, as a final does.
+    eq("weather, a game in play with none", s60.weather_absent(_g(1, "in", "5:53 - 2nd", "5:53", 2), None, NOW), ("", ""))
+    eq("weather, a final with none", s60.weather_absent(_g(1, "post"), None, NOW), ("", ""))
     eq("weather, more than 48 hours out", s60.weather_absent(far, None, NOW)[0], "Conditions at kickoff")
     eq("weather, otherwise", s60.weather_absent(_g(1, "pre", kick="2026-11-21T21:00Z"), None, NOW),
        ("Conditions unavailable", "st-stale"))

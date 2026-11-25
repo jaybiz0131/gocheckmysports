@@ -3416,6 +3416,8 @@ def layer1_canary():
     import honest_canary as _hnc
     # S-DONE point 2: every count on the board against the cards under it, on the day's build and on the slate
     fails.extend(_run(FIXTURE_TEST, "honest counts", lambda: _hnc.honest_canary(_built_tree()) + _hnc.honest_canary(_fixture_tree())))
+    # S-DONE point 3: a name on every card, and on the slate a line and conditions (or why not) on every game to come
+    fails.extend(_run(FIXTURE_TEST, "readable", lambda: _hnc.readable(_built_tree()) + _hnc.readable(_fixture_tree(), slate=True)))
     import live_canary as _lvc
     fails.extend(_run(FIXTURE_TEST, "live", lambda: _lvc.live_canary(_fixture_tree())))   # S-DONE: the board re-read in place, no deploy
     fails.extend(_run(FIXTURE_TEST, "runner", _runner_canary))   # S-61: a canary cannot return a failing status

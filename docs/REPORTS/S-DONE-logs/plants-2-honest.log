@@ -1,0 +1,44 @@
+=== PLANT (built page): All counts every league in the feed (S-60's 85)
+::error::honest counts: scores.html: All says 85, the league tabs add to 58 ({'CFB': '58'})
+::error::honest counts: scores.html: All says 85 over 58 card(s)
+::error::honest counts: scores.html: Live, Upcoming and Final add to 58, All says 85
+    exit=1
+=== PLANT (built page): the Live tab counts one more than its panel
+::error::honest counts: scores.html: Live, Upcoming and Final add to 1032, All says 58
+::error::honest counts: scores.html: the Live tab says 999 over 25 card(s)
+HONEST CANARY: FAIL
+    exit=1
+=== PLANT (built page): a card is drawn twice
+::error::honest counts: scores.html: All says 58 over 59 card(s)
+::error::honest counts: scores.html: a game is drawn twice
+::error::honest counts: scores.html: the Live tab says 25 over 26 card(s)
+    exit=1
+=== PLANT (built page): a home day tab counts a game the day does not draw
+    exit=0
+=== RESTORED
+HONEST CANARY: PASS
+=== PLANT (built page): a home day tab counts a game the day does not draw (after pairing in page order)
+::error::honest counts: the home's Tue tab says 777; 1 card(s) are drawn and the line under them counts 5 more
+    exit=1
+=== PLANT (built pages): the stamp never carries its date
+::error::honest in the browser: read a day on: the stamp reads 'Scores as of 4:42 AM ET', not 'Scores as of Nov 25, 4:42 AM ET' (the reading's date, and no schedule that is not holding)
+::error::honest in the browser: read a day on: an aged card reads 'No update since 4:42 AM ET'
+::error::honest in the browser: home, read a day on: the stamp reads 'Scores as of 4:42 AM ET', not 'Scores as of Nov 25, 4:42 AM ET' (the reading's date, and no schedule that is not holding)
+    exit=1
+=== PLANT (built pages): the schedule stays beside an old reading
+::error::honest in the browser: read a day on: the stamp reads 'Scores as of Nov 25, 4:42 AM ET, refreshed every 5 minutes', not 'Scores as of Nov 25, 4:42 AM ET' (the reading's date, and no schedule that is not holding)
+::error::honest in the browser: home, read a day on: the stamp reads 'Scores as of Nov 25, 4:42 AM ET, refreshed every 5 minutes', not 'Scores as of Nov 25, 4:42 AM ET' (the reading's date, and no schedule that is not holding)
+LIVE CANARY: FAIL
+    exit=1
+=== PLANT (built pages): a card past its kickoff is left as upcoming
+::error::live in the browser: the panels on the page are not the ones the file carried (Live 0, Upcoming 22, the file's Upcoming 22, 4 past kickoff)
+::error::honest in the browser: read a day on: 22 card(s) are still drawn as upcoming past their kickoff and 0 say so
+::error::honest in the browser: home, read a day on: 14 card(s) are still drawn as upcoming past their kickoff and 0 say so
+    exit=1
+=== PLANT (built pages): a kickoff past is marked but left under Upcoming
+::error::live in the browser: the panels on the page are not the ones the file carried (Live 0, Upcoming 22, the file's Upcoming 22, 4 past kickoff)
+::error::honest in the browser: a kickoff a day past is not listed with Live and counted there (tabs {'live': {'says': 25, 'cards': 25, 'on': True, 'shown': True}, 'upcoming': {'says': 22, 'cards': 22, 'on': False, 'shown': False}, 'final': {'says': 11, 'cards': 11, 'on': False, 
+LIVE CANARY: FAIL
+    exit=1
+=== RESTORED
+LIVE CANARY: PASS
