@@ -220,7 +220,7 @@ def home_canary():
         if top != ["hl-slot", "scoreband scoreband-page wb-board", "cr-slot"]:
             fails.append(f"home: the page body is {top}, expected the lead, the board, then the report slot")
         # Sprint A, A6: the lead is a headline-shaped block that is not a game card, on every build
-        lead = re.search(r'<div class="hl-slot" id="lead">(.*?)</div>\s*<div class="scoreband', main.group(1), re.S)
+        lead = re.search(r'<div class="hl-slot" id="lead"[^>]*>(.*?)</div>\s*<div class="scoreband', main.group(1), re.S)
         if not lead or not re.search(r'<h2 class="cr-h">(?:<a [^>]*>)?[^<\s][^<]*', lead.group(1)):
             fails.append("home: the lead slot carries no headline")
         elif 'class="tk-c' in lead.group(1):

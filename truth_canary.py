@@ -133,7 +133,7 @@ def check_started_scored(html, sbd, now):
     read shows started (live or final), both scores and the feed's word for its state, and the
     board stamp. A started game printed as a kickoff time with no score is the 7 November page."""
     fails = []
-    if not re.search(r'data-mf="stamp">Scores as of [^<]+<', html):
+    if not re.search(r'data-mf="stamp"[^>]*>Scores as of [^<]+<', html):
         fails.append("started: the Scores page carries no \"Scores as of\" stamp")
     seen = 0
     for L in sbd.get("leagues") or []:
@@ -343,8 +343,10 @@ def truth_canary():
         if not check_agreement(bad, m, want):
             fails.append("truth: a Scores page that prints its own count did not fail the agreement test")
         bad = dict(pages)
-        bad["home"] = pages["home"].replace('data-mf="stamp">Scores as of ',
-                                            'data-mf="stamp">Scores as of 1:11 AM ', 1)
+        # S-DONE: the stamp carries the reading's time as an attribute (data-asof), so the plant matches the tag
+        bad["home"] = re.sub(r'(data-mf="stamp"[^>]*>Scores as of )', r"\g<1>1:11 AM ", pages["home"], count=1)
+        if bad["home"] == pages["home"]:
+            fails.append("truth: the home carries no 'Scores as of' stamp to plant on; the agreement test proved nothing")
         if not check_agreement(bad, m, want):
             fails.append("truth: a home stamp that differs did not fail the agreement test")
 
