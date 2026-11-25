@@ -112,6 +112,14 @@ def unit():
     h = read("health.yml")
     guarded(fails, "health.yml exists and runs scripts/health_gate.py at 7 AM Eastern (11:03 and 12:03 UTC)",
             lambda: h and "scripts/health_gate.py" in h and set(active_crons(h)) == {"3 11 * * *", "3 12 * * *"})
+    # S-DONE: neither health cron was delivered on November 25. The desk's Worker-dispatched runs start the gate too.
+    guarded(fails, "health.yml takes the desk's own start (the by input, named in the run's title, handed to the script)",
+            lambda: h and re.search(r"(?m)^      by:\s*$", h) and "run-name:" in h and "inputs.by" in h and "BY: ${{ inputs.by }}" in h)
+    for name in ("inactives.yml", "sports-news-brief.yml"):
+        w = read(name)
+        job = w.split("\n  scores-start:\n", 1)[1] if "\n  scores-start:\n" in w else ""
+        guarded(fails, f"{name}: the same job starts the day's health gate when none has run since 7 AM ET (warns, never fails)",
+                lambda job=job: re.search(r"python3 scripts/health_gate\.py --start \|\| echo \"::warning::", job))
     guarded(fails, "health.yml reads 30 hours of history and pushes nothing",
             lambda: h and "--shallow-since" in h and "git push" not in h and "sports-publish" not in h)
     return fails

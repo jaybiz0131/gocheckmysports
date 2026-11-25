@@ -1,0 +1,29 @@
+== S-DONE 14 (the health gate's second starter): the new cases before the code, 2026-11-25T19:32:40Z
+  FAIL start: 6:40 PM ET and no gate today: starts the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL start: before 7 AM ET: does not start the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL start: GitHub's cron ran today: does not start the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL start: a gate the desk started is still running: does not start the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL start: only a hand dispatch today: starts the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL start: the runs could not be read: does not start the gate [AttributeError: module 'health_gate' has no attribute 'start_due']
+  FAIL a gate the desk started keeps the day's rule: it runs when none ran, stands down when one did; a hand dispatch always runs [TypeError: should_run() takes 3 positional arguments but 4 were given
+  FAIL today's gates: the cron's and the desk's own count, a hand dispatch and this run do not [AttributeError: module 'health_gate' has no attribute 'gates_today']
+N-1 health gate: FAIL (8 failure(s))
+  FAIL health.yml takes the desk's own start (the by input, named in the run's title, handed to the script)
+  FAIL inactives.yml: the same job starts the day's health gate when none has run since 7 AM ET (warns, never fails)
+  FAIL sports-news-brief.yml: the same job starts the day's health gate when none has run since 7 AM ET (warns, never fails)
+N-1 workflows: FAIL (3 failure(s))
+== plant: a run created before 7 AM ET counts as the day's gate
+  FAIL the 6:03 AM ET run that stood down is not today's gate: the 7:03 one still runs
+N-1 health gate: FAIL (1 failure(s))
+== plant: a gate still running does not count, so a second is started
+  FAIL start: a gate the desk started is still running: does not start the gate
+N-1 health gate: FAIL (1 failure(s))
+== plant: the desk's own start runs like a hand dispatch
+  FAIL a gate the desk started keeps the day's rule: it runs when none ran, stands down when one did; a hand dispatch always runs
+N-1 health gate: FAIL (1 failure(s))
+== plant: unreadable runs start a gate
+  FAIL start: the runs could not be read: does not start the gate
+N-1 health gate: FAIL (1 failure(s))
+== restored, 2026-11-25T19:33:35Z
+N-1 health gate: PASS (0 failure(s))
+N-1 workflows: PASS (0 failure(s))

@@ -66,6 +66,41 @@ def unit():
             and hg.should_run(u("2026-11-22T12:03:00Z"), "schedule", 0)[0]
             and not hg.should_run(u("2026-11-22T13:20:00Z"), "schedule", 1)[0]
             and hg.should_run(u("2026-11-22T03:00:00Z"), "workflow_dispatch", 3)[0])
+    # S-DONE, a fault found while reading the rule: in Eastern STANDARD time the 11:03 UTC cron is 6:03 AM ET. It
+    # stands down as too early, and was then counted as "today's gate" by the 12:03 one, which stood down as
+    # well: on a day GitHub delivered both on time there was no gate at all. Only a run created at or after
+    # 7 AM ET is the day's gate.
+    guarded(fails, "the 6:03 AM ET run that stood down is not today's gate: the 7:03 one still runs",
+            lambda: hg.gates_today(u("2026-11-26T12:03:20Z"), [
+                {"id": 1, "event": "schedule", "status": "completed", "display_title": "Health gate (7 AM Eastern)", "created_at": "2026-11-26T11:03:10Z"},
+                {"id": 2, "event": "schedule", "status": "in_progress", "display_title": "Health gate (7 AM Eastern)", "created_at": "2026-11-26T12:03:05Z"}], 2) == 0)
+    # S-DONE: GitHub delivered neither health cron on November 25 by 2:30 PM ET, and the 24th's ran at 4:05 PM.
+    # The desk's Worker-dispatched runs start the day's gate when no gate has run since 7 AM ET.
+    R = lambda created, event="schedule", status="completed", title="Health gate (7 AM Eastern)", i=1: {
+        "id": i, "event": event, "status": status, "display_title": title, "created_at": created}
+    eve = u("2026-11-25T23:40:00Z")                      # 6:40 PM ET, the evening brief's fire
+    scases = [
+        ("6:40 PM ET and no gate today", eve, [R("2026-11-24T21:05:48Z"), R("2026-11-24T22:07:04Z")], True),
+        ("before 7 AM ET", u("2026-11-25T11:50:00Z"), [], False),
+        ("GitHub's cron ran today", eve, [R("2026-11-25T12:03:10Z")], False),
+        ("a gate the desk started is still running", eve,
+         [R("2026-11-25T23:10:00Z", "workflow_dispatch", "in_progress", "Health gate (7 AM Eastern) (start)")], False),
+        ("only a hand dispatch today", eve, [R("2026-11-25T15:00:00Z", "workflow_dispatch")], True),
+        ("the runs could not be read", eve, None, False),
+    ]
+    for name, now2, runs, want in scases:
+        guarded(fails, f"start: {name}: {'starts' if want else 'does not start'} the gate",
+                lambda now2=now2, runs=runs, want=want: hg.start_due(now2, runs)[0] is want)
+    guarded(fails, "a gate the desk started keeps the day's rule: it runs when none ran, stands down when one did; a hand dispatch always runs",
+            lambda: hg.should_run(eve, "workflow_dispatch", 0, "start")[0]
+            and not hg.should_run(eve, "workflow_dispatch", 1, "start")[0]
+            and not hg.should_run(u("2026-11-25T11:50:00Z"), "workflow_dispatch", 0, "start")[0]
+            and hg.should_run(eve, "workflow_dispatch", 1, "")[0])
+    guarded(fails, "today's gates: the cron's and the desk's own count, a hand dispatch and this run do not",
+            lambda: hg.gates_today(eve, [R("2026-11-25T12:03:10Z", i=1),
+                                         R("2026-11-25T23:10:00Z", "workflow_dispatch", "completed", "Health gate (7 AM Eastern) (start)", 2),
+                                         R("2026-11-25T15:00:00Z", "workflow_dispatch", i=3),
+                                         R("2026-11-25T23:39:00Z", i=4), R("2026-11-24T22:07:04Z", i=5)], 4) == 2)
     return fails
 
 

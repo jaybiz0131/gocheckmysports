@@ -8,13 +8,25 @@
 # Two crons, one per offset (7:03 AM EDT and 7:03 AM EST); the script keeps the first tick at or
 # after 7 AM ET and stands the other down. A GitHub cron, not the Worker: the gate must still mail
 # on the day the Worker or its token is what failed. It pushes nothing and holds no publish lock.
+#
+# S-DONE (25 November 2026): GitHub delivered the 7:03 AM cron at 4:05 PM ET on November 24 and neither
+# line by 2:30 PM on the 25th. The crons stay, and the desk's Worker-dispatched runs (the scores-start job
+# in inactives.yml and sports-news-brief.yml) start the day's gate when none has run since 7 AM ET
+# (scripts/health_gate.py --start, by=start). Whichever arrives first is the day's gate; the other
+# stands down. A dispatch by hand, with no input, always runs.
 name: Health gate (7 AM Eastern)
+run-name: Health gate (7 AM Eastern)${{ inputs.by && format(' ({0})', inputs.by) || '' }}
 
 on:
   schedule:
     - cron: "3 11 * * *"    # 7:03 AM EDT
     - cron: "3 12 * * *"    # 7:03 AM EST
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      by:
+        description: "Set by the desk's own runs (start). Leave empty."
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -33,4 +45,5 @@ jobs:
       - name: Read the stamps, the snapshots and the runs, fail only when the desk is down
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BY: ${{ inputs.by }}
         run: python3 scripts/health_gate.py
