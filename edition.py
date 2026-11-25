@@ -247,6 +247,9 @@ a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   text-transform:uppercase; font-weight:600;}
 .ed-continued a{color:var(--accent);}
 /* rail */
+/* S-DONE point 4: an Edition with no rail stories drew an empty column 393 by 499 at 1440 (July 20). No
+   stories, no rail, and the lead takes the row. */
+.ed-front.ed-solo{grid-template-columns:1fr;}
 .ed-rail article{padding:0 0 1.1rem; margin-bottom:1.1rem; border-bottom:1px solid var(--rule);}
 .ed-rail article:last-child{border-bottom:none;}
 .ed-rail h3{font-weight:600; font-size:1.22rem; line-height:1.2; margin:.3rem 0 .35rem;}
@@ -485,9 +488,9 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
 <main class="ed-sheet">
 {topbar}
 {head}
-<div class="ed-front">
+<div class="ed-front{'' if rail_html.strip() else ' ed-solo'}">
 {lead_html}
-<aside class="ed-rail" aria-label="Top stories">{rail_html}</aside>
+{f'<aside class="ed-rail" aria-label="Top stories">{rail_html}</aside>' if rail_html.strip() else ''}
 </div>
 {brief_html}
 {down_html}

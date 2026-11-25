@@ -52,7 +52,7 @@ GATE_WIDTHS = [375, 1440]
 WARN_WIDTHS = [320]
 
 
-def sweep(tree, pages, widths=WIDTHS, dump=None, width_only=False):
+def sweep(tree, pages, widths=WIDTHS, dump=None, width_only=False, clean_only=False):
     """scripts/plate-fit.mjs over the pages. Returns (findings, summary, problems). width_only reads the
     page's own width and the phone tab bar and no plate (S-DONE: any page type, with or without Oswald)."""
     node = shutil.which("node")
@@ -62,7 +62,8 @@ def sweep(tree, pages, widths=WIDTHS, dump=None, width_only=False):
     try:
         cfgp = os.path.join(tmp, "config.json")
         with open(cfgp, "w", encoding="utf-8") as f:
-            json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump, "widthOnly": bool(width_only)}, f)
+            json.dump({"pages": pages, "widths": widths, "plate": PLATE, "dump": dump, "widthOnly": bool(width_only),
+                       "cleanOnly": bool(clean_only)}, f)
         try:
             # S-5.6 round 5: the sweep runs under the runner's text condition (whole-pixel advances from hinted
             # fonts), not this machine's, so a fit that depends on the machine's fonts is red on every machine.
@@ -425,9 +426,38 @@ def type_widths(tree):
     return fails
 
 
+def clean_read(tree):
+    """S-DONE point 4, in a browser on one page of every kind at 375 and 1440: no text cut by an ellipsis,
+    a line clamp or a hidden overflow, and no section, list, table or card drawn with nothing in it."""
+    if not tree or not os.path.isdir(tree):
+        return ["clean read: no built tree, so no page was read"]
+    pages = every_type(tree)
+    fails = []
+    found, summ, probs = sweep(tree, pages, TYPE_WIDTHS, clean_only=True)
+    fails += [x.replace("plate fit:", "clean read:") for x in probs if "findings" not in x]
+    if summ is not None:
+        if summ.get("loads", 0) < len(pages) * len(TYPE_WIDTHS) or not summ.get("plates"):
+            fails.append(f"clean read: {summ.get('loads', 0)} page loads for {len(pages)} pages at {TYPE_WIDTHS}; a page was not read")
+        print(f"clean read: {len(pages)} pages at {TYPE_WIDTHS}, {summ.get('plates', 0)} text elements read, {len(found)} finding(s)")
+    grp = {}
+    for o in found:
+        grp.setdefault((o["el"], o["width"], o["why"].split(":")[0]), []).append(o)
+    for (el, w, kind), v in sorted(grp.items()):
+        pg = sorted({o["page"] for o in v})
+        fails.append(f"clean read: {kind} at {w}: {el} {v[0]['text']!r} on {pg[0]}"
+                     + (f" and {len(pg) - 1} more page(s)" if len(pg) > 1 else "") + f": {v[0]['why']} ({len(v)} in all)")
+    return fails
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, HERE)
+    if len(sys.argv) > 2 and sys.argv[2] == "--clean":
+        f = clean_read(sys.argv[1])
+        for x in f:
+            print("FAIL", x)
+        print("clean read:", "PASS" if not f else f"{len(f)} FAIL")
+        sys.exit(1 if f else 0)
     if len(sys.argv) > 2 and sys.argv[2] == "--types":
         f = type_widths(sys.argv[1])
         for x in f:

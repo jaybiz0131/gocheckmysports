@@ -133,6 +133,43 @@ const WIDTH = ({ tol }) => {
   return { n: 1, out, all: [] };
 };
 
+// S-DONE point 4: WHAT A PAGE DRAWS AND DOES NOT FINISH (config "cleanOnly"). Read on any page type:
+//   truncated  text cut by the stylesheet: an ellipsis or a line clamp with more text than its box, or a
+//              one-line leaf with a hidden overflow wider than its box (sr-only text is hidden on purpose)
+//   empty      a section, article, list, table, paragraph, heading, nav or aside that takes space on the
+//              page and holds no text and no image, control or drawing
+const CLEAN = ({ tol }) => {
+  const out = [];
+  const name = (e) => e.tagName.toLowerCase() + (e.className && typeof e.className === "string"
+    ? "." + e.className.trim().split(/\s+/).join(".") : "") + (e.id ? "#" + e.id : "");
+  let n = 0;
+  for (const e of document.body.querySelectorAll("*")) {
+    if (["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE"].includes(e.tagName) || e.closest("svg")) continue;
+    if (e.closest(".sr-only, [aria-hidden='true']")) continue;
+    if (!e.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true })) continue;
+    const text = (e.textContent || "").replace(/\s+/g, " ").trim();
+    if (!text) continue;
+    n++;
+    const cs = getComputedStyle(e);
+    const ell = cs.textOverflow === "ellipsis", clamp = cs.webkitLineClamp && cs.webkitLineClamp !== "none";
+    const hid = cs.overflowX === "hidden" || cs.overflowX === "clip";
+    let why = "";
+    if (ell && e.scrollWidth > e.clientWidth + tol) why = "an ellipsis cuts it (" + e.scrollWidth + " in " + e.clientWidth + ")";
+    else if (clamp && e.scrollHeight > e.clientHeight + 2 * tol) why = "a line clamp cuts it";
+    else if (hid && !ell && e.children.length === 0 && cs.whiteSpace === "nowrap" && e.scrollWidth > e.clientWidth + 2 * tol)
+      why = "a hidden overflow clips it (" + e.scrollWidth + " in " + e.clientWidth + ")";
+    if (why) out.push({ kind: "clipped", el: name(e), text: text.slice(0, 48), why: "truncated: " + why, w: e.clientWidth, size: cs.fontSize });
+  }
+  for (const e of document.body.querySelectorAll("section, article, ul, ol, table, tbody, p, li, h1, h2, h3, h4, nav, aside, dl, details, figure, blockquote")) {
+    if (e.closest("svg, [aria-hidden='true']")) continue;
+    if (!e.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true })) continue;
+    const r = e.getBoundingClientRect();
+    if ((e.textContent || "").trim() || e.querySelector("img, svg, video, canvas, input, button, iframe") || r.width < 2 || r.height < 2) continue;
+    out.push({ kind: "clipped", el: name(e), text: "", why: "empty: drawn " + Math.round(r.width) + " by " + Math.round(r.height) + " with nothing in it", w: Math.round(r.width), size: "" });
+  }
+  return { n, out, all: [] };
+};
+
 const fails = [];
 const WORKERS = 4;
 let measured = 0, loads = 0, browser, server;
@@ -167,6 +204,8 @@ try {
             let r;
             if (cfg.widthOnly) {
               r = await pg.evaluate(WIDTH, { tol: 1 });
+            } else if (cfg.cleanOnly) {
+              r = await pg.evaluate(CLEAN, { tol: 1 });
             } else {
               const osw = await pg.evaluate(() => document.fonts.check('600 18px "Oswald"'));
               if (!osw) throw new Error("the Oswald face is not loaded, so a width read would be a fallback face's");
