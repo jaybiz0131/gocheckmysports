@@ -216,7 +216,11 @@ def card_line(g, now, fetched_iso=""):
 
 
 def weather_absent(g, e, now):
-    """(text, css class) for a card with no kickoff conditions. Never the word "missing"."""
+    """(text, css class) for a card with no kickoff conditions. Never the word "missing". S-DONE:
+    ("", "") for a game in play or final: kickoff conditions are for a game to come, and the
+    forecast's kickoff hour is gone once the game is under way."""
+    if g.get("state") in ("in", "post"):
+        return "", ""
     if g.get("venue_indoor") or (e or {}).get("status") in ("indoor", "roofed"):
         return "Indoor", ""
     k = utc(g.get("start_utc"))

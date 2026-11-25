@@ -91,6 +91,49 @@ def home_page(html):
     return f
 
 
+def readable(tree, slate=False):
+    """S-DONE point 3, on the board's cards as built (the home and every Scores page):
+      a game to come or in play names its carrier, and by the name networks.py gives it: a chip
+        that prints a code the table spells out ("CBSSN" for CBS Sports Network) fails
+      on the gate's slate, where every game has them: a game to come carries its line and its
+        kickoff conditions or the one line that says why not; a game in play or final draws no
+        "Conditions unavailable"."""
+    import networks
+    f, n = [], 0
+    pages = [os.path.join(tree, "index.html"), os.path.join(tree, "scores.html")] \
+        + sorted(glob.glob(os.path.join(tree, "scores", "*.html")))
+    for p in pages:
+        if not os.path.exists(p):
+            continue
+        rel = os.path.relpath(p, tree)
+        html = open(p, encoding="utf-8").read()
+        for a in re.split(r'(?=<article class="tk-c)', html)[1:]:
+            a = a.split("</article>")[0]
+            st = re.search(r'data-state="(\w+)"', a)
+            gid = re.search(r'data-gid="([^"]+)"', a)
+            if not st or not gid:
+                continue
+            st, gid = st.group(1), gid.group(1)
+            n += 1
+            chips = [c.strip() for c in re.findall(r'class="(?:tk-chip|sbc-chip)"[^>]*>([^<]*)<', a)]
+            if st in ("pre", "in") and not any(chips):
+                f.append(f"readable: {rel}: game {gid} ({st}) names no carrier")
+            for c in chips:
+                if c and (networks.label(c)[0] != c):
+                    f.append(f"readable: {rel}: game {gid} prints the carrier as {c!r}; its name is {networks.label(c)[0]!r}")
+            wx = 'class="sbc-wx"' in a or 'class="sbc-wp' in a
+            if st in ("in", "post") and "Conditions unavailable" in a:
+                f.append(f"readable: {rel}: game {gid} ({st}) draws 'Conditions unavailable'; kickoff conditions are for a game to come")
+            if slate and st == "pre":
+                if 'class="tk-line"' not in a:
+                    f.append(f"readable: {rel}: game {gid} is to come and prints no line")
+                if not wx:
+                    f.append(f"readable: {rel}: game {gid} is to come and prints neither its kickoff conditions nor why not")
+    if not n:
+        f.append("readable: no game card was read")
+    return f[:12] + ([f"readable: and {len(f) - 12} more"] if len(f) > 12 else [])
+
+
 def honest_canary(tree):
     if not tree or not os.path.isdir(tree):
         return ["honest counts: no built tree to read"]
