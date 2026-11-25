@@ -321,6 +321,21 @@ def truth_canary():
         m = sb.MANIFEST
         desig = {"groups": {"Out": ["a", "b"], "Questionable": ["c"]},
                  "last_poll": "2026-10-11T12:00:00Z"}
+        # S-DONE point 2: a stamp is the data's own time, never the build's. With no scores reading on
+        # file the manifest used to hand every page the build clock under "Scores as of" and "Updated"
+        # (N-1's finding 5a). No reading, no stamp; the designations' own time still prints.
+        sb.MANIFEST = bm.build(sb._build_now(), None, w2w)
+        try:
+            leaked = [n for n, v in (("Scores as of", bm.asof(sb.MANIFEST)), ("the page stamp", sb._mf_stamp()),
+                                     ("the stamp paragraph", sb._mf_stamp_p()), ("the game page stamp", sb.gp_stamp(None)))
+                      if v]
+            if leaked:
+                fails.append("truth: with no scores reading on file, " + ", ".join(leaked)
+                             + " print the build's clock as the data's time")
+            if "Updated Oct 11, 8:00 AM ET" not in sb.gp_stamp(desig):
+                fails.append("truth: with no scores reading the game page lost the designations' own stamp")
+        finally:
+            sb.MANIFEST = m
         pages = {
             "home": sb.render_home([], ""),
             "scores": sb.render_scores_page(sbd, {}, ""),

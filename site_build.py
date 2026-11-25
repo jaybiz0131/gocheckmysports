@@ -1343,6 +1343,18 @@ def footer(brand="site", fantasy=False, money=False):
 _ASSET_VER = {}
 
 
+def _asof_meta(body):
+    """The reading's time for a page that draws game cards, where HONEST_JS reads it (the home and
+    Scores also carry it on their stamp). No reading, or no card, no tag."""
+    if 'data-kick="' not in (body or ""):
+        return ""
+    try:
+        t = _mf().get("data_utc") or ""
+    except Exception:
+        t = ""
+    return f'\n<meta name="scores-asof" content="{esc(t)}">' if t else ""
+
+
 def _fingerprint_assets(html):
     """Version every /assets/ URL with a content hash (site.css?v=ab12cd34ef). netlify.toml
     caches assets in the browser for 7 days; without this, a changed stylesheet leaves
@@ -1588,7 +1600,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="build-commit" content="{BUILD_COMMIT}">
+<meta name="build-commit" content="{BUILD_COMMIT}">{_asof_meta(body)}
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
@@ -1621,7 +1633,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {body}
 {footer(brand, fantasy=str(path or "").startswith("/fantasy"), money=_aff_on_page(body))}{beacon}
 {tab_bar(path)}
-{MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}
+{MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{FORMAT_JS if 'fmt-btn' in body else ''}{PLAYER_SEARCH_JS if 'pc-q' in body else ''}{HONEST_JS if 'data-kick="' in body else ''}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -6214,10 +6226,10 @@ def _mf_today_total(league=None):
 
 
 def _mf_stamp():
-    """The page stamp: the scoreboard feed's own time when the build has it, with the
-    date, in ET. One format on every page."""
-    m = _mf()
-    return m["data_stamp"] or m["stamp"]
+    """The page stamp: the scoreboard feed's own time, with the date, in ET. One format on
+    every page. S-DONE: '' when the build has no reading; the build's clock (m["stamp"]) is not
+    the data's time and is no longer the fallback."""
+    return _mf()["data_stamp"] or ""
 
 
 def _mf_league_row(league, n_cards=None):
@@ -6231,7 +6243,7 @@ def _mf_league_row(league, n_cards=None):
 
 def _mf_stamp_p(cls="bd-src"):
     """The page-level stamp, marked so a test can read it: data-mf="stamp"."""
-    return f'<p class="{cls}" data-mf="stamp">Updated {esc(_mf_stamp())}</p>'
+    return f'<p class="{cls}" data-mf="stamp">Updated {esc(_mf_stamp())}</p>' if _mf_stamp() else ""
 
 
 def _mf_count_p(league=None, cls="bd-src"):
@@ -7441,7 +7453,7 @@ def _wire_rows(items, now=None):
                 "text": (f'{_team_label(g, a)} {sa}, {_team_label(g, h)} {sh}'),
                 "href": esc(_game_href(g)),
                 "note": g.get("league") or "",
-                "final_t": _utc_dt(g.get("final_seen_utc") or ""),
+                "final_t": _s60.final_seen(g),
             })
 
     seen, out = set(), []
@@ -7676,9 +7688,79 @@ def _asof_line():
 
 
 def _asof_attr():
-    """The reading's own time on the stamp, for the re-read: a page takes a newer board only."""
+    """The reading's own time on the stamp, for the re-read (a page takes a newer board only) and
+    for HONEST_JS; with data-next, the kickoff the stamp's schedule names, when it names one."""
+    import cadence as _cad
     t = (_mf().get("data_utc") or "")
-    return f' data-asof="{esc(t)}"' if t else ""
+    if not t:
+        return ""
+    state, nxt = _cad.window(_build_now(), SB_DATA or {})
+    nx = f' data-next="{nxt.strftime("%Y-%m-%dT%H:%MZ")}"' if (state != "on" and nxt) else ""
+    return f' data-asof="{esc(t)}"{nx}'
+
+
+# S-DONE point 2: A PAGE DOES NOT KNOW IT HAS AGED, SO IT CHECKS. Every score here is the one a
+# build or a re-read wrote; when neither has come (the night of November 24: both college games
+# played, the page built at 6:00 AM still drew them "Upcoming, Tue 7:00 PM ET" under "Scores as of
+# 6:00 AM ET" at 4:00 AM Wednesday) the page was a day old and said nothing of it. This reads the
+# page against the reader's clock and changes three things, all of them the page's own facts:
+#   the stamp carries its date once the reading is from another ET day;
+#   the schedule beside the stamp ("refreshed every 5 minutes ...") goes once the reading is more
+#     than fifteen minutes old with a window open, since it is then not holding;
+#   a card still drawn as upcoming ten minutes past its kickoff says "No update since <the
+#     reading's time>" in the stale style and, on Scores, moves to Live, where S-60 lists a
+#     kickoff the feed has not confirmed.
+# It adds no score and no state the reading did not carry. Without script the page is the build's.
+HONEST_JS = """<script>(function(){
+  var meta = document.querySelector('meta[name="scores-asof"]'), D, T;
+  try {
+    D = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', month: 'short', day: 'numeric'});
+    T = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit'});
+  } catch (e) { return; }
+  function reading(){
+    var s = document.querySelector('[data-asof]');
+    var d = new Date((s && s.getAttribute('data-asof')) || (meta && meta.getAttribute('content')) || '');
+    return isNaN(d) ? null : d;
+  }
+  function when(d, now){
+    return ((D.format(d) === D.format(now) ? '' : D.format(d) + ', ') + T.format(d) + ' ET').replace(/[\u202f\u00a0]/g, ' ');
+  }
+  function run(){
+    var read = reading(), now = new Date();
+    if (!read) return;
+    var s = document.querySelector('[data-asof]');
+    if (s) {
+      var t = s.textContent, tail = (t.match(/, refreshed every .*$/) || [''])[0];
+      var next = new Date(s.getAttribute('data-next') || '');
+      if (tail && now - read > 900000 && (isNaN(next) || now - next > 900000)) tail = '';
+      var want = 'Scores as of ' + when(read, now) + tail;
+      if (t !== want) s.textContent = want;
+    }
+    var moved = false;
+    document.querySelectorAll('.tk-c[data-state="pre"][data-kick]').forEach(function(c){
+      if (c.querySelector('.tk-aged')) return;
+      var k = new Date(c.getAttribute('data-kick'));
+      if (isNaN(k) || now - k < 600000) return;
+      var top = c.querySelector('[data-role="kicker"]');
+      if (!top) return;
+      var n = document.createElement('span');
+      n.className = 'tk-stale tk-aged';
+      n.textContent = 'No update since ' + when(read, now);
+      (top.closest('.tk-stub-top, .sbc-top') || top).insertAdjacentElement('afterend', n);
+      var live = document.querySelector('.sc-panel[data-panel="live"] .tk-g3'), unit = c.closest('.tk-pair') || c;
+      if (live && c.closest('.sc-panel') && c.closest('.sc-panel') !== live.parentNode) {
+        var none = live.querySelector('.sc-none');
+        if (none) none.parentNode.removeChild(none);
+        live.appendChild(unit);
+        moved = true;
+      }
+    });
+    if (moved) document.dispatchEvent(new Event('gcm:live'));
+  }
+  run();
+  setInterval(run, 60000);
+  document.addEventListener('gcm:live', function(){ setTimeout(run, 0); });
+})();</script>"""
 
 
 def live_root(kind, day):
@@ -7912,7 +7994,6 @@ def render_scores_pages(sb, board, dateline, wx=None):
     feed_order = [L["league"] for L in sb["leagues"]]
     built = _build_now().strftime('%Y-%m-%dT%H:%M:%SZ')
     built_et = _et_clock(_build_now())
-    stamp = _mf_stamp()
 
     def dlabel(iso):
         return datetime.date.fromisoformat(iso).strftime("%a %b %-d")
@@ -9550,10 +9631,12 @@ def gp_stamp(desig):
     times. The build's carries data-mf, the manifest's mark, and keeps it only when it is the
     one printed, so the mark never names a time the manifest does not hold."""
     m = _mf()
-    mine = _bm._utc(m.get("data_utc") or "") or _bm._utc(m.get("built_utc") or "")
+    mine = _bm._utc(m.get("data_utc") or "")      # S-DONE: the reading's time; the build's clock is no stand-in
     theirs = _utc_dt((desig or {}).get("last_poll") or "")
     if theirs and (not mine or theirs > mine):
         return (f'<span class="sb-stamp sbg-stamp">Updated {esc(_bm._label(theirs))} ET</span>')
+    if not _mf_stamp():
+        return ""
     return f'<span class="sb-stamp sbg-stamp" data-mf="stamp">Updated {esc(_mf_stamp())}</span>'
 
 

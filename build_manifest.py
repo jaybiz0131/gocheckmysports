@@ -163,10 +163,11 @@ def build(now, sb_data=None, w2w=None):
 
 def asof(m):
     """The board's stamp (Sprint A, A2): "Scores as of 4:52 PM ET", the time of the scoreboard
-    read the build printed, or of the build when it had none. The date is added only when that
-    read is from another ET day than the build ("Scores as of Nov 7, 4:52 PM ET"), so a stale
-    read can never pass for today's under today's date."""
-    t = _utc(m.get("data_utc")) or _utc(m.get("built_utc"))
+    read the build printed. The date is added only when that read is from another ET day than
+    the build ("Scores as of Nov 7, 4:52 PM ET"), so a stale read can never pass for today's under
+    today's date. S-DONE: with no reading there is no stamp; the build's own clock is not a data
+    time and is never printed as one (it was the fallback here until November 25, 2026)."""
+    t = _utc(m.get("data_utc"))
     if not t:
         return ""
     et = t.astimezone(ET)

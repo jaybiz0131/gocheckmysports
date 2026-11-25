@@ -28,7 +28,6 @@ sys.path.insert(0, HERE)
 
 import live_board as lb  # noqa: E402
 
-SENTINEL = "Scores as of 9:59 PM ET, the re-read"
 
 
 def unit():
@@ -162,9 +161,27 @@ def same_render(tree):
     return f
 
 
-def _later(iso, hours):
-    t = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ") + datetime.timedelta(hours=hours)
+def _later(iso, hours, minutes=0):
+    t = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ") + datetime.timedelta(hours=hours, minutes=minutes)
     return t.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _et(iso):
+    from zoneinfo import ZoneInfo
+    t = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=datetime.timezone.utc)
+    return t.astimezone(ZoneInfo("America/New_York"))
+
+
+def _et_stamp(iso):
+    """'Nov 21, 3:43 PM ET' for a reading time, as HONEST_JS prints it on another day."""
+    return _et(iso).strftime("%b %-d, %-I:%M %p ET")
+
+
+def _stamp_at(read_iso, now_iso):
+    """The stamp a page prints for a reading, read at `now`: the clock, with the date when the reading
+    is from another ET day (site_build.HONEST_JS and build_manifest.asof keep the same rule)."""
+    r, n = _et(read_iso), _et(now_iso)
+    return "Scores as of " + (r.strftime("%b %-d, ") if r.date() != n.date() else "") + r.strftime("%-I:%M %p ET")
 
 
 def _cases(tree):
@@ -174,8 +191,9 @@ def _cases(tree):
     hp, hroot = lb.parts(hm)
     asof = _asof(sc)
 
-    def count(newer, text=SENTINEL):
-        return f'<span class="sb-stamp" data-mf="stamp" data-asof="{newer}">{text}</span>'
+    def count(newer):
+        # the stamp a tick would have rendered for that reading: its own clock, no schedule beside it
+        return f'<span class="sb-stamp" data-mf="stamp" data-asof="{newer}">{_stamp_at(newer, newer)}</span>'
 
     panels = re.split(r'(?=<div class="sc-panel" data-panel=")', sp["panels"])
     live = next(p for p in panels if p.startswith('<div class="sc-panel" data-panel="live"'))
@@ -184,26 +202,32 @@ def _cases(tree):
                       '<p class="sc-none">Nothing in this state on this day.</p></div></div>'
                       if p is live else p for p in panels)
 
-    def sdoc(look=None, day=None, at=None, text=SENTINEL):
+    def sdoc(look=None, day=None, at=None):
         at = at or _later(asof, 1)
         return {"v": 1, "asof_utc": at, "day": day or sroot["data-live-day"], "look": look or sroot["data-live-look"],
-                "parts": {"count": count(at, text), "states": sp["states"], "panels": emptied}}
+                "parts": {"count": count(at), "states": sp["states"], "panels": emptied}}
 
     secs = re.split(r'(?=<section class="bd-mod wb-day")', hp["board"])
     secs = [s for s in secs if s]
     hat = _later(_asof(hm), 1)
     hdoc = {"v": 1, "asof_utc": hat, "day": hroot["data-live-day"], "look": hroot["data-live-look"],
             "parts": dict(hp, count=count(hat), board="".join(secs[:-1]))}
+    # every case reads on a fixed clock: two minutes after the page's reading, or after the file's
+    fresh, hfresh = _later(asof, 0, 2), _later(_asof(hm), 0, 2)
     return gone, len(secs), [
-        {"name": "no file", "path": "/scores.html", "doc": None, "gone": gone},
-        {"name": "a newer board", "path": "/scores.html", "doc": sdoc(), "gone": gone},
-        {"name": "another look", "path": "/scores.html", "doc": sdoc(look="0000000000"), "gone": gone},
-        {"name": "another day", "path": "/scores.html", "doc": sdoc(day="2001-01-01"), "gone": gone},
-        {"name": "no newer than the page", "path": "/scores.html", "doc": sdoc(at=asof), "gone": gone},
-        {"name": "the chosen tab", "path": "/scores.html", "doc": sdoc(), "gone": gone,
-         "click": '.sc-states [data-tab="final"]', "doc2": sdoc(at=_later(asof, 2), text=SENTINEL + " again")},
-        {"name": "home, no file", "path": "/index.html", "doc": None},
-        {"name": "home, a newer board", "path": "/index.html", "doc": hdoc},
+        {"name": "no file", "path": "/scores.html", "doc": None, "gone": gone, "now": fresh},
+        {"name": "a newer board", "path": "/scores.html", "doc": sdoc(), "gone": gone, "now": _later(asof, 1, 2)},
+        {"name": "another look", "path": "/scores.html", "doc": sdoc(look="0000000000"), "gone": gone, "now": fresh},
+        {"name": "another day", "path": "/scores.html", "doc": sdoc(day="2001-01-01"), "gone": gone, "now": fresh},
+        {"name": "no newer than the page", "path": "/scores.html", "doc": sdoc(at=asof), "gone": gone, "now": fresh},
+        {"name": "the chosen tab", "path": "/scores.html", "doc": sdoc(), "gone": gone, "now": _later(asof, 2, 2),
+         "click": '.sc-states [data-tab="final"]', "doc2": sdoc(at=_later(asof, 2))},
+        {"name": "home, no file", "path": "/index.html", "doc": None, "now": hfresh},
+        {"name": "home, a newer board", "path": "/index.html", "doc": hdoc, "now": _later(_asof(hm), 1, 2)},
+        # S-DONE point 2: the same pages read against a reader's clock, with no re-read to be had
+        {"name": "read two minutes on", "path": "/scores.html", "doc": None, "now": _later(asof, 0, 2)},
+        {"name": "read a day on", "path": "/scores.html", "doc": None, "now": _later(asof, 26)},
+        {"name": "home, read a day on", "path": "/index.html", "doc": None, "now": _later(_asof(hm), 26)},
     ]
 
 
@@ -240,7 +264,10 @@ def browser(tree):
         return [f"live in the browser: the sweep read {len(rows)} of {len(cases)} cases (exit {r.returncode}); "
                 f"not read: {', '.join(miss) or 'none'}"]
     base, hbase = rows["no file"], rows["home, no file"]
-    if not base["stamp"] or base["stamp"] == SENTINEL or not base["gone_present"] or base["tabs"]["live"]["cards"] < 1:
+    sc_asof = _asof(open(os.path.join(tree, "scores.html"), encoding="utf-8").read())
+    hm_asof = _asof(open(os.path.join(tree, "index.html"), encoding="utf-8").read())
+    took = _stamp_at(_later(sc_asof, 1), _later(sc_asof, 1, 2))
+    if not base["stamp"] or base["stamp"] == took or not base["gone_present"] or base["tabs"]["live"]["cards"] < 1:
         f.append(f"live in the browser: the built Scores page reads {base['stamp']!r} with "
                  f"{base['tabs']['live']['cards']} live card(s); the cases prove nothing")
     for name in ("no file", "another look", "another day", "no newer than the page"):
@@ -250,27 +277,54 @@ def browser(tree):
         if name != "no file" and not o["asked"]:
             f.append(f"live in the browser: {name}: the page never asked for the file")
     o = rows["a newer board"]
-    if o["stamp"] != SENTINEL or o["asof"] == base["asof"] or o["gone_present"] or not o["events"]:
+    if o["stamp"] != took or o["asof"] != _later(sc_asof, 1) or o["gone_present"] or not o["events"]:
         f.append(f"live in the browser: a newer board for this look and day was not taken (stamp {o['stamp']!r}, "
                  f"the emptied panel's card {'still drawn' if o['gone_present'] else 'gone'})")
     else:
         for t, v in o["tabs"].items():
             if v["says"] != v["cards"]:
                 f.append(f"live in the browser: after the re-read the {t.title()} tab says {v['says']} over {v['cards']} card(s)")
-        if o["tabs"]["live"]["cards"] != 0 or o["tabs"]["upcoming"]["cards"] != base["tabs"]["upcoming"]["cards"]:
-            f.append("live in the browser: the panels on the page are not the ones the file carried")
+        # the file's Live panel is empty; read an hour on, the kickoffs that have passed since are listed there
+        # (HONEST_JS), so Live holds exactly those and Upcoming the rest of what the file carried
+        if o["tabs"]["live"]["cards"] != o["pre_past"] \
+                or o["tabs"]["live"]["cards"] + o["tabs"]["upcoming"]["cards"] != base["tabs"]["upcoming"]["cards"]:
+            f.append(f"live in the browser: the panels on the page are not the ones the file carried "
+                     f"(Live {o['tabs']['live']['cards']}, Upcoming {o['tabs']['upcoming']['cards']}, the file's "
+                     f"Upcoming {base['tabs']['upcoming']['cards']}, {o['pre_past']} past kickoff)")
     o = rows["the chosen tab"]
-    if o["stamp"] != SENTINEL + " again" or not o["tabs"]["final"]["on"] or not o["tabs"]["final"]["shown"] \
+    if o["stamp"] != _stamp_at(_later(sc_asof, 2), _later(sc_asof, 2, 2)) or not o["tabs"]["final"]["on"] \
+            or not o["tabs"]["final"]["shown"] \
             or o["tabs"]["live"]["shown"] or o["tabs"]["upcoming"]["shown"]:
         f.append(f"live in the browser: a reader on the Final tab was moved by the next re-read "
                  f"(stamp {o['stamp']!r}, tabs {o['tabs']})")
     o = rows["home, a newer board"]
-    if o["stamp"] != SENTINEL or o["days"] != nsec - 1:
+    if o["stamp"] != _stamp_at(_later(hm_asof, 1), _later(hm_asof, 1, 2)) or o["days"] != nsec - 1:
         f.append(f"live in the browser: the home did not take a newer board (stamp {o['stamp']!r}, {o['days']} day(s) "
                  f"drawn, the file carried {nsec - 1})")
     elif o["days_shown"] != hbase["days_shown"] or o["day_tab_on"] != hbase["day_tab_on"]:
         f.append(f"live in the browser: the home's open day moved on a re-read (was {hbase['days_shown']}, "
                  f"is {o['days_shown']}; tab {o['day_tab_on']})")
+    # the aged page (HONEST_JS)
+    o = rows["read two minutes on"]
+    if o["stamp"] != base["stamp"] or o["aged"] or o["tabs"] != base["tabs"]:
+        f.append(f"honest in the browser: a page read two minutes after its reading was changed "
+                 f"(stamp {o['stamp']!r}, {len(o['aged'])} card(s) marked)")
+    for name, asof_iso, b in (("read a day on", sc_asof, base), ("home, read a day on", hm_asof, hbase)):
+        o = rows[name]
+        want = "Scores as of " + _et_stamp(asof_iso)
+        if o["stamp"] != want:
+            f.append(f"honest in the browser: {name}: the stamp reads {o['stamp']!r}, not {want!r} "
+                     f"(the reading's date, and no schedule that is not holding)")
+        if not o["pre_past"] or len(o["aged"]) != o["pre_past"]:
+            f.append(f"honest in the browser: {name}: {o['pre_past']} card(s) are still drawn as upcoming past their "
+                     f"kickoff and {len(o['aged'])} say so")
+        elif set(o["aged"]) != {"No update since " + _et_stamp(asof_iso)}:
+            f.append(f"honest in the browser: {name}: an aged card reads {sorted(set(o['aged']))[0]!r}")
+    o = rows["read a day on"]
+    if o["aged_outside_live"] or o["tabs"]["upcoming"]["cards"] or o["tabs"]["live"]["says"] != o["tabs"]["live"]["cards"] \
+            or o["tabs"]["live"]["cards"] != base["tabs"]["live"]["cards"] + base["tabs"]["upcoming"]["cards"]:
+        f.append(f"honest in the browser: a kickoff a day past is not listed with Live and counted there "
+                 f"(tabs {o['tabs']}, {o['aged_outside_live']} aged card(s) outside Live)")
     for name, o in rows.items():
         if o["errors"]:
             f.append(f"live in the browser: {name}: {o['errors'][0]}")

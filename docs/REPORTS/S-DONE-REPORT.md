@@ -8,20 +8,27 @@ A report cannot carry its own merge hash, so each merge's copy of this file name
 
 | # | Point | State | Evidence or reason |
 |---|---|---|---|
-| 1 | Fresh | built, merging as item 1; **red until a game window is read on production** and, for the Worker's half, until Jack's deploy | the re-read (below); `S-DONE-logs/plants-1-fresh.log` (14 plants red, restored green) |
-| 2 | Honest | built on `sdone-3-honest`, not merged | |
-| 3 | Readable | in work on `sdone-4-readable` | |
-| 4 | Clean | open | chrome text read on the build of `5b9e395` (1,287 pages): 0 for every word on the list; the empty-section and truncation reads are not built yet |
-| 5 | Whole | open | |
-| 6 | Fast | open | Lighthouse is not installed in this container; to be installed beside Playwright |
-| 7 | Current | open | read on production November 24: "Points this week" on the fantasy hub shows Week 11's points in Week 12 |
-| 8 | Quiet | built, merging as item 2 | the seven-day run tally (below); `review/` no-build; the push relay's short key; two failure paths that were not outages now warn |
-| 9 | Found | open | |
-| 10 | Beautiful enough | open | |
+| 1 | Fresh | merged as item 1 (`69aeaf1`); **red until a game window is read on production** and, for the Worker's half, until Jack's deploy | the re-read (below); the first run of the new job on GitHub (45597456275, 10:41 UTC) |
+| 2 | Honest | built (`sdone-3-honest`), at its gate | `S-DONE-logs/plants-2-honest.log` |
+| 3 | Readable | built (`sdone-4-readable`), at its gate | `plants-3-readable.log` |
+| 4 | Clean | built (`sdone-6-clean`), behind 3 and 5 | `plants-4-clean.log` |
+| 5 | Whole | built (`sdone-5-whole`), behind 3 | `plants-5-whole.log` |
+| 6 | Fast | built (`sdone-9-fast`), behind 9 | Lighthouse 12.8.2 mobile on production (stamp `5b9e395`), November 25: home 95 and 96, Scores 96 and 100, a game page 100 and 100 |
+| 7 | Current | built (`sdone-7-current`), behind 4 | `plants-7-current.log` |
+| 8 | Quiet | merged as item 2 (`47207e2`) | the seven-day run tally (below); the health gate's next run is the read |
+| 9 | Found | built (`sdone-8-found`), behind 7 | `plants-9-found.log` |
+| 10 | Beautiful enough | built (`sdone-10-beauty`), last | `plants-10-beauty.log`; before screenshots in `S-DONE-shots/` |
 
 ## Merges, in order
 
-None yet. Item 1 (`sdone-1-fresh`, `99ee766` and `b0e7d8b`) and item 2 (`sdone-2-quiet`) are at their gates.
+| # | Item | Merge | Parents | Pushed (UTC, Nov 25) | U-8 | Production read by stamp |
+|---|---|---|---|---|---|---|
+| 1 | Fresh: the re-read (`sdone-1-fresh`) | `69aeaf1` | `5b9e395`, `b0e7d8b` | 10:33:31 | HEAD `69aeaf1` = origin/main `69aeaf1`, 0 ahead | `69aeaf1`, built 10:33:49; home and Scores at 375 and 1440: "1 game today", "Scores as of 5:33 AM ET, refreshed every 5 minutes from 8:00 PM ET", 32 games on the home each once, no sideways scroll (`S-DONE-logs/prod-read-69aeaf1.log`) |
+| 2 | Quiet (`sdone-2-quiet`) | `47207e2` | `69aeaf1`, `0c02372` | 10:40:52 | HEAD `47207e2` = origin/main `47207e2`, 0 ahead | read as `12c3053` (the snapshot commit on top of it), built 11:00:43: the same four reads, "Scores as of 6:00 AM ET, refreshed every 5 minutes from 8:00 PM ET" (`prod-read-12c3053.log`) |
+
+Each merge commit's tree is the gated commit's tree, hash for hash (`697a5029` and `97829f26`). IndexNow by hand after each: `/` and `/scores`, HTTP 200 both times. Count of record (the Worker's `/counts/today`, 11:55 UTC): gocheckmysports production ready 4 on 2026-11-25 (`69aeaf1` 10:37:15, `47207e2`, `12c3053` 11:03:34, and the 6:00 AM hook build).
+
+The first run of the new scores job: 45597456275, `workflow_dispatch` by this desk at 10:41:54 UTC (not the Worker: it is the only dispatch on record for this workflow), success in 16 seconds. It read the feed, found Tuesday's two finals against Monday's committed snapshot, and pushed `12c3053` "scores: snapshot 10:42Z" (one file), which built. It spends no model key (U-4).
 
 ## The gate (U-12, U-15, U-16)
 
@@ -31,6 +38,9 @@ The harness that runs this session ends a foreground command at 10 minutes and t
 |---|---|---|---|---|---|---|
 | main `5b9e395`, the baseline | Nov 25, 09:19:01 | 0.75 | 0 | 0 | 5 | `S-DONE-logs/gate-main-5b9e395.log` |
 | item 1 `99ee766`, `preflight && push` | 09:37:04 | 1.68 | 1 | 3, none on the site: `truth` twice (its matcher and its own plant read the stamp tag as `data-mf="stamp">`, which now carries `data-asof`) and `home` (its matcher read the lead slot's tag without `data-live`); nothing was pushed | 5 | `S-DONE-logs/gate-1-99ee766-red.log` |
+| item 1 `b0e7d8b`, `preflight && push` | 10:00:28 | 0.77 | 0 | 0 (59 fixture tests) | 5 | `S-DONE-logs/gate-1-b0e7d8b.log` |
+| item 2 `0c02372`, `preflight && push`, beside item 1's | 10:00:28 | 0.77 | 0 | 0 (59 fixture tests) | 5 | `S-DONE-logs/gate-2-0c02372.log` |
+| the whole stack `8e05c8a`, a shake-out before the per-item gates, no push | 10:41 | not read | 1 | 4 of 69, all older checks holding the behavior item 7 changes: `small` (it handed the fantasy hub a box score for a game the reading does not hold) and `home` three times (it wanted the footer to link Storylines, The Record and The Edition); both moved to the new truth in item 7's commit | 5 | `S-DONE-logs/gate-stack-8e05c8a-red.log` |
 
 ## Point 8, Quiet: the last seven days of runs (read November 25, 09:20 UTC)
 
