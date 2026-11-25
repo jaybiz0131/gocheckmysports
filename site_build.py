@@ -8000,7 +8000,7 @@ def scores_placeholder(path, dateline):
                 "This page fills in when the feed returns them.")
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Scores</span>
-  <h1>Scores, {esc(day)}</h1>
+  <h1>Scoreboard, {esc(day)}</h1>
   <p class="lede">{said}</p>
   <p><a href="/scores.html">The current scores &rarr;</a></p>
 </section></main>"""
@@ -8144,7 +8144,9 @@ def render_scores_pages(sb, board, dateline, wx=None):
                        + (' aria-current="page"' if here else "") + f'>{esc(dlabel(d))}'
                        + (f'<small>{t}</small>' if t is not None else '') + '</a>')
         nav.append('</nav>')
-        h1 = "Scores" if path == "/scores.html" else f"Scores, {dlabel(iso)}"
+        # the copy law: the Scores hero says "Scoreboard" (S-DONE; it said "Scores"). A day's page names
+        # its day to a screen reader and a crawler; a reader's eye has it on the lit day tab underneath.
+        h1 = "Scoreboard" if path == "/scores.html" else f'Scoreboard<span class="sr-only">, {esc(dlabel(iso))}</span>'
         _orn = _sb_ornament([g for _l, g in days[iso]], datetime.date.fromisoformat(iso))
         count_span = (f'<span class="sb-count" data-mf="count">{esc(count_line)}</span>\n        '
                       if count_line else "")
@@ -8154,7 +8156,7 @@ def render_scores_pages(sb, board, dateline, wx=None):
   <div class="wrap sb-inner">
     <div class="sb-promise">
       <div class="sb-promise-l">
-        <h1 class="sb-claim">{esc(h1)}</h1>
+        <h1 class="sb-claim">{h1}</h1>
       </div>
       <span class="sb-countwrap" data-live="count">
         {count_span}<span class="sb-stamp" data-mf="stamp"{_asof_attr()}>{esc(_asof_line())}</span>
