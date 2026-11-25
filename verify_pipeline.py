@@ -1700,6 +1700,8 @@ def layer1_canary():
     fails.extend(_run(FIXTURE_TEST, "jobs", lambda: _jc.jobs_canary()))    # S-1 item 3: the desk's jobs (12 October 2026)
     import cadence as _cad
     fails.extend(_run(FIXTURE_TEST, "cadence", lambda: _cad.canary()))        # Sprint A, A2: when the site rebuilds for scores
+    import current_canary as _cuc
+    fails.extend(_run(FIXTURE_TEST, "current", _cuc.current_canary))          # S-DONE point 7: the fantasy week by date; the stale-lane rule
     import edition_check as _edc
     fails.extend(_run(FIXTURE_TEST, "edition check", lambda: _edc.canary()))        # Sprint A, A3: one missed slot warns, it does not error
     fails.extend(_run(FIXTURE_TEST, "edition link", lambda: _edition_link_canary()))   # Sprint A, A4: the Edition link resolves at build

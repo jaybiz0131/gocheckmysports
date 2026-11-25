@@ -243,10 +243,23 @@ def home_canary():
                      "Tracking", "Read tonight"):
             if word in vis:
                 fails.append(f"home: {word!r} is still on the page before the footer")
-        foot = home.split('<footer class="site">')[1]
-        for label in ("Storylines", "The Record", "The Edition"):
-            if f">{label}</a>" not in foot:
-                fails.append(f"home: the footer does not link {label}")
+        # S-DONE, the stale-lane rule (Jack's ruling of November 24, 2026): the footer links a story lane
+        # while it is live, and not once it has had nothing new in 14 days. Both states are rendered
+        # here, whatever the process's own build found.
+        _lq = sb.LANE_QUIET
+        try:
+            sb.LANE_QUIET = {}
+            foot = sb.footer()
+            for label in ("Storylines", "The Record", "The Edition"):
+                if f">{label}</a>" not in foot:
+                    fails.append(f"home: the footer does not link {label}")
+            sb.LANE_QUIET = {"storylines": None, "record": None, "edition": None}
+            foot = sb.footer()
+            for label in ("Storylines", "The Record", "The Edition"):
+                if f">{label}</a>" in foot:
+                    fails.append(f"home: the footer links {label}, a lane with nothing new in 14 days")
+        finally:
+            sb.LANE_QUIET = _lq
 
         # nav and bar as named
         nav = re.search(r'<nav class="mh-nav">(.*?)</nav>', home, re.S).group(1)
