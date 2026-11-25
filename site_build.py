@@ -4820,12 +4820,12 @@ def _tk_marks(g, t, side):
     out = ""
     tid = str(t.get("id") or "")
     if tid and str(g.get("possession") or "") == tid:
-        out += '<span class="tk-poss" title="Has the ball" aria-label="Has the ball">' \
+        out += '<span class="tk-poss" role="img" title="Has the ball" aria-label="Has the ball">' \
                '&#9679;</span>'
     n = g.get("to_away") if side == "away" else g.get("to_home")
     if isinstance(n, int) and 0 <= n <= 3:
         pips = "".join(f'<i class="{"on" if i < n else "off"}"></i>' for i in range(3))
-        out += (f'<span class="tk-to" aria-label="{n} timeout'
+        out += (f'<span class="tk-to" role="img" aria-label="{n} timeout'
                 f'{"" if n == 1 else "s"} left">{pips}</span>')
     return out
 
@@ -7871,6 +7871,16 @@ LIVE_JS = """<script>(function(){
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) tick(); });
 })();</script>"""
 
+
+def _tight(js):
+    """A script as it ships: comments and each line's indentation out (S-DONE point 6). The source
+    above keeps both for the next reader; the page pays for neither."""
+    js = re.sub(r"(?s)/\*.*?\*/", "", js)
+    return re.sub(r"\n[ \t]+", "\n", re.sub(r"\n\s*\n", "\n", js))
+
+
+HONEST_JS = _tight(HONEST_JS)
+LIVE_JS = _tight(LIVE_JS)
 
 # S-60: the state tabs and the league filter. The page is built with the default tab open and every
 # game in exactly one panel; this only switches panels, filters by league and remembers the choice for
@@ -11722,7 +11732,7 @@ def _render_home(items, dateline):
     body = (f'<div class="wrap wl-wrap" data-live="wall">{wall(SB_DATA)}</div>' if board else "") + band + f"""<main class="wrap"><section class="page">
   <div class="hl-slot" id="lead" data-live="lead">{home_lead(items)}</div>
   <div class="scoreband scoreband-page wb-board" data-live="board" data-today="{esc(_mf()["date"])}">{board}</div>
-  <div class="cr-slot" id="conditions-report" data-slot="conditions-report" aria-label="Conditions report">{cr_slot(cr_latest())}</div>
+  <div class="cr-slot" id="conditions-report" data-slot="conditions-report">{cr_slot(cr_latest())}</div>
 </section></main>"""
     # S-DONE point 9: the day's games the home draws, as events (inside the byte budget: the page is measured with them)
     _day = _mf()["date"]

@@ -3415,6 +3415,9 @@ def layer1_canary():
     _live_slate = []
     fails.extend(_run(FIXTURE_TEST, "slate layout 375 and 1440", lambda: _plc.slate_layout(_fixture_tree(), live=_live_slate)))   # S-61: the floor is 375
     fails.extend(_run(CANARY, "slate layout 320", lambda: _live_slate))   # S-61: 320 warns, never fails
+    import fast_canary as _fsc
+    # S-DONE point 6: the faults Lighthouse named on production (an aria-label with no role) and the bytes of the two new scripts
+    fails.extend(_run(FIXTURE_TEST, "fast", lambda: _fsc.fast_canary(_fixture_tree())))
     import found_canary as _fnc
     # S-DONE point 9: the words a searcher types on the home's title, description and masthead; an About page
     # that says who runs the site; a SportsEvent for each of the day's games on the home and Scores
