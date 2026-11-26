@@ -184,6 +184,31 @@ def _stamp_at(read_iso, now_iso):
     return "Scores as of " + (r.strftime("%b %-d, ") if r.date() != n.date() else "") + r.strftime("%-I:%M %p ET")
 
 
+def _aged_page(tree, today):
+    """(path, html, last kickoff) of the Scores page the aged case reads: today's while it still draws a
+    game to come, else the next day's page that does. In the last minutes before midnight ET every
+    game to come on the slate is tomorrow's, today's page draws none, and a case that read today's
+    page alone was red for those minutes of every day (the gate of November 25, 11:41 PM ET)."""
+    import glob
+    later = sorted(p for p in glob.glob(os.path.join(tree, "scores", "*.html"))
+                   if os.path.basename(p)[:-5] > today)
+    for path in [os.path.join(tree, "scores.html")] + later:
+        try:
+            html = open(path, encoding="utf-8").read()
+        except OSError:
+            continue
+        kicks = [k for a in re.split(r'(?=<article class="tk-c)', html)[1:]
+                 for a in [a.split(">", 1)[0]] if 'data-state="pre"' in a
+                 for k in re.findall(r'data-kick="([^"]+)"', a)]
+        if kicks:
+            return "/" + os.path.relpath(path, tree).replace(os.sep, "/"), html, max(kicks)
+    return "/scores.html", open(os.path.join(tree, "scores.html"), encoding="utf-8").read(), None
+
+
+def _root_day(tree):
+    return lb.parts(open(os.path.join(tree, "scores.html"), encoding="utf-8").read())[1]["data-live-day"]
+
+
 def _cases(tree):
     sc = open(os.path.join(tree, "scores.html"), encoding="utf-8").read()
     hm = open(os.path.join(tree, "index.html"), encoding="utf-8").read()
@@ -214,6 +239,11 @@ def _cases(tree):
             "parts": dict(hp, count=count(hat), board="".join(secs[:-1]))}
     # every case reads on a fixed clock: two minutes after the page's reading, or after the file's
     fresh, hfresh = _later(asof, 0, 2), _later(_asof(hm), 0, 2)
+    # the aged case: a day on, and past every kickoff the page draws (the next day's page holds
+    # kickoffs more than a day after the reading)
+    apath, ahtml, alast = _aged_page(tree, _root_day(tree))
+    a_asof = _asof(ahtml)
+    a_day_on = max(_later(a_asof, 26), _later(alast.replace("Z", ":00Z") if alast and len(alast) == 17 else alast, 2)) if alast else _later(a_asof, 26)
     return gone, len(secs), [
         {"name": "no file", "path": "/scores.html", "doc": None, "gone": gone, "now": fresh},
         {"name": "a newer board", "path": "/scores.html", "doc": sdoc(), "gone": gone, "now": _later(asof, 1, 2)},
@@ -226,7 +256,8 @@ def _cases(tree):
         {"name": "home, a newer board", "path": "/index.html", "doc": hdoc, "now": _later(_asof(hm), 1, 2)},
         # S-DONE point 2: the same pages read against a reader's clock, with no re-read to be had
         {"name": "read two minutes on", "path": "/scores.html", "doc": None, "now": _later(asof, 0, 2)},
-        {"name": "read a day on", "path": "/scores.html", "doc": None, "now": _later(asof, 26)},
+        {"name": "the aged page, fresh", "path": apath, "doc": None, "now": _later(a_asof, 0, 2)},
+        {"name": "read a day on", "path": apath, "doc": None, "now": a_day_on},
         {"name": "home, read a day on", "path": "/index.html", "doc": None, "now": _later(_asof(hm), 26)},
     ]
 
@@ -309,7 +340,9 @@ def browser(tree):
     if o["stamp"] != base["stamp"] or o["aged"] or o["tabs"] != base["tabs"]:
         f.append(f"honest in the browser: a page read two minutes after its reading was changed "
                  f"(stamp {o['stamp']!r}, {len(o['aged'])} card(s) marked)")
-    for name, asof_iso, b in (("read a day on", sc_asof, base), ("home, read a day on", hm_asof, hbase)):
+    abase = rows["the aged page, fresh"]
+    a_asof = _asof(_aged_page(tree, _root_day(tree))[1])
+    for name, asof_iso, b in (("read a day on", a_asof, abase), ("home, read a day on", hm_asof, hbase)):
         o = rows[name]
         want = "Scores as of " + _et_stamp(asof_iso)
         if o["stamp"] != want:
@@ -322,7 +355,7 @@ def browser(tree):
             f.append(f"honest in the browser: {name}: an aged card reads {sorted(set(o['aged']))[0]!r}")
     o = rows["read a day on"]
     if o["aged_outside_live"] or o["tabs"]["upcoming"]["cards"] or o["tabs"]["live"]["says"] != o["tabs"]["live"]["cards"] \
-            or o["tabs"]["live"]["cards"] != base["tabs"]["live"]["cards"] + base["tabs"]["upcoming"]["cards"]:
+            or o["tabs"]["live"]["cards"] != abase["tabs"]["live"]["cards"] + abase["tabs"]["upcoming"]["cards"]:
         f.append(f"honest in the browser: a kickoff a day past is not listed with Live and counted there "
                  f"(tabs {o['tabs']}, {o['aged_outside_live']} aged card(s) outside Live)")
     for name, o in rows.items():
