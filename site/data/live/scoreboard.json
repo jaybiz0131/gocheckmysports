@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T18:01:02Z",
+ "fetched_at": "2026-11-26T18:06:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,11 +7,11 @@
     {
      "id": "401873081",
      "league": "NFL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/26 - 1:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "13:48 - 1st",
+     "detail": "13:48",
+     "period": 1,
      "start_utc": "2026-11-26T18:00Z",
      "network": "CBS",
      "home": {
@@ -23,7 +23,9 @@
       "rank": null,
       "score": "0",
       "record": "8-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "8",
       "color": "#0076b6",
       "alt_color": "#bbbbbb"
@@ -37,7 +39,9 @@
       "rank": null,
       "score": "0",
       "record": "8-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "3",
       "color": "#0b1c3a",
       "alt_color": "#e64100"
@@ -46,41 +50,35 @@
       {
        "cat": "PASS",
        "name": "J. Goff",
-       "line": "2716 YDS, 20 TD, 4 INT",
+       "line": "1/2, 19 YDS",
        "team": "8"
       },
       {
        "cat": "RUSH",
        "name": "J. Gibbs",
-       "line": "222 CAR, 1098 YDS, 13 TD",
+       "line": "1 CAR, 6 YDS",
        "team": "8"
       },
       {
        "cat": "REC",
        "name": "A. St. Brown",
-       "line": "70 REC, 792 YDS, 8 TD",
+       "line": "1 REC, 19 YDS",
        "team": "8"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at CHI 49",
+     "possession": "8",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
      "venue_city": "Detroit",
      "venue_state": "MI",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "CHI -1.5",
-      "spread": 1.5,
-      "total": 56.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401873080",
