@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T04:05:43Z",
+ "fetched_at": "2026-11-26T04:10:41Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "6:13 - 4th",
-     "detail": "6:13",
+     "status_short": "4:46 - 4th",
+     "detail": "4:46",
      "period": 4,
      "start_utc": "2026-11-26T01:00Z",
      "network": "Netflix",
@@ -56,7 +56,7 @@
       {
        "cat": "PASS",
        "name": "J. Love",
-       "line": "13/23, 162 YDS, 1 TD, 1 INT",
+       "line": "16/27, 186 YDS, 1 TD, 1 INT",
        "team": "9"
       },
       {
@@ -72,12 +72,12 @@
        "team": "14"
       }
      ],
-     "situation": "",
-     "possession": "14",
-     "red_zone": true,
+     "situation": "4th & 8 at GB 38",
+     "possession": "9",
+     "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.8963888888888889,
+     "progress": 0.9205555555555556,
      "venue_indoor": false,
      "venue": "SoFi Stadium",
      "venue_id": "7065",
@@ -7192,10 +7192,10 @@
     {
      "id": "401909323",
      "league": "NBA",
-     "state": "in",
-     "completed": false,
-     "status_short": "End of 4th",
-     "detail": "0.1",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0.0",
      "period": 4,
      "start_utc": "2026-11-26T01:30Z",
      "network": "Arizona's Family 3TV",
@@ -7207,7 +7207,7 @@
       "mascot": "Rockets",
       "rank": null,
       "score": "116",
-      "record": "13-5",
+      "record": "14-5",
       "periods": [
        "29",
        "37",
@@ -7226,7 +7226,7 @@
       "mascot": "Suns",
       "rank": null,
       "score": "104",
-      "record": "9-7",
+      "record": "9-8",
       "periods": [
        "33",
        "23",
@@ -7243,22 +7243,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.875,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Toyota Center (Houston)",
      "venue_id": "1394",
      "venue_city": "Houston",
      "venue_state": "TX",
      "venue_country": "",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-26T04:10:41Z"
     },
     {
      "id": "401909324",
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "28.7 - 2nd",
-     "detail": "28.7",
+     "status_short": "Halftime",
+     "detail": "0.0",
      "period": 2,
      "start_utc": "2026-11-26T03:00Z",
      "network": "",
@@ -7269,11 +7270,11 @@
       "school": "Golden State",
       "mascot": "Warriors",
       "rank": null,
-      "score": "70",
+      "score": "72",
       "record": "9-8",
       "periods": [
        "44",
-       "26"
+       "28"
       ],
       "id": "9",
       "color": "#fdb927",
@@ -7286,11 +7287,11 @@
       "school": "Sacramento",
       "mascot": "Kings",
       "rank": null,
-      "score": "50",
+      "score": "53",
       "record": "2-15",
       "periods": [
        "19",
-       "31"
+       "34"
       ],
       "id": "23",
       "color": "#5a2d81",
@@ -7316,8 +7317,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:02 - 2nd",
-     "detail": "6:02",
+     "status_short": "3:07 - 2nd",
+     "detail": "3:07",
      "period": 2,
      "start_utc": "2026-11-26T03:00Z",
      "network": "ESPN",
@@ -7328,11 +7329,11 @@
       "school": "Portland",
       "mascot": "Trail Blazers",
       "rank": null,
-      "score": "45",
+      "score": "53",
       "record": "11-6",
       "periods": [
        "38",
-       "7"
+       "15"
       ],
       "id": "22",
       "color": "#e03a3e",
@@ -7345,11 +7346,11 @@
       "school": "San Antonio",
       "mascot": "Spurs",
       "rank": null,
-      "score": "48",
+      "score": "52",
       "record": "15-3",
       "periods": [
        "35",
-       "13"
+       "17"
       ],
       "id": "24",
       "color": "#000000",
@@ -7361,7 +7362,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.39944444444444444,
+     "progress": 0.44805555555555554,
      "venue_indoor": true,
      "venue": "Moda Center",
      "venue_id": "3423",
@@ -8070,8 +8071,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "2:28 - 2nd",
-     "detail": "2:28",
+     "status_short": "0:18 - 2nd",
+     "detail": "0:18",
      "period": 2,
      "start_utc": "2026-11-26T02:30Z",
      "network": "Altitude Sports",
@@ -8082,11 +8083,11 @@
       "school": "Colorado",
       "mascot": "Avalanche",
       "rank": null,
-      "score": "2",
+      "score": "3",
       "record": "13-7-3",
       "periods": [
        "1",
-       "1"
+       "2"
       ],
       "id": "17",
       "color": "#860038",
@@ -8115,7 +8116,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6255555555555555,
+     "progress": 0.6616666666666666,
      "venue_indoor": true,
      "venue": "Ball Arena",
      "venue_id": "892",
@@ -8129,8 +8130,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "10:14 - 2nd",
-     "detail": "10:14",
+     "status_short": "7:51 - 2nd",
+     "detail": "7:51",
      "period": 2,
      "start_utc": "2026-11-26T02:40Z",
      "network": "CHSN",
@@ -8174,7 +8175,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.4961111111111111,
+     "progress": 0.5358333333333333,
      "venue_indoor": true,
      "venue": "Climate Pledge Arena",
      "venue_id": "7224",
@@ -8188,9 +8189,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "17:46 - 2nd",
+     "detail": "17:46",
+     "period": 2,
      "start_utc": "2026-11-26T03:00Z",
      "network": "NBC Sports BA",
      "home": {
@@ -8203,7 +8204,8 @@
       "score": "3",
       "record": "11-13-1",
       "periods": [
-       "3"
+       "3",
+       "0"
       ],
       "id": "25",
       "color": "#fc4c02",
@@ -8219,6 +8221,7 @@
       "score": "0",
       "record": "11-13-2",
       "periods": [
+       "0",
        "0"
       ],
       "id": "18",
@@ -8231,7 +8234,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.3705555555555556,
      "venue_indoor": true,
      "venue": "Honda Center",
      "venue_id": "1842",
