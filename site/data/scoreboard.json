@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T19:41:00Z",
+ "fetched_at": "2026-11-26T21:41:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -7,11 +7,11 @@
     {
      "id": "401873081",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "Halftime",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
      "detail": "0:00",
-     "period": 2,
+     "period": 4,
      "start_utc": "2026-11-26T18:00Z",
      "network": "CBS",
      "home": {
@@ -21,11 +21,13 @@
       "school": "Detroit",
       "mascot": "Lions",
       "rank": null,
-      "score": "19",
-      "record": "8-2",
+      "score": "35",
+      "record": "8-3",
       "periods": [
        "3",
-       "16"
+       "16",
+       "7",
+       "9"
       ],
       "id": "8",
       "color": "#0076b6",
@@ -38,11 +40,13 @@
       "school": "Chicago",
       "mascot": "Bears",
       "rank": null,
-      "score": "10",
-      "record": "8-2",
+      "score": "39",
+      "record": "9-2",
       "periods": [
        "0",
-       "10"
+       "10",
+       "14",
+       "15"
       ],
       "id": "3",
       "color": "#0b1c3a",
@@ -51,36 +55,37 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Goff",
-       "line": "13/22, 193 YDS, 1 TD",
-       "team": "8"
+       "name": "C. Williams",
+       "line": "30/44, 345 YDS, 2 TD",
+       "team": "3"
       },
       {
        "cat": "RUSH",
        "name": "J. Gibbs",
-       "line": "12 CAR, 57 YDS, 1 TD",
+       "line": "21 CAR, 205 YDS, 3 TD",
        "team": "8"
       },
       {
        "cat": "REC",
        "name": "A. St. Brown",
-       "line": "4 REC, 97 YDS",
+       "line": "7 REC, 146 YDS",
        "team": "8"
       }
      ],
      "situation": "",
      "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.5,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
      "venue_city": "Detroit",
      "venue_state": "MI",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-26T21:36:29Z"
     },
     {
      "id": "401873080",
@@ -2121,8 +2126,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "OSU -10.5",
-      "spread": -10.5,
+      "detail": "OSU -10",
+      "spread": -10.0,
       "total": 37.5,
       "favorite": "home"
      }
@@ -3225,7 +3230,7 @@
       "provider": "Draft Kings",
       "detail": "TLSA -1.5",
       "spread": 1.5,
-      "total": 56.5,
+      "total": 57.5,
       "favorite": "away"
      }
     },
@@ -3303,7 +3308,7 @@
       "provider": "Draft Kings",
       "detail": "BUF -7.5",
       "spread": 7.5,
-      "total": 47.5,
+      "total": 48.5,
       "favorite": "away"
      }
     },
@@ -6920,7 +6925,7 @@
       "provider": "Draft Kings",
       "detail": "DET -11.5",
       "spread": -11.5,
-      "total": 221.5,
+      "total": 220.5,
       "favorite": "home"
      }
     },
@@ -7097,7 +7102,7 @@
       "provider": "Draft Kings",
       "detail": "BOS -9.5",
       "spread": -9.5,
-      "total": 222.5,
+      "total": 221.5,
       "favorite": "home"
      }
     },
@@ -7154,9 +7159,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIN -2.5",
-      "spread": -2.5,
-      "total": 222.5,
+      "detail": "MIN -3.5",
+      "spread": -3.5,
+      "total": 220.5,
       "favorite": "home"
      }
     },
@@ -7272,9 +7277,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "SA -4.5",
-      "spread": -4.5,
-      "total": 224.5,
+      "detail": "SA -5.5",
+      "spread": -5.5,
+      "total": 225.5,
       "favorite": "home"
      }
     },
@@ -7333,7 +7338,7 @@
       "provider": "Draft Kings",
       "detail": "DEN -9.5",
       "spread": 9.5,
-      "total": 228.5,
+      "total": 229.5,
       "favorite": "away"
      }
     },
@@ -7392,7 +7397,7 @@
       "provider": "Draft Kings",
       "detail": "LAC -3.5",
       "spread": -3.5,
-      "total": 230.5,
+      "total": 231.5,
       "favorite": "home"
      }
     },
@@ -7449,9 +7454,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "POR -9.5",
-      "spread": -9.5,
-      "total": 219.5,
+      "detail": "POR -8.5",
+      "spread": -8.5,
+      "total": 220.5,
       "favorite": "home"
      }
     }
@@ -7985,7 +7990,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIN -125",
+      "detail": "MIN -130",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
@@ -8280,7 +8285,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "BUF -148",
+      "detail": "BUF -155",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
