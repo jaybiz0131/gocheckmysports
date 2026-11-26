@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T18:36:01Z",
+ "fetched_at": "2026-11-26T18:41:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "1:47 - 1st",
-     "detail": "1:47",
-     "period": 1,
+     "status_short": "15:00 - 2nd",
+     "detail": "15:00",
+     "period": 2,
      "start_utc": "2026-11-26T18:00Z",
      "network": "CBS",
      "home": {
@@ -24,7 +24,8 @@
       "score": "3",
       "record": "8-2",
       "periods": [
-       "3"
+       "3",
+       "0"
       ],
       "id": "8",
       "color": "#0076b6",
@@ -40,6 +41,7 @@
       "score": "0",
       "record": "8-2",
       "periods": [
+       "0",
        "0"
       ],
       "id": "3",
@@ -50,7 +52,7 @@
       {
        "cat": "PASS",
        "name": "J. Goff",
-       "line": "5/9, 73 YDS",
+       "line": "7/11, 88 YDS",
        "team": "8"
       },
       {
@@ -66,12 +68,12 @@
        "team": "8"
       }
      ],
-     "situation": "2nd & 11 at CHI 43",
+     "situation": "2nd & 9 at CHI 16",
      "possession": "8",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.22027777777777777,
+     "progress": 0.25,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
@@ -7865,10 +7867,10 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "FLA -112",
-      "spread": 1.5,
+      "detail": "WSH -108",
+      "spread": -1.5,
       "total": 6.5,
-      "favorite": "away"
+      "favorite": "home"
      }
     },
     {
