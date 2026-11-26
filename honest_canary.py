@@ -149,6 +149,69 @@ def readable(tree, slate=False):
     return f[:12] + ([f"readable: and {len(f) - 12} more"] if len(f) > 12 else [])
 
 
+def late_night():
+    """S-DONE point 3, after midnight: /scores.html answers "what is on right now". Saturday's late
+    game kicks off at 10:30 PM ET and is in play at 12:30 AM Sunday. The landing page opened on the
+    new calendar day, read "Live 0" over Sunday's slate, and the game in play was a day tab away.
+    Until 4 AM ET (cadence.DAY_CUT_HOURS, the cut the build cadence has always used) the landing
+    page is the day before while one of its games is still on; after its last final, or after the
+    cut, it is today's. Rendered here from a fixture on three clocks; no network."""
+    import datetime
+    import build_manifest as bm
+    import site_build as sb
+    UTC = datetime.timezone.utc
+    u = lambda t: datetime.datetime.fromisoformat(t.replace("Z", "+00:00")).astimezone(UTC)
+
+    def g(i, lg, a, h, kick, state="pre", status=""):
+        return {"league": lg, "id": i, "state": state, "completed": state == "post", "status_short": status,
+                "detail": status, "period": 4 if state == "in" else 0, "start_utc": kick, "network": "ESPN",
+                "venue": "Stadium", "venue_city": "Town", "venue_state": "CA",
+                "away": {"abbr": a, "full": a + " Team", "name": a, "school": a, "score": "21", "id": "a" + i, "rank": None},
+                "home": {"abbr": h, "full": h + " Team", "name": h, "school": h, "score": "17", "id": "h" + i, "rank": None}}
+
+    def landing(now_iso, late_state):
+        late = g("late1", "CFB", "ARIZ", "UCLA", "2026-11-29T03:30Z", late_state, "8:12 - 4th" if late_state == "in" else "Final")
+        early = g("early1", "CFB", "OSU", "MICH", "2026-11-28T17:00Z", "post", "Final")
+        sun = [g("nfl1", "NFL", "NO", "CIN", "2026-11-29T18:00Z"), g("nfl2", "NFL", "SEA", "SF", "2026-11-29T21:25Z")]
+        sbd = {"fetched_at": now_iso, "leagues": [{"league": "NFL", "games": sun}, {"league": "CFB", "games": [early, late]}]}
+        keep = (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.CX_DATA, sb.GAME_PAGE_IDS)
+        try:
+            sb._NOW_CACHE = u(now_iso)
+            sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.CX_DATA, sb.GAME_PAGE_IDS = sbd, None, False, None, set()
+            sb.MANIFEST = bm.build(sb._build_now(), sbd, None)
+            return sb.render_scores_pages(sbd, {}, "")
+        finally:
+            (sb._NOW_CACHE, sb.SB_DATA, sb.W2W_DATA, sb.W2W_LIVE, sb.MANIFEST, sb.CX_DATA, sb.GAME_PAGE_IDS) = keep
+
+    f = []
+    cases = [
+        ("12:30 AM ET Sunday, Saturday's late game in play", "2026-11-29T05:30:00Z", "in", True),
+        ("12:30 AM ET Sunday, Saturday's games all final", "2026-11-29T05:30:00Z", "post", False),
+        ("4:30 AM ET Sunday, a card the feed never closed", "2026-11-29T09:30:00Z", "in", False),
+        ("11:50 PM ET Saturday, the late game in play", "2026-11-29T04:50:00Z", "in", True),
+    ]
+    for name, now_iso, state, on_landing in cases:
+        try:
+            pages = landing(now_iso, state)
+        except Exception as e:                                # noqa: BLE001
+            f.append(f"readable: late night: {name}: the pages did not render ({type(e).__name__}: {str(e)[:120]})")
+            continue
+        home = pages.get("/scores.html") or ""
+        has = 'data-gid="late1"' in home
+        live = _small(home, "data-tab", "live")
+        if has != on_landing:
+            f.append(f"readable: late night: {name}: /scores.html {'draws' if has else 'does not draw'} the late game "
+                     f"(Live says {live})")
+        elif on_landing and live != 1:
+            f.append(f"readable: late night: {name}: the late game is on /scores.html and Live says {live}")
+        f += [x.replace("honest counts:", "readable: late night: " + name + ":") for x in scores_page("scores.html", home)] if home else []
+        if 'data-gid="late1"' not in (pages.get("/scores/2026-11-28.html") or ""):
+            f.append(f"readable: late night: {name}: Saturday's own page lost the late game")
+        if 'data-gid="nfl1"' not in (pages.get("/scores/2026-11-29.html") or ""):
+            f.append(f"readable: late night: {name}: Sunday's own page lost its games")
+    return f
+
+
 def honest_canary(tree):
     if not tree or not os.path.isdir(tree):
         return ["honest counts: no built tree to read"]
