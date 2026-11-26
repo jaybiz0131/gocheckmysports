@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T18:11:02Z",
+ "fetched_at": "2026-11-26T18:16:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:28 - 1st",
-     "detail": "11:28",
+     "status_short": "9:39 - 1st",
+     "detail": "9:39",
      "period": 1,
      "start_utc": "2026-11-26T18:00Z",
      "network": "CBS",
@@ -66,12 +66,12 @@
        "team": "8"
       }
      ],
-     "situation": "",
-     "possession": "8",
-     "red_zone": true,
+     "situation": "1st & 10 at DET 36",
+     "possession": "3",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.05888888888888888,
+     "progress": 0.08916666666666667,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
@@ -6977,7 +6977,7 @@
       "provider": "Draft Kings",
       "detail": "PHI -3.5",
       "spread": 3.5,
-      "total": 234.5,
+      "total": 233.5,
       "favorite": "away"
      }
     },
@@ -7325,7 +7325,7 @@
       "provider": "Draft Kings",
       "detail": "DEN -9.5",
       "spread": 9.5,
-      "total": 229.5,
+      "total": 228.5,
       "favorite": "away"
      }
     },
@@ -7380,7 +7380,13 @@
      "venue_city": "Inglewood",
      "venue_state": "CA",
      "venue_country": "",
-     "line": null
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "LAC -2.5",
+      "spread": -2.5,
+      "total": 228.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401909336",
