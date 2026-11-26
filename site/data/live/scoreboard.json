@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T18:06:01Z",
+ "fetched_at": "2026-11-26T18:11:02Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "13:48 - 1st",
-     "detail": "13:48",
+     "status_short": "11:28 - 1st",
+     "detail": "11:28",
      "period": 1,
      "start_utc": "2026-11-26T18:00Z",
      "network": "CBS",
@@ -21,10 +21,10 @@
       "school": "Detroit",
       "mascot": "Lions",
       "rank": null,
-      "score": "0",
+      "score": "3",
       "record": "8-2",
       "periods": [
-       "0"
+       "3"
       ],
       "id": "8",
       "color": "#0076b6",
@@ -50,28 +50,28 @@
       {
        "cat": "PASS",
        "name": "J. Goff",
-       "line": "1/2, 19 YDS",
+       "line": "2/5, 46 YDS",
        "team": "8"
       },
       {
        "cat": "RUSH",
        "name": "J. Gibbs",
-       "line": "1 CAR, 6 YDS",
+       "line": "4 CAR, 22 YDS",
        "team": "8"
       },
       {
        "cat": "REC",
        "name": "A. St. Brown",
-       "line": "1 REC, 19 YDS",
+       "line": "2 REC, 46 YDS",
        "team": "8"
       }
      ],
-     "situation": "1st & 10 at CHI 49",
+     "situation": "",
      "possession": "8",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02,
+     "progress": 0.05888888888888888,
      "venue_indoor": true,
      "venue": "Ford Field",
      "venue_id": "3727",
@@ -6914,7 +6914,13 @@
      "venue_city": "Detroit",
      "venue_state": "MI",
      "venue_country": "",
-     "line": null
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "DET -11.5",
+      "spread": -11.5,
+      "total": 221.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401909328",
@@ -7026,7 +7032,13 @@
      "venue_city": "Toronto",
      "venue_state": "ON",
      "venue_country": "",
-     "line": null
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "TOR -7.5",
+      "spread": -7.5,
+      "total": 221.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401909330",
