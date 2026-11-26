@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T21:46:29Z",
+ "fetched_at": "2026-11-26T21:51:30Z",
  "leagues": [
   {
    "league": "NFL",
@@ -90,11 +90,11 @@
     {
      "id": "401873080",
      "league": "NFL",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/26 - 4:30 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "13:25 - 1st",
+     "detail": "13:25",
+     "period": 1,
      "start_utc": "2026-11-26T21:30Z",
      "network": "Fox",
      "home": {
@@ -106,7 +106,9 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "6",
       "color": "#002a5c",
       "alt_color": "#b0b7bc"
@@ -120,7 +122,9 @@
       "rank": null,
       "score": "0",
       "record": "3-7",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "21",
       "color": "#06424d",
       "alt_color": "#000000"
@@ -129,41 +133,35 @@
       {
        "cat": "PASS",
        "name": "D. Prescott",
-       "line": "3049 YDS, 25 TD, 6 INT",
+       "line": "1/1, 5 YDS",
        "team": "6"
       },
       {
        "cat": "RUSH",
        "name": "J. Williams",
-       "line": "188 CAR, 759 YDS, 10 TD",
+       "line": "2 CAR, 7 YDS",
        "team": "6"
       },
       {
        "cat": "REC",
-       "name": "C. Lamb",
-       "line": "88 REC, 1108 YDS, 9 TD",
+       "name": "J. Williams",
+       "line": "1 REC, 5 YDS",
        "team": "6"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at PHI 48",
+     "possession": "6",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02638888888888888,
      "venue_indoor": true,
      "venue": "AT&T Stadium",
      "venue_id": "3687",
      "venue_city": "Arlington",
      "venue_state": "TX",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "DAL -8.5",
-      "spread": -8.5,
-      "total": 49.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401873082",
@@ -5102,7 +5100,7 @@
       "provider": "Draft Kings",
       "detail": "LIB -17.5",
       "spread": 17.5,
-      "total": 53.5,
+      "total": 52.5,
       "favorite": "away"
      }
     },
