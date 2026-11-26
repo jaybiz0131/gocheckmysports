@@ -1,0 +1,17 @@
+== S-DONE 15 (the gate at any hour). The red, as the gate met it (3447c58, a documents-only commit, 2026-11-26 04:41 to 05:03 UTC):
+::error::canary: honest in the browser: read a day on: 0 card(s) are still drawn as upcoming past their kickoff and 0 say so
+== reproduced before the change: the gate's slate (home and Scores) rebuilt with the whole process's clock set, then live_canary.pages and .browser, honest_canary and readable run on it
+04:41Z (Wed 11:41 PM ET): 0 finding(s)
+04:55Z (Wed 11:55 PM ET): 1 finding(s)
+    live browser: honest in the browser: read a day on: 0 card(s) are still drawn as upcoming past their kickoff and 0 say so
+05:05Z (Thu 12:05 AM ET): 0 finding(s)
+05:30Z (Thu 12:30 AM ET): 0 finding(s)
+06:30Z (Thu 1:30 AM ET): 0 finding(s)
+08:00Z (Thu 3:00 AM ET): 0 finding(s)
+== after the change (the aged case reads /scores/<the next day>.html at 11:55 PM ET, /scores.html at 11:41 PM ET)
+04:55Z (Wed 11:55 PM ET): 0 finding(s)
+04:41Z (Wed 11:41 PM ET): 0 finding(s)
+05:05Z (Thu 12:05 AM ET): 0 finding(s)
+16:55Z (Thu 11:55 AM ET): 0 finding(s)
+01:00Z (Wed 8:00 PM ET): 0 finding(s)
+== the sweep of a whole day's clock was still running when this was committed; its log is sweep-15-day.log in the documents commit that follows
