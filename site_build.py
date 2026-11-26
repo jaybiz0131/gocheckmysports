@@ -7940,6 +7940,21 @@ def _scores_days(sb):
     keys = sorted(days)
     later = [d for d in keys if d > today]
     opening = today if today in days else (later[0] if later else (keys[-1] if keys else today))
+    # S-DONE 16: AFTER MIDNIGHT THE NIGHT IS NOT OVER. A game that kicked off at 10:30 PM ET is in
+    # play at 12:30 AM, on the day before's page; the landing page opened on the new calendar day
+    # and read "Live 0" with that game a day tab away. Until the cut the build cadence has always
+    # used for a slate's day (cadence.DAY_CUT_HOURS, 4 AM ET), the landing page is the day before
+    # while one of its games is still listed with Live. Each day keeps its own page and URL.
+    now = _build_now()
+    try:
+        import cadence as _cad
+        cut = _cad.DAY_CUT_HOURS
+    except Exception:
+        cut = 4
+    if now.astimezone(_ET).hour < cut:
+        prev = (datetime.date.fromisoformat(today) - datetime.timedelta(days=1)).isoformat()
+        if any(_s60.tab_of(g, now) == "live" for _l, g in days.get(prev) or []):
+            opening = prev
     if undated:
         days.setdefault(opening, []).extend(undated)
     return days, opening
