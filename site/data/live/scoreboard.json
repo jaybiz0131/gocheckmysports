@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T01:06:29Z",
+ "fetched_at": "2026-11-27T01:11:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "4:55 - 4th",
-     "detail": "4:55",
+     "status_short": "2:10 - 4th",
+     "detail": "2:10",
      "period": 4,
      "start_utc": "2026-11-26T21:30Z",
      "network": "Fox",
@@ -40,13 +40,13 @@
       "school": "Philadelphia",
       "mascot": "Eagles",
       "rank": null,
-      "score": "30",
+      "score": "36",
       "record": "3-7",
       "periods": [
        "0",
        "10",
        "7",
-       "13"
+       "19"
       ],
       "id": "21",
       "color": "#06424d",
@@ -55,9 +55,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "D. Prescott",
-       "line": "17/25, 273 YDS, 2 TD",
-       "team": "6"
+       "name": "J. Milton",
+       "line": "19/26, 317 YDS, 3 TD, 1 INT",
+       "team": "21"
       },
       {
        "cat": "RUSH",
@@ -72,12 +72,12 @@
        "team": "21"
       }
      ],
-     "situation": "3rd & 8 at PHI 25",
-     "possession": "6",
-     "red_zone": false,
+     "situation": "",
+     "possession": "",
+     "red_zone": true,
      "to_home": 1,
      "to_away": 3,
-     "progress": 0.9180555555555556,
+     "progress": 0.9638888888888889,
      "venue_indoor": true,
      "venue": "AT&T Stadium",
      "venue_id": "3687",
@@ -1359,11 +1359,11 @@
     {
      "id": "401856879",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/26 - 8:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "15:00 - 1st",
+     "detail": "15:00",
+     "period": 1,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN2",
      "home": {
@@ -1375,7 +1375,9 @@
       "rank": 11,
       "score": "0",
       "record": "10-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2641",
       "color": "#da291c",
       "alt_color": "#000000"
@@ -1389,50 +1391,27 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2628",
       "color": "#4d1979",
       "alt_color": "#ffffff"
      },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "J. Craig",
-       "line": "2664 YDS, 13 TD, 7 INT",
-       "team": "2628"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Williams",
-       "line": "159 CAR, 1195 YDS, 9 TD",
-       "team": "2641"
-      },
-      {
-       "cat": "REC",
-       "name": "K. Johnson",
-       "line": "44 REC, 741 YDS, 5 TD",
-       "team": "2641"
-      }
-     ],
-     "situation": "",
+     "leaders": [],
+     "situation": "1st & 10 at TCU 25",
      "possession": "",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
      "venue_city": "Lubbock",
      "venue_state": "TX",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "TTU -13.5",
-      "spread": -13.5,
-      "total": 46.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401858536",
