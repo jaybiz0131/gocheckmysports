@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T23:52:20Z",
+ "fetched_at": "2026-11-27T23:57:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1450,8 +1450,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "2:00 - 4th",
-     "detail": "2:00",
+     "status_short": "1:55 - 4th",
+     "detail": "1:55",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ABC",
@@ -1481,13 +1481,13 @@
       "school": "Florida",
       "mascot": "Gators",
       "rank": 20,
-      "score": "23",
+      "score": "26",
       "record": "7-4",
       "periods": [
        "7",
        "3",
        "7",
-       "6"
+       "9"
       ],
       "id": "57",
       "color": "#0021a5",
@@ -1514,11 +1514,11 @@
       }
      ],
      "situation": "",
-     "possession": "57",
-     "red_zone": true,
+     "possession": "",
+     "red_zone": false,
      "to_home": 0,
-     "to_away": 2,
-     "progress": 0.9666666666666667,
+     "to_away": 1,
+     "progress": 0.9680555555555556,
      "venue_indoor": false,
      "venue": "Doak Campbell Stadium",
      "venue_id": "3697",
@@ -3271,10 +3271,10 @@
     {
      "id": "401862838",
      "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "0:08 - 4th",
-     "detail": "0:08",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ESPN",
@@ -3286,7 +3286,7 @@
       "mascot": "Tigers",
       "rank": null,
       "score": "31",
-      "record": "8-3",
+      "record": "8-4",
       "periods": [
        "14",
        "3",
@@ -3305,7 +3305,7 @@
       "mascot": "Owls",
       "rank": null,
       "score": "35",
-      "record": "2-9",
+      "record": "3-9",
       "periods": [
        "7",
        "0",
@@ -3320,7 +3320,7 @@
       {
        "cat": "PASS",
        "name": "M. Stokes",
-       "line": "13/19, 252 YDS, 2 TD, 2 INT",
+       "line": "13/19, 260 YDS, 2 TD, 2 INT",
        "team": "235"
       },
       {
@@ -3336,27 +3336,28 @@
        "team": "235"
       }
      ],
-     "situation": "2nd & 10 at MEM 25",
-     "possession": "235",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 0,
-     "to_away": 2,
-     "progress": 0.9977777777777778,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "Simmons Bank Liberty Stadium",
      "venue_id": "3805",
      "venue_city": "Memphis",
      "venue_state": "TN",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-27T23:57:18Z"
     },
     {
      "id": "401864549",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "6:40 - 4th",
-     "detail": "6:40",
+     "status_short": "5:17 - 4th",
+     "detail": "5:17",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3418,12 +3419,12 @@
        "team": "2449"
       }
      ],
-     "situation": "4th & 5 at SJSU 42",
-     "possession": "23",
+     "situation": "3rd & 12 at NDSU 15",
+     "possession": "2449",
      "red_zone": false,
      "to_home": 1,
      "to_away": 1,
-     "progress": 0.8888888888888888,
+     "progress": 0.9119444444444444,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3437,8 +3438,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "4:40 - 3rd",
-     "detail": "4:40",
+     "status_short": "3:31 - 3rd",
+     "detail": "3:31",
      "period": 3,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3481,9 +3482,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "E. Medders",
-       "line": "7/13, 141 YDS, 1 INT",
-       "team": "2005"
+       "name": "L. Moga",
+       "line": "13/18, 187 YDS, 1 TD, 1 INT",
+       "team": "167"
       },
       {
        "cat": "RUSH",
@@ -3498,12 +3499,12 @@
        "team": "167"
       }
      ],
-     "situation": "3rd & 2 at UNM 33",
+     "situation": "1st & Goal at AF 7",
      "possession": "167",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.6722222222222223,
+     "progress": 0.6913888888888888,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -7003,9 +7004,9 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "NY -3.5",
-      "spread": -3.5,
-      "total": 222.5,
+      "detail": "NY -2.5",
+      "spread": -2.5,
+      "total": 221.5,
       "favorite": "home"
      }
     },
@@ -7418,7 +7419,7 @@
       "provider": "DraftKings",
       "detail": "SA -6.5",
       "spread": -6.5,
-      "total": 226.5,
+      "total": 225.5,
       "favorite": "home"
      }
     },
@@ -8107,9 +8108,9 @@
     {
      "id": "401892803",
      "league": "NHL",
-     "state": "in",
-     "completed": false,
-     "status_short": "In SO",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final/SO",
      "detail": "0:00",
      "period": 5,
      "start_utc": "2026-11-27T21:00Z",
@@ -8122,7 +8123,7 @@
       "mascot": "Wild",
       "rank": null,
       "score": "3",
-      "record": "18-4-5",
+      "record": "",
       "periods": [
        "2",
        "1",
@@ -8141,14 +8142,14 @@
       "school": "Colorado",
       "mascot": "Avalanche",
       "rank": null,
-      "score": "3",
-      "record": "14-7-3",
+      "score": "4",
+      "record": "",
       "periods": [
        "0",
        "0",
        "3",
        "0",
-       "0"
+       "1"
       ],
       "id": "17",
       "color": "#860038",
@@ -8160,14 +8161,15 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 1.0,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Grand Casino Arena",
      "venue_id": "1835",
      "venue_city": "Saint Paul",
      "venue_state": "MN",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-27T23:57:18Z"
     },
     {
      "id": "401892804",
@@ -8298,8 +8300,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "12:20 - 2nd",
-     "detail": "12:20",
+     "status_short": "10:05 - 2nd",
+     "detail": "10:05",
      "period": 2,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8343,7 +8345,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.4611111111111111,
+     "progress": 0.4986111111111111,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
