@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T03:12:03Z",
+ "fetched_at": "2026-11-27T03:17:04Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:28 - 3rd",
-     "detail": "11:28",
+     "status_short": "11:13 - 3rd",
+     "detail": "11:13",
      "period": 3,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -39,12 +39,12 @@
       "school": "Kansas City",
       "mascot": "Chiefs",
       "rank": null,
-      "score": "9",
+      "score": "10",
       "record": "8-2",
       "periods": [
        "0",
        "3",
-       "6"
+       "7"
       ],
       "id": "12",
       "color": "#e31837",
@@ -70,12 +70,12 @@
        "team": "12"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
+     "situation": "3rd & 10 at BUF 34",
+     "possession": "2",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5588888888888889,
+     "progress": 0.5630555555555555,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1364,8 +1364,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "12:59 - 3rd",
-     "detail": "12:59",
+     "status_short": "11:07 - 3rd",
+     "detail": "11:07",
      "period": 3,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1376,12 +1376,12 @@
       "school": "Texas Tech",
       "mascot": "Red Raiders",
       "rank": 11,
-      "score": "27",
+      "score": "34",
       "record": "10-1",
       "periods": [
        "0",
        "27",
-       "0"
+       "7"
       ],
       "id": "2641",
       "color": "#da291c",
@@ -1409,7 +1409,7 @@
       {
        "cat": "PASS",
        "name": "T. Castellanos",
-       "line": "14/20, 227 YDS, 2 TD",
+       "line": "16/21, 267 YDS, 3 TD",
        "team": "2641"
       },
       {
@@ -1421,16 +1421,16 @@
       {
        "cat": "REC",
        "name": "M. Simmons",
-       "line": "3 REC, 70 YDS",
+       "line": "4 REC, 110 YDS, 1 TD",
        "team": "2641"
       }
      ],
-     "situation": "3rd & 5 at TCU 40",
-     "possession": "2641",
+     "situation": "1st & 10 at 50",
+     "possession": "2628",
      "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.5336111111111111,
+     "progress": 0.5647222222222222,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -7170,7 +7170,7 @@
       "provider": "Draft Kings",
       "detail": "MIN -3.5",
       "spread": -3.5,
-      "total": 220.5,
+      "total": 221.5,
       "favorite": "home"
      }
     },
