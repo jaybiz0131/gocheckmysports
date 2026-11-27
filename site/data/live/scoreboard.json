@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T17:06:01Z",
+ "fetched_at": "2026-11-27T17:11:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1443,11 +1443,11 @@
     {
      "id": "401856762",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "13:01 - 1st",
+     "detail": "13:01",
+     "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ABC",
      "home": {
@@ -1459,7 +1459,9 @@
       "rank": 22,
       "score": "0",
       "record": "7-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "145",
       "color": "#13294b",
       "alt_color": "#cf142b"
@@ -1473,7 +1475,9 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "344",
       "color": "#5d1725",
       "alt_color": "#c1c6c8"
@@ -1481,51 +1485,45 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "T. Chambliss",
-       "line": "2853 YDS, 24 TD, 9 INT",
-       "team": "145"
+       "name": "P. Puckett",
+       "line": "2/2, YDS",
+       "team": "344"
       },
       {
        "cat": "RUSH",
        "name": "F. Bothwell",
-       "line": "134 CAR, 649 YDS, 3 TD",
+       "line": "1 CAR, -2 YDS",
        "team": "344"
       },
       {
        "cat": "REC",
-       "name": "A. Evans III",
-       "line": "73 REC, 929 YDS, 6 TD",
+       "name": "F. Bothwell",
+       "line": "1 REC, 0 YDS",
        "team": "344"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "situation": "4th & 16 at MSST 19",
+     "possession": "344",
+     "red_zone": true,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.03305555555555556,
      "venue_indoor": false,
      "venue": "Vaught-Hemingway Stadium",
      "venue_id": "3974",
      "venue_city": "Oxford",
      "venue_state": "MS",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "MISS -17.5",
-      "spread": -17.5,
-      "total": 56.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401858536",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 12:08 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "14:19 - 1st",
+     "detail": "14:19",
+     "period": 1,
      "start_utc": "2026-11-27T17:08Z",
      "network": "CBS",
      "home": {
@@ -1537,7 +1535,9 @@
       "rank": 13,
       "score": "0",
       "record": "9-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2294",
       "color": "#231f20",
       "alt_color": "#fcd116"
@@ -1551,50 +1551,34 @@
       "rank": 25,
       "score": "0",
       "record": "7-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "158",
       "color": "#e31937",
       "alt_color": "#ffffff"
      },
      "leaders": [
       {
-       "cat": "PASS",
-       "name": "A. Colandrea",
-       "line": "2497 YDS, 21 TD, 7 INT",
-       "team": "158"
-      },
-      {
        "cat": "RUSH",
-       "name": "J. Rule",
-       "line": "133 CAR, 705 YDS, 5 TD",
-       "team": "158"
-      },
-      {
-       "cat": "REC",
-       "name": "K. Gilmer",
-       "line": "53 REC, 676 YDS, 8 TD",
-       "team": "158"
+       "name": "L.J. Phillips Jr.",
+       "line": "1 CAR, 2 YDS",
+       "team": "2294"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 8 at IOWA 20",
+     "possession": "2294",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": false,
      "venue": "Kinnick Stadium",
      "venue_id": "3793",
      "venue_city": "Iowa City",
      "venue_state": "IA",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "IOWA -3.5",
-      "spread": -3.5,
-      "total": 40.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401856759",
@@ -3254,8 +3238,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "14:14 - 1st",
-     "detail": "14:14",
+     "status_short": "11:26 - 1st",
+     "detail": "11:26",
      "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ESPN",
@@ -3282,10 +3266,10 @@
       "school": "Tulsa",
       "mascot": "Golden Hurricane",
       "rank": null,
-      "score": "0",
+      "score": "6",
       "record": "7-4",
       "periods": [
-       "0"
+       "6"
       ],
       "id": "202",
       "color": "#003595",
@@ -3299,6 +3283,12 @@
        "team": "2636"
       },
       {
+       "cat": "RUSH",
+       "name": "D. Alston",
+       "line": "2 CAR, 14 YDS",
+       "team": "202"
+      },
+      {
        "cat": "REC",
        "name": "A. Wilson",
        "line": "1 REC, 64 YDS, 1 TD",
@@ -3307,10 +3297,10 @@
      ],
      "situation": "",
      "possession": "",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02,
+     "progress": 0.05944444444444444,
      "venue_indoor": true,
      "venue": "Alamodome",
      "venue_id": "3604",
@@ -3365,25 +3355,25 @@
       {
        "cat": "PASS",
        "name": "C. Broughton",
-       "line": "2/2, 13 YDS",
+       "line": "2/4, 47 YDS",
        "team": "2006"
       },
       {
        "cat": "RUSH",
-       "name": "J. Gant",
-       "line": "1 CAR, 3 YDS",
+       "name": "K. Mason",
+       "line": "1 CAR, 8 YDS",
        "team": "2006"
       },
       {
        "cat": "REC",
-       "name": "K. Mason",
-       "line": "1 REC, 13 YDS",
+       "name": "M. Burris",
+       "line": "1 REC, 34 YDS",
        "team": "2006"
       }
      ],
-     "situation": "1st & 10 at AKR 41",
+     "situation": "4th & Goal at BUF 8",
      "possession": "2006",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
      "progress": 0.02,
@@ -3400,8 +3390,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 1st",
-     "detail": "15:00",
+     "status_short": "10:48 - 1st",
+     "detail": "10:48",
      "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ESPNU",
@@ -3439,18 +3429,30 @@
      },
      "leaders": [
       {
+       "cat": "PASS",
+       "name": "N. Poulos",
+       "line": "3/4, 34 YDS",
+       "team": "195"
+      },
+      {
        "cat": "RUSH",
        "name": "C. Miller",
        "line": "3 CAR, 9 YDS",
        "team": "2649"
+      },
+      {
+       "cat": "REC",
+       "name": "P. Bowman",
+       "line": "1 REC, 15 YDS",
+       "team": "195"
       }
      ],
-     "situation": "4th & 1 at TOL 34",
+     "situation": "",
      "possession": "2649",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02,
+     "progress": 0.07,
      "venue_indoor": false,
      "venue": "Peden Stadium",
      "venue_id": "3876",
