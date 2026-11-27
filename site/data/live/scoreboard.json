@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T20:46:47Z",
+ "fetched_at": "2026-11-27T20:51:48Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "12:22 - 2nd",
-     "detail": "12:22",
+     "status_short": "11:10 - 2nd",
+     "detail": "11:10",
      "period": 2,
      "start_utc": "2026-11-27T20:00Z",
      "network": "Prime Video",
@@ -38,11 +38,11 @@
       "school": "Denver",
       "mascot": "Broncos",
       "rank": null,
-      "score": "0",
+      "score": "2",
       "record": "8-2",
       "periods": [
        "0",
-       "0"
+       "2"
       ],
       "id": "7",
       "color": "#0a2343",
@@ -68,12 +68,12 @@
        "team": "23"
       }
      ],
-     "situation": "4th & 17 at PIT 36",
-     "possession": "7",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.29388888888888887,
+     "progress": 0.3138888888888889,
      "venue_indoor": false,
      "venue": "Acrisure Stadium",
      "venue_id": "3752",
@@ -1609,11 +1609,11 @@
     {
      "id": "401856759",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 3:30 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "12:47 - 1st",
+     "detail": "12:47",
+     "period": 1,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ABC",
      "home": {
@@ -1625,7 +1625,9 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "52",
       "color": "#782f40",
       "alt_color": "#ceb888"
@@ -1639,7 +1641,9 @@
       "rank": 20,
       "score": "0",
       "record": "7-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "57",
       "color": "#0021a5",
       "alt_color": "#fa4616"
@@ -1648,41 +1652,35 @@
       {
        "cat": "PASS",
        "name": "A. Daniels",
-       "line": "2515 YDS, 14 TD, 14 INT",
+       "line": "1, 0 YDS",
        "team": "52"
       },
       {
        "cat": "RUSH",
        "name": "J. Baugh",
-       "line": "197 CAR, 980 YDS, 16 TD",
+       "line": "1 CAR, 3 YDS",
        "team": "57"
       },
       {
        "cat": "REC",
-       "name": "M. Danzy",
-       "line": "35 REC, 584 YDS, 3 TD",
-       "team": "52"
+       "name": "D. Wilson",
+       "line": "1 REC, 0 YDS",
+       "team": "57"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at FSU 9",
+     "possession": "52",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.036944444444444446,
      "venue_indoor": false,
      "venue": "Doak Campbell Stadium",
      "venue_id": "3697",
      "venue_city": "Tallahassee",
      "venue_state": "FL",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "FLA -6.5",
-      "spread": 6.5,
-      "total": 54.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401856756",
@@ -3260,95 +3258,12 @@
      "final_seen_utc": "2026-11-25T10:42:06Z"
     },
     {
-     "id": "401866473",
-     "league": "CFB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 4,
-     "start_utc": "2026-11-27T17:00Z",
-     "network": "ESPNU",
-     "home": {
-      "abbr": "OHIO",
-      "full": "Ohio Bobcats",
-      "name": "Ohio",
-      "school": "Ohio",
-      "mascot": "Bobcats",
-      "rank": null,
-      "score": "31",
-      "record": "8-4",
-      "periods": [
-       "0",
-       "10",
-       "7",
-       "14"
-      ],
-      "id": "195",
-      "color": "#154734",
-      "alt_color": "#ffffff"
-     },
-     "away": {
-      "abbr": "TOL",
-      "full": "Toledo Rockets",
-      "name": "Toledo",
-      "school": "Toledo",
-      "mascot": "Rockets",
-      "rank": null,
-      "score": "34",
-      "record": "10-2",
-      "periods": [
-       "14",
-       "3",
-       "0",
-       "17"
-      ],
-      "id": "2649",
-      "color": "#0b2240",
-      "alt_color": "#ffcd00"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "L. Davis",
-       "line": "17/28, 288 YDS, 1 TD, 1 INT",
-       "team": "195"
-      },
-      {
-       "cat": "RUSH",
-       "name": "C. Miller",
-       "line": "15 CAR, 109 YDS, 2 TD",
-       "team": "2649"
-      },
-      {
-       "cat": "REC",
-       "name": "P. Bowman",
-       "line": "8 REC, 150 YDS",
-       "team": "195"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Peden Stadium",
-     "venue_id": "3876",
-     "venue_city": "Athens",
-     "venue_state": "OH",
-     "venue_country": "USA",
-     "line": null,
-     "final_seen_utc": "2026-11-27T20:41:48Z"
-    },
-    {
      "id": "401869930",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "11:25 - 2nd",
-     "detail": "11:25",
+     "status_short": "8:10 - 2nd",
+     "detail": "8:10",
      "period": 2,
      "start_utc": "2026-11-27T20:00Z",
      "network": "ESPN+",
@@ -3376,11 +3291,11 @@
       "school": "App State",
       "mascot": "Mountaineers",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "7-4",
       "periods": [
        "0",
-       "0"
+       "7"
       ],
       "id": "2026",
       "color": "#000000",
@@ -3395,9 +3310,9 @@
       },
       {
        "cat": "RUSH",
-       "name": "P. Martin",
-       "line": "4 CAR, 20 YDS",
-       "team": "6"
+       "name": "J. Lewis",
+       "line": "8 CAR, 30 YDS, 1 TD",
+       "team": "2026"
       },
       {
        "cat": "REC",
@@ -3406,12 +3321,12 @@
        "team": "6"
       }
      ],
-     "situation": "3rd & 16 at APP 38",
-     "possession": "2026",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.30972222222222223,
+     "progress": 0.36388888888888893,
      "venue_indoor": false,
      "venue": "Hancock Whitney Stadium",
      "venue_id": "6526",
@@ -3421,12 +3336,88 @@
      "line": null
     },
     {
+     "id": "401862838",
+     "league": "CFB",
+     "state": "in",
+     "completed": false,
+     "status_short": "8:02 - 1st",
+     "detail": "8:02",
+     "period": 1,
+     "start_utc": "2026-11-27T20:30Z",
+     "network": "ESPN",
+     "home": {
+      "abbr": "MEM",
+      "full": "Memphis Tigers",
+      "name": "Memphis",
+      "school": "Memphis",
+      "mascot": "Tigers",
+      "rank": null,
+      "score": "7",
+      "record": "8-3",
+      "periods": [
+       "7"
+      ],
+      "id": "235",
+      "color": "#004991",
+      "alt_color": "#8e908f"
+     },
+     "away": {
+      "abbr": "TEM",
+      "full": "Temple Owls",
+      "name": "Temple",
+      "school": "Temple",
+      "mascot": "Owls",
+      "rank": null,
+      "score": "0",
+      "record": "2-9",
+      "periods": [
+       "0"
+      ],
+      "id": "218",
+      "color": "#a41e35",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "M. Stokes",
+       "line": "2/2, 83 YDS, 1 TD",
+       "team": "235"
+      },
+      {
+       "cat": "RUSH",
+       "name": "D. Young",
+       "line": "4 CAR, 24 YDS",
+       "team": "218"
+      },
+      {
+       "cat": "REC",
+       "name": "S. Burnside",
+       "line": "2 REC, 83 YDS, 1 TD",
+       "team": "235"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.11611111111111111,
+     "venue_indoor": false,
+     "venue": "Simmons Bank Liberty Stadium",
+     "venue_id": "3805",
+     "venue_city": "Memphis",
+     "venue_state": "TN",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
      "id": "401864549",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "9:55 - 1st",
-     "detail": "9:55",
+     "status_short": "7:42 - 1st",
+     "detail": "7:42",
      "period": 1,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3465,14 +3456,14 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "P. Brown",
-       "line": "2/2, 57 YDS, 1 TD",
-       "team": "2449"
+       "name": "L. Weaver",
+       "line": "4/7, 65 YDS",
+       "team": "23"
       },
       {
        "cat": "RUSH",
        "name": "J. Bates",
-       "line": "4 CAR, 12 YDS",
+       "line": "5 CAR, 7 YDS",
        "team": "23"
       },
       {
@@ -3482,12 +3473,12 @@
        "team": "2449"
       }
      ],
-     "situation": "1st & 10 at NDSU 30",
+     "situation": "2nd & Goal at NDSU 7",
      "possession": "23",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.08472222222222223,
+     "progress": 0.12166666666666667,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3663,80 +3654,87 @@
      "final_seen_utc": "2026-11-27T20:06:48Z"
     },
     {
-     "id": "401862838",
+     "id": "401866473",
      "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "9:15 - 1st",
-     "detail": "9:15",
-     "period": 1,
-     "start_utc": "2026-11-27T20:30Z",
-     "network": "ESPN",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-27T17:00Z",
+     "network": "ESPNU",
      "home": {
-      "abbr": "MEM",
-      "full": "Memphis Tigers",
-      "name": "Memphis",
-      "school": "Memphis",
-      "mascot": "Tigers",
+      "abbr": "OHIO",
+      "full": "Ohio Bobcats",
+      "name": "Ohio",
+      "school": "Ohio",
+      "mascot": "Bobcats",
       "rank": null,
-      "score": "0",
-      "record": "8-3",
+      "score": "31",
+      "record": "8-4",
       "periods": [
-       "0"
+       "0",
+       "10",
+       "7",
+       "14"
       ],
-      "id": "235",
-      "color": "#004991",
-      "alt_color": "#8e908f"
+      "id": "195",
+      "color": "#154734",
+      "alt_color": "#ffffff"
      },
      "away": {
-      "abbr": "TEM",
-      "full": "Temple Owls",
-      "name": "Temple",
-      "school": "Temple",
-      "mascot": "Owls",
+      "abbr": "TOL",
+      "full": "Toledo Rockets",
+      "name": "Toledo",
+      "school": "Toledo",
+      "mascot": "Rockets",
       "rank": null,
-      "score": "0",
-      "record": "2-9",
+      "score": "34",
+      "record": "10-2",
       "periods": [
-       "0"
+       "14",
+       "3",
+       "0",
+       "17"
       ],
-      "id": "218",
-      "color": "#a41e35",
-      "alt_color": "#ffffff"
+      "id": "2649",
+      "color": "#0b2240",
+      "alt_color": "#ffcd00"
      },
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Smolik",
-       "line": "2/3, 11 YDS",
-       "team": "218"
+       "name": "L. Davis",
+       "line": "17/28, 288 YDS, 1 TD, 1 INT",
+       "team": "195"
       },
       {
        "cat": "RUSH",
-       "name": "D. Young",
-       "line": "4 CAR, 24 YDS",
-       "team": "218"
+       "name": "C. Miller",
+       "line": "15 CAR, 109 YDS, 2 TD",
+       "team": "2649"
       },
       {
        "cat": "REC",
-       "name": "D. Young",
-       "line": "1 REC, 14 YDS",
-       "team": "218"
+       "name": "P. Bowman",
+       "line": "8 REC, 150 YDS",
+       "team": "195"
       }
      ],
-     "situation": "1st & 10 at MEM 4",
-     "possession": "235",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.09583333333333333,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
-     "venue": "Simmons Bank Liberty Stadium",
-     "venue_id": "3805",
-     "venue_city": "Memphis",
-     "venue_state": "TN",
+     "venue": "Peden Stadium",
+     "venue_id": "3876",
+     "venue_city": "Athens",
+     "venue_state": "OH",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-27T20:41:48Z"
     },
     {
      "id": "401864546",
@@ -7708,9 +7706,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "1:41 - OT",
-     "detail": "1:41",
-     "period": 4,
+     "status_short": "In SO",
+     "detail": "0:00",
+     "period": 5,
      "start_utc": "2026-11-27T18:00Z",
      "network": "Utah 16",
      "home": {
