@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T21:46:48Z",
+ "fetched_at": "2026-11-27T21:51:49Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "12:25 - 3rd",
-     "detail": "12:25",
+     "status_short": "11:24 - 3rd",
+     "detail": "11:24",
      "period": 3,
      "start_utc": "2026-11-27T20:00Z",
      "network": "Prime Video",
@@ -54,7 +54,7 @@
       {
        "cat": "PASS",
        "name": "M. Rudolph",
-       "line": "7/10, 104 YDS, 1 TD",
+       "line": "7/12, 104 YDS, 1 TD",
        "team": "23"
       },
       {
@@ -70,12 +70,12 @@
        "team": "23"
       }
      ],
-     "situation": "3rd & 15 at DEN 21",
-     "possession": "7",
+     "situation": "3rd & 10 at PIT 41",
+     "possession": "23",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5430555555555556,
+     "progress": 0.56,
      "venue_indoor": false,
      "venue": "Acrisure Stadium",
      "venue_id": "3752",
@@ -1447,8 +1447,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "6:07 - 2nd",
-     "detail": "6:07",
+     "status_short": "4:15 - 2nd",
+     "detail": "4:15",
      "period": 2,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ABC",
@@ -1476,11 +1476,11 @@
       "school": "Florida",
       "mascot": "Gators",
       "rank": 20,
-      "score": "7",
+      "score": "10",
       "record": "7-4",
       "periods": [
        "7",
-       "0"
+       "3"
       ],
       "id": "57",
       "color": "#0021a5",
@@ -1506,12 +1506,12 @@
        "team": "52"
       }
      ],
-     "situation": "2nd & 7 at FSU 12",
-     "possession": "57",
-     "red_zone": true,
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.39805555555555555,
+     "progress": 0.4291666666666667,
      "venue_indoor": false,
      "venue": "Doak Campbell Stadium",
      "venue_id": "3697",
@@ -2855,8 +2855,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "ALA -14.5",
-      "spread": -14.5,
+      "detail": "ALA -15.5",
+      "spread": -15.5,
       "total": 49.5,
       "favorite": "home"
      }
@@ -3266,8 +3266,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "11:51 - 3rd",
-     "detail": "11:51",
+     "status_short": "10:26 - 3rd",
+     "detail": "10:26",
      "period": 3,
      "start_utc": "2026-11-27T20:00Z",
      "network": "ESPN+",
@@ -3327,12 +3327,12 @@
        "team": "2026"
       }
      ],
-     "situation": "2nd & 7 at USA 45",
-     "possession": "2026",
+     "situation": "1st & 10 at USA 3",
+     "possession": "6",
      "red_zone": false,
      "to_home": 2,
      "to_away": 1,
-     "progress": 0.5525,
+     "progress": 0.5761111111111111,
      "venue_indoor": false,
      "venue": "Hancock Whitney Stadium",
      "venue_id": "6526",
@@ -3346,8 +3346,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:49 - 2nd",
-     "detail": "1:49",
+     "status_short": "End of 2nd",
+     "detail": "0:00",
      "period": 2,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ESPN",
@@ -3389,7 +3389,7 @@
       {
        "cat": "PASS",
        "name": "M. Stokes",
-       "line": "5/7, 151 YDS, 1 TD",
+       "line": "6/8, 164 YDS, 1 TD",
        "team": "235"
       },
       {
@@ -3401,16 +3401,16 @@
       {
        "cat": "REC",
        "name": "S. Burnside",
-       "line": "2 REC, 83 YDS, 1 TD",
+       "line": "3 REC, 96 YDS, 1 TD",
        "team": "235"
       }
      ],
      "situation": "",
      "possession": "235",
-     "red_zone": true,
+     "red_zone": false,
      "to_home": 2,
      "to_away": 3,
-     "progress": 0.4697222222222222,
+     "progress": 0.5,
      "venue_indoor": false,
      "venue": "Simmons Bank Liberty Stadium",
      "venue_id": "3805",
@@ -3424,8 +3424,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "9:53 - 2nd",
-     "detail": "9:53",
+     "status_short": "4:54 - 2nd",
+     "detail": "4:54",
      "period": 2,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3467,33 +3467,109 @@
       {
        "cat": "PASS",
        "name": "P. Brown",
-       "line": "5/9, 104 YDS, 1 TD",
+       "line": "7/11, 124 YDS, 1 TD",
        "team": "2449"
       },
       {
        "cat": "RUSH",
        "name": "D. Scott",
-       "line": "6 CAR, 58 YDS, 2 TD",
+       "line": "8 CAR, 61 YDS, 2 TD",
        "team": "2449"
       },
       {
        "cat": "REC",
        "name": "J. Williams",
-       "line": "3 REC, 87 YDS, 1 TD",
+       "line": "5 REC, 107 YDS, 1 TD",
        "team": "2449"
       }
      ],
-     "situation": "2nd & 5 at NDSU 33",
+     "situation": "3rd & 2 at SJSU 16",
      "possession": "2449",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 1,
      "to_away": 3,
-     "progress": 0.3352777777777778,
+     "progress": 0.41833333333333333,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
      "venue_city": "San Jose",
      "venue_state": "CA",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
+     "id": "401864546",
+     "league": "CFB",
+     "state": "in",
+     "completed": false,
+     "status_short": "10:15 - 1st",
+     "detail": "10:15",
+     "period": 1,
+     "start_utc": "2026-11-27T21:30Z",
+     "network": "CW",
+     "home": {
+      "abbr": "UNM",
+      "full": "New Mexico Lobos",
+      "name": "New Mexico",
+      "school": "New Mexico",
+      "mascot": "Lobos",
+      "rank": null,
+      "score": "0",
+      "record": "9-2",
+      "periods": [
+       "0"
+      ],
+      "id": "167",
+      "color": "#ba0c2f",
+      "alt_color": "#a7a8aa"
+     },
+     "away": {
+      "abbr": "AFA",
+      "full": "Air Force Falcons",
+      "name": "Air Force",
+      "school": "Air Force",
+      "mascot": "Falcons",
+      "rank": null,
+      "score": "6",
+      "record": "9-2",
+      "periods": [
+       "6"
+      ],
+      "id": "2005",
+      "color": "",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "E. Medders",
+       "line": "1/1, 43 YDS",
+       "team": "2005"
+      },
+      {
+       "cat": "RUSH",
+       "name": "G. LaDue",
+       "line": "1 CAR, 13 YDS",
+       "team": "2005"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Hayes",
+       "line": "1 REC, 43 YDS",
+       "team": "2005"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": true,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.07916666666666666,
+     "venue_indoor": false,
+     "venue": "University Stadium (NM)",
+     "venue_id": "3971",
+     "venue_city": "Albuquerque",
+     "venue_state": "NM",
      "venue_country": "USA",
      "line": null
     },
@@ -3745,82 +3821,6 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-27T20:41:48Z"
-    },
-    {
-     "id": "401864546",
-     "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "12:12 - 1st",
-     "detail": "12:12",
-     "period": 1,
-     "start_utc": "2026-11-27T21:30Z",
-     "network": "CW",
-     "home": {
-      "abbr": "UNM",
-      "full": "New Mexico Lobos",
-      "name": "New Mexico",
-      "school": "New Mexico",
-      "mascot": "Lobos",
-      "rank": null,
-      "score": "0",
-      "record": "9-2",
-      "periods": [
-       "0"
-      ],
-      "id": "167",
-      "color": "#ba0c2f",
-      "alt_color": "#a7a8aa"
-     },
-     "away": {
-      "abbr": "AFA",
-      "full": "Air Force Falcons",
-      "name": "Air Force",
-      "school": "Air Force",
-      "mascot": "Falcons",
-      "rank": null,
-      "score": "0",
-      "record": "9-2",
-      "periods": [
-       "0"
-      ],
-      "id": "2005",
-      "color": "",
-      "alt_color": "#ffffff"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "E. Medders",
-       "line": "1/1, 43 YDS",
-       "team": "2005"
-      },
-      {
-       "cat": "RUSH",
-       "name": "G. LaDue",
-       "line": "1 CAR, 13 YDS",
-       "team": "2005"
-      },
-      {
-       "cat": "REC",
-       "name": "M. Hayes",
-       "line": "1 REC, 43 YDS",
-       "team": "2005"
-      }
-     ],
-     "situation": "2nd & 6 at UNM 8",
-     "possession": "2005",
-     "red_zone": true,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.04666666666666666,
-     "venue_indoor": false,
-     "venue": "University Stadium (NM)",
-     "venue_id": "3971",
-     "venue_city": "Albuquerque",
-     "venue_state": "NM",
-     "venue_country": "USA",
-     "line": null
     },
     {
      "id": "401858544",
@@ -6874,8 +6874,8 @@
      "league": "Soccer",
      "state": "in",
      "completed": false,
-     "status_short": "89'",
-     "detail": "89'",
+     "status_short": "90'+3'",
+     "detail": "90'+3'",
      "period": 2,
      "start_utc": "2026-11-27T20:00Z",
      "network": "USA Net",
@@ -6900,7 +6900,7 @@
       "school": "Chelsea",
       "mascot": "Chelsea",
       "rank": null,
-      "score": "1",
+      "score": "2",
       "record": "5-1-5",
       "periods": [],
       "id": "363",
@@ -8078,8 +8078,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "1:09 - 1st",
-     "detail": "1:09",
+     "status_short": "End of 1st",
+     "detail": "0:00",
      "period": 1,
      "start_utc": "2026-11-27T21:00Z",
      "network": "Altitude Sports",
@@ -8121,7 +8121,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.31416666666666665,
+     "progress": 0.3333333333333333,
      "venue_indoor": true,
      "venue": "Grand Casino Arena",
      "venue_id": "1835",
