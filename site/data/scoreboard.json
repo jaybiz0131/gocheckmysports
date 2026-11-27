@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-26T23:31:29Z",
+ "fetched_at": "2026-11-27T01:16:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "2:00 - 4th",
+     "detail": "2:00",
+     "period": 4,
      "start_utc": "2026-11-26T21:30Z",
      "network": "Fox",
      "home": {
@@ -21,11 +21,13 @@
       "school": "Dallas",
       "mascot": "Cowboys",
       "rank": null,
-      "score": "28",
+      "score": "38",
       "record": "5-6",
       "periods": [
        "14",
-       "14"
+       "14",
+       "3",
+       "7"
       ],
       "id": "6",
       "color": "#002a5c",
@@ -38,11 +40,13 @@
       "school": "Philadelphia",
       "mascot": "Eagles",
       "rank": null,
-      "score": "10",
+      "score": "36",
       "record": "3-7",
       "periods": [
        "0",
-       "10"
+       "10",
+       "7",
+       "19"
       ],
       "id": "21",
       "color": "#06424d",
@@ -51,29 +55,29 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "D. Prescott",
-       "line": "9/14, 159 YDS, 2 TD",
-       "team": "6"
+       "name": "J. Milton",
+       "line": "19/26, 317 YDS, 3 TD, 1 INT",
+       "team": "21"
       },
       {
        "cat": "RUSH",
        "name": "J. Williams",
-       "line": "15 CAR, 64 YDS, 2 TD",
+       "line": "26 CAR, 92 YDS, 2 TD",
        "team": "6"
       },
       {
        "cat": "REC",
        "name": "D. Smith",
-       "line": "4 REC, 95 YDS, 1 TD",
+       "line": "9 REC, 186 YDS, 2 TD",
        "team": "21"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 8 at DAL 37",
+     "possession": "6",
      "red_zone": false,
-     "to_home": 3,
+     "to_home": 1,
      "to_away": 3,
-     "progress": 0.5,
+     "progress": 0.9666666666666667,
      "venue_indoor": true,
      "venue": "AT&T Stadium",
      "venue_id": "3687",
@@ -1355,13 +1359,13 @@
     {
      "id": "401856879",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/26 - 8:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "10:58 - 1st",
+     "detail": "10:58",
+     "period": 1,
      "start_utc": "2026-11-27T01:00Z",
-     "network": "ESPN",
+     "network": "ESPN2",
      "home": {
       "abbr": "TTU",
       "full": "Texas Tech Red Raiders",
@@ -1371,7 +1375,9 @@
       "rank": 11,
       "score": "0",
       "record": "10-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2641",
       "color": "#da291c",
       "alt_color": "#000000"
@@ -1385,7 +1391,9 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2628",
       "color": "#4d1979",
       "alt_color": "#ffffff"
@@ -1393,42 +1401,36 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Craig",
-       "line": "2664 YDS, 13 TD, 7 INT",
+       "name": "A. Schobel",
+       "line": "2/4, 23 YDS",
        "team": "2628"
       },
       {
        "cat": "RUSH",
-       "name": "J. Williams",
-       "line": "159 CAR, 1195 YDS, 9 TD",
-       "team": "2641"
+       "name": "A. Schobel",
+       "line": "2 CAR, 8 YDS",
+       "team": "2628"
       },
       {
        "cat": "REC",
-       "name": "K. Johnson",
-       "line": "44 REC, 741 YDS, 5 TD",
-       "team": "2641"
+       "name": "E. Small",
+       "line": "1 REC, 15 YDS",
+       "team": "2628"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 10 at TTU 35",
+     "possession": "2628",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.06722222222222221,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
      "venue_city": "Lubbock",
      "venue_state": "TX",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "TTU -14",
-      "spread": -14.0,
-      "total": 46.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401858536",
@@ -1580,8 +1582,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MISS -18.5",
-      "spread": -18.5,
+      "detail": "MISS -17.5",
+      "spread": -17.5,
       "total": 56.5,
       "favorite": "home"
      }
@@ -2830,7 +2832,7 @@
       "provider": "Draft Kings",
       "detail": "ORE -13.5",
       "spread": -13.5,
-      "total": 50.5,
+      "total": 51.5,
       "favorite": "home"
      }
     },
@@ -3386,7 +3388,7 @@
       "provider": "Draft Kings",
       "detail": "TOL -3",
       "spread": 3.0,
-      "total": 45.5,
+      "total": 44.5,
       "favorite": "away"
      }
     },
@@ -3774,8 +3776,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "WIS -7.5",
-      "spread": -7.5,
+      "detail": "WIS -8.5",
+      "spread": -8.5,
       "total": 37.5,
       "favorite": "home"
      }
@@ -3852,9 +3854,9 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "UNC -6",
-      "spread": -6.0,
-      "total": 54.5,
+      "detail": "UNC -5.5",
+      "spread": -5.5,
+      "total": 53.5,
       "favorite": "home"
      }
     },
@@ -4010,7 +4012,7 @@
       "provider": "Draft Kings",
       "detail": "NAVY -16.5",
       "spread": 16.5,
-      "total": 54.5,
+      "total": 53.5,
       "favorite": "away"
      }
     },
@@ -4478,7 +4480,7 @@
       "provider": "Draft Kings",
       "detail": "KENN -3.5",
       "spread": 3.5,
-      "total": 54.5,
+      "total": 53.5,
       "favorite": "away"
      }
     },
@@ -5336,7 +5338,7 @@
       "provider": "Draft Kings",
       "detail": "SC -6",
       "spread": 6.0,
-      "total": 41.5,
+      "total": 42.5,
       "favorite": "away"
      }
     },
@@ -7043,7 +7045,7 @@
       "provider": "Draft Kings",
       "detail": "TOR -7.5",
       "spread": -7.5,
-      "total": 219.5,
+      "total": 220.5,
       "favorite": "home"
      }
     },
@@ -7279,7 +7281,7 @@
       "provider": "Draft Kings",
       "detail": "SA -5.5",
       "spread": -5.5,
-      "total": 224.5,
+      "total": 225.5,
       "favorite": "home"
      }
     },
