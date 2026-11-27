@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T01:56:29Z",
+ "fetched_at": "2026-11-27T02:01:30Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "3:42 - 1st",
-     "detail": "3:42",
-     "period": 1,
+     "status_short": "15:00 - 2nd",
+     "detail": "15:00",
+     "period": 2,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
      "home": {
@@ -24,6 +24,7 @@
       "score": "0",
       "record": "9-1",
       "periods": [
+       "0",
        "0"
       ],
       "id": "2",
@@ -40,6 +41,7 @@
       "score": "0",
       "record": "8-2",
       "periods": [
+       "0",
        "0"
       ],
       "id": "12",
@@ -50,28 +52,28 @@
       {
        "cat": "PASS",
        "name": "J. Allen",
-       "line": "1/4, 8 YDS",
+       "line": "3/6, 30 YDS",
        "team": "2"
       },
       {
        "cat": "RUSH",
        "name": "J. Cook III",
-       "line": "8 CAR, 30 YDS",
+       "line": "11 CAR, 35 YDS",
        "team": "2"
       },
       {
        "cat": "REC",
-       "name": "J. Cook III",
-       "line": "1 REC, 8 YDS",
+       "name": "K. Shakir",
+       "line": "1 REC, 17 YDS",
        "team": "2"
       }
      ],
-     "situation": "3rd & 5 at KC 30",
+     "situation": "1st & Goal at KC 3",
      "possession": "2",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.18833333333333332,
+     "progress": 0.25,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1360,8 +1362,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "12:55 - 2nd",
-     "detail": "12:55",
+     "status_short": "12:45 - 2nd",
+     "detail": "12:45",
      "period": 2,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1372,11 +1374,11 @@
       "school": "Texas Tech",
       "mascot": "Red Raiders",
       "rank": 11,
-      "score": "0",
+      "score": "3",
       "record": "10-1",
       "periods": [
        "0",
-       "0"
+       "3"
       ],
       "id": "2641",
       "color": "#da291c",
@@ -1419,12 +1421,12 @@
        "team": "2641"
       }
      ],
-     "situation": "4th & 13 at TCU 36",
-     "possession": "2641",
+     "situation": "1st & 10 at TCU 25",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.2847222222222222,
+     "progress": 0.2875,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -3933,8 +3935,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "CONN -3",
-      "spread": 3.0,
+      "detail": "CONN -3.5",
+      "spread": 3.5,
       "total": 45.5,
       "favorite": "away"
      }
@@ -4013,7 +4015,7 @@
       "provider": "Draft Kings",
       "detail": "NAVY -16.5",
       "spread": 16.5,
-      "total": 53.5,
+      "total": 54.5,
       "favorite": "away"
      }
     },
