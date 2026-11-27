@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T02:21:29Z",
+ "fetched_at": "2026-11-27T02:26:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "8:29 - 2nd",
-     "detail": "8:29",
+     "status_short": "6:41 - 2nd",
+     "detail": "6:41",
      "period": 2,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -52,7 +52,7 @@
       {
        "cat": "PASS",
        "name": "J. Allen",
-       "line": "4/7, 37 YDS",
+       "line": "4/8, 37 YDS, 1 INT",
        "team": "2"
       },
       {
@@ -68,12 +68,12 @@
        "team": "2"
       }
      ],
-     "situation": "1st & 5 at KC 6",
-     "possession": "2",
-     "red_zone": true,
+     "situation": "3rd & 1 at KC 29",
+     "possession": "12",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.3586111111111111,
+     "progress": 0.38861111111111113,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1362,8 +1362,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "4:03 - 2nd",
-     "detail": "4:03",
+     "status_short": "2:08 - 2nd",
+     "detail": "2:08",
      "period": 2,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1374,11 +1374,11 @@
       "school": "Texas Tech",
       "mascot": "Red Raiders",
       "rank": 11,
-      "score": "6",
+      "score": "13",
       "record": "10-1",
       "periods": [
        "0",
-       "6"
+       "13"
       ],
       "id": "2641",
       "color": "#da291c",
@@ -1404,9 +1404,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "A. Schobel",
-       "line": "13/19, 137 YDS, 1 TD",
-       "team": "2628"
+       "name": "T. Castellanos",
+       "line": "8/12, 159 YDS, 1 TD",
+       "team": "2641"
       },
       {
        "cat": "RUSH",
@@ -1416,17 +1416,17 @@
       },
       {
        "cat": "REC",
-       "name": "M. Hudson",
-       "line": "2 REC, 47 YDS",
+       "name": "M. Simmons",
+       "line": "2 REC, 70 YDS",
        "team": "2641"
       }
      ],
-     "situation": "1st & 10 at TTU 30",
-     "possession": "2641",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.4325,
+     "progress": 0.46444444444444444,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -1899,7 +1899,7 @@
       "provider": "Draft Kings",
       "detail": "ND -25.5",
       "spread": 25.5,
-      "total": 53.5,
+      "total": 54.5,
       "favorite": "away"
      }
     },
@@ -6041,8 +6041,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "UNT -3",
-      "spread": -3.0,
+      "detail": "UNT -2.5",
+      "spread": -2.5,
       "total": 45.5,
       "favorite": "home"
      }
