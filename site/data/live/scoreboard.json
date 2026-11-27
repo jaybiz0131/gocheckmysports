@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T02:01:30Z",
+ "fetched_at": "2026-11-27T02:06:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 2nd",
-     "detail": "15:00",
+     "status_short": "14:32 - 2nd",
+     "detail": "14:32",
      "period": 2,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -21,11 +21,11 @@
       "school": "Buffalo",
       "mascot": "Bills",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "9-1",
       "periods": [
        "0",
-       "0"
+       "7"
       ],
       "id": "2",
       "color": "#00338d",
@@ -58,7 +58,7 @@
       {
        "cat": "RUSH",
        "name": "J. Cook III",
-       "line": "11 CAR, 35 YDS",
+       "line": "13 CAR, 42 YDS, 1 TD",
        "team": "2"
       },
       {
@@ -68,12 +68,12 @@
        "team": "2"
       }
      ],
-     "situation": "1st & Goal at KC 3",
+     "situation": "",
      "possession": "2",
      "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.25,
+     "progress": 0.2577777777777778,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1362,8 +1362,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "12:45 - 2nd",
-     "detail": "12:45",
+     "status_short": "8:36 - 2nd",
+     "detail": "8:36",
      "period": 2,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1405,13 +1405,13 @@
       {
        "cat": "PASS",
        "name": "A. Schobel",
-       "line": "7/12, 104 YDS, 1 TD",
+       "line": "12/17, 132 YDS, 1 TD",
        "team": "2628"
       },
       {
        "cat": "RUSH",
        "name": "J. Payne",
-       "line": "6 CAR, 20 YDS",
+       "line": "8 CAR, 29 YDS",
        "team": "2628"
       },
       {
@@ -1421,12 +1421,12 @@
        "team": "2641"
       }
      ],
-     "situation": "1st & 10 at TCU 25",
-     "possession": "",
+     "situation": "",
+     "possession": "2628",
      "red_zone": false,
      "to_home": 3,
-     "to_away": 3,
-     "progress": 0.2875,
+     "to_away": 2,
+     "progress": 0.3566666666666667,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -4793,8 +4793,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "ISU -3.5",
-      "spread": -3.5,
+      "detail": "ISU -4",
+      "spread": -4.0,
       "total": 53.5,
       "favorite": "home"
      }
@@ -5105,8 +5105,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "LIB -17.5",
-      "spread": 17.5,
+      "detail": "LIB -18.5",
+      "spread": 18.5,
       "total": 52.5,
       "favorite": "away"
      }
