@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T03:47:05Z",
+ "fetched_at": "2026-11-27T03:52:03Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:58 - 4th",
-     "detail": "11:58",
+     "status_short": "10:44 - 4th",
+     "detail": "10:44",
      "period": 4,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -56,7 +56,7 @@
       {
        "cat": "PASS",
        "name": "P. Mahomes",
-       "line": "12/18, 120 YDS",
+       "line": "13/20, 132 YDS",
        "team": "12"
       },
       {
@@ -72,12 +72,12 @@
        "team": "12"
       }
      ],
-     "situation": "",
-     "possession": "2",
-     "red_zone": true,
+     "situation": "2nd & 15 at KC 43",
+     "possession": "12",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.8005555555555556,
+     "progress": 0.8211111111111111,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1366,9 +1366,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "End of 3rd",
-     "detail": "0:00",
-     "period": 3,
+     "status_short": "14:59 - 4th",
+     "detail": "14:59",
+     "period": 4,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
      "home": {
@@ -1383,7 +1383,8 @@
       "periods": [
        "0",
        "27",
-       "14"
+       "14",
+       "0"
       ],
       "id": "2641",
       "color": "#da291c",
@@ -1401,7 +1402,8 @@
       "periods": [
        "10",
        "0",
-       "3"
+       "3",
+       "0"
       ],
       "id": "2628",
       "color": "#4d1979",
@@ -1427,12 +1429,12 @@
        "team": "2641"
       }
      ],
-     "situation": "1st & 14 at TCU 35",
-     "possession": "2628",
+     "situation": "1st & 10 at TTU 25",
+     "possession": "",
      "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.75,
+     "progress": 0.7502777777777778,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -1981,8 +1983,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIA -24.5",
-      "spread": -24.5,
+      "detail": "MIA -25.5",
+      "spread": -25.5,
       "total": 53.5,
       "favorite": "home"
      }
@@ -7588,7 +7590,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "NJ -265",
+      "detail": "NJ -285",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
