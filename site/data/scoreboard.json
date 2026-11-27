@@ -1,88 +1,82 @@
 {
- "fetched_at": "2026-11-27T01:31:29Z",
+ "fetched_at": "2026-11-27T01:41:29Z",
  "leagues": [
   {
    "league": "NFL",
    "games": [
     {
-     "id": "401873080",
+     "id": "401873082",
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "0:02 - 4th",
-     "detail": "0:02",
-     "period": 4,
-     "start_utc": "2026-11-26T21:30Z",
-     "network": "Fox",
+     "status_short": "8:54 - 1st",
+     "detail": "8:54",
+     "period": 1,
+     "start_utc": "2026-11-27T01:20Z",
+     "network": "NBC",
      "home": {
-      "abbr": "DAL",
-      "full": "Dallas Cowboys",
-      "name": "Cowboys",
-      "school": "Dallas",
-      "mascot": "Cowboys",
+      "abbr": "BUF",
+      "full": "Buffalo Bills",
+      "name": "Bills",
+      "school": "Buffalo",
+      "mascot": "Bills",
       "rank": null,
-      "score": "38",
-      "record": "5-6",
+      "score": "0",
+      "record": "9-1",
       "periods": [
-       "14",
-       "14",
-       "3",
-       "7"
+       "0"
       ],
-      "id": "6",
-      "color": "#002a5c",
-      "alt_color": "#b0b7bc"
+      "id": "2",
+      "color": "#00338d",
+      "alt_color": "#d50a0a"
      },
      "away": {
-      "abbr": "PHI",
-      "full": "Philadelphia Eagles",
-      "name": "Eagles",
-      "school": "Philadelphia",
-      "mascot": "Eagles",
+      "abbr": "KC",
+      "full": "Kansas City Chiefs",
+      "name": "Chiefs",
+      "school": "Kansas City",
+      "mascot": "Chiefs",
       "rank": null,
-      "score": "39",
-      "record": "3-7",
+      "score": "0",
+      "record": "8-2",
       "periods": [
-       "0",
-       "10",
-       "7",
-       "22"
+       "0"
       ],
-      "id": "21",
-      "color": "#06424d",
-      "alt_color": "#000000"
+      "id": "12",
+      "color": "#e31837",
+      "alt_color": "#ffb612"
      },
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Milton",
-       "line": "21/31, 331 YDS, 3 TD, 1 INT",
-       "team": "21"
+       "name": "J. Allen",
+       "line": "1/3, 8 YDS",
+       "team": "2"
       },
       {
        "cat": "RUSH",
-       "name": "J. Williams",
-       "line": "29 CAR, 101 YDS, 2 TD",
-       "team": "6"
+       "name": "J. Allen",
+       "line": "1 CAR, 10 YDS",
+       "team": "2"
       },
       {
        "cat": "REC",
-       "name": "D. Smith",
-       "line": "11 REC, 200 YDS, 2 TD",
-       "team": "21"
+       "name": "J. Cook III",
+       "line": "1 REC, 8 YDS",
+       "team": "2"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
-     "to_home": 0,
-     "to_away": 0,
-     "progress": 0.9994444444444445,
-     "venue_indoor": true,
-     "venue": "AT&T Stadium",
-     "venue_id": "3687",
-     "venue_city": "Arlington",
-     "venue_state": "TX",
+     "situation": "1st & 10 at BUF 31",
+     "possession": "2",
+     "red_zone": false,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.10166666666666666,
+     "venue_indoor": false,
+     "venue": "Highmark Stadium",
+     "venue_id": "11938",
+     "venue_city": "Orchard Park",
+     "venue_state": "NY",
      "venue_country": "USA",
      "line": null
     },
@@ -170,80 +164,87 @@
      "final_seen_utc": "2026-11-26T21:36:29Z"
     },
     {
-     "id": "401873082",
+     "id": "401873080",
      "league": "NFL",
-     "state": "in",
-     "completed": false,
-     "status_short": "13:43 - 1st",
-     "detail": "13:43",
-     "period": 1,
-     "start_utc": "2026-11-27T01:20Z",
-     "network": "NBC",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-26T21:30Z",
+     "network": "Fox",
      "home": {
-      "abbr": "BUF",
-      "full": "Buffalo Bills",
-      "name": "Bills",
-      "school": "Buffalo",
-      "mascot": "Bills",
+      "abbr": "DAL",
+      "full": "Dallas Cowboys",
+      "name": "Cowboys",
+      "school": "Dallas",
+      "mascot": "Cowboys",
       "rank": null,
-      "score": "0",
-      "record": "9-1",
+      "score": "38",
+      "record": "5-7",
       "periods": [
-       "0"
+       "14",
+       "14",
+       "3",
+       "7"
       ],
-      "id": "2",
-      "color": "#00338d",
-      "alt_color": "#d50a0a"
+      "id": "6",
+      "color": "#002a5c",
+      "alt_color": "#b0b7bc"
      },
      "away": {
-      "abbr": "KC",
-      "full": "Kansas City Chiefs",
-      "name": "Chiefs",
-      "school": "Kansas City",
-      "mascot": "Chiefs",
+      "abbr": "PHI",
+      "full": "Philadelphia Eagles",
+      "name": "Eagles",
+      "school": "Philadelphia",
+      "mascot": "Eagles",
       "rank": null,
-      "score": "0",
-      "record": "8-2",
+      "score": "39",
+      "record": "4-7",
       "periods": [
-       "0"
+       "0",
+       "10",
+       "7",
+       "22"
       ],
-      "id": "12",
-      "color": "#e31837",
-      "alt_color": "#ffb612"
+      "id": "21",
+      "color": "#06424d",
+      "alt_color": "#000000"
      },
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Allen",
-       "line": "1/1, 8 YDS",
-       "team": "2"
+       "name": "J. Milton",
+       "line": "21/31, 331 YDS, 3 TD, 1 INT",
+       "team": "21"
       },
       {
        "cat": "RUSH",
-       "name": "J. Cook III",
-       "line": "2 CAR, 4 YDS",
-       "team": "2"
+       "name": "J. Williams",
+       "line": "29 CAR, 101 YDS, 2 TD",
+       "team": "6"
       },
       {
        "cat": "REC",
-       "name": "J. Cook III",
-       "line": "1 REC, 8 YDS",
-       "team": "2"
+       "name": "D. Smith",
+       "line": "11 REC, 200 YDS, 2 TD",
+       "team": "21"
       }
      ],
-     "situation": "3rd & 1 at BUF 38",
-     "possession": "2",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.0213888888888889,
-     "venue_indoor": false,
-     "venue": "Highmark Stadium",
-     "venue_id": "11938",
-     "venue_city": "Orchard Park",
-     "venue_state": "NY",
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": true,
+     "venue": "AT&T Stadium",
+     "venue_id": "3687",
+     "venue_city": "Arlington",
+     "venue_state": "TX",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-27T01:36:30Z"
     },
     {
      "id": "401873079",
@@ -1359,11 +1360,11 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "4:48 - 1st",
-     "detail": "4:48",
+     "status_short": "2:41 - 1st",
+     "detail": "2:41",
      "period": 1,
      "start_utc": "2026-11-27T01:00Z",
-     "network": "ESPN2",
+     "network": "ESPN",
      "home": {
       "abbr": "TTU",
       "full": "Texas Tech Red Raiders",
@@ -1400,7 +1401,7 @@
       {
        "cat": "PASS",
        "name": "A. Schobel",
-       "line": "4/8, 41 YDS",
+       "line": "4/9, 41 YDS",
        "team": "2628"
       },
       {
@@ -1416,12 +1417,12 @@
        "team": "2628"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "3rd & 8 at TCU 30",
+     "possession": "2628",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.16999999999999998,
+     "progress": 0.20527777777777778,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -6866,7 +6867,7 @@
       "provider": "Draft Kings",
       "detail": "NY -3.5",
       "spread": -3.5,
-      "total": 224.5,
+      "total": 223.5,
       "favorite": "home"
      }
     },
@@ -6925,7 +6926,7 @@
       "provider": "Draft Kings",
       "detail": "DET -9.5",
       "spread": -9.5,
-      "total": 218.5,
+      "total": 219.5,
       "favorite": "home"
      }
     },
@@ -7636,7 +7637,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "UTAH -112",
+      "detail": "UTAH -118",
       "spread": 1.5,
       "total": 6.5,
       "favorite": "away"
