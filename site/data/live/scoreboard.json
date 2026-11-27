@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T18:56:47Z",
+ "fetched_at": "2026-11-27T19:01:47Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1445,8 +1445,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "13:42 - 3rd",
-     "detail": "13:42",
+     "status_short": "9:56 - 3rd",
+     "detail": "9:56",
      "period": 3,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ABC",
@@ -1489,9 +1489,9 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "P. Puckett",
-       "line": "11/13, 104 YDS",
-       "team": "344"
+       "name": "T. Chambliss",
+       "line": "17/25, 150 YDS",
+       "team": "145"
       },
       {
        "cat": "RUSH",
@@ -1506,12 +1506,12 @@
        "team": "344"
       }
      ],
-     "situation": "1st & 10 at MISS 40",
+     "situation": "3rd & 4 at MSST 6",
      "possession": "145",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 0,
      "to_away": 2,
-     "progress": 0.5216666666666667,
+     "progress": 0.5844444444444444,
      "venue_indoor": false,
      "venue": "Vaught-Hemingway Stadium",
      "venue_id": "3974",
@@ -1525,9 +1525,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "11:34 - 3rd",
+     "detail": "11:34",
+     "period": 3,
      "start_utc": "2026-11-27T17:08Z",
      "network": "CBS",
      "home": {
@@ -1541,7 +1541,8 @@
       "record": "9-2",
       "periods": [
        "7",
-       "3"
+       "3",
+       "0"
       ],
       "id": "2294",
       "color": "#231f20",
@@ -1558,7 +1559,8 @@
       "record": "7-4",
       "periods": [
        "0",
-       "7"
+       "7",
+       "0"
       ],
       "id": "158",
       "color": "#e31937",
@@ -1574,22 +1576,22 @@
       {
        "cat": "RUSH",
        "name": "J. Rule",
-       "line": "10 CAR, 59 YDS, 1 TD",
+       "line": "11 CAR, 67 YDS, 1 TD",
        "team": "158"
       },
       {
        "cat": "REC",
        "name": "L. Lindenmeyer",
-       "line": "4 REC, 42 YDS",
+       "line": "5 REC, 53 YDS",
        "team": "158"
       }
      ],
-     "situation": "2nd & 8 at NEB 27",
-     "possession": "",
+     "situation": "2nd & 10 at IOWA 29",
+     "possession": "2294",
      "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.5,
+     "progress": 0.5572222222222223,
      "venue_indoor": false,
      "venue": "Kinnick Stadium",
      "venue_id": "3793",
@@ -3334,8 +3336,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "10:29 - 3rd",
-     "detail": "10:29",
+     "status_short": "2:25 - 3rd",
+     "detail": "2:25",
      "period": 3,
      "start_utc": "2026-11-27T17:00Z",
      "network": "CBSSN",
@@ -3364,12 +3366,12 @@
       "school": "Buffalo",
       "mascot": "Bulls",
       "rank": null,
-      "score": "7",
+      "score": "10",
       "record": "8-3",
       "periods": [
        "0",
        "7",
-       "0"
+       "3"
       ],
       "id": "2084",
       "color": "",
@@ -3384,9 +3386,9 @@
       },
       {
        "cat": "RUSH",
-       "name": "J. Gant",
-       "line": "13 CAR, 48 YDS",
-       "team": "2006"
+       "name": "M. Burch",
+       "line": "18 CAR, 50 YDS",
+       "team": "2084"
       },
       {
        "cat": "REC",
@@ -3395,12 +3397,12 @@
        "team": "2006"
       }
      ],
-     "situation": "1st & 10 at AKR 41",
-     "possession": "2084",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5752777777777778,
+     "progress": 0.7097222222222223,
      "venue_indoor": false,
      "venue": "InfoCision Stadium",
      "venue_id": "3768",
@@ -3637,8 +3639,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MEM -18.5",
-      "spread": -18.5,
+      "detail": "MEM -19.5",
+      "spread": -19.5,
       "total": 66.5,
       "favorite": "home"
      }
@@ -7254,7 +7256,13 @@
      "venue_city": "Minneapolis",
      "venue_state": "MN",
      "venue_country": "",
-     "line": null
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "MIN -3.5",
+      "spread": -3.5,
+      "total": 219.5,
+      "favorite": "home"
+     }
     },
     {
      "id": "401909332",
@@ -7429,7 +7437,7 @@
       "provider": "Draft Kings",
       "detail": "DEN -9.5",
       "spread": 9.5,
-      "total": 231.5,
+      "total": 232.5,
       "favorite": "away"
      }
     },
@@ -7618,9 +7626,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "19:20 - 2nd",
+     "detail": "19:20",
+     "period": 2,
      "start_utc": "2026-11-27T18:00Z",
      "network": "MSGSN",
      "home": {
@@ -7633,6 +7641,7 @@
       "score": "0",
       "record": "17-8-0",
       "periods": [
+       "0",
        "0"
       ],
       "id": "11",
@@ -7649,7 +7658,8 @@
       "score": "1",
       "record": "11-13-2",
       "periods": [
-       "1"
+       "1",
+       "0"
       ],
       "id": "3",
       "color": "#dd1a32",
@@ -7661,7 +7671,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.3333333333333333,
+     "progress": 0.3444444444444444,
      "venue_indoor": true,
      "venue": "Prudential Center",
      "venue_id": "1826",
