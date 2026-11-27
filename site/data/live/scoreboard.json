@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T03:07:09Z",
+ "fetched_at": "2026-11-27T03:12:03Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 3rd",
-     "detail": "15:00",
+     "status_short": "11:28 - 3rd",
+     "detail": "11:28",
      "period": 3,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -39,12 +39,12 @@
       "school": "Kansas City",
       "mascot": "Chiefs",
       "rank": null,
-      "score": "3",
+      "score": "9",
       "record": "8-2",
       "periods": [
        "0",
        "3",
-       "0"
+       "6"
       ],
       "id": "12",
       "color": "#e31837",
@@ -54,7 +54,7 @@
       {
        "cat": "PASS",
        "name": "P. Mahomes",
-       "line": "10/15, 97 YDS",
+       "line": "12/18, 120 YDS",
        "team": "12"
       },
       {
@@ -70,12 +70,12 @@
        "team": "12"
       }
      ],
-     "situation": "1st & 10 at KC 44",
+     "situation": "",
      "possession": "",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.5,
+     "progress": 0.5588888888888889,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1364,9 +1364,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "12:59 - 3rd",
+     "detail": "12:59",
+     "period": 3,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
      "home": {
@@ -1380,7 +1380,8 @@
       "record": "10-1",
       "periods": [
        "0",
-       "27"
+       "27",
+       "0"
       ],
       "id": "2641",
       "color": "#da291c",
@@ -1397,6 +1398,7 @@
       "record": "5-6",
       "periods": [
        "10",
+       "0",
        "0"
       ],
       "id": "2628",
@@ -1407,7 +1409,7 @@
       {
        "cat": "PASS",
        "name": "T. Castellanos",
-       "line": "12/16, 208 YDS, 2 TD",
+       "line": "14/20, 227 YDS, 2 TD",
        "team": "2641"
       },
       {
@@ -1419,16 +1421,16 @@
       {
        "cat": "REC",
        "name": "M. Simmons",
-       "line": "2 REC, 70 YDS",
+       "line": "3 REC, 70 YDS",
        "team": "2641"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "3rd & 5 at TCU 40",
+     "possession": "2641",
      "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.5,
+     "progress": 0.5336111111111111,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
