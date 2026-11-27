@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T03:37:03Z",
+ "fetched_at": "2026-11-27T03:42:04Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,9 +9,9 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "0:31 - 3rd",
-     "detail": "0:31",
-     "period": 3,
+     "status_short": "14:14 - 4th",
+     "detail": "14:14",
+     "period": 4,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
      "home": {
@@ -26,6 +26,7 @@
       "periods": [
        "0",
        "7",
+       "0",
        "0"
       ],
       "id": "2",
@@ -44,7 +45,8 @@
       "periods": [
        "0",
        "3",
-       "7"
+       "7",
+       "0"
       ],
       "id": "12",
       "color": "#e31837",
@@ -60,7 +62,7 @@
       {
        "cat": "RUSH",
        "name": "J. Cook III",
-       "line": "26 CAR, 92 YDS, 1 TD",
+       "line": "28 CAR, 104 YDS, 1 TD",
        "team": "2"
       },
       {
@@ -70,12 +72,12 @@
        "team": "12"
       }
      ],
-     "situation": "1st & 10 at KC 45",
+     "situation": "2nd & 10 at KC 33",
      "possession": "2",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7413888888888889,
+     "progress": 0.7627777777777778,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1364,8 +1366,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "4:32 - 3rd",
-     "detail": "4:32",
+     "status_short": "0:05 - 3rd",
+     "detail": "0:05",
      "period": 3,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1415,7 +1417,7 @@
       {
        "cat": "RUSH",
        "name": "A. Schobel",
-       "line": "15 CAR, 42 YDS",
+       "line": "16 CAR, 47 YDS",
        "team": "2628"
       },
       {
@@ -1425,12 +1427,12 @@
        "team": "2641"
       }
      ],
-     "situation": "4th & 1 at TTU 36",
+     "situation": "3rd & Goal at TTU 9",
      "possession": "2628",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.6744444444444444,
+     "progress": 0.7486111111111111,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -7052,7 +7054,7 @@
       "provider": "Draft Kings",
       "detail": "TOR -7.5",
       "spread": -7.5,
-      "total": 220.5,
+      "total": 219.5,
       "favorite": "home"
      }
     },
