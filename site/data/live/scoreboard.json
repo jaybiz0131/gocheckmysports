@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T03:42:04Z",
+ "fetched_at": "2026-11-27T03:47:05Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "14:14 - 4th",
-     "detail": "14:14",
+     "status_short": "11:58 - 4th",
+     "detail": "11:58",
      "period": 4,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -21,13 +21,13 @@
       "school": "Buffalo",
       "mascot": "Bills",
       "rank": null,
-      "score": "7",
+      "score": "10",
       "record": "9-1",
       "periods": [
        "0",
        "7",
        "0",
-       "0"
+       "3"
       ],
       "id": "2",
       "color": "#00338d",
@@ -72,12 +72,12 @@
        "team": "12"
       }
      ],
-     "situation": "2nd & 10 at KC 33",
+     "situation": "",
      "possession": "2",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.7627777777777778,
+     "progress": 0.8005555555555556,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1366,8 +1366,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "0:05 - 3rd",
-     "detail": "0:05",
+     "status_short": "End of 3rd",
+     "detail": "0:00",
      "period": 3,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1396,12 +1396,12 @@
       "school": "TCU",
       "mascot": "Horned Frogs",
       "rank": null,
-      "score": "10",
+      "score": "13",
       "record": "5-6",
       "periods": [
        "10",
        "0",
-       "0"
+       "3"
       ],
       "id": "2628",
       "color": "#4d1979",
@@ -1427,12 +1427,12 @@
        "team": "2641"
       }
      ],
-     "situation": "3rd & Goal at TTU 9",
+     "situation": "1st & 14 at TCU 35",
      "possession": "2628",
-     "red_zone": true,
+     "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.7486111111111111,
+     "progress": 0.75,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -2841,7 +2841,7 @@
       "provider": "Draft Kings",
       "detail": "ORE -13.5",
       "spread": -13.5,
-      "total": 51.5,
+      "total": 50.5,
       "favorite": "home"
      }
     },
