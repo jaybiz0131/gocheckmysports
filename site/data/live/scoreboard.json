@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T17:01:01Z",
+ "fetched_at": "2026-11-27T17:06:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -2999,8 +2999,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "ARIZ -7.5",
-      "spread": -7.5,
+      "detail": "ARIZ -8.5",
+      "spread": -8.5,
       "total": 53.5,
       "favorite": "home"
      }
@@ -3252,11 +3252,11 @@
     {
      "id": "401862840",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "14:14 - 1st",
+     "detail": "14:14",
+     "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ESPN",
      "home": {
@@ -3266,9 +3266,11 @@
       "school": "UTSA",
       "mascot": "Roadrunners",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "9-2",
-      "periods": [],
+      "periods": [
+       "7"
+      ],
       "id": "2636",
       "color": "#0c2340",
       "alt_color": "#f15a22"
@@ -3282,7 +3284,9 @@
       "rank": null,
       "score": "0",
       "record": "7-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "202",
       "color": "#003595",
       "alt_color": "#d0b787"
@@ -3290,51 +3294,39 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "B. Hayes",
-       "line": "2276 YDS, 20 TD, 4 INT",
-       "team": "202"
-      },
-      {
-       "cat": "RUSH",
-       "name": "W. Henderson III",
-       "line": "157 CAR, 845 YDS, 5 TD",
+       "name": "O. McCown",
+       "line": "2/2, 75 YDS, 1 TD",
        "team": "2636"
       },
       {
        "cat": "REC",
-       "name": "O. Singleton Jr.",
-       "line": "71 REC, 889 YDS, 10 TD",
-       "team": "202"
+       "name": "A. Wilson",
+       "line": "1 REC, 64 YDS, 1 TD",
+       "team": "2636"
       }
      ],
      "situation": "",
      "possession": "",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": true,
      "venue": "Alamodome",
      "venue_id": "3604",
      "venue_city": "San Antonio",
      "venue_state": "TX",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "TLSA -1.5",
-      "spread": 1.5,
-      "total": 56.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401866472",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "15:00 - 1st",
+     "detail": "15:00",
+     "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "CBSSN",
      "home": {
@@ -3346,7 +3338,9 @@
       "rank": null,
       "score": "0",
       "record": "2-9",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2006",
       "color": "#041e42",
       "alt_color": "#c5b783"
@@ -3360,7 +3354,9 @@
       "rank": null,
       "score": "0",
       "record": "8-3",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2084",
       "color": "",
       "alt_color": "#ffffff"
@@ -3368,51 +3364,45 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Wright",
-       "line": "1545 YDS, 11 TD, 6 INT",
-       "team": "2084"
+       "name": "C. Broughton",
+       "line": "2/2, 13 YDS",
+       "team": "2006"
       },
       {
        "cat": "RUSH",
-       "name": "M. Burch",
-       "line": "220 CAR, 1310 YDS, 9 TD",
-       "team": "2084"
+       "name": "J. Gant",
+       "line": "1 CAR, 3 YDS",
+       "team": "2006"
       },
       {
        "cat": "REC",
-       "name": "C. Morrow",
-       "line": "55 REC, 710 YDS, 10 TD",
-       "team": "2084"
+       "name": "K. Mason",
+       "line": "1 REC, 13 YDS",
+       "team": "2006"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at AKR 41",
+     "possession": "2006",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": false,
      "venue": "InfoCision Stadium",
      "venue_id": "3768",
      "venue_city": "Akron",
      "venue_state": "OH",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "BUF -7.5",
-      "spread": 7.5,
-      "total": 50.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401866473",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "15:00 - 1st",
+     "detail": "15:00",
+     "period": 1,
      "start_utc": "2026-11-27T17:00Z",
      "network": "ESPNU",
      "home": {
@@ -3424,7 +3414,9 @@
       "rank": null,
       "score": "0",
       "record": "8-3",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "195",
       "color": "#154734",
       "alt_color": "#ffffff"
@@ -3438,50 +3430,34 @@
       "rank": null,
       "score": "0",
       "record": "9-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2649",
       "color": "#0b2240",
       "alt_color": "#ffcd00"
      },
      "leaders": [
       {
-       "cat": "PASS",
-       "name": "J. Richter",
-       "line": "2692 YDS, 20 TD, 3 INT",
-       "team": "2649"
-      },
-      {
        "cat": "RUSH",
        "name": "C. Miller",
-       "line": "165 CAR, 862 YDS, 7 TD",
-       "team": "2649"
-      },
-      {
-       "cat": "REC",
-       "name": "A. Dabbs",
-       "line": "49 REC, 773 YDS, 8 TD",
+       "line": "3 CAR, 9 YDS",
        "team": "2649"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "4th & 1 at TOL 34",
+     "possession": "2649",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.02,
      "venue_indoor": false,
      "venue": "Peden Stadium",
      "venue_id": "3876",
      "venue_city": "Athens",
      "venue_state": "OH",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "TOL -3.5",
-      "spread": 3.5,
-      "total": 44.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401869930",
