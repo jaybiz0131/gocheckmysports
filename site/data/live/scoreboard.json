@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T20:51:48Z",
+ "fetched_at": "2026-11-27T20:56:47Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "11:10 - 2nd",
-     "detail": "11:10",
+     "status_short": "8:25 - 2nd",
+     "detail": "8:25",
      "period": 2,
      "start_utc": "2026-11-27T20:00Z",
      "network": "Prime Video",
@@ -68,12 +68,12 @@
        "team": "23"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at PIT 40",
+     "possession": "7",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.3138888888888889,
+     "progress": 0.3597222222222222,
      "venue_indoor": false,
      "venue": "Acrisure Stadium",
      "venue_id": "3752",
@@ -1441,6 +1441,76 @@
    "league": "CFB",
    "games": [
     {
+     "id": "401856759",
+     "league": "CFB",
+     "state": "in",
+     "completed": false,
+     "status_short": "11:02 - 1st",
+     "detail": "11:02",
+     "period": 1,
+     "start_utc": "2026-11-27T20:30Z",
+     "network": "ABC",
+     "home": {
+      "abbr": "FSU",
+      "full": "Florida State Seminoles",
+      "name": "Florida St",
+      "school": "Florida State",
+      "mascot": "Seminoles",
+      "rank": null,
+      "score": "0",
+      "record": "5-6",
+      "periods": [
+       "0"
+      ],
+      "id": "52",
+      "color": "#782f40",
+      "alt_color": "#ceb888"
+     },
+     "away": {
+      "abbr": "FLA",
+      "full": "Florida Gators",
+      "name": "Florida",
+      "school": "Florida",
+      "mascot": "Gators",
+      "rank": 20,
+      "score": "0",
+      "record": "7-4",
+      "periods": [
+       "0"
+      ],
+      "id": "57",
+      "color": "#0021a5",
+      "alt_color": "#fa4616"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "A. Daniels",
+       "line": "1, 0 YDS",
+       "team": "52"
+      },
+      {
+       "cat": "RUSH",
+       "name": "Z. Parks",
+       "line": "3 CAR, 31 YDS",
+       "team": "52"
+      }
+     ],
+     "situation": "2nd & 5 at FSU 40",
+     "possession": "52",
+     "red_zone": false,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.06611111111111112,
+     "venue_indoor": false,
+     "venue": "Doak Campbell Stadium",
+     "venue_id": "3697",
+     "venue_city": "Tallahassee",
+     "venue_state": "FL",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
      "id": "401858536",
      "league": "CFB",
      "state": "post",
@@ -1605,82 +1675,6 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-27T20:26:48Z"
-    },
-    {
-     "id": "401856759",
-     "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "12:47 - 1st",
-     "detail": "12:47",
-     "period": 1,
-     "start_utc": "2026-11-27T20:30Z",
-     "network": "ABC",
-     "home": {
-      "abbr": "FSU",
-      "full": "Florida State Seminoles",
-      "name": "Florida St",
-      "school": "Florida State",
-      "mascot": "Seminoles",
-      "rank": null,
-      "score": "0",
-      "record": "5-6",
-      "periods": [
-       "0"
-      ],
-      "id": "52",
-      "color": "#782f40",
-      "alt_color": "#ceb888"
-     },
-     "away": {
-      "abbr": "FLA",
-      "full": "Florida Gators",
-      "name": "Florida",
-      "school": "Florida",
-      "mascot": "Gators",
-      "rank": 20,
-      "score": "0",
-      "record": "7-4",
-      "periods": [
-       "0"
-      ],
-      "id": "57",
-      "color": "#0021a5",
-      "alt_color": "#fa4616"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "A. Daniels",
-       "line": "1, 0 YDS",
-       "team": "52"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Baugh",
-       "line": "1 CAR, 3 YDS",
-       "team": "57"
-      },
-      {
-       "cat": "REC",
-       "name": "D. Wilson",
-       "line": "1 REC, 0 YDS",
-       "team": "57"
-      }
-     ],
-     "situation": "1st & 10 at FSU 9",
-     "possession": "52",
-     "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.036944444444444446,
-     "venue_indoor": false,
-     "venue": "Doak Campbell Stadium",
-     "venue_id": "3697",
-     "venue_city": "Tallahassee",
-     "venue_state": "FL",
-     "venue_country": "USA",
-     "line": null
     },
     {
      "id": "401856756",
@@ -3262,8 +3256,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "8:10 - 2nd",
-     "detail": "8:10",
+     "status_short": "6:54 - 2nd",
+     "detail": "6:54",
      "period": 2,
      "start_utc": "2026-11-27T20:00Z",
      "network": "ESPN+",
@@ -3305,7 +3299,7 @@
       {
        "cat": "PASS",
        "name": "B. Davenport",
-       "line": "6/7, 109 YDS, 1 TD",
+       "line": "7/9, 116 YDS, 1 TD, 1 INT",
        "team": "6"
       },
       {
@@ -3321,12 +3315,12 @@
        "team": "6"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "1st & 10 at USA 27",
+     "possession": "2026",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.36388888888888893,
+     "progress": 0.385,
      "venue_indoor": false,
      "venue": "Hancock Whitney Stadium",
      "venue_id": "6526",
@@ -3340,8 +3334,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "8:02 - 1st",
-     "detail": "8:02",
+     "status_short": "6:19 - 1st",
+     "detail": "6:19",
      "period": 1,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ESPN",
@@ -3387,7 +3381,7 @@
       {
        "cat": "RUSH",
        "name": "D. Young",
-       "line": "4 CAR, 24 YDS",
+       "line": "5 CAR, 41 YDS",
        "team": "218"
       },
       {
@@ -3398,11 +3392,11 @@
       }
      ],
      "situation": "",
-     "possession": "",
+     "possession": "218",
      "red_zone": false,
-     "to_home": 3,
+     "to_home": 2,
      "to_away": 3,
-     "progress": 0.11611111111111111,
+     "progress": 0.14472222222222222,
      "venue_indoor": false,
      "venue": "Simmons Bank Liberty Stadium",
      "venue_id": "3805",
@@ -3416,8 +3410,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "7:42 - 1st",
-     "detail": "7:42",
+     "status_short": "6:38 - 1st",
+     "detail": "6:38",
      "period": 1,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3428,10 +3422,10 @@
       "school": "San Jos\u00e9 State",
       "mascot": "Spartans",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "5-7",
       "periods": [
-       "0"
+       "7"
       ],
       "id": "23",
       "color": "#0038a8",
@@ -3457,7 +3451,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "4/7, 65 YDS",
+       "line": "5/8, 68 YDS, 1 TD",
        "team": "23"
       },
       {
@@ -3473,12 +3467,12 @@
        "team": "2449"
       }
      ],
-     "situation": "2nd & Goal at NDSU 7",
-     "possession": "23",
-     "red_zone": true,
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.12166666666666667,
+     "progress": 0.13944444444444443,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -7568,7 +7562,7 @@
       "provider": "Draft Kings",
       "detail": "POR -7.5",
       "spread": -7.5,
-      "total": 218.5,
+      "total": 217.5,
       "favorite": "home"
      }
     }
@@ -7704,9 +7698,9 @@
     {
      "id": "401892797",
      "league": "NHL",
-     "state": "in",
-     "completed": false,
-     "status_short": "In SO",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final/SO",
      "detail": "0:00",
      "period": 5,
      "start_utc": "2026-11-27T18:00Z",
@@ -7719,11 +7713,12 @@
       "mascot": "Predators",
       "rank": null,
       "score": "5",
-      "record": "13-6-5",
+      "record": "",
       "periods": [
        "2",
        "0",
        "3",
+       "0",
        "0"
       ],
       "id": "27",
@@ -7737,13 +7732,14 @@
       "school": "Utah",
       "mascot": "Mammoth",
       "rank": null,
-      "score": "5",
-      "record": "13-10-3",
+      "score": "6",
+      "record": "",
       "periods": [
        "2",
        "1",
        "2",
-       "0"
+       "0",
+       "1"
       ],
       "id": "129764",
       "color": "",
@@ -7755,14 +7751,15 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 1.0,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Bridgestone Arena",
      "venue_id": "1834",
      "venue_city": "Nashville",
      "venue_state": "TN",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-27T20:56:47Z"
     },
     {
      "id": "401892798",
