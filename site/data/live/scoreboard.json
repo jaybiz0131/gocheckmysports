@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T01:51:29Z",
+ "fetched_at": "2026-11-27T01:56:29Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "5:40 - 1st",
-     "detail": "5:40",
+     "status_short": "3:42 - 1st",
+     "detail": "3:42",
      "period": 1,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -56,7 +56,7 @@
       {
        "cat": "RUSH",
        "name": "J. Cook III",
-       "line": "4 CAR, 11 YDS",
+       "line": "8 CAR, 30 YDS",
        "team": "2"
       },
       {
@@ -66,12 +66,12 @@
        "team": "2"
       }
      ],
-     "situation": "1st & 10 at 50",
+     "situation": "3rd & 5 at KC 30",
      "possession": "2",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.15555555555555556,
+     "progress": 0.18833333333333332,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1360,9 +1360,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "End of 1st",
-     "detail": "0:00",
-     "period": 1,
+     "status_short": "12:55 - 2nd",
+     "detail": "12:55",
+     "period": 2,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
      "home": {
@@ -1375,6 +1375,7 @@
       "score": "0",
       "record": "10-1",
       "periods": [
+       "0",
        "0"
       ],
       "id": "2641",
@@ -1391,7 +1392,8 @@
       "score": "10",
       "record": "5-6",
       "periods": [
-       "10"
+       "10",
+       "0"
       ],
       "id": "2628",
       "color": "#4d1979",
@@ -1412,17 +1414,17 @@
       },
       {
        "cat": "REC",
-       "name": "L. Walker",
-       "line": "1 REC, 42 YDS",
-       "team": "2628"
+       "name": "M. Hudson",
+       "line": "2 REC, 47 YDS",
+       "team": "2641"
       }
      ],
-     "situation": "2nd & 10 at TTU 26",
+     "situation": "4th & 13 at TCU 36",
      "possession": "2641",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.25,
+     "progress": 0.2847222222222222,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -7219,8 +7221,8 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "PHX -1.5",
-      "spread": -1.5,
+      "detail": "PHX -2.5",
+      "spread": -2.5,
       "total": 227.5,
       "favorite": "home"
      }
