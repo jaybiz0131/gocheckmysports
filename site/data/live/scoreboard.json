@@ -1,90 +1,169 @@
 {
- "fetched_at": "2026-11-27T04:27:03Z",
+ "fetched_at": "2026-11-27T16:46:01Z",
  "leagues": [
   {
    "league": "NFL",
    "games": [
     {
-     "id": "401873082",
+     "id": "401873083",
      "league": "NFL",
-     "state": "in",
+     "state": "pre",
      "completed": false,
-     "status_short": "0:04 - 4th",
-     "detail": "0:04",
-     "period": 4,
-     "start_utc": "2026-11-27T01:20Z",
-     "network": "NBC",
+     "status_short": "11/27 - 3:00 PM EST",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-11-27T20:00Z",
+     "network": "Prime Video",
      "home": {
-      "abbr": "BUF",
-      "full": "Buffalo Bills",
-      "name": "Bills",
-      "school": "Buffalo",
-      "mascot": "Bills",
+      "abbr": "PIT",
+      "full": "Pittsburgh Steelers",
+      "name": "Steelers",
+      "school": "Pittsburgh",
+      "mascot": "Steelers",
       "rank": null,
-      "score": "10",
-      "record": "9-1",
-      "periods": [
-       "0",
-       "7",
-       "0",
-       "3"
-      ],
-      "id": "2",
-      "color": "#00338d",
-      "alt_color": "#d50a0a"
+      "score": "0",
+      "record": "6-4",
+      "periods": [],
+      "id": "23",
+      "color": "#000000",
+      "alt_color": "#ffb612"
      },
      "away": {
-      "abbr": "KC",
-      "full": "Kansas City Chiefs",
-      "name": "Chiefs",
-      "school": "Kansas City",
-      "mascot": "Chiefs",
+      "abbr": "DEN",
+      "full": "Denver Broncos",
+      "name": "Broncos",
+      "school": "Denver",
+      "mascot": "Broncos",
       "rank": null,
-      "score": "10",
+      "score": "0",
       "record": "8-2",
-      "periods": [
-       "0",
-       "3",
-       "7",
-       "0"
-      ],
-      "id": "12",
-      "color": "#e31837",
-      "alt_color": "#ffb612"
+      "periods": [],
+      "id": "7",
+      "color": "#0a2343",
+      "alt_color": "#fc4c02"
      },
      "leaders": [
       {
        "cat": "PASS",
-       "name": "P. Mahomes",
-       "line": "16/29, 174 YDS",
-       "team": "12"
+       "name": "A. Rodgers",
+       "line": "2241 YDS, 16 TD, 6 INT",
+       "team": "23"
       },
       {
        "cat": "RUSH",
-       "name": "J. Cook III",
-       "line": "32 CAR, 117 YDS, 1 TD",
-       "team": "2"
+       "name": "J. Warren",
+       "line": "135 CAR, 747 YDS, 2 TD",
+       "team": "23"
       },
       {
        "cat": "REC",
-       "name": "T. Kelce",
-       "line": "4 REC, 71 YDS",
-       "team": "12"
+       "name": "D. Metcalf",
+       "line": "36 REC, 434 YDS, 2 TD",
+       "team": "23"
       }
      ],
      "situation": "",
      "possession": "",
      "red_zone": false,
-     "to_home": 1,
-     "to_away": 2,
-     "progress": 0.9988888888888889,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
-     "venue": "Highmark Stadium",
-     "venue_id": "11938",
-     "venue_city": "Orchard Park",
-     "venue_state": "NY",
+     "venue": "Acrisure Stadium",
+     "venue_id": "3752",
+     "venue_city": "Pittsburgh",
+     "venue_state": "PA",
      "venue_country": "USA",
-     "line": null
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "DEN -4.5",
+      "spread": 4.5,
+      "total": 37.5,
+      "favorite": "away"
+     }
+    },
+    {
+     "id": "401873079",
+     "league": "NFL",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-26T01:00Z",
+     "network": "Netflix",
+     "home": {
+      "abbr": "LAR",
+      "full": "Los Angeles Rams",
+      "name": "Rams",
+      "school": "Los Angeles",
+      "mascot": "Rams",
+      "rank": null,
+      "score": "26",
+      "record": "7-4",
+      "periods": [
+       "6",
+       "7",
+       "7",
+       "6"
+      ],
+      "id": "14",
+      "color": "#003594",
+      "alt_color": "#ffd100"
+     },
+     "away": {
+      "abbr": "GB",
+      "full": "Green Bay Packers",
+      "name": "Packers",
+      "school": "Green Bay",
+      "mascot": "Packers",
+      "rank": null,
+      "score": "13",
+      "record": "6-5",
+      "periods": [
+       "3",
+       "10",
+       "0",
+       "0"
+      ],
+      "id": "9",
+      "color": "#204e32",
+      "alt_color": "#ffb612"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "J. Love",
+       "line": "17/29, 198 YDS, 1 TD, 2 INT",
+       "team": "9"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Corum",
+       "line": "32 CAR, 184 YDS, 1 TD",
+       "team": "14"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Mumpfield",
+       "line": "4 REC, 69 YDS",
+       "team": "14"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "SoFi Stadium",
+     "venue_id": "7065",
+     "venue_city": "Inglewood",
+     "venue_state": "CA",
+     "venue_country": "USA",
+     "line": null,
+     "final_seen_utc": "2026-11-26T04:35:42Z"
     },
     {
      "id": "401873081",
@@ -253,144 +332,71 @@
      "final_seen_utc": "2026-11-27T01:36:30Z"
     },
     {
-     "id": "401873079",
+     "id": "401873082",
      "league": "NFL",
      "state": "post",
      "completed": true,
      "status_short": "Final",
      "detail": "0:00",
      "period": 4,
-     "start_utc": "2026-11-26T01:00Z",
-     "network": "Netflix",
+     "start_utc": "2026-11-27T01:20Z",
+     "network": "NBC",
      "home": {
-      "abbr": "LAR",
-      "full": "Los Angeles Rams",
-      "name": "Rams",
-      "school": "Los Angeles",
-      "mascot": "Rams",
-      "rank": null,
-      "score": "26",
-      "record": "7-4",
-      "periods": [
-       "6",
-       "7",
-       "7",
-       "6"
-      ],
-      "id": "14",
-      "color": "#003594",
-      "alt_color": "#ffd100"
-     },
-     "away": {
-      "abbr": "GB",
-      "full": "Green Bay Packers",
-      "name": "Packers",
-      "school": "Green Bay",
-      "mascot": "Packers",
+      "abbr": "BUF",
+      "full": "Buffalo Bills",
+      "name": "Bills",
+      "school": "Buffalo",
+      "mascot": "Bills",
       "rank": null,
       "score": "13",
-      "record": "6-5",
+      "record": "10-1",
       "periods": [
-       "3",
-       "10",
        "0",
-       "0"
+       "7",
+       "0",
+       "6"
       ],
-      "id": "9",
-      "color": "#204e32",
-      "alt_color": "#ffb612"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "J. Love",
-       "line": "17/29, 198 YDS, 1 TD, 2 INT",
-       "team": "9"
-      },
-      {
-       "cat": "RUSH",
-       "name": "B. Corum",
-       "line": "32 CAR, 184 YDS, 1 TD",
-       "team": "14"
-      },
-      {
-       "cat": "REC",
-       "name": "K. Mumpfield",
-       "line": "4 REC, 69 YDS",
-       "team": "14"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "SoFi Stadium",
-     "venue_id": "7065",
-     "venue_city": "Inglewood",
-     "venue_state": "CA",
-     "venue_country": "USA",
-     "line": null,
-     "final_seen_utc": "2026-11-26T04:35:42Z"
-    },
-    {
-     "id": "401873083",
-     "league": "NFL",
-     "state": "pre",
-     "completed": false,
-     "status_short": "11/27 - 3:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
-     "start_utc": "2026-11-27T20:00Z",
-     "network": "Prime Video",
-     "home": {
-      "abbr": "PIT",
-      "full": "Pittsburgh Steelers",
-      "name": "Steelers",
-      "school": "Pittsburgh",
-      "mascot": "Steelers",
-      "rank": null,
-      "score": "0",
-      "record": "6-4",
-      "periods": [],
-      "id": "23",
-      "color": "#000000",
-      "alt_color": "#ffb612"
+      "id": "2",
+      "color": "#00338d",
+      "alt_color": "#d50a0a"
      },
      "away": {
-      "abbr": "DEN",
-      "full": "Denver Broncos",
-      "name": "Broncos",
-      "school": "Denver",
-      "mascot": "Broncos",
+      "abbr": "KC",
+      "full": "Kansas City Chiefs",
+      "name": "Chiefs",
+      "school": "Kansas City",
+      "mascot": "Chiefs",
       "rank": null,
-      "score": "0",
-      "record": "8-2",
-      "periods": [],
-      "id": "7",
-      "color": "#0a2343",
-      "alt_color": "#fc4c02"
+      "score": "10",
+      "record": "8-3",
+      "periods": [
+       "0",
+       "3",
+       "7",
+       "0"
+      ],
+      "id": "12",
+      "color": "#e31837",
+      "alt_color": "#ffb612"
      },
      "leaders": [
       {
        "cat": "PASS",
-       "name": "A. Rodgers",
-       "line": "2241 YDS, 16 TD, 6 INT",
-       "team": "23"
+       "name": "P. Mahomes",
+       "line": "16/29, 174 YDS",
+       "team": "12"
       },
       {
        "cat": "RUSH",
-       "name": "J. Warren",
-       "line": "135 CAR, 747 YDS, 2 TD",
-       "team": "23"
+       "name": "J. Cook III",
+       "line": "32 CAR, 117 YDS, 1 TD",
+       "team": "2"
       },
       {
        "cat": "REC",
-       "name": "D. Metcalf",
-       "line": "36 REC, 434 YDS, 2 TD",
-       "team": "23"
+       "name": "T. Kelce",
+       "line": "4 REC, 71 YDS",
+       "team": "12"
       }
      ],
      "situation": "",
@@ -400,18 +406,13 @@
      "to_away": null,
      "progress": null,
      "venue_indoor": false,
-     "venue": "Acrisure Stadium",
-     "venue_id": "3752",
-     "venue_city": "Pittsburgh",
-     "venue_state": "PA",
+     "venue": "Highmark Stadium",
+     "venue_id": "11938",
+     "venue_city": "Orchard Park",
+     "venue_state": "NY",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "DEN -4.5",
-      "spread": 4.5,
-      "total": 36.5,
-      "favorite": "away"
-     }
+     "line": null,
+     "final_seen_utc": "2026-11-27T04:32:04Z"
     },
     {
      "id": "401873087",
@@ -778,8 +779,8 @@
       },
       {
        "cat": "REC",
-       "name": "P. Washington",
-       "line": "44 REC, 748 YDS, 6 TD",
+       "name": "J. Meyers",
+       "line": "33 REC, 493 YDS, 2 TD",
        "team": "30"
       }
      ],
@@ -797,9 +798,9 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "JAX -14.5",
-      "spread": -14.5,
-      "total": 49.5,
+      "detail": "JAX -14",
+      "spread": -14.0,
+      "total": 48.5,
       "favorite": "home"
      }
     },
@@ -1189,7 +1190,7 @@
       "provider": "Draft Kings",
       "detail": "CLE -4.5",
       "spread": -4.5,
-      "total": 40.5,
+      "total": 39.5,
       "favorite": "home"
      }
     },
@@ -1268,6 +1269,84 @@
       "detail": "TB -3",
       "spread": -3.0,
       "total": 43.5,
+      "favorite": "home"
+     }
+    },
+    {
+     "id": "401873096",
+     "league": "NFL",
+     "state": "pre",
+     "completed": false,
+     "status_short": "12/3 - 8:15 PM EST",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-12-04T01:15Z",
+     "network": "Prime Video",
+     "home": {
+      "abbr": "LAR",
+      "full": "Los Angeles Rams",
+      "name": "Rams",
+      "school": "Los Angeles",
+      "mascot": "Rams",
+      "rank": null,
+      "score": "0",
+      "record": "7-4",
+      "periods": [],
+      "id": "14",
+      "color": "#003594",
+      "alt_color": "#ffd100"
+     },
+     "away": {
+      "abbr": "KC",
+      "full": "Kansas City Chiefs",
+      "name": "Chiefs",
+      "school": "Kansas City",
+      "mascot": "Chiefs",
+      "rank": null,
+      "score": "0",
+      "record": "8-3",
+      "periods": [],
+      "id": "12",
+      "color": "#e31837",
+      "alt_color": "#ffb612"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "P. Mahomes",
+       "line": "2883 YDS, 22 TD, 4 INT",
+       "team": "12"
+      },
+      {
+       "cat": "RUSH",
+       "name": "B. Corum",
+       "line": "135 CAR, 731 YDS, 6 TD",
+       "team": "14"
+      },
+      {
+       "cat": "REC",
+       "name": "T. Kelce",
+       "line": "45 REC, 657 YDS, 4 TD",
+       "team": "12"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "SoFi Stadium",
+     "venue_id": "7065",
+     "venue_city": "Inglewood",
+     "venue_state": "CA",
+     "venue_country": "USA",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "LAR -1.5",
+      "spread": -1.5,
+      "total": 44.5,
       "favorite": "home"
      }
     }
@@ -1362,166 +1441,6 @@
    "league": "CFB",
    "games": [
     {
-     "id": "401856879",
-     "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "1:07 - 4th",
-     "detail": "1:07",
-     "period": 4,
-     "start_utc": "2026-11-27T01:00Z",
-     "network": "ESPN",
-     "home": {
-      "abbr": "TTU",
-      "full": "Texas Tech Red Raiders",
-      "name": "Texas Tech",
-      "school": "Texas Tech",
-      "mascot": "Red Raiders",
-      "rank": 11,
-      "score": "48",
-      "record": "10-1",
-      "periods": [
-       "0",
-       "27",
-       "14",
-       "7"
-      ],
-      "id": "2641",
-      "color": "#da291c",
-      "alt_color": "#000000"
-     },
-     "away": {
-      "abbr": "TCU",
-      "full": "TCU Horned Frogs",
-      "name": "TCU",
-      "school": "TCU",
-      "mascot": "Horned Frogs",
-      "rank": null,
-      "score": "27",
-      "record": "5-6",
-      "periods": [
-       "10",
-       "0",
-       "3",
-       "14"
-      ],
-      "id": "2628",
-      "color": "#4d1979",
-      "alt_color": "#ffffff"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "T. Castellanos",
-       "line": "20/25, 374 YDS, 3 TD",
-       "team": "2641"
-      },
-      {
-       "cat": "RUSH",
-       "name": "M. Everhart",
-       "line": "14 CAR, 138 YDS",
-       "team": "2628"
-      },
-      {
-       "cat": "REC",
-       "name": "M. Simmons",
-       "line": "4 REC, 110 YDS, 1 TD",
-       "team": "2641"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": 0,
-     "to_away": 1,
-     "progress": 0.9813888888888889,
-     "venue_indoor": false,
-     "venue": "Galaxy Stadium",
-     "venue_id": "3784",
-     "venue_city": "Lubbock",
-     "venue_state": "TX",
-     "venue_country": "USA",
-     "line": null
-    },
-    {
-     "id": "401858536",
-     "league": "CFB",
-     "state": "pre",
-     "completed": false,
-     "status_short": "11/27 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
-     "start_utc": "2026-11-27T17:00Z",
-     "network": "CBS",
-     "home": {
-      "abbr": "IOWA",
-      "full": "Iowa Hawkeyes",
-      "name": "Iowa",
-      "school": "Iowa",
-      "mascot": "Hawkeyes",
-      "rank": 13,
-      "score": "0",
-      "record": "9-2",
-      "periods": [],
-      "id": "2294",
-      "color": "#231f20",
-      "alt_color": "#fcd116"
-     },
-     "away": {
-      "abbr": "NEB",
-      "full": "Nebraska Cornhuskers",
-      "name": "Nebraska",
-      "school": "Nebraska",
-      "mascot": "Cornhuskers",
-      "rank": 25,
-      "score": "0",
-      "record": "7-4",
-      "periods": [],
-      "id": "158",
-      "color": "#e31937",
-      "alt_color": "#ffffff"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "A. Colandrea",
-       "line": "2497 YDS, 21 TD, 7 INT",
-       "team": "158"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Rule",
-       "line": "133 CAR, 705 YDS, 5 TD",
-       "team": "158"
-      },
-      {
-       "cat": "REC",
-       "name": "K. Gilmer",
-       "line": "53 REC, 676 YDS, 8 TD",
-       "team": "158"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Kinnick Stadium",
-     "venue_id": "3793",
-     "venue_city": "Iowa City",
-     "venue_state": "IA",
-     "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "IOWA -3.5",
-      "spread": -3.5,
-      "total": 40.5,
-      "favorite": "home"
-     }
-    },
-    {
      "id": "401856762",
      "league": "CFB",
      "state": "pre",
@@ -1600,6 +1519,84 @@
      }
     },
     {
+     "id": "401858536",
+     "league": "CFB",
+     "state": "pre",
+     "completed": false,
+     "status_short": "11/27 - 12:08 PM EST",
+     "detail": "0:00",
+     "period": 0,
+     "start_utc": "2026-11-27T17:08Z",
+     "network": "CBS",
+     "home": {
+      "abbr": "IOWA",
+      "full": "Iowa Hawkeyes",
+      "name": "Iowa",
+      "school": "Iowa",
+      "mascot": "Hawkeyes",
+      "rank": 13,
+      "score": "0",
+      "record": "9-2",
+      "periods": [],
+      "id": "2294",
+      "color": "#231f20",
+      "alt_color": "#fcd116"
+     },
+     "away": {
+      "abbr": "NEB",
+      "full": "Nebraska Cornhuskers",
+      "name": "Nebraska",
+      "school": "Nebraska",
+      "mascot": "Cornhuskers",
+      "rank": 25,
+      "score": "0",
+      "record": "7-4",
+      "periods": [],
+      "id": "158",
+      "color": "#e31937",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "A. Colandrea",
+       "line": "2497 YDS, 21 TD, 7 INT",
+       "team": "158"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Rule",
+       "line": "133 CAR, 705 YDS, 5 TD",
+       "team": "158"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Gilmer",
+       "line": "53 REC, 676 YDS, 8 TD",
+       "team": "158"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Kinnick Stadium",
+     "venue_id": "3793",
+     "venue_city": "Iowa City",
+     "venue_state": "IA",
+     "venue_country": "USA",
+     "line": {
+      "provider": "Draft Kings",
+      "detail": "IOWA -3.5",
+      "spread": -3.5,
+      "total": 40.5,
+      "favorite": "home"
+     }
+    },
+    {
      "id": "401856759",
      "league": "CFB",
      "state": "pre",
@@ -1673,7 +1670,7 @@
       "provider": "Draft Kings",
       "detail": "FLA -6.5",
       "spread": 6.5,
-      "total": 53.5,
+      "total": 54.5,
       "favorite": "away"
      }
     },
@@ -1749,9 +1746,9 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "TEX -10.5",
-      "spread": 10.5,
-      "total": 40.5,
+      "detail": "TEX -11.5",
+      "spread": 11.5,
+      "total": 41.5,
       "favorite": "away"
      }
     },
@@ -1827,11 +1824,94 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "UTAH -26.5",
-      "spread": -26.5,
-      "total": 66.5,
+      "detail": "UTAH -25.5",
+      "spread": -25.5,
+      "total": 65.5,
       "favorite": "home"
      }
+    },
+    {
+     "id": "401856879",
+     "league": "CFB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-27T01:00Z",
+     "network": "ESPN",
+     "home": {
+      "abbr": "TTU",
+      "full": "Texas Tech Red Raiders",
+      "name": "Texas Tech",
+      "school": "Texas Tech",
+      "mascot": "Red Raiders",
+      "rank": 11,
+      "score": "48",
+      "record": "11-1",
+      "periods": [
+       "0",
+       "27",
+       "14",
+       "7"
+      ],
+      "id": "2641",
+      "color": "#da291c",
+      "alt_color": "#000000"
+     },
+     "away": {
+      "abbr": "TCU",
+      "full": "TCU Horned Frogs",
+      "name": "TCU",
+      "school": "TCU",
+      "mascot": "Horned Frogs",
+      "rank": null,
+      "score": "27",
+      "record": "5-7",
+      "periods": [
+       "10",
+       "0",
+       "3",
+       "14"
+      ],
+      "id": "2628",
+      "color": "#4d1979",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "T. Castellanos",
+       "line": "20/25, 374 YDS, 3 TD",
+       "team": "2641"
+      },
+      {
+       "cat": "RUSH",
+       "name": "M. Everhart",
+       "line": "14 CAR, 138 YDS",
+       "team": "2628"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Simmons",
+       "line": "4 REC, 110 YDS, 1 TD",
+       "team": "2641"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Galaxy Stadium",
+     "venue_id": "3784",
+     "venue_city": "Lubbock",
+     "venue_state": "TX",
+     "venue_country": "USA",
+     "line": null,
+     "final_seen_utc": "2026-11-27T04:32:04Z"
     },
     {
      "id": "401858314",
@@ -1983,8 +2063,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIA -25.5",
-      "spread": -25.5,
+      "detail": "MIA -24.5",
+      "spread": -24.5,
       "total": 53.5,
       "favorite": "home"
      }
@@ -2139,8 +2219,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "OSU -10",
-      "spread": -10.0,
+      "detail": "OSU -10.5",
+      "spread": -10.5,
       "total": 37.5,
       "favorite": "home"
      }
@@ -2373,8 +2453,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "USC -6.5",
-      "spread": 6.5,
+      "detail": "USC -4.5",
+      "spread": 4.5,
       "total": 46.5,
       "favorite": "away"
      }
@@ -2453,7 +2533,7 @@
       "provider": "Draft Kings",
       "detail": "BYU -15.5",
       "spread": -15.5,
-      "total": 56.5,
+      "total": 55.5,
       "favorite": "home"
      }
     },
@@ -2609,7 +2689,7 @@
       "provider": "Draft Kings",
       "detail": "TENN -13.5",
       "spread": 13.5,
-      "total": 42.5,
+      "total": 43.5,
       "favorite": "away"
      }
     },
@@ -2997,8 +3077,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "HOU -4.5",
-      "spread": -4.5,
+      "detail": "HOU -3.5",
+      "spread": -3.5,
       "total": 55.5,
       "favorite": "home"
      }
@@ -3243,7 +3323,7 @@
       "provider": "Draft Kings",
       "detail": "TLSA -1.5",
       "spread": 1.5,
-      "total": 57.5,
+      "total": 56.5,
       "favorite": "away"
      }
     },
@@ -3321,7 +3401,7 @@
       "provider": "Draft Kings",
       "detail": "BUF -7.5",
       "spread": 7.5,
-      "total": 48.5,
+      "total": 50.5,
       "favorite": "away"
      }
     },
@@ -3397,8 +3477,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "TOL -3",
-      "spread": 3.0,
+      "detail": "TOL -3.5",
+      "spread": 3.5,
       "total": 44.5,
       "favorite": "away"
      }
@@ -3475,8 +3555,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "USA -3.5",
-      "spread": -3.5,
+      "detail": "USA -3",
+      "spread": -3.0,
       "total": 56.5,
       "favorite": "home"
      }
@@ -3553,8 +3633,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MEM -18.5",
-      "spread": -18.5,
+      "detail": "MEM -19.5",
+      "spread": -19.5,
       "total": 66.5,
       "favorite": "home"
      }
@@ -3631,9 +3711,9 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "NDSU -8.5",
-      "spread": 8.5,
-      "total": 39.5,
+      "detail": "NDSU -7.5",
+      "spread": 7.5,
+      "total": 40.5,
       "favorite": "away"
      }
     },
@@ -3709,8 +3789,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "UNM -6.5",
-      "spread": -6.5,
+      "detail": "UNM -7",
+      "spread": -7.0,
       "total": 42.5,
       "favorite": "home"
      }
@@ -3945,7 +4025,7 @@
       "provider": "Draft Kings",
       "detail": "CONN -3.5",
       "spread": 3.5,
-      "total": 45.5,
+      "total": 44.5,
       "favorite": "away"
      }
     },
@@ -4023,7 +4103,7 @@
       "provider": "Draft Kings",
       "detail": "NAVY -16.5",
       "spread": 16.5,
-      "total": 53.5,
+      "total": 54.5,
       "favorite": "away"
      }
     },
@@ -4413,7 +4493,7 @@
       "provider": "Draft Kings",
       "detail": "ECU -1.5",
       "spread": -1.5,
-      "total": 57.5,
+      "total": 58.5,
       "favorite": "home"
      }
     },
@@ -4725,7 +4805,7 @@
       "provider": "Draft Kings",
       "detail": "COLO -2.5",
       "spread": -2.5,
-      "total": 49.5,
+      "total": 48.5,
       "favorite": "home"
      }
     },
@@ -5581,8 +5661,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "SMU -7",
-      "spread": 7.0,
+      "detail": "SMU -7.5",
+      "spread": 7.5,
       "total": 61.5,
       "favorite": "away"
      }
@@ -5973,7 +6053,7 @@
       "provider": "Draft Kings",
       "detail": "DEL -2.5",
       "spread": -2.5,
-      "total": 58.5,
+      "total": 57.5,
       "favorite": "home"
      }
     },
@@ -6127,8 +6207,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MSU -3",
-      "spread": 3.0,
+      "detail": "MSU -2.5",
+      "spread": 2.5,
       "total": 46.5,
       "favorite": "away"
      }
@@ -6595,8 +6675,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "TXST -7",
-      "spread": 7.0,
+      "detail": "TXST -7.5",
+      "spread": 7.5,
       "total": 52.5,
       "favorite": "away"
      }
@@ -6815,7 +6895,7 @@
      "venue_country": "England",
      "line": {
       "provider": "DraftKings",
-      "detail": "NFO +150",
+      "detail": "NFO +145",
       "total": 2.5
      }
     }
@@ -6877,9 +6957,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "NY -3.5",
-      "spread": -3.5,
-      "total": 222.5,
+      "detail": "NY -2.5",
+      "spread": -2.5,
+      "total": 221.5,
       "favorite": "home"
      }
     },
@@ -6936,8 +7016,8 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "DET -9.5",
-      "spread": -9.5,
+      "detail": "DET -10.5",
+      "spread": -10.5,
       "total": 219.5,
       "favorite": "home"
      }
@@ -6995,9 +7075,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "PHI -2.5",
-      "spread": 2.5,
-      "total": 232.5,
+      "detail": "PHI -3.5",
+      "spread": 3.5,
+      "total": 230.5,
       "favorite": "away"
      }
     },
@@ -7054,9 +7134,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "TOR -7.5",
-      "spread": -7.5,
-      "total": 219.5,
+      "detail": "TOR -9.5",
+      "spread": -9.5,
+      "total": 218.5,
       "favorite": "home"
      }
     },
@@ -7113,9 +7193,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "BOS -9.5",
-      "spread": -9.5,
-      "total": 221.5,
+      "detail": "BOS -8.5",
+      "spread": -8.5,
+      "total": 222.5,
       "favorite": "home"
      }
     },
@@ -7172,9 +7252,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIN -3.5",
-      "spread": -3.5,
-      "total": 221.5,
+      "detail": "MIN -4.5",
+      "spread": -4.5,
+      "total": 222.5,
       "favorite": "home"
      }
     },
@@ -7231,9 +7311,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "PHX -2.5",
-      "spread": -2.5,
-      "total": 227.5,
+      "detail": "PHX -1.5",
+      "spread": -1.5,
+      "total": 226.5,
       "favorite": "home"
      }
     },
@@ -7290,9 +7370,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "SA -5.5",
-      "spread": -5.5,
-      "total": 225.5,
+      "detail": "SA -6.5",
+      "spread": -6.5,
+      "total": 226.5,
       "favorite": "home"
      }
     },
@@ -7351,7 +7431,7 @@
       "provider": "Draft Kings",
       "detail": "DEN -9.5",
       "spread": 9.5,
-      "total": 228.5,
+      "total": 230.5,
       "favorite": "away"
      }
     },
@@ -7408,9 +7488,9 @@
      "venue_country": "",
      "line": {
       "provider": "Draft Kings",
-      "detail": "LAC -3.5",
-      "spread": -3.5,
-      "total": 231.5,
+      "detail": "LAC -2.5",
+      "spread": -2.5,
+      "total": 230.5,
       "favorite": "home"
      }
     },
@@ -7469,7 +7549,7 @@
       "provider": "Draft Kings",
       "detail": "POR -9.5",
       "spread": -9.5,
-      "total": 220.5,
+      "total": 219.5,
       "favorite": "home"
      }
     }
@@ -7531,7 +7611,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "BOS -166",
+      "detail": "BOS -155",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
@@ -7590,7 +7670,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "NJ -285",
+      "detail": "NJ -258",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
@@ -7885,7 +7965,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "FLA -118",
+      "detail": "FLA -115",
       "spread": 1.5,
       "total": 6.5,
       "favorite": "away"
@@ -8003,7 +8083,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "MIN -130",
+      "detail": "MIN -125",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
@@ -8239,7 +8319,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "NYI -135",
+      "detail": "NYI -125",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
@@ -8298,7 +8378,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "BUF -155",
+      "detail": "BUF -148",
       "spread": -1.5,
       "total": 6.5,
       "favorite": "home"
