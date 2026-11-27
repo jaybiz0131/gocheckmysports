@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-27T02:42:06Z",
+ "fetched_at": "2026-11-27T02:47:08Z",
  "leagues": [
   {
    "league": "NFL",
@@ -9,8 +9,8 @@
      "league": "NFL",
      "state": "in",
      "completed": false,
-     "status_short": "0:31 - 2nd",
-     "detail": "0:31",
+     "status_short": "0:09 - 2nd",
+     "detail": "0:09",
      "period": 2,
      "start_utc": "2026-11-27T01:20Z",
      "network": "NBC",
@@ -52,7 +52,7 @@
       {
        "cat": "PASS",
        "name": "P. Mahomes",
-       "line": "9/13, 76 YDS",
+       "line": "10/14, 97 YDS",
        "team": "12"
       },
       {
@@ -64,16 +64,16 @@
       {
        "cat": "REC",
        "name": "T. Kelce",
-       "line": "3 REC, 50 YDS",
+       "line": "4 REC, 71 YDS",
        "team": "12"
       }
      ],
-     "situation": "4th & 1 at BUF 31",
+     "situation": "1st & Goal at BUF 7",
      "possession": "12",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 3,
-     "to_away": 3,
-     "progress": 0.4913888888888889,
+     "to_away": 0,
+     "progress": 0.4975,
      "venue_indoor": false,
      "venue": "Highmark Stadium",
      "venue_id": "11938",
@@ -1362,8 +1362,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "0:44 - 2nd",
-     "detail": "0:44",
+     "status_short": "End of 2nd",
+     "detail": "0:00",
      "period": 2,
      "start_utc": "2026-11-27T01:00Z",
      "network": "ESPN",
@@ -1405,7 +1405,7 @@
       {
        "cat": "PASS",
        "name": "T. Castellanos",
-       "line": "9/13, 180 YDS, 2 TD",
+       "line": "12/16, 192 YDS, 2 TD",
        "team": "2641"
       },
       {
@@ -1421,12 +1421,12 @@
        "team": "2641"
       }
      ],
-     "situation": "",
-     "possession": "2628",
+     "situation": "2nd & 10 at TTU 40",
+     "possession": "2641",
      "red_zone": false,
-     "to_home": 2,
+     "to_home": 0,
      "to_away": 1,
-     "progress": 0.48777777777777775,
+     "progress": 0.5,
      "venue_indoor": false,
      "venue": "Galaxy Stadium",
      "venue_id": "3784",
@@ -7284,7 +7284,7 @@
       "provider": "Draft Kings",
       "detail": "SA -5.5",
       "spread": -5.5,
-      "total": 225.5,
+      "total": 224.5,
       "favorite": "home"
      }
     },
