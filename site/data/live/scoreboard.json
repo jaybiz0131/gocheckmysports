@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:17:18Z",
+ "fetched_at": "2026-11-28T00:22:19Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1446,89 +1446,6 @@
    "league": "CFB",
    "games": [
     {
-     "id": "401856759",
-     "league": "CFB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 4,
-     "start_utc": "2026-11-27T20:30Z",
-     "network": "ABC",
-     "home": {
-      "abbr": "FSU",
-      "full": "Florida State Seminoles",
-      "name": "Florida St",
-      "school": "Florida State",
-      "mascot": "Seminoles",
-      "rank": null,
-      "score": "10",
-      "record": "5-7",
-      "periods": [
-       "0",
-       "3",
-       "7",
-       "0"
-      ],
-      "id": "52",
-      "color": "#782f40",
-      "alt_color": "#ceb888"
-     },
-     "away": {
-      "abbr": "FLA",
-      "full": "Florida Gators",
-      "name": "Florida",
-      "school": "Florida",
-      "mascot": "Gators",
-      "rank": 20,
-      "score": "26",
-      "record": "8-4",
-      "periods": [
-       "7",
-       "3",
-       "7",
-       "9"
-      ],
-      "id": "57",
-      "color": "#0021a5",
-      "alt_color": "#fa4616"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "A. Daniels",
-       "line": "18/32, 183 YDS, 2 INT",
-       "team": "52"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Baugh",
-       "line": "19 CAR, 77 YDS, 1 TD",
-       "team": "57"
-      },
-      {
-       "cat": "REC",
-       "name": "M. Danzy",
-       "line": "2 REC, 75 YDS",
-       "team": "52"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Doak Campbell Stadium",
-     "venue_id": "3697",
-     "venue_city": "Tallahassee",
-     "venue_state": "FL",
-     "venue_country": "USA",
-     "line": null,
-     "final_seen_utc": "2026-11-28T00:07:18Z"
-    },
-    {
      "id": "401858536",
      "league": "CFB",
      "state": "post",
@@ -1610,6 +1527,70 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-27T20:21:48Z"
+    },
+    {
+     "id": "401856759",
+     "league": "CFB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-27T20:30Z",
+     "network": "ABC",
+     "home": {
+      "abbr": "FSU",
+      "full": "Florida State Seminoles",
+      "name": "Florida St",
+      "school": "Florida State",
+      "mascot": "Seminoles",
+      "rank": null,
+      "score": "10",
+      "record": "5-7",
+      "periods": [
+       "0",
+       "3",
+       "7",
+       "0"
+      ],
+      "id": "52",
+      "color": "#782f40",
+      "alt_color": "#ceb888"
+     },
+     "away": {
+      "abbr": "FLA",
+      "full": "Florida Gators",
+      "name": "Florida",
+      "school": "Florida",
+      "mascot": "Gators",
+      "rank": 20,
+      "score": "26",
+      "record": "8-4",
+      "periods": [
+       "7",
+       "3",
+       "7",
+       "9"
+      ],
+      "id": "57",
+      "color": "#0021a5",
+      "alt_color": "#fa4616"
+     },
+     "leaders": [],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Doak Campbell Stadium",
+     "venue_id": "3697",
+     "venue_city": "Tallahassee",
+     "venue_state": "FL",
+     "venue_country": "USA",
+     "line": null,
+     "final_seen_utc": "2026-11-28T00:07:18Z"
     },
     {
      "id": "401856762",
@@ -1766,8 +1747,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "TEX -10.5",
-      "spread": 10.5,
+      "detail": "TEX -10",
+      "spread": 10.0,
       "total": 41.5,
       "favorite": "away"
      }
@@ -3274,8 +3255,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "0:13 - 4th",
-     "detail": "0:13",
+     "status_short": "0:04 - 4th",
+     "detail": "0:04",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3321,7 +3302,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "26/47, 306 YDS, 2 TD, 2 INT",
+       "line": "26/49, 306 YDS, 2 TD, 2 INT",
        "team": "23"
       },
       {
@@ -3337,12 +3318,12 @@
        "team": "23"
       }
      ],
-     "situation": "",
+     "situation": "3rd & 10 at NDSU 14",
      "possession": "23",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 0,
      "to_away": 0,
-     "progress": 0.9963888888888889,
+     "progress": 0.9988888888888889,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3356,8 +3337,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "11:57 - 4th",
-     "detail": "11:57",
+     "status_short": "11:47 - 4th",
+     "detail": "11:47",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3424,7 +3405,7 @@
      "red_zone": false,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.8008333333333333,
+     "progress": 0.803611111111111,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -3922,7 +3903,7 @@
       "provider": "DraftKings",
       "detail": "WIS -8.5",
       "spread": -8.5,
-      "total": 37.5,
+      "total": 36.5,
       "favorite": "home"
      }
     },
@@ -6959,8 +6940,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "8:59 - 1st",
-     "detail": "8:59",
+     "status_short": "7:03 - 1st",
+     "detail": "7:03",
      "period": 1,
      "start_utc": "2026-11-28T00:00Z",
      "network": "Prime Video",
@@ -6987,10 +6968,10 @@
       "school": "Miami",
       "mascot": "Heat",
       "rank": null,
-      "score": "8",
+      "score": "15",
       "record": "10-7",
       "periods": [
-       "8"
+       "15"
       ],
       "id": "14",
       "color": "#98002e",
@@ -7002,7 +6983,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.10027777777777777,
+     "progress": 0.1325,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
