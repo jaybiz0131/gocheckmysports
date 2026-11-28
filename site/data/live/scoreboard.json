@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:07:18Z",
+ "fetched_at": "2026-11-28T00:12:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -3270,95 +3270,12 @@
      "final_seen_utc": "2026-11-25T10:42:06Z"
     },
     {
-     "id": "401862838",
-     "league": "CFB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 4,
-     "start_utc": "2026-11-27T20:30Z",
-     "network": "ESPN",
-     "home": {
-      "abbr": "MEM",
-      "full": "Memphis Tigers",
-      "name": "Memphis",
-      "school": "Memphis",
-      "mascot": "Tigers",
-      "rank": null,
-      "score": "31",
-      "record": "8-4",
-      "periods": [
-       "14",
-       "3",
-       "14",
-       "0"
-      ],
-      "id": "235",
-      "color": "#004991",
-      "alt_color": "#8e908f"
-     },
-     "away": {
-      "abbr": "TEM",
-      "full": "Temple Owls",
-      "name": "Temple",
-      "school": "Temple",
-      "mascot": "Owls",
-      "rank": null,
-      "score": "35",
-      "record": "3-9",
-      "periods": [
-       "7",
-       "0",
-       "7",
-       "21"
-      ],
-      "id": "218",
-      "color": "#a41e35",
-      "alt_color": "#ffffff"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "M. Stokes",
-       "line": "13/19, 260 YDS, 2 TD, 2 INT",
-       "team": "235"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Carter",
-       "line": "21 CAR, 103 YDS, 2 TD",
-       "team": "235"
-      },
-      {
-       "cat": "REC",
-       "name": "S. Burnside",
-       "line": "5 REC, 117 YDS, 1 TD",
-       "team": "235"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Simmons Bank Liberty Stadium",
-     "venue_id": "3805",
-     "venue_city": "Memphis",
-     "venue_state": "TN",
-     "venue_country": "USA",
-     "line": null,
-     "final_seen_utc": "2026-11-27T23:57:18Z"
-    },
-    {
      "id": "401864549",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:49 - 4th",
-     "detail": "1:49",
+     "status_short": "1:23 - 4th",
+     "detail": "1:23",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3404,7 +3321,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "24/43, 261 YDS, 2 TD, 1 INT",
+       "line": "24/44, 261 YDS, 2 TD, 2 INT",
        "team": "23"
       },
       {
@@ -3420,12 +3337,12 @@
        "team": "2449"
       }
      ],
-     "situation": "",
-     "possession": "23",
+     "situation": "4th & 2 at NDSU 23",
+     "possession": "2449",
      "red_zone": false,
-     "to_home": 1,
+     "to_home": 0,
      "to_away": 1,
-     "progress": 0.9697222222222222,
+     "progress": 0.9769444444444444,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3439,8 +3356,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "15:00 - 4th",
-     "detail": "15:00",
+     "status_short": "13:27 - 4th",
+     "detail": "13:27",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3486,28 +3403,28 @@
       {
        "cat": "PASS",
        "name": "L. Moga",
-       "line": "15/21, 191 YDS, 1 TD, 1 INT",
+       "line": "16/23, 219 YDS, 1 TD, 1 INT",
        "team": "167"
       },
       {
        "cat": "RUSH",
        "name": "K. Sibley",
-       "line": "11 CAR, 76 YDS, 2 TD",
+       "line": "13 CAR, 98 YDS, 2 TD",
        "team": "167"
       },
       {
        "cat": "REC",
        "name": "B. George",
-       "line": "4 REC, 55 YDS, 1 TD",
+       "line": "5 REC, 83 YDS, 1 TD",
        "team": "167"
       }
      ],
-     "situation": "2nd & 10 at UNM 33",
+     "situation": "1st & 10 at AF 17",
      "possession": "167",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.75,
+     "progress": 0.7758333333333334,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -3847,6 +3764,89 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-27T23:07:20Z"
+    },
+    {
+     "id": "401862838",
+     "league": "CFB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-27T20:30Z",
+     "network": "ESPN",
+     "home": {
+      "abbr": "MEM",
+      "full": "Memphis Tigers",
+      "name": "Memphis",
+      "school": "Memphis",
+      "mascot": "Tigers",
+      "rank": null,
+      "score": "31",
+      "record": "8-4",
+      "periods": [
+       "14",
+       "3",
+       "14",
+       "0"
+      ],
+      "id": "235",
+      "color": "#004991",
+      "alt_color": "#8e908f"
+     },
+     "away": {
+      "abbr": "TEM",
+      "full": "Temple Owls",
+      "name": "Temple",
+      "school": "Temple",
+      "mascot": "Owls",
+      "rank": null,
+      "score": "35",
+      "record": "3-9",
+      "periods": [
+       "7",
+       "0",
+       "7",
+       "21"
+      ],
+      "id": "218",
+      "color": "#a41e35",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "M. Stokes",
+       "line": "13/19, 260 YDS, 2 TD, 2 INT",
+       "team": "235"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Carter",
+       "line": "21 CAR, 103 YDS, 2 TD",
+       "team": "235"
+      },
+      {
+       "cat": "REC",
+       "name": "S. Burnside",
+       "line": "5 REC, 117 YDS, 1 TD",
+       "team": "235"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Simmons Bank Liberty Stadium",
+     "venue_id": "3805",
+     "venue_city": "Memphis",
+     "venue_state": "TN",
+     "venue_country": "USA",
+     "line": null,
+     "final_seen_utc": "2026-11-27T23:57:18Z"
     },
     {
      "id": "401858544",
@@ -7068,7 +7068,7 @@
       "provider": "DraftKings",
       "detail": "DET -9.5",
       "spread": -9.5,
-      "total": 219.5,
+      "total": 218.5,
       "favorite": "home"
      }
     },
@@ -8303,8 +8303,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "2:38 - 2nd",
-     "detail": "2:38",
+     "status_short": "1:05 - 2nd",
+     "detail": "1:05",
      "period": 2,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8348,7 +8348,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6227777777777778,
+     "progress": 0.6486111111111111,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
