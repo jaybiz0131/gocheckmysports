@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T17:06:01Z",
+ "fetched_at": "2026-11-28T17:11:01Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1448,11 +1448,11 @@
     {
      "id": "401858314",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/28 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "13:43 - 1st",
+     "detail": "13:43",
+     "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ABC",
      "home": {
@@ -1464,7 +1464,9 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "183",
       "color": "#000e54",
       "alt_color": "#ff431b"
@@ -1478,59 +1480,43 @@
       "rank": 4,
       "score": "0",
       "record": "10-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "87",
       "color": "#062340",
       "alt_color": "#c99700"
      },
      "leaders": [
       {
-       "cat": "PASS",
-       "name": "C. Carr",
-       "line": "2697 YDS, 24 TD, 3 INT",
-       "team": "87"
-      },
-      {
        "cat": "RUSH",
-       "name": "N. James Jr.",
-       "line": "135 CAR, 742 YDS, 11 TD",
-       "team": "87"
-      },
-      {
-       "cat": "REC",
-       "name": "U. Hatcher",
-       "line": "77 REC, 1257 YDS, 9 TD",
+       "name": "A. Miller",
+       "line": "3 CAR, 21 YDS",
        "team": "183"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "2nd & 8 at SYR 46",
+     "possession": "183",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.0213888888888889,
      "venue_indoor": true,
      "venue": "JMA Wireless Dome",
      "venue_id": "1964",
      "venue_city": "Syracuse",
      "venue_state": "NY",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "ND -24.5",
-      "spread": 24.5,
-      "total": 53.5,
-      "favorite": "away"
-     }
+     "line": null
     },
     {
      "id": "401858311",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/28 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "12:55 - 1st",
+     "detail": "12:55",
+     "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ESPN",
      "home": {
@@ -1542,7 +1528,9 @@
       "rank": 7,
       "score": "0",
       "record": "10-1",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2390",
       "color": "#f47423",
       "alt_color": "#035131"
@@ -1556,58 +1544,42 @@
       "rank": null,
       "score": "0",
       "record": "5-6",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "103",
       "color": "#8c2232",
       "alt_color": "#dbcca6"
      },
      "leaders": [
       {
-       "cat": "PASS",
-       "name": "D. Mensah",
-       "line": "3317 YDS, 29 TD, 4 INT",
-       "team": "2390"
-      },
-      {
        "cat": "RUSH",
        "name": "M. McKenzie",
-       "line": "165 CAR, 718 YDS, 5 TD",
+       "line": "1 CAR, 5 YDS",
        "team": "103"
-      },
-      {
-       "cat": "REC",
-       "name": "M. Toney",
-       "line": "73 REC, 1027 YDS, 13 TD",
-       "team": "2390"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "4th & 2 at BC 38",
+     "possession": "103",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.03472222222222221,
      "venue_indoor": false,
      "venue": "Hard Rock Stadium",
      "venue_id": "3948",
      "venue_city": "Miami Gardens",
      "venue_state": "FL",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "MIA -24.5",
-      "spread": -24.5,
-      "total": 55.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401856761",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "14:53 - 1st",
-     "detail": "14:53",
+     "status_short": "13:07 - 1st",
+     "detail": "13:07",
      "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ESPN2",
@@ -1643,13 +1615,32 @@
       "color": "#c9001f",
       "alt_color": "#ffffff"
      },
-     "leaders": [],
-     "situation": "1st & 10 at LOU 24",
-     "possession": "",
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "L. Kienholz",
+       "line": "1/1, YDS",
+       "team": "97"
+      },
+      {
+       "cat": "RUSH",
+       "name": "K. Brown",
+       "line": "2 CAR, 16 YDS",
+       "team": "97"
+      },
+      {
+       "cat": "REC",
+       "name": "K. Brown",
+       "line": "1 REC, -4 YDS",
+       "team": "97"
+      }
+     ],
+     "situation": "3rd & 8 at LOU 45",
+     "possession": "97",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02,
+     "progress": 0.03138888888888888,
      "venue_indoor": false,
      "venue": "Kroger Field",
      "venue_id": "3683",
@@ -3927,8 +3918,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "13:34 - 1st",
-     "detail": "13:34",
+     "status_short": "10:01 - 1st",
+     "detail": "10:01",
      "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ACC Network",
@@ -3968,14 +3959,14 @@
       {
        "cat": "PASS",
        "name": "C. Bailey",
-       "line": "1/1, 7 YDS",
+       "line": "1/3, 7 YDS",
        "team": "152"
       },
       {
        "cat": "RUSH",
-       "name": "D. Gause",
-       "line": "2 CAR, 3 YDS",
-       "team": "152"
+       "name": "D. June",
+       "line": "2 CAR, 8 YDS",
+       "team": "153"
       },
       {
        "cat": "REC",
@@ -3984,12 +3975,12 @@
        "team": "152"
       }
      ],
-     "situation": "1st & 10 at NCSU 35",
-     "possession": "152",
+     "situation": "1st & 10 at UNC 13",
+     "possession": "153",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.023888888888888876,
+     "progress": 0.08305555555555555,
      "venue_indoor": false,
      "venue": "Kenan Stadium",
      "venue_id": "3787",
@@ -4003,8 +3994,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "14:19 - 1st",
-     "detail": "14:19",
+     "status_short": "11:19 - 1st",
+     "detail": "11:19",
      "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "FS1",
@@ -4015,10 +4006,10 @@
       "school": "Wyoming",
       "mascot": "Cowboys",
       "rank": null,
-      "score": "0",
+      "score": "3",
       "record": "7-4",
       "periods": [
-       "0"
+       "3"
       ],
       "id": "2751",
       "color": "#492f24",
@@ -4042,18 +4033,30 @@
      },
      "leaders": [
       {
+       "cat": "PASS",
+       "name": "L. Sims",
+       "line": "2/3, 29 YDS",
+       "team": "2751"
+      },
+      {
        "cat": "RUSH",
-       "name": "C. Bowers",
-       "line": "2 CAR, 2 YDS",
-       "team": "41"
+       "name": "S. Harris",
+       "line": "1 CAR, 5 YDS",
+       "team": "2751"
+      },
+      {
+       "cat": "REC",
+       "name": "E. Richardson",
+       "line": "1 REC, 25 YDS",
+       "team": "2751"
       }
      ],
-     "situation": "3rd & 8 at CONN 20",
-     "possession": "41",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02,
+     "progress": 0.06138888888888888,
      "venue_indoor": false,
      "venue": "War Memorial Stadium",
      "venue_id": "3984",
@@ -4067,8 +4070,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "13:00 - 1st",
-     "detail": "13:00",
+     "status_short": "12:05 - 1st",
+     "detail": "12:05",
      "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ESPN+",
@@ -4108,13 +4111,13 @@
       {
        "cat": "PASS",
        "name": "C. Harrell",
-       "line": "1/2, 5 YDS",
+       "line": "1/3, 5 YDS",
        "team": "2429"
       },
       {
        "cat": "RUSH",
        "name": "K. Alexander",
-       "line": "2 CAR, 3 YDS",
+       "line": "2 CAR, 5 YDS",
        "team": "2429"
       },
       {
@@ -4124,12 +4127,12 @@
        "team": "2429"
       }
      ],
-     "situation": "2nd & 10 at CLT 35",
-     "possession": "2429",
+     "situation": "1st & 10 at NAVY 27",
+     "possession": "2426",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.033333333333333326,
+     "progress": 0.048611111111111105,
      "venue_indoor": false,
      "venue": "Jerry Richardson Stadium",
      "venue_id": "4418",
@@ -4143,8 +4146,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "13:14 - 1st",
-     "detail": "13:14",
+     "status_short": "11:42 - 1st",
+     "detail": "11:42",
      "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "CBSSN",
@@ -4183,29 +4186,23 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "J. Glasser",
-       "line": "1/1, 0 YDS",
-       "team": "2117"
+       "name": "K. Luster",
+       "line": "2, 0 YDS",
+       "team": "2050"
       },
       {
        "cat": "RUSH",
        "name": "J. Clerveaux",
        "line": "2 CAR, 8 YDS",
        "team": "2117"
-      },
-      {
-       "cat": "REC",
-       "name": "N. Williams",
-       "line": "1 REC, 0 YDS",
-       "team": "2117"
       }
      ],
-     "situation": "3rd & 7 at CMU 28",
+     "situation": "",
      "possession": "2117",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.02944444444444444,
+     "progress": 0.05499999999999999,
      "venue_indoor": false,
      "venue": "Scheumann Stadium",
      "venue_id": "3919",
@@ -4217,11 +4214,11 @@
     {
      "id": "401869954",
      "league": "CFB",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/28 - 12:00 PM EST",
-     "detail": "0:00",
-     "period": 0,
+     "status_short": "12:42 - 1st",
+     "detail": "12:42",
+     "period": 1,
      "start_utc": "2026-11-28T17:00Z",
      "network": "ESPNU",
      "home": {
@@ -4233,7 +4230,9 @@
       "rank": null,
       "score": "0",
       "record": "7-4",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "290",
       "color": "#041e42",
       "alt_color": "#a3aaae"
@@ -4247,7 +4246,9 @@
       "rank": null,
       "score": "0",
       "record": "9-2",
-      "periods": [],
+      "periods": [
+       "0"
+      ],
       "id": "2348",
       "color": "#003087",
       "alt_color": "#cb333b"
@@ -4255,42 +4256,36 @@
      "leaders": [
       {
        "cat": "PASS",
-       "name": "M. Johnson",
-       "line": "2625 YDS, 20 TD, 3 INT",
-       "team": "290"
+       "name": "B. Baker",
+       "line": "2/2, 35 YDS",
+       "team": "2348"
       },
       {
        "cat": "RUSH",
-       "name": "A. Burnette",
-       "line": "103 CAR, 414 YDS, 4 TD",
+       "name": "T. Kukuk",
+       "line": "1 CAR, 5 YDS",
        "team": "2348"
       },
       {
        "cat": "REC",
-       "name": "J. Mickens",
-       "line": "61 REC, 805 YDS, 5 TD",
+       "name": "E. Finley",
+       "line": "2 REC, 35 YDS",
        "team": "2348"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "3rd & 2 at GASO 34",
+     "possession": "2348",
      "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.03833333333333333,
      "venue_indoor": false,
      "venue": "Allen E. Paulson Stadium",
      "venue_id": "3608",
      "venue_city": "Statesboro",
      "venue_state": "GA",
      "venue_country": "USA",
-     "line": {
-      "provider": "Draft Kings",
-      "detail": "GASO -1.5",
-      "spread": -1.5,
-      "total": 52.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401858537",
@@ -7032,7 +7027,7 @@
      "venue_country": "England",
      "line": {
       "provider": "DraftKings",
-      "detail": "AVL +105",
+      "detail": "AVL +100",
       "total": 2.5
      }
     }
@@ -7807,7 +7802,7 @@
      "venue_country": "USA",
      "line": {
       "provider": "Draft Kings",
-      "detail": "WSH -112",
+      "detail": "WSH -118",
       "spread": 1.5,
       "total": 6.5,
       "favorite": "away"
