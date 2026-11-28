@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:47:17Z",
+ "fetched_at": "2026-11-28T00:52:22Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1446,6 +1446,82 @@
    "league": "CFB",
    "games": [
     {
+     "id": "401856756",
+     "league": "CFB",
+     "state": "in",
+     "completed": false,
+     "status_short": "10:40 - 1st",
+     "detail": "10:40",
+     "period": 1,
+     "start_utc": "2026-11-28T00:30Z",
+     "network": "ABC",
+     "home": {
+      "abbr": "TA&M",
+      "full": "Texas A&M Aggies",
+      "name": "Texas A&M",
+      "school": "Texas A&M",
+      "mascot": "Aggies",
+      "rank": null,
+      "score": "0",
+      "record": "4-7",
+      "periods": [
+       "0"
+      ],
+      "id": "245",
+      "color": "#500000",
+      "alt_color": "#ffffff"
+     },
+     "away": {
+      "abbr": "TEX",
+      "full": "Texas Longhorns",
+      "name": "Texas",
+      "school": "Texas",
+      "mascot": "Longhorns",
+      "rank": 3,
+      "score": "0",
+      "record": "9-2",
+      "periods": [
+       "0"
+      ],
+      "id": "251",
+      "color": "#af5c37",
+      "alt_color": "#ffffff"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "B. Hart",
+       "line": "2/3, 14 YDS",
+       "team": "245"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Morrow",
+       "line": "2 CAR, 6 YDS",
+       "team": "245"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Craver",
+       "line": "2 REC, 14 YDS",
+       "team": "245"
+      }
+     ],
+     "situation": "4th & 9 at TEX 21",
+     "possession": "251",
+     "red_zone": false,
+     "to_home": 3,
+     "to_away": 3,
+     "progress": 0.07222222222222222,
+     "venue_indoor": false,
+     "venue": "Kyle Field",
+     "venue_id": "3795",
+     "venue_city": "College Station",
+     "venue_state": "TX",
+     "venue_country": "USA",
+     "line": null
+    },
+    {
      "id": "401858536",
      "league": "CFB",
      "state": "post",
@@ -1693,82 +1769,6 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-27T20:26:48Z"
-    },
-    {
-     "id": "401856756",
-     "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "13:43 - 1st",
-     "detail": "13:43",
-     "period": 1,
-     "start_utc": "2026-11-28T00:30Z",
-     "network": "ABC",
-     "home": {
-      "abbr": "TA&M",
-      "full": "Texas A&M Aggies",
-      "name": "Texas A&M",
-      "school": "Texas A&M",
-      "mascot": "Aggies",
-      "rank": null,
-      "score": "0",
-      "record": "4-7",
-      "periods": [
-       "0"
-      ],
-      "id": "245",
-      "color": "#500000",
-      "alt_color": "#ffffff"
-     },
-     "away": {
-      "abbr": "TEX",
-      "full": "Texas Longhorns",
-      "name": "Texas",
-      "school": "Texas",
-      "mascot": "Longhorns",
-      "rank": 3,
-      "score": "0",
-      "record": "9-2",
-      "periods": [
-       "0"
-      ],
-      "id": "251",
-      "color": "#af5c37",
-      "alt_color": "#ffffff"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "B. Hart",
-       "line": "1/1, 6 YDS",
-       "team": "245"
-      },
-      {
-       "cat": "RUSH",
-       "name": "J. Morrow",
-       "line": "2 CAR, 6 YDS",
-       "team": "245"
-      },
-      {
-       "cat": "REC",
-       "name": "M. Craver",
-       "line": "1 REC, 6 YDS",
-       "team": "245"
-      }
-     ],
-     "situation": "1st & 10 at TA&M 37",
-     "possession": "245",
-     "red_zone": false,
-     "to_home": 3,
-     "to_away": 3,
-     "progress": 0.0213888888888889,
-     "venue_indoor": false,
-     "venue": "Kyle Field",
-     "venue_id": "3795",
-     "venue_city": "College Station",
-     "venue_state": "TX",
-     "venue_country": "USA",
-     "line": null
     },
     {
      "id": "401856880",
@@ -3272,8 +3272,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:07 - 4th",
-     "detail": "1:07",
+     "status_short": "0:13 - 4th",
+     "detail": "0:13",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3335,12 +3335,12 @@
        "team": "167"
       }
      ],
-     "situation": "1st & 10 at UNM 38",
+     "situation": "2nd & 10 at UNM 12",
      "possession": "2005",
-     "red_zone": false,
+     "red_zone": true,
      "to_home": 1,
      "to_away": 1,
-     "progress": 0.9813888888888889,
+     "progress": 0.9963888888888889,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -3354,8 +3354,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "10:58 - 1st",
-     "detail": "10:58",
+     "status_short": "9:23 - 1st",
+     "detail": "9:23",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "NBC",
@@ -3382,10 +3382,10 @@
       "school": "Minnesota",
       "mascot": "Golden Gophers",
       "rank": null,
-      "score": "0",
+      "score": "3",
       "record": "6-5",
       "periods": [
-       "0"
+       "3"
       ],
       "id": "135",
       "color": "#5e0a2f",
@@ -3411,12 +3411,12 @@
        "team": "275"
       }
      ],
-     "situation": "2nd & 10 at WIS 40",
-     "possession": "135",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.06722222222222221,
+     "progress": 0.09361111111111112,
      "venue_indoor": false,
      "venue": "Camp Randall Stadium",
      "venue_id": "347",
@@ -6956,8 +6956,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "8:56 - 2nd",
-     "detail": "8:56",
+     "status_short": "6:39 - 2nd",
+     "detail": "6:39",
      "period": 2,
      "start_utc": "2026-11-28T00:00Z",
      "network": "Prime Video",
@@ -6968,11 +6968,11 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "25",
+      "score": "27",
       "record": "12-6",
       "periods": [
        "21",
-       "4"
+       "6"
       ],
       "id": "18",
       "color": "#1d428a",
@@ -6985,11 +6985,11 @@
       "school": "Miami",
       "mascot": "Heat",
       "rank": null,
-      "score": "35",
+      "score": "48",
       "record": "10-7",
       "periods": [
        "31",
-       "4"
+       "17"
       ],
       "id": "14",
       "color": "#98002e",
@@ -7001,7 +7001,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.35111111111111115,
+     "progress": 0.38916666666666666,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
@@ -7015,8 +7015,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "8:51 - 1st",
-     "detail": "8:51",
+     "status_short": "6:39 - 1st",
+     "detail": "6:39",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "MyMi",
@@ -7027,10 +7027,10 @@
       "school": "Detroit",
       "mascot": "Pistons",
       "rank": null,
-      "score": "2",
+      "score": "3",
       "record": "11-6",
       "periods": [
-       "2"
+       "3"
       ],
       "id": "8",
       "color": "#1d428a",
@@ -7058,7 +7058,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.10250000000000001,
+     "progress": 0.13916666666666666,
      "venue_indoor": true,
      "venue": "Little Caesars Arena",
      "venue_id": "5404",
@@ -7072,8 +7072,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "9:35 - 1st",
-     "detail": "9:35",
+     "status_short": "6:47 - 1st",
+     "detail": "6:47",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "",
@@ -7084,10 +7084,10 @@
       "school": "Indiana",
       "mascot": "Pacers",
       "rank": null,
-      "score": "3",
+      "score": "7",
       "record": "6-12",
       "periods": [
-       "3"
+       "7"
       ],
       "id": "11",
       "color": "#0c2340",
@@ -7100,10 +7100,10 @@
       "school": "Philadelphia",
       "mascot": "76ers",
       "rank": null,
-      "score": "10",
+      "score": "17",
       "record": "15-4",
       "periods": [
-       "10"
+       "17"
       ],
       "id": "20",
       "color": "#1d428a",
@@ -7115,7 +7115,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.09027777777777779,
+     "progress": 0.13694444444444442,
      "venue_indoor": true,
      "venue": "Gainbridge Fieldhouse",
      "venue_id": "2183",
@@ -7129,8 +7129,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "10:57 - 1st",
-     "detail": "10:57",
+     "status_short": "7:57 - 1st",
+     "detail": "7:57",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "DAZN (YES)",
@@ -7141,10 +7141,10 @@
       "school": "Toronto",
       "mascot": "Raptors",
       "rank": null,
-      "score": "5",
+      "score": "10",
       "record": "6-11",
       "periods": [
-       "5"
+       "10"
       ],
       "id": "28",
       "color": "#d91244",
@@ -7157,10 +7157,10 @@
       "school": "Brooklyn",
       "mascot": "Nets",
       "rank": null,
-      "score": "2",
+      "score": "11",
       "record": "4-13",
       "periods": [
-       "2"
+       "11"
       ],
       "id": "17",
       "color": "#000000",
@@ -7172,7 +7172,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.0675,
+     "progress": 0.1175,
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "venue_id": "1838",
@@ -8294,8 +8294,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "11:22 - 3rd",
-     "detail": "11:22",
+     "status_short": "9:14 - 3rd",
+     "detail": "9:14",
      "period": 3,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8341,7 +8341,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.8105555555555556,
+     "progress": 0.846111111111111,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
@@ -8355,8 +8355,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "14:23 - 1st",
-     "detail": "14:23",
+     "status_short": "12:38 - 1st",
+     "detail": "12:38",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "MSGSN",
@@ -8398,7 +8398,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.09361111111111113,
+     "progress": 0.12277777777777776,
      "venue_indoor": true,
      "venue": "UBS Arena",
      "venue_id": "7226",
