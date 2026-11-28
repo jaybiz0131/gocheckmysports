@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:52:22Z",
+ "fetched_at": "2026-11-28T00:57:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1450,8 +1450,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "10:40 - 1st",
-     "detail": "10:40",
+     "status_short": "9:49 - 1st",
+     "detail": "9:49",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "ABC",
@@ -1478,10 +1478,10 @@
       "school": "Texas",
       "mascot": "Longhorns",
       "rank": 3,
-      "score": "0",
+      "score": "3",
       "record": "9-2",
       "periods": [
-       "0"
+       "3"
       ],
       "id": "251",
       "color": "#af5c37",
@@ -1507,12 +1507,12 @@
        "team": "245"
       }
      ],
-     "situation": "4th & 9 at TEX 21",
-     "possession": "251",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.07222222222222222,
+     "progress": 0.08638888888888888,
      "venue_indoor": false,
      "venue": "Kyle Field",
      "venue_id": "3795",
@@ -3270,10 +3270,10 @@
     {
      "id": "401864546",
      "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "0:13 - 4th",
-     "detail": "0:13",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3285,7 +3285,7 @@
       "mascot": "Lobos",
       "rank": null,
       "score": "42",
-      "record": "9-2",
+      "record": "10-2",
       "periods": [
        "14",
        "7",
@@ -3304,7 +3304,7 @@
       "mascot": "Falcons",
       "rank": null,
       "score": "19",
-      "record": "9-2",
+      "record": "9-3",
       "periods": [
        "7",
        "6",
@@ -3335,27 +3335,28 @@
        "team": "167"
       }
      ],
-     "situation": "2nd & 10 at UNM 12",
-     "possession": "2005",
-     "red_zone": true,
-     "to_home": 1,
-     "to_away": 1,
-     "progress": 0.9963888888888889,
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
      "venue_city": "Albuquerque",
      "venue_state": "NM",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-28T00:57:18Z"
     },
     {
      "id": "401858544",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "9:23 - 1st",
-     "detail": "9:23",
+     "status_short": "6:03 - 1st",
+     "detail": "6:03",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "NBC",
@@ -3395,13 +3396,13 @@
       {
        "cat": "PASS",
        "name": "C. Joseph",
-       "line": "1/3, 24 YDS, 1 INT",
+       "line": "2/5, 26 YDS, 1 INT",
        "team": "275"
       },
       {
        "cat": "RUSH",
        "name": "C. Joseph",
-       "line": "1 CAR, 15 YDS",
+       "line": "3 CAR, 27 YDS",
        "team": "275"
       },
       {
@@ -3411,12 +3412,12 @@
        "team": "275"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "3rd & 4 at MINN 39",
+     "possession": "275",
      "red_zone": false,
-     "to_home": 3,
+     "to_home": 2,
      "to_away": 3,
-     "progress": 0.09361111111111112,
+     "progress": 0.14916666666666667,
      "venue_indoor": false,
      "venue": "Camp Randall Stadium",
      "venue_id": "347",
@@ -6956,8 +6957,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:39 - 2nd",
-     "detail": "6:39",
+     "status_short": "5:23 - 2nd",
+     "detail": "5:23",
      "period": 2,
      "start_utc": "2026-11-28T00:00Z",
      "network": "Prime Video",
@@ -6968,11 +6969,11 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "27",
+      "score": "29",
       "record": "12-6",
       "periods": [
        "21",
-       "6"
+       "8"
       ],
       "id": "18",
       "color": "#1d428a",
@@ -7001,7 +7002,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.38916666666666666,
+     "progress": 0.4102777777777778,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
@@ -7015,8 +7016,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:39 - 1st",
-     "detail": "6:39",
+     "status_short": "5:07 - 1st",
+     "detail": "5:07",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "MyMi",
@@ -7027,10 +7028,10 @@
       "school": "Detroit",
       "mascot": "Pistons",
       "rank": null,
-      "score": "3",
+      "score": "5",
       "record": "11-6",
       "periods": [
-       "3"
+       "5"
       ],
       "id": "8",
       "color": "#1d428a",
@@ -7043,10 +7044,10 @@
       "school": "Milwaukee",
       "mascot": "Bucks",
       "rank": null,
-      "score": "10",
+      "score": "19",
       "record": "2-17",
       "periods": [
-       "10"
+       "19"
       ],
       "id": "15",
       "color": "#00471b",
@@ -7058,7 +7059,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.13916666666666666,
+     "progress": 0.16472222222222221,
      "venue_indoor": true,
      "venue": "Little Caesars Arena",
      "venue_id": "5404",
@@ -7072,8 +7073,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:47 - 1st",
-     "detail": "6:47",
+     "status_short": "4:20 - 1st",
+     "detail": "4:20",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "",
@@ -7084,10 +7085,10 @@
       "school": "Indiana",
       "mascot": "Pacers",
       "rank": null,
-      "score": "7",
+      "score": "11",
       "record": "6-12",
       "periods": [
-       "7"
+       "11"
       ],
       "id": "11",
       "color": "#0c2340",
@@ -7100,10 +7101,10 @@
       "school": "Philadelphia",
       "mascot": "76ers",
       "rank": null,
-      "score": "17",
+      "score": "21",
       "record": "15-4",
       "periods": [
-       "17"
+       "21"
       ],
       "id": "20",
       "color": "#1d428a",
@@ -7115,7 +7116,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.13694444444444442,
+     "progress": 0.17777777777777778,
      "venue_indoor": true,
      "venue": "Gainbridge Fieldhouse",
      "venue_id": "2183",
@@ -7129,8 +7130,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:57 - 1st",
-     "detail": "7:57",
+     "status_short": "6:51 - 1st",
+     "detail": "6:51",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "DAZN (YES)",
@@ -7141,10 +7142,10 @@
       "school": "Toronto",
       "mascot": "Raptors",
       "rank": null,
-      "score": "10",
+      "score": "17",
       "record": "6-11",
       "periods": [
-       "10"
+       "17"
       ],
       "id": "28",
       "color": "#d91244",
@@ -7157,10 +7158,10 @@
       "school": "Brooklyn",
       "mascot": "Nets",
       "rank": null,
-      "score": "11",
+      "score": "13",
       "record": "4-13",
       "periods": [
-       "11"
+       "13"
       ],
       "id": "17",
       "color": "#000000",
@@ -7172,7 +7173,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.1175,
+     "progress": 0.13583333333333333,
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "venue_id": "1838",
@@ -8294,8 +8295,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "9:14 - 3rd",
-     "detail": "9:14",
+     "status_short": "6:22 - 3rd",
+     "detail": "6:22",
      "period": 3,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8341,7 +8342,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.846111111111111,
+     "progress": 0.8938888888888888,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
@@ -8355,8 +8356,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "12:38 - 1st",
-     "detail": "12:38",
+     "status_short": "8:04 - 1st",
+     "detail": "8:04",
      "period": 1,
      "start_utc": "2026-11-28T00:30Z",
      "network": "MSGSN",
@@ -8398,7 +8399,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.12277777777777776,
+     "progress": 0.1988888888888889,
      "venue_indoor": true,
      "venue": "UBS Arena",
      "venue_id": "7226",
