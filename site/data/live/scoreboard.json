@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:12:18Z",
+ "fetched_at": "2026-11-28T00:17:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -3274,8 +3274,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:23 - 4th",
-     "detail": "1:23",
+     "status_short": "0:13 - 4th",
+     "detail": "0:13",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3321,7 +3321,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "24/44, 261 YDS, 2 TD, 2 INT",
+       "line": "26/47, 306 YDS, 2 TD, 2 INT",
        "team": "23"
       },
       {
@@ -3332,17 +3332,17 @@
       },
       {
        "cat": "REC",
-       "name": "J. Williams",
-       "line": "7 REC, 117 YDS, 1 TD",
-       "team": "2449"
+       "name": "C. Clark",
+       "line": "13 REC, 137 YDS, 2 TD",
+       "team": "23"
       }
      ],
-     "situation": "4th & 2 at NDSU 23",
-     "possession": "2449",
+     "situation": "",
+     "possession": "23",
      "red_zone": false,
      "to_home": 0,
-     "to_away": 1,
-     "progress": 0.9769444444444444,
+     "to_away": 0,
+     "progress": 0.9963888888888889,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3356,8 +3356,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "13:27 - 4th",
-     "detail": "13:27",
+     "status_short": "11:57 - 4th",
+     "detail": "11:57",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3368,13 +3368,13 @@
       "school": "New Mexico",
       "mascot": "Lobos",
       "rank": null,
-      "score": "28",
+      "score": "35",
       "record": "9-2",
       "periods": [
        "14",
        "7",
        "7",
-       "0"
+       "7"
       ],
       "id": "167",
       "color": "#ba0c2f",
@@ -3403,7 +3403,7 @@
       {
        "cat": "PASS",
        "name": "L. Moga",
-       "line": "16/23, 219 YDS, 1 TD, 1 INT",
+       "line": "18/25, 241 YDS, 2 TD, 1 INT",
        "team": "167"
       },
       {
@@ -3415,16 +3415,16 @@
       {
        "cat": "REC",
        "name": "B. George",
-       "line": "5 REC, 83 YDS, 1 TD",
+       "line": "6 REC, 100 YDS, 2 TD",
        "team": "167"
       }
      ],
-     "situation": "1st & 10 at AF 17",
-     "possession": "167",
-     "red_zone": true,
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.7758333333333334,
+     "progress": 0.8008333333333333,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -6957,11 +6957,11 @@
     {
      "id": "401909326",
      "league": "NBA",
-     "state": "pre",
+     "state": "in",
      "completed": false,
-     "status_short": "11/27 - 7:00 PM EST",
-     "detail": "0.0",
-     "period": 0,
+     "status_short": "8:59 - 1st",
+     "detail": "8:59",
+     "period": 1,
      "start_utc": "2026-11-28T00:00Z",
      "network": "Prime Video",
      "home": {
@@ -6971,9 +6971,11 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "0",
+      "score": "7",
       "record": "12-6",
-      "periods": [],
+      "periods": [
+       "7"
+      ],
       "id": "18",
       "color": "#1d428a",
       "alt_color": "#f58426"
@@ -6985,9 +6987,11 @@
       "school": "Miami",
       "mascot": "Heat",
       "rank": null,
-      "score": "0",
+      "score": "8",
       "record": "10-7",
-      "periods": [],
+      "periods": [
+       "8"
+      ],
       "id": "14",
       "color": "#98002e",
       "alt_color": "#000000"
@@ -6998,20 +7002,14 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": null,
+     "progress": 0.10027777777777777,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
      "venue_city": "New York",
      "venue_state": "NY",
      "venue_country": "",
-     "line": {
-      "provider": "DraftKings",
-      "detail": "NY -2.5",
-      "spread": -2.5,
-      "total": 221.5,
-      "favorite": "home"
-     }
+     "line": null
     },
     {
      "id": "401909327",
@@ -8303,8 +8301,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "1:05 - 2nd",
-     "detail": "1:05",
+     "status_short": "End of 2nd",
+     "detail": "0:00",
      "period": 2,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8348,7 +8346,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6486111111111111,
+     "progress": 0.6666666666666666,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
