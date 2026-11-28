@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T04:07:18Z",
+ "fetched_at": "2026-11-28T04:12:19Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1450,9 +1450,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "Halftime",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "14:23 - 3rd",
+     "detail": "14:23",
+     "period": 3,
      "start_utc": "2026-11-28T02:00Z",
      "network": "Fox",
      "home": {
@@ -1462,11 +1462,12 @@
       "school": "Utah",
       "mascot": "Utes",
       "rank": 2,
-      "score": "38",
+      "score": "45",
       "record": "11-0",
       "periods": [
        "10",
-       "28"
+       "28",
+       "7"
       ],
       "id": "254",
       "color": "#be0000",
@@ -1483,7 +1484,8 @@
       "record": "5-6",
       "periods": [
        "0",
-       "7"
+       "7",
+       "0"
       ],
       "id": "277",
       "color": "#eaaa00",
@@ -1493,7 +1495,7 @@
       {
        "cat": "PASS",
        "name": "D. Dampier",
-       "line": "13/16, 251 YDS, 3 TD",
+       "line": "14/17, 326 YDS, 4 TD",
        "team": "254"
       },
       {
@@ -1505,16 +1507,16 @@
       {
        "cat": "REC",
        "name": "B. Pegan",
-       "line": "4 REC, 59 YDS, 1 TD",
+       "line": "5 REC, 134 YDS, 2 TD",
        "team": "254"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "4th & 7 at WVU 28",
+     "possession": "277",
      "red_zone": false,
      "to_home": 3,
      "to_away": 2,
-     "progress": 0.5,
+     "progress": 0.5102777777777778,
      "venue_indoor": false,
      "venue": "Rice-Eccles Stadium",
      "venue_id": "587",
@@ -3275,89 +3277,6 @@
      "final_seen_utc": "2026-11-25T10:42:06Z"
     },
     {
-     "id": "401858544",
-     "league": "CFB",
-     "state": "post",
-     "completed": true,
-     "status_short": "Final",
-     "detail": "0:00",
-     "period": 4,
-     "start_utc": "2026-11-28T00:30Z",
-     "network": "NBC",
-     "home": {
-      "abbr": "WIS",
-      "full": "Wisconsin Badgers",
-      "name": "Wisconsin",
-      "school": "Wisconsin",
-      "mascot": "Badgers",
-      "rank": null,
-      "score": "28",
-      "record": "8-4",
-      "periods": [
-       "0",
-       "21",
-       "7",
-       "0"
-      ],
-      "id": "275",
-      "color": "#a00000",
-      "alt_color": "#ffffff"
-     },
-     "away": {
-      "abbr": "MINN",
-      "full": "Minnesota Golden Gophers",
-      "name": "Minnesota",
-      "school": "Minnesota",
-      "mascot": "Golden Gophers",
-      "rank": null,
-      "score": "5",
-      "record": "6-6",
-      "periods": [
-       "3",
-       "0",
-       "2",
-       "0"
-      ],
-      "id": "135",
-      "color": "#5e0a2f",
-      "alt_color": "#fab41c"
-     },
-     "leaders": [
-      {
-       "cat": "PASS",
-       "name": "C. Joseph",
-       "line": "12/18, 217 YDS, 1 TD, 2 INT",
-       "team": "275"
-      },
-      {
-       "cat": "RUSH",
-       "name": "C. Joseph",
-       "line": "20 CAR, 101 YDS, 2 TD",
-       "team": "275"
-      },
-      {
-       "cat": "REC",
-       "name": "E. Hilton Jr.",
-       "line": "2 REC, 59 YDS",
-       "team": "275"
-      }
-     ],
-     "situation": "",
-     "possession": "",
-     "red_zone": false,
-     "to_home": null,
-     "to_away": null,
-     "progress": null,
-     "venue_indoor": false,
-     "venue": "Camp Randall Stadium",
-     "venue_id": "347",
-     "venue_city": "Madison",
-     "venue_state": "WI",
-     "venue_country": "USA",
-     "line": null,
-     "final_seen_utc": "2026-11-28T03:57:18Z"
-    },
-    {
      "id": "401862840",
      "league": "CFB",
      "state": "post",
@@ -3937,6 +3856,89 @@
      "venue_country": "USA",
      "line": null,
      "final_seen_utc": "2026-11-28T00:57:18Z"
+    },
+    {
+     "id": "401858544",
+     "league": "CFB",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
+     "period": 4,
+     "start_utc": "2026-11-28T00:30Z",
+     "network": "NBC",
+     "home": {
+      "abbr": "WIS",
+      "full": "Wisconsin Badgers",
+      "name": "Wisconsin",
+      "school": "Wisconsin",
+      "mascot": "Badgers",
+      "rank": null,
+      "score": "28",
+      "record": "8-4",
+      "periods": [
+       "0",
+       "21",
+       "7",
+       "0"
+      ],
+      "id": "275",
+      "color": "#a00000",
+      "alt_color": "#ffffff"
+     },
+     "away": {
+      "abbr": "MINN",
+      "full": "Minnesota Golden Gophers",
+      "name": "Minnesota",
+      "school": "Minnesota",
+      "mascot": "Golden Gophers",
+      "rank": null,
+      "score": "5",
+      "record": "6-6",
+      "periods": [
+       "3",
+       "0",
+       "2",
+       "0"
+      ],
+      "id": "135",
+      "color": "#5e0a2f",
+      "alt_color": "#fab41c"
+     },
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "C. Joseph",
+       "line": "12/18, 217 YDS, 1 TD, 2 INT",
+       "team": "275"
+      },
+      {
+       "cat": "RUSH",
+       "name": "C. Joseph",
+       "line": "20 CAR, 101 YDS, 2 TD",
+       "team": "275"
+      },
+      {
+       "cat": "REC",
+       "name": "E. Hilton Jr.",
+       "line": "2 REC, 59 YDS",
+       "team": "275"
+      }
+     ],
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
+     "venue_indoor": false,
+     "venue": "Camp Randall Stadium",
+     "venue_id": "347",
+     "venue_city": "Madison",
+     "venue_state": "WI",
+     "venue_country": "USA",
+     "line": null,
+     "final_seen_utc": "2026-11-28T03:57:18Z"
     },
     {
      "id": "401858313",
@@ -7355,8 +7357,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "6:58 - 4th",
-     "detail": "6:58",
+     "status_short": "5:31 - 4th",
+     "detail": "5:31",
      "period": 4,
      "start_utc": "2026-11-28T02:00Z",
      "network": "Arizona's Family 3TV",
@@ -7386,13 +7388,13 @@
       "school": "Dallas",
       "mascot": "Mavericks",
       "rank": null,
-      "score": "89",
+      "score": "94",
       "record": "11-7",
       "periods": [
        "28",
        "25",
        "25",
-       "11"
+       "16"
       ],
       "id": "6",
       "color": "#0064b1",
@@ -7404,7 +7406,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.883888888888889,
+     "progress": 0.9080555555555556,
      "venue_indoor": true,
      "venue": "Mortgage Matchup Center",
      "venue_id": "1949",
@@ -7418,8 +7420,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:51 - 3rd",
-     "detail": "7:51",
+     "status_short": "6:16 - 3rd",
+     "detail": "6:16",
      "period": 3,
      "start_utc": "2026-11-28T02:30Z",
      "network": "Prime Video",
@@ -7430,12 +7432,12 @@
       "school": "San Antonio",
       "mascot": "Spurs",
       "rank": null,
-      "score": "52",
+      "score": "54",
       "record": "15-4",
       "periods": [
        "14",
        "24",
-       "14"
+       "16"
       ],
       "id": "24",
       "color": "#000000",
@@ -7448,12 +7450,12 @@
       "school": "Los Angeles",
       "mascot": "Lakers",
       "rank": null,
-      "score": "61",
+      "score": "66",
       "record": "15-3",
       "periods": [
        "27",
        "27",
-       "7"
+       "12"
       ],
       "id": "13",
       "color": "#552583",
@@ -7465,7 +7467,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6191666666666666,
+     "progress": 0.6455555555555555,
      "venue_indoor": true,
      "venue": "Frost Bank Center",
      "venue_id": "780",
@@ -7479,8 +7481,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "3:08 - 3rd",
-     "detail": "3:08",
+     "status_short": "1:38 - 3rd",
+     "detail": "1:38",
      "period": 3,
      "start_utc": "2026-11-28T02:30Z",
      "network": "KJZZ-TV",
@@ -7491,12 +7493,12 @@
       "school": "Utah",
       "mascot": "Jazz",
       "rank": null,
-      "score": "78",
+      "score": "83",
       "record": "3-16",
       "periods": [
        "22",
        "31",
-       "25"
+       "30"
       ],
       "id": "26",
       "color": "#4e008e",
@@ -7509,12 +7511,12 @@
       "school": "Denver",
       "mascot": "Nuggets",
       "rank": null,
-      "score": "75",
+      "score": "81",
       "record": "10-6",
       "periods": [
        "27",
        "25",
-       "23"
+       "29"
       ],
       "id": "7",
       "color": "#0e2240",
@@ -7526,7 +7528,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6977777777777778,
+     "progress": 0.7227777777777777,
      "venue_indoor": true,
      "venue": "Delta Center",
      "venue_id": "3093",
@@ -7540,8 +7542,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "4:34 - 3rd",
-     "detail": "4:34",
+     "status_short": "2:49 - 3rd",
+     "detail": "2:49",
      "period": 3,
      "start_utc": "2026-11-28T02:30Z",
      "network": "ClipperVision",
@@ -7552,12 +7554,12 @@
       "school": "LA",
       "mascot": "Clippers",
       "rank": null,
-      "score": "65",
+      "score": "70",
       "record": "4-13",
       "periods": [
        "28",
        "22",
-       "15"
+       "20"
       ],
       "id": "12",
       "color": "#12173f",
@@ -7587,7 +7589,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6738888888888889,
+     "progress": 0.7030555555555555,
      "venue_indoor": true,
      "venue": "Intuit Dome",
      "venue_id": "10642",
@@ -7601,8 +7603,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:59 - 3rd",
-     "detail": "7:59",
+     "status_short": "5:56 - 3rd",
+     "detail": "5:56",
      "period": 3,
      "start_utc": "2026-11-28T02:30Z",
      "network": "KUNP 16",
@@ -7613,12 +7615,12 @@
       "school": "Portland",
       "mascot": "Trail Blazers",
       "rank": null,
-      "score": "73",
+      "score": "79",
       "record": "12-6",
       "periods": [
        "37",
        "30",
-       "6"
+       "12"
       ],
       "id": "22",
       "color": "#e03a3e",
@@ -7631,12 +7633,12 @@
       "school": "Golden State",
       "mascot": "Warriors",
       "rank": null,
-      "score": "55",
+      "score": "63",
       "record": "10-8",
       "periods": [
        "11",
        "33",
-       "11"
+       "19"
       ],
       "id": "9",
       "color": "#fdb927",
@@ -7648,7 +7650,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6169444444444444,
+     "progress": 0.6511111111111111,
      "venue_indoor": true,
      "venue": "Moda Center",
      "venue_id": "3423",
