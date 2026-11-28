@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:22:19Z",
+ "fetched_at": "2026-11-28T00:27:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1576,7 +1576,26 @@
       "color": "#0021a5",
       "alt_color": "#fa4616"
      },
-     "leaders": [],
+     "leaders": [
+      {
+       "cat": "PASS",
+       "name": "A. Daniels",
+       "line": "18/32, 183 YDS, 2 INT",
+       "team": "52"
+      },
+      {
+       "cat": "RUSH",
+       "name": "J. Baugh",
+       "line": "19 CAR, 77 YDS, 1 TD",
+       "team": "57"
+      },
+      {
+       "cat": "REC",
+       "name": "M. Danzy",
+       "line": "2 REC, 75 YDS",
+       "team": "52"
+      }
+     ],
      "situation": "",
      "possession": "",
      "red_zone": false,
@@ -3253,10 +3272,10 @@
     {
      "id": "401864549",
      "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "0:04 - 4th",
-     "detail": "0:04",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3268,7 +3287,7 @@
       "mascot": "Spartans",
       "rank": null,
       "score": "31",
-      "record": "5-7",
+      "record": "5-8",
       "periods": [
        "7",
        "7",
@@ -3287,7 +3306,7 @@
       "mascot": "Bison",
       "rank": null,
       "score": "38",
-      "record": "9-2",
+      "record": "10-2",
       "periods": [
        "14",
        "10",
@@ -3302,7 +3321,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "26/49, 306 YDS, 2 TD, 2 INT",
+       "line": "26/50, 306 YDS, 2 TD, 3 INT",
        "team": "23"
       },
       {
@@ -3318,27 +3337,28 @@
        "team": "23"
       }
      ],
-     "situation": "3rd & 10 at NDSU 14",
-     "possession": "23",
-     "red_zone": true,
-     "to_home": 0,
-     "to_away": 0,
-     "progress": 0.9988888888888889,
+     "situation": "",
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
      "venue_city": "San Jose",
      "venue_state": "CA",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-28T00:27:18Z"
     },
     {
      "id": "401864546",
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "11:47 - 4th",
-     "detail": "11:47",
+     "status_short": "7:42 - 4th",
+     "detail": "7:42",
      "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
@@ -3400,12 +3420,12 @@
        "team": "167"
       }
      ],
-     "situation": "",
-     "possession": "",
+     "situation": "4th & 5 at UNM 35",
+     "possession": "2005",
      "red_zone": false,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.803611111111111,
+     "progress": 0.8716666666666667,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -6243,7 +6263,7 @@
       "provider": "DraftKings",
       "detail": "MSU -2.5",
       "spread": 2.5,
-      "total": 46.5,
+      "total": 45.5,
       "favorite": "away"
      }
     },
@@ -6940,8 +6960,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:03 - 1st",
-     "detail": "7:03",
+     "status_short": "5:22 - 1st",
+     "detail": "5:22",
      "period": 1,
      "start_utc": "2026-11-28T00:00Z",
      "network": "Prime Video",
@@ -6952,10 +6972,10 @@
       "school": "New York",
       "mascot": "Knicks",
       "rank": null,
-      "score": "7",
+      "score": "11",
       "record": "12-6",
       "periods": [
-       "7"
+       "11"
       ],
       "id": "18",
       "color": "#1d428a",
@@ -6983,7 +7003,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.1325,
+     "progress": 0.16055555555555556,
      "venue_indoor": true,
      "venue": "Madison Square Garden",
      "venue_id": "1830",
@@ -7340,8 +7360,8 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "PHX -3.5",
-      "spread": -3.5,
+      "detail": "PHX -4.5",
+      "spread": -4.5,
       "total": 225.5,
       "favorite": "home"
      }
