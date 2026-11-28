@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T00:02:18Z",
+ "fetched_at": "2026-11-28T00:07:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1448,10 +1448,10 @@
     {
      "id": "401856759",
      "league": "CFB",
-     "state": "in",
-     "completed": false,
-     "status_short": "0:34 - 4th",
-     "detail": "0:34",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "ABC",
@@ -1463,7 +1463,7 @@
       "mascot": "Seminoles",
       "rank": null,
       "score": "10",
-      "record": "5-6",
+      "record": "5-7",
       "periods": [
        "0",
        "3",
@@ -1482,7 +1482,7 @@
       "mascot": "Gators",
       "rank": 20,
       "score": "26",
-      "record": "7-4",
+      "record": "8-4",
       "periods": [
        "7",
        "3",
@@ -1497,7 +1497,7 @@
       {
        "cat": "PASS",
        "name": "A. Daniels",
-       "line": "17/32, 177 YDS, 2 INT",
+       "line": "18/32, 183 YDS, 2 INT",
        "team": "52"
       },
       {
@@ -1514,18 +1514,19 @@
       }
      ],
      "situation": "",
-     "possession": "52",
-     "red_zone": true,
-     "to_home": 0,
-     "to_away": 1,
-     "progress": 0.9905555555555555,
+     "possession": "",
+     "red_zone": false,
+     "to_home": null,
+     "to_away": null,
+     "progress": null,
      "venue_indoor": false,
      "venue": "Doak Campbell Stadium",
      "venue_id": "3697",
      "venue_city": "Tallahassee",
      "venue_state": "FL",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-28T00:07:18Z"
     },
     {
      "id": "401858536",
@@ -3356,8 +3357,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "2:17 - 4th",
-     "detail": "2:17",
+     "status_short": "1:49 - 4th",
+     "detail": "1:49",
      "period": 4,
      "start_utc": "2026-11-27T20:30Z",
      "network": "CBSSN",
@@ -3403,7 +3404,7 @@
       {
        "cat": "PASS",
        "name": "L. Weaver",
-       "line": "24/42, 252 YDS, 2 TD, 1 INT",
+       "line": "24/43, 261 YDS, 2 TD, 1 INT",
        "team": "23"
       },
       {
@@ -3419,12 +3420,12 @@
        "team": "2449"
       }
      ],
-     "situation": "1st & 10 at SJSU 39",
+     "situation": "",
      "possession": "23",
      "red_zone": false,
      "to_home": 1,
      "to_away": 1,
-     "progress": 0.9619444444444445,
+     "progress": 0.9697222222222222,
      "venue_indoor": false,
      "venue": "CEFCU Stadium",
      "venue_id": "3935",
@@ -3438,9 +3439,9 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:36 - 3rd",
-     "detail": "1:36",
-     "period": 3,
+     "status_short": "15:00 - 4th",
+     "detail": "15:00",
+     "period": 4,
      "start_utc": "2026-11-27T21:30Z",
      "network": "CW",
      "home": {
@@ -3455,7 +3456,8 @@
       "periods": [
        "14",
        "7",
-       "7"
+       "7",
+       "0"
       ],
       "id": "167",
       "color": "#ba0c2f",
@@ -3473,7 +3475,8 @@
       "periods": [
        "7",
        "6",
-       "6"
+       "6",
+       "0"
       ],
       "id": "2005",
       "color": "",
@@ -3483,7 +3486,7 @@
       {
        "cat": "PASS",
        "name": "L. Moga",
-       "line": "14/20, 193 YDS, 1 TD, 1 INT",
+       "line": "15/21, 191 YDS, 1 TD, 1 INT",
        "team": "167"
       },
       {
@@ -3495,16 +3498,16 @@
       {
        "cat": "REC",
        "name": "B. George",
-       "line": "3 REC, 57 YDS, 1 TD",
+       "line": "4 REC, 55 YDS, 1 TD",
        "team": "167"
       }
      ],
-     "situation": "1st & 10 at AF 25",
-     "possession": "",
+     "situation": "2nd & 10 at UNM 33",
+     "possession": "167",
      "red_zone": false,
      "to_home": 1,
      "to_away": 2,
-     "progress": 0.7233333333333334,
+     "progress": 0.75,
      "venue_indoor": false,
      "venue": "University Stadium (NM)",
      "venue_id": "3971",
@@ -3917,8 +3920,8 @@
      "venue_country": "USA",
      "line": {
       "provider": "DraftKings",
-      "detail": "WIS -9.5",
-      "spread": -9.5,
+      "detail": "WIS -8.5",
+      "spread": -8.5,
       "total": 37.5,
       "favorite": "home"
      }
@@ -7122,8 +7125,8 @@
      "venue_country": "",
      "line": {
       "provider": "DraftKings",
-      "detail": "PHI -3.5",
-      "spread": 3.5,
+      "detail": "PHI -4.5",
+      "spread": 4.5,
       "total": 228.5,
       "favorite": "away"
      }
@@ -8300,8 +8303,8 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "6:41 - 2nd",
-     "detail": "6:41",
+     "status_short": "2:38 - 2nd",
+     "detail": "2:38",
      "period": 2,
      "start_utc": "2026-11-27T22:30Z",
      "network": "TNT",
@@ -8345,7 +8348,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.5552777777777778,
+     "progress": 0.6227777777777778,
      "venue_indoor": true,
      "venue": "United Center",
      "venue_id": "1847",
