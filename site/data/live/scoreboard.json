@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-28T03:02:18Z",
+ "fetched_at": "2026-11-28T03:07:18Z",
  "leagues": [
   {
    "league": "NFL",
@@ -1450,8 +1450,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "6:31 - 3rd",
-     "detail": "6:31",
+     "status_short": "4:02 - 3rd",
+     "detail": "4:02",
      "period": 3,
      "start_utc": "2026-11-28T00:30Z",
      "network": "ABC",
@@ -1462,12 +1462,12 @@
       "school": "Texas A&M",
       "mascot": "Aggies",
       "rank": null,
-      "score": "3",
+      "score": "6",
       "record": "4-7",
       "periods": [
        "0",
        "3",
-       "0"
+       "3"
       ],
       "id": "245",
       "color": "#500000",
@@ -1495,7 +1495,7 @@
       {
        "cat": "PASS",
        "name": "B. Hart",
-       "line": "14/22, 107 YDS",
+       "line": "15/23, 142 YDS",
        "team": "245"
       },
       {
@@ -1507,16 +1507,16 @@
       {
        "cat": "REC",
        "name": "A. Gregory",
-       "line": "3 REC, 48 YDS",
+       "line": "4 REC, 78 YDS",
        "team": "245"
       }
      ],
-     "situation": "3rd & 4 at TA&M 47",
-     "possession": "245",
+     "situation": "",
+     "possession": "",
      "red_zone": false,
      "to_home": 0,
      "to_away": 1,
-     "progress": 0.6413888888888889,
+     "progress": 0.6827777777777777,
      "venue_indoor": false,
      "venue": "Kyle Field",
      "venue_id": "3795",
@@ -1530,8 +1530,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "14:50 - 2nd",
-     "detail": "14:50",
+     "status_short": "13:08 - 2nd",
+     "detail": "13:08",
      "period": 2,
      "start_utc": "2026-11-28T02:00Z",
      "network": "Fox",
@@ -1542,11 +1542,11 @@
       "school": "Utah",
       "mascot": "Utes",
       "rank": 2,
-      "score": "17",
+      "score": "24",
       "record": "11-0",
       "periods": [
        "10",
-       "7"
+       "14"
       ],
       "id": "254",
       "color": "#be0000",
@@ -1594,7 +1594,7 @@
      "red_zone": false,
      "to_home": 3,
      "to_away": 3,
-     "progress": 0.25277777777777777,
+     "progress": 0.2811111111111111,
      "venue_indoor": false,
      "venue": "Rice-Eccles Stadium",
      "venue_id": "587",
@@ -3276,8 +3276,8 @@
      "league": "CFB",
      "state": "in",
      "completed": false,
-     "status_short": "1:00 - 3rd",
-     "detail": "1:00",
+     "status_short": "0:56 - 3rd",
+     "detail": "0:56",
      "period": 3,
      "start_utc": "2026-11-28T00:30Z",
      "network": "NBC",
@@ -3288,12 +3288,12 @@
       "school": "Wisconsin",
       "mascot": "Badgers",
       "rank": null,
-      "score": "27",
+      "score": "28",
       "record": "7-4",
       "periods": [
        "0",
        "21",
-       "6"
+       "7"
       ],
       "id": "275",
       "color": "#a00000",
@@ -3337,12 +3337,12 @@
        "team": "275"
       }
      ],
-     "situation": "",
-     "possession": "",
-     "red_zone": true,
+     "situation": "2nd & 10 at MINN 25",
+     "possession": "135",
+     "red_zone": false,
      "to_home": 1,
      "to_away": 0,
-     "progress": 0.7333333333333334,
+     "progress": 0.7344444444444445,
      "venue_indoor": false,
      "venue": "Camp Randall Stadium",
      "venue_id": "347",
@@ -7155,10 +7155,10 @@
     {
      "id": "401909329",
      "league": "NBA",
-     "state": "in",
-     "completed": false,
-     "status_short": "End of 4th",
-     "detail": "0.1",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0.0",
      "period": 4,
      "start_utc": "2026-11-28T00:30Z",
      "network": "DAZN (YES)",
@@ -7170,7 +7170,7 @@
       "mascot": "Raptors",
       "rank": null,
       "score": "124",
-      "record": "6-11",
+      "record": "7-11",
       "periods": [
        "31",
        "32",
@@ -7189,7 +7189,7 @@
       "mascot": "Nets",
       "rank": null,
       "score": "100",
-      "record": "4-13",
+      "record": "4-14",
       "periods": [
        "27",
        "28",
@@ -7206,22 +7206,23 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.875,
+     "progress": null,
      "venue_indoor": true,
      "venue": "Scotiabank Arena",
      "venue_id": "1838",
      "venue_city": "Toronto",
      "venue_state": "ON",
      "venue_country": "",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-28T03:07:18Z"
     },
     {
      "id": "401909330",
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "7:10 - 4th",
-     "detail": "7:10",
+     "status_short": "4:24 - 4th",
+     "detail": "4:24",
      "period": 4,
      "start_utc": "2026-11-28T01:00Z",
      "network": "",
@@ -7251,13 +7252,13 @@
       "school": "Atlanta",
       "mascot": "Hawks",
       "rank": null,
-      "score": "77",
+      "score": "79",
       "record": "11-6",
       "periods": [
        "14",
        "25",
        "31",
-       "7"
+       "9"
       ],
       "id": "1",
       "color": "#c8102e",
@@ -7269,7 +7270,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.8805555555555555,
+     "progress": 0.9266666666666666,
      "venue_indoor": true,
      "venue": "TD Garden",
      "venue_id": "1824",
@@ -7283,8 +7284,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "4:56 - 3rd",
-     "detail": "4:56",
+     "status_short": "3:38 - 3rd",
+     "detail": "3:38",
      "period": 3,
      "start_utc": "2026-11-28T01:30Z",
      "network": "DAZN MIN",
@@ -7295,12 +7296,12 @@
       "school": "Minnesota",
       "mascot": "Timberwolves",
       "rank": null,
-      "score": "72",
+      "score": "76",
       "record": "14-5",
       "periods": [
        "25",
        "25",
-       "22"
+       "26"
       ],
       "id": "16",
       "color": "#266092",
@@ -7330,7 +7331,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6677777777777778,
+     "progress": 0.6894444444444444,
      "venue_indoor": true,
      "venue": "Target Center",
      "venue_id": "2029",
@@ -7344,8 +7345,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "2:42 - 2nd",
-     "detail": "2:42",
+     "status_short": "46.3 - 2nd",
+     "detail": "46.3",
      "period": 2,
      "start_utc": "2026-11-28T02:00Z",
      "network": "Arizona's Family 3TV",
@@ -7356,11 +7357,11 @@
       "school": "Phoenix",
       "mascot": "Suns",
       "rank": null,
-      "score": "58",
+      "score": "60",
       "record": "9-8",
       "periods": [
        "29",
-       "29"
+       "31"
       ],
       "id": "21",
       "color": "#29127a",
@@ -7373,11 +7374,11 @@
       "school": "Dallas",
       "mascot": "Mavericks",
       "rank": null,
-      "score": "44",
+      "score": "53",
       "record": "11-7",
       "periods": [
        "28",
-       "16"
+       "25"
       ],
       "id": "6",
       "color": "#0064b1",
@@ -7389,7 +7390,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.455,
+     "progress": 0.375,
      "venue_indoor": true,
      "venue": "Mortgage Matchup Center",
      "venue_id": "1949",
@@ -7403,8 +7404,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "2:48 - 1st",
-     "detail": "2:48",
+     "status_short": "4.6 - 1st",
+     "detail": "4.6",
      "period": 1,
      "start_utc": "2026-11-28T02:30Z",
      "network": "Prime Video",
@@ -7431,10 +7432,10 @@
       "school": "Los Angeles",
       "mascot": "Lakers",
       "rank": null,
-      "score": "21",
+      "score": "27",
       "record": "15-3",
       "periods": [
-       "21"
+       "27"
       ],
       "id": "13",
       "color": "#552583",
@@ -7446,7 +7447,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.20333333333333334,
+     "progress": 0.125,
      "venue_indoor": true,
      "venue": "Frost Bank Center",
      "venue_id": "780",
@@ -7460,9 +7461,9 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "1:35 - 1st",
-     "detail": "1:35",
-     "period": 1,
+     "status_short": "11:44 - 2nd",
+     "detail": "11:44",
+     "period": 2,
      "start_utc": "2026-11-28T02:30Z",
      "network": "KJZZ-TV",
      "home": {
@@ -7472,10 +7473,11 @@
       "school": "Utah",
       "mascot": "Jazz",
       "rank": null,
-      "score": "17",
+      "score": "22",
       "record": "3-16",
       "periods": [
-       "17"
+       "22",
+       "0"
       ],
       "id": "26",
       "color": "#4e008e",
@@ -7488,10 +7490,11 @@
       "school": "Denver",
       "mascot": "Nuggets",
       "rank": null,
-      "score": "24",
+      "score": "29",
       "record": "10-6",
       "periods": [
-       "24"
+       "27",
+       "2"
       ],
       "id": "7",
       "color": "#0e2240",
@@ -7503,7 +7506,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.22361111111111112,
+     "progress": 0.3044444444444444,
      "venue_indoor": true,
      "venue": "Delta Center",
      "venue_id": "3093",
@@ -7517,8 +7520,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "1:08 - 1st",
-     "detail": "1:08",
+     "status_short": "End of 1st",
+     "detail": "0.0",
      "period": 1,
      "start_utc": "2026-11-28T02:30Z",
      "network": "ClipperVision",
@@ -7529,10 +7532,10 @@
       "school": "LA",
       "mascot": "Clippers",
       "rank": null,
-      "score": "25",
+      "score": "28",
       "record": "4-13",
       "periods": [
-       "25"
+       "28"
       ],
       "id": "12",
       "color": "#12173f",
@@ -7545,10 +7548,10 @@
       "school": "New Orleans",
       "mascot": "Pelicans",
       "rank": null,
-      "score": "24",
+      "score": "29",
       "record": "5-14",
       "periods": [
-       "24"
+       "29"
       ],
       "id": "3",
       "color": "#0a2240",
@@ -7560,7 +7563,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.2311111111111111,
+     "progress": 0.125,
      "venue_indoor": true,
      "venue": "Intuit Dome",
      "venue_id": "10642",
@@ -7574,8 +7577,8 @@
      "league": "NBA",
      "state": "in",
      "completed": false,
-     "status_short": "2:33 - 1st",
-     "detail": "2:33",
+     "status_short": "57.1 - 1st",
+     "detail": "57.1",
      "period": 1,
      "start_utc": "2026-11-28T02:30Z",
      "network": "KUNP 16",
@@ -7586,10 +7589,10 @@
       "school": "Portland",
       "mascot": "Trail Blazers",
       "rank": null,
-      "score": "32",
+      "score": "34",
       "record": "12-6",
       "periods": [
-       "32"
+       "34"
       ],
       "id": "22",
       "color": "#e03a3e",
@@ -7602,10 +7605,10 @@
       "school": "Golden State",
       "mascot": "Warriors",
       "rank": null,
-      "score": "8",
+      "score": "11",
       "record": "10-8",
       "periods": [
-       "8"
+       "11"
       ],
       "id": "9",
       "color": "#fdb927",
@@ -7617,7 +7620,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.2075,
+     "progress": 0.125,
      "venue_indoor": true,
      "venue": "Moda Center",
      "venue_id": "3423",
@@ -8386,10 +8389,10 @@
     {
      "id": "401892807",
      "league": "NHL",
-     "state": "in",
-     "completed": false,
-     "status_short": "1:00 - 3rd",
-     "detail": "1:00",
+     "state": "post",
+     "completed": true,
+     "status_short": "Final",
+     "detail": "0:00",
      "period": 3,
      "start_utc": "2026-11-28T00:30Z",
      "network": "MSGSN",
@@ -8401,7 +8404,7 @@
       "mascot": "Islanders",
       "rank": null,
       "score": "1",
-      "record": "12-7-5",
+      "record": "",
       "periods": [
        "0",
        "0",
@@ -8419,7 +8422,7 @@
       "mascot": "Jets",
       "rank": null,
       "score": "3",
-      "record": "13-9-4",
+      "record": "",
       "periods": [
        "1",
        "2",
@@ -8435,14 +8438,15 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.9833333333333334,
+     "progress": null,
      "venue_indoor": true,
      "venue": "UBS Arena",
      "venue_id": "7226",
      "venue_city": "Elmont",
      "venue_state": "NY",
      "venue_country": "USA",
-     "line": null
+     "line": null,
+     "final_seen_utc": "2026-11-28T03:07:18Z"
     },
     {
      "id": "401892808",
@@ -8508,9 +8512,9 @@
      "league": "NHL",
      "state": "in",
      "completed": false,
-     "status_short": "End of 2nd",
-     "detail": "0:00",
-     "period": 2,
+     "status_short": "18:43 - 3rd",
+     "detail": "18:43",
+     "period": 3,
      "start_utc": "2026-11-28T01:00Z",
      "network": "KONG",
      "home": {
@@ -8524,7 +8528,8 @@
       "record": "17-6-4",
       "periods": [
        "0",
-       "2"
+       "2",
+       "0"
       ],
       "id": "6",
       "color": "#00205b",
@@ -8541,6 +8546,7 @@
       "record": "11-10-1",
       "periods": [
        "1",
+       "0",
        "0"
       ],
       "id": "124292",
@@ -8553,7 +8559,7 @@
      "red_zone": false,
      "to_home": null,
      "to_away": null,
-     "progress": 0.6666666666666666,
+     "progress": 0.6880555555555556,
      "venue_indoor": true,
      "venue": "Rogers Place",
      "venue_id": "5282",
